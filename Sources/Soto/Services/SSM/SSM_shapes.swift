@@ -11110,11 +11110,11 @@ extension SSM {
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// A policy you want to associate with a resource.
         public let policy: String
-        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy.
+        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
         public let policyHash: String?
         /// The policy ID.
         public let policyId: String?
-        /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+        /// Amazon Resource Name (ARN) of the resource to which you want to attach a policy.
         public let resourceArn: String
 
         public init(policy: String, policyHash: String? = nil, policyId: String? = nil, resourceArn: String) {
@@ -11139,7 +11139,7 @@ extension SSM {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+        /// ID of the current policy version.
         public let policyHash: String?
         /// The policy ID. To update a policy, you must specify PolicyId and PolicyHash.
         public let policyId: String?
@@ -14285,7 +14285,8 @@ public struct SSMErrorType: AWSErrorType {
     /// You can have at most 500 active SSM documents.
     public static var documentLimitExceeded: Self { .init(.documentLimitExceeded) }
     /// The document can&#39;t be shared with more Amazon Web Services user accounts. You can specify a maximum of 20 accounts per API operation to share a private document.
-    ///  By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents.  If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
+    ///  By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents.
+    ///  If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
     public static var documentPermissionLimit: Self { .init(.documentPermissionLimit) }
     /// The document has too many versions. Delete one or more document versions and try again.
     public static var documentVersionLimitExceeded: Self { .init(.documentVersionLimitExceeded) }

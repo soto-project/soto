@@ -864,6 +864,8 @@ extension CustomerProfiles {
         public let firstName: String?
         /// The gender with which the customer identifies.
         public let gender: Gender?
+        /// An alternative to Gender which accepts any string as input.
+        public let genderString: String?
         /// The customer’s home phone number.
         public let homePhoneNumber: String?
         /// The customer’s last name.
@@ -876,6 +878,8 @@ extension CustomerProfiles {
         public let mobilePhoneNumber: String?
         /// The type of profile used to describe the customer.
         public let partyType: PartyType?
+        /// An alternative to PartyType which accepts any string as input.
+        public let partyTypeString: String?
         /// The customer’s personal email address.
         public let personalEmailAddress: String?
         /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
@@ -883,7 +887,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: Address?
 
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: Address? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: Address? = nil, attributes: [String: String]? = nil, billingAddress: Address? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: Address? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: Address? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -897,12 +901,14 @@ extension CustomerProfiles {
             self.emailAddress = emailAddress
             self.firstName = firstName
             self.gender = gender
+            self.genderString = genderString
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
             self.mailingAddress = mailingAddress
             self.middleName = middleName
             self.mobilePhoneNumber = mobilePhoneNumber
             self.partyType = partyType
+            self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.shippingAddress = shippingAddress
@@ -936,6 +942,8 @@ extension CustomerProfiles {
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
             try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
+            try self.validate(self.genderString, name: "genderString", parent: name, max: 255)
+            try self.validate(self.genderString, name: "genderString", parent: name, min: 1)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, max: 255)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, min: 1)
             try self.validate(self.lastName, name: "lastName", parent: name, max: 255)
@@ -945,6 +953,8 @@ extension CustomerProfiles {
             try self.validate(self.middleName, name: "middleName", parent: name, min: 1)
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, max: 255)
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, min: 1)
+            try self.validate(self.partyTypeString, name: "partyTypeString", parent: name, max: 255)
+            try self.validate(self.partyTypeString, name: "partyTypeString", parent: name, min: 1)
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, max: 255)
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, min: 1)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 255)
@@ -965,12 +975,14 @@ extension CustomerProfiles {
             case emailAddress = "EmailAddress"
             case firstName = "FirstName"
             case gender = "Gender"
+            case genderString = "GenderString"
             case homePhoneNumber = "HomePhoneNumber"
             case lastName = "LastName"
             case mailingAddress = "MailingAddress"
             case middleName = "MiddleName"
             case mobilePhoneNumber = "MobilePhoneNumber"
             case partyType = "PartyType"
+            case partyTypeString = "PartyTypeString"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case shippingAddress = "ShippingAddress"
@@ -4205,6 +4217,8 @@ extension CustomerProfiles {
         public let firstName: String?
         /// The gender with which the customer identifies.
         public let gender: Gender?
+        /// An alternative to Gender which accepts any string as input.
+        public let genderString: String?
         /// The customer’s home phone number.
         public let homePhoneNumber: String?
         /// The customer’s last name.
@@ -4217,6 +4231,8 @@ extension CustomerProfiles {
         public let mobilePhoneNumber: String?
         /// The type of profile used to describe the customer.
         public let partyType: PartyType?
+        /// An alternative to PartyType which accepts any string as input.
+        public let partyTypeString: String?
         /// The customer’s personal email address.
         public let personalEmailAddress: String?
         /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
@@ -4226,7 +4242,7 @@ extension CustomerProfiles {
         /// The customer’s shipping address.
         public let shippingAddress: UpdateAddress?
 
-        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: UpdateAddress? = nil, attributes: [String: String]? = nil, billingAddress: UpdateAddress? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: UpdateAddress? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String, shippingAddress: UpdateAddress? = nil) {
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: UpdateAddress? = nil, attributes: [String: String]? = nil, billingAddress: UpdateAddress? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, domainName: String, emailAddress: String? = nil, firstName: String? = nil, gender: Gender? = nil, genderString: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: UpdateAddress? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: PartyType? = nil, partyTypeString: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, profileId: String, shippingAddress: UpdateAddress? = nil) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -4240,12 +4256,14 @@ extension CustomerProfiles {
             self.emailAddress = emailAddress
             self.firstName = firstName
             self.gender = gender
+            self.genderString = genderString
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
             self.mailingAddress = mailingAddress
             self.middleName = middleName
             self.mobilePhoneNumber = mobilePhoneNumber
             self.partyType = partyType
+            self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
@@ -4271,11 +4289,13 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 255)
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
+            try self.validate(self.genderString, name: "genderString", parent: name, max: 255)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, max: 255)
             try self.validate(self.lastName, name: "lastName", parent: name, max: 255)
             try self.mailingAddress?.validate(name: "\(name).mailingAddress")
             try self.validate(self.middleName, name: "middleName", parent: name, max: 255)
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, max: 255)
+            try self.validate(self.partyTypeString, name: "partyTypeString", parent: name, max: 255)
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, max: 255)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 255)
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
@@ -4295,12 +4315,14 @@ extension CustomerProfiles {
             case emailAddress = "EmailAddress"
             case firstName = "FirstName"
             case gender = "Gender"
+            case genderString = "GenderString"
             case homePhoneNumber = "HomePhoneNumber"
             case lastName = "LastName"
             case mailingAddress = "MailingAddress"
             case middleName = "MiddleName"
             case mobilePhoneNumber = "MobilePhoneNumber"
             case partyType = "PartyType"
+            case partyTypeString = "PartyTypeString"
             case personalEmailAddress = "PersonalEmailAddress"
             case phoneNumber = "PhoneNumber"
             case profileId = "ProfileId"

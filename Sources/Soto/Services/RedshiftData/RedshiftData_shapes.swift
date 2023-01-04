@@ -100,6 +100,8 @@ extension RedshiftData {
     // MARK: Shapes
 
     public struct BatchExecuteStatementInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
         /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
         public let clusterIdentifier: String?
         /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
@@ -108,7 +110,7 @@ extension RedshiftData {
         public let dbUser: String?
         /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
         public let secretArn: String?
-        /// One or more SQL statements to run.
+        /// One or more SQL statements to run.   The SQL statements are run as a single transaction. They run serially in the order of the array.  Subsequent SQL statements don't start until the previous statement in the array completes.  If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
         public let sqls: [String]
         /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query.
         public let statementName: String?
@@ -117,7 +119,8 @@ extension RedshiftData {
         /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
         public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, secretArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+        public init(clientToken: String? = BatchExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, secretArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+            self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
@@ -129,6 +132,8 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.sqls, name: "sqls", parent: name, max: 40)
             try self.validate(self.sqls, name: "sqls", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
@@ -138,6 +143,7 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case clusterIdentifier = "ClusterIdentifier"
             case database = "Database"
             case dbUser = "DbUser"
@@ -458,6 +464,8 @@ extension RedshiftData {
     }
 
     public struct ExecuteStatementInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
         /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
         public let clusterIdentifier: String?
         /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
@@ -477,7 +485,8 @@ extension RedshiftData {
         /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
         public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+        public init(clientToken: String? = ExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+            self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
@@ -490,6 +499,8 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
@@ -501,6 +512,7 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case clusterIdentifier = "ClusterIdentifier"
             case database = "Database"
             case dbUser = "DbUser"
@@ -857,7 +869,7 @@ extension RedshiftData {
     public struct SqlParameter: AWSEncodableShape & AWSDecodableShape {
         /// The name of the parameter.
         public let name: String
-        /// The value of the parameter.  Amazon Redshift implicitly converts to the proper data type. For more inforation, see  Data types in the  Amazon Redshift Database Developer Guide.
+        /// The value of the parameter.  Amazon Redshift implicitly converts to the proper data type. For more information, see  Data types in the  Amazon Redshift Database Developer Guide.
         public let value: String
 
         public init(name: String, value: String) {

@@ -706,7 +706,7 @@ extension Scheduler {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
-            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -767,7 +767,7 @@ extension Scheduler {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
-            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1142,7 +1142,7 @@ extension Scheduler {
             try self.retryPolicy?.validate(name: "\(name).retryPolicy")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role\\/(service-role\\/){0,1}[a-zA-Z0-9\\+=,\\.@\\-_]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role\\/[\\w+=,.@\\/-]+$")
             try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
             try self.sqsParameters?.validate(name: "\(name).sqsParameters")
         }

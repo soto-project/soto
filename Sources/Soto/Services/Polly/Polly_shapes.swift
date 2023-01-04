@@ -52,6 +52,7 @@ extension Polly {
         case esES = "es-ES"
         case esMX = "es-MX"
         case esUS = "es-US"
+        case fiFI = "fi-FI"
         case frCA = "fr-CA"
         case frFR = "fr-FR"
         case hiIN = "hi-IN"

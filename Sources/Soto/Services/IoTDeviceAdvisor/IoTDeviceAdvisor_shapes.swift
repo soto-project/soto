@@ -76,17 +76,17 @@ extension IoTDeviceAdvisor {
 
     public struct CreateSuiteDefinitionRequest: AWSEncodableShape {
         /// Creates a Device Advisor test suite with suite definition configuration.
-        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
+        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration
         /// The tags to be attached to the suite definition.
         public let tags: [String: String]?
 
-        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration, tags: [String: String]? = nil) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
+            try self.suiteDefinitionConfiguration.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -103,13 +103,13 @@ extension IoTDeviceAdvisor {
     }
 
     public struct CreateSuiteDefinitionResponse: AWSDecodableShape {
-        /// Creates a Device Advisor test suite with TimeStamp of when it was created.
+        /// The timestamp of when the test suite was created.
         public let createdAt: Date?
-        /// Creates a Device Advisor test suite with Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the test suite.
         public let suiteDefinitionArn: String?
-        /// Creates a Device Advisor test suite with suite UUID.
+        /// The UUID of the test suite created.
         public let suiteDefinitionId: String?
-        /// Creates a Device Advisor test suite with suite definition name.
+        /// The suite definition name of the test suite. This is a required parameter.
         public let suiteDefinitionName: String?
 
         public init(createdAt: Date? = nil, suiteDefinitionArn: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
@@ -521,7 +521,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The ARN of the IoT Device Advisor resource.
+        /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -559,11 +559,11 @@ extension IoTDeviceAdvisor {
         /// Suite definition version of the test suite.
         public let suiteDefinitionVersion: String?
         /// Suite run configuration.
-        public let suiteRunConfiguration: SuiteRunConfiguration?
+        public let suiteRunConfiguration: SuiteRunConfiguration
         /// The tags to be attached to the suite run.
         public let tags: [String: String]?
 
-        public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil, suiteRunConfiguration: SuiteRunConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil, suiteRunConfiguration: SuiteRunConfiguration, tags: [String: String]? = nil) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
             self.suiteRunConfiguration = suiteRunConfiguration
@@ -575,7 +575,7 @@ extension IoTDeviceAdvisor {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
-            try self.suiteRunConfiguration?.validate(name: "\(name).suiteRunConfiguration")
+            try self.suiteRunConfiguration.validate(name: "\(name).suiteRunConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -595,19 +595,23 @@ extension IoTDeviceAdvisor {
     public struct StartSuiteRunResponse: AWSDecodableShape {
         /// Starts a Device Advisor test suite run based on suite create time.
         public let createdAt: Date?
+        /// The response of an Device Advisor test endpoint.
+        public let endpoint: String?
         /// Amazon Resource Name (ARN) of the started suite run.
         public let suiteRunArn: String?
         /// Suite Run ID of the started suite run.
         public let suiteRunId: String?
 
-        public init(createdAt: Date? = nil, suiteRunArn: String? = nil, suiteRunId: String? = nil) {
+        public init(createdAt: Date? = nil, endpoint: String? = nil, suiteRunArn: String? = nil, suiteRunId: String? = nil) {
             self.createdAt = createdAt
+            self.endpoint = endpoint
             self.suiteRunArn = suiteRunArn
             self.suiteRunId = suiteRunId
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt
+            case endpoint
             case suiteRunArn
             case suiteRunId
         }
@@ -644,22 +648,22 @@ extension IoTDeviceAdvisor {
     }
 
     public struct SuiteDefinitionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Gets the device permission ARN.
-        public let devicePermissionRoleArn: String?
+        /// Gets the device permission ARN. This is a required parameter.
+        public let devicePermissionRoleArn: String
         /// Gets the devices configured.
         public let devices: [DeviceUnderTest]?
         /// Gets the tests intended for qualification in a suite.
         public let intendedForQualification: Bool?
-        ///  Verifies if the test suite is a long duration test.
+        /// Verifies if the test suite is a long duration test.
         public let isLongDurationTest: Bool?
-        ///  Gets the MQTT protocol that is configured in the suite definition.
+        /// Sets the MQTT protocol that is configured in the suite definition.
         public let `protocol`: `Protocol`?
-        /// Gets test suite root group.
-        public let rootGroup: String?
-        /// Gets Suite Definition Configuration name.
-        public let suiteDefinitionName: String?
+        /// Gets the test suite root group. This is a required parameter.
+        public let rootGroup: String
+        /// Gets the suite definition name. This is a required parameter.
+        public let suiteDefinitionName: String
 
-        public init(devicePermissionRoleArn: String? = nil, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String? = nil, suiteDefinitionName: String? = nil) {
+        public init(devicePermissionRoleArn: String, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String, suiteDefinitionName: String) {
             self.devicePermissionRoleArn = devicePermissionRoleArn
             self.devices = devices
             self.intendedForQualification = intendedForQualification
@@ -700,9 +704,9 @@ extension IoTDeviceAdvisor {
         public let defaultDevices: [DeviceUnderTest]?
         /// Specifies if the test suite is intended for qualification.
         public let intendedForQualification: Bool?
-        ///  Verifies if the test suite is a long duration test.
+        /// Verifies if the test suite is a long duration test.
         public let isLongDurationTest: Bool?
-        ///  Gets the MQTT protocol that is configured in the suite definition.
+        /// Gets the MQTT protocol that is configured in the suite definition.
         public let `protocol`: `Protocol`?
         /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String?
@@ -733,19 +737,19 @@ extension IoTDeviceAdvisor {
     public struct SuiteRunConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// TRUE if multiple test suites run in parallel.
         public let parallelRun: Bool?
-        /// Gets the primary device for suite run.
-        public let primaryDevice: DeviceUnderTest?
-        /// Gets test case list.
+        /// Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN.
+        public let primaryDevice: DeviceUnderTest
+        /// Sets test case list.
         public let selectedTestList: [String]?
 
-        public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
+        public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest, selectedTestList: [String]? = nil) {
             self.parallelRun = parallelRun
             self.primaryDevice = primaryDevice
             self.selectedTestList = selectedTestList
         }
 
         public func validate(name: String) throws {
-            try self.primaryDevice?.validate(name: "\(name).primaryDevice")
+            try self.primaryDevice.validate(name: "\(name).primaryDevice")
             try self.selectedTestList?.forEach {
                 try validate($0, name: "selectedTestList[]", parent: name, max: 36)
                 try validate($0, name: "selectedTestList[]", parent: name, min: 12)
@@ -814,7 +818,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The resource ARN of an IoT Device Advisor resource.
+        /// The resource ARN of an IoT Device Advisor resource.  This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// The tags to be attached to the IoT Device Advisor resource.
         public let tags: [String: String]
@@ -942,7 +946,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The resource ARN of an IoT Device Advisor resource.
+        /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
         /// List of tag keys to remove from the IoT Device Advisor resource.
         public let tagKeys: [String]
@@ -975,17 +979,17 @@ extension IoTDeviceAdvisor {
         ]
 
         /// Updates a Device Advisor test suite with suite definition configuration.
-        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
+        public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration
         /// Suite definition ID of the test suite to be updated.
         public let suiteDefinitionId: String
 
-        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String) {
+        public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration, suiteDefinitionId: String) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.suiteDefinitionId = suiteDefinitionId
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
+            try self.suiteDefinitionConfiguration.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
         }
@@ -1004,7 +1008,7 @@ extension IoTDeviceAdvisor {
         public let suiteDefinitionArn: String?
         /// Suite definition ID of the updated test suite.
         public let suiteDefinitionId: String?
-        /// Suite definition name of the updated test suite.
+        /// Updates the suite definition name. This is a required parameter.
         public let suiteDefinitionName: String?
         /// Suite definition version of the updated test suite.
         public let suiteDefinitionVersion: String?

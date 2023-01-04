@@ -122,6 +122,17 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum LabelDetectionAggregateBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case segments = "SEGMENTS"
+        case timestamps = "TIMESTAMPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LabelDetectionFeatureName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case generalLabels = "GENERAL_LABELS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LabelDetectionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
         case name = "NAME"
         case timestamp = "TIMESTAMP"
@@ -690,7 +701,7 @@ extension Rekognition {
     public struct CopyProjectVersionRequest: AWSEncodableShape {
         /// The ARN of the project in the trusted AWS account that you want to copy the model version to.
         public let destinationProjectArn: String
-        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.    kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
         public let kmsKeyId: String?
         /// The S3 bucket and folder location where the training output for the source model version is placed.
         public let outputConfig: OutputConfig
@@ -908,7 +919,7 @@ extension Rekognition {
     }
 
     public struct CreateProjectVersionRequest: AWSEncodableShape {
-        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.    kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey   kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
         public let kmsKeyId: String?
         /// The Amazon S3 bucket location to store the results of training. The S3 bucket can be in any AWS account as long as the caller has s3:PutObject permissions on the S3 bucket.
         public let outputConfig: OutputConfig
@@ -1087,7 +1098,7 @@ extension Rekognition {
 
     public struct DatasetChanges: AWSEncodableShape {
         /// A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset.  You change a dataset by calling UpdateDatasetEntries. If you are using an AWS SDK to call UpdateDatasetEntries, you don't need to encode Changes as the SDK encodes the data for you.
-        ///    For example JSON lines, see Image-Level labels in manifest files and  and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.
+        ///  For example JSON lines, see Image-Level labels in manifest files and  and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.
         public let groundTruth: AWSBase64Data
 
         public init(groundTruth: AWSBase64Data) {
@@ -1497,7 +1508,7 @@ extension Rekognition {
         public let creationTimestamp: Date?
         /// The number of faces that are indexed into the collection. To index faces into a collection, use IndexFaces.
         public let faceCount: Int64?
-        /// The version of the face model that's used by the collection for face detection.  For more information, see Model versioning in the  Amazon Rekognition Developer Guide.
+        /// The version of the face model that's used by the collection for face detection. For more information, see Model versioning in the  Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
 
         public init(collectionARN: String? = nil, creationTimestamp: Date? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
@@ -2910,6 +2921,8 @@ extension Rekognition {
     }
 
     public struct GetLabelDetectionRequest: AWSEncodableShape {
+        /// Defines how to aggregate the returned results. Results can be aggregated by timestamps or segments.
+        public let aggregateBy: LabelDetectionAggregateBy?
         /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.  If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -2919,7 +2932,8 @@ extension Rekognition {
         /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: LabelDetectionSortBy?
 
-        public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: LabelDetectionSortBy? = nil) {
+        public init(aggregateBy: LabelDetectionAggregateBy? = nil, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: LabelDetectionSortBy? = nil) {
+            self.aggregateBy = aggregateBy
             self.jobId = jobId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2935,6 +2949,7 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregateBy = "AggregateBy"
             case jobId = "JobId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -3508,19 +3523,47 @@ extension Rekognition {
     }
 
     public struct LabelDetection: AWSDecodableShape {
+        /// The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
+        public let durationMillis: Int64?
+        /// The time in milliseconds defining the end of the timeline segment containing a continuously detected label.
+        public let endTimestampMillis: Int64?
         /// Details about the detected label.
         public let label: Label?
+        /// The time in milliseconds defining the start of the timeline segment containing a continuously detected label.
+        public let startTimestampMillis: Int64?
         /// Time, in milliseconds from the start of the video, that the label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the label first appears.
         public let timestamp: Int64?
 
-        public init(label: Label? = nil, timestamp: Int64? = nil) {
+        public init(durationMillis: Int64? = nil, endTimestampMillis: Int64? = nil, label: Label? = nil, startTimestampMillis: Int64? = nil, timestamp: Int64? = nil) {
+            self.durationMillis = durationMillis
+            self.endTimestampMillis = endTimestampMillis
             self.label = label
+            self.startTimestampMillis = startTimestampMillis
             self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
+            case durationMillis = "DurationMillis"
+            case endTimestampMillis = "EndTimestampMillis"
             case label = "Label"
+            case startTimestampMillis = "StartTimestampMillis"
             case timestamp = "Timestamp"
+        }
+    }
+
+    public struct LabelDetectionSettings: AWSEncodableShape {
+        public let generalLabels: GeneralLabelsSettings?
+
+        public init(generalLabels: GeneralLabelsSettings? = nil) {
+            self.generalLabels = generalLabels
+        }
+
+        public func validate(name: String) throws {
+            try self.generalLabels?.validate(name: "\(name).generalLabels")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generalLabels = "GeneralLabels"
         }
     }
 
@@ -4918,20 +4961,26 @@ extension Rekognition {
     public struct StartLabelDetectionRequest: AWSEncodableShape {
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
+        /// The features to return after video analysis. You can specify that GENERAL_LABELS are returned.
+        public let features: [LabelDetectionFeatureName]?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence.  Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
+        /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence.  Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels and bounding boxes (if detected)  with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
         /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. The Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy.
         public let notificationChannel: NotificationChannel?
+        /// The settings for a StartLabelDetection request.Contains the specified parameters for the label detection request of an asynchronous label analysis operation.  Settings can include filters for GENERAL_LABELS.
+        public let settings: LabelDetectionSettings?
         /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
         public let video: Video
 
-        public init(clientRequestToken: String? = nil, jobTag: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
+        public init(clientRequestToken: String? = nil, features: [LabelDetectionFeatureName]? = nil, jobTag: String? = nil, minConfidence: Float? = nil, notificationChannel: NotificationChannel? = nil, settings: LabelDetectionSettings? = nil, video: Video) {
             self.clientRequestToken = clientRequestToken
+            self.features = features
             self.jobTag = jobTag
             self.minConfidence = minConfidence
             self.notificationChannel = notificationChannel
+            self.settings = settings
             self.video = video
         }
 
@@ -4939,20 +4988,24 @@ extension Rekognition {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.features, name: "features", parent: name, max: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100.0)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0.0)
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.settings?.validate(name: "\(name).settings")
             try self.video.validate(name: "\(name).video")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case features = "Features"
             case jobTag = "JobTag"
             case minConfidence = "MinConfidence"
             case notificationChannel = "NotificationChannel"
+            case settings = "Settings"
             case video = "Video"
         }
     }
@@ -5022,7 +5075,7 @@ extension Rekognition {
     public struct StartProjectVersionRequest: AWSEncodableShape {
         /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale the model.
         public let maxInferenceUnits: Int?
-        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing.   For information about the number  of transactions per second (TPS) that an inference unit can support, see  Running a trained Amazon Rekognition Custom Labels model in the  Amazon Rekognition Custom Labels Guide.  Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
+        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing.  For information about the number  of transactions per second (TPS) that an inference unit can support, see  Running a trained Amazon Rekognition Custom Labels model in the  Amazon Rekognition Custom Labels Guide.  Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
         public let minInferenceUnits: Int
         /// The Amazon Resource Name(ARN) of the model version that you want to start.
         public let projectVersionArn: String
@@ -5991,7 +6044,7 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The requested resource isn&#39;t ready. For example,   this exception occurs when you call DetectCustomLabels with a model version that isn&#39;t deployed.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
-    ///   The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
+    ///  The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }

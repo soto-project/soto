@@ -88,7 +88,12 @@ extension RDS {
         return try await self.client.execute(operation: "CopyOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a database engine and specific AMI. The supported engines are the following:   Oracle Database 12.1 Enterprise Edition with the January 2021 or later RU/RUR   Oracle Database 19c Enterprise Edition with the January 2021 or later RU/RUR   Amazon RDS, which is a fully managed service, supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS database software is preinstalled, so you need only select a DB engine and version, and create your database. With Amazon RDS Custom for Oracle, you upload your database installation files in Amazon S3. When you create a custom engine version, you specify the files in a JSON document called a CEV manifest.  This document describes installation .zip files stored in Amazon S3. RDS Custom creates your CEV from  the installation files that you provided. This service model is called Bring Your Own Media (BYOM). Creation takes approximately two hours. If creation fails, RDS Custom issues RDS-EVENT-0196 with  the message Creation failed for custom engine version, and includes details about the failure.  For example, the event prints missing files. After you create the CEV, it is available for use. You can create multiple CEVs, and create multiple  RDS Custom instances from any CEV. You can also change the status of a CEV to make it available or inactive.  The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with  Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the  CreateCustomDbEngineVersion event aren't logged. However, you might see calls from the  API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for  the CreateCustomDbEngineVersion event.  For more information, see  Creating a CEV in the Amazon RDS User Guide.
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment.  In a blue/green deployment, the blue environment is the current production environment.  The green environment is the staging environment. The staging environment stays in sync  with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting  production workloads. For example, you can upgrade the major or minor DB engine version, change  database parameters, or make schema changes in the staging environment. You can thoroughly test  changes in the green environment. When ready, you can switch over the environments to promote the  green environment to be the new production environment. The switchover typically takes under a minute. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    public func createBlueGreenDeployment(_ input: CreateBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateBlueGreenDeploymentResponse {
+        return try await self.client.execute(operation: "CreateBlueGreenDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a custom DB engine version (CEV).
     public func createCustomDBEngineVersion(_ input: CreateCustomDBEngineVersionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DBEngineVersion {
         return try await self.client.execute(operation: "CreateCustomDBEngineVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -166,6 +171,11 @@ extension RDS {
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom.
     public func createOptionGroup(_ input: CreateOptionGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateOptionGroupResult {
         return try await self.client.execute(operation: "CreateOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a blue/green deployment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    public func deleteBlueGreenDeployment(_ input: DeleteBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteBlueGreenDeploymentResponse {
+        return try await self.client.execute(operation: "DeleteBlueGreenDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites:   The CEV must not be the default for RDS Custom. If it is, change the default  before running this command.   The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot,  or automated backup of your RDS Custom instance.   Typically, deletion takes a few minutes.  The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with  Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the  DeleteCustomDbEngineVersion event aren't logged. However, you might see calls from the  API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for  the DeleteCustomDbEngineVersion event.  For more information, see  Deleting a CEV in the Amazon RDS User Guide.
@@ -256,6 +266,11 @@ extension RDS {
     /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
     public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AccountAttributesMessage {
         return try await self.client.execute(operation: "DescribeAccountAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    public func describeBlueGreenDeployments(_ input: DescribeBlueGreenDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeBlueGreenDeploymentsResponse {
+        return try await self.client.execute(operation: "DescribeBlueGreenDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
@@ -703,6 +718,11 @@ extension RDS {
         return try await self.client.execute(operation: "StopDBInstanceAutomatedBackupsReplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment.  After you switch over, production traffic is routed to the databases in the green environment. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    public func switchoverBlueGreenDeployment(_ input: SwitchoverBlueGreenDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SwitchoverBlueGreenDeploymentResponse {
+        return try await self.client.execute(operation: "SwitchoverBlueGreenDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
     public func switchoverReadReplica(_ input: SwitchoverReadReplicaMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SwitchoverReadReplicaResult {
         return try await self.client.execute(operation: "SwitchoverReadReplica", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -713,6 +733,28 @@ extension RDS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RDS {
+    ///  Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeBlueGreenDeploymentsPaginator(
+        _ input: DescribeBlueGreenDeploymentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeBlueGreenDeploymentsRequest, DescribeBlueGreenDeploymentsResponse> {
+        return .init(
+            input: input,
+            command: self.describeBlueGreenDeployments,
+            inputKey: \DescribeBlueGreenDeploymentsRequest.marker,
+            outputKey: \DescribeBlueGreenDeploymentsResponse.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///

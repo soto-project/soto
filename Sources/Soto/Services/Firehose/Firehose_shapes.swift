@@ -21,6 +21,12 @@ import SotoCore
 extension Firehose {
     // MARK: Enums
 
+    public enum AmazonOpenSearchServerlessS3BackupMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allDocuments = "AllDocuments"
+        case failedDocumentsOnly = "FailedDocumentsOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable, _SotoSendable {
         case noRotation = "NoRotation"
         case oneDay = "OneDay"
@@ -161,12 +167,12 @@ extension Firehose {
 
     public enum ProcessorParameterName: String, CustomStringConvertible, Codable, _SotoSendable {
         case bufferIntervalInSeconds = "BufferIntervalInSeconds"
-        case bufferSizeInMBs = "BufferSizeInMBs"
+        case bufferSizeInMb = "BufferSizeInMBs"
         case delimiter = "Delimiter"
         case jsonParsingEngine = "JsonParsingEngine"
         case lambdaArn = "LambdaArn"
+        case lambdaNumberOfRetries = "NumberOfRetries"
         case metadataExtractionQuery = "MetadataExtractionQuery"
-        case numberOfRetries = "NumberOfRetries"
         case roleArn = "RoleArn"
         case subRecordType = "SubRecordType"
         public var description: String { return self.rawValue }
@@ -200,8 +206,215 @@ extension Firehose {
 
     // MARK: Shapes
 
-    public struct AmazonopensearchserviceBufferingHints: AWSEncodableShape & AWSDecodableShape {
+    public struct AmazonOpenSearchServerlessBufferingHints: AWSEncodableShape & AWSDecodableShape {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public let intervalInSeconds: Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.  We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 900)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 60)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, max: 100)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
+        }
+    }
+
+    public struct AmazonOpenSearchServerlessDestinationConfiguration: AWSEncodableShape {
+        /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
+        public let bufferingHints: AmazonOpenSearchServerlessBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public let collectionEndpoint: String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        public let indexName: String
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service. The default value is 300 (5 minutes).
+        public let retryOptions: AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Serverless offering for Amazon OpenSearch Service Configuration API and for indexing documents.
+        public let roleARN: String
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix.
+        public let s3BackupMode: AmazonOpenSearchServerlessS3BackupMode?
+        public let s3Configuration: S3DestinationConfiguration
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(bufferingHints: AmazonOpenSearchServerlessBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, collectionEndpoint: String? = nil, indexName: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonOpenSearchServerlessRetryOptions? = nil, roleARN: String, s3BackupMode: AmazonOpenSearchServerlessS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, vpcConfiguration: VpcConfiguration? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, max: 512)
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, min: 1)
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, pattern: "^https:")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case collectionEndpoint = "CollectionEndpoint"
+            case indexName = "IndexName"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Configuration = "S3Configuration"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct AmazonOpenSearchServerlessDestinationDescription: AWSDecodableShape {
+        /// The buffering options.
+        public let bufferingHints: AmazonOpenSearchServerlessBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public let collectionEndpoint: String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        public let indexName: String?
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The Serverless offering for Amazon OpenSearch Service retry options.
+        public let retryOptions: AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the AWS credentials.
+        public let roleARN: String?
+        /// The Amazon S3 backup mode.
+        public let s3BackupMode: AmazonOpenSearchServerlessS3BackupMode?
+        public let s3DestinationDescription: S3DestinationDescription?
+        public let vpcConfigurationDescription: VpcConfigurationDescription?
+
+        public init(bufferingHints: AmazonOpenSearchServerlessBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, collectionEndpoint: String? = nil, indexName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonOpenSearchServerlessRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: AmazonOpenSearchServerlessS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+            self.vpcConfigurationDescription = vpcConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case collectionEndpoint = "CollectionEndpoint"
+            case indexName = "IndexName"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3DestinationDescription = "S3DestinationDescription"
+            case vpcConfigurationDescription = "VpcConfigurationDescription"
+        }
+    }
+
+    public struct AmazonOpenSearchServerlessDestinationUpdate: AWSEncodableShape {
+        /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
+        public let bufferingHints: AmazonOpenSearchServerlessBufferingHints?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the collection in the Serverless offering for Amazon OpenSearch Service.
+        public let collectionEndpoint: String?
+        /// The Serverless offering for Amazon OpenSearch Service index name.
+        public let indexName: String?
+        public let processingConfiguration: ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service. The default value is 300 (5 minutes).
+        public let retryOptions: AmazonOpenSearchServerlessRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Serverless offering for Amazon OpenSearch Service Configuration API and for indexing documents.
+        public let roleARN: String?
+        public let s3Update: S3DestinationUpdate?
+
+        public init(bufferingHints: AmazonOpenSearchServerlessBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, collectionEndpoint: String? = nil, indexName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonOpenSearchServerlessRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil) {
+            self.bufferingHints = bufferingHints
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.collectionEndpoint = collectionEndpoint
+            self.indexName = indexName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3Update = s3Update
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, max: 512)
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, min: 1)
+            try self.validate(self.collectionEndpoint, name: "collectionEndpoint", parent: name, pattern: "^https:")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 80)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: ".*")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.s3Update?.validate(name: "\(name).s3Update")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case collectionEndpoint = "CollectionEndpoint"
+            case indexName = "IndexName"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3Update = "S3Update"
+        }
+    }
+
+    public struct AmazonOpenSearchServerlessRetryOptions: AWSEncodableShape & AWSDecodableShape {
+        /// After an initial failure to deliver to the Serverless offering for Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
+        public let durationInSeconds: Int?
+
+        public init(durationInSeconds: Int? = nil) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 7200)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
+    public struct AmazonopensearchserviceBufferingHints: AWSEncodableShape & AWSDecodableShape {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
+        public let intervalInSeconds: Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int?
 
         public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
@@ -223,17 +436,26 @@ extension Firehose {
     }
 
     public struct AmazonopensearchserviceDestinationConfiguration: AWSEncodableShape {
+        /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
         public let bufferingHints: AmazonopensearchserviceBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
         public let domainARN: String?
+        /// The ElasticsearAmazon OpenSearch Service index name.
         public let indexName: String
+        /// The Amazon OpenSearch Service index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data.
         public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
         public let processingConfiguration: ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public let retryOptions: AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents.
         public let roleARN: String
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix.
         public let s3BackupMode: AmazonopensearchserviceS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration
+        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
         public let typeName: String?
         public let vpcConfiguration: VpcConfiguration?
 
@@ -294,17 +516,26 @@ extension Firehose {
     }
 
     public struct AmazonopensearchserviceDestinationDescription: AWSDecodableShape {
+        /// The buffering options.
         public let bufferingHints: AmazonopensearchserviceBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon OpenSearch Service.
         public let clusterEndpoint: String?
+        /// The ARN of the Amazon OpenSearch Service domain.
         public let domainARN: String?
+        /// The Amazon OpenSearch Service index name.
         public let indexName: String?
+        /// The Amazon OpenSearch Service index rotation period
         public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
         public let processingConfiguration: ProcessingConfiguration?
+        /// The Amazon OpenSearch Service retry options.
         public let retryOptions: AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
         public let roleARN: String?
+        /// The Amazon S3 backup mode.
         public let s3BackupMode: AmazonopensearchserviceS3BackupMode?
         public let s3DestinationDescription: S3DestinationDescription?
+        /// The Amazon OpenSearch Service type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public let typeName: String?
         public let vpcConfigurationDescription: VpcConfigurationDescription?
 
@@ -342,16 +573,24 @@ extension Firehose {
     }
 
     public struct AmazonopensearchserviceDestinationUpdate: AWSEncodableShape {
+        /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
         public let bufferingHints: AmazonopensearchserviceBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN.
         public let domainARN: String?
+        /// The Amazon OpenSearch Service index name.
         public let indexName: String?
+        /// The Amazon OpenSearch Service index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data.
         public let indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod?
         public let processingConfiguration: ProcessingConfiguration?
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public let retryOptions: AmazonopensearchserviceRetryOptions?
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents.
         public let roleARN: String?
         public let s3Update: S3DestinationUpdate?
+        /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.  If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName.
         public let typeName: String?
 
         public init(bufferingHints: AmazonopensearchserviceBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: AmazonopensearchserviceIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: AmazonopensearchserviceRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
@@ -406,6 +645,7 @@ extension Firehose {
     }
 
     public struct AmazonopensearchserviceRetryOptions: AWSEncodableShape & AWSDecodableShape {
+        /// After an initial failure to deliver to Amazon OpenSearch Service, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int?
 
         public init(durationInSeconds: Int? = nil) {
@@ -506,10 +746,13 @@ extension Firehose {
     }
 
     public struct CreateDeliveryStreamInput: AWSEncodableShape {
+        /// The destination in the Serverless offering for Amazon OpenSearch Service. You can specify only one destination.
+        public let amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration?
+        /// The destination in Amazon OpenSearch Service. You can specify only one destination.
         public let amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration?
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
-        /// The name of the delivery stream. This name must be unique per AWS account in the same AWS Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
+        /// The name of the delivery stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the delivery streams are in different accounts or different Regions, you can have multiple delivery streams with the same name.
         public let deliveryStreamName: String
         /// The delivery stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the delivery stream directly.    KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.
         public let deliveryStreamType: DeliveryStreamType?
@@ -527,11 +770,12 @@ extension Firehose {
         public let s3DestinationConfiguration: S3DestinationConfiguration?
         /// The destination in Splunk. You can specify only one destination.
         public let splunkDestinationConfiguration: SplunkDestinationConfiguration?
-        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to AWS resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         ///  You can specify up to 50 tags when creating a delivery stream.
         public let tags: [Tag]?
 
-        public init(amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+            self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
@@ -547,7 +791,8 @@ extension Firehose {
         }
 
         @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
-        public init(amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+            self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
@@ -563,6 +808,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.amazonOpenSearchServerlessDestinationConfiguration?.validate(name: "\(name).amazonOpenSearchServerlessDestinationConfiguration")
             try self.amazonopensearchserviceDestinationConfiguration?.validate(name: "\(name).amazonopensearchserviceDestinationConfiguration")
             try self.deliveryStreamEncryptionConfigurationInput?.validate(name: "\(name).deliveryStreamEncryptionConfigurationInput")
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, max: 64)
@@ -583,6 +829,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonOpenSearchServerlessDestinationConfiguration = "AmazonOpenSearchServerlessDestinationConfiguration"
             case amazonopensearchserviceDestinationConfiguration = "AmazonopensearchserviceDestinationConfiguration"
             case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
@@ -618,7 +865,7 @@ extension Firehose {
         public let inputFormatConfiguration: InputFormatConfiguration?
         /// Specifies the serializer that you want Kinesis Data Firehose to use to convert the format of your data to the Parquet or ORC format. This parameter is required if Enabled is set to true.
         public let outputFormatConfiguration: OutputFormatConfiguration?
-        /// Specifies the AWS Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
+        /// Specifies the Amazon Web Services Glue Data Catalog table that contains the column information. This parameter is required if Enabled is set to true.
         public let schemaConfiguration: SchemaConfiguration?
 
         public init(enabled: Bool? = nil, inputFormatConfiguration: InputFormatConfiguration? = nil, outputFormatConfiguration: OutputFormatConfiguration? = nil, schemaConfiguration: SchemaConfiguration? = nil) {
@@ -643,7 +890,7 @@ extension Firehose {
     }
 
     public struct DeleteDeliveryStreamInput: AWSEncodableShape {
-        /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an AWS KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
+        /// Set this to true if you want to delete the delivery stream even if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the RevokeGrant operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the grant happens due to an Amazon Web Services KMS issue, Kinesis Data Firehose keeps retrying the delete operation. The default value is false.
         public let allowForceDelete: Bool?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -672,7 +919,7 @@ extension Firehose {
     public struct DeliveryStreamDescription: AWSDecodableShape {
         /// The date and time that the delivery stream was created.
         public let createTimestamp: Date?
-        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let deliveryStreamARN: String
         /// Indicates the server-side encryption (SSE) status for the delivery stream.
         public let deliveryStreamEncryptionConfiguration: DeliveryStreamEncryptionConfiguration?
@@ -729,9 +976,9 @@ extension Firehose {
     public struct DeliveryStreamEncryptionConfiguration: AWSDecodableShape {
         /// Provides details in case one of the following operations fails due to an error related to KMS: CreateDeliveryStream, DeleteDeliveryStream, StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
         public let failureDescription: FailureDescription?
-        /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is AWS_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
+        /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is Amazon Web Services_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
         public let keyARN: String?
-        /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs).
+        /// Indicates the type of customer master key (CMK) that is used for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs).
         public let keyType: KeyType?
         /// This is the server-side encryption (SSE) status for the delivery stream. For a full description of the different values of this status, see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption. If this status is ENABLING_FAILED or DISABLING_FAILED, it is the status of the most recent attempt to enable or disable SSE, respectively.
         public let status: DeliveryStreamEncryptionStatus?
@@ -752,9 +999,9 @@ extension Firehose {
     }
 
     public struct DeliveryStreamEncryptionConfigurationInput: AWSEncodableShape {
-        /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to AWS_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
+        /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to Amazon Web Services_OWNED_CMK, Kinesis Data Firehose uses a service-account CMK.
         public let keyARN: String?
-        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is AWS_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a CreateDeliveryStream or StartDeliveryStreamEncryption operation exceeds this limit, Kinesis Data Firehose throws a LimitExceededException.   To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see About Symmetric and Asymmetric CMKs in the AWS Key Management Service developer guide.
+        /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see Customer Master Keys (CMKs). When you invoke CreateDeliveryStream or StartDeliveryStreamEncryption with KeyType set to CUSTOMER_MANAGED_CMK, Kinesis Data Firehose invokes the Amazon KMS operation CreateGrant to create a grant that allows the Kinesis Data Firehose service to use the customer managed CMK to perform encryption and decryption. Kinesis Data Firehose manages that grant.  When you invoke StartDeliveryStreamEncryption to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a CreateDeliveryStream or StartDeliveryStreamEncryption operation exceeds this limit, Kinesis Data Firehose throws a LimitExceededException.   To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see About Symmetric and Asymmetric CMKs in the Amazon Web Services Key Management Service developer guide.
         public let keyType: KeyType
 
         public init(keyARN: String? = nil, keyType: KeyType) {
@@ -842,6 +1089,9 @@ extension Firehose {
     }
 
     public struct DestinationDescription: AWSDecodableShape {
+        /// The destination in the Serverless offering for Amazon OpenSearch Service.
+        public let amazonOpenSearchServerlessDestinationDescription: AmazonOpenSearchServerlessDestinationDescription?
+        /// The destination in Amazon OpenSearch Service.
         public let amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription?
         /// The ID of the destination.
         public let destinationId: String
@@ -858,7 +1108,8 @@ extension Firehose {
         /// The destination in Splunk.
         public let splunkDestinationDescription: SplunkDestinationDescription?
 
-        public init(amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription? = nil, destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+        public init(amazonOpenSearchServerlessDestinationDescription: AmazonOpenSearchServerlessDestinationDescription? = nil, amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription? = nil, destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+            self.amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescription
             self.amazonopensearchserviceDestinationDescription = amazonopensearchserviceDestinationDescription
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
@@ -870,6 +1121,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonOpenSearchServerlessDestinationDescription = "AmazonOpenSearchServerlessDestinationDescription"
             case amazonopensearchserviceDestinationDescription = "AmazonopensearchserviceDestinationDescription"
             case destinationId = "DestinationId"
             case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
@@ -933,7 +1185,7 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         ///  Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
@@ -944,9 +1196,9 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
-        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Kinesis Data Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Kinesis Data Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the delivery stream.
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
@@ -1019,7 +1271,7 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         ///  Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
         public let domainARN: String?
         /// The Elasticsearch index name.
@@ -1030,13 +1282,13 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon ES retry options.
         public let retryOptions: ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 backup mode.
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The Amazon S3 destination.
         public let s3DestinationDescription: S3DestinationDescription?
-        /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x, there's no value for TypeName.
+        /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public let typeName: String?
         /// The details of the VPC of the Amazon ES destination.
         public let vpcConfigurationDescription: VpcConfigurationDescription?
@@ -1081,7 +1333,7 @@ extension Firehose {
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public let clusterEndpoint: String?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         ///  Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
@@ -1092,7 +1344,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Kinesis Data Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Kinesis Data Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
@@ -1191,7 +1443,7 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationConfiguration: AWSEncodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String
         /// The buffering option.
         public let bufferingHints: BufferingHints?
@@ -1201,7 +1453,7 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -1211,7 +1463,7 @@ extension Firehose {
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
@@ -1272,7 +1524,7 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationDescription: AWSDecodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String
         /// The buffering option.
         public let bufferingHints: BufferingHints
@@ -1282,7 +1534,7 @@ extension Firehose {
         public let compressionFormat: CompressionFormat
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
@@ -1292,7 +1544,7 @@ extension Firehose {
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
@@ -1333,7 +1585,7 @@ extension Firehose {
     }
 
     public struct ExtendedS3DestinationUpdate: AWSEncodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String?
         /// The buffering option.
         public let bufferingHints: BufferingHints?
@@ -1343,7 +1595,7 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The serializer, deserializer, and schema for converting data from the JSON format to the Parquet or ORC format before writing it to Amazon S3.
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
-        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations. For more information, see https://docs.aws.amazon.com/firehose/latest/dev/dynamic-partitioning.html
+        /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
         public let dynamicPartitioningConfiguration: DynamicPartitioningConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -1353,7 +1605,7 @@ extension Firehose {
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
         /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public let s3BackupMode: S3BackupMode?
@@ -1761,7 +2013,7 @@ extension Firehose {
     }
 
     public struct KMSEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let awskmsKeyARN: String
 
         public init(awskmsKeyARN: String) {
@@ -1782,7 +2034,7 @@ extension Firehose {
     public struct KinesisStreamSourceConfiguration: AWSEncodableShape {
         /// The ARN of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String
-        /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
+        /// The ARN of the role that provides access to the source Kinesis data stream. For more information, see Amazon Web Services Identity and Access Management (IAM) ARN Format.
         public let roleARN: String
 
         public init(kinesisStreamARN: String, roleARN: String) {
@@ -1810,7 +2062,7 @@ extension Firehose {
         public let deliveryStartTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see Amazon Kinesis Data Streams ARN Format.
         public let kinesisStreamARN: String?
-        /// The ARN of the role used by the source Kinesis data stream. For more information, see AWS Identity and Access Management (IAM) ARN Format.
+        /// The ARN of the role used by the source Kinesis data stream. For more information, see Amazon Web Services Identity and Access Management (IAM) ARN Format.
         public let roleARN: String?
 
         public init(deliveryStartTimestamp: Date? = nil, kinesisStreamARN: String? = nil, roleARN: String? = nil) {
@@ -2122,7 +2374,7 @@ extension Firehose {
     }
 
     public struct ProcessorParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the parameter.
+        /// The name of the parameter. Currently the following default values are supported: 3 for NumberOfRetries and 60 for the BufferIntervalInSeconds. The BufferSizeInMBs ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for all destinations, except Splunk. For Splunk, the default buffering hint is 256 KB.
         public let parameterName: ProcessorParameterName
         /// The parameter value.
         public let parameterValue: String
@@ -2285,7 +2537,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupConfiguration: S3DestinationConfiguration?
@@ -2357,7 +2609,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
@@ -2408,7 +2660,7 @@ extension Firehose {
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
         public let retryOptions: RedshiftRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
         /// You can update a delivery stream to enable Amazon S3 backup if it is disabled. If backup is enabled, you can't update the delivery stream to disable it.
         public let s3BackupMode: RedshiftS3BackupMode?
@@ -2506,7 +2758,7 @@ extension Firehose {
     }
 
     public struct S3DestinationConfiguration: AWSEncodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints?
@@ -2520,7 +2772,7 @@ extension Firehose {
         public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
 
         public init(bucketARN: String, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
@@ -2563,7 +2815,7 @@ extension Firehose {
     }
 
     public struct S3DestinationDescription: AWSDecodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints
@@ -2577,7 +2829,7 @@ extension Firehose {
         public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
 
         public init(bucketARN: String, bufferingHints: BufferingHints, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat, encryptionConfiguration: EncryptionConfiguration, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String) {
@@ -2604,7 +2856,7 @@ extension Firehose {
     }
 
     public struct S3DestinationUpdate: AWSEncodableShape {
-        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The ARN of the S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let bucketARN: String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
         public let bufferingHints: BufferingHints?
@@ -2618,7 +2870,7 @@ extension Firehose {
         public let errorOutputPrefix: String?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
-        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
 
         public init(bucketARN: String? = nil, bufferingHints: BufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: CompressionFormat? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, errorOutputPrefix: String? = nil, prefix: String? = nil, roleARN: String? = nil) {
@@ -2661,15 +2913,15 @@ extension Firehose {
     }
 
     public struct SchemaConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the AWS Glue Data Catalog. If you don't supply this, the AWS account ID is used by default.
+        /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply this, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
-        /// Specifies the name of the AWS Glue database that contains the schema for the output data.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
+        /// Specifies the name of the Amazon Web Services Glue database that contains the schema for the output data.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
         public let databaseName: String?
-        /// If you don't specify an AWS Region, the default is the current Region.
+        /// If you don't specify an Amazon Web Services Region, the default is the current Region.
         public let region: String?
-        /// The role that Kinesis Data Firehose can use to access AWS Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the RoleARN property is required and its value must be specified.
+        /// The role that Kinesis Data Firehose can use to access Amazon Web Services Glue. This role must be in the same account you use for Kinesis Data Firehose. Cross-account roles aren't allowed.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the RoleARN property is required and its value must be specified.
         public let roleARN: String?
-        /// Specifies the AWS Glue table that contains the column information that constitutes your data schema.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the TableName property is required and its value must be specified.
+        /// Specifies the Amazon Web Services Glue table that contains the column information that constitutes your data schema.  If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the TableName property is required and its value must be specified.
         public let tableName: String?
         /// Specifies the table version for the output data schema. If you don't specify this version ID, or if you set it to LATEST, Kinesis Data Firehose uses the most recent version. This means that any updates to the table are automatically picked up.
         public let versionId: String?
@@ -3071,6 +3323,9 @@ extension Firehose {
     }
 
     public struct UpdateDestinationInput: AWSEncodableShape {
+        /// Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service.
+        public let amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate?
+        /// Describes an update for a destination in Amazon OpenSearch Service.
         public let amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate?
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
         public let currentDeliveryStreamVersionId: String
@@ -3091,7 +3346,8 @@ extension Firehose {
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
 
-        public init(amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+            self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
             self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             self.deliveryStreamName = deliveryStreamName
@@ -3105,7 +3361,8 @@ extension Firehose {
         }
 
         @available(*, deprecated, message: "Members s3DestinationUpdate have been deprecated")
-        public init(amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+            self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
             self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             self.deliveryStreamName = deliveryStreamName
@@ -3119,6 +3376,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
+            try self.amazonOpenSearchServerlessDestinationUpdate?.validate(name: "\(name).amazonOpenSearchServerlessDestinationUpdate")
             try self.amazonopensearchserviceDestinationUpdate?.validate(name: "\(name).amazonopensearchserviceDestinationUpdate")
             try self.validate(self.currentDeliveryStreamVersionId, name: "currentDeliveryStreamVersionId", parent: name, max: 50)
             try self.validate(self.currentDeliveryStreamVersionId, name: "currentDeliveryStreamVersionId", parent: name, min: 1)
@@ -3138,6 +3396,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonOpenSearchServerlessDestinationUpdate = "AmazonOpenSearchServerlessDestinationUpdate"
             case amazonopensearchserviceDestinationUpdate = "AmazonopensearchserviceDestinationUpdate"
             case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
             case deliveryStreamName = "DeliveryStreamName"

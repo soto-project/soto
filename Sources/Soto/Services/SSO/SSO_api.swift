@@ -59,6 +59,7 @@ public struct SSO: AWSService {
             apiVersion: "2019-06-10",
             endpoint: endpoint,
             serviceEndpoints: [
+                "af-south-1": "portal.sso.af-south-1.amazonaws.com",
                 "ap-east-1": "portal.sso.ap-east-1.amazonaws.com",
                 "ap-northeast-1": "portal.sso.ap-northeast-1.amazonaws.com",
                 "ap-northeast-2": "portal.sso.ap-northeast-2.amazonaws.com",
@@ -66,6 +67,7 @@ public struct SSO: AWSService {
                 "ap-south-1": "portal.sso.ap-south-1.amazonaws.com",
                 "ap-southeast-1": "portal.sso.ap-southeast-1.amazonaws.com",
                 "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com",
+                "ap-southeast-3": "portal.sso.ap-southeast-3.amazonaws.com",
                 "ca-central-1": "portal.sso.ca-central-1.amazonaws.com",
                 "eu-central-1": "portal.sso.eu-central-1.amazonaws.com",
                 "eu-north-1": "portal.sso.eu-north-1.amazonaws.com",
@@ -79,6 +81,7 @@ public struct SSO: AWSService {
                 "us-east-2": "portal.sso.us-east-2.amazonaws.com",
                 "us-gov-east-1": "portal.sso.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "portal.sso.us-gov-west-1.amazonaws.com",
+                "us-west-1": "portal.sso.us-west-1.amazonaws.com",
                 "us-west-2": "portal.sso.us-west-2.amazonaws.com"
             ],
             errorType: SSOErrorType.self,

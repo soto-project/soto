@@ -53,7 +53,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "BatchDetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint.
+    /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint. You can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document,  the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an  InvalidRequestException error response.       For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     public func classifyDocument(_ input: ClassifyDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ClassifyDocumentResponse {
         return try await self.client.execute(operation: "ClassifyDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -168,7 +168,7 @@ extension Comprehend {
         return try await self.client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Inspects text for named entities, and returns information about them. For more information, about named entities, see Entities in the Comprehend Developer Guide.
+    /// Detects named entities in input text when you use the pre-trained model.  Detects custom entities if you have a custom entity recognition model.   When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see Entities in the Comprehend Developer Guide. When you use a custom entity recognition model,  you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response  includes an entry in Errors for each error.  If the system detects a document-level error in your input document, the API returns an  InvalidRequestException error response.       For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     public func detectEntities(_ input: DetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectEntitiesResponse {
         return try await self.client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -481,6 +481,28 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of all existing endpoints that you've created. For information about endpoints, see Managing endpoints.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEndpointsPaginator(
+        _ input: ListEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEndpointsRequest, ListEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listEndpoints,
+            inputKey: \ListEndpointsRequest.nextToken,
+            outputKey: \ListEndpointsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of the entity detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
@@ -586,6 +608,28 @@ extension Comprehend {
             command: self.listKeyPhrasesDetectionJobs,
             inputKey: \ListKeyPhrasesDetectionJobsRequest.nextToken,
             outputKey: \ListKeyPhrasesDetectionJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of the PII entity detection jobs that you have submitted.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPiiEntitiesDetectionJobsPaginator(
+        _ input: ListPiiEntitiesDetectionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPiiEntitiesDetectionJobsRequest, ListPiiEntitiesDetectionJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listPiiEntitiesDetectionJobs,
+            inputKey: \ListPiiEntitiesDetectionJobsRequest.nextToken,
+            outputKey: \ListPiiEntitiesDetectionJobsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

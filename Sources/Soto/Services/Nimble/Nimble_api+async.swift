@@ -38,17 +38,17 @@ extension Nimble {
         return try await self.client.execute(operation: "CreateStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in state READY.
+    /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in the READY state.
     public func createStreamingSession(_ input: CreateStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateStreamingSessionResponse {
         return try await self.client.execute(operation: "CreateStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in state READY.
+    /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in the READY state.
     public func createStreamingSessionStream(_ input: CreateStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateStreamingSessionStreamResponse {
         return try await self.client.execute(operation: "CreateStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
+    /// Create a new studio. When creating a studio, two IAM roles must be provided: the admin role and the user role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
     public func createStudio(_ input: CreateStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateStudioResponse {
         return try await self.client.execute(operation: "CreateStudio", path: "/2020-08-01/studios", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -93,7 +93,7 @@ extension Nimble {
         return try await self.client.execute(operation: "DeleteStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get Eula.
+    /// Get EULA.
     public func getEula(_ input: GetEulaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEulaResponse {
         return try await self.client.execute(operation: "GetEula", path: "/2020-08-01/eulas/{eulaId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -128,12 +128,17 @@ extension Nimble {
         return try await self.client.execute(operation: "GetStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the state READY, the url property will contain a stream to be used with the DCV streaming client.
+    /// Gets StreamingSessionBackup resource. Invoke this operation to poll for a streaming session backup while stopping a streaming session.
+    public func getStreamingSessionBackup(_ input: GetStreamingSessionBackupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStreamingSessionBackupResponse {
+        return try await self.client.execute(operation: "GetStreamingSessionBackup", path: "/2020-08-01/studios/{studioId}/streaming-session-backups/{backupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the READY state, the url property will contain a stream to be used with the DCV streaming client.
     public func getStreamingSessionStream(_ input: GetStreamingSessionStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStreamingSessionStreamResponse {
         return try await self.client.execute(operation: "GetStreamingSessionStream", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/streams/{streamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get a Studio resource.
+    /// Get a studio resource.
     public func getStudio(_ input: GetStudioRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStudioResponse {
         return try await self.client.execute(operation: "GetStudio", path: "/2020-08-01/studios/{studioId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -148,12 +153,12 @@ extension Nimble {
         return try await self.client.execute(operation: "GetStudioMember", path: "/2020-08-01/studios/{studioId}/membership/{principalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List Eula Acceptances.
+    /// List EULA acceptances.
     public func listEulaAcceptances(_ input: ListEulaAcceptancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEulaAcceptancesResponse {
         return try await self.client.execute(operation: "ListEulaAcceptances", path: "/2020-08-01/studios/{studioId}/eula-acceptances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List Eulas.
+    /// List EULAs.
     public func listEulas(_ input: ListEulasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEulasResponse {
         return try await self.client.execute(operation: "ListEulas", path: "/2020-08-01/eulas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,6 +178,11 @@ extension Nimble {
         return try await self.client.execute(operation: "ListStreamingImages", path: "/2020-08-01/studios/{studioId}/streaming-images", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the backups of a streaming session in a studio.
+    public func listStreamingSessionBackups(_ input: ListStreamingSessionBackupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStreamingSessionBackupsResponse {
+        return try await self.client.execute(operation: "ListStreamingSessionBackups", path: "/2020-08-01/studios/{studioId}/streaming-session-backups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the streaming sessions in a studio.
     public func listStreamingSessions(_ input: ListStreamingSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStreamingSessionsResponse {
         return try await self.client.execute(operation: "ListStreamingSessions", path: "/2020-08-01/studios/{studioId}/streaming-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -188,7 +198,7 @@ extension Nimble {
         return try await self.client.execute(operation: "ListStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
+    /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     public func listStudios(_ input: ListStudiosRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStudiosResponse {
         return try await self.client.execute(operation: "ListStudios", path: "/2020-08-01/studios", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,7 +218,7 @@ extension Nimble {
         return try await self.client.execute(operation: "PutStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
+    /// Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
     public func startStreamingSession(_ input: StartStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartStreamingSessionResponse {
         return try await self.client.execute(operation: "StartStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -263,7 +273,7 @@ extension Nimble {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Nimble {
-    ///  List Eula Acceptances.
+    ///  List EULA acceptances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -285,7 +295,7 @@ extension Nimble {
         )
     }
 
-    ///  List Eulas.
+    ///  List EULAs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -373,6 +383,28 @@ extension Nimble {
         )
     }
 
+    ///  Lists the backups of a streaming session in a studio.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStreamingSessionBackupsPaginator(
+        _ input: ListStreamingSessionBackupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStreamingSessionBackupsRequest, ListStreamingSessionBackupsResponse> {
+        return .init(
+            input: input,
+            command: self.listStreamingSessionBackups,
+            inputKey: \ListStreamingSessionBackupsRequest.nextToken,
+            outputKey: \ListStreamingSessionBackupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the streaming sessions in a studio.
     /// Return PaginatorSequence for operation.
     ///
@@ -439,7 +471,7 @@ extension Nimble {
         )
     }
 
-    ///  List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
+    ///  List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

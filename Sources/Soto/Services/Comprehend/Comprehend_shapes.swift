@@ -27,6 +27,12 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
+    public enum BlockType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case line = "LINE"
+        case word = "WORD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
         case augmentedManifest = "AUGMENTED_MANIFEST"
         case comprehendCsv = "COMPREHEND_CSV"
@@ -54,6 +60,17 @@ extension Comprehend {
     public enum DocumentReadMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case forceDocumentReadAction = "FORCE_DOCUMENT_READ_ACTION"
         case serviceDefault = "SERVICE_DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case image = "IMAGE"
+        case msWord = "MS_WORD"
+        case nativePdf = "NATIVE_PDF"
+        case plainText = "PLAIN_TEXT"
+        case scannedPdf = "SCANNED_PDF"
+        case textractAnalyzeDocumentJson = "TEXTRACT_ANALYZE_DOCUMENT_JSON"
+        case textractDetectDocumentTextJson = "TEXTRACT_DETECT_DOCUMENT_TEXT_JSON"
         public var description: String { return self.rawValue }
     }
 
@@ -95,8 +112,8 @@ extension Comprehend {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
-        case stopped = "STOPPED"
         case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
         case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
@@ -113,18 +130,27 @@ extension Comprehend {
         case ko
         case pt
         case zh
-        case zhTW = "zh-TW"
+        case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case deleting = "DELETING"
         case inError = "IN_ERROR"
-        case stopped = "STOPPED"
         case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
         case submitted = "SUBMITTED"
         case trained = "TRAINED"
         case training = "TRAINING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PageBasedErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case pageCharactersExceeded = "PAGE_CHARACTERS_EXCEEDED"
+        case pageSizeExceeded = "PAGE_SIZE_EXCEEDED"
+        case textractBadPage = "TEXTRACT_BAD_PAGE"
+        case textractProvisionedThroughputExceeded = "TEXTRACT_PROVISIONED_THROUGHPUT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -178,11 +204,11 @@ extension Comprehend {
         case dateTime = "DATE_TIME"
         case driverId = "DRIVER_ID"
         case email = "EMAIL"
-        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
         case inAadhaar = "IN_AADHAAR"
         case inNrega = "IN_NREGA"
         case inPermanentAccountNumber = "IN_PERMANENT_ACCOUNT_NUMBER"
         case inVoterNumber = "IN_VOTER_NUMBER"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
         case ipAddress = "IP_ADDRESS"
         case licensePlate = "LICENSE_PLATE"
         case macAddress = "MAC_ADDRESS"
@@ -197,9 +223,14 @@ extension Comprehend {
         case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
         case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
         case url = "URL"
-        case username = "USERNAME"
         case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case username = "USERNAME"
         case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationshipType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case child = "CHILD"
         public var description: String { return self.rawValue }
     }
 
@@ -666,6 +697,110 @@ extension Comprehend {
         }
     }
 
+    public struct Block: AWSDecodableShape {
+        /// The block represents a line of text or one word of text.   WORD - A word that's detected on a document page.  A word is one or more ISO basic Latin script characters that aren't separated by spaces.   LINE - A string of tab-delimited, contiguous words  that are detected on a document page
+        public let blockType: BlockType?
+        /// Co-ordinates of the rectangle or polygon that contains the text.
+        public let geometry: Geometry?
+        /// Unique identifier for the block.
+        public let id: String?
+        /// Page number where the block appears.
+        public let page: Int?
+        /// A list of child blocks of the current block.  For example, a LINE object has child blocks for each WORD block that's part of the line of text.
+        public let relationships: [RelationshipsListItem]?
+        /// The word or line of text extracted from the block.
+        public let text: String?
+
+        public init(blockType: BlockType? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, relationships: [RelationshipsListItem]? = nil, text: String? = nil) {
+            self.blockType = blockType
+            self.geometry = geometry
+            self.id = id
+            self.page = page
+            self.relationships = relationships
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockType = "BlockType"
+            case geometry = "Geometry"
+            case id = "Id"
+            case page = "Page"
+            case relationships = "Relationships"
+            case text = "Text"
+        }
+    }
+
+    public struct BlockReference: AWSDecodableShape {
+        /// Offset of the start of the block within its parent block.
+        public let beginOffset: Int?
+        /// Unique identifier for the block.
+        public let blockId: String?
+        /// List of child blocks within this block.
+        public let childBlocks: [ChildBlock]?
+        /// Offset of the end of the block within its parent block.
+        public let endOffset: Int?
+
+        public init(beginOffset: Int? = nil, blockId: String? = nil, childBlocks: [ChildBlock]? = nil, endOffset: Int? = nil) {
+            self.beginOffset = beginOffset
+            self.blockId = blockId
+            self.childBlocks = childBlocks
+            self.endOffset = endOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case blockId = "BlockId"
+            case childBlocks = "ChildBlocks"
+            case endOffset = "EndOffset"
+        }
+    }
+
+    public struct BoundingBox: AWSDecodableShape {
+        /// The height of the bounding box as a ratio of the overall document page height.
+        public let height: Float?
+        /// The left coordinate of the bounding box as a ratio of overall document page width.
+        public let left: Float?
+        /// The top coordinate of the bounding box as a ratio of overall document page height.
+        public let top: Float?
+        /// The width of the bounding box as a ratio of the overall document page width.
+        public let width: Float?
+
+        public init(height: Float? = nil, left: Float? = nil, top: Float? = nil, width: Float? = nil) {
+            self.height = height
+            self.left = left
+            self.top = top
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case left = "Left"
+            case top = "Top"
+            case width = "Width"
+        }
+    }
+
+    public struct ChildBlock: AWSDecodableShape {
+        /// Offset of the start of the child block within its parent block.
+        public let beginOffset: Int?
+        /// Unique identifier for the child block.
+        public let childBlockId: String?
+        /// Offset of the end of the child block within its parent block.
+        public let endOffset: Int?
+
+        public init(beginOffset: Int? = nil, childBlockId: String? = nil, endOffset: Int? = nil) {
+            self.beginOffset = beginOffset
+            self.childBlockId = childBlockId
+            self.endOffset = endOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case childBlockId = "ChildBlockId"
+            case endOffset = "EndOffset"
+        }
+    }
+
     public struct ClassifierEvaluationMetrics: AWSDecodableShape {
         /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
         public let accuracy: Double?
@@ -733,23 +868,33 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentRequest: AWSEncodableShape {
+        /// Use the Bytes parameter to input a text, PDF, Word or image file. You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText  or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes.  If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode  the document file bytes for you.  The maximum length of this field depends on the input document type. For details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text parameter.
+        public let bytes: AWSBase64Data?
+        /// Provides configuration parameters to override the default actions for extracting text  from PDF documents and image files.
+        public let documentReaderConfig: DocumentReaderConfig?
         /// The Amazon Resource Number (ARN) of the endpoint. For information about endpoints, see Managing endpoints.
         public let endpointArn: String
-        /// The document text to be analyzed.
-        public let text: String
+        /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
+        public let text: String?
 
-        public init(endpointArn: String, text: String) {
+        public init(bytes: AWSBase64Data? = nil, documentReaderConfig: DocumentReaderConfig? = nil, endpointArn: String, text: String? = nil) {
+            self.bytes = bytes
+            self.documentReaderConfig = documentReaderConfig
             self.endpointArn = endpointArn
             self.text = text
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
+            try self.documentReaderConfig?.validate(name: "\(name).documentReaderConfig")
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bytes = "Bytes"
+            case documentReaderConfig = "DocumentReaderConfig"
             case endpointArn = "EndpointArn"
             case text = "Text"
         }
@@ -758,16 +903,28 @@ extension Comprehend {
     public struct ClassifyDocumentResponse: AWSDecodableShape {
         /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
         public let classes: [DocumentClass]?
+        /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
+        public let documentMetadata: DocumentMetadata?
+        /// The document type for each page in the input document. This field is present in the response only if your request includes the Byte parameter.
+        public let documentType: [DocumentTypeListItem]?
+        /// Page-level errors that the system detected while processing the input document.  The field is empty if the system encountered no errors.
+        public let errors: [ErrorsListItem]?
         /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
         public let labels: [DocumentLabel]?
 
-        public init(classes: [DocumentClass]? = nil, labels: [DocumentLabel]? = nil) {
+        public init(classes: [DocumentClass]? = nil, documentMetadata: DocumentMetadata? = nil, documentType: [DocumentTypeListItem]? = nil, errors: [ErrorsListItem]? = nil, labels: [DocumentLabel]? = nil) {
             self.classes = classes
+            self.documentMetadata = documentMetadata
+            self.documentType = documentType
+            self.errors = errors
             self.labels = labels
         }
 
         private enum CodingKeys: String, CodingKey {
             case classes = "Classes"
+            case documentMetadata = "DocumentMetadata"
+            case documentType = "DocumentType"
+            case errors = "Errors"
             case labels = "Labels"
         }
     }
@@ -976,7 +1133,7 @@ extension Comprehend {
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created.
         public let inputDataConfig: EntityRecognizerInputDataConfig
-        ///  You can specify any of the following languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). All documents must be in the same language.
+        ///  You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must  specify English as the language.  All training documents must be in the same language.
         public let languageCode: LanguageCode
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let modelKmsKeyId: String?
@@ -1439,7 +1596,7 @@ extension Comprehend {
     }
 
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the policy to describe.
+        /// The Amazon Resource Name (ARN) of the custom model version that has the resource policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1608,26 +1765,36 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesRequest: AWSEncodableShape {
+        /// This field applies only when you use a custom entity recognition model that was trained with PDF annotations. For other cases,   enter your text input in the Text field.      Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file in the Bytes parameter is equivelent to using the  Text parameter (the Entities field in the response is identical). You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText  or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes.  If your code uses an Amazon Web Services SDK to detect entities, the SDK may encode  the document file bytes for you.  The maximum length of this field depends on the input document type. For details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text parameter.
+        public let bytes: AWSBase64Data?
+        /// Provides configuration parameters to override the default actions for extracting text  from PDF documents and image files.
+        public let documentReaderConfig: DocumentReaderConfig?
         /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request. For information about endpoints, see Managing endpoints.
         public let endpointArn: String?
-        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here. All input documents must be in the same language.
         public let languageCode: LanguageCode?
-        /// A UTF-8 text string. The maximum string size is 100 KB.
-        public let text: String
+        /// A UTF-8 text string. The maximum string size is 100 KB. If you enter text using this parameter, do not use the Bytes parameter.
+        public let text: String?
 
-        public init(endpointArn: String? = nil, languageCode: LanguageCode? = nil, text: String) {
+        public init(bytes: AWSBase64Data? = nil, documentReaderConfig: DocumentReaderConfig? = nil, endpointArn: String? = nil, languageCode: LanguageCode? = nil, text: String? = nil) {
+            self.bytes = bytes
+            self.documentReaderConfig = documentReaderConfig
             self.endpointArn = endpointArn
             self.languageCode = languageCode
             self.text = text
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
+            try self.documentReaderConfig?.validate(name: "\(name).documentReaderConfig")
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, max: 256)
             try self.validate(self.endpointArn, name: "endpointArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bytes = "Bytes"
+            case documentReaderConfig = "DocumentReaderConfig"
             case endpointArn = "EndpointArn"
             case languageCode = "LanguageCode"
             case text = "Text"
@@ -1635,15 +1802,31 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesResponse: AWSDecodableShape {
+        /// Information about each block of text in the input document.    Blocks are nested. A page block contains a block for each line of text,  which contains a block for each word.  The Block content for a Word input document does not include a Geometry field. The Block field is not present in the response for plain-text inputs.
+        public let blocks: [Block]?
+        /// Information about the document, discovered during text extraction. This field is present in the response only if your request used the Byte parameter.
+        public let documentMetadata: DocumentMetadata?
+        /// The document type for each page in the input document. This field is present in the response only if your request used the Byte parameter.
+        public let documentType: [DocumentTypeListItem]?
         /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.  If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see Entities in the Comprehend Developer Guide.
         public let entities: [Entity]?
+        /// Page-level errors that the system detected while processing the input document.  The field is empty if the system encountered no errors.
+        public let errors: [ErrorsListItem]?
 
-        public init(entities: [Entity]? = nil) {
+        public init(blocks: [Block]? = nil, documentMetadata: DocumentMetadata? = nil, documentType: [DocumentTypeListItem]? = nil, entities: [Entity]? = nil, errors: [ErrorsListItem]? = nil) {
+            self.blocks = blocks
+            self.documentMetadata = documentMetadata
+            self.documentType = documentType
             self.entities = entities
+            self.errors = errors
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blocks = "Blocks"
+            case documentMetadata = "DocumentMetadata"
+            case documentType = "DocumentType"
             case entities = "Entities"
+            case errors = "Errors"
         }
     }
 
@@ -1824,16 +2007,20 @@ extension Comprehend {
     public struct DocumentClass: AWSDecodableShape {
         /// The name of the class.
         public let name: String?
+        /// Page number in the input document. This field is present in the response only if your request includes the Byte parameter.
+        public let page: Int?
         /// The confidence score that Amazon Comprehend has this class correctly attributed.
         public let score: Float?
 
-        public init(name: String? = nil, score: Float? = nil) {
+        public init(name: String? = nil, page: Int? = nil, score: Float? = nil) {
             self.name = name
+            self.page = page
             self.score = score
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case page = "Page"
             case score = "Score"
         }
     }
@@ -2139,26 +2326,47 @@ extension Comprehend {
     public struct DocumentLabel: AWSDecodableShape {
         /// The name of the label.
         public let name: String?
+        /// Page number where the label occurs. This field is present in the response only if your request includes the Byte parameter.
+        public let page: Int?
         /// The confidence score that Amazon Comprehend has this label correctly attributed.
         public let score: Float?
 
-        public init(name: String? = nil, score: Float? = nil) {
+        public init(name: String? = nil, page: Int? = nil, score: Float? = nil) {
             self.name = name
+            self.page = page
             self.score = score
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case page = "Page"
             case score = "Score"
         }
     }
 
+    public struct DocumentMetadata: AWSDecodableShape {
+        /// List of pages in the document, with the number of characters extracted from each page.
+        public let extractedCharacters: [ExtractedCharactersListItem]?
+        /// Number of pages in the document.
+        public let pages: Int?
+
+        public init(extractedCharacters: [ExtractedCharactersListItem]? = nil, pages: Int? = nil) {
+            self.extractedCharacters = extractedCharacters
+            self.pages = pages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extractedCharacters = "ExtractedCharacters"
+            case pages = "Pages"
+        }
+    }
+
     public struct DocumentReaderConfig: AWSEncodableShape & AWSDecodableShape {
-        /// This enum field will start with two values which will apply to PDFs:    TEXTRACT_DETECT_DOCUMENT_TEXT - The service calls DetectDocumentText for PDF documents per page.    TEXTRACT_ANALYZE_DOCUMENT - The service calls AnalyzeDocument for PDF documents per page.
+        /// This field defines the Amazon Textract API operation that Amazon Comprehend uses to extract text from PDF files and image files. Enter one of the following values:    TEXTRACT_DETECT_DOCUMENT_TEXT - The Amazon Comprehend service uses the DetectDocumentText API operation.     TEXTRACT_ANALYZE_DOCUMENT - The Amazon Comprehend service uses the AnalyzeDocument   API operation.
         public let documentReadAction: DocumentReadAction
-        /// This enum field provides two values:    SERVICE_DEFAULT - use service defaults for Document reading. For Digital PDF it would mean using an internal parser instead of Textract APIs    FORCE_DOCUMENT_READ_ACTION - Always use specified action for DocumentReadAction, including Digital PDF.
+        /// Determines the text extraction actions for PDF files. Enter one of the following values:    SERVICE_DEFAULT - use the Amazon Comprehend service defaults for PDF files.    FORCE_DOCUMENT_READ_ACTION - Amazon Comprehend uses the Textract API specified by DocumentReadAction for all PDF files, including digital PDF files.
         public let documentReadMode: DocumentReadMode?
-        /// Specifies how the text in an input file should be processed:
+        /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT  as the read action, you must specify one or both of the following values:    TABLES - Returns information about any tables that are detected in the input document.     FORMS - Returns information and the data from any forms that are detected in the input document.
         public let featureTypes: [DocumentReadFeatureTypes]?
 
         public init(documentReadAction: DocumentReadAction, documentReadMode: DocumentReadMode? = nil, featureTypes: [DocumentReadFeatureTypes]? = nil) {
@@ -2176,6 +2384,23 @@ extension Comprehend {
             case documentReadAction = "DocumentReadAction"
             case documentReadMode = "DocumentReadMode"
             case featureTypes = "FeatureTypes"
+        }
+    }
+
+    public struct DocumentTypeListItem: AWSDecodableShape {
+        /// Page number.
+        public let page: Int?
+        /// Document type.
+        public let type: DocumentType?
+
+        public init(page: Int? = nil, type: DocumentType? = nil) {
+            self.page = page
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case page = "Page"
+            case type = "Type"
         }
     }
 
@@ -2464,19 +2689,22 @@ extension Comprehend {
     }
 
     public struct Entity: AWSDecodableShape {
-        /// The zero-based offset from the beginning of the source text to the first character in the entity.
+        /// The zero-based offset from the beginning of the source text to the first character in the entity.  This field is empty for non-text input.
         public let beginOffset: Int?
-        /// The zero-based offset from the beginning of the source text to the last character in the entity.
+        /// A reference to each block for this entity. This field is empty for plain-text input.
+        public let blockReferences: [BlockReference]?
+        /// The zero-based offset from the beginning of the source text to the last character in the entity. This field is empty for non-text input.
         public let endOffset: Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
         /// The text of the entity.
         public let text: String?
-        /// The entity's type.
+        /// The entity type. For entity detection using the built-in model, this field contains one of the  standard entity types listed below. For custom entity detection, this field contains one of the  entity types that you specified when you trained your custom model.
         public let type: EntityType?
 
-        public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, text: String? = nil, type: EntityType? = nil) {
+        public init(beginOffset: Int? = nil, blockReferences: [BlockReference]? = nil, endOffset: Int? = nil, score: Float? = nil, text: String? = nil, type: EntityType? = nil) {
             self.beginOffset = beginOffset
+            self.blockReferences = blockReferences
             self.endOffset = endOffset
             self.score = score
             self.text = text
@@ -2485,6 +2713,7 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
+            case blockReferences = "BlockReferences"
             case endOffset = "EndOffset"
             case score = "Score"
             case text = "Text"
@@ -2862,6 +3091,27 @@ extension Comprehend {
         }
     }
 
+    public struct ErrorsListItem: AWSDecodableShape {
+        /// Error code for the cause of the error.
+        public let errorCode: PageBasedErrorCode?
+        /// Text message explaining the reason for the error.
+        public let errorMessage: String?
+        /// Page number where the error occurred.
+        public let page: Int?
+
+        public init(errorCode: PageBasedErrorCode? = nil, errorMessage: String? = nil, page: Int? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.page = page
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case page = "Page"
+        }
+    }
+
     public struct EventsDetectionJobFilter: AWSEncodableShape {
         /// Filters on the name of the events detection job.
         public let jobName: String?
@@ -2950,6 +3200,40 @@ extension Comprehend {
         }
     }
 
+    public struct ExtractedCharactersListItem: AWSDecodableShape {
+        /// Number of characters extracted from each page.
+        public let count: Int?
+        /// Page number.
+        public let page: Int?
+
+        public init(count: Int? = nil, page: Int? = nil) {
+            self.count = count
+            self.page = page
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case page = "Page"
+        }
+    }
+
+    public struct Geometry: AWSDecodableShape {
+        /// An axis-aligned coarse representation of the location of the recognized item on the  document page.
+        public let boundingBox: BoundingBox?
+        /// Within the bounding box, a fine-grained polygon around the recognized item.
+        public let polygon: [Point]?
+
+        public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
+            self.boundingBox = boundingBox
+            self.polygon = polygon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundingBox = "BoundingBox"
+            case polygon = "Polygon"
+        }
+    }
+
     public struct ImportModelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that allows Amazon Comprehend to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
         public let dataAccessRoleArn: String?
@@ -3014,7 +3298,7 @@ extension Comprehend {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The document reader config field applies only for InputDataConfig of StartEntitiesDetectionJob.  Use DocumentReaderConfig to provide specifications about how you want your inference documents read. Currently it applies for PDF documents in StartEntitiesDetectionJob custom inference.
+        /// Provides configuration parameters to override the default actions for extracting text  from PDF documents and image files.
         public let documentReaderConfig: DocumentReaderConfig?
         /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public let inputFormat: InputFormat?
@@ -4003,6 +4287,23 @@ extension Comprehend {
         }
     }
 
+    public struct Point: AWSDecodableShape {
+        /// The value of the X coordinate for a point on a polygon
+        public let x: Float?
+        /// The value of the Y coordinate for a point on a polygon
+        public let y: Float?
+
+        public init(x: Float? = nil, y: Float? = nil) {
+            self.x = x
+            self.y = y
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x = "X"
+            case y = "Y"
+        }
+    }
+
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// The revision ID that Amazon Comprehend assigned to the policy that you are updating. If you are creating a new policy that has no prior version, don't use this parameter. Amazon Comprehend creates the revision ID for you.
         public let policyRevisionId: String?
@@ -4071,6 +4372,23 @@ extension Comprehend {
             case maskCharacter = "MaskCharacter"
             case maskMode = "MaskMode"
             case piiEntityTypes = "PiiEntityTypes"
+        }
+    }
+
+    public struct RelationshipsListItem: AWSDecodableShape {
+        /// Identifers of the child blocks.
+        public let ids: [String]?
+        /// Only supported relationship is a child relationship.
+        public let type: RelationshipType?
+
+        public init(ids: [String]? = nil, type: RelationshipType? = nil) {
+            self.ids = ids
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "Ids"
+            case type = "Type"
         }
     }
 

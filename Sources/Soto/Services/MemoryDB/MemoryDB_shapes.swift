@@ -551,7 +551,7 @@ extension MemoryDB {
         public let snapshotName: String?
         /// The number of days for which MemoryDB retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
         public let snapshotRetentionLimit: Int?
-        /// The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your shard.  Example: 05:00-09:00  If you do not specify this parameter, MemoryDB automatically chooses an appropriate time range.
+        /// The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your shard. Example: 05:00-09:00 If you do not specify this parameter, MemoryDB automatically chooses an appropriate time range.
         public let snapshotWindow: String?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.
         public let snsTopicArn: String?
@@ -1225,6 +1225,110 @@ extension MemoryDB {
         }
     }
 
+    public struct DescribeReservedNodesOfferingsRequest: AWSEncodableShape {
+        /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration.
+        public let duration: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// The node type for the reserved nodes. For more information, see Supported node types.
+        public let nodeType: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type.  Valid values: "All Upfront"|"Partial Upfront"| "No Upfront"
+        public let offeringType: String?
+        /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
+        public let reservedNodesOfferingId: String?
+
+        public init(duration: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, nodeType: String? = nil, offeringType: String? = nil, reservedNodesOfferingId: String? = nil) {
+            self.duration = duration
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case nodeType = "NodeType"
+            case offeringType = "OfferingType"
+            case reservedNodesOfferingId = "ReservedNodesOfferingId"
+        }
+    }
+
+    public struct DescribeReservedNodesOfferingsResponse: AWSDecodableShape {
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// Lists available reserved node offerings.
+        public let reservedNodesOfferings: [ReservedNodesOffering]?
+
+        public init(nextToken: String? = nil, reservedNodesOfferings: [ReservedNodesOffering]? = nil) {
+            self.nextToken = nextToken
+            self.reservedNodesOfferings = reservedNodesOfferings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reservedNodesOfferings = "ReservedNodesOfferings"
+        }
+    }
+
+    public struct DescribeReservedNodesRequest: AWSEncodableShape {
+        /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration.
+        public let duration: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// The node type filter value. Use this parameter to show only those reservations matching the specified  node type. For more information, see Supported node types.
+        public let nodeType: String?
+        /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type.  Valid values: "All Upfront"|"Partial Upfront"| "No Upfront"
+        public let offeringType: String?
+        /// The reserved node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
+        public let reservationId: String?
+        /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
+        public let reservedNodesOfferingId: String?
+
+        public init(duration: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, nodeType: String? = nil, offeringType: String? = nil, reservationId: String? = nil, reservedNodesOfferingId: String? = nil) {
+            self.duration = duration
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.reservationId = reservationId
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case nodeType = "NodeType"
+            case offeringType = "OfferingType"
+            case reservationId = "ReservationId"
+            case reservedNodesOfferingId = "ReservedNodesOfferingId"
+        }
+    }
+
+    public struct DescribeReservedNodesResponse: AWSDecodableShape {
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let nextToken: String?
+        /// Returns information about reserved nodes for this account, or about a specified reserved node.
+        public let reservedNodes: [ReservedNode]?
+
+        public init(nextToken: String? = nil, reservedNodes: [ReservedNode]? = nil) {
+            self.nextToken = nextToken
+            self.reservedNodes = reservedNodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reservedNodes = "ReservedNodes"
+        }
+    }
+
     public struct DescribeServiceUpdatesRequest: AWSEncodableShape {
         /// The list of cluster names to identify service updates to apply
         public let clusterNames: [String]?
@@ -1709,6 +1813,65 @@ extension MemoryDB {
         }
     }
 
+    public struct PurchaseReservedNodesOfferingRequest: AWSEncodableShape {
+        /// The number of node instances to reserve.
+        public let nodeCount: Int?
+        /// A customer-specified identifier to track this reservation.
+        public let reservationId: String?
+        /// The ID of the reserved node offering to purchase.
+        public let reservedNodesOfferingId: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        public let tags: [Tag]?
+
+        public init(nodeCount: Int? = nil, reservationId: String? = nil, reservedNodesOfferingId: String, tags: [Tag]? = nil) {
+            self.nodeCount = nodeCount
+            self.reservationId = reservationId
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeCount = "NodeCount"
+            case reservationId = "ReservationId"
+            case reservedNodesOfferingId = "ReservedNodesOfferingId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PurchaseReservedNodesOfferingResponse: AWSDecodableShape {
+        /// Represents the output of a PurchaseReservedNodesOffering operation.
+        public let reservedNode: ReservedNode?
+
+        public init(reservedNode: ReservedNode? = nil) {
+            self.reservedNode = reservedNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedNode = "ReservedNode"
+        }
+    }
+
+    public struct RecurringCharge: AWSDecodableShape {
+        /// The amount of the recurring charge to run this reserved node.
+        public let recurringChargeAmount: Double?
+        /// The frequency of the recurring price charged to run this reserved node.
+        public let recurringChargeFrequency: String?
+
+        public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
+            self.recurringChargeAmount = recurringChargeAmount
+            self.recurringChargeFrequency = recurringChargeFrequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurringChargeAmount = "RecurringChargeAmount"
+            case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
     public struct ReplicaConfigurationRequest: AWSEncodableShape {
         /// The number of replicas to scale up or down to
         public let replicaCount: Int?
@@ -1719,6 +1882,92 @@ extension MemoryDB {
 
         private enum CodingKeys: String, CodingKey {
             case replicaCount = "ReplicaCount"
+        }
+    }
+
+    public struct ReservedNode: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the reserved node.
+        public let arn: String?
+        /// The duration of the reservation in seconds.
+        public let duration: Int?
+        /// The fixed price charged for this reserved node.
+        public let fixedPrice: Double?
+        /// The number of nodes that have been reserved.
+        public let nodeCount: Int?
+        /// The node type for the reserved nodes.
+        public let nodeType: String?
+        /// The offering type of this reserved node.
+        public let offeringType: String?
+        /// The recurring price charged to run this reserved node.
+        public let recurringCharges: [RecurringCharge]?
+        /// A customer-specified identifier to track this reservation.
+        public let reservationId: String?
+        /// The ID of the reserved node offering to purchase.
+        public let reservedNodesOfferingId: String?
+        /// The time the reservation started.
+        public let startTime: Date?
+        /// The state of the reserved node.
+        public let state: String?
+
+        public init(arn: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationId: String? = nil, reservedNodesOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil) {
+            self.arn = arn
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+            self.nodeCount = nodeCount
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.recurringCharges = recurringCharges
+            self.reservationId = reservationId
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case duration = "Duration"
+            case fixedPrice = "FixedPrice"
+            case nodeCount = "NodeCount"
+            case nodeType = "NodeType"
+            case offeringType = "OfferingType"
+            case recurringCharges = "RecurringCharges"
+            case reservationId = "ReservationId"
+            case reservedNodesOfferingId = "ReservedNodesOfferingId"
+            case startTime = "StartTime"
+            case state = "State"
+        }
+    }
+
+    public struct ReservedNodesOffering: AWSDecodableShape {
+        /// The duration of the reservation in seconds.
+        public let duration: Int?
+        /// The fixed price charged for this reserved node.
+        public let fixedPrice: Double?
+        /// The node type for the reserved nodes. For more information, see Supported node types.
+        public let nodeType: String?
+        /// The offering type of this reserved node.
+        public let offeringType: String?
+        /// The recurring price charged to run this reserved node.
+        public let recurringCharges: [RecurringCharge]?
+        /// The offering identifier.
+        public let reservedNodesOfferingId: String?
+
+        public init(duration: Int? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodesOfferingId: String? = nil) {
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.recurringCharges = recurringCharges
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case fixedPrice = "FixedPrice"
+            case nodeType = "NodeType"
+            case offeringType = "OfferingType"
+            case recurringCharges = "RecurringCharges"
+            case reservedNodesOfferingId = "ReservedNodesOfferingId"
         }
     }
 
@@ -2429,6 +2678,10 @@ public struct MemoryDBErrorType: AWSErrorType {
         case parameterGroupAlreadyExistsFault = "ParameterGroupAlreadyExistsFault"
         case parameterGroupNotFoundFault = "ParameterGroupNotFoundFault"
         case parameterGroupQuotaExceededFault = "ParameterGroupQuotaExceededFault"
+        case reservedNodeAlreadyExistsFault = "ReservedNodeAlreadyExistsFault"
+        case reservedNodeNotFoundFault = "ReservedNodeNotFoundFault"
+        case reservedNodeQuotaExceededFault = "ReservedNodeQuotaExceededFault"
+        case reservedNodesOfferingNotFoundFault = "ReservedNodesOfferingNotFoundFault"
         case serviceLinkedRoleNotFoundFault = "ServiceLinkedRoleNotFoundFault"
         case serviceUpdateNotFoundFault = "ServiceUpdateNotFoundFault"
         case shardNotFoundFault = "ShardNotFoundFault"
@@ -2498,6 +2751,14 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var parameterGroupAlreadyExistsFault: Self { .init(.parameterGroupAlreadyExistsFault) }
     public static var parameterGroupNotFoundFault: Self { .init(.parameterGroupNotFoundFault) }
     public static var parameterGroupQuotaExceededFault: Self { .init(.parameterGroupQuotaExceededFault) }
+    /// You already have a reservation with the given identifier.
+    public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
+    /// The requested node does not exist.
+    public static var reservedNodeNotFoundFault: Self { .init(.reservedNodeNotFoundFault) }
+    /// The request cannot be processed because it would exceed the user&#39;s node quota.
+    public static var reservedNodeQuotaExceededFault: Self { .init(.reservedNodeQuotaExceededFault) }
+    /// The requested node offering does not exist.
+    public static var reservedNodesOfferingNotFoundFault: Self { .init(.reservedNodesOfferingNotFoundFault) }
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
     public static var serviceUpdateNotFoundFault: Self { .init(.serviceUpdateNotFoundFault) }
     public static var shardNotFoundFault: Self { .init(.shardNotFoundFault) }

@@ -33,12 +33,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q.
-    ///  The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region.
-    ///  Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide.
-    ///  If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails.
-    ///  You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide.
-    ///  You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
+    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region.   Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
     public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccountSubscriptionResponse {
         return try await self.client.execute(operation: "CreateAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -73,10 +68,8 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support.
-    /// 		       The permissions resource is
-    /// 					arn:aws:quicksight:::group/default/ .
-    /// 		       The response is a group object.
+    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support. The permissions resource is
+    /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateGroupResponse {
         return try await self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -97,9 +90,7 @@ extension QuickSight {
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
     /// 			an Enterprise edition account 32 times in a 24-hour period. You can manually refresh
     /// 			datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period
-    /// 			is measured starting 24 hours before the current date and time.
-    ///
-    /// 		       Any ingestions operating on tagged datasets inherit the same tags automatically for use in
+    /// 			is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in
     /// 			access control. For an example, see How do I create an IAM policy to control access to Amazon EC2 resources using
     /// 				tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     public func createIngestion(_ input: CreateIngestionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIngestionResponse {
@@ -112,8 +103,7 @@ extension QuickSight {
     }
 
     /// Creates a template from an existing Amazon QuickSight analysis or template. You can use the resulting
-    /// 			template to create a dashboard.
-    /// 		       A template is an entity in Amazon QuickSight that encapsulates the metadata
+    /// 			template to create a dashboard. A template is an entity in Amazon QuickSight that encapsulates the metadata
     /// 			required to create an analysis and that you can use to create s dashboard. A template adds
     /// 			a layer of abstraction by using placeholders to replace the dataset associated with the
     /// 			analysis. You can use templates to create dashboards by replacing dataset placeholders
@@ -128,8 +118,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a theme.
-    /// 		       A theme is set of configuration options for color and layout.
+    /// Creates a theme. A theme is set of configuration options for color and layout.
     /// 			Themes apply to analyses and dashboards. For more information, see Using
     /// 			Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
     public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateThemeResponse {
@@ -257,6 +246,11 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides a detailed description of the definition of an analysis.  If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the  DescribeAnalysis instead.
+    public func describeAnalysisDefinition(_ input: DescribeAnalysisDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAnalysisDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeAnalysisDefinition", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides the read and write permissions for an analysis.
     public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAnalysisPermissionsResponse {
         return try await self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -265,6 +259,11 @@ extension QuickSight {
     /// Provides a summary for a dashboard.
     public func describeDashboard(_ input: DescribeDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDashboardResponse {
         return try await self.client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides a detailed description of the definition of a dashboard.  If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the  DescribeDashboard instead.
+    public func describeDashboardDefinition(_ input: DescribeDashboardDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDashboardDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeDashboardDefinition", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes read and write permissions for a dashboard.
@@ -277,8 +276,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the permissions on a dataset.
-    /// 		       The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDataSetPermissionsResponse {
         return try await self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -350,6 +348,14 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides a detailed description of the definition of a template.  If you do not need to know details about the content of a template, for instance if you
+    /// 				are trying to check the status of a recently created or updated template, use the
+    /// 				 DescribeTemplate instead.
+    ///
+    public func describeTemplateDefinition(_ input: DescribeTemplateDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTemplateDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeTemplateDefinition", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes read and write permissions on a template.
     public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTemplatePermissionsResponse {
         return try await self.client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -410,8 +416,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region.
-    /// 		       The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataSetsResponse {
         return try await self.client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -548,26 +553,18 @@ extension QuickSight {
         return try await self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.
-    /// 		       Tags can help you organize and categorize your resources. You can also use them to
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
     /// 			scope user permissions, by granting a user permission to access or change only resources
     /// 			with certain tag values. You can use the TagResource operation with a
     /// 			resource that already has tags. If you specify a new tag key for the resource, this tag
     /// 			is appended to the list of tags associated with the resource. If you specify a tag key
     /// 			that is already associated with the resource, the new tag value that you specify
-    /// 			replaces the previous value for that tag.
-    /// 		       You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
-    /// 			set, data source, dashboard, and template.
-    /// 		       Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
-    /// 			the following:
-    ///
-    /// 				           You can't use tags to track costs for Amazon QuickSight. This isn't
+    /// 			replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
+    /// 			set, data source, dashboard, and template.  Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
+    /// 			the following:   You can't use tags to track costs for Amazon QuickSight. This isn't
     /// 				possible because you can't tag the resources that Amazon QuickSight costs are based
     /// 				on, for example Amazon QuickSight storage capacity (SPICE), number of users, type
-    /// 				of users, and usage metrics.
-    ///
-    /// 				           Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
-    ///
+    /// 				of users, and usage metrics.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -617,8 +614,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the permissions on a dataset.
-    /// 		       The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
+    /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDataSetPermissionsResponse {
         return try await self.client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -692,14 +688,8 @@ extension QuickSight {
     }
 
     /// Updates the resource permissions for a theme. Permissions apply to the action to grant or
-    /// 			revoke permissions on, for example "quicksight:DescribeTheme".
-    /// 		       Theme permissions apply in groupings. Valid groupings include the following for the three
-    /// 			levels of permissions, which are user, owner, or no permissions:
-    /// 			        User
-    /// 					             "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"
-    /// 				          Owner
-    /// 					             "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"
-    /// 				          To specify no permissions, omit the permissions list.
+    /// 			revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three
+    /// 			levels of permissions, which are user, owner, or no permissions:    User    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"      Owner    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"      To specify no permissions, omit the permissions list.
     public func updateThemePermissions(_ input: UpdateThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateThemePermissionsResponse {
         return try await self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -780,8 +770,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region.
-    ///  		       The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    ///  Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

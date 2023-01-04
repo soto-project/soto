@@ -75,8 +75,8 @@ extension NetworkManager {
         case coreNetworkConfiguration = "CORE_NETWORK_CONFIGURATION"
         case coreNetworkEdge = "CORE_NETWORK_EDGE"
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
-        case segmentsConfiguration = "SEGMENTS_CONFIGURATION"
         case segmentActionsConfiguration = "SEGMENT_ACTIONS_CONFIGURATION"
+        case segmentsConfiguration = "SEGMENTS_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -191,7 +191,7 @@ extension NetworkManager {
         case noDestinationArnProvided = "NO_DESTINATION_ARN_PROVIDED"
         case possibleMiddlebox = "POSSIBLE_MIDDLEBOX"
         case routeNotFound = "ROUTE_NOT_FOUND"
-        case transitGatewayAttachmentAttachArnNoMatch = "TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH"
+        case transitGatewayAttachment = "TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH"
         case transitGatewayAttachmentNotFound = "TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND"
         case transitGatewayAttachmentNotInTransitGateway = "TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY"
         case transitGatewayAttachmentStableRouteTableNotFound = "TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND"
@@ -224,8 +224,8 @@ extension NetworkManager {
     }
 
     public enum RouteType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case propagated = "PROPAGATED"
         case `static` = "STATIC"
+        case propagated = "PROPAGATED"
         public var description: String { return self.rawValue }
     }
 
@@ -6173,14 +6173,18 @@ extension NetworkManager {
     }
 
     public struct VpcOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether appliance mode is supported.  If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false.
+        public let applianceModeSupport: Bool?
         /// Indicates whether IPv6 is supported.
         public let ipv6Support: Bool?
 
-        public init(ipv6Support: Bool? = nil) {
+        public init(applianceModeSupport: Bool? = nil, ipv6Support: Bool? = nil) {
+            self.applianceModeSupport = applianceModeSupport
             self.ipv6Support = ipv6Support
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applianceModeSupport = "ApplianceModeSupport"
             case ipv6Support = "Ipv6Support"
         }
     }

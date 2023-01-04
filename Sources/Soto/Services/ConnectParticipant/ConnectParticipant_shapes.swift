@@ -34,6 +34,8 @@ extension ConnectParticipant {
         case connectionAck = "CONNECTION_ACK"
         case event = "EVENT"
         case message = "MESSAGE"
+        case messageDelivered = "MESSAGE_DELIVERED"
+        case messageRead = "MESSAGE_READ"
         case participantJoined = "PARTICIPANT_JOINED"
         case participantLeft = "PARTICIPANT_LEFT"
         case transferFailed = "TRANSFER_FAILED"
@@ -101,7 +103,7 @@ extension ConnectParticipant {
 
         /// A list of unique identifiers for the attachments.
         public let attachmentIds: [String]
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
@@ -161,10 +163,10 @@ extension ConnectParticipant {
         public let connectParticipant: Bool?
         /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response.
         public let participantToken: String
-        /// Type of connection information required.
-        public let type: [ConnectionType]
+        /// Type of connection information required. This can be omitted if ConnectParticipant is true.
+        public let type: [ConnectionType]?
 
-        public init(connectParticipant: Bool? = nil, participantToken: String, type: [ConnectionType]) {
+        public init(connectParticipant: Bool? = nil, participantToken: String, type: [ConnectionType]? = nil) {
             self.connectParticipant = connectParticipant
             self.participantToken = participantToken
             self.type = type
@@ -204,7 +206,7 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
@@ -360,6 +362,8 @@ extension ConnectParticipant {
         public let displayName: String?
         /// The ID of the item.
         public let id: String?
+        /// The metadata related to the message. Currently this supports only information related to message receipts.
+        public let messageMetadata: MessageMetadata?
         /// The ID of the sender in the session.
         public let participantId: String?
         /// The role of the sender. For example, is it a customer, agent, or system.
@@ -367,13 +371,14 @@ extension ConnectParticipant {
         /// Type of the item: message or event.
         public let type: ChatItemType?
 
-        public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
+        public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, messageMetadata: MessageMetadata? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
             self.absoluteTime = absoluteTime
             self.attachments = attachments
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
             self.id = id
+            self.messageMetadata = messageMetadata
             self.participantId = participantId
             self.participantRole = participantRole
             self.type = type
@@ -386,9 +391,48 @@ extension ConnectParticipant {
             case contentType = "ContentType"
             case displayName = "DisplayName"
             case id = "Id"
+            case messageMetadata = "MessageMetadata"
             case participantId = "ParticipantId"
             case participantRole = "ParticipantRole"
             case type = "Type"
+        }
+    }
+
+    public struct MessageMetadata: AWSDecodableShape {
+        /// The identifier of the message that contains the metadata information.
+        public let messageId: String?
+        /// The list of receipt information for a message for different recipients.
+        public let receipts: [Receipt]?
+
+        public init(messageId: String? = nil, receipts: [Receipt]? = nil) {
+            self.messageId = messageId
+            self.receipts = receipts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+            case receipts = "Receipts"
+        }
+    }
+
+    public struct Receipt: AWSDecodableShape {
+        /// The time when the message was delivered to the recipient.
+        public let deliveredTimestamp: String?
+        /// The time when the message was read by the recipient.
+        public let readTimestamp: String?
+        /// The identifier of the recipient of the message.
+        public let recipientParticipantId: String?
+
+        public init(deliveredTimestamp: String? = nil, readTimestamp: String? = nil, recipientParticipantId: String? = nil) {
+            self.deliveredTimestamp = deliveredTimestamp
+            self.readTimestamp = readTimestamp
+            self.recipientParticipantId = recipientParticipantId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveredTimestamp = "DeliveredTimestamp"
+            case readTimestamp = "ReadTimestamp"
+            case recipientParticipantId = "RecipientParticipantId"
         }
     }
 
@@ -397,14 +441,13 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
-        /// The content of the event to be sent (for example, message text). This is not yet supported.
+        /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}"
         public let content: String?
-        /// The content type of the request. Supported types are:
-        ///    application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged
+        /// The content type of the request. Supported types are:   application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged   application/vnd.amazonaws.connect.event.message.delivered   application/vnd.amazonaws.connect.event.message.read
         public let contentType: String
 
         public init(clientToken: String? = SendEventRequest.idempotencyToken(), connectionToken: String, content: String? = nil, contentType: String) {
@@ -418,7 +461,7 @@ extension ConnectParticipant {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
-            try self.validate(self.content, name: "content", parent: name, max: 1024)
+            try self.validate(self.content, name: "content", parent: name, max: 16384)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 100)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
@@ -453,13 +496,13 @@ extension ConnectParticipant {
             AWSMemberEncoding(label: "connectionToken", location: .header("X-Amz-Bearer"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The authentication token associated with the connection.
         public let connectionToken: String
-        /// The content of the message.
+        /// The content of the message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
         public let content: String
-        /// The type of the content. Supported types are text/plain.
+        /// The type of the content. Supported types are text/plain, text/markdown, and application/json.
         public let contentType: String
 
         public init(clientToken: String? = SendMessageRequest.idempotencyToken(), connectionToken: String, content: String, contentType: String) {
@@ -473,7 +516,7 @@ extension ConnectParticipant {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
-            try self.validate(self.content, name: "content", parent: name, max: 1024)
+            try self.validate(self.content, name: "content", parent: name, max: 16384)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 100)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
@@ -512,14 +555,14 @@ extension ConnectParticipant {
         public let attachmentName: String
         /// The size of the attachment in bytes.
         public let attachmentSizeInBytes: Int64
-        /// A unique case sensitive identifier to support idempotency of request.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
         /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
         public let contentType: String
 
-        public init(attachmentName: String, attachmentSizeInBytes: Int64, clientToken: String = StartAttachmentUploadRequest.idempotencyToken(), connectionToken: String, contentType: String) {
+        public init(attachmentName: String, attachmentSizeInBytes: Int64 = 0, clientToken: String = StartAttachmentUploadRequest.idempotencyToken(), connectionToken: String, contentType: String) {
             self.attachmentName = attachmentName
             self.attachmentSizeInBytes = attachmentSizeInBytes
             self.clientToken = clientToken

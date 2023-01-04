@@ -80,9 +80,9 @@ extension LookoutEquipment {
     }
 
     public enum Monotonicity: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `static` = "STATIC"
         case decreasing = "DECREASING"
         case increasing = "INCREASING"
-        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
@@ -1979,12 +1979,15 @@ extension LookoutEquipment {
         public let modelName: String?
         ///  An opaque pagination token indicating where to continue the listing of inference schedulers.
         public let nextToken: String?
+        /// Specifies the current status of the inference schedulers to list.
+        public let status: InferenceSchedulerStatus?
 
-        public init(inferenceSchedulerNameBeginsWith: String? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil) {
+        public init(inferenceSchedulerNameBeginsWith: String? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil, status: InferenceSchedulerStatus? = nil) {
             self.inferenceSchedulerNameBeginsWith = inferenceSchedulerNameBeginsWith
             self.maxResults = maxResults
             self.modelName = modelName
             self.nextToken = nextToken
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -2005,6 +2008,7 @@ extension LookoutEquipment {
             case maxResults = "MaxResults"
             case modelName = "ModelName"
             case nextToken = "NextToken"
+            case status = "Status"
         }
     }
 

@@ -1182,8 +1182,7 @@ extension SecurityHub {
         public let onDemandBaseCapacity: Int?
         /// The percentage of On-Demand Instances and Spot Instances for additional capacity beyond OnDemandBaseCapacity.
         public let onDemandPercentageAboveBaseCapacity: Int?
-        /// How to allocate instances across Spot Instance pools. Valid values are as follows:
-        /// 	           lowest-price     capacity-optimized     capacity-optimized-prioritized
+        /// How to allocate instances across Spot Instance pools. Valid values are as follows:    lowest-price     capacity-optimized     capacity-optimized-prioritized
         public let spotAllocationStrategy: String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances.
         public let spotInstancePools: Int?
@@ -1330,7 +1329,7 @@ extension SecurityHub {
         public let snapshotId: String?
         /// The volume size, in GiBs. The following are the supported volumes sizes for each volume type:   gp2 and gp3: 1-16,384   io1: 4-16,384   st1 and sc1: 125-16,384   standard: 1-1,024   You must specify either SnapshotId or VolumeSize. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
         public let volumeSize: Int?
-        /// The volume type. Valid values are as follows: 	        gp2     gp3     io1     sc1     st1     standard
+        /// The volume type. Valid values are as follows:    gp2     gp3     io1     sc1     st1     standard
         public let volumeType: String?
 
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
@@ -3484,8 +3483,7 @@ extension SecurityHub {
         public let tableName: String?
         /// The total size of the table in bytes.
         public let tableSizeBytes: Int64?
-        /// The current status of the table. Valid values are as follows:
-        /// 		          ACTIVE     ARCHIVED     ARCHIVING     CREATING     DELETING     INACCESSIBLE_ENCRYPTION_CREDENTIALS     UPDATING
+        /// The current status of the table. Valid values are as follows:    ACTIVE     ARCHIVED     ARCHIVING     CREATING     DELETING     INACCESSIBLE_ENCRYPTION_CREDENTIALS     UPDATING
         public let tableStatus: String?
 
         public init(attributeDefinitions: [AwsDynamoDbTableAttributeDefinition]? = nil, billingModeSummary: AwsDynamoDbTableBillingModeSummary? = nil, creationDateTime: String? = nil, globalSecondaryIndexes: [AwsDynamoDbTableGlobalSecondaryIndex]? = nil, globalTableVersion: String? = nil, itemCount: Int? = nil, keySchema: [AwsDynamoDbTableKeySchema]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [AwsDynamoDbTableLocalSecondaryIndex]? = nil, provisionedThroughput: AwsDynamoDbTableProvisionedThroughput? = nil, replicas: [AwsDynamoDbTableReplica]? = nil, restoreSummary: AwsDynamoDbTableRestoreSummary? = nil, sseDescription: AwsDynamoDbTableSseDescription? = nil, streamSpecification: AwsDynamoDbTableStreamSpecification? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: String? = nil) {
@@ -3572,7 +3570,7 @@ extension SecurityHub {
         public let indexName: String?
         /// The total size in bytes of the index.
         public let indexSizeBytes: Int64?
-        /// The current status of the index. 	        ACTIVE     CREATING     DELETING     UPDATING
+        /// The current status of the index.    ACTIVE     CREATING     DELETING     UPDATING
         public let indexStatus: String?
         /// The number of items in the index.
         public let itemCount: Int?
@@ -3678,7 +3676,7 @@ extension SecurityHub {
     public struct AwsDynamoDbTableProjection: AWSEncodableShape & AWSDecodableShape {
         /// The nonkey attributes that are projected into the index. For each attribute, provide the attribute name.
         public let nonKeyAttributes: [String]?
-        /// The types of attributes that are projected into the index. Valid values are as follows: 	        ALL     INCLUDE     KEYS_ONLY
+        /// The types of attributes that are projected into the index. Valid values are as follows:    ALL     INCLUDE     KEYS_ONLY
         public let projectionType: String?
 
         public init(nonKeyAttributes: [String]? = nil, projectionType: String? = nil) {
@@ -3755,7 +3753,7 @@ extension SecurityHub {
         public let provisionedThroughputOverride: AwsDynamoDbTableProvisionedThroughputOverride?
         /// The name of the Region where the replica is located.
         public let regionName: String?
-        /// The current status of the replica. Valid values are as follows: 	        ACTIVE     CREATING     CREATION_FAILED     DELETING     UPDATING
+        /// The current status of the replica. Valid values are as follows:    ACTIVE     CREATING     CREATION_FAILED     DELETING     UPDATING
         public let replicaStatus: String?
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?
@@ -4084,6 +4082,1107 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case networkInterfaceId = "NetworkInterfaceId"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The device name.
+        public let deviceName: String?
+        ///  Parameters used to automatically set up Amazon EBS volumes when the instance is  launched.
+        public let ebs: AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails?
+        ///  Omits the device from the block device mapping when an empty string is specified.
+        public let noDevice: String?
+        ///  The virtual device name (ephemeralN). Instance store volumes are numbered starting  from 0. An instance type with 2 available instance store volumes can specify mappings  for ephemeral0 and ephemeral1. The number of available instance store volumes depends  on the instance type.
+        public let virtualName: String?
+
+        public init(deviceName: String? = nil, ebs: AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails? = nil, noDevice: String? = nil, virtualName: String? = nil) {
+            self.deviceName = deviceName
+            self.ebs = ebs
+            self.noDevice = noDevice
+            self.virtualName = virtualName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "\\S")
+            try self.ebs?.validate(name: "\(name).ebs")
+            try self.validate(self.noDevice, name: "noDevice", parent: name, pattern: "\\S")
+            try self.validate(self.virtualName, name: "virtualName", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceName = "DeviceName"
+            case ebs = "Ebs"
+            case noDevice = "NoDevice"
+            case virtualName = "VirtualName"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether the EBS volume is deleted on instance termination.
+        public let deleteOnTermination: Bool?
+        ///  Indicates whether the EBS volume is encrypted. Encrypted volumes can only be  attached to instances that support Amazon EBS encryption. If you're creating a  volume from a snapshot, you can't specify an encryption value.
+        public let encrypted: Bool?
+        ///  The number of I/O operations per second (IOPS).
+        public let iops: Int?
+        ///  The Amazon Resource Name (ARN) of the symmetric Key Management Service (KMS) customer managed key  used for encryption.
+        public let kmsKeyId: String?
+        ///  The ID of the EBS snapshot.
+        public let snapshotId: String?
+        ///  The throughput to provision for a gp3 volume, with a maximum of 1,000 MiB/s.
+        public let throughput: Int?
+        ///  The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size.
+        public let volumeSize: Int?
+        ///  The volume type.
+        public let volumeType: String?
+
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
+            self.deleteOnTermination = deleteOnTermination
+            self.encrypted = encrypted
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.snapshotId = snapshotId
+            self.throughput = throughput
+            self.volumeSize = volumeSize
+            self.volumeType = volumeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "\\S")
+            try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\S")
+            try self.validate(self.volumeType, name: "volumeType", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteOnTermination = "DeleteOnTermination"
+            case encrypted = "Encrypted"
+            case iops = "Iops"
+            case kmsKeyId = "KmsKeyId"
+            case snapshotId = "SnapshotId"
+            case throughput = "Throughput"
+            case volumeSize = "VolumeSize"
+            case volumeType = "VolumeType"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The ID of the Capacity Reservation in which to run the instance.
+        public let capacityReservationId: String?
+        ///  The Amazon Resource Name (ARN) of the Capacity Reservation resource group in which to run the instance.
+        public let capacityReservationResourceGroupArn: String?
+
+        public init(capacityReservationId: String? = nil, capacityReservationResourceGroupArn: String? = nil) {
+            self.capacityReservationId = capacityReservationId
+            self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityReservationId, name: "capacityReservationId", parent: name, pattern: "\\S")
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationId = "CapacityReservationId"
+            case capacityReservationResourceGroupArn = "CapacityReservationResourceGroupArn"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates the instance's Capacity Reservation preferences. If equal to open, the instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone). If equal to none, the instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.
+        public let capacityReservationPreference: String?
+        ///  Specifies a target Capacity Reservation.
+        public let capacityReservationTarget: AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails?
+
+        public init(capacityReservationPreference: String? = nil, capacityReservationTarget: AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationTarget = capacityReservationTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityReservationPreference, name: "capacityReservationPreference", parent: name, pattern: "\\S")
+            try self.capacityReservationTarget?.validate(name: "\(name).capacityReservationTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case capacityReservationTarget = "CapacityReservationTarget"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataCpuOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The number of CPU cores for the instance.
+        public let coreCount: Int?
+        ///  The number of threads per CPU core. A value of 1 disables multithreading for the instance,  The default value is 2.
+        public let threadsPerCore: Int?
+
+        public init(coreCount: Int? = nil, threadsPerCore: Int? = nil) {
+            self.coreCount = coreCount
+            self.threadsPerCore = threadsPerCore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreCount = "CoreCount"
+            case threadsPerCore = "ThreadsPerCore"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataCreditSpecificationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The credit option for CPU usage of a T instance.
+        public let cpuCredits: String?
+
+        public init(cpuCredits: String? = nil) {
+            self.cpuCredits = cpuCredits
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cpuCredits, name: "cpuCredits", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuCredits = "CpuCredits"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Information about a block device mapping for an Amazon EC2 launch template.
+        public let blockDeviceMappingSet: [AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]?
+        ///  Specifies an instance's Capacity Reservation targeting option. You can specify only  one option at a time.
+        public let capacityReservationSpecification: AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails?
+        ///  Specifies the CPU options for an instance. For more information, see  Optimize CPU options in the Amazon Elastic Compute Cloud User Guide.
+        public let cpuOptions: AwsEc2LaunchTemplateDataCpuOptionsDetails?
+        ///  Specifies the credit option for CPU usage of a T2, T3, or T3a instance.
+        public let creditSpecification: AwsEc2LaunchTemplateDataCreditSpecificationDetails?
+        ///  Indicates whether to enable the instance for stop protection. For more information,  see Enable stop protection in the Amazon EC2 User Guide.
+        public let disableApiStop: Bool?
+        ///  If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API. If set to true, you can.
+        public let disableApiTermination: Bool?
+        ///  Indicates whether the instance is optimized for Amazon EBS I/O.
+        public let ebsOptimized: Bool?
+        ///  Provides details about Elastic Graphics accelerators to associate with the instance.
+        public let elasticGpuSpecificationSet: [AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]?
+        ///  The Amazon Elastic Inference accelerator for the instance.
+        public let elasticInferenceAcceleratorSet: [AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]?
+        ///  Indicates whether the Amazon EC2 instance is enabled for Amazon Web Services Nitro Enclaves.
+        public let enclaveOptions: AwsEc2LaunchTemplateDataEnclaveOptionsDetails?
+        ///  Specifies whether your Amazon EC2 instance is configured for hibernation.
+        public let hibernationOptions: AwsEc2LaunchTemplateDataHibernationOptionsDetails?
+        ///  The name or Amazon Resource Name (ARN) of an IAM instance profile.
+        public let iamInstanceProfile: AwsEc2LaunchTemplateDataIamInstanceProfileDetails?
+        ///  The ID of the Amazon Machine Image (AMI).
+        public let imageId: String?
+        ///  Provides the options for specifying the instance initiated shutdown behavior.
+        public let instanceInitiatedShutdownBehavior: String?
+        ///  Specifies the market (purchasing) option for an instance.
+        public let instanceMarketOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails?
+        ///  The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance  types with these attributes. If you specify InstanceRequirements, you can't specify InstanceType.
+        public let instanceRequirements: AwsEc2LaunchTemplateDataInstanceRequirementsDetails?
+        ///  The instance type. For more information, see Instance types in the Amazon EC2 User Guide. If you specify InstanceType, you can't  specify InstanceRequirements.
+        public let instanceType: String?
+        ///  The ID of the kernel.
+        public let kernelId: String?
+        ///  The name of the key pair that allows users to connect to the instance.
+        public let keyName: String?
+        ///  Specifies a license configuration for an instance.
+        public let licenseSet: [AwsEc2LaunchTemplateDataLicenseSetDetails]?
+        ///  The maintenance options of your instance.
+        public let maintenanceOptions: AwsEc2LaunchTemplateDataMaintenanceOptionsDetails?
+        ///  The metadata options for the instance. For more information, see Instance metadata and user data in the Amazon EC2 User Guide.
+        public let metadataOptions: AwsEc2LaunchTemplateDataMetadataOptionsDetails?
+        ///  The monitoring for the instance.
+        public let monitoring: AwsEc2LaunchTemplateDataMonitoringDetails?
+        ///  Specifies the parameters for a network interface that is attached to the instance.
+        public let networkInterfaceSet: [AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]?
+        ///  Specifies the placement of an instance.
+        public let placement: AwsEc2LaunchTemplateDataPlacementDetails?
+        ///  The options for the instance hostname.
+        public let privateDnsNameOptions: AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails?
+        ///  The ID of the RAM disk.
+        public let ramDiskId: String?
+        ///  One or more security group IDs.
+        public let securityGroupIdSet: [String]?
+        ///  One or more security group names. For a nondefault VPC, you must use security group IDs instead. You cannot specify both a security group ID and security name in the same request.
+        public let securityGroupSet: [String]?
+        ///  The user data to make available to the instance.
+        public let userData: String?
+
+        public init(blockDeviceMappingSet: [AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]? = nil, capacityReservationSpecification: AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails? = nil, cpuOptions: AwsEc2LaunchTemplateDataCpuOptionsDetails? = nil, creditSpecification: AwsEc2LaunchTemplateDataCreditSpecificationDetails? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecificationSet: [AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil, elasticInferenceAcceleratorSet: [AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]? = nil, enclaveOptions: AwsEc2LaunchTemplateDataEnclaveOptionsDetails? = nil, hibernationOptions: AwsEc2LaunchTemplateDataHibernationOptionsDetails? = nil, iamInstanceProfile: AwsEc2LaunchTemplateDataIamInstanceProfileDetails? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: String? = nil, instanceMarketOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails? = nil, instanceRequirements: AwsEc2LaunchTemplateDataInstanceRequirementsDetails? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSet: [AwsEc2LaunchTemplateDataLicenseSetDetails]? = nil, maintenanceOptions: AwsEc2LaunchTemplateDataMaintenanceOptionsDetails? = nil, metadataOptions: AwsEc2LaunchTemplateDataMetadataOptionsDetails? = nil, monitoring: AwsEc2LaunchTemplateDataMonitoringDetails? = nil, networkInterfaceSet: [AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]? = nil, placement: AwsEc2LaunchTemplateDataPlacementDetails? = nil, privateDnsNameOptions: AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails? = nil, ramDiskId: String? = nil, securityGroupIdSet: [String]? = nil, securityGroupSet: [String]? = nil, userData: String? = nil) {
+            self.blockDeviceMappingSet = blockDeviceMappingSet
+            self.capacityReservationSpecification = capacityReservationSpecification
+            self.cpuOptions = cpuOptions
+            self.creditSpecification = creditSpecification
+            self.disableApiStop = disableApiStop
+            self.disableApiTermination = disableApiTermination
+            self.ebsOptimized = ebsOptimized
+            self.elasticGpuSpecificationSet = elasticGpuSpecificationSet
+            self.elasticInferenceAcceleratorSet = elasticInferenceAcceleratorSet
+            self.enclaveOptions = enclaveOptions
+            self.hibernationOptions = hibernationOptions
+            self.iamInstanceProfile = iamInstanceProfile
+            self.imageId = imageId
+            self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
+            self.instanceMarketOptions = instanceMarketOptions
+            self.instanceRequirements = instanceRequirements
+            self.instanceType = instanceType
+            self.kernelId = kernelId
+            self.keyName = keyName
+            self.licenseSet = licenseSet
+            self.maintenanceOptions = maintenanceOptions
+            self.metadataOptions = metadataOptions
+            self.monitoring = monitoring
+            self.networkInterfaceSet = networkInterfaceSet
+            self.placement = placement
+            self.privateDnsNameOptions = privateDnsNameOptions
+            self.ramDiskId = ramDiskId
+            self.securityGroupIdSet = securityGroupIdSet
+            self.securityGroupSet = securityGroupSet
+            self.userData = userData
+        }
+
+        public func validate(name: String) throws {
+            try self.blockDeviceMappingSet?.forEach {
+                try $0.validate(name: "\(name).blockDeviceMappingSet[]")
+            }
+            try self.capacityReservationSpecification?.validate(name: "\(name).capacityReservationSpecification")
+            try self.creditSpecification?.validate(name: "\(name).creditSpecification")
+            try self.elasticGpuSpecificationSet?.forEach {
+                try $0.validate(name: "\(name).elasticGpuSpecificationSet[]")
+            }
+            try self.elasticInferenceAcceleratorSet?.forEach {
+                try $0.validate(name: "\(name).elasticInferenceAcceleratorSet[]")
+            }
+            try self.iamInstanceProfile?.validate(name: "\(name).iamInstanceProfile")
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "\\S")
+            try self.validate(self.instanceInitiatedShutdownBehavior, name: "instanceInitiatedShutdownBehavior", parent: name, pattern: "\\S")
+            try self.instanceMarketOptions?.validate(name: "\(name).instanceMarketOptions")
+            try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "\\S")
+            try self.validate(self.kernelId, name: "kernelId", parent: name, pattern: "\\S")
+            try self.validate(self.keyName, name: "keyName", parent: name, pattern: "\\S")
+            try self.licenseSet?.forEach {
+                try $0.validate(name: "\(name).licenseSet[]")
+            }
+            try self.maintenanceOptions?.validate(name: "\(name).maintenanceOptions")
+            try self.metadataOptions?.validate(name: "\(name).metadataOptions")
+            try self.networkInterfaceSet?.forEach {
+                try $0.validate(name: "\(name).networkInterfaceSet[]")
+            }
+            try self.placement?.validate(name: "\(name).placement")
+            try self.privateDnsNameOptions?.validate(name: "\(name).privateDnsNameOptions")
+            try self.validate(self.ramDiskId, name: "ramDiskId", parent: name, pattern: "\\S")
+            try self.securityGroupIdSet?.forEach {
+                try validate($0, name: "securityGroupIdSet[]", parent: name, pattern: "\\S")
+            }
+            try self.securityGroupSet?.forEach {
+                try validate($0, name: "securityGroupSet[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.userData, name: "userData", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockDeviceMappingSet = "BlockDeviceMappingSet"
+            case capacityReservationSpecification = "CapacityReservationSpecification"
+            case cpuOptions = "CpuOptions"
+            case creditSpecification = "CreditSpecification"
+            case disableApiStop = "DisableApiStop"
+            case disableApiTermination = "DisableApiTermination"
+            case ebsOptimized = "EbsOptimized"
+            case elasticGpuSpecificationSet = "ElasticGpuSpecificationSet"
+            case elasticInferenceAcceleratorSet = "ElasticInferenceAcceleratorSet"
+            case enclaveOptions = "EnclaveOptions"
+            case hibernationOptions = "HibernationOptions"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case imageId = "ImageId"
+            case instanceInitiatedShutdownBehavior = "InstanceInitiatedShutdownBehavior"
+            case instanceMarketOptions = "InstanceMarketOptions"
+            case instanceRequirements = "InstanceRequirements"
+            case instanceType = "InstanceType"
+            case kernelId = "KernelId"
+            case keyName = "KeyName"
+            case licenseSet = "LicenseSet"
+            case maintenanceOptions = "MaintenanceOptions"
+            case metadataOptions = "MetadataOptions"
+            case monitoring = "Monitoring"
+            case networkInterfaceSet = "NetworkInterfaceSet"
+            case placement = "Placement"
+            case privateDnsNameOptions = "PrivateDnsNameOptions"
+            case ramDiskId = "RamDiskId"
+            case securityGroupIdSet = "SecurityGroupIdSet"
+            case securityGroupSet = "SecurityGroupSet"
+            case userData = "UserData"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The type of Elastic Graphics accelerator.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The number of Elastic Inference accelerators to attach to the instance.
+        public let count: Int?
+        ///  The type of Elastic Inference accelerator.
+        public let type: String?
+
+        public init(count: Int? = nil, type: String? = nil) {
+            self.count = count
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataEnclaveOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataHibernationOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  If you set this parameter to true, the instance is enabled for hibernation.
+        public let configured: Bool?
+
+        public init(configured: Bool? = nil) {
+            self.configured = configured
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configured = "Configured"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataIamInstanceProfileDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the instance profile.
+        public let arn: String?
+        ///  The name of the instance profile.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The market type.
+        public let marketType: String?
+        ///  The options for Spot Instances.
+        public let spotOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails?
+
+        public init(marketType: String? = nil, spotOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails? = nil) {
+            self.marketType = marketType
+            self.spotOptions = spotOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marketType, name: "marketType", parent: name, pattern: "\\S")
+            try self.spotOptions?.validate(name: "\(name).spotOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marketType = "MarketType"
+            case spotOptions = "SpotOptions"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Deprecated.
+        public let blockDurationMinutes: Int?
+        ///  The behavior when a Spot Instance is interrupted.
+        public let instanceInterruptionBehavior: String?
+        ///  The maximum hourly price you're willing to pay for the Spot Instances.
+        public let maxPrice: String?
+        ///  The Spot Instance request type.
+        public let spotInstanceType: String?
+        ///  The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ), for persistent requests.
+        public let validUntil: String?
+
+        public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: String? = nil, maxPrice: String? = nil, spotInstanceType: String? = nil, validUntil: String? = nil) {
+            self.blockDurationMinutes = blockDurationMinutes
+            self.instanceInterruptionBehavior = instanceInterruptionBehavior
+            self.maxPrice = maxPrice
+            self.spotInstanceType = spotInstanceType
+            self.validUntil = validUntil
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceInterruptionBehavior, name: "instanceInterruptionBehavior", parent: name, pattern: "\\S")
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, pattern: "\\S")
+            try self.validate(self.spotInstanceType, name: "spotInstanceType", parent: name, pattern: "\\S")
+            try self.validate(self.validUntil, name: "validUntil", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockDurationMinutes = "BlockDurationMinutes"
+            case instanceInterruptionBehavior = "InstanceInterruptionBehavior"
+            case maxPrice = "MaxPrice"
+            case spotInstanceType = "SpotInstanceType"
+            case validUntil = "ValidUntil"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum number of accelerators. If this parameter isn't specified, there's no maximum limit. To exclude accelerator-enabled instance types, set Max to 0.
+        public let max: Int?
+        ///  The minimum number of accelerators. If this parameter isn't specified, there's no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum amount of memory, in MiB. If this parameter isn't specified, there's no maximum limit.
+        public let max: Int?
+        ///  The minimum amount of memory, in MiB. If 0 is specified, there's no maximum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum baseline bandwidth, in Mbps. If this parameter is omitted, there's no maximum limit.
+        public let max: Int?
+        ///  The minimum baseline bandwidth, in Mbps. If this parameter is omitted, there's no minimum limit.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance.
+        public let acceleratorCount: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.
+        public let acceleratorManufacturers: [String]?
+        ///  The accelerators that must be on the instance type.
+        public let acceleratorNames: [String]?
+        ///  The minimum and maximum amount of total accelerator memory, in MiB.
+        public let acceleratorTotalMemoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails?
+        /// The accelerator types that must be on the instance type.
+        public let acceleratorTypes: [String]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.
+        public let bareMetal: String?
+        ///  The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see Amazon EBS optimized instances in the Amazon EC2 User Guide.
+        public let baselineEbsBandwidthMbps: AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails?
+        ///  Indicates whether burstable performance T instance types are included, excluded, or required. For more information, Burstable performance instances in the Amazon EC2 User Guide.
+        public let burstablePerformance: String?
+        ///  The CPU manufacturers to include.
+        public let cpuManufacturers: [String]?
+        ///  The instance types to exclude.
+        public let excludedInstanceTypes: [String]?
+        ///  Indicates whether current or previous generation instance types are included.
+        public let instanceGenerations: [String]?
+        ///  Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see Amazon EC2 instance store in the Amazon EC2 User Guide.
+        public let localStorage: String?
+        ///  The type of local storage that is required.
+        public let localStorageTypes: [String]?
+        ///  The minimum and maximum amount of memory per vCPU, in GiB.
+        public let memoryGiBPerVCpu: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails?
+        ///  The minimum and maximum amount of memory, in MiB.
+        public let memoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails?
+        ///  The minimum and maximum number of network interfaces.
+        public let networkInterfaceCount: AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails?
+        ///  The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        ///  Indicates whether instance types must support hibernation for On-Demand Instances.
+        public let requireHibernateSupport: Bool?
+        ///  The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a  percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When  Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold.  The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        public let spotMaxPricePercentageOverLowestPrice: Int?
+        ///  The minimum and maximum amount of total local storage, in GB.
+        public let totalLocalStorageGB: AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails?
+        ///  The minimum and maximum number of vCPUs.
+        public let vCpuCount: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails?
+
+        public init(acceleratorCount: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails? = nil, acceleratorManufacturers: [String]? = nil, acceleratorNames: [String]? = nil, acceleratorTotalMemoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails? = nil, acceleratorTypes: [String]? = nil, bareMetal: String? = nil, baselineEbsBandwidthMbps: AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails? = nil, burstablePerformance: String? = nil, cpuManufacturers: [String]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [String]? = nil, localStorage: String? = nil, localStorageTypes: [String]? = nil, memoryGiBPerVCpu: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails? = nil, memoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails? = nil, networkInterfaceCount: AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails? = nil, vCpuCount: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails? = nil) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+
+        public func validate(name: String) throws {
+            try self.acceleratorManufacturers?.forEach {
+                try validate($0, name: "acceleratorManufacturers[]", parent: name, pattern: "\\S")
+            }
+            try self.acceleratorNames?.forEach {
+                try validate($0, name: "acceleratorNames[]", parent: name, pattern: "\\S")
+            }
+            try self.acceleratorTypes?.forEach {
+                try validate($0, name: "acceleratorTypes[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.bareMetal, name: "bareMetal", parent: name, pattern: "\\S")
+            try self.validate(self.burstablePerformance, name: "burstablePerformance", parent: name, pattern: "\\S")
+            try self.cpuManufacturers?.forEach {
+                try validate($0, name: "cpuManufacturers[]", parent: name, pattern: "\\S")
+            }
+            try self.excludedInstanceTypes?.forEach {
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "\\S")
+            }
+            try self.instanceGenerations?.forEach {
+                try validate($0, name: "instanceGenerations[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.localStorage, name: "localStorage", parent: name, pattern: "\\S")
+            try self.localStorageTypes?.forEach {
+                try validate($0, name: "localStorageTypes[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorCount = "AcceleratorCount"
+            case acceleratorManufacturers = "AcceleratorManufacturers"
+            case acceleratorNames = "AcceleratorNames"
+            case acceleratorTotalMemoryMiB = "AcceleratorTotalMemoryMiB"
+            case acceleratorTypes = "AcceleratorTypes"
+            case bareMetal = "BareMetal"
+            case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
+            case burstablePerformance = "BurstablePerformance"
+            case cpuManufacturers = "CpuManufacturers"
+            case excludedInstanceTypes = "ExcludedInstanceTypes"
+            case instanceGenerations = "InstanceGenerations"
+            case localStorage = "LocalStorage"
+            case localStorageTypes = "LocalStorageTypes"
+            case memoryGiBPerVCpu = "MemoryGiBPerVCpu"
+            case memoryMiB = "MemoryMiB"
+            case networkInterfaceCount = "NetworkInterfaceCount"
+            case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
+            case requireHibernateSupport = "RequireHibernateSupport"
+            case spotMaxPricePercentageOverLowestPrice = "SpotMaxPricePercentageOverLowestPrice"
+            case totalLocalStorageGB = "TotalLocalStorageGB"
+            case vCpuCount = "VCpuCount"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
+        public let max: Double?
+        ///  The minimum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum amount of memory, in MiB.
+        public let max: Int?
+        ///  The minimum amount of memory, in MiB.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum number of network interfaces.
+        public let max: Int?
+        ///  The minimum number of network interfaces.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum amount of total local storage, in GB.
+        public let max: Double?
+        ///  The minimum amount of total local storage, in GB.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The maximum number of vCPUs.
+        public let max: Int?
+        ///  The minimum number of vCPUs.
+        public let min: Int?
+
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataLicenseSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the license configuration.
+        public let licenseConfigurationArn: String?
+
+        public init(licenseConfigurationArn: String? = nil) {
+            self.licenseConfigurationArn = licenseConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseConfigurationArn, name: "licenseConfigurationArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConfigurationArn = "LicenseConfigurationArn"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataMaintenanceOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Disables the automatic recovery behavior of your instance or sets it to default.
+        public let autoRecovery: String?
+
+        public init(autoRecovery: String? = nil) {
+            self.autoRecovery = autoRecovery
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoRecovery, name: "autoRecovery", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRecovery = "AutoRecovery"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won’t be able to access your instance metadata.
+        public let httpEndpoint: String?
+        ///  Enables or disables the IPv6 endpoint for the instance metadata service.
+        public let httpProtocolIpv6: String?
+        ///  The desired HTTP PUT response hop limit for instance metadata requests. The larger  the number, the further instance metadata requests can travel.
+        public let httpPutResponseHopLimit: Int?
+        ///  The state of token usage for your instance metadata requests.
+        public let httpTokens: String?
+        ///  When set to enabled, this parameter allows access to instance tags from the instance metadata. When set to disabled, it turns off access to instance tags from the instance metadata. For more information, see
+        /// Work with instance tags in instance metadata in the Amazon EC2 User Guide.
+        public let instanceMetadataTags: String?
+
+        public init(httpEndpoint: String? = nil, httpProtocolIpv6: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil, instanceMetadataTags: String? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+            self.instanceMetadataTags = instanceMetadataTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.httpEndpoint, name: "httpEndpoint", parent: name, pattern: "\\S")
+            try self.validate(self.httpProtocolIpv6, name: "httpProtocolIpv6", parent: name, pattern: "\\S")
+            try self.validate(self.httpTokens, name: "httpTokens", parent: name, pattern: "\\S")
+            try self.validate(self.instanceMetadataTags, name: "instanceMetadataTags", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint = "HttpEndpoint"
+            case httpProtocolIpv6 = "HttpProtocolIpv6"
+            case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
+            case httpTokens = "HttpTokens"
+            case instanceMetadataTags = "InstanceMetadataTags"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataMonitoringDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Enables detailed monitoring when true is specified. Otherwise, basic monitoring is enabled.  For more information about detailed monitoring, see  Enable or turn off detailed monitoring for your instances in the Amazon EC2 User Guide.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether to associate a Carrier IP address with eth0 for a new network interface.  You use this option when you launch an instance in a Wavelength Zone and want to  associate a Carrier IP address with the network interface. For more information, see  Carrier IP address in the Wavelength Developer Guide.
+        public let associateCarrierIpAddress: Bool?
+        ///  Associates a public IPv4 address with eth0 for a new network interface.
+        public let associatePublicIpAddress: Bool?
+        ///  Indicates whether the network interface is deleted when the instance is terminated.
+        public let deleteOnTermination: Bool?
+        ///  A description for the network interface.
+        public let description: String?
+        ///  The device index for the network interface attachment.
+        public let deviceIndex: Int?
+        ///  The IDs of one or more security groups.
+        public let groups: [String]?
+        ///  The type of network interface.
+        public let interfaceType: String?
+        ///  The number of IPv4 prefixes to be automatically assigned to the network interface.  You cannot use this option if you use the Ipv4Prefixes option.
+        public let ipv4PrefixCount: Int?
+        ///  One or more IPv4 prefixes to be assigned to the network interface. You cannot use  this option if you use the Ipv4PrefixCount option.
+        public let ipv4Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]?
+        ///  The number of IPv6 addresses to assign to a network interface. Amazon EC2  automatically selects the IPv6 addresses from the subnet range. You can't use this  option if you use Ipv6Addresses.
+        public let ipv6AddressCount: Int?
+        ///  One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet.  You can't use this option if you use Ipv6AddressCount.
+        public let ipv6Addresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]?
+        ///  The number of IPv6 prefixes to be automatically assigned to the network interface.  You cannot use this option if you use the Ipv6Prefix option.
+        public let ipv6PrefixCount: Int?
+        ///  One or more IPv6 prefixes to be assigned to the network interface. You cannot use  this option if you use the Ipv6PrefixCount option.
+        public let ipv6Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]?
+        ///  The index of the network card. Some instance types support multiple network cards.  The primary network interface must be assigned to network card index 0. The default  is network card index 0.
+        public let networkCardIndex: Int?
+        ///  The ID of the network interface.
+        public let networkInterfaceId: String?
+        ///  The primary private IPv4 address of the network interface.
+        public let privateIpAddress: String?
+        ///  One or more private IPv4 addresses.
+        public let privateIpAddresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]?
+        ///  The number of secondary private IPv4 addresses to assign to a network interface.
+        public let secondaryPrivateIpAddressCount: Int?
+        ///  The ID of the subnet for the network interface.
+        public let subnetId: String?
+
+        public init(associateCarrierIpAddress: Bool? = nil, associatePublicIpAddress: Bool? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, groups: [String]? = nil, interfaceType: String? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
+            self.associateCarrierIpAddress = associateCarrierIpAddress
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.deleteOnTermination = deleteOnTermination
+            self.description = description
+            self.deviceIndex = deviceIndex
+            self.groups = groups
+            self.interfaceType = interfaceType
+            self.ipv4PrefixCount = ipv4PrefixCount
+            self.ipv4Prefixes = ipv4Prefixes
+            self.ipv6AddressCount = ipv6AddressCount
+            self.ipv6Addresses = ipv6Addresses
+            self.ipv6PrefixCount = ipv6PrefixCount
+            self.ipv6Prefixes = ipv6Prefixes
+            self.networkCardIndex = networkCardIndex
+            self.networkInterfaceId = networkInterfaceId
+            self.privateIpAddress = privateIpAddress
+            self.privateIpAddresses = privateIpAddresses
+            self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
+            self.subnetId = subnetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.groups?.forEach {
+                try validate($0, name: "groups[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.interfaceType, name: "interfaceType", parent: name, pattern: "\\S")
+            try self.ipv4Prefixes?.forEach {
+                try $0.validate(name: "\(name).ipv4Prefixes[]")
+            }
+            try self.ipv6Addresses?.forEach {
+                try $0.validate(name: "\(name).ipv6Addresses[]")
+            }
+            try self.ipv6Prefixes?.forEach {
+                try $0.validate(name: "\(name).ipv6Prefixes[]")
+            }
+            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\S")
+            try self.validate(self.privateIpAddress, name: "privateIpAddress", parent: name, pattern: "\\S")
+            try self.privateIpAddresses?.forEach {
+                try $0.validate(name: "\(name).privateIpAddresses[]")
+            }
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associateCarrierIpAddress = "AssociateCarrierIpAddress"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case deleteOnTermination = "DeleteOnTermination"
+            case description = "Description"
+            case deviceIndex = "DeviceIndex"
+            case groups = "Groups"
+            case interfaceType = "InterfaceType"
+            case ipv4PrefixCount = "Ipv4PrefixCount"
+            case ipv4Prefixes = "Ipv4Prefixes"
+            case ipv6AddressCount = "Ipv6AddressCount"
+            case ipv6Addresses = "Ipv6Addresses"
+            case ipv6PrefixCount = "Ipv6PrefixCount"
+            case ipv6Prefixes = "Ipv6Prefixes"
+            case networkCardIndex = "NetworkCardIndex"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case privateIpAddress = "PrivateIpAddress"
+            case privateIpAddresses = "PrivateIpAddresses"
+            case secondaryPrivateIpAddressCount = "SecondaryPrivateIpAddressCount"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The IPv4 prefix. For more information, see Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
+        public let ipv4Prefix: String?
+
+        public init(ipv4Prefix: String? = nil) {
+            self.ipv4Prefix = ipv4Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ipv4Prefix, name: "ipv4Prefix", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv4Prefix = "Ipv4Prefix"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet.
+        public let ipv6Address: String?
+
+        public init(ipv6Address: String? = nil) {
+            self.ipv6Address = ipv6Address
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ipv6Address, name: "ipv6Address", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Address = "Ipv6Address"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The IPv6 prefix.
+        public let ipv6Prefix: String?
+
+        public init(ipv6Prefix: String? = nil) {
+            self.ipv6Prefix = ipv6Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ipv6Prefix, name: "ipv6Prefix", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Prefix = "Ipv6Prefix"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
+        public let primary: Bool?
+        ///  The private IPv4 address.
+        public let privateIpAddress: String?
+
+        public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
+            self.primary = primary
+            self.privateIpAddress = privateIpAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.privateIpAddress, name: "privateIpAddress", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primary = "Primary"
+            case privateIpAddress = "PrivateIpAddress"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataPlacementDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The affinity setting for an instance on an EC2 Dedicated Host.
+        public let affinity: String?
+        ///  The Availability Zone for the instance.
+        public let availabilityZone: String?
+        ///  The name of the placement group for the instance.
+        public let groupName: String?
+        ///  The ID of the Dedicated Host for the instance.
+        public let hostId: String?
+        ///  The Amazon Resource Name (ARN) of the host resource group in which to launch the instances.
+        public let hostResourceGroupArn: String?
+        ///  The number of the partition the instance should launch in.
+        public let partitionNumber: Int?
+        ///  Reserved for future use.
+        public let spreadDomain: String?
+        ///  The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
+        public let tenancy: String?
+
+        public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: String? = nil) {
+            self.affinity = affinity
+            self.availabilityZone = availabilityZone
+            self.groupName = groupName
+            self.hostId = hostId
+            self.hostResourceGroupArn = hostResourceGroupArn
+            self.partitionNumber = partitionNumber
+            self.spreadDomain = spreadDomain
+            self.tenancy = tenancy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.affinity, name: "affinity", parent: name, pattern: "\\S")
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "\\S")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "\\S")
+            try self.validate(self.hostId, name: "hostId", parent: name, pattern: "\\S")
+            try self.validate(self.hostResourceGroupArn, name: "hostResourceGroupArn", parent: name, pattern: "\\S")
+            try self.validate(self.spreadDomain, name: "spreadDomain", parent: name, pattern: "\\S")
+            try self.validate(self.tenancy, name: "tenancy", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affinity = "Affinity"
+            case availabilityZone = "AvailabilityZone"
+            case groupName = "GroupName"
+            case hostId = "HostId"
+            case hostResourceGroupArn = "HostResourceGroupArn"
+            case partitionNumber = "PartitionNumber"
+            case spreadDomain = "SpreadDomain"
+            case tenancy = "Tenancy"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
+        public let enableResourceNameDnsAAAARecord: Bool?
+        ///  Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
+        public let enableResourceNameDnsARecord: Bool?
+        ///  The type of hostname for EC2 instances.
+        public let hostnameType: String?
+
+        public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: String? = nil) {
+            self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
+            self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
+            self.hostnameType = hostnameType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostnameType, name: "hostnameType", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableResourceNameDnsAAAARecord = "EnableResourceNameDnsAAAARecord"
+            case enableResourceNameDnsARecord = "EnableResourceNameDnsARecord"
+            case hostnameType = "HostnameType"
+        }
+    }
+
+    public struct AwsEc2LaunchTemplateDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The default version of the launch template.
+        public let defaultVersionNumber: Int64?
+        ///  An ID for the launch template.
+        public let id: String?
+        ///  The latest version of the launch template.
+        public let latestVersionNumber: Int64?
+        ///  The information to include in the launch template.
+        public let launchTemplateData: AwsEc2LaunchTemplateDataDetails?
+        ///  A name for the launch template.
+        public let launchTemplateName: String?
+
+        public init(defaultVersionNumber: Int64? = nil, id: String? = nil, latestVersionNumber: Int64? = nil, launchTemplateData: AwsEc2LaunchTemplateDataDetails? = nil, launchTemplateName: String? = nil) {
+            self.defaultVersionNumber = defaultVersionNumber
+            self.id = id
+            self.latestVersionNumber = latestVersionNumber
+            self.launchTemplateData = launchTemplateData
+            self.launchTemplateName = launchTemplateName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.launchTemplateData?.validate(name: "\(name).launchTemplateData")
+            try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionNumber = "DefaultVersionNumber"
+            case id = "Id"
+            case latestVersionNumber = "LatestVersionNumber"
+            case launchTemplateData = "LaunchTemplateData"
+            case launchTemplateName = "LaunchTemplateName"
         }
     }
 
@@ -4717,7 +5816,7 @@ extension SecurityHub {
         public let deleteOnTermination: Bool?
         /// The identifier of the EC2 instance.
         public let instanceId: String?
-        /// The attachment state of the volume. Valid values are as follows: 	        attaching     attached     busy     detaching     detached
+        /// The attachment state of the volume. Valid values are as follows:    attaching     attached     busy     detaching     detached
         public let status: String?
 
         public init(attachTime: String? = nil, deleteOnTermination: Bool? = nil, instanceId: String? = nil, status: String? = nil) {
@@ -4756,7 +5855,7 @@ extension SecurityHub {
         public let size: Int?
         /// The snapshot from which the volume was created.
         public let snapshotId: String?
-        /// The volume state. Valid values are as follows: 	        available     creating     deleted     deleting     error     in-use
+        /// The volume state. Valid values are as follows:    available     creating     deleted     deleting     error     in-use
         public let status: String?
         /// The ID of the volume.
         public let volumeId: String?
@@ -4863,7 +5962,7 @@ extension SecurityHub {
         public let serviceId: String?
         /// The name of the service.
         public let serviceName: String?
-        /// The current state of the service. Valid values are as follows: 	        Available     Deleted     Deleting     Failed     Pending
+        /// The current state of the service. Valid values are as follows:    Available     Deleted     Deleting     Failed     Pending
         public let serviceState: String?
         /// The types for the service.
         public let serviceType: [AwsEc2VpcEndpointServiceServiceTypeDetails]?
@@ -5056,7 +6155,7 @@ extension SecurityHub {
         public let options: AwsEc2VpnConnectionOptionsDetails?
         /// The static routes that are associated with the VPN connection.
         public let routes: [AwsEc2VpnConnectionRoutesDetails]?
-        /// The current state of the VPN connection. Valid values are as follows: 	        available     deleted     deleting     pending
+        /// The current state of the VPN connection. Valid values are as follows:    available     deleted     deleting     pending
         public let state: String?
         /// The identifier of the transit gateway that is associated with the VPN connection.
         public let transitGatewayId: String?
@@ -5297,7 +6396,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcrContainerImageDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The architecture of the image. Valid values are as follows: 	        arm64     i386     x86_64
+        /// The architecture of the image. Valid values are as follows:    arm64     i386     x86_64
         public let architecture: String?
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
@@ -6002,7 +7101,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start. Valid values are as follows: 	        COMPLETE     HEALTHY     SUCCESS     START
+        /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start. Valid values are as follows:    COMPLETE     HEALTHY     SUCCESS     START
         public let condition: String?
         /// The name of the dependent container.
         public let containerName: String?
@@ -6383,9 +7482,9 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The Linux capabilities for the container that are added to the default configuration provided by Docker. Valid values are as follows: 	     Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
+        /// The Linux capabilities for the container that are added to the default configuration provided by Docker. Valid values are as follows: Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
         public let add: [String]?
-        /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker. 	     Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
+        /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
         public let drop: [String]?
 
         public init(add: [String]? = nil, drop: [String]? = nil) {
@@ -6487,7 +7586,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails: AWSEncodableShape & AWSDecodableShape {
         /// The absolute file path where the tmpfs volume is to be mounted.
         public let containerPath: String?
-        /// The list of tmpfs volume mount options. 	     Valid values: "defaults" | "ro" | "rw" | "suid" | 		"nosuid" | "dev" | "nodev" | "exec" | 		"noexec" | "sync" | "async" | "dirsync" 		| "remount" | "mand" | "nomand" | "atime" 		| "noatime" | "diratime" | "nodiratime" | 		"bind" | "rbind" | "unbindable" | 		"runbindable" | "private" | "rprivate" | 		"shared" | "rshared" | "slave" | 		"rslave" | "relatime" | "norelatime" | 		"strictatime" | "nostrictatime" | "mode" | 		"uid" | "gid" | "nr_inodes" | 			"nr_blocks" | "mpol"
+        /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | 		"nosuid" | "dev" | "nodev" | "exec" | 		"noexec" | "sync" | "async" | "dirsync" 		| "remount" | "mand" | "nomand" | "atime" 		| "noatime" | "diratime" | "nodiratime" | 		"bind" | "rbind" | "unbindable" | 		"runbindable" | "private" | "rprivate" | 		"shared" | "rshared" | "slave" | 		"rslave" | "relatime" | "norelatime" | 		"strictatime" | "nostrictatime" | "mode" | 		"uid" | "gid" | "nr_inodes" | 			"nr_blocks" | "mpol"
         public let mountOptions: [String]?
         /// The maximum size (in MiB) of the tmpfs volume.
         public let size: Int?
@@ -6513,7 +7612,7 @@ extension SecurityHub {
     }
 
     public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The log driver to use for the container. 	     Valid values on Fargate are as follows: 	        awsfirelens     awslogs     splunk    	     Valid values on Amazon EC2 are as follows: 	        awsfirelens     awslogs     fluentd     gelf     journald     json-file     logentries     splunk     syslog
+        /// The log driver to use for the container. Valid values on Fargate are as follows:    awsfirelens     awslogs     splunk    Valid values on Amazon EC2 are as follows:    awsfirelens     awslogs     fluentd     gelf     journald     json-file     logentries     splunk     syslog
         public let logDriver: String?
         /// The configuration options to send to the log driver. Requires version 1.19 of the Docker Remote API or greater on your container instance.
         public let options: [String: String]?
@@ -6703,7 +7802,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails: AWSEncodableShape & AWSDecodableShape {
         /// The hard limit for the ulimit type.
         public let hardLimit: Int?
-        /// The type of the ulimit. Valid values are as follows: 	        core     cpu     data     fsize     locks     memlock     msgqueue     nice     nofile     nproc     rss     rtprio     rttime     sigpending     stack
+        /// The type of the ulimit. Valid values are as follows:    core     cpu     data     fsize     locks     memlock     msgqueue     nice     nofile     nproc     rss     rtprio     rttime     sigpending     stack
         public let name: String?
         /// The soft limit for the ulimit type.
         public let softLimit: Int?
@@ -6749,7 +7848,7 @@ extension SecurityHub {
     public struct AwsEcsTaskDefinitionDetails: AWSEncodableShape & AWSDecodableShape {
         /// The container definitions that describe the containers that make up the task.
         public let containerDefinitions: [AwsEcsTaskDefinitionContainerDefinitionsDetails]?
-        /// The number of CPU units used by the task.Valid values are as follows: 	        256 (.25 vCPU)     512 (.5 vCPU)     1024 (1 vCPU)     2048 (2 vCPU)     4096 (4 vCPU)
+        /// The number of CPU units used by the task.Valid values are as follows:    256 (.25 vCPU)     512 (.5 vCPU)     1024 (1 vCPU)     2048 (2 vCPU)     4096 (4 vCPU)
         public let cpu: String?
         /// The ARN of the task execution role that grants the container agent permission to make API calls on behalf of the container user.
         public let executionRoleArn: String?
@@ -6757,11 +7856,11 @@ extension SecurityHub {
         public let family: String?
         /// The Elastic Inference accelerators to use for the containers in the task.
         public let inferenceAccelerators: [AwsEcsTaskDefinitionInferenceAcceleratorsDetails]?
-        /// The inter-process communication (IPC) resource namespace to use for the containers in the task. Valid values are as follows: 	        host     none     task
+        /// The inter-process communication (IPC) resource namespace to use for the containers in the task. Valid values are as follows:    host     none     task
         public let ipcMode: String?
         /// The amount (in MiB) of memory used by the task.  For tasks that are hosted on Amazon EC2, you can provide a task-level memory value or a container-level memory value. For tasks that are hosted on Fargate, you must use one of the specified values in the  Amazon Elastic Container Service Developer Guide , which determines your range of supported values for the Cpu and Memory parameters.
         public let memory: String?
-        /// The Docker networking mode to use for the containers in the task. Valid values are as follows: 	        awsvpc     bridge     host     none
+        /// The Docker networking mode to use for the containers in the task. Valid values are as follows:    awsvpc     bridge     host     none
         public let networkMode: String?
         /// The process namespace to use for the containers in the task. Valid values are host or task.
         public let pidMode: String?
@@ -7317,7 +8416,7 @@ extension SecurityHub {
         public let arn: String?
         /// The certificate authority data for the cluster.
         public let certificateAuthorityData: String?
-        /// The status of the cluster. Valid values are as follows: 	        ACTIVE     CREATING     DELETING     FAILED     PENDING     UPDATING
+        /// The status of the cluster. Valid values are as follows:    ACTIVE     CREATING     DELETING     FAILED     PENDING     UPDATING
         public let clusterStatus: String?
         /// The endpoint for the Amazon EKS API server.
         public let endpoint: String?
@@ -7372,7 +8471,7 @@ extension SecurityHub {
     public struct AwsEksClusterLoggingClusterLoggingDetails: AWSEncodableShape & AWSDecodableShape {
         /// Whether the logging types that are listed in Types are enabled.
         public let enabled: Bool?
-        /// A list of logging types. Valid values are as follows: 	        api     audit     authenticator     controllerManager     scheduler
+        /// A list of logging types. Valid values are as follows:    api     audit     authenticator     controllerManager     scheduler
         public let types: [String]?
 
         public init(enabled: Bool? = nil, types: [String]? = nil) {
@@ -7464,7 +8563,7 @@ extension SecurityHub {
         public let platformArn: String?
         /// The name of the solution stack that is deployed with the environment.
         public let solutionStackName: String?
-        /// The current operational status of the environment. Valid values are as follows: 	        Aborting     Launching     LinkingFrom     LinkingTo     Ready     Terminated     Terminating     Updating
+        /// The current operational status of the environment. Valid values are as follows:    Aborting     Launching     LinkingFrom     LinkingTo     Ready     Terminated     Terminating     Updating
         public let status: String?
         /// The tier of the environment.
         public let tier: AwsElasticBeanstalkEnvironmentTier?
@@ -7719,11 +8818,11 @@ extension SecurityHub {
         public let dedicatedMasterCount: Int?
         /// Whether to use a dedicated master node for the Elasticsearch domain. A dedicated master node performs cluster management tasks, but doesn't hold data or respond to data upload requests.
         public let dedicatedMasterEnabled: Bool?
-        /// The hardware configuration of the computer that hosts the dedicated master node. A sample value is m3.medium.elasticsearch. If this attribute is specified, then DedicatedMasterEnabled must be true. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
+        /// The hardware configuration of the computer that hosts the dedicated master node. A sample value is m3.medium.elasticsearch. If this attribute is specified, then DedicatedMasterEnabled must be true. For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let dedicatedMasterType: String?
         /// The number of data nodes to use in the Elasticsearch domain.
         public let instanceCount: Int?
-        /// The instance type for your data nodes. For example, m3.medium.elasticsearch. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
+        /// The instance type for your data nodes. For example, m3.medium.elasticsearch. For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let instanceType: String?
         /// Configuration options for zone awareness. Provided if ZoneAwarenessEnabled is true.
         public let zoneAwarenessConfig: AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails?
@@ -7863,7 +8962,7 @@ extension SecurityHub {
         public let newVersion: String?
         /// Whether a service software update is available for the domain.
         public let updateAvailable: Bool?
-        /// The status of the service software update. Valid values are as follows: 	        COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
+        /// The status of the service software update. Valid values are as follows:    COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
@@ -9166,7 +10265,7 @@ extension SecurityHub {
         public let keyManager: String?
         /// Whether the key has key rotation enabled.
         public let keyRotationStatus: Bool?
-        /// The state of the KMS key. Valid values are as follows: 	        Disabled     Enabled     PendingDeletion     PendingImport     Unavailable
+        /// The state of the KMS key. Valid values are as follows:    Disabled     Enabled     PendingDeletion     PendingImport     Unavailable
         public let keyState: String?
         /// The source of the KMS key material. When this value is AWS_KMS, KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the KMS key lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the CloudHSM cluster associated with a custom key store.
         public let origin: String?
@@ -9729,7 +10828,7 @@ extension SecurityHub {
         public let dedicatedMasterType: String?
         /// The number of data nodes to use in the OpenSearch domain.
         public let instanceCount: Int?
-        /// The instance type for your data nodes. 	     For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
+        /// The instance type for your data nodes. For a list of valid values, see Supported instance types in Amazon OpenSearch Service in the Amazon OpenSearch Service Developer Guide.
         public let instanceType: String?
         /// The number of UltraWarm instances.
         public let warmCount: Int?
@@ -10036,7 +11135,7 @@ extension SecurityHub {
         public let optionalDeployment: Bool?
         /// Whether a service software update is available for the domain.
         public let updateAvailable: Bool?
-        /// The status of the service software update. Valid values are as follows: 	        COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
+        /// The status of the service software update. Valid values are as follows:    COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
@@ -10119,7 +11218,7 @@ extension SecurityHub {
     }
 
     public struct AwsRdsDbClusterDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The status of the database activity stream. Valid values are as follows: 	        started     starting     stopped     stopping
+        /// The status of the database activity stream. Valid values are as follows:    started     starting     stopped     stopping
         public let activityStreamStatus: String?
         /// For all database engines except Aurora, specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -12925,6 +14024,140 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsSageMakerNotebookInstanceDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
+        public let acceleratorTypes: [String]?
+        ///  An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository.  These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
+        public let additionalCodeRepositories: [String]?
+        ///  The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository.  When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git repositories with SageMaker notebook instances in the Amazon SageMaker Developer Guide.
+        public let defaultCodeRepository: String?
+        ///  Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
+        public let directInternetAccess: String?
+        ///  If status of the instance is Failed, the reason it failed.
+        public let failureReason: String?
+        ///  Information on the IMDS configuration of the notebook instance.
+        public let instanceMetadataServiceConfiguration: AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails?
+        ///  The type of machine learning (ML) compute instance to launch for the notebook instance.
+        public let instanceType: String?
+        ///  The Amazon Resource Name (ARN) of an Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see  Enabling and disabling keys in the Key Management Service Developer Guide.
+        public let kmsKeyId: String?
+        ///  The network interface ID that SageMaker created when the instance was created.
+        public let networkInterfaceId: String?
+        ///  The Amazon Resource Name (ARN) of the notebook instance.
+        public let notebookInstanceArn: String?
+        ///  The name of a notebook instance lifecycle configuration.
+        public let notebookInstanceLifecycleConfigName: String?
+        ///  The name of the new notebook instance.
+        public let notebookInstanceName: String?
+        ///  The status of the notebook instance.
+        public let notebookInstanceStatus: String?
+        ///  The platform identifier of the notebook instance runtime environment.
+        public let platformIdentifier: String?
+        ///  The Amazon Resource Name (ARN) of the IAM role associated with the instance.
+        public let roleArn: String?
+        ///  Whether root access is enabled or disabled for users of the notebook instance.
+        public let rootAccess: String?
+        ///  The VPC security group IDs.
+        public let securityGroups: [String]?
+        ///  The ID of the VPC subnet to which you have a connectivity from your ML compute instance.
+        public let subnetId: String?
+        ///  The URL that you use to connect to the Jupyter notebook that is running in your notebook instance.
+        public let url: String?
+        ///  The size, in GB, of the ML storage volume to attach to the notebook instance.
+        public let volumeSizeInGB: Int?
+
+        public init(acceleratorTypes: [String]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: String? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails? = nil, instanceType: String? = nil, kmsKeyId: String? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: String? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
+            self.acceleratorTypes = acceleratorTypes
+            self.additionalCodeRepositories = additionalCodeRepositories
+            self.defaultCodeRepository = defaultCodeRepository
+            self.directInternetAccess = directInternetAccess
+            self.failureReason = failureReason
+            self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
+            self.instanceType = instanceType
+            self.kmsKeyId = kmsKeyId
+            self.networkInterfaceId = networkInterfaceId
+            self.notebookInstanceArn = notebookInstanceArn
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+            self.notebookInstanceName = notebookInstanceName
+            self.notebookInstanceStatus = notebookInstanceStatus
+            self.platformIdentifier = platformIdentifier
+            self.roleArn = roleArn
+            self.rootAccess = rootAccess
+            self.securityGroups = securityGroups
+            self.subnetId = subnetId
+            self.url = url
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        public func validate(name: String) throws {
+            try self.acceleratorTypes?.forEach {
+                try validate($0, name: "acceleratorTypes[]", parent: name, pattern: "\\S")
+            }
+            try self.additionalCodeRepositories?.forEach {
+                try validate($0, name: "additionalCodeRepositories[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, pattern: "\\S")
+            try self.validate(self.directInternetAccess, name: "directInternetAccess", parent: name, pattern: "\\S")
+            try self.validate(self.failureReason, name: "failureReason", parent: name, pattern: "\\S")
+            try self.instanceMetadataServiceConfiguration?.validate(name: "\(name).instanceMetadataServiceConfiguration")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "\\S")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "\\S")
+            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\S")
+            try self.validate(self.notebookInstanceArn, name: "notebookInstanceArn", parent: name, pattern: "\\S")
+            try self.validate(self.notebookInstanceLifecycleConfigName, name: "notebookInstanceLifecycleConfigName", parent: name, pattern: "\\S")
+            try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, pattern: "\\S")
+            try self.validate(self.notebookInstanceStatus, name: "notebookInstanceStatus", parent: name, pattern: "\\S")
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "\\S")
+            try self.validate(self.rootAccess, name: "rootAccess", parent: name, pattern: "\\S")
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "\\S")
+            try self.validate(self.url, name: "url", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratorTypes = "AcceleratorTypes"
+            case additionalCodeRepositories = "AdditionalCodeRepositories"
+            case defaultCodeRepository = "DefaultCodeRepository"
+            case directInternetAccess = "DirectInternetAccess"
+            case failureReason = "FailureReason"
+            case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
+            case instanceType = "InstanceType"
+            case kmsKeyId = "KmsKeyId"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case notebookInstanceArn = "NotebookInstanceArn"
+            case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+            case notebookInstanceName = "NotebookInstanceName"
+            case notebookInstanceStatus = "NotebookInstanceStatus"
+            case platformIdentifier = "PlatformIdentifier"
+            case roleArn = "RoleArn"
+            case rootAccess = "RootAccess"
+            case securityGroups = "SecurityGroups"
+            case subnetId = "SubnetId"
+            case url = "Url"
+            case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Indicates the minimum IMDS version that the notebook instance supports.
+        public let minimumInstanceMetadataServiceVersion: String?
+
+        public init(minimumInstanceMetadataServiceVersion: String? = nil) {
+            self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minimumInstanceMetadataServiceVersion, name: "minimumInstanceMetadataServiceVersion", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumInstanceMetadataServiceVersion = "MinimumInstanceMetadataServiceVersion"
+        }
+    }
+
     public struct AwsSecretsManagerSecretDetails: AWSEncodableShape & AWSDecodableShape {
         /// Whether the secret is deleted.
         public let deleted: Bool?
@@ -14804,7 +16037,7 @@ extension SecurityHub {
         public let action: WafAction?
         /// Rules to exclude from a rule group.
         public let excludedRules: [WafExcludedRule]?
-        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you do not use ActivatedRule  Action. For all other update requests, ActivatedRule  Action is used instead of ActivatedRule  OverrideAction.
+        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you do not use ActivatedRule Action. For all other update requests, ActivatedRule Action is used instead of ActivatedRule OverrideAction.
         public let overrideAction: WafOverrideAction?
         /// Specifies the order in which the rules in a web ACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a web ACL, the values do not need to be consecutive.
         public let priority: Int?
@@ -14839,6 +16072,398 @@ extension SecurityHub {
             case priority = "Priority"
             case ruleId = "RuleId"
             case type = "Type"
+        }
+    }
+
+    public struct AwsWafv2ActionAllowDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Defines custom handling for the web request. For information about customizing web requests and responses, see  Customizing web requests and responses in WAF in the WAF Developer Guide..
+        public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
+
+        public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
+    }
+
+    public struct AwsWafv2ActionBlockDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Defines a custom response for the web request. For information, see  Customizing web requests and responses in WAF in the WAF Developer Guide..
+        public let customResponse: AwsWafv2CustomResponseDetails?
+
+        public init(customResponse: AwsWafv2CustomResponseDetails? = nil) {
+            self.customResponse = customResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.customResponse?.validate(name: "\(name).customResponse")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customResponse = "CustomResponse"
+        }
+    }
+
+    public struct AwsWafv2CustomHttpHeader: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the custom header.
+        public let name: String?
+        ///  The value of the custom header.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.value, name: "value", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsWafv2CustomRequestHandlingDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The HTTP headers to insert into the request.
+        public let insertHeaders: [AwsWafv2CustomHttpHeader]?
+
+        public init(insertHeaders: [AwsWafv2CustomHttpHeader]? = nil) {
+            self.insertHeaders = insertHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.insertHeaders?.forEach {
+                try $0.validate(name: "\(name).insertHeaders[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insertHeaders = "InsertHeaders"
+        }
+    }
+
+    public struct AwsWafv2CustomResponseDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block.
+        public let customResponseBodyKey: String?
+        ///  The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see  Supported status codes for custom response in the WAF Developer Guide.
+        public let responseCode: Int?
+        ///  The HTTP headers to use in the response.
+        public let responseHeaders: [AwsWafv2CustomHttpHeader]?
+
+        public init(customResponseBodyKey: String? = nil, responseCode: Int? = nil, responseHeaders: [AwsWafv2CustomHttpHeader]? = nil) {
+            self.customResponseBodyKey = customResponseBodyKey
+            self.responseCode = responseCode
+            self.responseHeaders = responseHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, pattern: "\\S")
+            try self.responseHeaders?.forEach {
+                try $0.validate(name: "\(name).responseHeaders[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customResponseBodyKey = "CustomResponseBodyKey"
+            case responseCode = "ResponseCode"
+            case responseHeaders = "ResponseHeaders"
+        }
+    }
+
+    public struct AwsWafv2RuleGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the entity.
+        public let arn: String?
+        ///  The web ACL capacity units (WCUs) required for this rule group.
+        public let capacity: Int64?
+        ///  A description of the rule group that helps with identification.
+        public let description: String?
+        ///  A unique identifier for the rule group.
+        public let id: String?
+        ///  The name of the rule group. You cannot change the name of a rule group after you create it.
+        public let name: String?
+        ///  The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one  top-level statement that WAF uses to identify matching web requests, and parameters that govern how  WAF handles them.
+        public let rules: [AwsWafv2RulesDetails]?
+        ///  Specifies whether the rule group is for an Amazon CloudFront distribution or for a regional application.  A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync  GraphQL API, or an Amazon Cognito user pool.
+        public let scope: String?
+        ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
+
+        public init(arn: String? = nil, capacity: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, rules: [AwsWafv2RulesDetails]? = nil, scope: String? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
+            self.arn = arn
+            self.capacity = capacity
+            self.description = description
+            self.id = id
+            self.name = name
+            self.rules = rules
+            self.scope = scope
+            self.visibilityConfig = visibilityConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.scope, name: "scope", parent: name, pattern: "\\S")
+            try self.visibilityConfig?.validate(name: "\(name).visibilityConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case capacity = "Capacity"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case rules = "Rules"
+            case scope = "Scope"
+            case visibilityConfig = "VisibilityConfig"
+        }
+    }
+
+    public struct AwsWafv2RulesActionCaptchaDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For more information,  see Customizing web requests and responses in WAF in the WAF Developer Guide..
+        public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
+
+        public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
+    }
+
+    public struct AwsWafv2RulesActionCountDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Defines custom handling for the web request. For more information,  see Customizing web requests and responses in WAF in the WAF Developer Guide..
+        public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
+
+        public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
+    }
+
+    public struct AwsWafv2RulesActionDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Instructs WAF to allow the web request.
+        public let allow: AwsWafv2ActionAllowDetails?
+        ///  Instructs WAF to block the web request.
+        public let block: AwsWafv2ActionBlockDetails?
+        ///  Instructs WAF to run a CAPTCHA check against the web request.
+        public let captcha: AwsWafv2RulesActionCaptchaDetails?
+        ///  Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
+        public let count: AwsWafv2RulesActionCountDetails?
+
+        public init(allow: AwsWafv2ActionAllowDetails? = nil, block: AwsWafv2ActionBlockDetails? = nil, captcha: AwsWafv2RulesActionCaptchaDetails? = nil, count: AwsWafv2RulesActionCountDetails? = nil) {
+            self.allow = allow
+            self.block = block
+            self.captcha = captcha
+            self.count = count
+        }
+
+        public func validate(name: String) throws {
+            try self.allow?.validate(name: "\(name).allow")
+            try self.block?.validate(name: "\(name).block")
+            try self.captcha?.validate(name: "\(name).captcha")
+            try self.count?.validate(name: "\(name).count")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allow = "Allow"
+            case block = "Block"
+            case captcha = "Captcha"
+            case count = "Count"
+        }
+    }
+
+    public struct AwsWafv2RulesDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.
+        public let action: AwsWafv2RulesActionDetails?
+        ///  The name of the rule.
+        public let name: String?
+        ///  The action to use in the place of the action that results from the rule group evaluation.
+        public let overrideAction: String?
+        ///  If you define more than one Rule in a WebACL, WAF evaluates each request against the Rules in order based on the value of Priority.  WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
+        public let priority: Int?
+        ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
+
+        public init(action: AwsWafv2RulesActionDetails? = nil, name: String? = nil, overrideAction: String? = nil, priority: Int? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
+            self.action = action
+            self.name = name
+            self.overrideAction = overrideAction
+            self.priority = priority
+            self.visibilityConfig = visibilityConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.overrideAction, name: "overrideAction", parent: name, pattern: "\\S")
+            try self.visibilityConfig?.validate(name: "\(name).visibilityConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case name = "Name"
+            case overrideAction = "OverrideAction"
+            case priority = "Priority"
+            case visibilityConfig = "VisibilityConfig"
+        }
+    }
+
+    public struct AwsWafv2VisibilityConfigDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available  metrics, see WAF metrics and dimensions in the WAF Developer Guide.
+        public let cloudWatchMetricsEnabled: Bool?
+        ///  A name of the Amazon CloudWatch metric.
+        public let metricName: String?
+        ///  A boolean indicating whether WAF should store a sampling of the web requests that match the rules.  You can view the sampled requests through the WAF console.
+        public let sampledRequestsEnabled: Bool?
+
+        public init(cloudWatchMetricsEnabled: Bool? = nil, metricName: String? = nil, sampledRequestsEnabled: Bool? = nil) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.metricName = metricName
+            self.sampledRequestsEnabled = sampledRequestsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+            case metricName = "MetricName"
+            case sampledRequestsEnabled = "SampledRequestsEnabled"
+        }
+    }
+
+    public struct AwsWafv2WebAclActionDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies that WAF should allow requests by default.
+        public let allow: AwsWafv2ActionAllowDetails?
+        ///  Specifies that WAF should block requests by default.
+        public let block: AwsWafv2ActionBlockDetails?
+
+        public init(allow: AwsWafv2ActionAllowDetails? = nil, block: AwsWafv2ActionBlockDetails? = nil) {
+            self.allow = allow
+            self.block = block
+        }
+
+        public func validate(name: String) throws {
+            try self.allow?.validate(name: "\(name).allow")
+            try self.block?.validate(name: "\(name).block")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allow = "Allow"
+            case block = "Block"
+        }
+    }
+
+    public struct AwsWafv2WebAclCaptchaConfigDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
+        public let immunityTimeProperty: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails?
+
+        public init(immunityTimeProperty: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails? = nil) {
+            self.immunityTimeProperty = immunityTimeProperty
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case immunityTimeProperty = "ImmunityTimeProperty"
+        }
+    }
+
+    public struct AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF.
+        public let immunityTime: Int64?
+
+        public init(immunityTime: Int64? = nil) {
+            self.immunityTime = immunityTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case immunityTime = "ImmunityTime"
+        }
+    }
+
+    public struct AwsWafv2WebAclDetails: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
+        public let arn: String?
+        ///  The web ACL capacity units (WCUs) currently being used by this web ACL.
+        public let capacity: Int64?
+        ///  Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own  CaptchaConfig settings.
+        public let captchaConfig: AwsWafv2WebAclCaptchaConfigDetails?
+        ///  The action to perform if none of the Rules contained in the web ACL match.
+        public let defaultAction: AwsWafv2WebAclActionDetails?
+        ///  A description of the web ACL that helps with identification.
+        public let description: String?
+        ///  A unique identifier for the web ACL.
+        public let id: String?
+        ///  Indicates whether this web ACL is managed by Firewall Manager.
+        public let managedbyFirewallManager: Bool?
+        ///  The name of the web ACL.
+        public let name: String?
+        ///  The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one  top-level statement that WAF uses to identify matching web requests, and parameters that govern how  WAF handles them.
+        public let rules: [AwsWafv2RulesDetails]?
+        ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
+
+        public init(arn: String? = nil, capacity: Int64? = nil, captchaConfig: AwsWafv2WebAclCaptchaConfigDetails? = nil, defaultAction: AwsWafv2WebAclActionDetails? = nil, description: String? = nil, id: String? = nil, managedbyFirewallManager: Bool? = nil, name: String? = nil, rules: [AwsWafv2RulesDetails]? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
+            self.arn = arn
+            self.capacity = capacity
+            self.captchaConfig = captchaConfig
+            self.defaultAction = defaultAction
+            self.description = description
+            self.id = id
+            self.managedbyFirewallManager = managedbyFirewallManager
+            self.name = name
+            self.rules = rules
+            self.visibilityConfig = visibilityConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
+            try self.defaultAction?.validate(name: "\(name).defaultAction")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.visibilityConfig?.validate(name: "\(name).visibilityConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case capacity = "Capacity"
+            case captchaConfig = "CaptchaConfig"
+            case defaultAction = "DefaultAction"
+            case description = "Description"
+            case id = "Id"
+            case managedbyFirewallManager = "ManagedbyFirewallManager"
+            case name = "Name"
+            case rules = "Rules"
+            case visibilityConfig = "VisibilityConfig"
         }
     }
 
@@ -15935,7 +17560,7 @@ extension SecurityHub {
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Whether to automatically enable Security Hub for new accounts in the organization. If set to true, then Security Hub is enabled for new accounts. If set to false, then new accounts are not added automatically.
         public let autoEnable: Bool?
-        /// Whether to automatically enable Security Hub default standards  for new member accounts in the organization. The default value of this parameter is equal to DEFAULT.  If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member  accounts. If equal to NONE, then default standards are not automatically enabled for new member  accounts.
+        /// Whether to automatically enable Security Hub default standards  for new member accounts in the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member  accounts. If equal to NONE, then default standards are not automatically enabled for new member  accounts.
         public let autoEnableStandards: AutoEnableStandards?
         /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
         public let memberAccountLimitReached: Bool?
@@ -17040,8 +18665,7 @@ extension SecurityHub {
     public struct Ipv6CidrBlockAssociation: AWSEncodableShape & AWSDecodableShape {
         /// The association ID for the IPv6 CIDR block.
         public let associationId: String?
-        /// Information about the state of the CIDR block. Valid values are as follows:
-        /// 		          associating     associated     disassociating     disassociated     failed     failing
+        /// Information about the state of the CIDR block. Valid values are as follows:    associating     associated     disassociating     disassociated     failed     failing
         public let cidrBlockState: String?
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
@@ -18195,6 +19819,7 @@ extension SecurityHub {
         public let awsEc2Eip: AwsEc2EipDetails?
         /// Details about an EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
+        public let awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails?
         /// Details about an EC2 network access control list (ACL).
         public let awsEc2NetworkAcl: AwsEc2NetworkAclDetails?
         /// Details for an EC2 network interface.
@@ -18288,6 +19913,7 @@ extension SecurityHub {
         public let awsS3Bucket: AwsS3BucketDetails?
         /// Details about an S3 object related to a finding.
         public let awsS3Object: AwsS3ObjectDetails?
+        public let awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails?
         /// Details about a Secrets Manager secret.
         public let awsSecretsManagerSecret: AwsSecretsManagerSecretDetails?
         /// Details about an SNS topic.
@@ -18310,6 +19936,8 @@ extension SecurityHub {
         public let awsWafRule: AwsWafRuleDetails?
         /// Details about an WAF rule group for global resources.
         public let awsWafRuleGroup: AwsWafRuleGroupDetails?
+        public let awsWafv2RuleGroup: AwsWafv2RuleGroupDetails?
+        public let awsWafv2WebAcl: AwsWafv2WebAclDetails?
         /// Details for an WAF web ACL.
         public let awsWafWebAcl: AwsWafWebAclDetails?
         /// Information about the encryption configuration for X-Ray.
@@ -18319,7 +19947,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -18338,6 +19966,7 @@ extension SecurityHub {
             self.awsDynamoDbTable = awsDynamoDbTable
             self.awsEc2Eip = awsEc2Eip
             self.awsEc2Instance = awsEc2Instance
+            self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
             self.awsEc2NetworkAcl = awsEc2NetworkAcl
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
@@ -18384,6 +20013,7 @@ extension SecurityHub {
             self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
+            self.awsSageMakerNotebookInstance = awsSageMakerNotebookInstance
             self.awsSecretsManagerSecret = awsSecretsManagerSecret
             self.awsSnsTopic = awsSnsTopic
             self.awsSqsQueue = awsSqsQueue
@@ -18395,6 +20025,8 @@ extension SecurityHub {
             self.awsWafRegionalWebAcl = awsWafRegionalWebAcl
             self.awsWafRule = awsWafRule
             self.awsWafRuleGroup = awsWafRuleGroup
+            self.awsWafv2RuleGroup = awsWafv2RuleGroup
+            self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsWafWebAcl = awsWafWebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
             self.container = container
@@ -18420,6 +20052,7 @@ extension SecurityHub {
             try self.awsDynamoDbTable?.validate(name: "\(name).awsDynamoDbTable")
             try self.awsEc2Eip?.validate(name: "\(name).awsEc2Eip")
             try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
+            try self.awsEc2LaunchTemplate?.validate(name: "\(name).awsEc2LaunchTemplate")
             try self.awsEc2NetworkAcl?.validate(name: "\(name).awsEc2NetworkAcl")
             try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
             try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
@@ -18465,6 +20098,7 @@ extension SecurityHub {
             try self.awsRedshiftCluster?.validate(name: "\(name).awsRedshiftCluster")
             try self.awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
             try self.awsS3Object?.validate(name: "\(name).awsS3Object")
+            try self.awsSageMakerNotebookInstance?.validate(name: "\(name).awsSageMakerNotebookInstance")
             try self.awsSecretsManagerSecret?.validate(name: "\(name).awsSecretsManagerSecret")
             try self.awsSnsTopic?.validate(name: "\(name).awsSnsTopic")
             try self.awsSqsQueue?.validate(name: "\(name).awsSqsQueue")
@@ -18476,6 +20110,8 @@ extension SecurityHub {
             try self.awsWafRegionalWebAcl?.validate(name: "\(name).awsWafRegionalWebAcl")
             try self.awsWafRule?.validate(name: "\(name).awsWafRule")
             try self.awsWafRuleGroup?.validate(name: "\(name).awsWafRuleGroup")
+            try self.awsWafv2RuleGroup?.validate(name: "\(name).awsWafv2RuleGroup")
+            try self.awsWafv2WebAcl?.validate(name: "\(name).awsWafv2WebAcl")
             try self.awsWafWebAcl?.validate(name: "\(name).awsWafWebAcl")
             try self.awsXrayEncryptionConfig?.validate(name: "\(name).awsXrayEncryptionConfig")
             try self.container?.validate(name: "\(name).container")
@@ -18504,6 +20140,7 @@ extension SecurityHub {
             case awsDynamoDbTable = "AwsDynamoDbTable"
             case awsEc2Eip = "AwsEc2Eip"
             case awsEc2Instance = "AwsEc2Instance"
+            case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
             case awsEc2NetworkAcl = "AwsEc2NetworkAcl"
             case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
             case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
@@ -18550,6 +20187,7 @@ extension SecurityHub {
             case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
             case awsS3Bucket = "AwsS3Bucket"
             case awsS3Object = "AwsS3Object"
+            case awsSageMakerNotebookInstance = "AwsSageMakerNotebookInstance"
             case awsSecretsManagerSecret = "AwsSecretsManagerSecret"
             case awsSnsTopic = "AwsSnsTopic"
             case awsSqsQueue = "AwsSqsQueue"
@@ -18561,6 +20199,8 @@ extension SecurityHub {
             case awsWafRegionalWebAcl = "AwsWafRegionalWebAcl"
             case awsWafRule = "AwsWafRule"
             case awsWafRuleGroup = "AwsWafRuleGroup"
+            case awsWafv2RuleGroup = "AwsWafv2RuleGroup"
+            case awsWafv2WebAcl = "AwsWafv2WebAcl"
             case awsWafWebAcl = "AwsWafWebAcl"
             case awsXrayEncryptionConfig = "AwsXrayEncryptionConfig"
             case container = "Container"
@@ -19265,12 +20905,15 @@ extension SecurityHub {
         public let name: String?
         /// The ARN of a standard.
         public let standardsArn: String?
+        /// Provides details about the management of a standard.
+        public let standardsManagedBy: StandardsManagedBy?
 
-        public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, standardsArn: String? = nil) {
+        public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, standardsArn: String? = nil, standardsManagedBy: StandardsManagedBy? = nil) {
             self.description = description
             self.enabledByDefault = enabledByDefault
             self.name = name
             self.standardsArn = standardsArn
+            self.standardsManagedBy = standardsManagedBy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19278,6 +20921,7 @@ extension SecurityHub {
             case enabledByDefault = "EnabledByDefault"
             case name = "Name"
             case standardsArn = "StandardsArn"
+            case standardsManagedBy = "StandardsManagedBy"
         }
     }
 
@@ -19328,6 +20972,23 @@ extension SecurityHub {
             case severityRating = "SeverityRating"
             case standardsControlArn = "StandardsControlArn"
             case title = "Title"
+        }
+    }
+
+    public struct StandardsManagedBy: AWSDecodableShape {
+        /// An identifier for the company that manages a specific security standard. For existing standards, the value is equal to Amazon Web Services.
+        public let company: String?
+        /// An identifier for the product that manages a specific security standard. For existing standards, the value is equal to the Amazon Web Services service that manages the standard.
+        public let product: String?
+
+        public init(company: String? = nil, product: String? = nil) {
+            self.company = company
+            self.product = product
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case company = "Company"
+            case product = "Product"
         }
     }
 
@@ -20154,7 +21815,7 @@ public struct SecurityHubErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Internal server error.
     public static var internalException: Self { .init(.internalException) }
-    /// There is an issue with the account used to make the request. Either Security Hub is not enabled for the account, or the account does not have permission to perform this action.
+    /// The account doesn&#39;t have permission to perform this action.
     public static var invalidAccessException: Self { .init(.invalidAccessException) }
     /// The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }

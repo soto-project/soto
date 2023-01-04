@@ -1786,6 +1786,7 @@ extension Proton {
                 .init(state: .success, matcher: try! JMESPathMatcher("environmentTemplateVersion.status", expected: "PUBLISHED")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("environmentTemplateVersion.status", expected: "REGISTRATION_FAILED")),
             ],
+            minDelayTime: .seconds(2),
             maxDelayTime: .seconds(300),
             command: self.getEnvironmentTemplateVersion
         )
@@ -1883,6 +1884,7 @@ extension Proton {
                 .init(state: .success, matcher: try! JMESPathMatcher("serviceTemplateVersion.status", expected: "PUBLISHED")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("serviceTemplateVersion.status", expected: "REGISTRATION_FAILED")),
             ],
+            minDelayTime: .seconds(2),
             maxDelayTime: .seconds(300),
             command: self.getServiceTemplateVersion
         )

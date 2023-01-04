@@ -95,15 +95,33 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailbackLaunchType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case drill = "DRILL"
+        case recovery = "RECOVERY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailbackReplicationError: String, CustomStringConvertible, Codable, _SotoSendable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failbackClientNotSeen = "FAILBACK_CLIENT_NOT_SEEN"
+        case failedGettingReplicationState = "FAILED_GETTING_REPLICATION_STATE"
+        case failedToAttachStagingDisks = "FAILED_TO_ATTACH_STAGING_DISKS"
+        case failedToAuthenticateWithService = "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
+        case failedToBootReplicationServer = "FAILED_TO_BOOT_REPLICATION_SERVER"
         case failedToConfigureReplicationSoftware = "FAILED_TO_CONFIGURE_REPLICATION_SOFTWARE"
+        case failedToConnectAgentToReplicationServer = "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER"
+        case failedToCreateSecurityGroup = "FAILED_TO_CREATE_SECURITY_GROUP"
+        case failedToCreateStagingDisks = "FAILED_TO_CREATE_STAGING_DISKS"
+        case failedToDownloadReplicationSoftware = "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE"
         case failedToDownloadReplicationSoftwareToFailbackClient = "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE_TO_FAILBACK_CLIENT"
         case failedToEstablishAgentReplicatorSoftwareCommunication = "FAILED_TO_ESTABLISH_AGENT_REPLICATOR_SOFTWARE_COMMUNICATION"
         case failedToEstablishRecoveryInstanceCommunication = "FAILED_TO_ESTABLISH_RECOVERY_INSTANCE_COMMUNICATION"
+        case failedToLaunchReplicationServer = "FAILED_TO_LAUNCH_REPLICATION_SERVER"
         case failedToPairAgentWithReplicationSoftware = "FAILED_TO_PAIR_AGENT_WITH_REPLICATION_SOFTWARE"
+        case failedToPairReplicationServerWithAgent = "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT"
+        case failedToStartDataTransfer = "FAILED_TO_START_DATA_TRANSFER"
         case notConverging = "NOT_CONVERGING"
+        case snapshotsFailure = "SNAPSHOTS_FAILURE"
         case unstableNetwork = "UNSTABLE_NETWORK"
         public var description: String { return self.rawValue }
     }
@@ -112,6 +130,8 @@ extension Drs {
         case failbackCompleted = "FAILBACK_COMPLETED"
         case failbackError = "FAILBACK_ERROR"
         case failbackInProgress = "FAILBACK_IN_PROGRESS"
+        case failbackLaunchStateNotAvailable = "FAILBACK_LAUNCH_STATE_NOT_AVAILABLE"
+        case failbackNotReadyForLaunch = "FAILBACK_NOT_READY_FOR_LAUNCH"
         case failbackNotStarted = "FAILBACK_NOT_STARTED"
         case failbackReadyForLaunch = "FAILBACK_READY_FOR_LAUNCH"
         public var description: String { return self.rawValue }
@@ -191,6 +211,12 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aws = "AWS"
+        case onPremises = "ON_PREMISES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PITPolicyRuleUnits: String, CustomStringConvertible, Codable, _SotoSendable {
         case day = "DAY"
         case hour = "HOUR"
@@ -199,13 +225,24 @@ extension Drs {
     }
 
     public enum RecoveryInstanceDataReplicationInitiationStepName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case attachStagingDisks = "ATTACH_STAGING_DISKS"
+        case authenticateWithService = "AUTHENTICATE_WITH_SERVICE"
+        case bootReplicationServer = "BOOT_REPLICATION_SERVER"
         case completeVolumeMapping = "COMPLETE_VOLUME_MAPPING"
         case configureReplicationSoftware = "CONFIGURE_REPLICATION_SOFTWARE"
+        case connectAgentToReplicationServer = "CONNECT_AGENT_TO_REPLICATION_SERVER"
+        case createSecurityGroup = "CREATE_SECURITY_GROUP"
+        case createStagingDisks = "CREATE_STAGING_DISKS"
+        case downloadReplicationSoftware = "DOWNLOAD_REPLICATION_SOFTWARE"
         case downloadReplicationSoftwareToFailbackClient = "DOWNLOAD_REPLICATION_SOFTWARE_TO_FAILBACK_CLIENT"
         case establishAgentReplicatorSoftwareCommunication = "ESTABLISH_AGENT_REPLICATOR_SOFTWARE_COMMUNICATION"
         case establishRecoveryInstanceCommunication = "ESTABLISH_RECOVERY_INSTANCE_COMMUNICATION"
+        case launchReplicationServer = "LAUNCH_REPLICATION_SERVER"
         case linkFailbackClientWithRecoveryInstance = "LINK_FAILBACK_CLIENT_WITH_RECOVERY_INSTANCE"
         case pairAgentWithReplicationSoftware = "PAIR_AGENT_WITH_REPLICATION_SOFTWARE"
+        case pairReplicationServerWithAgent = "PAIR_REPLICATION_SERVER_WITH_AGENT"
+        case startDataTransfer = "START_DATA_TRANSFER"
+        case wait = "WAIT"
         public var description: String { return self.rawValue }
     }
 
@@ -225,7 +262,9 @@ extension Drs {
         case disconnected = "DISCONNECTED"
         case initialSync = "INITIAL_SYNC"
         case initiating = "INITIATING"
+        case notStarted = "NOT_STARTED"
         case paused = "PAUSED"
+        case replicationStateNotAvailable = "REPLICATION_STATE_NOT_AVAILABLE"
         case rescan = "RESCAN"
         case stalled = "STALLED"
         case stopped = "STOPPED"
@@ -266,6 +305,12 @@ extension Drs {
         case sc1 = "SC1"
         case st1 = "ST1"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failback = "FAILBACK"
+        case failover = "FAILOVER"
         public var description: String { return self.rawValue }
     }
 
@@ -406,7 +451,7 @@ extension Drs {
         /// Whether to use a dedicated Replication Server in the replication staging area.
         public let useDedicatedReplicationServer: Bool
 
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -1694,6 +1739,8 @@ extension Drs {
         public let isDrill: Bool?
         /// The ID of the Job that created the Recovery Instance.
         public let jobID: String?
+        /// Environment (On Premises / AWS) of the instance that the recovery instance originated from.
+        public let originEnvironment: OriginEnvironment?
         /// The date and time of the Point in Time (PIT) snapshot that this Recovery Instance was launched from.
         public let pointInTimeSnapshotDateTime: String?
         /// The ID of the Recovery Instance.
@@ -1705,7 +1752,7 @@ extension Drs {
         /// An array of tags that are associated with the Recovery Instance.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.ec2InstanceID = ec2InstanceID
@@ -1713,6 +1760,7 @@ extension Drs {
             self.failback = failback
             self.isDrill = isDrill
             self.jobID = jobID
+            self.originEnvironment = originEnvironment
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
             self.recoveryInstanceProperties = recoveryInstanceProperties
@@ -1728,6 +1776,7 @@ extension Drs {
             case failback
             case isDrill
             case jobID
+            case originEnvironment
             case pointInTimeSnapshotDateTime
             case recoveryInstanceID
             case recoveryInstanceProperties
@@ -1883,6 +1932,8 @@ extension Drs {
         public let failbackInitiationTime: String?
         /// The Job ID of the last failback log for this Recovery Instance.
         public let failbackJobID: String?
+        /// The launch type (Recovery / Drill) of the last launch for the failback replication of this recovery instance.
+        public let failbackLaunchType: FailbackLaunchType?
         /// Whether we are failing back to the original Source Server for this Recovery Instance.
         public let failbackToOriginalServer: Bool?
         /// The date and time of the first byte that was replicated from the Recovery Instance.
@@ -1890,13 +1941,14 @@ extension Drs {
         /// The state of the failback process that this Recovery Instance is in.
         public let state: FailbackState?
 
-        public init(agentLastSeenByServiceDateTime: String? = nil, elapsedReplicationDuration: String? = nil, failbackClientID: String? = nil, failbackClientLastSeenByServiceDateTime: String? = nil, failbackInitiationTime: String? = nil, failbackJobID: String? = nil, failbackToOriginalServer: Bool? = nil, firstByteDateTime: String? = nil, state: FailbackState? = nil) {
+        public init(agentLastSeenByServiceDateTime: String? = nil, elapsedReplicationDuration: String? = nil, failbackClientID: String? = nil, failbackClientLastSeenByServiceDateTime: String? = nil, failbackInitiationTime: String? = nil, failbackJobID: String? = nil, failbackLaunchType: FailbackLaunchType? = nil, failbackToOriginalServer: Bool? = nil, firstByteDateTime: String? = nil, state: FailbackState? = nil) {
             self.agentLastSeenByServiceDateTime = agentLastSeenByServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
             self.failbackClientID = failbackClientID
             self.failbackClientLastSeenByServiceDateTime = failbackClientLastSeenByServiceDateTime
             self.failbackInitiationTime = failbackInitiationTime
             self.failbackJobID = failbackJobID
+            self.failbackLaunchType = failbackLaunchType
             self.failbackToOriginalServer = failbackToOriginalServer
             self.firstByteDateTime = firstByteDateTime
             self.state = state
@@ -1909,6 +1961,7 @@ extension Drs {
             case failbackClientLastSeenByServiceDateTime
             case failbackInitiationTime
             case failbackJobID
+            case failbackLaunchType
             case failbackToOriginalServer
             case firstByteDateTime
             case state
@@ -2061,7 +2114,7 @@ extension Drs {
         public let iops: Int64?
         /// Whether to boot from this disk or not.
         public let isBootDisk: Bool?
-        /// The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field.
+        /// When stagingDiskType is set to Auto, this field shows the current staging disk EBS volume type as it is constantly updated by the service. This is a read-only field.
         public let optimizedStagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The Staging Disk EBS volume type to be used during replication.
         public let stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
@@ -2185,6 +2238,59 @@ extension Drs {
         }
     }
 
+    public struct ReverseReplicationRequest: AWSEncodableShape {
+        /// The ID of the Recovery Instance that we want to reverse the replication for.
+        public let recoveryInstanceID: String
+
+        public init(recoveryInstanceID: String) {
+            self.recoveryInstanceID = recoveryInstanceID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryInstanceID, name: "recoveryInstanceID", parent: name, max: 19)
+            try self.validate(self.recoveryInstanceID, name: "recoveryInstanceID", parent: name, min: 10)
+            try self.validate(self.recoveryInstanceID, name: "recoveryInstanceID", parent: name, pattern: "^i-[0-9a-fA-F]{8,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryInstanceID
+        }
+    }
+
+    public struct ReverseReplicationResponse: AWSDecodableShape {
+        /// ARN of created SourceServer.
+        public let reversedDirectionSourceServerArn: String?
+
+        public init(reversedDirectionSourceServerArn: String? = nil) {
+            self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reversedDirectionSourceServerArn
+        }
+    }
+
+    public struct SourceCloudProperties: AWSDecodableShape {
+        /// AWS Account ID for an EC2-originated Source Server.
+        public let originAccountID: String?
+        /// AWS Availability Zone for an EC2-originated Source Server.
+        public let originAvailabilityZone: String?
+        /// AWS Region for an EC2-originated Source Server.
+        public let originRegion: String?
+
+        public init(originAccountID: String? = nil, originAvailabilityZone: String? = nil, originRegion: String? = nil) {
+            self.originAccountID = originAccountID
+            self.originAvailabilityZone = originAvailabilityZone
+            self.originRegion = originRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccountID
+            case originAvailabilityZone
+            case originRegion
+        }
+    }
+
     public struct SourceProperties: AWSDecodableShape {
         /// An array of CPUs.
         public let cpus: [CPU]?
@@ -2237,6 +2343,12 @@ extension Drs {
         public let lifeCycle: LifeCycle?
         /// The ID of the Recovery Instance associated with this Source Server.
         public let recoveryInstanceId: String?
+        /// Replication direction of the Source Server.
+        public let replicationDirection: ReplicationDirection?
+        /// For EC2-originated Source Servers which have been failed over and then failed back, this value will mean the ARN of the Source Server on the opposite replication direction.
+        public let reversedDirectionSourceServerArn: String?
+        /// Source cloud properties of the Source Server.
+        public let sourceCloudProperties: SourceCloudProperties?
         /// The source properties of the Source Server.
         public let sourceProperties: SourceProperties?
         /// The ID of the Source Server.
@@ -2246,12 +2358,15 @@ extension Drs {
         /// The tags associated with the Source Server.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, replicationDirection: ReplicationDirection? = nil, reversedDirectionSourceServerArn: String? = nil, sourceCloudProperties: SourceCloudProperties? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.lastLaunchResult = lastLaunchResult
             self.lifeCycle = lifeCycle
             self.recoveryInstanceId = recoveryInstanceId
+            self.replicationDirection = replicationDirection
+            self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+            self.sourceCloudProperties = sourceCloudProperties
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.stagingArea = stagingArea
@@ -2264,6 +2379,9 @@ extension Drs {
             case lastLaunchResult
             case lifeCycle
             case recoveryInstanceId
+            case replicationDirection
+            case reversedDirectionSourceServerArn
+            case sourceCloudProperties
             case sourceProperties
             case sourceServerID
             case stagingArea
@@ -2433,6 +2551,38 @@ extension Drs {
         }
     }
 
+    public struct StartReplicationRequest: AWSEncodableShape {
+        /// The ID of the Source Server to start replication for.
+        public let sourceServerID: String
+
+        public init(sourceServerID: String) {
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServerID
+        }
+    }
+
+    public struct StartReplicationResponse: AWSDecodableShape {
+        /// The Source Server that this action was targeted on.
+        public let sourceServer: SourceServer?
+
+        public init(sourceServer: SourceServer? = nil) {
+            self.sourceServer = sourceServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServer
+        }
+    }
+
     public struct StopFailbackRequest: AWSEncodableShape {
         /// The ID of the Recovery Instance we want to stop failback for.
         public let recoveryInstanceID: String
@@ -2449,6 +2599,38 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case recoveryInstanceID
+        }
+    }
+
+    public struct StopReplicationRequest: AWSEncodableShape {
+        /// The ID of the Source Server to stop replication for.
+        public let sourceServerID: String
+
+        public init(sourceServerID: String) {
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServerID
+        }
+    }
+
+    public struct StopReplicationResponse: AWSDecodableShape {
+        /// The Source Server that this action was targeted on.
+        public let sourceServer: SourceServer?
+
+        public init(sourceServer: SourceServer? = nil) {
+            self.sourceServer = sourceServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServer
         }
     }
 

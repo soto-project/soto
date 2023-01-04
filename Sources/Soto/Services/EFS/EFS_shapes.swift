@@ -33,7 +33,7 @@ extension EFS {
 
     public enum PerformanceMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case generalPurpose
-        case maxIO
+        case maxIo = "maxIO"
         public var description: String { return self.rawValue }
     }
 
@@ -67,12 +67,14 @@ extension EFS {
 
     public enum ThroughputMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case bursting
+        case elastic
         case provisioned
         public var description: String { return self.rawValue }
     }
 
     public enum TransitionToIARules: String, CustomStringConvertible, Codable, _SotoSendable {
         case after14Days = "AFTER_14_DAYS"
+        case after1Day = "AFTER_1_DAY"
         case after30Days = "AFTER_30_DAYS"
         case after60Days = "AFTER_60_DAYS"
         case after7Days = "AFTER_7_DAYS"
@@ -221,7 +223,7 @@ extension EFS {
         public let provisionedThroughputInMibps: Double?
         /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
-        /// Specifies the throughput mode for the file system, either bursting or provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
+        /// Specifies the throughput mode for the file system. The mode can be bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, with certain time restrictions. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
         public let throughputMode: ThroughputMode?
 
         public init(availabilityZoneName: String? = nil, backup: Bool? = nil, creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
@@ -1715,7 +1717,7 @@ public struct EFSErrorType: AWSErrorType {
     public static var securityGroupNotFound: Self { .init(.securityGroupNotFound) }
     /// Returned if there is no subnet with ID SubnetId provided in the request.
     public static var subnetNotFound: Self { .init(.subnetNotFound) }
-    /// Returned when the CreateAccessPoint API action is called too quickly and  the number of Access Points in the account is nearing the limit of 120.
+    /// Returned when the CreateAccessPoint API action is called too quickly and  the number of Access Points on the file system is nearing the  limit of 120.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Returned if the throughput mode or amount of provisioned throughput can&#39;t be changed because the throughput limit of 1024 MiB/s has been reached.
     public static var throughputLimitExceeded: Self { .init(.throughputLimitExceeded) }

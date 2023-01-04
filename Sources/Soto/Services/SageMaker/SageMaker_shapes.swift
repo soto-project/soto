@@ -238,9 +238,17 @@ extension SageMaker {
     public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable, _SotoSendable {
         case accuracy = "Accuracy"
         case auc = "AUC"
+        case balancedAccuracy = "BalancedAccuracy"
         case f1 = "F1"
         case f1Macro = "F1macro"
+        case mae = "MAE"
         case mse = "MSE"
+        case precision = "Precision"
+        case precisionMacro = "PrecisionMacro"
+        case r2 = "R2"
+        case recall = "Recall"
+        case recallMacro = "RecallMacro"
+        case rmse = "RMSE"
         public var description: String { return self.rawValue }
     }
 
@@ -674,6 +682,47 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum HubContentSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case hubContentName = "HubContentName"
+        case hubContentStatus = "HubContentStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HubContentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case available = "Available"
+        case deleteFailed = "DeleteFailed"
+        case deleting = "Deleting"
+        case importFailed = "ImportFailed"
+        case importing = "Importing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HubContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case model = "Model"
+        case notebook = "Notebook"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HubSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accountIdOwner = "AccountIdOwner"
+        case creationTime = "CreationTime"
+        case hubName = "HubName"
+        case hubStatus = "HubStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HubStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createFailed = "CreateFailed"
+        case creating = "Creating"
+        case deleteFailed = "DeleteFailed"
+        case deleting = "Deleting"
+        case inService = "InService"
+        case updateFailed = "UpdateFailed"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HumanTaskUiStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "Active"
         case deleting = "Deleting"
@@ -781,6 +830,29 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum InferenceExperimentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cancelled = "Cancelled"
+        case completed = "Completed"
+        case created = "Created"
+        case creating = "Creating"
+        case running = "Running"
+        case starting = "Starting"
+        case stopping = "Stopping"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InferenceExperimentStopDesiredState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cancelled = "Cancelled"
+        case completed = "Completed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InferenceExperimentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case shadowMode = "ShadowMode"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case file = "File"
         case pipe = "Pipe"
@@ -857,6 +929,13 @@ extension SageMaker {
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
         case mlT3Xlarge = "ml.t3.xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case inference = "INFERENCE"
+        case notebookKernel = "NOTEBOOK_KERNEL"
+        case training = "TRAINING"
         public var description: String { return self.rawValue }
     }
 
@@ -966,6 +1045,66 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelCardExportJobSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case name = "Name"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardExportJobSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardExportJobStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardProcessingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case contentDeleted = "ContentDeleted"
+        case deleteCompleted = "DeleteCompleted"
+        case deleteFailed = "DeleteFailed"
+        case deleteInprogress = "DeleteInProgress"
+        case deletePending = "DeletePending"
+        case exportjobsDeleted = "ExportJobsDeleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case approved = "Approved"
+        case archived = "Archived"
+        case draft = "Draft"
+        case pendingreview = "PendingReview"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCardVersionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case version = "Version"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelInfrastructureType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case realTimeInference = "RealTimeInference"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelMetadataFilterType: String, CustomStringConvertible, Codable, _SotoSendable {
         case domain = "Domain"
         case framework = "Framework"
@@ -1015,6 +1154,34 @@ extension SageMaker {
     public enum ModelSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
         case creationTime = "CreationTime"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelVariantAction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case promote = "Promote"
+        case remove = "Remove"
+        case retain = "Retain"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelVariantStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creating = "Creating"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case inService = "InService"
+        case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringAlertHistorySortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitoringAlertStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case inAlert = "InAlert"
+        case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
@@ -1253,6 +1420,12 @@ extension SageMaker {
     public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case continuous = "Continuous"
         case endOfJob = "EndOfJob"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Processor: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cpu = "CPU"
+        case gpu = "GPU"
         public var description: String { return self.rawValue }
     }
 
@@ -1510,6 +1683,8 @@ extension SageMaker {
         case featureGroup = "FeatureGroup"
         case featureMetadata = "FeatureMetadata"
         case hyperParameterTuningJob = "HyperParameterTuningJob"
+        case model = "Model"
+        case modelCard = "ModelCard"
         case modelPackage = "ModelPackage"
         case modelPackageGroup = "ModelPackageGroup"
         case pipeline = "Pipeline"
@@ -1633,6 +1808,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortInferenceExperimentsBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case name = "Name"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortLineageGroupsBy: String, CustomStringConvertible, Codable, _SotoSendable {
         case creationTime = "CreationTime"
         case name = "Name"
@@ -1666,6 +1848,23 @@ extension SageMaker {
     public enum SortTrialsBy: String, CustomStringConvertible, Codable, _SotoSendable {
         case creationTime = "CreationTime"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpaceSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpaceStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case deleteFailed = "Delete_Failed"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inService = "InService"
+        case pending = "Pending"
+        case updateFailed = "Update_Failed"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -1709,6 +1908,12 @@ extension SageMaker {
         case creationTime = "CreationTime"
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+        case glue = "Glue"
+        case iceberg = "Iceberg"
         public var description: String { return self.rawValue }
     }
 
@@ -1950,6 +2155,14 @@ extension SageMaker {
         case creating = "Creating"
         case deleting = "Deleting"
         case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VendorGuidance: String, CustomStringConvertible, Codable, _SotoSendable {
+        case archived = "ARCHIVED"
+        case notProvided = "NOT_PROVIDED"
+        case stable = "STABLE"
+        case toBeArchived = "TO_BE_ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
@@ -2451,10 +2664,7 @@ extension SageMaker {
     }
 
     public struct AnnotationConsolidationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. This parameter is required for all labeling jobs. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.
-        ///   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition          Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking       3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation
-        ///   Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .   Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation      Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation      Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox        Video Frame Object Detection Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to classify and localize objects in a sequence of video frames.
-        ///     arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking        3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. This parameter is required for all labeling jobs. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
         public let annotationConsolidationLambdaArn: String
 
         public init(annotationConsolidationLambdaArn: String) {
@@ -2480,16 +2690,19 @@ extension SageMaker {
         public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
+        /// The name of the space.
+        public let spaceName: String?
         /// The status.
         public let status: AppStatus?
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.creationTime = creationTime
             self.domainId = domainId
+            self.spaceName = spaceName
             self.status = status
             self.userProfileName = userProfileName
         }
@@ -2499,6 +2712,7 @@ extension SageMaker {
             case appType = "AppType"
             case creationTime = "CreationTime"
             case domainId = "DomainId"
+            case spaceName = "SpaceName"
             case status = "Status"
             case userProfileName = "UserProfileName"
         }
@@ -2678,7 +2892,7 @@ extension SageMaker {
     public struct AssociateTrialComponentResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
-        /// The ARN of the trial component.
+        /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
         public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
@@ -3147,7 +3361,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:    MSE: The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive: the better a model is at predicting the actual values, the smaller the MSE value is. When the data contains outliers, they tend to dominate the MSE, which might cause subpar prediction performance.    Accuracy: The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for binary and multiclass classification. It measures how close the predicted class values are to the actual values. Accuracy values vary between zero and one: one indicates perfect accuracy and zero indicates perfect inaccuracy.    F1: The F1 score is the harmonic mean of the precision and recall. It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class and false when they do not. Precision is the ratio of the true positive predictions to all positive predictions (including the false positives) in a data set and measures the quality of the prediction when it predicts the positive class. Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances and measures how completely a model predicts the actual class members in a data set. The standard F1 score weighs precision and recall equally. But which metric is paramount typically depends on specific aspects of a problem. F1 scores vary between zero and one: one indicates the best possible performance and zero the worst.    AUC: The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms such as logistic regression that return probabilities. A threshold is needed to map the probabilities into classifications. The relevant curve is the receiver operating characteristic curve that plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives but more false negatives. AUC is the area under this receiver operating characteristic curve and so provides an aggregated measure of the model performance across all possible classification thresholds. The AUC score can also be interpreted as the probability that a randomly selected positive data point is more likely to be predicted positive than a randomly selected negative example. AUC scores vary between zero and one: a score of one indicates perfect accuracy and a score of one half indicates that the prediction is not better than a random classifier. Values under one half predict less accurately than a random predictor. But such consistently bad predictors can simply be inverted to obtain better than random predictors.    F1macro: The F1macro score applies F1 scoring to multiclass classification. In this context, you have multiple classes to predict. You just calculate the precision and recall for each class as you did for the positive class in binary classification. Then, use these values to calculate the F1 score for each class and average them to obtain the F1macro score. F1macro scores vary between zero and one: one indicates the best possible performance and zero the worst.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
+        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:  Accuracy  The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for both binary and multiclass classification. Accuracy measures how close the predicted class values are to the actual values. Values for accuracy metrics vary between zero (0) and one (1). A value of 1 indicates perfect accuracy, and 0 indicates perfect inaccuracy.  AUC  The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms that return probabilities, such as logistic regression. To map the probabilities into classifications, these are compared against a threshold value.  The relevant curve is the receiver operating characteristic curve (ROC curve). The ROC curve plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives, but more false negatives.  AUC is the area under this ROC curve. Therefore, AUC provides an aggregated measure of the model performance across all possible classification thresholds. AUC scores vary between 0 and 1. A score of 1 indicates perfect accuracy, and a score of one half (0.5) indicates that the prediction is not better than a random classifier.   BalancedAccuracy   BalancedAccuracy is a metric that measures the ratio of accurate predictions to all predictions. This ratio is calculated after normalizing true positives (TP) and true negatives (TN) by the total number of positive (P) and negative (N) values. It is used in both binary and multiclass classification and is defined as follows: 0.5*((TP/P)+(TN/N)), with values ranging from 0 to 1. BalancedAccuracy gives a better measure of accuracy when the number of positives or negatives differ greatly from each other in an imbalanced dataset. For example, when only 1% of email is spam.   F1  The F1 score is the harmonic mean of the precision and recall, defined as follows: F1 = 2 * (precision * recall) / (precision + recall). It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class, and false when they do not.  Precision is the ratio of the true positive predictions to all positive predictions, and it includes the false positives in a dataset. Precision measures the quality of the prediction when it predicts the positive class.  Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances. Recall measures how completely a model predicts the actual class members in a dataset.  F1 scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  F1macro  The F1macro score applies F1 scoring to multiclass classification problems. It does this by calculating the precision and recall, and then taking their harmonic mean to calculate the F1 score for each class. Lastly, the F1macro averages the individual scores to obtain the F1macro score. F1macro scores vary between 0 and 1. A score of 1 indicates the best possible performance, and 0 indicates the worst.  MAE  The mean absolute error (MAE) is a measure of how different the predicted and actual values are, when they're averaged over all values. MAE is commonly used in regression analysis to understand model prediction error. If there is linear regression, MAE represents the average distance from a predicted line to the actual value. MAE is defined as the sum of absolute errors divided by the number of observations. Values range from 0 to infinity, with smaller numbers indicating a better model fit to the data.  MSE  The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive. The better a model is at predicting the actual values, the smaller the MSE value is  Precision  Precision measures how well an algorithm predicts the true positives (TP) out of all of the positives that it identifies. It is defined as follows: Precision = TP/(TP+FP), with values ranging from zero (0) to one (1), and is used in binary classification. Precision is an important metric when the cost of a false positive is high. For example, the cost of a false positive is very high if an airplane safety system is falsely deemed safe to fly. A false positive (FP) reflects a positive prediction that is actually negative in the data.  PrecisionMacro  The precision macro computes precision for multiclass classification problems. It does this by calculating precision for each class and averaging scores to obtain precision for several classes. PrecisionMacro scores range from zero (0) to one (1). Higher scores reflect the model's ability to predict true positives (TP) out of all of the positives that it identifies, averaged across multiple classes.  R2  R2, also known as the coefficient of determination, is used in regression to quantify how much a model can explain the variance of a dependent variable. Values range from one (1) to negative one (-1). Higher numbers indicate a higher fraction of explained variability. R2 values close to zero (0) indicate that very little of the dependent variable can be explained by the model. Negative values indicate a poor fit and that the model is outperformed by a constant function. For linear regression, this is a horizontal line.  Recall  Recall measures how well an algorithm correctly predicts all of the true positives (TP) in a dataset. A true positive is a positive prediction that is also an actual positive value in the data. Recall is defined as follows: Recall = TP/(TP+FN), with values ranging from 0 to 1. Higher scores reflect a better ability of the model to predict true positives (TP) in the data, and is used in binary classification.  Recall is important when testing for cancer because it's used to find all of the true positives. A false positive (FP) reflects a positive prediction that is actually negative in the data. It is often insufficient to measure only recall, because predicting every output as a true positive will yield a perfect recall score.  RecallMacro  The RecallMacro computes recall for multiclass classification problems by calculating recall for each class and averaging scores to obtain recall for several classes. RecallMacro scores range from 0 to 1. Higher scores reflect the model's ability to predict true positives (TP) in a dataset. Whereas, a true positive reflects a positive prediction that is also an actual positive value in the data. It is often insufficient to measure only recall, because predicting every output as a true positive will yield a perfect recall score.  RMSE  Root mean squared error (RMSE) measures the square root of the squared difference between predicted and actual values, and it's averaged over all values. It is used in regression analysis to understand model prediction error. It's an important metric to indicate the presence of large model errors and outliers. Values range from zero (0) to infinity, with smaller numbers indicating a better model fit to the data. RMSE is dependent on scale, and should not be used to compare datasets of different sizes.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
         public let metricName: AutoMLMetricEnum
 
         public init(metricName: AutoMLMetricEnum) {
@@ -3156,6 +3370,19 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
+        }
+    }
+
+    public struct AutoMLJobStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AutoML job.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -3205,7 +3432,7 @@ extension SageMaker {
     }
 
     public struct AutoMLOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services KMS encryption key ID.
+        /// The Key Management Service (KMS) encryption key ID.
         public let kmsKeyId: String?
         /// The Amazon S3 output path. Must be 128 characters or less.
         public let s3OutputPath: String
@@ -4142,6 +4369,24 @@ extension SageMaker {
         }
     }
 
+    public struct CodeRepository: AWSEncodableShape & AWSDecodableShape {
+        /// The URL of the Git repository.
+        public let repositoryUrl: String
+
+        public init(repositoryUrl: String) {
+            self.repositoryUrl = repositoryUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryUrl, name: "repositoryUrl", parent: name, max: 1024)
+            try self.validate(self.repositoryUrl, name: "repositoryUrl", parent: name, pattern: "^https://([.\\-_a-zA-Z0-9]+/?){3,1016}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryUrl = "RepositoryUrl"
+        }
+    }
+
     public struct CodeRepositorySummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Git repository.
         public let codeRepositoryArn: String
@@ -4708,16 +4953,19 @@ extension SageMaker {
         public let domainId: String
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
         public let resourceSpec: ResourceSpec?
+        /// The name of the space. If this value is not set, then UserProfileName must be set.
+        public let spaceName: String?
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
         public let tags: [Tag]?
-        /// The user profile name.
-        public let userProfileName: String
+        /// The user profile name. If this value is not set, then SpaceName must be set.
+        public let userProfileName: String?
 
-        public init(appName: String, appType: AppType, domainId: String, resourceSpec: ResourceSpec? = nil, tags: [Tag]? = nil, userProfileName: String) {
+        public init(appName: String, appType: AppType, domainId: String, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, tags: [Tag]? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.domainId = domainId
             self.resourceSpec = resourceSpec
+            self.spaceName = spaceName
             self.tags = tags
             self.userProfileName = userProfileName
         }
@@ -4727,6 +4975,8 @@ extension SageMaker {
             try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.resourceSpec?.validate(name: "\(name).resourceSpec")
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4740,6 +4990,7 @@ extension SageMaker {
             case appType = "AppType"
             case domainId = "DomainId"
             case resourceSpec = "ResourceSpec"
+            case spaceName = "SpaceName"
             case tags = "Tags"
             case userProfileName = "UserProfileName"
         }
@@ -5228,6 +5479,8 @@ extension SageMaker {
         public let appSecurityGroupManagement: AppSecurityGroupManagement?
         /// The mode of authentication that members use to access the domain.
         public let authMode: AuthMode
+        /// The default settings used to create a space.
+        public let defaultSpaceSettings: DefaultSpaceSettings?
         /// The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
@@ -5245,10 +5498,11 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
+            self.defaultSpaceSettings = defaultSpaceSettings
             self.defaultUserSettings = defaultUserSettings
             self.domainName = domainName
             self.domainSettings = domainSettings
@@ -5260,10 +5514,11 @@ extension SageMaker {
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings, domainName: String, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
+            self.defaultSpaceSettings = defaultSpaceSettings
             self.defaultUserSettings = defaultUserSettings
             self.domainName = domainName
             self.domainSettings = domainSettings
@@ -5275,6 +5530,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.defaultSpaceSettings?.validate(name: "\(name).defaultSpaceSettings")
             try self.defaultUserSettings.validate(name: "\(name).defaultUserSettings")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 63)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
@@ -5301,6 +5557,7 @@ extension SageMaker {
             case appNetworkAccessType = "AppNetworkAccessType"
             case appSecurityGroupManagement = "AppSecurityGroupManagement"
             case authMode = "AuthMode"
+            case defaultSpaceSettings = "DefaultSpaceSettings"
             case defaultUserSettings = "DefaultUserSettings"
             case domainName = "DomainName"
             case domainSettings = "DomainSettings"
@@ -5492,18 +5749,21 @@ extension SageMaker {
         public let explainerConfig: ExplainerConfig?
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
         public let kmsKeyId: String?
-        /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
+        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
+        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants. If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants.
+        public let shadowProductionVariants: [ProductionVariant]?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], shadowProductionVariants: [ProductionVariant]? = nil, tags: [Tag]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigName = endpointConfigName
             self.explainerConfig = explainerConfig
             self.kmsKeyId = kmsKeyId
             self.productionVariants = productionVariants
+            self.shadowProductionVariants = shadowProductionVariants
             self.tags = tags
         }
 
@@ -5520,6 +5780,11 @@ extension SageMaker {
             }
             try self.validate(self.productionVariants, name: "productionVariants", parent: name, max: 10)
             try self.validate(self.productionVariants, name: "productionVariants", parent: name, min: 1)
+            try self.shadowProductionVariants?.forEach {
+                try $0.validate(name: "\(name).shadowProductionVariants[]")
+            }
+            try self.validate(self.shadowProductionVariants, name: "shadowProductionVariants", parent: name, max: 10)
+            try self.validate(self.shadowProductionVariants, name: "shadowProductionVariants", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -5533,6 +5798,7 @@ extension SageMaker {
             case explainerConfig = "ExplainerConfig"
             case kmsKeyId = "KmsKeyId"
             case productionVariants = "ProductionVariants"
+            case shadowProductionVariants = "ShadowProductionVariants"
             case tags = "Tags"
         }
     }
@@ -5661,7 +5927,7 @@ extension SageMaker {
         public let featureDefinitions: [FeatureDefinition]
         /// The name of the FeatureGroup. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and end with an alphanumeric character.   Can only contain alphanumeric character and hyphens. Spaces are not allowed.
         public let featureGroupName: String
-        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at rest using  Amazon Web Services KMS key. By defining your bucket-level key for SSE,  you can reduce Amazon Web Services KMS requests costs by up to 99 percent.   To learn more about this parameter, see OfflineStoreConfig.
+        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at rest using  Amazon Web Services KMS key. By defining your bucket-level key for SSE,  you can reduce Amazon Web Services KMS requests costs by up to 99 percent.   Format for the offline store table. Supported formats are Glue (Default) and Apache Iceberg.   To learn more about this parameter, see OfflineStoreConfig.
         public let offlineStoreConfig: OfflineStoreConfig?
         /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
         public let onlineStoreConfig: OnlineStoreConfig?
@@ -5803,6 +6069,71 @@ extension SageMaker {
         }
     }
 
+    public struct CreateHubRequest: AWSEncodableShape {
+        /// A description of the hub.
+        public let hubDescription: String
+        /// The display name of the hub.
+        public let hubDisplayName: String?
+        /// The name of the hub to create.
+        public let hubName: String
+        /// The searchable keywords for the hub.
+        public let hubSearchKeywords: [String]?
+        /// The Amazon S3 storage configuration for the hub.
+        public let s3StorageConfig: HubS3StorageConfig?
+        /// Any tags to associate with the hub.
+        public let tags: [Tag]?
+
+        public init(hubDescription: String, hubDisplayName: String? = nil, hubName: String, hubSearchKeywords: [String]? = nil, s3StorageConfig: HubS3StorageConfig? = nil, tags: [Tag]? = nil) {
+            self.hubDescription = hubDescription
+            self.hubDisplayName = hubDisplayName
+            self.hubName = hubName
+            self.hubSearchKeywords = hubSearchKeywords
+            self.s3StorageConfig = s3StorageConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubDescription, name: "hubDescription", parent: name, max: 1023)
+            try self.validate(self.hubDescription, name: "hubDescription", parent: name, pattern: ".*")
+            try self.validate(self.hubDisplayName, name: "hubDisplayName", parent: name, max: 255)
+            try self.validate(self.hubDisplayName, name: "hubDisplayName", parent: name, pattern: ".*")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.hubSearchKeywords?.forEach {
+                try validate($0, name: "hubSearchKeywords[]", parent: name, max: 255)
+                try validate($0, name: "hubSearchKeywords[]", parent: name, pattern: "^[^A-Z]*$")
+            }
+            try self.validate(self.hubSearchKeywords, name: "hubSearchKeywords", parent: name, max: 50)
+            try self.s3StorageConfig?.validate(name: "\(name).s3StorageConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubDescription = "HubDescription"
+            case hubDisplayName = "HubDisplayName"
+            case hubName = "HubName"
+            case hubSearchKeywords = "HubSearchKeywords"
+            case s3StorageConfig = "S3StorageConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateHubResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hub.
+        public let hubArn: String
+
+        public init(hubArn: String) {
+            self.hubArn = hubArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubArn = "HubArn"
+        }
+    }
+
     public struct CreateHumanTaskUiRequest: AWSEncodableShape {
         /// The name of the user interface you are creating.
         public let humanTaskUiName: String
@@ -5918,7 +6249,7 @@ extension SageMaker {
         public let displayName: String?
         /// The name of the image. Must be unique to your account.
         public let imageName: String
-        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
         public let roleArn: String
         /// A list of tags to apply to the image.
         public let tags: [Tag]?
@@ -5960,7 +6291,7 @@ extension SageMaker {
     }
 
     public struct CreateImageResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image.
+        /// The ARN of the image.
         public let imageArn: String?
 
         public init(imageArn: String? = nil) {
@@ -5973,20 +6304,49 @@ extension SageMaker {
     }
 
     public struct CreateImageVersionRequest: AWSEncodableShape {
+        /// A list of aliases created with the image version.
+        public let aliases: [String]?
         /// The registry path of the container image to use as the starting point for this version. The path is an Amazon Elastic Container Registry (ECR) URI in the following format:  .dkr.ecr..amazonaws.com/
         public let baseImage: String
         /// A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
         public let clientToken: String
+        /// Indicates Horovod compatibility.
+        public let horovod: Bool?
         /// The ImageName of the Image to create a version of.
         public let imageName: String
+        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        public let jobType: JobType?
+        /// The machine learning framework vended in the image version.
+        public let mlFramework: String?
+        /// Indicates CPU or GPU compatibility.    CPU: The image version is compatible with CPU.    GPU: The image version is compatible with GPU.
+        public let processor: Processor?
+        /// The supported programming language and its version.
+        public let programmingLang: String?
+        /// The maintainer description of the image version.
+        public let releaseNotes: String?
+        /// The stability of the image version, specified by the maintainer.    NOT_PROVIDED: The maintainers did not provide a status for image version stability.    STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months.    ARCHIVED: The image version is archived. Archived image versions are not searchable and are no longer actively supported.
+        public let vendorGuidance: VendorGuidance?
 
-        public init(baseImage: String, clientToken: String = CreateImageVersionRequest.idempotencyToken(), imageName: String) {
+        public init(aliases: [String]? = nil, baseImage: String, clientToken: String = CreateImageVersionRequest.idempotencyToken(), horovod: Bool? = nil, imageName: String, jobType: JobType? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil) {
+            self.aliases = aliases
             self.baseImage = baseImage
             self.clientToken = clientToken
+            self.horovod = horovod
             self.imageName = imageName
+            self.jobType = jobType
+            self.mlFramework = mlFramework
+            self.processor = processor
+            self.programmingLang = programmingLang
+            self.releaseNotes = releaseNotes
+            self.vendorGuidance = vendorGuidance
         }
 
         public func validate(name: String) throws {
+            try self.aliases?.forEach {
+                try validate($0, name: "aliases[]", parent: name, max: 128)
+                try validate($0, name: "aliases[]", parent: name, min: 1)
+                try validate($0, name: "aliases[]", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
+            }
             try self.validate(self.baseImage, name: "baseImage", parent: name, max: 255)
             try self.validate(self.baseImage, name: "baseImage", parent: name, min: 1)
             try self.validate(self.baseImage, name: "baseImage", parent: name, pattern: ".*")
@@ -5996,17 +6356,34 @@ extension SageMaker {
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, max: 128)
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, min: 1)
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, pattern: "^[a-zA-Z]+ ?\\d+\\.\\d+(\\.\\d+)?$")
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, max: 128)
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, min: 1)
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, pattern: "^[a-zA-Z]+ ?\\d+\\.\\d+(\\.\\d+)?$")
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, max: 255)
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, min: 1)
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
             case baseImage = "BaseImage"
             case clientToken = "ClientToken"
+            case horovod = "Horovod"
             case imageName = "ImageName"
+            case jobType = "JobType"
+            case mlFramework = "MLFramework"
+            case processor = "Processor"
+            case programmingLang = "ProgrammingLang"
+            case releaseNotes = "ReleaseNotes"
+            case vendorGuidance = "VendorGuidance"
         }
     }
 
     public struct CreateImageVersionResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image version.
+        /// The ARN of the image version.
         public let imageVersionArn: String?
 
         public init(imageVersionArn: String? = nil) {
@@ -6015,6 +6392,98 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case imageVersionArn = "ImageVersionArn"
+        }
+    }
+
+    public struct CreateInferenceExperimentRequest: AWSEncodableShape {
+        ///  The Amazon S3 location and configuration for storing inference request and response data.   This is an optional parameter that you can use for data capture. For more information, see Capture data.
+        public let dataStorageConfig: InferenceExperimentDataStorageConfig?
+        /// A description for the inference experiment.
+        public let description: String?
+        ///  The name of the Amazon SageMaker endpoint on which you want to run the inference experiment.
+        public let endpointName: String
+        ///  The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.  The KmsKey can be any of the following formats:    KMS key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS key Alias  "alias/ExampleAlias"    Amazon Resource Name (ARN) of a KMS key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"     If you use a KMS key ID or an alias of your KMS key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.   The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
+        public let kmsKey: String?
+        ///  An array of ModelVariantConfig objects. There is one for each variant in the inference experiment. Each ModelVariantConfig object in the array describes the infrastructure configuration for the corresponding variant.
+        public let modelVariants: [ModelVariantConfig]
+        /// The name for the inference experiment.
+        public let name: String
+        ///  The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and container images, and manage Amazon SageMaker Inference endpoints for model deployment.
+        public let roleArn: String
+        ///  The duration for which you want the inference experiment to run. If you don't specify this field, the experiment automatically starts immediately upon creation and concludes after 7 days.
+        public let schedule: InferenceExperimentSchedule?
+        ///  The configuration of ShadowMode inference experiment type. Use this field to specify a production variant which takes all the inference requests, and a shadow variant to which Amazon SageMaker replicates a percentage of the inference requests. For the shadow variant also specify the percentage of requests that Amazon SageMaker replicates.
+        public let shadowModeConfig: ShadowModeConfig
+        ///  Array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging your Amazon Web Services Resources.
+        public let tags: [Tag]?
+        ///  The type of the inference experiment that you want to run. The following types of experiments are possible:     ShadowMode: You can use this type to validate a shadow variant. For more information, see Shadow tests.
+        public let type: InferenceExperimentType
+
+        public init(dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, endpointName: String, kmsKey: String? = nil, modelVariants: [ModelVariantConfig], name: String, roleArn: String, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig, tags: [Tag]? = nil, type: InferenceExperimentType) {
+            self.dataStorageConfig = dataStorageConfig
+            self.description = description
+            self.endpointName = endpointName
+            self.kmsKey = kmsKey
+            self.modelVariants = modelVariants
+            self.name = name
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.shadowModeConfig = shadowModeConfig
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.dataStorageConfig?.validate(name: "\(name).dataStorageConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
+            try self.modelVariants.forEach {
+                try $0.validate(name: "\(name).modelVariants[]")
+            }
+            try self.validate(self.modelVariants, name: "modelVariants", parent: name, max: 2)
+            try self.validate(self.modelVariants, name: "modelVariants", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.shadowModeConfig.validate(name: "\(name).shadowModeConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataStorageConfig = "DataStorageConfig"
+            case description = "Description"
+            case endpointName = "EndpointName"
+            case kmsKey = "KmsKey"
+            case modelVariants = "ModelVariants"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case schedule = "Schedule"
+            case shadowModeConfig = "ShadowModeConfig"
+            case tags = "Tags"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN for your inference experiment.
+        public let inferenceExperimentArn: String
+
+        public init(inferenceExperimentArn: String) {
+            self.inferenceExperimentArn = inferenceExperimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperimentArn = "InferenceExperimentArn"
         }
     }
 
@@ -6250,6 +6719,109 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case jobDefinitionArn = "JobDefinitionArn"
+        }
+    }
+
+    public struct CreateModelCardExportJobRequest: AWSEncodableShape {
+        /// The name of the model card export job.
+        public let modelCardExportJobName: String
+        /// The name of the model card to export.
+        public let modelCardName: String
+        /// The version of the model card to export. If a version is not provided, then the latest version of the model card is exported.
+        public let modelCardVersion: Int?
+        /// The model card output configuration that specifies the Amazon S3 path for exporting.
+        public let outputConfig: ModelCardExportOutputConfig
+
+        public init(modelCardExportJobName: String, modelCardName: String, modelCardVersion: Int? = nil, outputConfig: ModelCardExportOutputConfig) {
+            self.modelCardExportJobName = modelCardExportJobName
+            self.modelCardName = modelCardName
+            self.modelCardVersion = modelCardVersion
+            self.outputConfig = outputConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelCardExportJobName, name: "modelCardExportJobName", parent: name, max: 63)
+            try self.validate(self.modelCardExportJobName, name: "modelCardExportJobName", parent: name, min: 1)
+            try self.validate(self.modelCardExportJobName, name: "modelCardExportJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardExportJobName = "ModelCardExportJobName"
+            case modelCardName = "ModelCardName"
+            case modelCardVersion = "ModelCardVersion"
+            case outputConfig = "OutputConfig"
+        }
+    }
+
+    public struct CreateModelCardExportJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model card export job.
+        public let modelCardExportJobArn: String
+
+        public init(modelCardExportJobArn: String) {
+            self.modelCardExportJobArn = modelCardExportJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardExportJobArn = "ModelCardExportJobArn"
+        }
+    }
+
+    public struct CreateModelCardRequest: AWSEncodableShape {
+        /// The content of the model card. Content must be in model card JSON schema and provided as a string.
+        public let content: String
+        /// The unique name of the model card.
+        public let modelCardName: String
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus
+        /// An optional Key Management Service  key to encrypt, decrypt, and re-encrypt model card content for regulated workloads with highly sensitive data.
+        public let securityConfig: ModelCardSecurityConfig?
+        /// Key-value pairs used to manage metadata for model cards.
+        public let tags: [Tag]?
+
+        public init(content: String, modelCardName: String, modelCardStatus: ModelCardStatus, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
+            self.content = content
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+            self.securityConfig = securityConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, pattern: ".*")
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.securityConfig?.validate(name: "\(name).securityConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+            case securityConfig = "SecurityConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateModelCardResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the successfully created model card.
+        public let modelCardArn: String
+
+        public init(modelCardArn: String) {
+            self.modelCardArn = modelCardArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardArn = "ModelCardArn"
         }
     }
 
@@ -6968,13 +7540,16 @@ extension SageMaker {
         public let expiresInSeconds: Int?
         /// The session expiration duration in seconds. This value defaults to 43200.
         public let sessionExpirationDurationInSeconds: Int?
+        /// The name of the space.
+        public let spaceName: String?
         /// The name of the UserProfile to sign-in as.
         public let userProfileName: String
 
-        public init(domainId: String, expiresInSeconds: Int? = nil, sessionExpirationDurationInSeconds: Int? = nil, userProfileName: String) {
+        public init(domainId: String, expiresInSeconds: Int? = nil, sessionExpirationDurationInSeconds: Int? = nil, spaceName: String? = nil, userProfileName: String) {
             self.domainId = domainId
             self.expiresInSeconds = expiresInSeconds
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+            self.spaceName = spaceName
             self.userProfileName = userProfileName
         }
 
@@ -6984,6 +7559,8 @@ extension SageMaker {
             try self.validate(self.expiresInSeconds, name: "expiresInSeconds", parent: name, min: 5)
             try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, max: 43200)
             try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, min: 1800)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
@@ -6992,6 +7569,7 @@ extension SageMaker {
             case domainId = "DomainId"
             case expiresInSeconds = "ExpiresInSeconds"
             case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
+            case spaceName = "SpaceName"
             case userProfileName = "UserProfileName"
         }
     }
@@ -7196,6 +7774,55 @@ extension SageMaker {
         }
     }
 
+    public struct CreateSpaceRequest: AWSEncodableShape {
+        /// The ID of the associated Domain.
+        public let domainId: String
+        /// The name of the space.
+        public let spaceName: String
+        /// A collection of space settings.
+        public let spaceSettings: SpaceSettings?
+        /// Tags to associated with the space. Each tag consists of a key and an optional value. Tag keys must be unique for each resource. Tags are searchable using the Search API.
+        public let tags: [Tag]?
+
+        public init(domainId: String, spaceName: String, spaceSettings: SpaceSettings? = nil, tags: [Tag]? = nil) {
+            self.domainId = domainId
+            self.spaceName = spaceName
+            self.spaceSettings = spaceSettings
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.spaceSettings?.validate(name: "\(name).spaceSettings")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case spaceName = "SpaceName"
+            case spaceSettings = "SpaceSettings"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateSpaceResponse: AWSDecodableShape {
+        /// The space's Amazon Resource Name (ARN).
+        public let spaceArn: String?
+
+        public init(spaceArn: String? = nil) {
+            self.spaceArn = spaceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spaceArn = "SpaceArn"
+        }
+    }
+
     public struct CreateStudioLifecycleConfigRequest: AWSEncodableShape {
         /// The App type that the Lifecycle Configuration is attached to.
         public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType
@@ -7252,7 +7879,7 @@ extension SageMaker {
         /// Contains information about the output location for managed spot training checkpoint data.
         public let checkpointConfig: CheckpointConfig?
         public let debugHookConfig: DebugHookConfig?
-        /// Configuration information for Debugger rules for debugging output tensors.
+        /// Configuration information for Amazon SageMaker Debugger rules for debugging output tensors.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -7270,7 +7897,7 @@ extension SageMaker {
         /// Specifies the path to the S3 location where you want to store model artifacts. SageMaker creates subfolders for the artifacts.
         public let outputDataConfig: OutputDataConfig
         public let profilerConfig: ProfilerConfig?
-        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        /// Configuration information for Amazon SageMaker Debugger rules for profiling system and framework metrics.
         public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
@@ -7720,7 +8347,7 @@ extension SageMaker {
     }
 
     public struct CreateWorkforceRequest: AWSEncodableShape {
-        /// Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single  Amazon Cognito user pool.  Do not use OidcConfig if you specify values for  CognitoConfig.
+        /// Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single  Amazon Cognito user pool. Do not use OidcConfig if you specify values for  CognitoConfig.
         public let cognitoConfig: CognitoConfig?
         /// Use this parameter to configure a private workforce using your own OIDC Identity Provider. Do not use CognitoConfig if you specify values for  OidcConfig.
         public let oidcConfig: OidcConfig?
@@ -7887,7 +8514,7 @@ extension SageMaker {
         public let enableCapture: Bool?
         /// The percentage of requests SageMaker will capture. A lower value is recommended for  Endpoints with high traffic.
         public let initialSamplingPercentage: Int
-        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
 
         public init(captureContentTypeHeader: CaptureContentTypeHeader? = nil, captureOptions: [CaptureOption], destinationS3Uri: String, enableCapture: Bool? = nil, initialSamplingPercentage: Int, kmsKeyId: String? = nil) {
@@ -8175,9 +8802,9 @@ extension SageMaker {
     }
 
     public struct DebugHookConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration information for Debugger tensor collections. To learn more about how to configure the CollectionConfiguration parameter,  see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
+        /// Configuration information for Amazon SageMaker Debugger tensor collections. To learn more about how to configure the CollectionConfiguration parameter,  see Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job.
         public let collectionConfigurations: [CollectionConfiguration]?
-        /// Configuration information for the Debugger hook parameters.
+        /// Configuration information for the Amazon SageMaker Debugger hook parameters.
         public let hookParameters: [String: String]?
         /// Path to local storage location for metrics and tensors. Defaults to /opt/ml/output/tensors/.
         public let localPath: String?
@@ -8219,7 +8846,7 @@ extension SageMaker {
     }
 
     public struct DebugRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The instance type to deploy a Debugger custom rule for debugging a training job.
+        /// The instance type to deploy a custom rule for debugging a training job.
         public let instanceType: ProcessingInstanceType?
         /// Path to local storage location for output of rules. Defaults to /opt/ml/processing/output/rule/.
         public let localPath: String?
@@ -8305,6 +8932,42 @@ extension SageMaker {
         }
     }
 
+    public struct DefaultSpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The execution role for the space.
+        public let executionRole: String?
+        public let jupyterServerAppSettings: JupyterServerAppSettings?
+        public let kernelGatewayAppSettings: KernelGatewayAppSettings?
+        /// The security groups for the Amazon Virtual Private Cloud that the space uses for communication.
+        public let securityGroups: [String]?
+
+        public init(executionRole: String? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil) {
+            self.executionRole = executionRole
+            self.jupyterServerAppSettings = jupyterServerAppSettings
+            self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.securityGroups = securityGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.jupyterServerAppSettings?.validate(name: "\(name).jupyterServerAppSettings")
+            try self.kernelGatewayAppSettings?.validate(name: "\(name).kernelGatewayAppSettings")
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, max: 32)
+                try validate($0, name: "securityGroups[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRole = "ExecutionRole"
+            case jupyterServerAppSettings = "JupyterServerAppSettings"
+            case kernelGatewayAppSettings = "KernelGatewayAppSettings"
+            case securityGroups = "SecurityGroups"
+        }
+    }
+
     public struct DeleteActionRequest: AWSEncodableShape {
         /// The name of the action to delete.
         public let actionName: String
@@ -8381,13 +9044,16 @@ extension SageMaker {
         public let appType: AppType
         /// The domain ID.
         public let domainId: String
-        /// The user profile name.
-        public let userProfileName: String
+        /// The name of the space. If this value is not set, then UserProfileName must be set.
+        public let spaceName: String?
+        /// The user profile name. If this value is not set, then SpaceName must be set.
+        public let userProfileName: String?
 
-        public init(appName: String, appType: AppType, domainId: String, userProfileName: String) {
+        public init(appName: String, appType: AppType, domainId: String, spaceName: String? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.domainId = domainId
+            self.spaceName = spaceName
             self.userProfileName = userProfileName
         }
 
@@ -8395,6 +9061,8 @@ extension SageMaker {
             try self.validate(self.appName, name: "appName", parent: name, max: 63)
             try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
@@ -8403,6 +9071,7 @@ extension SageMaker {
             case appName = "AppName"
             case appType = "AppType"
             case domainId = "DomainId"
+            case spaceName = "SpaceName"
             case userProfileName = "UserProfileName"
         }
     }
@@ -8749,6 +9418,59 @@ extension SageMaker {
         public init() {}
     }
 
+    public struct DeleteHubContentRequest: AWSEncodableShape {
+        /// The name of the content that you want to delete from a hub.
+        public let hubContentName: String
+        /// The type of content that you want to delete from a hub.
+        public let hubContentType: HubContentType
+        /// The version of the content that you want to delete from a hub.
+        public let hubContentVersion: String
+        /// The name of the hub that you want to delete content in.
+        public let hubName: String
+
+        public init(hubContentName: String, hubContentType: HubContentType, hubContentVersion: String, hubName: String) {
+            self.hubContentName = hubContentName
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, min: 5)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubContentName = "HubContentName"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+            case hubName = "HubName"
+        }
+    }
+
+    public struct DeleteHubRequest: AWSEncodableShape {
+        /// The name of the hub to delete.
+        public let hubName: String
+
+        public init(hubName: String) {
+            self.hubName = hubName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubName = "HubName"
+        }
+    }
+
     public struct DeleteHumanTaskUiRequest: AWSEncodableShape {
         /// The name of the human task user interface (work task template) you want to delete.
         public let humanTaskUiName: String
@@ -8796,17 +9518,23 @@ extension SageMaker {
     }
 
     public struct DeleteImageVersionRequest: AWSEncodableShape {
-        /// The name of the image.
+        /// The alias of the image to delete.
+        public let alias: String?
+        /// The name of the image to delete.
         public let imageName: String
         /// The version to delete.
-        public let version: Int
+        public let version: Int?
 
-        public init(imageName: String, version: Int) {
+        public init(alias: String? = nil, imageName: String, version: Int? = nil) {
+            self.alias = alias
             self.imageName = imageName
             self.version = version
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 128)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
@@ -8814,6 +9542,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
             case imageName = "ImageName"
             case version = "Version"
         }
@@ -8821,6 +9550,38 @@ extension SageMaker {
 
     public struct DeleteImageVersionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteInferenceExperimentRequest: AWSEncodableShape {
+        /// The name of the inference experiment you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN of the deleted inference experiment.
+        public let inferenceExperimentArn: String
+
+        public init(inferenceExperimentArn: String) {
+            self.inferenceExperimentArn = inferenceExperimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperimentArn = "InferenceExperimentArn"
+        }
     }
 
     public struct DeleteModelBiasJobDefinitionRequest: AWSEncodableShape {
@@ -8839,6 +9600,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case jobDefinitionName = "JobDefinitionName"
+        }
+    }
+
+    public struct DeleteModelCardRequest: AWSEncodableShape {
+        /// The name of the model card to delete.
+        public let modelCardName: String
+
+        public init(modelCardName: String) {
+            self.modelCardName = modelCardName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardName = "ModelCardName"
         }
     }
 
@@ -9064,6 +9844,29 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case projectName = "ProjectName"
+        }
+    }
+
+    public struct DeleteSpaceRequest: AWSEncodableShape {
+        /// The ID of the associated Domain.
+        public let domainId: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(domainId: String, spaceName: String) {
+            self.domainId = domainId
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case spaceName = "SpaceName"
         }
     }
 
@@ -9587,13 +10390,16 @@ extension SageMaker {
         public let appType: AppType
         /// The domain ID.
         public let domainId: String
-        /// The user profile name.
-        public let userProfileName: String
+        /// The name of the space.
+        public let spaceName: String?
+        /// The user profile name. If this value is not set, then SpaceName must be set.
+        public let userProfileName: String?
 
-        public init(appName: String, appType: AppType, domainId: String, userProfileName: String) {
+        public init(appName: String, appType: AppType, domainId: String, spaceName: String? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.domainId = domainId
+            self.spaceName = spaceName
             self.userProfileName = userProfileName
         }
 
@@ -9601,6 +10407,8 @@ extension SageMaker {
             try self.validate(self.appName, name: "appName", parent: name, max: 63)
             try self.validate(self.appName, name: "appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, max: 63)
             try self.validate(self.userProfileName, name: "userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
@@ -9609,6 +10417,7 @@ extension SageMaker {
             case appName = "AppName"
             case appType = "AppType"
             case domainId = "DomainId"
+            case spaceName = "SpaceName"
             case userProfileName = "UserProfileName"
         }
     }
@@ -9632,12 +10441,14 @@ extension SageMaker {
         public let lastUserActivityTimestamp: Date?
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let resourceSpec: ResourceSpec?
+        /// The name of the space. If this value is not set, then UserProfileName must be set.
+        public let spaceName: String?
         /// The status.
         public let status: AppStatus?
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
             self.appType = appType
@@ -9647,6 +10458,7 @@ extension SageMaker {
             self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
             self.lastUserActivityTimestamp = lastUserActivityTimestamp
             self.resourceSpec = resourceSpec
+            self.spaceName = spaceName
             self.status = status
             self.userProfileName = userProfileName
         }
@@ -9661,6 +10473,7 @@ extension SageMaker {
             case lastHealthCheckTimestamp = "LastHealthCheckTimestamp"
             case lastUserActivityTimestamp = "LastUserActivityTimestamp"
             case resourceSpec = "ResourceSpec"
+            case spaceName = "SpaceName"
             case status = "Status"
             case userProfileName = "UserProfileName"
         }
@@ -9768,7 +10581,7 @@ extension SageMaker {
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
         /// Returns the status of the AutoML job.
         public let autoMLJobStatus: AutoMLJobStatus
-        /// Returns the job's best AutoMLCandidate.
+        /// The best model candidate selected by SageMaker Autopilot using both the best objective metric and lowest InferenceLatency for an experiment.
         public let bestCandidate: AutoMLCandidate?
         /// Returns the creation time of the AutoML job.
         public let creationTime: Date
@@ -9794,7 +10607,7 @@ extension SageMaker {
         public let problemType: ProblemType?
         /// This contains ProblemType, AutoMLJobObjective, and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
         public let resolvedAttributes: ResolvedAttributes?
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
 
         public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
@@ -10300,6 +11113,8 @@ extension SageMaker {
         public let authMode: AuthMode?
         /// The creation time.
         public let creationTime: Date?
+        /// The default settings used to create a space.
+        public let defaultSpaceSettings: DefaultSpaceSettings?
         /// Settings which are applied to UserProfiles in this domain if settings are not explicitly specified in a given UserProfile.
         public let defaultUserSettings: UserSettings?
         /// The domain's Amazon Resource Name (ARN).
@@ -10333,11 +11148,12 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String?
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
             self.creationTime = creationTime
+            self.defaultSpaceSettings = defaultSpaceSettings
             self.defaultUserSettings = defaultUserSettings
             self.domainArn = domainArn
             self.domainId = domainId
@@ -10357,11 +11173,12 @@ extension SageMaker {
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
             self.creationTime = creationTime
+            self.defaultSpaceSettings = defaultSpaceSettings
             self.defaultUserSettings = defaultUserSettings
             self.domainArn = domainArn
             self.domainId = domainId
@@ -10385,6 +11202,7 @@ extension SageMaker {
             case appSecurityGroupManagement = "AppSecurityGroupManagement"
             case authMode = "AuthMode"
             case creationTime = "CreationTime"
+            case defaultSpaceSettings = "DefaultSpaceSettings"
             case defaultUserSettings = "DefaultUserSettings"
             case domainArn = "DomainArn"
             case domainId = "DomainId"
@@ -10609,8 +11427,10 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
+        /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.
+        public let shadowProductionVariants: [ProductionVariant]?
 
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], shadowProductionVariants: [ProductionVariant]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -10619,6 +11439,7 @@ extension SageMaker {
             self.explainerConfig = explainerConfig
             self.kmsKeyId = kmsKeyId
             self.productionVariants = productionVariants
+            self.shadowProductionVariants = shadowProductionVariants
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10630,6 +11451,7 @@ extension SageMaker {
             case explainerConfig = "ExplainerConfig"
             case kmsKeyId = "KmsKeyId"
             case productionVariants = "ProductionVariants"
+            case shadowProductionVariants = "ShadowProductionVariants"
         }
     }
 
@@ -10675,10 +11497,12 @@ extension SageMaker {
         public let lastModifiedTime: Date
         /// Returns the summary of an in-progress deployment. This field is only returned when the endpoint is creating or updating with a new endpoint configuration.
         public let pendingDeploymentSummary: PendingDeploymentSummary?
-        ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
+        /// An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
         public let productionVariants: [ProductionVariantSummary]?
+        /// An array of ProductionVariantSummary objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.
+        public let shadowProductionVariants: [ProductionVariantSummary]?
 
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, explainerConfig: ExplainerConfig? = nil, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, explainerConfig: ExplainerConfig? = nil, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -10692,6 +11516,7 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
             self.pendingDeploymentSummary = pendingDeploymentSummary
             self.productionVariants = productionVariants
+            self.shadowProductionVariants = shadowProductionVariants
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10708,6 +11533,7 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case pendingDeploymentSummary = "PendingDeploymentSummary"
             case productionVariants = "ProductionVariants"
+            case shadowProductionVariants = "ShadowProductionVariants"
         }
     }
 
@@ -10747,7 +11573,7 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// When the experiment was last modified.
         public let lastModifiedTime: Date?
-        /// The ARN of the source and, optionally, the type.
+        /// The Amazon Resource Name (ARN) of the source and, optionally, the type.
         public let source: ExperimentSource?
 
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: ExperimentSource? = nil) {
@@ -10823,7 +11649,7 @@ extension SageMaker {
         public let lastUpdateStatus: LastUpdateStatus?
         /// A token to resume pagination of the list of Features (FeatureDefinitions).
         public let nextToken: String
-        /// The configuration of the OfflineStore, inducing the S3 location of the OfflineStore, Amazon Web Services Glue or Amazon Web Services Hive data catalogue configurations, and the security configuration.
+        /// The configuration of the offline store. It includes the following configurations:   Amazon S3 location of the offline store.   Configuration of the Glue data catalog.   Table format of the offline store.   Option to disable the automatic creation of a Glue table for the offline store.   Encryption configuration.
         public let offlineStoreConfig: OfflineStoreConfig?
         /// The status of the OfflineStore. Notifies you if replicating data into the OfflineStore has failed. Returns either: Active or Blocked
         public let offlineStoreStatus: OfflineStoreStatus?
@@ -11012,6 +11838,181 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeHubContentRequest: AWSEncodableShape {
+        /// The name of the content to describe.
+        public let hubContentName: String
+        /// The type of content in the hub.
+        public let hubContentType: HubContentType
+        /// The version of the content to describe.
+        public let hubContentVersion: String?
+        /// The name of the hub that contains the content to describe.
+        public let hubName: String
+
+        public init(hubContentName: String, hubContentType: HubContentType, hubContentVersion: String? = nil, hubName: String) {
+            self.hubContentName = hubContentName
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, min: 5)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubContentName = "HubContentName"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+            case hubName = "HubName"
+        }
+    }
+
+    public struct DescribeHubContentResponse: AWSDecodableShape {
+        /// The date and time that hub content was created.
+        public let creationTime: Date
+        /// The document schema version for the hub content.
+        public let documentSchemaVersion: String
+        /// The failure reason if importing hub content failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the hub that contains the content.
+        public let hubArn: String
+        /// The Amazon Resource Name (ARN) of the hub content.
+        public let hubContentArn: String
+        /// The location of any dependencies that the hub content has, such as scripts, model artifacts, datasets, or notebooks.
+        public let hubContentDependencies: [HubContentDependency]?
+        /// A description of the hub content.
+        public let hubContentDescription: String?
+        /// The display name of the hub content.
+        public let hubContentDisplayName: String?
+        /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
+        public let hubContentDocument: String
+        /// Markdown files associated with the hub content to import.
+        public let hubContentMarkdown: String?
+        /// The name of the hub content.
+        public let hubContentName: String
+        /// The searchable keywords for the hub content.
+        public let hubContentSearchKeywords: [String]?
+        /// The status of the hub content.
+        public let hubContentStatus: HubContentStatus
+        /// The type of hub content.
+        public let hubContentType: HubContentType
+        /// The version of the hub content.
+        public let hubContentVersion: String
+        /// The name of the hub that contains the content.
+        public let hubName: String
+
+        public init(creationTime: Date, documentSchemaVersion: String, failureReason: String? = nil, hubArn: String, hubContentArn: String, hubContentDependencies: [HubContentDependency]? = nil, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentDocument: String, hubContentMarkdown: String? = nil, hubContentName: String, hubContentSearchKeywords: [String]? = nil, hubContentStatus: HubContentStatus, hubContentType: HubContentType, hubContentVersion: String, hubName: String) {
+            self.creationTime = creationTime
+            self.documentSchemaVersion = documentSchemaVersion
+            self.failureReason = failureReason
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
+            self.hubContentDependencies = hubContentDependencies
+            self.hubContentDescription = hubContentDescription
+            self.hubContentDisplayName = hubContentDisplayName
+            self.hubContentDocument = hubContentDocument
+            self.hubContentMarkdown = hubContentMarkdown
+            self.hubContentName = hubContentName
+            self.hubContentSearchKeywords = hubContentSearchKeywords
+            self.hubContentStatus = hubContentStatus
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case documentSchemaVersion = "DocumentSchemaVersion"
+            case failureReason = "FailureReason"
+            case hubArn = "HubArn"
+            case hubContentArn = "HubContentArn"
+            case hubContentDependencies = "HubContentDependencies"
+            case hubContentDescription = "HubContentDescription"
+            case hubContentDisplayName = "HubContentDisplayName"
+            case hubContentDocument = "HubContentDocument"
+            case hubContentMarkdown = "HubContentMarkdown"
+            case hubContentName = "HubContentName"
+            case hubContentSearchKeywords = "HubContentSearchKeywords"
+            case hubContentStatus = "HubContentStatus"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+            case hubName = "HubName"
+        }
+    }
+
+    public struct DescribeHubRequest: AWSEncodableShape {
+        /// The name of the hub to describe.
+        public let hubName: String
+
+        public init(hubName: String) {
+            self.hubName = hubName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubName = "HubName"
+        }
+    }
+
+    public struct DescribeHubResponse: AWSDecodableShape {
+        /// The date and time that the hub was created.
+        public let creationTime: Date
+        /// The failure reason if importing hub content failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the hub.
+        public let hubArn: String
+        /// A description of the hub.
+        public let hubDescription: String?
+        /// The display name of the hub.
+        public let hubDisplayName: String?
+        /// The name of the hub.
+        public let hubName: String
+        /// The searchable keywords for the hub.
+        public let hubSearchKeywords: [String]?
+        /// The status of the hub.
+        public let hubStatus: HubStatus
+        /// The date and time that the hub was last modified.
+        public let lastModifiedTime: Date
+        /// The Amazon S3 storage configuration for the hub.
+        public let s3StorageConfig: HubS3StorageConfig?
+
+        public init(creationTime: Date, failureReason: String? = nil, hubArn: String, hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String, hubSearchKeywords: [String]? = nil, hubStatus: HubStatus, lastModifiedTime: Date, s3StorageConfig: HubS3StorageConfig? = nil) {
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.hubArn = hubArn
+            self.hubDescription = hubDescription
+            self.hubDisplayName = hubDisplayName
+            self.hubName = hubName
+            self.hubSearchKeywords = hubSearchKeywords
+            self.hubStatus = hubStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.s3StorageConfig = s3StorageConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case hubArn = "HubArn"
+            case hubDescription = "HubDescription"
+            case hubDisplayName = "HubDisplayName"
+            case hubName = "HubName"
+            case hubSearchKeywords = "HubSearchKeywords"
+            case hubStatus = "HubStatus"
+            case lastModifiedTime = "LastModifiedTime"
+            case s3StorageConfig = "S3StorageConfig"
+        }
+    }
+
     public struct DescribeHumanTaskUiRequest: AWSEncodableShape {
         /// The name of the human task user interface  (worker task template) you want information about.
         public let humanTaskUiName: String
@@ -11175,7 +12176,7 @@ extension SageMaker {
         public let displayName: String?
         /// When a create, update, or delete operation fails, the reason for the failure.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the image.
+        /// The ARN of the image.
         public let imageArn: String?
         /// The name of the image.
         public let imageName: String?
@@ -11183,7 +12184,7 @@ extension SageMaker {
         public let imageStatus: ImageStatus?
         /// When the image was last modified.
         public let lastModifiedTime: Date?
-        /// The Amazon Resource Name (ARN) of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
         public let roleArn: String?
 
         public init(creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, failureReason: String? = nil, imageArn: String? = nil, imageName: String? = nil, imageStatus: ImageStatus? = nil, lastModifiedTime: Date? = nil, roleArn: String? = nil) {
@@ -11212,17 +12213,23 @@ extension SageMaker {
     }
 
     public struct DescribeImageVersionRequest: AWSEncodableShape {
+        /// The alias of the image version.
+        public let alias: String?
         /// The name of the image.
         public let imageName: String
         /// The version of the image. If not specified, the latest version is described.
         public let version: Int?
 
-        public init(imageName: String, version: Int? = nil) {
+        public init(alias: String? = nil, imageName: String, version: Int? = nil) {
+            self.alias = alias
             self.imageName = imageName
             self.version = version
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 128)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
             try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
@@ -11230,6 +12237,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
             case imageName = "ImageName"
             case version = "Version"
         }
@@ -11244,26 +12252,47 @@ extension SageMaker {
         public let creationTime: Date?
         /// When a create or delete operation fails, the reason for the failure.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the image the version is based on.
+        /// Indicates Horovod compatibility.
+        public let horovod: Bool?
+        /// The ARN of the image the version is based on.
         public let imageArn: String?
         /// The ARN of the version.
         public let imageVersionArn: String?
         /// The status of the version.
         public let imageVersionStatus: ImageVersionStatus?
+        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        public let jobType: JobType?
         /// When the version was last modified.
         public let lastModifiedTime: Date?
+        /// The machine learning framework vended in the image version.
+        public let mlFramework: String?
+        /// Indicates CPU or GPU compatibility.    CPU: The image version is compatible with CPU.    GPU: The image version is compatible with GPU.
+        public let processor: Processor?
+        /// The supported programming language and its version.
+        public let programmingLang: String?
+        /// The maintainer description of the image version.
+        public let releaseNotes: String?
+        /// The stability of the image version specified by the maintainer.    NOT_PROVIDED: The maintainers did not provide a status for image version stability.    STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months.    ARCHIVED: The image version is archived. Archived image versions are not searchable and are no longer actively supported.
+        public let vendorGuidance: VendorGuidance?
         /// The version number.
         public let version: Int?
 
-        public init(baseImage: String? = nil, containerImage: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, imageArn: String? = nil, imageVersionArn: String? = nil, imageVersionStatus: ImageVersionStatus? = nil, lastModifiedTime: Date? = nil, version: Int? = nil) {
+        public init(baseImage: String? = nil, containerImage: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, horovod: Bool? = nil, imageArn: String? = nil, imageVersionArn: String? = nil, imageVersionStatus: ImageVersionStatus? = nil, jobType: JobType? = nil, lastModifiedTime: Date? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil, version: Int? = nil) {
             self.baseImage = baseImage
             self.containerImage = containerImage
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.horovod = horovod
             self.imageArn = imageArn
             self.imageVersionArn = imageVersionArn
             self.imageVersionStatus = imageVersionStatus
+            self.jobType = jobType
             self.lastModifiedTime = lastModifiedTime
+            self.mlFramework = mlFramework
+            self.processor = processor
+            self.programmingLang = programmingLang
+            self.releaseNotes = releaseNotes
+            self.vendorGuidance = vendorGuidance
             self.version = version
         }
 
@@ -11272,11 +12301,110 @@ extension SageMaker {
             case containerImage = "ContainerImage"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case horovod = "Horovod"
             case imageArn = "ImageArn"
             case imageVersionArn = "ImageVersionArn"
             case imageVersionStatus = "ImageVersionStatus"
+            case jobType = "JobType"
             case lastModifiedTime = "LastModifiedTime"
+            case mlFramework = "MLFramework"
+            case processor = "Processor"
+            case programmingLang = "ProgrammingLang"
+            case releaseNotes = "ReleaseNotes"
+            case vendorGuidance = "VendorGuidance"
             case version = "Version"
+        }
+    }
+
+    public struct DescribeInferenceExperimentRequest: AWSEncodableShape {
+        /// The name of the inference experiment to describe.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN of the inference experiment being described.
+        public let arn: String
+        ///  The timestamp at which the inference experiment was completed.
+        public let completionTime: Date?
+        /// The timestamp at which you created the inference experiment.
+        public let creationTime: Date?
+        /// The Amazon S3 location and configuration for storing inference request and response data.
+        public let dataStorageConfig: InferenceExperimentDataStorageConfig?
+        /// The description of the inference experiment.
+        public let description: String?
+        /// The metadata of the endpoint on which the inference experiment ran.
+        public let endpointMetadata: EndpointMetadata
+        ///  The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. For more information, see CreateInferenceExperimentRequest$KmsKey.
+        public let kmsKey: String?
+        /// The timestamp at which you last modified the inference experiment.
+        public let lastModifiedTime: Date?
+        ///  An array of ModelVariantConfigSummary objects. There is one for each variant in the inference experiment. Each ModelVariantConfigSummary object in the array describes the infrastructure configuration for deploying the corresponding variant.
+        public let modelVariants: [ModelVariantConfigSummary]
+        /// The name of the inference experiment.
+        public let name: String
+        ///  The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and container images, and manage Amazon SageMaker Inference endpoints for model deployment.
+        public let roleArn: String?
+        /// The duration for which the inference experiment ran or will run.
+        public let schedule: InferenceExperimentSchedule?
+        ///  The configuration of ShadowMode inference experiment type, which shows the production variant that takes all the inference requests, and the shadow variant to which Amazon SageMaker replicates a percentage of the inference requests. For the shadow variant it also shows the percentage of requests that Amazon SageMaker replicates.
+        public let shadowModeConfig: ShadowModeConfig?
+        ///  The status of the inference experiment. The following are the possible statuses for an inference experiment:     Creating - Amazon SageMaker is creating your experiment.     Created - Amazon SageMaker has finished the creation of your experiment and will begin the experiment at the scheduled time.     Updating - When you make changes to your experiment, your experiment shows as updating.     Starting - Amazon SageMaker is beginning your experiment.     Running - Your experiment is in progress.     Stopping - Amazon SageMaker is stopping your experiment.     Completed - Your experiment has completed.     Cancelled - When you conclude your experiment early using the StopInferenceExperiment API, or if any operation fails with an unexpected error, it shows as cancelled.
+        public let status: InferenceExperimentStatus
+        ///  The error message or client-specified Reason from the StopInferenceExperiment API, that explains the status of the inference experiment.
+        public let statusReason: String?
+        /// The type of the inference experiment.
+        public let type: InferenceExperimentType
+
+        public init(arn: String, completionTime: Date? = nil, creationTime: Date? = nil, dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, endpointMetadata: EndpointMetadata, kmsKey: String? = nil, lastModifiedTime: Date? = nil, modelVariants: [ModelVariantConfigSummary], name: String, roleArn: String? = nil, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig? = nil, status: InferenceExperimentStatus, statusReason: String? = nil, type: InferenceExperimentType) {
+            self.arn = arn
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.dataStorageConfig = dataStorageConfig
+            self.description = description
+            self.endpointMetadata = endpointMetadata
+            self.kmsKey = kmsKey
+            self.lastModifiedTime = lastModifiedTime
+            self.modelVariants = modelVariants
+            self.name = name
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.shadowModeConfig = shadowModeConfig
+            self.status = status
+            self.statusReason = statusReason
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case completionTime = "CompletionTime"
+            case creationTime = "CreationTime"
+            case dataStorageConfig = "DataStorageConfig"
+            case description = "Description"
+            case endpointMetadata = "EndpointMetadata"
+            case kmsKey = "KmsKey"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelVariants = "ModelVariants"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case schedule = "Schedule"
+            case shadowModeConfig = "ShadowModeConfig"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case type = "Type"
         }
     }
 
@@ -11588,6 +12716,147 @@ extension SageMaker {
             case networkConfig = "NetworkConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct DescribeModelCardExportJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the model card export job to describe.
+        public let modelCardExportJobArn: String
+
+        public init(modelCardExportJobArn: String) {
+            self.modelCardExportJobArn = modelCardExportJobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelCardExportJobArn, name: "modelCardExportJobArn", parent: name, max: 256)
+            try self.validate(self.modelCardExportJobArn, name: "modelCardExportJobArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-card/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/export-job/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardExportJobArn = "ModelCardExportJobArn"
+        }
+    }
+
+    public struct DescribeModelCardExportJobResponse: AWSDecodableShape {
+        /// The date and time that the model export job was created.
+        public let createdAt: Date
+        /// The exported model card artifacts.
+        public let exportArtifacts: ModelCardExportArtifacts?
+        /// The failure reason if the model export job fails.
+        public let failureReason: String?
+        /// The date and time that the model export job was last modified.
+        public let lastModifiedAt: Date
+        /// The Amazon Resource Name (ARN) of the model card export job.
+        public let modelCardExportJobArn: String
+        /// The name of the model card export job to describe.
+        public let modelCardExportJobName: String
+        /// The name of the model card that the model export job exports.
+        public let modelCardName: String
+        /// The version of the model card that the model export job exports.
+        public let modelCardVersion: Int
+        /// The export output details for the model card.
+        public let outputConfig: ModelCardExportOutputConfig
+        /// The completion status of the model card export job.    InProgress: The model card export job is in progress.    Completed: The model card export job is complete.    Failed: The model card export job failed. To see the reason for the failure, see the FailureReason field in the response to a DescribeModelCardExportJob call.
+        public let status: ModelCardExportJobStatus
+
+        public init(createdAt: Date, exportArtifacts: ModelCardExportArtifacts? = nil, failureReason: String? = nil, lastModifiedAt: Date, modelCardExportJobArn: String, modelCardExportJobName: String, modelCardName: String, modelCardVersion: Int, outputConfig: ModelCardExportOutputConfig, status: ModelCardExportJobStatus) {
+            self.createdAt = createdAt
+            self.exportArtifacts = exportArtifacts
+            self.failureReason = failureReason
+            self.lastModifiedAt = lastModifiedAt
+            self.modelCardExportJobArn = modelCardExportJobArn
+            self.modelCardExportJobName = modelCardExportJobName
+            self.modelCardName = modelCardName
+            self.modelCardVersion = modelCardVersion
+            self.outputConfig = outputConfig
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case exportArtifacts = "ExportArtifacts"
+            case failureReason = "FailureReason"
+            case lastModifiedAt = "LastModifiedAt"
+            case modelCardExportJobArn = "ModelCardExportJobArn"
+            case modelCardExportJobName = "ModelCardExportJobName"
+            case modelCardName = "ModelCardName"
+            case modelCardVersion = "ModelCardVersion"
+            case outputConfig = "OutputConfig"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeModelCardRequest: AWSEncodableShape {
+        /// The name of the model card to describe.
+        public let modelCardName: String
+        /// The version of the model card to describe. If a version is not provided, then the latest version of the model card is described.
+        public let modelCardVersion: Int?
+
+        public init(modelCardName: String, modelCardVersion: Int? = nil) {
+            self.modelCardName = modelCardName
+            self.modelCardVersion = modelCardVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardName = "ModelCardName"
+            case modelCardVersion = "ModelCardVersion"
+        }
+    }
+
+    public struct DescribeModelCardResponse: AWSDecodableShape {
+        /// The content of the model card.
+        public let content: String
+        public let createdBy: UserContext
+        /// The date and time the model card was created.
+        public let creationTime: Date
+        public let lastModifiedBy: UserContext?
+        /// The date and time the model card was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the model card.
+        public let modelCardArn: String
+        /// The name of the model card.
+        public let modelCardName: String
+        /// The processing status of model card deletion. The ModelCardProcessingStatus updates throughout the different deletion steps.    DeletePending: Model card deletion request received.    DeleteInProgress: Model card deletion is in progress.    ContentDeleted: Deleted model card content.    ExportJobsDeleted: Deleted all export jobs associated with the model card.    DeleteCompleted: Successfully deleted the model card.    DeleteFailed: The model card failed to delete.
+        public let modelCardProcessingStatus: ModelCardProcessingStatus?
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus
+        /// The version of the model card.
+        public let modelCardVersion: Int
+        /// The security configuration used to protect model card content.
+        public let securityConfig: ModelCardSecurityConfig?
+
+        public init(content: String, createdBy: UserContext, creationTime: Date, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String, modelCardName: String, modelCardProcessingStatus: ModelCardProcessingStatus? = nil, modelCardStatus: ModelCardStatus, modelCardVersion: Int, securityConfig: ModelCardSecurityConfig? = nil) {
+            self.content = content
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.modelCardArn = modelCardArn
+            self.modelCardName = modelCardName
+            self.modelCardProcessingStatus = modelCardProcessingStatus
+            self.modelCardStatus = modelCardStatus
+            self.modelCardVersion = modelCardVersion
+            self.securityConfig = securityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelCardArn = "ModelCardArn"
+            case modelCardName = "ModelCardName"
+            case modelCardProcessingStatus = "ModelCardProcessingStatus"
+            case modelCardStatus = "ModelCardStatus"
+            case modelCardVersion = "ModelCardVersion"
+            case securityConfig = "SecurityConfig"
         }
     }
 
@@ -12318,9 +13587,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 2048)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12569,6 +13838,74 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeSpaceRequest: AWSEncodableShape {
+        /// The ID of the associated Domain.
+        public let domainId: String
+        /// The name of the space.
+        public let spaceName: String
+
+        public init(domainId: String, spaceName: String) {
+            self.domainId = domainId
+            self.spaceName = spaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case spaceName = "SpaceName"
+        }
+    }
+
+    public struct DescribeSpaceResponse: AWSDecodableShape {
+        /// The creation time.
+        public let creationTime: Date?
+        /// The ID of the associated Domain.
+        public let domainId: String?
+        /// The failure reason.
+        public let failureReason: String?
+        /// The ID of the space's profile in the Amazon Elastic File System volume.
+        public let homeEfsFileSystemUid: String?
+        /// The last modified time.
+        public let lastModifiedTime: Date?
+        /// The space's Amazon Resource Name (ARN).
+        public let spaceArn: String?
+        /// The name of the space.
+        public let spaceName: String?
+        /// A collection of space settings.
+        public let spaceSettings: SpaceSettings?
+        /// The status.
+        public let status: SpaceStatus?
+
+        public init(creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: Date? = nil, spaceArn: String? = nil, spaceName: String? = nil, spaceSettings: SpaceSettings? = nil, status: SpaceStatus? = nil) {
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.failureReason = failureReason
+            self.homeEfsFileSystemUid = homeEfsFileSystemUid
+            self.lastModifiedTime = lastModifiedTime
+            self.spaceArn = spaceArn
+            self.spaceName = spaceName
+            self.spaceSettings = spaceSettings
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case failureReason = "FailureReason"
+            case homeEfsFileSystemUid = "HomeEfsFileSystemUid"
+            case lastModifiedTime = "LastModifiedTime"
+            case spaceArn = "SpaceArn"
+            case spaceName = "SpaceName"
+            case spaceSettings = "SpaceSettings"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeStudioLifecycleConfigRequest: AWSEncodableShape {
         /// The name of the Studio Lifecycle Configuration to describe.
         public let studioLifecycleConfigName: String
@@ -12681,9 +14018,9 @@ extension SageMaker {
         /// A timestamp that indicates when the training job was created.
         public let creationTime: Date
         public let debugHookConfig: DebugHookConfig?
-        /// Configuration information for Debugger rules for debugging output tensors.
+        /// Configuration information for Amazon SageMaker Debugger rules for debugging output tensors.
         public let debugRuleConfigurations: [DebugRuleConfiguration]?
-        /// Evaluation status of Debugger rules for debugging on a training job.
+        /// Evaluation status of Amazon SageMaker Debugger rules for debugging on a training job.
         public let debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithms in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
@@ -12711,9 +14048,9 @@ extension SageMaker {
         /// The S3 path where model artifacts that you configured when creating the job are stored. SageMaker creates subfolders for model artifacts.
         public let outputDataConfig: OutputDataConfig?
         public let profilerConfig: ProfilerConfig?
-        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        /// Configuration information for Amazon SageMaker Debugger rules for profiling system and framework metrics.
         public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
-        /// Evaluation status of Debugger rules for profiling on a training job.
+        /// Evaluation status of Amazon SageMaker Debugger rules for profiling on a training job.
         public let profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]?
         /// Profiling status of a training job.
         public let profilingStatus: ProfilingStatus?
@@ -12723,7 +14060,7 @@ extension SageMaker {
         public let retryStrategy: RetryStrategy?
         /// The Amazon Web Services Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
-        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.       Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
+        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus
         /// A history of all of the secondary statuses that the training job has transitioned through.
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
@@ -12993,6 +14330,8 @@ extension SageMaker {
         public let parameters: [String: TrialComponentParameterValue]?
         /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
         public let source: TrialComponentSource?
+        /// A list of ARNs and, if applicable, job types for multiple sources of an experiment run.
+        public let sources: [TrialComponentSource]?
         /// When the component started.
         public let startTime: Date?
         /// The status of the component. States include:   InProgress   Completed   Failed
@@ -13002,7 +14341,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, sources: [TrialComponentSource]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -13016,6 +14355,7 @@ extension SageMaker {
             self.outputArtifacts = outputArtifacts
             self.parameters = parameters
             self.source = source
+            self.sources = sources
             self.startTime = startTime
             self.status = status
             self.trialComponentArn = trialComponentArn
@@ -13036,6 +14376,7 @@ extension SageMaker {
             case outputArtifacts = "OutputArtifacts"
             case parameters = "Parameters"
             case source = "Source"
+            case sources = "Sources"
             case startTime = "StartTime"
             case status = "Status"
             case trialComponentArn = "TrialComponentArn"
@@ -13524,7 +14865,7 @@ extension SageMaker {
     public struct DisassociateTrialComponentResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
-        /// The ARN of the trial component.
+        /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
         public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
@@ -13610,19 +14951,28 @@ extension SageMaker {
         public let executionRoleIdentityConfig: ExecutionRoleIdentityConfig?
         /// A collection of RStudioServerPro Domain-level app settings to update.
         public let rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate?
+        /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
+        public let securityGroupIds: [String]?
 
-        public init(executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil) {
+        public init(executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil) {
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
+            self.securityGroupIds = securityGroupIds
         }
 
         public func validate(name: String) throws {
             try self.rStudioServerProDomainSettingsForUpdate?.validate(name: "\(name).rStudioServerProDomainSettingsForUpdate")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
             case executionRoleIdentityConfig = "ExecutionRoleIdentityConfig"
             case rStudioServerProDomainSettingsForUpdate = "RStudioServerProDomainSettingsForUpdate"
+            case securityGroupIds = "SecurityGroupIds"
         }
     }
 
@@ -14111,10 +15461,12 @@ extension SageMaker {
         public let monitoringSchedules: [MonitoringSchedule]?
         /// A list of the production variants hosted on the endpoint. Each production variant is a model.
         public let productionVariants: [ProductionVariantSummary]?
+        /// A list of the shadow variants hosted on the endpoint. Each shadow variant is a model in shadow mode with production traffic replicated from the proudction variant.
+        public let shadowProductionVariants: [ProductionVariantSummary]?
         /// A list of the tags associated with the endpoint. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
-        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, monitoringSchedules: [MonitoringSchedule]? = nil, productionVariants: [ProductionVariantSummary]? = nil, tags: [Tag]? = nil) {
+        public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, monitoringSchedules: [MonitoringSchedule]? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -14125,6 +15477,7 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
             self.monitoringSchedules = monitoringSchedules
             self.productionVariants = productionVariants
+            self.shadowProductionVariants = shadowProductionVariants
             self.tags = tags
         }
 
@@ -14139,6 +15492,7 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case monitoringSchedules = "MonitoringSchedules"
             case productionVariants = "ProductionVariants"
+            case shadowProductionVariants = "ShadowProductionVariants"
             case tags = "Tags"
         }
     }
@@ -14269,6 +15623,31 @@ extension SageMaker {
             case environmentParameterRanges = "EnvironmentParameterRanges"
             case inferenceSpecificationName = "InferenceSpecificationName"
             case instanceType = "InstanceType"
+        }
+    }
+
+    public struct EndpointMetadata: AWSDecodableShape {
+        /// The name of the endpoint configuration.
+        public let endpointConfigName: String?
+        /// The name of the endpoint.
+        public let endpointName: String
+        ///  The status of the endpoint. For possible values of the status of an endpoint, see EndpointSummary$EndpointStatus.
+        public let endpointStatus: EndpointStatus?
+        ///  If the status of the endpoint is Failed, or the status is InService but update operation fails, this provides the reason why it failed.
+        public let failureReason: String?
+
+        public init(endpointConfigName: String? = nil, endpointName: String, endpointStatus: EndpointStatus? = nil, failureReason: String? = nil) {
+            self.endpointConfigName = endpointConfigName
+            self.endpointName = endpointName
+            self.endpointStatus = endpointStatus
+            self.failureReason = failureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointConfigName = "EndpointConfigName"
+            case endpointName = "EndpointName"
+            case endpointStatus = "EndpointStatus"
+            case failureReason = "FailureReason"
         }
     }
 
@@ -14432,15 +15811,18 @@ extension SageMaker {
     }
 
     public struct ExperimentConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an existing experiment to associate the trial component with.
+        /// The name of an existing experiment to associate with the trial component.
         public let experimentName: String?
+        /// The name of the experiment run to associate with the trial component.
+        public let runName: String?
         /// The display name for the trial component. If this key isn't specified, the display name is the trial component name.
         public let trialComponentDisplayName: String?
         /// The name of an existing trial to associate the trial component with. If not specified, a new trial is created.
         public let trialName: String?
 
-        public init(experimentName: String? = nil, trialComponentDisplayName: String? = nil, trialName: String? = nil) {
+        public init(experimentName: String? = nil, runName: String? = nil, trialComponentDisplayName: String? = nil, trialName: String? = nil) {
             self.experimentName = experimentName
+            self.runName = runName
             self.trialComponentDisplayName = trialComponentDisplayName
             self.trialName = trialName
         }
@@ -14449,6 +15831,9 @@ extension SageMaker {
             try self.validate(self.experimentName, name: "experimentName", parent: name, max: 120)
             try self.validate(self.experimentName, name: "experimentName", parent: name, min: 1)
             try self.validate(self.experimentName, name: "experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+            try self.validate(self.runName, name: "runName", parent: name, max: 120)
+            try self.validate(self.runName, name: "runName", parent: name, min: 1)
+            try self.validate(self.runName, name: "runName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
             try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, max: 120)
             try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, min: 1)
             try self.validate(self.trialComponentDisplayName, name: "trialComponentDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
@@ -14459,6 +15844,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case experimentName = "ExperimentName"
+            case runName = "RunName"
             case trialComponentDisplayName = "TrialComponentDisplayName"
             case trialName = "TrialName"
         }
@@ -14607,7 +15993,7 @@ extension SageMaker {
         public let offlineStoreConfig: OfflineStoreConfig?
         public let offlineStoreStatus: OfflineStoreStatus?
         public let onlineStoreConfig: OnlineStoreConfig?
-        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureGroup  FeatureDefinitions.
+        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureGroup FeatureDefinitions.
         public let recordIdentifierFeatureName: String?
         /// The Amazon Resource Name (ARN) of the IAM execution role used to create the feature group.
         public let roleArn: String?
@@ -15195,6 +16581,131 @@ extension SageMaker {
         }
     }
 
+    public struct HubContentDependency: AWSDecodableShape {
+        /// The hub content dependency copy path.
+        public let dependencyCopyPath: String?
+        /// The hub content dependency origin path.
+        public let dependencyOriginPath: String?
+
+        public init(dependencyCopyPath: String? = nil, dependencyOriginPath: String? = nil) {
+            self.dependencyCopyPath = dependencyCopyPath
+            self.dependencyOriginPath = dependencyOriginPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependencyCopyPath = "DependencyCopyPath"
+            case dependencyOriginPath = "DependencyOriginPath"
+        }
+    }
+
+    public struct HubContentInfo: AWSDecodableShape {
+        /// The date and time that the hub content was created.
+        public let creationTime: Date
+        /// The version of the hub content document schema.
+        public let documentSchemaVersion: String
+        /// The Amazon Resource Name (ARN) of the hub content.
+        public let hubContentArn: String
+        /// A description of the hub content.
+        public let hubContentDescription: String?
+        /// The display name of the hub content.
+        public let hubContentDisplayName: String?
+        /// The name of the hub content.
+        public let hubContentName: String
+        /// The searchable keywords for the hub content.
+        public let hubContentSearchKeywords: [String]?
+        /// The status of the hub content.
+        public let hubContentStatus: HubContentStatus
+        /// The type of hub content.
+        public let hubContentType: HubContentType
+        /// The version of the hub content.
+        public let hubContentVersion: String
+
+        public init(creationTime: Date, documentSchemaVersion: String, hubContentArn: String, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentName: String, hubContentSearchKeywords: [String]? = nil, hubContentStatus: HubContentStatus, hubContentType: HubContentType, hubContentVersion: String) {
+            self.creationTime = creationTime
+            self.documentSchemaVersion = documentSchemaVersion
+            self.hubContentArn = hubContentArn
+            self.hubContentDescription = hubContentDescription
+            self.hubContentDisplayName = hubContentDisplayName
+            self.hubContentName = hubContentName
+            self.hubContentSearchKeywords = hubContentSearchKeywords
+            self.hubContentStatus = hubContentStatus
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case documentSchemaVersion = "DocumentSchemaVersion"
+            case hubContentArn = "HubContentArn"
+            case hubContentDescription = "HubContentDescription"
+            case hubContentDisplayName = "HubContentDisplayName"
+            case hubContentName = "HubContentName"
+            case hubContentSearchKeywords = "HubContentSearchKeywords"
+            case hubContentStatus = "HubContentStatus"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+        }
+    }
+
+    public struct HubInfo: AWSDecodableShape {
+        /// The date and time that the hub was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the hub.
+        public let hubArn: String
+        /// A description of the hub.
+        public let hubDescription: String?
+        /// The display name of the hub.
+        public let hubDisplayName: String?
+        /// The name of the hub.
+        public let hubName: String
+        /// The searchable keywords for the hub.
+        public let hubSearchKeywords: [String]?
+        /// The status of the hub.
+        public let hubStatus: HubStatus
+        /// The date and time that the hub was last modified.
+        public let lastModifiedTime: Date
+
+        public init(creationTime: Date, hubArn: String, hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String, hubSearchKeywords: [String]? = nil, hubStatus: HubStatus, lastModifiedTime: Date) {
+            self.creationTime = creationTime
+            self.hubArn = hubArn
+            self.hubDescription = hubDescription
+            self.hubDisplayName = hubDisplayName
+            self.hubName = hubName
+            self.hubSearchKeywords = hubSearchKeywords
+            self.hubStatus = hubStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case hubArn = "HubArn"
+            case hubDescription = "HubDescription"
+            case hubDisplayName = "HubDisplayName"
+            case hubName = "HubName"
+            case hubSearchKeywords = "HubSearchKeywords"
+            case hubStatus = "HubStatus"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct HubS3StorageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 output path for the hub.
+        public let s3OutputPath: String?
+
+        public init(s3OutputPath: String? = nil) {
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
     public struct HumanLoopActivationConditionsConfig: AWSEncodableShape & AWSDecodableShape {
         /// JSON expressing use-case specific conditions declaratively. If any condition is matched, atomic tasks are created against the configured work team.  The set of conditions is different for Rekognition and Textract. For more information about how to structure the JSON, see  JSON Schema for Human Loop Activation Conditions in Amazon Augmented AI  in the Amazon SageMaker Developer Guide.
         public let humanLoopActivationConditions: String
@@ -15320,12 +16831,7 @@ extension SageMaker {
         public let maxConcurrentTaskCount: Int?
         /// The number of human workers that will label an object.
         public let numberOfHumanWorkersPerDataObject: Int
-        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.
-        ///   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox
-        ///   Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.
-        ///     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass      Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel      Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation      Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass      Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel      Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition         Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass      Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection      Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking
-        ///   3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types to learn more.
-        ///    3D Point Cloud Object Detection -  Use this task type when you want workers to classify objects in a 3D point cloud by  drawing 3D cuboids around objects. For example, you can use this task type to ask workers  to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection      3D Point Cloud Object Tracking -  Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames.  For example, you can use this task type to ask workers to track  the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking        3D Point Cloud Semantic Segmentation -  Use this task type when you want workers to create a point-level semantic segmentation masks by  painting objects in a 3D point cloud using different colors where each color is assigned to one of  the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation      Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .   Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox      Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox      Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation      Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation         Video Frame Object Detection Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to classify and localize objects in a sequence of video frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection      Video Frame Object Tracking Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking         3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection      3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking      3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
+        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for PreHumanTaskLambdaArn. For custom labeling workflows, see Pre-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:PRE-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VideoObjectTracking     3D Point Cloud Modalities  Use the following pre-annotation lambdas for 3D point cloud labeling modality tasks. See 3D Point Cloud Task types to learn more.   3D Point Cloud Object Detection -  Use this task type when you want workers to classify objects in a 3D point cloud by  drawing 3D cuboids around objects. For example, you can use this task type to ask workers  to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectDetection     3D Point Cloud Object Tracking -  Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames.  For example, you can use this task type to ask workers to track  the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation -  Use this task type when you want workers to create a point-level semantic segmentation masks by  painting objects in a 3D point cloud using different colors where each color is assigned to one of  the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation     Video Frame Object Detection Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentVideoObjectTracking     3D point cloud object detection adjustment - Adjust 3D cuboids in a point cloud frame.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectDetection     3D point cloud object tracking adjustment - Adjust 3D cuboids across a sequence of point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudObjectTracking     3D point cloud semantic segmentation adjustment - Adjust semantic segmentation masks in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
         public let preHumanTaskLambdaArn: String
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
@@ -15671,7 +17177,7 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningInstanceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See SageMaker distributed training jobs for more information.
+        /// The number of instances of the type specified by InstanceType. Choose an instance count larger than 1 for distributed training algorithms. See SageMaker distributed training jobs for more informcration.
         public let instanceCount: Int
         /// The instance type used for processing of hyperparameter optimization jobs. Choose from general purpose (no GPUs) instance types: ml.m5.xlarge, ml.m5.2xlarge, and ml.m5.4xlarge or compute optimized (no GPUs) instance types: ml.c5.xlarge and ml.c5.2xlarge. For more information about instance types, see instance type descriptions.
         public let instanceType: TrainingInstanceType
@@ -15697,11 +17203,13 @@ extension SageMaker {
     }
 
     public struct HyperParameterTuningJobConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The HyperParameterTuningJobObjective object that specifies the objective metric for this tuning job.
+        /// The HyperParameterTuningJobObjective specifies the objective metric used to evaluate the performance of training jobs launched by this tuning job.
         public let hyperParameterTuningJobObjective: HyperParameterTuningJobObjective?
-        /// The ParameterRanges object that specifies the ranges of hyperparameters that this tuning job searches.
+        /// The ParameterRanges object that specifies the ranges of hyperparameters that this tuning job searches over to find the optimal configuration for the highest model performance against your chosen objective metric.
         public let parameterRanges: ParameterRanges?
-        /// The ResourceLimits object that specifies the maximum number of training jobs and parallel training jobs for this tuning job.
+        /// A value used to initialize a pseudo-random number generator. Setting a random seed and using the same seed later for the same tuning job will allow hyperparameter optimization to find more a consistent hyperparameter configuration between the two runs.
+        public let randomSeed: Int?
+        /// The ResourceLimits object that specifies the maximum number of training and parallel training jobs that can be used for this hyperparameter tuning job.
         public let resourceLimits: ResourceLimits
         /// Specifies how hyperparameter tuning chooses the combinations of hyperparameter values to use for the training job it launches. For information about search strategies, see How Hyperparameter Tuning Works.
         public let strategy: HyperParameterTuningJobStrategyType
@@ -15712,9 +17220,10 @@ extension SageMaker {
         /// The tuning job's completion criteria.
         public let tuningJobCompletionCriteria: TuningJobCompletionCriteria?
 
-        public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, resourceLimits: ResourceLimits, strategy: HyperParameterTuningJobStrategyType, strategyConfig: HyperParameterTuningJobStrategyConfig? = nil, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil, tuningJobCompletionCriteria: TuningJobCompletionCriteria? = nil) {
+        public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, randomSeed: Int? = nil, resourceLimits: ResourceLimits, strategy: HyperParameterTuningJobStrategyType, strategyConfig: HyperParameterTuningJobStrategyConfig? = nil, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil, tuningJobCompletionCriteria: TuningJobCompletionCriteria? = nil) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
+            self.randomSeed = randomSeed
             self.resourceLimits = resourceLimits
             self.strategy = strategy
             self.strategyConfig = strategyConfig
@@ -15725,6 +17234,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.hyperParameterTuningJobObjective?.validate(name: "\(name).hyperParameterTuningJobObjective")
             try self.parameterRanges?.validate(name: "\(name).parameterRanges")
+            try self.validate(self.randomSeed, name: "randomSeed", parent: name, min: 0)
             try self.resourceLimits.validate(name: "\(name).resourceLimits")
             try self.strategyConfig?.validate(name: "\(name).strategyConfig")
         }
@@ -15732,6 +17242,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobObjective = "HyperParameterTuningJobObjective"
             case parameterRanges = "ParameterRanges"
+            case randomSeed = "RandomSeed"
             case resourceLimits = "ResourceLimits"
             case strategy = "Strategy"
             case strategyConfig = "StrategyConfig"
@@ -15996,7 +17507,7 @@ extension SageMaker {
         public let displayName: String?
         /// When a create, update, or delete operation fails, the reason for the failure.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the image.
+        /// The ARN of the image.
         public let imageArn: String
         /// The name of the image.
         public let imageName: String
@@ -16054,7 +17565,7 @@ extension SageMaker {
         public let creationTime: Date
         /// When a create or delete operation fails, the reason for the failure.
         public let failureReason: String?
-        /// The Amazon Resource Name (ARN) of the image the version is based on.
+        /// The ARN of the image the version is based on.
         public let imageArn: String
         /// The ARN of the version.
         public let imageVersionArn: String
@@ -16086,6 +17597,106 @@ extension SageMaker {
         }
     }
 
+    public struct ImportHubContentRequest: AWSEncodableShape {
+        /// The version of the hub content schema to import.
+        public let documentSchemaVersion: String
+        /// A description of the hub content to import.
+        public let hubContentDescription: String?
+        /// The display name of the hub content to import.
+        public let hubContentDisplayName: String?
+        /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
+        public let hubContentDocument: String
+        /// Markdown files associated with the hub content to import.
+        public let hubContentMarkdown: String?
+        /// The name of the hub content to import.
+        public let hubContentName: String
+        /// The searchable keywords of the hub content.
+        public let hubContentSearchKeywords: [String]?
+        /// The type of hub content to import.
+        public let hubContentType: HubContentType
+        /// The version of the hub content to import.
+        public let hubContentVersion: String?
+        /// The name of the hub to import content into.
+        public let hubName: String
+        /// Any tags associated with the hub content.
+        public let tags: [Tag]?
+
+        public init(documentSchemaVersion: String, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentDocument: String, hubContentMarkdown: String? = nil, hubContentName: String, hubContentSearchKeywords: [String]? = nil, hubContentType: HubContentType, hubContentVersion: String? = nil, hubName: String, tags: [Tag]? = nil) {
+            self.documentSchemaVersion = documentSchemaVersion
+            self.hubContentDescription = hubContentDescription
+            self.hubContentDisplayName = hubContentDisplayName
+            self.hubContentDocument = hubContentDocument
+            self.hubContentMarkdown = hubContentMarkdown
+            self.hubContentName = hubContentName
+            self.hubContentSearchKeywords = hubContentSearchKeywords
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.documentSchemaVersion, name: "documentSchemaVersion", parent: name, max: 14)
+            try self.validate(self.documentSchemaVersion, name: "documentSchemaVersion", parent: name, min: 5)
+            try self.validate(self.documentSchemaVersion, name: "documentSchemaVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.hubContentDescription, name: "hubContentDescription", parent: name, max: 1023)
+            try self.validate(self.hubContentDescription, name: "hubContentDescription", parent: name, pattern: ".*")
+            try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, max: 255)
+            try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, pattern: ".*")
+            try self.validate(self.hubContentDocument, name: "hubContentDocument", parent: name, max: 65535)
+            try self.validate(self.hubContentDocument, name: "hubContentDocument", parent: name, pattern: ".*")
+            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, max: 65535)
+            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, pattern: ".*")
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.hubContentSearchKeywords?.forEach {
+                try validate($0, name: "hubContentSearchKeywords[]", parent: name, max: 255)
+                try validate($0, name: "hubContentSearchKeywords[]", parent: name, pattern: "^[^A-Z]*$")
+            }
+            try self.validate(self.hubContentSearchKeywords, name: "hubContentSearchKeywords", parent: name, max: 50)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, min: 5)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentSchemaVersion = "DocumentSchemaVersion"
+            case hubContentDescription = "HubContentDescription"
+            case hubContentDisplayName = "HubContentDisplayName"
+            case hubContentDocument = "HubContentDocument"
+            case hubContentMarkdown = "HubContentMarkdown"
+            case hubContentName = "HubContentName"
+            case hubContentSearchKeywords = "HubContentSearchKeywords"
+            case hubContentType = "HubContentType"
+            case hubContentVersion = "HubContentVersion"
+            case hubName = "HubName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportHubContentResponse: AWSDecodableShape {
+        /// The ARN of the hub that the content was imported into.
+        public let hubArn: String
+        /// The ARN of the hub content that was imported.
+        public let hubContentArn: String
+
+        public init(hubArn: String, hubContentArn: String) {
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubArn = "HubArn"
+            case hubContentArn = "HubContentArn"
+        }
+    }
+
     public struct InferenceExecutionConfig: AWSEncodableShape & AWSDecodableShape {
         /// How containers in a multi-container are run. The following values are valid.    SERIAL - Containers run as a serial pipeline.    DIRECT - Only the individual container that you specify is run.
         public let mode: InferenceExecutionMode
@@ -16096,6 +17707,100 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case mode = "Mode"
+        }
+    }
+
+    public struct InferenceExperimentDataStorageConfig: AWSEncodableShape & AWSDecodableShape {
+        public let contentType: CaptureContentTypeHeader?
+        /// The Amazon S3 bucket where the inference request and response data is stored.
+        public let destination: String
+        ///  The Amazon Web Services Key Management Service key that Amazon SageMaker uses to encrypt captured data at rest using Amazon S3 server-side encryption.
+        public let kmsKey: String?
+
+        public init(contentType: CaptureContentTypeHeader? = nil, destination: String, kmsKey: String? = nil) {
+            self.contentType = contentType
+            self.destination = destination
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.contentType?.validate(name: "\(name).contentType")
+            try self.validate(self.destination, name: "destination", parent: name, max: 512)
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case destination = "Destination"
+            case kmsKey = "KmsKey"
+        }
+    }
+
+    public struct InferenceExperimentSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The timestamp at which the inference experiment ended or will end.
+        public let endTime: Date?
+        /// The timestamp at which the inference experiment started or will start.
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct InferenceExperimentSummary: AWSDecodableShape {
+        /// The timestamp at which the inference experiment was completed.
+        public let completionTime: Date?
+        /// The timestamp at which the inference experiment was created.
+        public let creationTime: Date
+        /// The description of the inference experiment.
+        public let description: String?
+        /// The timestamp when you last modified the inference experiment.
+        public let lastModifiedTime: Date
+        /// The name of the inference experiment.
+        public let name: String
+        ///  The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and container images, and manage Amazon SageMaker Inference endpoints for model deployment.
+        public let roleArn: String?
+        /// The duration for which the inference experiment ran or will run. The maximum duration that you can set for an inference experiment is 30 days.
+        public let schedule: InferenceExperimentSchedule?
+        /// The status of the inference experiment.
+        public let status: InferenceExperimentStatus
+        /// The error message for the inference experiment status result.
+        public let statusReason: String?
+        /// The type of the inference experiment.
+        public let type: InferenceExperimentType
+
+        public init(completionTime: Date? = nil, creationTime: Date, description: String? = nil, lastModifiedTime: Date, name: String, roleArn: String? = nil, schedule: InferenceExperimentSchedule? = nil, status: InferenceExperimentStatus, statusReason: String? = nil, type: InferenceExperimentType) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.roleArn = roleArn
+            self.schedule = schedule
+            self.status = status
+            self.statusReason = statusReason
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "CompletionTime"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case schedule = "Schedule"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case type = "Type"
         }
     }
 
@@ -16258,7 +17963,7 @@ extension SageMaker {
     }
 
     public struct InputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX/DARKNET: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.    DataInputConfig supports the following parameters for CoreML OutputConfig$TargetDevice (ML Model format):    shape: Input shape, for example {"input_1": {"shape": [1,224,224,3]}}. In addition to static input shapes, CoreML converter supports Flexible input shapes:   Range Dimension. You can use the Range Dimension feature if you know the input shape will be within some specific interval in that dimension, for example: {"input_1": {"shape": ["1..10", 224, 224, 3]}}    Enumerated shapes. Sometimes, the models are trained to work only on a select set of inputs. You can enumerate all supported input shapes, for example: {"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160, 3]]}}       default_shape: Default input shape. You can set a default shape during conversion for both Range Dimension and Enumerated Shapes. For example {"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape": [1, 224, 224, 3]}}     type: Input type. Allowed values: Image and Tensor. By default, the converter generates an ML Model with inputs of type Tensor (MultiArray). User can set input type to be Image. Image input type requires additional input parameters such as bias and scale.    bias: If the input type is an Image, you need to provide the bias vector.    scale: If the input type is an Image, you need to provide a scale factor.   CoreML ClassifierConfig parameters can be specified using OutputConfig$CompilerOptions. CoreML converter supports Tensorflow and PyTorch models. CoreML conversion examples:   Tensor type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3]}}      Tensor type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224]}]      Image type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}}     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Image type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}]     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Depending on the model format, DataInputConfig requires the following parameters for  ml_eia2  OutputConfig:TargetDevice.   For TensorFlow models saved in the SavedModel format, specify the input names  from signature_def_key and the input model shapes for DataInputConfig.   Specify the signature_def_key in   OutputConfig:CompilerOptions if  the model does not use TensorFlow's default signature def key. For example:    "DataInputConfig": {"inputs": [1, 224, 224, 3]}     "CompilerOptions": {"signature_def_key": "serving_custom"}      For TensorFlow models saved as a frozen graph, specify the input tensor names and shapes   in DataInputConfig and the output tensor names for output_names in   OutputConfig:CompilerOptions . For example:    "DataInputConfig": {"input_tensor:0": [1, 224, 224, 3]}     "CompilerOptions": {"output_names": ["output_tensor:0"]}
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX/DARKNET: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.    DataInputConfig supports the following parameters for CoreML OutputConfig$TargetDevice (ML Model format):    shape: Input shape, for example {"input_1": {"shape": [1,224,224,3]}}. In addition to static input shapes, CoreML converter supports Flexible input shapes:   Range Dimension. You can use the Range Dimension feature if you know the input shape will be within some specific interval in that dimension, for example: {"input_1": {"shape": ["1..10", 224, 224, 3]}}    Enumerated shapes. Sometimes, the models are trained to work only on a select set of inputs. You can enumerate all supported input shapes, for example: {"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160, 3]]}}       default_shape: Default input shape. You can set a default shape during conversion for both Range Dimension and Enumerated Shapes. For example {"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape": [1, 224, 224, 3]}}     type: Input type. Allowed values: Image and Tensor. By default, the converter generates an ML Model with inputs of type Tensor (MultiArray). User can set input type to be Image. Image input type requires additional input parameters such as bias and scale.    bias: If the input type is an Image, you need to provide the bias vector.    scale: If the input type is an Image, you need to provide a scale factor.   CoreML ClassifierConfig parameters can be specified using OutputConfig$CompilerOptions. CoreML converter supports Tensorflow and PyTorch models. CoreML conversion examples:   Tensor type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3]}}      Tensor type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224]}]      Image type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}}     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Image type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}]     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Depending on the model format, DataInputConfig requires the following parameters for  ml_eia2 OutputConfig:TargetDevice.   For TensorFlow models saved in the SavedModel format, specify the input names  from signature_def_key and the input model shapes for DataInputConfig.   Specify the signature_def_key in   OutputConfig:CompilerOptions if  the model does not use TensorFlow's default signature def key. For example:    "DataInputConfig": {"inputs": [1, 224, 224, 3]}     "CompilerOptions": {"signature_def_key": "serving_custom"}      For TensorFlow models saved as a frozen graph, specify the input tensor names and shapes   in DataInputConfig and the output tensor names for output_names in   OutputConfig:CompilerOptions . For example:    "DataInputConfig": {"input_tensor:0": [1, 224, 224, 3]}     "CompilerOptions": {"output_names": ["output_tensor:0"]}
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
@@ -16399,17 +18104,24 @@ extension SageMaker {
     }
 
     public struct JupyterServerAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.
+        public let codeRepositories: [CodeRepository]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
         public let defaultResourceSpec: ResourceSpec?
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the DefaultResourceSpec parameter is also required.  To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
-        public init(defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(codeRepositories: [CodeRepository]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+            self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
         }
 
         public func validate(name: String) throws {
+            try self.codeRepositories?.forEach {
+                try $0.validate(name: "\(name).codeRepositories[]")
+            }
+            try self.validate(self.codeRepositories, name: "codeRepositories", parent: name, max: 10)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
@@ -16418,6 +18130,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case codeRepositories = "CodeRepositories"
             case defaultResourceSpec = "DefaultResourceSpec"
             case lifecycleConfigArns = "LifecycleConfigArns"
         }
@@ -17057,6 +18770,66 @@ extension SageMaker {
         }
     }
 
+    public struct ListAliasesRequest: AWSEncodableShape {
+        /// The alias of the image version.
+        public let alias: String?
+        /// The name of the image.
+        public let imageName: String
+        /// The maximum number of aliases to return.
+        public let maxResults: Int?
+        /// If the previous call to ListAliases didn't return the full set of aliases, the call returns a token for retrieving the next set of aliases.
+        public let nextToken: String?
+        /// The version of the image. If image version is not specified, the aliases of all versions of the image are listed.
+        public let version: Int?
+
+        public init(alias: String? = nil, imageName: String, maxResults: Int? = nil, nextToken: String? = nil, version: Int? = nil) {
+            self.alias = alias
+            self.imageName = imageName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 128)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
+            try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
+            try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.version, name: "version", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case imageName = "ImageName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case version = "Version"
+        }
+    }
+
+    public struct ListAliasesResponse: AWSDecodableShape {
+        /// A token for getting the next set of aliases, if more aliases exist.
+        public let nextToken: String?
+        /// A list of SageMaker image version aliases.
+        public let sageMakerImageVersionAliases: [String]?
+
+        public init(nextToken: String? = nil, sageMakerImageVersionAliases: [String]? = nil) {
+            self.nextToken = nextToken
+            self.sageMakerImageVersionAliases = sageMakerImageVersionAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sageMakerImageVersionAliases = "SageMakerImageVersionAliases"
+        }
+    }
+
     public struct ListAppImageConfigsRequest: AWSEncodableShape {
         /// A filter that returns only AppImageConfigs created on or after the specified time.
         public let creationTimeAfter: Date?
@@ -17139,15 +18912,18 @@ extension SageMaker {
         public let sortBy: AppSortKey?
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
-        /// A parameter to search by user profile name.
+        /// A parameter to search by space name. If UserProfileNameEquals is set, then this value cannot be set.
+        public let spaceNameEquals: String?
+        /// A parameter to search by user profile name. If SpaceNameEquals is set, then this value cannot be set.
         public let userProfileNameEquals: String?
 
-        public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AppSortKey? = nil, sortOrder: SortOrder? = nil, userProfileNameEquals: String? = nil) {
+        public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AppSortKey? = nil, sortOrder: SortOrder? = nil, spaceNameEquals: String? = nil, userProfileNameEquals: String? = nil) {
             self.domainIdEquals = domainIdEquals
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
             self.sortOrder = sortOrder
+            self.spaceNameEquals = spaceNameEquals
             self.userProfileNameEquals = userProfileNameEquals
         }
 
@@ -17157,6 +18933,8 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.spaceNameEquals, name: "spaceNameEquals", parent: name, max: 63)
+            try self.validate(self.spaceNameEquals, name: "spaceNameEquals", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.validate(self.userProfileNameEquals, name: "userProfileNameEquals", parent: name, max: 63)
             try self.validate(self.userProfileNameEquals, name: "userProfileNameEquals", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
         }
@@ -17167,6 +18945,7 @@ extension SageMaker {
             case nextToken = "NextToken"
             case sortBy = "SortBy"
             case sortOrder = "SortOrder"
+            case spaceNameEquals = "SpaceNameEquals"
             case userProfileNameEquals = "UserProfileNameEquals"
         }
     }
@@ -18407,6 +20186,244 @@ extension SageMaker {
         }
     }
 
+    public struct ListHubContentVersionsRequest: AWSEncodableShape {
+        /// Only list hub content versions that were created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list hub content versions that were created before the time specified.
+        public let creationTimeBefore: Date?
+        /// The name of the hub content.
+        public let hubContentName: String
+        /// The type of hub content to list versions of.
+        public let hubContentType: HubContentType
+        /// The name of the hub to list the content versions of.
+        public let hubName: String
+        /// The maximum number of hub content versions to list.
+        public let maxResults: Int?
+        /// The upper bound of the hub content schema version.
+        public let maxSchemaVersion: String?
+        /// The lower bound of the hub content versions to list.
+        public let minVersion: String?
+        /// If the response to a previous ListHubContentVersions request was truncated, the response includes a NextToken. To retrieve the next set of hub content versions, use the token in the next request.
+        public let nextToken: String?
+        /// Sort hub content versions by either name or creation time.
+        public let sortBy: HubContentSortBy?
+        /// Sort hub content versions by ascending or descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, hubContentName: String, hubContentType: HubContentType, hubName: String, maxResults: Int? = nil, maxSchemaVersion: String? = nil, minVersion: String? = nil, nextToken: String? = nil, sortBy: HubContentSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.hubContentName = hubContentName
+            self.hubContentType = hubContentType
+            self.hubName = hubName
+            self.maxResults = maxResults
+            self.maxSchemaVersion = maxSchemaVersion
+            self.minVersion = minVersion
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, max: 14)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, min: 5)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.minVersion, name: "minVersion", parent: name, max: 14)
+            try self.validate(self.minVersion, name: "minVersion", parent: name, min: 5)
+            try self.validate(self.minVersion, name: "minVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case hubContentName = "HubContentName"
+            case hubContentType = "HubContentType"
+            case hubName = "HubName"
+            case maxResults = "MaxResults"
+            case maxSchemaVersion = "MaxSchemaVersion"
+            case minVersion = "MinVersion"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListHubContentVersionsResponse: AWSDecodableShape {
+        /// The summaries of the listed hub content versions.
+        public let hubContentSummaries: [HubContentInfo]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hub content versions, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(hubContentSummaries: [HubContentInfo], nextToken: String? = nil) {
+            self.hubContentSummaries = hubContentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubContentSummaries = "HubContentSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHubContentsRequest: AWSEncodableShape {
+        /// Only list hub content that was created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list hub content that was created before the time specified.
+        public let creationTimeBefore: Date?
+        /// The type of hub content to list.
+        public let hubContentType: HubContentType
+        /// The name of the hub to list the contents of.
+        public let hubName: String
+        /// The maximum amount of hub content to list.
+        public let maxResults: Int?
+        /// The upper bound of the hub content schema verion.
+        public let maxSchemaVersion: String?
+        /// Only list hub content if the name contains the specified string.
+        public let nameContains: String?
+        /// If the response to a previous ListHubContents request was truncated, the response includes a NextToken. To retrieve the next set of hub content, use the token in the next request.
+        public let nextToken: String?
+        /// Sort hub content versions by either name or creation time.
+        public let sortBy: HubContentSortBy?
+        /// Sort hubs by ascending or descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, hubContentType: HubContentType, hubName: String, maxResults: Int? = nil, maxSchemaVersion: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HubContentSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.hubContentType = hubContentType
+            self.hubName = hubName
+            self.maxResults = maxResults
+            self.maxSchemaVersion = maxSchemaVersion
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, max: 14)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, min: 5)
+            try self.validate(self.maxSchemaVersion, name: "maxSchemaVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case hubContentType = "HubContentType"
+            case hubName = "HubName"
+            case maxResults = "MaxResults"
+            case maxSchemaVersion = "MaxSchemaVersion"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListHubContentsResponse: AWSDecodableShape {
+        /// The summaries of the listed hub content.
+        public let hubContentSummaries: [HubContentInfo]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hub content, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(hubContentSummaries: [HubContentInfo], nextToken: String? = nil) {
+            self.hubContentSummaries = hubContentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubContentSummaries = "HubContentSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHubsRequest: AWSEncodableShape {
+        /// Only list hubs that were created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list hubs that were created before the time specified.
+        public let creationTimeBefore: Date?
+        /// Only list hubs that were last modified after the time specified.
+        public let lastModifiedTimeAfter: Date?
+        /// Only list hubs that were last modified before the time specified.
+        public let lastModifiedTimeBefore: Date?
+        /// The maximum number of hubs to list.
+        public let maxResults: Int?
+        /// Only list hubs with names that contain the specified string.
+        public let nameContains: String?
+        /// If the response to a previous ListHubs request was truncated, the response includes a NextToken. To retrieve the next set of hubs, use the token in the next request.
+        public let nextToken: String?
+        /// Sort hubs by either name or creation time.
+        public let sortBy: HubSortBy?
+        /// Sort hubs by ascending or descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HubSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListHubsResponse: AWSDecodableShape {
+        /// The summaries of the listed hubs.
+        public let hubSummaries: [HubInfo]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hubs, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(hubSummaries: [HubInfo], nextToken: String? = nil) {
+            self.hubSummaries = hubSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubSummaries = "HubSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListHumanTaskUisRequest: AWSEncodableShape {
         /// A filter that returns only human task user interfaces with a creation time greater than or equal to the specified timestamp.
         public let creationTimeAfter: Date?
@@ -18674,6 +20691,85 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case images = "Images"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListInferenceExperimentsRequest: AWSEncodableShape {
+        /// Selects inference experiments which were created after this timestamp.
+        public let creationTimeAfter: Date?
+        /// Selects inference experiments which were created before this timestamp.
+        public let creationTimeBefore: Date?
+        /// Selects inference experiments which were last modified after this timestamp.
+        public let lastModifiedTimeAfter: Date?
+        /// Selects inference experiments which were last modified before this timestamp.
+        public let lastModifiedTimeBefore: Date?
+        /// The maximum number of results to select.
+        public let maxResults: Int?
+        /// Selects inference experiments whose names contain this name.
+        public let nameContains: String?
+        ///  The response from the last list when returning a list large enough to need tokening.
+        public let nextToken: String?
+        /// The column by which to sort the listed inference experiments.
+        public let sortBy: SortInferenceExperimentsBy?
+        /// The direction of sorting (ascending or descending).
+        public let sortOrder: SortOrder?
+        ///  Selects inference experiments which are in this status. For the possible statuses, see DescribeInferenceExperimentResponse$Status.
+        public let statusEquals: InferenceExperimentStatus?
+        ///  Selects inference experiments of this type. For the possible types of inference experiments, see CreateInferenceExperimentRequest$Type.
+        public let type: InferenceExperimentType?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortInferenceExperimentsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: InferenceExperimentStatus? = nil, type: InferenceExperimentType? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+            case type = "Type"
+        }
+    }
+
+    public struct ListInferenceExperimentsResponse: AWSDecodableShape {
+        /// List of inference experiments.
+        public let inferenceExperiments: [InferenceExperimentSummary]?
+        /// The token to use when calling the next page of results.
+        public let nextToken: String?
+
+        public init(inferenceExperiments: [InferenceExperimentSummary]? = nil, nextToken: String? = nil) {
+            self.inferenceExperiments = inferenceExperiments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperiments = "InferenceExperiments"
             case nextToken = "NextToken"
         }
     }
@@ -19080,6 +21176,221 @@ extension SageMaker {
         }
     }
 
+    public struct ListModelCardExportJobsRequest: AWSEncodableShape {
+        /// Only list model card export jobs that were created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list model card export jobs that were created before the time specified.
+        public let creationTimeBefore: Date?
+        /// The maximum number of model card export jobs to list.
+        public let maxResults: Int?
+        /// Only list model card export jobs with names that contain the specified string.
+        public let modelCardExportJobNameContains: String?
+        /// List export jobs for the model card with the specified name.
+        public let modelCardName: String
+        /// List export jobs for the model card with the specified version.
+        public let modelCardVersion: Int?
+        /// If the response to a previous ListModelCardExportJobs request was truncated, the response includes a NextToken. To retrieve the next set of model card export jobs, use the token in the next request.
+        public let nextToken: String?
+        /// Sort model card export jobs by either name or creation time. Sorts by creation time by default.
+        public let sortBy: ModelCardExportJobSortBy?
+        /// Sort model card export jobs by ascending or descending order.
+        public let sortOrder: ModelCardExportJobSortOrder?
+        /// Only list model card export jobs with the specified status.
+        public let statusEquals: ModelCardExportJobStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardExportJobNameContains: String? = nil, modelCardName: String, modelCardVersion: Int? = nil, nextToken: String? = nil, sortBy: ModelCardExportJobSortBy? = nil, sortOrder: ModelCardExportJobSortOrder? = nil, statusEquals: ModelCardExportJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modelCardExportJobNameContains = modelCardExportJobNameContains
+            self.modelCardName = modelCardName
+            self.modelCardVersion = modelCardVersion
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.modelCardExportJobNameContains, name: "modelCardExportJobNameContains", parent: name, max: 63)
+            try self.validate(self.modelCardExportJobNameContains, name: "modelCardExportJobNameContains", parent: name, min: 1)
+            try self.validate(self.modelCardExportJobNameContains, name: "modelCardExportJobNameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modelCardExportJobNameContains = "ModelCardExportJobNameContains"
+            case modelCardName = "ModelCardName"
+            case modelCardVersion = "ModelCardVersion"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListModelCardExportJobsResponse: AWSDecodableShape {
+        /// The summaries of the listed model card export jobs.
+        public let modelCardExportJobSummaries: [ModelCardExportJobSummary]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model card export jobs, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(modelCardExportJobSummaries: [ModelCardExportJobSummary], nextToken: String? = nil) {
+            self.modelCardExportJobSummaries = modelCardExportJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardExportJobSummaries = "ModelCardExportJobSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListModelCardVersionsRequest: AWSEncodableShape {
+        /// Only list model card versions that were created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list model card versions that were created before the time specified.
+        public let creationTimeBefore: Date?
+        /// The maximum number of model card versions to list.
+        public let maxResults: Int?
+        /// List model card versions for the model card with the specified name.
+        public let modelCardName: String
+        /// Only list model card versions with the specified approval status.
+        public let modelCardStatus: ModelCardStatus?
+        /// If the response to a previous ListModelCardVersions request was truncated, the response includes a NextToken. To retrieve the next set of model card versions, use the token in the next request.
+        public let nextToken: String?
+        /// Sort listed model card versions by version. Sorts by version by default.
+        public let sortBy: ModelCardVersionSortBy?
+        /// Sort model card versions by ascending or descending order.
+        public let sortOrder: ModelCardSortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardName: String, modelCardStatus: ModelCardStatus? = nil, nextToken: String? = nil, sortBy: ModelCardVersionSortBy? = nil, sortOrder: ModelCardSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelCardVersionsResponse: AWSDecodableShape {
+        /// The summaries of the listed versions of the model card.
+        public let modelCardVersionSummaryList: [ModelCardVersionSummary]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model card versions, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(modelCardVersionSummaryList: [ModelCardVersionSummary], nextToken: String? = nil) {
+            self.modelCardVersionSummaryList = modelCardVersionSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardVersionSummaryList = "ModelCardVersionSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListModelCardsRequest: AWSEncodableShape {
+        /// Only list model cards that were created after the time specified.
+        public let creationTimeAfter: Date?
+        /// Only list model cards that were created before the time specified.
+        public let creationTimeBefore: Date?
+        /// The maximum number of model cards to list.
+        public let maxResults: Int?
+        /// Only list model cards with the specified approval status.
+        public let modelCardStatus: ModelCardStatus?
+        /// Only list model cards with names that contain the specified string.
+        public let nameContains: String?
+        /// If the response to a previous ListModelCards request was truncated, the response includes a NextToken. To retrieve the next set of model cards, use the token in the next request.
+        public let nextToken: String?
+        /// Sort model cards by either name or creation time. Sorts by creation time by default.
+        public let sortBy: ModelCardSortBy?
+        /// Sort model cards by ascending or descending order.
+        public let sortOrder: ModelCardSortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardStatus: ModelCardStatus? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelCardSortBy? = nil, sortOrder: ModelCardSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modelCardStatus = modelCardStatus
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modelCardStatus = "ModelCardStatus"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListModelCardsResponse: AWSDecodableShape {
+        /// The summaries of the listed model cards.
+        public let modelCardSummaries: [ModelCardSummary]
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model cards, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(modelCardSummaries: [ModelCardSummary], nextToken: String? = nil) {
+            self.modelCardSummaries = modelCardSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardSummaries = "ModelCardSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListModelExplainabilityJobDefinitionsRequest: AWSEncodableShape {
         /// A filter that returns only model explainability jobs created after a specified time.
         public let creationTimeAfter: Date?
@@ -19464,6 +21775,129 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case models = "Models"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitoringAlertHistoryRequest: AWSEncodableShape {
+        /// A filter that returns only alerts created on or after the specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only alerts created on or before the specified time.
+        public let creationTimeBefore: Date?
+        /// The maximum number of results to display. The default is 100.
+        public let maxResults: Int?
+        /// The name of a monitoring alert.
+        public let monitoringAlertName: String?
+        /// The name of a monitoring schedule.
+        public let monitoringScheduleName: String?
+        /// If the result of the previous ListMonitoringAlertHistory request was truncated, the response includes a NextToken. To retrieve the next set of alerts in the history, use the token in the next request.
+        public let nextToken: String?
+        /// The field used to sort results. The default is CreationTime.
+        public let sortBy: MonitoringAlertHistorySortKey?
+        /// The sort order, whether Ascending or Descending, of the alert history. The default is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that retrieves only alerts with a specific status.
+        public let statusEquals: MonitoringAlertStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringAlertName: String? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, sortBy: MonitoringAlertHistorySortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: MonitoringAlertStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.monitoringAlertName = monitoringAlertName
+            self.monitoringScheduleName = monitoringScheduleName
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, max: 63)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, min: 1)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case monitoringAlertName = "MonitoringAlertName"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListMonitoringAlertHistoryResponse: AWSDecodableShape {
+        /// An alert history for a model monitoring schedule.
+        public let monitoringAlertHistory: [MonitoringAlertHistorySummary]?
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of alerts, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(monitoringAlertHistory: [MonitoringAlertHistorySummary]? = nil, nextToken: String? = nil) {
+            self.monitoringAlertHistory = monitoringAlertHistory
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringAlertHistory = "MonitoringAlertHistory"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitoringAlertsRequest: AWSEncodableShape {
+        /// The maximum number of results to display. The default is 100.
+        public let maxResults: Int?
+        /// The name of a monitoring schedule.
+        public let monitoringScheduleName: String
+        /// If the result of the previous ListMonitoringAlerts request was truncated, the response includes a NextToken. To retrieve the next set of alerts in the history, use the token in the next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, monitoringScheduleName: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.monitoringScheduleName = monitoringScheduleName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitoringAlertsResponse: AWSDecodableShape {
+        /// A JSON array where each element is a summary for a monitoring alert.
+        public let monitoringAlertSummaries: [MonitoringAlertSummary]?
+        /// If the response is truncated, SageMaker returns this token. To retrieve the next set of alerts, use it in the subsequent request.
+        public let nextToken: String?
+
+        public init(monitoringAlertSummaries: [MonitoringAlertSummary]? = nil, nextToken: String? = nil) {
+            self.monitoringAlertSummaries = monitoringAlertSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringAlertSummaries = "MonitoringAlertSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -19908,9 +22342,9 @@ extension SageMaker {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 2048)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20186,6 +22620,66 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case projectSummaryList = "ProjectSummaryList"
+        }
+    }
+
+    public struct ListSpacesRequest: AWSEncodableShape {
+        /// A parameter to search for the Domain ID.
+        public let domainIdEquals: String?
+        /// Returns a list up to a specified limit.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is CreationTime.
+        public let sortBy: SpaceSortKey?
+        /// The sort order for the results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// A parameter by which to filter the results.
+        public let spaceNameContains: String?
+
+        public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SpaceSortKey? = nil, sortOrder: SortOrder? = nil, spaceNameContains: String? = nil) {
+            self.domainIdEquals = domainIdEquals
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.spaceNameContains = spaceNameContains
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdEquals, name: "domainIdEquals", parent: name, max: 63)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.spaceNameContains, name: "spaceNameContains", parent: name, max: 63)
+            try self.validate(self.spaceNameContains, name: "spaceNameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainIdEquals = "DomainIdEquals"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case spaceNameContains = "SpaceNameContains"
+        }
+    }
+
+    public struct ListSpacesResponse: AWSDecodableShape {
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The list of spaces.
+        public let spaces: [SpaceDetails]?
+
+        public init(nextToken: String? = nil, spaces: [SpaceDetails]? = nil) {
+            self.nextToken = nextToken
+            self.spaces = spaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case spaces = "Spaces"
         }
     }
 
@@ -20645,7 +23139,7 @@ extension SageMaker {
         public let sortBy: SortTrialComponentsBy?
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
-        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN). If you specify SourceArn, you can't filter by ExperimentName or TrialName.
+        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN).  If you specify SourceArn, you can't filter by ExperimentName or TrialName.
         public let sourceArn: String?
         /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
         public let trialName: String?
@@ -21109,6 +23603,52 @@ extension SageMaker {
         }
     }
 
+    public struct Model: AWSDecodableShape {
+        /// The containers in the inference pipeline.
+        public let containers: [ContainerDefinition]?
+        /// A timestamp that indicates when the model was created.
+        public let creationTime: Date?
+        /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.
+        public let enableNetworkIsolation: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that you specified for the model.
+        public let executionRoleArn: String?
+        public let inferenceExecutionConfig: InferenceExecutionConfig?
+        /// The Amazon Resource Name (ARN) of the model.
+        public let modelArn: String?
+        /// The name of the model.
+        public let modelName: String?
+        public let primaryContainer: ContainerDefinition?
+        /// A list of key-value pairs associated with the model. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+        public let tags: [Tag]?
+        public let vpcConfig: VpcConfig?
+
+        public init(containers: [ContainerDefinition]? = nil, creationTime: Date? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String? = nil, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelArn: String? = nil, modelName: String? = nil, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+            self.containers = containers
+            self.creationTime = creationTime
+            self.enableNetworkIsolation = enableNetworkIsolation
+            self.executionRoleArn = executionRoleArn
+            self.inferenceExecutionConfig = inferenceExecutionConfig
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.primaryContainer = primaryContainer
+            self.tags = tags
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers = "Containers"
+            case creationTime = "CreationTime"
+            case enableNetworkIsolation = "EnableNetworkIsolation"
+            case executionRoleArn = "ExecutionRoleArn"
+            case inferenceExecutionConfig = "InferenceExecutionConfig"
+            case modelArn = "ModelArn"
+            case modelName = "ModelName"
+            case primaryContainer = "PrimaryContainer"
+            case tags = "Tags"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
     public struct ModelArtifacts: AWSDecodableShape {
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String
@@ -21206,6 +23746,213 @@ extension SageMaker {
         }
     }
 
+    public struct ModelCard: AWSDecodableShape {
+        /// The content of the model card. Content uses the model card JSON schema and provided as a string.
+        public let content: String?
+        public let createdBy: UserContext?
+        /// The date and time that the model card was created.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// The date and time that the model card was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the model card.
+        public let modelCardArn: String?
+        /// The unique name of the model card.
+        public let modelCardName: String?
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus?
+        /// The version of the model card.
+        public let modelCardVersion: Int?
+        /// The unique name (ID) of the model.
+        public let modelId: String?
+        /// The risk rating of the model. Different organizations might have different criteria for model card risk ratings. For more information, see Risk ratings.
+        public let riskRating: String?
+        /// The security configuration used to protect model card data.
+        public let securityConfig: ModelCardSecurityConfig?
+        /// Key-value pairs used to manage metadata for the model card.
+        public let tags: [Tag]?
+
+        public init(content: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil, modelId: String? = nil, riskRating: String? = nil, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
+            self.content = content
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.modelCardArn = modelCardArn
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+            self.modelCardVersion = modelCardVersion
+            self.modelId = modelId
+            self.riskRating = riskRating
+            self.securityConfig = securityConfig
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelCardArn = "ModelCardArn"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+            case modelCardVersion = "ModelCardVersion"
+            case modelId = "ModelId"
+            case riskRating = "RiskRating"
+            case securityConfig = "SecurityConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ModelCardExportArtifacts: AWSDecodableShape {
+        /// The Amazon S3 URI of the exported model artifacts.
+        public let s3ExportArtifacts: String
+
+        public init(s3ExportArtifacts: String) {
+            self.s3ExportArtifacts = s3ExportArtifacts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ExportArtifacts = "S3ExportArtifacts"
+        }
+    }
+
+    public struct ModelCardExportJobSummary: AWSDecodableShape {
+        /// The date and time that the model card export job was created.
+        public let createdAt: Date
+        /// The date and time that the model card export job was last modified..
+        public let lastModifiedAt: Date
+        /// The Amazon Resource Name (ARN) of the model card export job.
+        public let modelCardExportJobArn: String
+        /// The name of the model card export job.
+        public let modelCardExportJobName: String
+        /// The name of the model card that the export job exports.
+        public let modelCardName: String
+        /// The version of the model card that the export job exports.
+        public let modelCardVersion: Int
+        /// The completion status of the model card export job.
+        public let status: ModelCardExportJobStatus
+
+        public init(createdAt: Date, lastModifiedAt: Date, modelCardExportJobArn: String, modelCardExportJobName: String, modelCardName: String, modelCardVersion: Int, status: ModelCardExportJobStatus) {
+            self.createdAt = createdAt
+            self.lastModifiedAt = lastModifiedAt
+            self.modelCardExportJobArn = modelCardExportJobArn
+            self.modelCardExportJobName = modelCardExportJobName
+            self.modelCardName = modelCardName
+            self.modelCardVersion = modelCardVersion
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case lastModifiedAt = "LastModifiedAt"
+            case modelCardExportJobArn = "ModelCardExportJobArn"
+            case modelCardExportJobName = "ModelCardExportJobName"
+            case modelCardName = "ModelCardName"
+            case modelCardVersion = "ModelCardVersion"
+            case status = "Status"
+        }
+    }
+
+    public struct ModelCardExportOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 output path to export your model card PDF.
+        public let s3OutputPath: String
+
+        public init(s3OutputPath: String) {
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, max: 1024)
+            try self.validate(self.s3OutputPath, name: "s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct ModelCardSecurityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A Key Management Service key ID to use for encrypting a model card.
+        public let kmsKeyId: String?
+
+        public init(kmsKeyId: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct ModelCardSummary: AWSDecodableShape {
+        /// The date and time that the model card was created.
+        public let creationTime: Date
+        /// The date and time that the model card was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the model card.
+        public let modelCardArn: String
+        /// The name of the model card.
+        public let modelCardName: String
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus
+
+        public init(creationTime: Date, lastModifiedTime: Date? = nil, modelCardArn: String, modelCardName: String, modelCardStatus: ModelCardStatus) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.modelCardArn = modelCardArn
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelCardArn = "ModelCardArn"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+        }
+    }
+
+    public struct ModelCardVersionSummary: AWSDecodableShape {
+        /// The date and time that the model card version was created.
+        public let creationTime: Date
+        /// The time date and time that the model card version was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the model card.
+        public let modelCardArn: String
+        /// The name of the model card.
+        public let modelCardName: String
+        /// The approval status of the model card version within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus
+        /// A version of the model card.
+        public let modelCardVersion: Int
+
+        public init(creationTime: Date, lastModifiedTime: Date? = nil, modelCardArn: String, modelCardName: String, modelCardStatus: ModelCardStatus, modelCardVersion: Int) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.modelCardArn = modelCardArn
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+            self.modelCardVersion = modelCardVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelCardArn = "ModelCardArn"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+            case modelCardVersion = "ModelCardVersion"
+        }
+    }
+
     public struct ModelClientConfig: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of retries when invocation requests are failing. The default value is 3.
         public let invocationsMaxRetries: Int?
@@ -21244,6 +23991,182 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case environmentParameters = "EnvironmentParameters"
             case inferenceSpecificationName = "InferenceSpecificationName"
+        }
+    }
+
+    public struct ModelDashboardEndpoint: AWSDecodableShape {
+        /// A timestamp that indicates when the endpoint was created.
+        public let creationTime: Date
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        public let endpointArn: String
+        /// The endpoint name.
+        public let endpointName: String
+        /// The endpoint status.
+        public let endpointStatus: EndpointStatus
+        /// The last time the endpoint was modified.
+        public let lastModifiedTime: Date
+
+        public init(creationTime: Date, endpointArn: String, endpointName: String, endpointStatus: EndpointStatus, lastModifiedTime: Date) {
+            self.creationTime = creationTime
+            self.endpointArn = endpointArn
+            self.endpointName = endpointName
+            self.endpointStatus = endpointStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointArn = "EndpointArn"
+            case endpointName = "EndpointName"
+            case endpointStatus = "EndpointStatus"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct ModelDashboardIndicatorAction: AWSDecodableShape {
+        /// Indicates whether the alert action is turned on.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct ModelDashboardModel: AWSDecodableShape {
+        /// The endpoints that host a model.
+        public let endpoints: [ModelDashboardEndpoint]?
+        public let lastBatchTransformJob: TransformJob?
+        /// A model displayed in the Model Dashboard.
+        public let model: Model?
+        /// The model card for a model.
+        public let modelCard: ModelDashboardModelCard?
+        /// The monitoring schedules for a model.
+        public let monitoringSchedules: [ModelDashboardMonitoringSchedule]?
+
+        public init(endpoints: [ModelDashboardEndpoint]? = nil, lastBatchTransformJob: TransformJob? = nil, model: Model? = nil, modelCard: ModelDashboardModelCard? = nil, monitoringSchedules: [ModelDashboardMonitoringSchedule]? = nil) {
+            self.endpoints = endpoints
+            self.lastBatchTransformJob = lastBatchTransformJob
+            self.model = model
+            self.modelCard = modelCard
+            self.monitoringSchedules = monitoringSchedules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
+            case lastBatchTransformJob = "LastBatchTransformJob"
+            case model = "Model"
+            case modelCard = "ModelCard"
+            case monitoringSchedules = "MonitoringSchedules"
+        }
+    }
+
+    public struct ModelDashboardModelCard: AWSDecodableShape {
+        public let createdBy: UserContext?
+        /// A timestamp that indicates when the model card was created.
+        public let creationTime: Date?
+        public let lastModifiedBy: UserContext?
+        /// A timestamp that indicates when the model card was last updated.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) for a model card.
+        public let modelCardArn: String?
+        /// The name of a model card.
+        public let modelCardName: String?
+        /// The model card status.
+        public let modelCardStatus: ModelCardStatus?
+        /// The model card version.
+        public let modelCardVersion: Int?
+        /// For models created in SageMaker, this is the model ARN. For models created outside of SageMaker, this is a user-customized string.
+        public let modelId: String?
+        /// A model card's risk rating. Can be low, medium, or high.
+        public let riskRating: String?
+        /// The KMS Key ID (KMSKeyId) for encryption of model card information.
+        public let securityConfig: ModelCardSecurityConfig?
+        /// The tags associated with a model card.
+        public let tags: [Tag]?
+
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil, modelId: String? = nil, riskRating: String? = nil, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.modelCardArn = modelCardArn
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+            self.modelCardVersion = modelCardVersion
+            self.modelId = modelId
+            self.riskRating = riskRating
+            self.securityConfig = securityConfig
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelCardArn = "ModelCardArn"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+            case modelCardVersion = "ModelCardVersion"
+            case modelId = "ModelId"
+            case riskRating = "RiskRating"
+            case securityConfig = "SecurityConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ModelDashboardMonitoringSchedule: AWSDecodableShape {
+        /// A timestamp that indicates when the monitoring schedule was created.
+        public let creationTime: Date?
+        /// The endpoint which is monitored.
+        public let endpointName: String?
+        /// If a monitoring job failed, provides the reason.
+        public let failureReason: String?
+        /// A timestamp that indicates when the monitoring schedule was last updated.
+        public let lastModifiedTime: Date?
+        public let lastMonitoringExecutionSummary: MonitoringExecutionSummary?
+        /// A JSON array where each element is a summary for a monitoring alert.
+        public let monitoringAlertSummaries: [MonitoringAlertSummary]?
+        /// The Amazon Resource Name (ARN) of a monitoring schedule.
+        public let monitoringScheduleArn: String?
+        public let monitoringScheduleConfig: MonitoringScheduleConfig?
+        /// The name of a monitoring schedule.
+        public let monitoringScheduleName: String?
+        /// The status of the monitoring schedule.
+        public let monitoringScheduleStatus: ScheduleStatus?
+        /// The monitor type of a model monitor.
+        public let monitoringType: MonitoringType?
+
+        public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringAlertSummaries: [MonitoringAlertSummary]? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.lastMonitoringExecutionSummary = lastMonitoringExecutionSummary
+            self.monitoringAlertSummaries = monitoringAlertSummaries
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.monitoringScheduleConfig = monitoringScheduleConfig
+            self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringScheduleStatus = monitoringScheduleStatus
+            self.monitoringType = monitoringType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastMonitoringExecutionSummary = "LastMonitoringExecutionSummary"
+            case monitoringAlertSummaries = "MonitoringAlertSummaries"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case monitoringScheduleConfig = "MonitoringScheduleConfig"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringScheduleStatus = "MonitoringScheduleStatus"
+            case monitoringType = "MonitoringType"
         }
     }
 
@@ -21393,6 +24316,27 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
+        }
+    }
+
+    public struct ModelInfrastructureConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The inference option to which to deploy your model. Possible values are the following:    RealTime: Deploy to real-time inference.
+        public let infrastructureType: ModelInfrastructureType
+        /// The infrastructure configuration for deploying the model to real-time inference.
+        public let realTimeInferenceConfig: RealTimeInferenceConfig
+
+        public init(infrastructureType: ModelInfrastructureType, realTimeInferenceConfig: RealTimeInferenceConfig) {
+            self.infrastructureType = infrastructureType
+            self.realTimeInferenceConfig = realTimeInferenceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.realTimeInferenceConfig.validate(name: "\(name).realTimeInferenceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureType = "InfrastructureType"
+            case realTimeInferenceConfig = "RealTimeInferenceConfig"
         }
     }
 
@@ -22088,6 +25032,135 @@ extension SageMaker {
             case creationTime = "CreationTime"
             case modelArn = "ModelArn"
             case modelName = "ModelName"
+        }
+    }
+
+    public struct ModelVariantConfig: AWSEncodableShape {
+        /// The configuration for the infrastructure that the model will be deployed to.
+        public let infrastructureConfig: ModelInfrastructureConfig
+        /// The name of the Amazon SageMaker Model entity.
+        public let modelName: String
+        /// The name of the variant.
+        public let variantName: String
+
+        public init(infrastructureConfig: ModelInfrastructureConfig, modelName: String, variantName: String) {
+            self.infrastructureConfig = infrastructureConfig
+            self.modelName = modelName
+            self.variantName = variantName
+        }
+
+        public func validate(name: String) throws {
+            try self.infrastructureConfig.validate(name: "\(name).infrastructureConfig")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.variantName, name: "variantName", parent: name, max: 63)
+            try self.validate(self.variantName, name: "variantName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureConfig = "InfrastructureConfig"
+            case modelName = "ModelName"
+            case variantName = "VariantName"
+        }
+    }
+
+    public struct ModelVariantConfigSummary: AWSDecodableShape {
+        /// The configuration of the infrastructure that the model has been deployed to.
+        public let infrastructureConfig: ModelInfrastructureConfig
+        /// The name of the Amazon SageMaker Model entity.
+        public let modelName: String
+        /// The status of deployment for the model variant on the hosted inference endpoint.    Creating - Amazon SageMaker is preparing the model variant on the hosted inference endpoint.     InService - The model variant is running on the hosted inference endpoint.     Updating - Amazon SageMaker is updating the model variant on the hosted inference endpoint.     Deleting - Amazon SageMaker is deleting the model variant on the hosted inference endpoint.     Deleted - The model variant has been deleted on the hosted inference endpoint. This can only happen after stopping the experiment.
+        public let status: ModelVariantStatus
+        /// The name of the variant.
+        public let variantName: String
+
+        public init(infrastructureConfig: ModelInfrastructureConfig, modelName: String, status: ModelVariantStatus, variantName: String) {
+            self.infrastructureConfig = infrastructureConfig
+            self.modelName = modelName
+            self.status = status
+            self.variantName = variantName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureConfig = "InfrastructureConfig"
+            case modelName = "ModelName"
+            case status = "Status"
+            case variantName = "VariantName"
+        }
+    }
+
+    public struct MonitoringAlertActions: AWSDecodableShape {
+        /// An alert action taken to light up an icon on the Model Dashboard when an alert goes into InAlert status.
+        public let modelDashboardIndicator: ModelDashboardIndicatorAction?
+
+        public init(modelDashboardIndicator: ModelDashboardIndicatorAction? = nil) {
+            self.modelDashboardIndicator = modelDashboardIndicator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelDashboardIndicator = "ModelDashboardIndicator"
+        }
+    }
+
+    public struct MonitoringAlertHistorySummary: AWSDecodableShape {
+        /// The current alert status of an alert.
+        public let alertStatus: MonitoringAlertStatus
+        /// A timestamp that indicates when the first alert transition occurred in an alert history. An alert transition can be from status InAlert to OK,  or from OK to InAlert.
+        public let creationTime: Date
+        /// The name of a monitoring alert.
+        public let monitoringAlertName: String
+        /// The name of a monitoring schedule.
+        public let monitoringScheduleName: String
+
+        public init(alertStatus: MonitoringAlertStatus, creationTime: Date, monitoringAlertName: String, monitoringScheduleName: String) {
+            self.alertStatus = alertStatus
+            self.creationTime = creationTime
+            self.monitoringAlertName = monitoringAlertName
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertStatus = "AlertStatus"
+            case creationTime = "CreationTime"
+            case monitoringAlertName = "MonitoringAlertName"
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
+    public struct MonitoringAlertSummary: AWSDecodableShape {
+        /// A list of alert actions taken in response to an alert going into InAlert status.
+        public let actions: MonitoringAlertActions
+        /// The current status of an alert.
+        public let alertStatus: MonitoringAlertStatus
+        /// A timestamp that indicates when a monitor alert was created.
+        public let creationTime: Date
+        /// Within EvaluationPeriod, how many execution failures will raise an alert.
+        public let datapointsToAlert: Int
+        /// The number of most recent monitoring executions to consider when evaluating alert status.
+        public let evaluationPeriod: Int
+        /// A timestamp that indicates when a monitor alert was last updated.
+        public let lastModifiedTime: Date
+        /// The name of a monitoring alert.
+        public let monitoringAlertName: String
+
+        public init(actions: MonitoringAlertActions, alertStatus: MonitoringAlertStatus, creationTime: Date, datapointsToAlert: Int, evaluationPeriod: Int, lastModifiedTime: Date, monitoringAlertName: String) {
+            self.actions = actions
+            self.alertStatus = alertStatus
+            self.creationTime = creationTime
+            self.datapointsToAlert = datapointsToAlert
+            self.evaluationPeriod = evaluationPeriod
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringAlertName = monitoringAlertName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case alertStatus = "AlertStatus"
+            case creationTime = "CreationTime"
+            case datapointsToAlert = "DatapointsToAlert"
+            case evaluationPeriod = "EvaluationPeriod"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringAlertName = "MonitoringAlertName"
         }
     }
 
@@ -22965,11 +26038,14 @@ extension SageMaker {
         public let disableGlueTableCreation: Bool?
         /// The Amazon Simple Storage (Amazon S3) location of OfflineStore.
         public let s3StorageConfig: S3StorageConfig
+        /// Format for the offline store table. Supported formats are Glue (Default) and Apache Iceberg.
+        public let tableFormat: TableFormat?
 
-        public init(dataCatalogConfig: DataCatalogConfig? = nil, disableGlueTableCreation: Bool? = nil, s3StorageConfig: S3StorageConfig) {
+        public init(dataCatalogConfig: DataCatalogConfig? = nil, disableGlueTableCreation: Bool? = nil, s3StorageConfig: S3StorageConfig, tableFormat: TableFormat? = nil) {
             self.dataCatalogConfig = dataCatalogConfig
             self.disableGlueTableCreation = disableGlueTableCreation
             self.s3StorageConfig = s3StorageConfig
+            self.tableFormat = tableFormat
         }
 
         public func validate(name: String) throws {
@@ -22981,6 +26057,7 @@ extension SageMaker {
             case dataCatalogConfig = "DataCatalogConfig"
             case disableGlueTableCreation = "DisableGlueTableCreation"
             case s3StorageConfig = "S3StorageConfig"
+            case tableFormat = "TableFormat"
         }
     }
 
@@ -23165,8 +26242,7 @@ extension SageMaker {
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     DTYPE: Specifies the data type for the input. When compiling for ml_* (except for ml_inf) instances using PyTorch framework, provide the data type (dtype) of the model's input. "float32" is used if "DTYPE" is not specified. Options for data type are:   float32: Use either "float" or "float32".   int64: Use either "int64" or "long".   For example, {"dtype" : "float32"}.    CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.      EIA: Compilation for the Elastic Inference Accelerator supports the following  compiler options:    precision_mode: Specifies the precision of compiled artifacts. Supported values are "FP16" and "FP32". Default is "FP32".    signature_def_key: Specifies the signature to use for models in SavedModel format. Defaults is TensorFlow's default signature def key.    output_names: Specifies a list of output tensor names for  models in FrozenGraph format. Set at most one API field, either: signature_def_key or output_names.   For example:  {"precision_mode": "FP32",  "output_names": ["output:0"]}
         public let compilerOptions: String?
-        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.
-        /// 	        The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
         /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
@@ -23391,20 +26467,24 @@ extension SageMaker {
     public struct PendingDeploymentSummary: AWSDecodableShape {
         /// The name of the endpoint configuration used in the deployment.
         public let endpointConfigName: String
-        /// List of PendingProductionVariantSummary objects.
+        /// An array of PendingProductionVariantSummary objects, one for each model hosted behind this endpoint for the in-progress deployment.
         public let productionVariants: [PendingProductionVariantSummary]?
+        /// An array of PendingProductionVariantSummary objects, one for each model hosted behind this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants for the in-progress deployment.
+        public let shadowProductionVariants: [PendingProductionVariantSummary]?
         /// The start time of the deployment.
         public let startTime: Date?
 
-        public init(endpointConfigName: String, productionVariants: [PendingProductionVariantSummary]? = nil, startTime: Date? = nil) {
+        public init(endpointConfigName: String, productionVariants: [PendingProductionVariantSummary]? = nil, shadowProductionVariants: [PendingProductionVariantSummary]? = nil, startTime: Date? = nil) {
             self.endpointConfigName = endpointConfigName
             self.productionVariants = productionVariants
+            self.shadowProductionVariants = shadowProductionVariants
             self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointConfigName = "EndpointConfigName"
             case productionVariants = "ProductionVariants"
+            case shadowProductionVariants = "ShadowProductionVariants"
             case startTime = "StartTime"
         }
     }
@@ -23648,7 +26728,7 @@ extension SageMaker {
         public let endTime: Date?
         /// The reason why the step failed execution. This is only returned if the step failed its execution.
         public let failureReason: String?
-        /// Metadata for the step execution.
+        /// Metadata to run the pipeline step.
         public let metadata: PipelineExecutionStepMetadata?
         /// The time that the step started executing.
         public let startTime: Date?
@@ -23689,13 +26769,15 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AutoML job that was run by this step.
+        public let autoMLJob: AutoMLJobStepMetadata?
         /// The URL of the Amazon SQS queue used by this step execution, the pipeline generated token, and a list of output parameters.
         public let callback: CallbackStepMetadata?
         /// Container for the metadata for a Clarify check step. The configurations  and outcomes of the check step execution. This includes:    The type of the check conducted,   The Amazon S3 URIs of baseline constraints and statistics files to be used for the drift check.   The Amazon S3 URIs of newly calculated baseline constraints and statistics.   The model package group name provided.   The Amazon S3 URI of the violation report if violations detected.   The Amazon Resource Name (ARN) of check processing job initiated by the step execution.   The boolean flags indicating if the drift check is skipped.   If step property BaselineUsedForDriftCheck is set the same as  CalculatedBaseline.
         public let clarifyCheck: ClarifyCheckStepMetadata?
         /// The outcome of the condition evaluation that was run by this step execution.
         public let condition: ConditionStepMetadata?
-        /// The configurations and outcomes of an EMR step execution.
+        /// The configurations and outcomes of an Amazon EMR step execution.
         public let emr: EMRStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public let fail: FailStepMetadata?
@@ -23705,9 +26787,9 @@ extension SageMaker {
         public let model: ModelStepMetadata?
         /// The Amazon Resource Name (ARN) of the processing job that was run by this step execution.
         public let processingJob: ProcessingJobStepMetadata?
-        /// The configurations and outcomes of the check step execution. This includes:    The type of the check conducted,   The Amazon S3 URIs of baseline constraints and statistics files to be used for the drift check.   The Amazon S3 URIs of newly calculated baseline constraints and statistics.   The model package group name provided.   The Amazon S3 URI of the violation report if violations detected.   The Amazon Resource Name (ARN) of check processing job initiated by the step execution.   The boolean flags indicating if the drift check is skipped.   If step property BaselineUsedForDriftCheck is set the same as  CalculatedBaseline.
+        /// The configurations and outcomes of the check step execution. This includes:    The type of the check conducted.   The Amazon S3 URIs of baseline constraints and statistics files to be used for the drift check.   The Amazon S3 URIs of newly calculated baseline constraints and statistics.   The model package group name provided.   The Amazon S3 URI of the violation report if violations detected.   The Amazon Resource Name (ARN) of check processing job initiated by the step execution.   The Boolean flags indicating if the drift check is skipped.   If step property BaselineUsedForDriftCheck is set the same as  CalculatedBaseline.
         public let qualityCheck: QualityCheckStepMetadata?
-        /// The Amazon Resource Name (ARN) of the model package the model was registered to by this step execution.
+        /// The Amazon Resource Name (ARN) of the model package that the model was registered to by this step execution.
         public let registerModel: RegisterModelStepMetadata?
         /// The Amazon Resource Name (ARN) of the training job that was run by this step execution.
         public let trainingJob: TrainingJobStepMetadata?
@@ -23716,7 +26798,8 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let tuningJob: TuningJobStepMetaData?
 
-        public init(callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(autoMLJob: AutoMLJobStepMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+            self.autoMLJob = autoMLJob
             self.callback = callback
             self.clarifyCheck = clarifyCheck
             self.condition = condition
@@ -23733,6 +26816,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMLJob = "AutoMLJob"
             case callback = "Callback"
             case clarifyCheck = "ClarifyCheck"
             case condition = "Condition"
@@ -24412,7 +27496,7 @@ extension SageMaker {
     }
 
     public struct ProfilerConfig: AWSEncodableShape & AWSDecodableShape {
-        /// To disable system monitoring and profiling, set to True.
+        /// Configuration to turn off Amazon SageMaker Debugger's system monitoring and profiling functionality. To turn it off, set to True.
         public let disableProfiler: Bool?
         /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
         public let profilingIntervalInMilliseconds: Int64?
@@ -24450,7 +27534,7 @@ extension SageMaker {
     }
 
     public struct ProfilerConfigForUpdate: AWSEncodableShape {
-        /// To disable Debugger monitoring and profiling, set to True.
+        /// To turn off Amazon SageMaker Debugger monitoring and profiling while a training job is in progress, set to True.
         public let disableProfiler: Bool?
         /// A time interval for capturing system metrics in milliseconds. Available values are 100, 200, 500, 1000 (1 second), 5000 (5 seconds), and 60000 (1 minute) milliseconds. The default value is 500 milliseconds.
         public let profilingIntervalInMilliseconds: Int64?
@@ -24488,13 +27572,13 @@ extension SageMaker {
     }
 
     public struct ProfilerRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The instance type to deploy a Debugger custom rule for profiling a training job.
+        /// The instance type to deploy a custom rule for profiling a training job.
         public let instanceType: ProcessingInstanceType?
         /// Path to local storage location for output of rules. Defaults to /opt/ml/processing/output/rule/.
         public let localPath: String?
         /// The name of the rule configuration. It must be unique relative to other rule configuration names.
         public let ruleConfigurationName: String
-        /// The Amazon Elastic Container (ECR) Image for the managed rule evaluation.
+        /// The Amazon Elastic Container Registry Image for the managed rule evaluation.
         public let ruleEvaluatorImage: String
         /// Runtime configuration for rule container.
         public let ruleParameters: [String: String]?
@@ -25018,10 +28102,16 @@ extension SageMaker {
         public let defaultResourceSpec: ResourceSpec?
         /// The execution role for the RStudioServerPro Domain-level app.
         public let domainExecutionRoleArn: String
+        /// A URL pointing to an RStudio Connect server.
+        public let rStudioConnectUrl: String?
+        /// A URL pointing to an RStudio Package Manager server.
+        public let rStudioPackageManagerUrl: String?
 
-        public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String) {
+        public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String, rStudioConnectUrl: String? = nil, rStudioPackageManagerUrl: String? = nil) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
+            self.rStudioConnectUrl = rStudioConnectUrl
+            self.rStudioPackageManagerUrl = rStudioPackageManagerUrl
         }
 
         public func validate(name: String) throws {
@@ -25034,6 +28124,29 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case defaultResourceSpec = "DefaultResourceSpec"
             case domainExecutionRoleArn = "DomainExecutionRoleArn"
+            case rStudioConnectUrl = "RStudioConnectUrl"
+            case rStudioPackageManagerUrl = "RStudioPackageManagerUrl"
+        }
+    }
+
+    public struct RealTimeInferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of instances of the type specified by InstanceType.
+        public let instanceCount: Int
+        /// The instance type the model is deployed to.
+        public let instanceType: InstanceType
+
+        public init(instanceCount: Int, instanceType: InstanceType) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
         }
     }
 
@@ -25129,10 +28242,12 @@ extension SageMaker {
         public let resourceLimit: RecommendationJobResourceLimit?
         /// Specifies the traffic pattern of the job.
         public let trafficPattern: TrafficPattern?
-        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.  This key will be passed to SageMaker Hosting for endpoint creation.   The SageMaker execution role must have kms:CreateGrant permission in order to encrypt data on the storage  volume of the endpoints created for inference recommendation. The inference recommendation job will fail  asynchronously during endpoint configuration creation if the role passed does not have  kms:CreateGrant permission.  The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.  This key will be passed to SageMaker Hosting for endpoint creation.  The SageMaker execution role must have kms:CreateGrant permission in order to encrypt data on the storage  volume of the endpoints created for inference recommendation. The inference recommendation job will fail  asynchronously during endpoint configuration creation if the role passed does not have  kms:CreateGrant permission. The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public let volumeKmsKeyId: String?
+        /// Inference Recommender provisions SageMaker endpoints with access to VPC in the inference recommendation job.
+        public let vpcConfig: RecommendationJobVpcConfig?
 
-        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelPackageVersionArn: String, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil) {
+        public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelPackageVersionArn: String, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil, vpcConfig: RecommendationJobVpcConfig? = nil) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
             self.endpoints = endpoints
@@ -25141,6 +28256,7 @@ extension SageMaker {
             self.resourceLimit = resourceLimit
             self.trafficPattern = trafficPattern
             self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -25161,6 +28277,7 @@ extension SageMaker {
             try self.trafficPattern?.validate(name: "\(name).trafficPattern")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25172,13 +28289,14 @@ extension SageMaker {
             case resourceLimit = "ResourceLimit"
             case trafficPattern = "TrafficPattern"
             case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
         }
     }
 
     public struct RecommendationJobOutputConfig: AWSEncodableShape {
         /// Provides information about the output configuration for the compiled  model.
         public let compiledOutputConfig: RecommendationJobCompiledOutputConfig?
-        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt your output artifacts with Amazon S3 server-side encryption.  The SageMaker execution role must have kms:GenerateDataKey permission.  The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt your output artifacts with Amazon S3 server-side encryption.  The SageMaker execution role must have kms:GenerateDataKey permission. The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public let kmsKeyId: String?
 
         public init(compiledOutputConfig: RecommendationJobCompiledOutputConfig? = nil, kmsKeyId: String? = nil) {
@@ -25259,6 +28377,38 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case maxInvocations = "MaxInvocations"
             case modelLatencyThresholds = "ModelLatencyThresholds"
+        }
+    }
+
+    public struct RecommendationJobVpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC security group IDs. IDs have the form of sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
+        public let securityGroupIds: [String]
+        /// The ID of the subnets in the VPC to which you want to connect your model.
+        public let subnets: [String]
+
+        public init(securityGroupIds: [String], subnets: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, max: 32)
+                try validate($0, name: "subnets[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
+            try self.validate(self.subnets, name: "subnets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnets = "Subnets"
         }
     }
 
@@ -25526,7 +28676,7 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public let instanceGroups: [InstanceGroup]?
-        /// The ML compute instance type.
+        /// The ML compute instance type.   SageMaker Training on Amazon Elastic Compute Cloud (EC2) P4de instances is in preview release starting December 9th, 2022.   Amazon EC2 P4de instances (currently in preview) are powered by 8 NVIDIA A100 GPUs with 80GB high-performance HBM2e GPU memory, which accelerate the speed of training ML models that need to be trained on large datasets of high-resolution data. In this preview release, Amazon SageMaker supports ML training jobs on P4de instances (ml.p4de.24xlarge) to reduce model training time. The ml.p4de.24xlarge instances are available in the following Amazon Web Services Regions.    US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   To request quota limit increase and start using P4de instances, contact the SageMaker Training service team through your account team.
         public let instanceType: TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public let keepAlivePeriodInSeconds: Int?
@@ -25791,10 +28941,7 @@ extension SageMaker {
     }
 
     public struct ScheduleConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A cron expression that describes details about the monitoring schedule.
-        ///  Currently the only supported cron expressions are:   If you want to set the job to start every hour, please use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)
-        ///  To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)
-        ///     Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.
+        /// A cron expression that describes details about the monitoring schedule. Currently the only supported cron expressions are:   If you want to set the job to start every hour, please use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.
         public let scheduleExpression: String
 
         public init(scheduleExpression: String) {
@@ -25863,6 +29010,9 @@ extension SageMaker {
         public let featureMetadata: FeatureMetadata?
         /// The properties of a hyperparameter tuning job.
         public let hyperParameterTuningJob: HyperParameterTuningJobSearchEntity?
+        public let model: ModelDashboardModel?
+        /// An Amazon SageMaker Model Card that documents details about a machine learning model.
+        public let modelCard: ModelCard?
         public let modelPackage: ModelPackage?
         public let modelPackageGroup: ModelPackageGroup?
         public let pipeline: Pipeline?
@@ -25876,12 +29026,14 @@ extension SageMaker {
         /// The properties of a trial component.
         public let trialComponent: TrialComponent?
 
-        public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, featureMetadata: FeatureMetadata? = nil, hyperParameterTuningJob: HyperParameterTuningJobSearchEntity? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, project: Project? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
+        public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, featureMetadata: FeatureMetadata? = nil, hyperParameterTuningJob: HyperParameterTuningJobSearchEntity? = nil, model: ModelDashboardModel? = nil, modelCard: ModelCard? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, project: Project? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
             self.endpoint = endpoint
             self.experiment = experiment
             self.featureGroup = featureGroup
             self.featureMetadata = featureMetadata
             self.hyperParameterTuningJob = hyperParameterTuningJob
+            self.model = model
+            self.modelCard = modelCard
             self.modelPackage = modelPackage
             self.modelPackageGroup = modelPackageGroup
             self.pipeline = pipeline
@@ -25898,6 +29050,8 @@ extension SageMaker {
             case featureGroup = "FeatureGroup"
             case featureMetadata = "FeatureMetadata"
             case hyperParameterTuningJob = "HyperParameterTuningJob"
+            case model = "Model"
+            case modelCard = "ModelCard"
             case modelPackage = "ModelPackage"
             case modelPackageGroup = "ModelPackageGroup"
             case pipeline = "Pipeline"
@@ -26167,6 +29321,56 @@ extension SageMaker {
         }
     }
 
+    public struct ShadowModeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// List of shadow variant configurations.
+        public let shadowModelVariants: [ShadowModelVariantConfig]
+        ///  The name of the production variant, which takes all the inference requests.
+        public let sourceModelVariantName: String
+
+        public init(shadowModelVariants: [ShadowModelVariantConfig], sourceModelVariantName: String) {
+            self.shadowModelVariants = shadowModelVariants
+            self.sourceModelVariantName = sourceModelVariantName
+        }
+
+        public func validate(name: String) throws {
+            try self.shadowModelVariants.forEach {
+                try $0.validate(name: "\(name).shadowModelVariants[]")
+            }
+            try self.validate(self.shadowModelVariants, name: "shadowModelVariants", parent: name, max: 1)
+            try self.validate(self.shadowModelVariants, name: "shadowModelVariants", parent: name, min: 1)
+            try self.validate(self.sourceModelVariantName, name: "sourceModelVariantName", parent: name, max: 63)
+            try self.validate(self.sourceModelVariantName, name: "sourceModelVariantName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shadowModelVariants = "ShadowModelVariants"
+            case sourceModelVariantName = "SourceModelVariantName"
+        }
+    }
+
+    public struct ShadowModelVariantConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The percentage of inference requests that Amazon SageMaker replicates from the production variant to the shadow variant.
+        public let samplingPercentage: Int
+        /// The name of the shadow variant.
+        public let shadowModelVariantName: String
+
+        public init(samplingPercentage: Int, shadowModelVariantName: String) {
+            self.samplingPercentage = samplingPercentage
+            self.shadowModelVariantName = shadowModelVariantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.samplingPercentage, name: "samplingPercentage", parent: name, max: 100)
+            try self.validate(self.shadowModelVariantName, name: "shadowModelVariantName", parent: name, max: 63)
+            try self.validate(self.shadowModelVariantName, name: "shadowModelVariantName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case samplingPercentage = "SamplingPercentage"
+            case shadowModelVariantName = "ShadowModelVariantName"
+        }
+    }
+
     public struct SharingSettings: AWSEncodableShape & AWSDecodableShape {
         /// Whether to include the notebook cell output when sharing the notebook. The default is Disabled.
         public let notebookOutputOption: NotebookOutputOption?
@@ -26275,6 +29479,55 @@ extension SageMaker {
         }
     }
 
+    public struct SpaceDetails: AWSDecodableShape {
+        /// The creation time.
+        public let creationTime: Date?
+        /// The ID of the associated Domain.
+        public let domainId: String?
+        /// The last modified time.
+        public let lastModifiedTime: Date?
+        /// The name of the space.
+        public let spaceName: String?
+        /// The status.
+        public let status: SpaceStatus?
+
+        public init(creationTime: Date? = nil, domainId: String? = nil, lastModifiedTime: Date? = nil, spaceName: String? = nil, status: SpaceStatus? = nil) {
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.lastModifiedTime = lastModifiedTime
+            self.spaceName = spaceName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case lastModifiedTime = "LastModifiedTime"
+            case spaceName = "SpaceName"
+            case status = "Status"
+        }
+    }
+
+    public struct SpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        public let jupyterServerAppSettings: JupyterServerAppSettings?
+        public let kernelGatewayAppSettings: KernelGatewayAppSettings?
+
+        public init(jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil) {
+            self.jupyterServerAppSettings = jupyterServerAppSettings
+            self.kernelGatewayAppSettings = kernelGatewayAppSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.jupyterServerAppSettings?.validate(name: "\(name).jupyterServerAppSettings")
+            try self.kernelGatewayAppSettings?.validate(name: "\(name).kernelGatewayAppSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jupyterServerAppSettings = "JupyterServerAppSettings"
+            case kernelGatewayAppSettings = "KernelGatewayAppSettings"
+        }
+    }
+
     public struct StartEdgeDeploymentStageRequest: AWSEncodableShape {
         /// The name of the edge deployment plan to start.
         public let edgeDeploymentPlanName: String
@@ -26298,6 +29551,38 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case edgeDeploymentPlanName = "EdgeDeploymentPlanName"
             case stageName = "StageName"
+        }
+    }
+
+    public struct StartInferenceExperimentRequest: AWSEncodableShape {
+        /// The name of the inference experiment to start.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct StartInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN of the started inference experiment to start.
+        public let inferenceExperimentArn: String
+
+        public init(inferenceExperimentArn: String) {
+            self.inferenceExperimentArn = inferenceExperimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperimentArn = "InferenceExperimentArn"
         }
     }
 
@@ -26370,9 +29655,9 @@ extension SageMaker {
             try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, max: 82)
             try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, min: 1)
             try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,81}$")
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 256)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 2048)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
-            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline/.*)?([a-zA-Z0-9](-*[a-zA-Z0-9]){0,255})$")
             try self.pipelineParameters?.forEach {
                 try $0.validate(name: "\(name).pipelineParameters[]")
             }
@@ -26501,6 +29786,67 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+        }
+    }
+
+    public struct StopInferenceExperimentRequest: AWSEncodableShape {
+        ///  An array of ModelVariantConfig objects. There is one for each variant that you want to deploy after the inference experiment stops. Each ModelVariantConfig describes the infrastructure configuration for deploying the corresponding variant.
+        public let desiredModelVariants: [ModelVariantConfig]?
+        ///  The desired state of the experiment after stopping. The possible states are the following:     Completed: The experiment completed successfully    Cancelled: The experiment was canceled
+        public let desiredState: InferenceExperimentStopDesiredState?
+        ///  Array of key-value pairs, with names of variants mapped to actions. The possible actions are the following:     Promote - Promote the shadow variant to a production variant    Remove - Delete the variant    Retain - Keep the variant as it is
+        public let modelVariantActions: [String: ModelVariantAction]
+        /// The name of the inference experiment to stop.
+        public let name: String
+        /// The reason for stopping the experiment.
+        public let reason: String?
+
+        public init(desiredModelVariants: [ModelVariantConfig]? = nil, desiredState: InferenceExperimentStopDesiredState? = nil, modelVariantActions: [String: ModelVariantAction], name: String, reason: String? = nil) {
+            self.desiredModelVariants = desiredModelVariants
+            self.desiredState = desiredState
+            self.modelVariantActions = modelVariantActions
+            self.name = name
+            self.reason = reason
+        }
+
+        public func validate(name: String) throws {
+            try self.desiredModelVariants?.forEach {
+                try $0.validate(name: "\(name).desiredModelVariants[]")
+            }
+            try self.validate(self.desiredModelVariants, name: "desiredModelVariants", parent: name, max: 2)
+            try self.validate(self.desiredModelVariants, name: "desiredModelVariants", parent: name, min: 1)
+            try self.modelVariantActions.forEach {
+                try validate($0.key, name: "modelVariantActions.key", parent: name, max: 63)
+                try validate($0.key, name: "modelVariantActions.key", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+            }
+            try self.validate(self.modelVariantActions, name: "modelVariantActions", parent: name, max: 2)
+            try self.validate(self.modelVariantActions, name: "modelVariantActions", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+            try self.validate(self.reason, name: "reason", parent: name, max: 1024)
+            try self.validate(self.reason, name: "reason", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredModelVariants = "DesiredModelVariants"
+            case desiredState = "DesiredState"
+            case modelVariantActions = "ModelVariantActions"
+            case name = "Name"
+            case reason = "Reason"
+        }
+    }
+
+    public struct StopInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN of the stopped inference experiment.
+        public let inferenceExperimentArn: String
+
+        public init(inferenceExperimentArn: String) {
+            self.inferenceExperimentArn = inferenceExperimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperimentArn = "InferenceExperimentArn"
         }
     }
 
@@ -27524,7 +30870,7 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias      If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your
         /// 	CreateModel
         /// 		request. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
@@ -27683,6 +31029,8 @@ extension SageMaker {
         public let parameters: [String: TrialComponentParameterValue]?
         /// An array of the parents of the component. A parent is a trial the component is associated with and the experiment the trial is part of. A component might not have any parents.
         public let parents: [Parent]?
+        /// The name of the experiment run.
+        public let runName: String?
         /// The Amazon Resource Name (ARN) and job type of the source of the component.
         public let source: TrialComponentSource?
         /// Details of the source of the component.
@@ -27697,7 +31045,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, runName: String? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -27711,6 +31059,7 @@ extension SageMaker {
             self.outputArtifacts = outputArtifacts
             self.parameters = parameters
             self.parents = parents
+            self.runName = runName
             self.source = source
             self.sourceDetail = sourceDetail
             self.startTime = startTime
@@ -27734,6 +31083,7 @@ extension SageMaker {
             case outputArtifacts = "OutputArtifacts"
             case parameters = "Parameters"
             case parents = "Parents"
+            case runName = "RunName"
             case source = "Source"
             case sourceDetail = "SourceDetail"
             case startTime = "StartTime"
@@ -27841,7 +31191,7 @@ extension SageMaker {
     }
 
     public struct TrialComponentSource: AWSDecodableShape {
-        /// The source ARN.
+        /// The source Amazon Resource Name (ARN).
         public let sourceArn: String
         /// The source job type.
         public let sourceType: String?
@@ -27921,7 +31271,7 @@ extension SageMaker {
         public let startTime: Date?
         /// The status of the component. States include:   InProgress   Completed   Failed
         public let status: TrialComponentStatus?
-        /// The ARN of the trial component.
+        /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
         /// The name of the trial component.
         public let trialComponentName: String?
@@ -28062,7 +31412,7 @@ extension SageMaker {
     }
 
     public struct UiConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for named entity recognition, 3D point cloud and video frame labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services Region you are creating your labeling job in. For example, replace aws-region with us-west-1 if you create a labeling job in US West (N. California).  Named Entity Recognition  Use the following HumanTaskUiArn for named entity recognition labeling jobs:  arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition    3D Point Cloud HumanTaskUiArns   Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection     Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking     Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation      Video Frame HumanTaskUiArns   Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection     Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
+        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for named entity recognition, 3D point cloud and video frame labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services Region you are creating your labeling job in. For example, replace aws-region with us-west-1 if you create a labeling job in US West (N. California).  Named Entity Recognition  Use the following HumanTaskUiArn for named entity recognition labeling jobs:  arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition   3D Point Cloud HumanTaskUiArns  Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection    Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking    Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation     Video Frame HumanTaskUiArns  Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection    Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
         public let humanTaskUiArn: String?
         /// The Amazon S3 bucket location of the UI template, or worker task template. This is the template used to render the worker UI and tools for labeling job tasks. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String?
@@ -28438,6 +31788,10 @@ extension SageMaker {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
+        /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+        public let appSecurityGroupManagement: AppSecurityGroupManagement?
+        /// The default settings used to create a space within the Domain.
+        public let defaultSpaceSettings: DefaultSpaceSettings?
         /// A collection of settings.
         public let defaultUserSettings: UserSettings?
         /// The ID of the domain to be updated.
@@ -28445,19 +31799,24 @@ extension SageMaker {
         /// A collection of DomainSettings configuration values to update.
         public let domainSettingsForUpdate: DomainSettingsForUpdate?
 
-        public init(defaultUserSettings: UserSettings? = nil, domainId: String, domainSettingsForUpdate: DomainSettingsForUpdate? = nil) {
+        public init(appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String, domainSettingsForUpdate: DomainSettingsForUpdate? = nil) {
+            self.appSecurityGroupManagement = appSecurityGroupManagement
+            self.defaultSpaceSettings = defaultSpaceSettings
             self.defaultUserSettings = defaultUserSettings
             self.domainId = domainId
             self.domainSettingsForUpdate = domainSettingsForUpdate
         }
 
         public func validate(name: String) throws {
+            try self.defaultSpaceSettings?.validate(name: "\(name).defaultSpaceSettings")
             try self.defaultUserSettings?.validate(name: "\(name).defaultUserSettings")
             try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
             try self.domainSettingsForUpdate?.validate(name: "\(name).domainSettingsForUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appSecurityGroupManagement = "AppSecurityGroupManagement"
+            case defaultSpaceSettings = "DefaultSpaceSettings"
             case defaultUserSettings = "DefaultUserSettings"
             case domainId = "DomainId"
             case domainSettingsForUpdate = "DomainSettingsForUpdate"
@@ -28707,6 +32066,58 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateHubRequest: AWSEncodableShape {
+        /// A description of the updated hub.
+        public let hubDescription: String?
+        /// The display name of the hub.
+        public let hubDisplayName: String?
+        /// The name of the hub to update.
+        public let hubName: String
+        /// The searchable keywords for the hub.
+        public let hubSearchKeywords: [String]?
+
+        public init(hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String, hubSearchKeywords: [String]? = nil) {
+            self.hubDescription = hubDescription
+            self.hubDisplayName = hubDisplayName
+            self.hubName = hubName
+            self.hubSearchKeywords = hubSearchKeywords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubDescription, name: "hubDescription", parent: name, max: 1023)
+            try self.validate(self.hubDescription, name: "hubDescription", parent: name, pattern: ".*")
+            try self.validate(self.hubDisplayName, name: "hubDisplayName", parent: name, max: 255)
+            try self.validate(self.hubDisplayName, name: "hubDisplayName", parent: name, pattern: ".*")
+            try self.validate(self.hubName, name: "hubName", parent: name, max: 63)
+            try self.validate(self.hubName, name: "hubName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.hubSearchKeywords?.forEach {
+                try validate($0, name: "hubSearchKeywords[]", parent: name, max: 255)
+                try validate($0, name: "hubSearchKeywords[]", parent: name, pattern: "^[^A-Z]*$")
+            }
+            try self.validate(self.hubSearchKeywords, name: "hubSearchKeywords", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubDescription = "HubDescription"
+            case hubDisplayName = "HubDisplayName"
+            case hubName = "HubName"
+            case hubSearchKeywords = "HubSearchKeywords"
+        }
+    }
+
+    public struct UpdateHubResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated hub.
+        public let hubArn: String
+
+        public init(hubArn: String) {
+            self.hubArn = hubArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubArn = "HubArn"
+        }
+    }
+
     public struct UpdateImageRequest: AWSEncodableShape {
         /// A list of properties to delete. Only the Description and DisplayName properties can be deleted.
         public let deleteProperties: [String]?
@@ -28716,7 +32127,7 @@ extension SageMaker {
         public let displayName: String?
         /// The name of the image to update.
         public let imageName: String
-        /// The new Amazon Resource Name (ARN) for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
         public let roleArn: String?
 
         public init(deleteProperties: [String]? = nil, description: String? = nil, displayName: String? = nil, imageName: String, roleArn: String? = nil) {
@@ -28758,7 +32169,7 @@ extension SageMaker {
     }
 
     public struct UpdateImageResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image.
+        /// The ARN of the image.
         public let imageArn: String?
 
         public init(imageArn: String? = nil) {
@@ -28767,6 +32178,208 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case imageArn = "ImageArn"
+        }
+    }
+
+    public struct UpdateImageVersionRequest: AWSEncodableShape {
+        /// The alias of the image version.
+        public let alias: String?
+        /// A list of aliases to add.
+        public let aliasesToAdd: [String]?
+        /// A list of aliases to delete.
+        public let aliasesToDelete: [String]?
+        /// Indicates Horovod compatibility.
+        public let horovod: Bool?
+        /// The name of the image.
+        public let imageName: String
+        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        public let jobType: JobType?
+        /// The machine learning framework vended in the image version.
+        public let mlFramework: String?
+        /// Indicates CPU or GPU compatibility.    CPU: The image version is compatible with CPU.    GPU: The image version is compatible with GPU.
+        public let processor: Processor?
+        /// The supported programming language and its version.
+        public let programmingLang: String?
+        /// The maintainer description of the image version.
+        public let releaseNotes: String?
+        /// The availability of the image version specified by the maintainer.    NOT_PROVIDED: The maintainers did not provide a status for image version stability.    STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months.    ARCHIVED: The image version is archived. Archived image versions are not searchable and are no longer actively supported.
+        public let vendorGuidance: VendorGuidance?
+        /// The version of the image.
+        public let version: Int?
+
+        public init(alias: String? = nil, aliasesToAdd: [String]? = nil, aliasesToDelete: [String]? = nil, horovod: Bool? = nil, imageName: String, jobType: JobType? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil, version: Int? = nil) {
+            self.alias = alias
+            self.aliasesToAdd = aliasesToAdd
+            self.aliasesToDelete = aliasesToDelete
+            self.horovod = horovod
+            self.imageName = imageName
+            self.jobType = jobType
+            self.mlFramework = mlFramework
+            self.processor = processor
+            self.programmingLang = programmingLang
+            self.releaseNotes = releaseNotes
+            self.vendorGuidance = vendorGuidance
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 128)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
+            try self.aliasesToAdd?.forEach {
+                try validate($0, name: "aliasesToAdd[]", parent: name, max: 128)
+                try validate($0, name: "aliasesToAdd[]", parent: name, min: 1)
+                try validate($0, name: "aliasesToAdd[]", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
+            }
+            try self.aliasesToDelete?.forEach {
+                try validate($0, name: "aliasesToDelete[]", parent: name, max: 128)
+                try validate($0, name: "aliasesToDelete[]", parent: name, min: 1)
+                try validate($0, name: "aliasesToDelete[]", parent: name, pattern: "^(?!^[.-])^([a-zA-Z0-9-_.]+)$")
+            }
+            try self.validate(self.imageName, name: "imageName", parent: name, max: 63)
+            try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, max: 128)
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, min: 1)
+            try self.validate(self.mlFramework, name: "mlFramework", parent: name, pattern: "^[a-zA-Z]+ ?\\d+\\.\\d+(\\.\\d+)?$")
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, max: 128)
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, min: 1)
+            try self.validate(self.programmingLang, name: "programmingLang", parent: name, pattern: "^[a-zA-Z]+ ?\\d+\\.\\d+(\\.\\d+)?$")
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, max: 255)
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, min: 1)
+            try self.validate(self.releaseNotes, name: "releaseNotes", parent: name, pattern: ".*")
+            try self.validate(self.version, name: "version", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case aliasesToAdd = "AliasesToAdd"
+            case aliasesToDelete = "AliasesToDelete"
+            case horovod = "Horovod"
+            case imageName = "ImageName"
+            case jobType = "JobType"
+            case mlFramework = "MLFramework"
+            case processor = "Processor"
+            case programmingLang = "ProgrammingLang"
+            case releaseNotes = "ReleaseNotes"
+            case vendorGuidance = "VendorGuidance"
+            case version = "Version"
+        }
+    }
+
+    public struct UpdateImageVersionResponse: AWSDecodableShape {
+        /// The ARN of the image version.
+        public let imageVersionArn: String?
+
+        public init(imageVersionArn: String? = nil) {
+            self.imageVersionArn = imageVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageVersionArn = "ImageVersionArn"
+        }
+    }
+
+    public struct UpdateInferenceExperimentRequest: AWSEncodableShape {
+        /// The Amazon S3 location and configuration for storing inference request and response data.
+        public let dataStorageConfig: InferenceExperimentDataStorageConfig?
+        /// The description of the inference experiment.
+        public let description: String?
+        ///  An array of ModelVariantConfig objects. There is one for each variant, whose infrastructure configuration you want to update.
+        public let modelVariants: [ModelVariantConfig]?
+        /// The name of the inference experiment to be updated.
+        public let name: String
+        ///  The duration for which the inference experiment will run. If the status of the inference experiment is Created, then you can update both the start and end dates. If the status of the inference experiment is Running, then you can update only the end date.
+        public let schedule: InferenceExperimentSchedule?
+        ///  The configuration of ShadowMode inference experiment type. Use this field to specify a production variant which takes all the inference requests, and a shadow variant to which Amazon SageMaker replicates a percentage of the inference requests. For the shadow variant also specify the percentage of requests that Amazon SageMaker replicates.
+        public let shadowModeConfig: ShadowModeConfig?
+
+        public init(dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, modelVariants: [ModelVariantConfig]? = nil, name: String, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig? = nil) {
+            self.dataStorageConfig = dataStorageConfig
+            self.description = description
+            self.modelVariants = modelVariants
+            self.name = name
+            self.schedule = schedule
+            self.shadowModeConfig = shadowModeConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.dataStorageConfig?.validate(name: "\(name).dataStorageConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.modelVariants?.forEach {
+                try $0.validate(name: "\(name).modelVariants[]")
+            }
+            try self.validate(self.modelVariants, name: "modelVariants", parent: name, max: 2)
+            try self.validate(self.modelVariants, name: "modelVariants", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 120)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}$")
+            try self.shadowModeConfig?.validate(name: "\(name).shadowModeConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataStorageConfig = "DataStorageConfig"
+            case description = "Description"
+            case modelVariants = "ModelVariants"
+            case name = "Name"
+            case schedule = "Schedule"
+            case shadowModeConfig = "ShadowModeConfig"
+        }
+    }
+
+    public struct UpdateInferenceExperimentResponse: AWSDecodableShape {
+        /// The ARN of the updated inference experiment.
+        public let inferenceExperimentArn: String
+
+        public init(inferenceExperimentArn: String) {
+            self.inferenceExperimentArn = inferenceExperimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceExperimentArn = "InferenceExperimentArn"
+        }
+    }
+
+    public struct UpdateModelCardRequest: AWSEncodableShape {
+        /// The updated model card content. Content must be in model card JSON schema and provided as a string. When updating model card content, be sure to include the full content and not just updated content.
+        public let content: String?
+        /// The name of the model card to update.
+        public let modelCardName: String
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
+        public let modelCardStatus: ModelCardStatus?
+
+        public init(content: String? = nil, modelCardName: String, modelCardStatus: ModelCardStatus? = nil) {
+            self.content = content
+            self.modelCardName = modelCardName
+            self.modelCardStatus = modelCardStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, pattern: ".*")
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
+            try self.validate(self.modelCardName, name: "modelCardName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case modelCardName = "ModelCardName"
+            case modelCardStatus = "ModelCardStatus"
+        }
+    }
+
+    public struct UpdateModelCardResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated model card.
+        public let modelCardArn: String
+
+        public init(modelCardArn: String) {
+            self.modelCardArn = modelCardArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCardArn = "ModelCardArn"
         }
     }
 
@@ -28841,6 +32454,61 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelPackageArn = "ModelPackageArn"
+        }
+    }
+
+    public struct UpdateMonitoringAlertRequest: AWSEncodableShape {
+        /// Within EvaluationPeriod, how many execution failures will raise an alert.
+        public let datapointsToAlert: Int
+        /// The number of most recent monitoring executions to consider when evaluating alert status.
+        public let evaluationPeriod: Int
+        /// The name of a monitoring alert.
+        public let monitoringAlertName: String
+        /// The name of a monitoring schedule.
+        public let monitoringScheduleName: String
+
+        public init(datapointsToAlert: Int, evaluationPeriod: Int, monitoringAlertName: String, monitoringScheduleName: String) {
+            self.datapointsToAlert = datapointsToAlert
+            self.evaluationPeriod = evaluationPeriod
+            self.monitoringAlertName = monitoringAlertName
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datapointsToAlert, name: "datapointsToAlert", parent: name, max: 100)
+            try self.validate(self.datapointsToAlert, name: "datapointsToAlert", parent: name, min: 1)
+            try self.validate(self.evaluationPeriod, name: "evaluationPeriod", parent: name, max: 100)
+            try self.validate(self.evaluationPeriod, name: "evaluationPeriod", parent: name, min: 1)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, max: 63)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, min: 1)
+            try self.validate(self.monitoringAlertName, name: "monitoringAlertName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, max: 63)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, min: 1)
+            try self.validate(self.monitoringScheduleName, name: "monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datapointsToAlert = "DatapointsToAlert"
+            case evaluationPeriod = "EvaluationPeriod"
+            case monitoringAlertName = "MonitoringAlertName"
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
+    public struct UpdateMonitoringAlertResponse: AWSDecodableShape {
+        /// The name of a monitoring alert.
+        public let monitoringAlertName: String?
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String
+
+        public init(monitoringAlertName: String? = nil, monitoringScheduleArn: String) {
+            self.monitoringAlertName = monitoringAlertName
+            self.monitoringScheduleArn = monitoringScheduleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringAlertName = "MonitoringAlertName"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
         }
     }
 
@@ -29179,10 +32847,51 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateSpaceRequest: AWSEncodableShape {
+        /// The ID of the associated Domain.
+        public let domainId: String
+        /// The name of the space.
+        public let spaceName: String
+        /// A collection of space settings.
+        public let spaceSettings: SpaceSettings?
+
+        public init(domainId: String, spaceName: String, spaceSettings: SpaceSettings? = nil) {
+            self.domainId = domainId
+            self.spaceName = spaceName
+            self.spaceSettings = spaceSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, max: 63)
+            try self.validate(self.spaceName, name: "spaceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.spaceSettings?.validate(name: "\(name).spaceSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case spaceName = "SpaceName"
+            case spaceSettings = "SpaceSettings"
+        }
+    }
+
+    public struct UpdateSpaceResponse: AWSDecodableShape {
+        /// The space's Amazon Resource Name (ARN).
+        public let spaceArn: String?
+
+        public init(spaceArn: String? = nil) {
+            self.spaceArn = spaceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spaceArn = "SpaceArn"
+        }
+    }
+
     public struct UpdateTrainingJobRequest: AWSEncodableShape {
-        /// Configuration information for Debugger system monitoring, framework profiling, and storage paths.
+        /// Configuration information for Amazon SageMaker Debugger system monitoring, framework profiling, and storage paths.
         public let profilerConfig: ProfilerConfigForUpdate?
-        /// Configuration information for Debugger rules for profiling system and framework metrics.
+        /// Configuration information for Amazon SageMaker Debugger rules for profiling system and framework metrics.
         public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
         /// The training job ResourceConfig to update warm pool retention length.
         public let resourceConfig: ResourceConfigForUpdate?

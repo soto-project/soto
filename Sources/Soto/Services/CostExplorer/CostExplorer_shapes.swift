@@ -103,6 +103,8 @@ extension CostExplorer {
     public enum Dimension: String, CustomStringConvertible, Codable, _SotoSendable {
         case agreementEndDateTimeAfter = "AGREEMENT_END_DATE_TIME_AFTER"
         case agreementEndDateTimeBefore = "AGREEMENT_END_DATE_TIME_BEFORE"
+        case anomalyTotalImpactAbsolute = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+        case anomalyTotalImpactPercentage = "ANOMALY_TOTAL_IMPACT_PERCENTAGE"
         case az = "AZ"
         case billingEntity = "BILLING_ENTITY"
         case cacheEngine = "CACHE_ENGINE"
@@ -156,6 +158,13 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum GenerationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Granularity: String, CustomStringConvertible, Codable, _SotoSendable {
         case daily = "DAILY"
         case hourly = "HOURLY"
@@ -184,6 +193,7 @@ extension CostExplorer {
         case contains = "CONTAINS"
         case endsWith = "ENDS_WITH"
         case equals = "EQUALS"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
         case startsWith = "STARTS_WITH"
         public var description: String { return self.rawValue }
     }
@@ -456,10 +466,24 @@ extension CostExplorer {
         public let subscriptionArn: String?
         /// The name for the subscription.
         public let subscriptionName: String
-        /// The dollar value that triggers a notification if the threshold is exceeded.
-        public let threshold: Double
+        /// (deprecated) The dollar value that triggers a notification if the threshold is exceeded.  This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource.
+        public let threshold: Double?
+        /// An Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. One of Threshold or ThresholdExpression is required for this resource. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        public let thresholdExpression: Expression?
 
-        public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, threshold: Double) {
+        public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, thresholdExpression: Expression? = nil) {
+            self.accountId = accountId
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = nil
+            self.thresholdExpression = thresholdExpression
+        }
+
+        @available(*, deprecated, message: "Members threshold have been deprecated")
+        public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, threshold: Double? = nil, thresholdExpression: Expression? = nil) {
             self.accountId = accountId
             self.frequency = frequency
             self.monitorArnList = monitorArnList
@@ -467,6 +491,7 @@ extension CostExplorer {
             self.subscriptionArn = subscriptionArn
             self.subscriptionName = subscriptionName
             self.threshold = threshold
+            self.thresholdExpression = thresholdExpression
         }
 
         public func validate(name: String) throws {
@@ -485,6 +510,7 @@ extension CostExplorer {
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0.0)
+            try self.thresholdExpression?.validate(name: "\(name).thresholdExpression")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,6 +521,7 @@ extension CostExplorer {
             case subscriptionArn = "SubscriptionArn"
             case subscriptionName = "SubscriptionName"
             case threshold = "Threshold"
+            case thresholdExpression = "ThresholdExpression"
         }
     }
 
@@ -1244,9 +1271,9 @@ extension CostExplorer {
     }
 
     public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
-        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
+        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported.  LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.  ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in AnomalySubscriptions.
         public let key: Dimension?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results.  MatchOptions is only applicable for actions related to Cost Category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
@@ -1603,6 +1630,35 @@ extension CostExplorer {
         }
     }
 
+    public struct GenerationSummary: AWSDecodableShape {
+        /// Indicates the estimated time for when the recommendation generation will complete.
+        public let estimatedCompletionTime: String?
+        /// Indicates the completion time of the recommendation generation.
+        public let generationCompletionTime: String?
+        /// Indicates the start time of the recommendation generation.
+        public let generationStartedTime: String?
+        /// Indicates whether the recommendation generation succeeded, is processing, or failed.
+        public let generationStatus: GenerationStatus?
+        /// Indicates the ID for this specific recommendation.
+        public let recommendationId: String?
+
+        public init(estimatedCompletionTime: String? = nil, generationCompletionTime: String? = nil, generationStartedTime: String? = nil, generationStatus: GenerationStatus? = nil, recommendationId: String? = nil) {
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.generationCompletionTime = generationCompletionTime
+            self.generationStartedTime = generationStartedTime
+            self.generationStatus = generationStatus
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedCompletionTime = "EstimatedCompletionTime"
+            case generationCompletionTime = "GenerationCompletionTime"
+            case generationStartedTime = "GenerationStartedTime"
+            case generationStatus = "GenerationStatus"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
     public struct GetAnomaliesRequest: AWSEncodableShape {
         /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range.
         public let dateInterval: AnomalyDateInterval
@@ -1762,31 +1818,13 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageRequest: AWSEncodableShape {
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT
-        /// 			and get the costs that are associated with that account's usage of that service. You can nest Expression objects
-        /// 			to define any combination of dimension filters. For more information, see
-        /// 			Expression.
-        /// 	        Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE.
-        /// 	        Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression?
-        /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set,
-        /// 	    the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
+        /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
         public let granularity: Granularity
-        /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types.
-        /// 	        Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT,
-        /// 			OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE,
-        /// 		  TENANCY, RECORD_TYPE, and USAGE_TYPE.
-        /// 	        When you group by the TAG  type and include a valid tag key, you get all tag values, including empty strings.
+        /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings.
         public let groupBy: [GroupDefinition]?
-        /// Which metrics are returned in the query. For more information about blended and unblended rates, see
-        /// 			Why does the "blended" annotation
-        /// 				appear on some line items in my bill?.
-        /// 		       Valid values are AmortizedCost, BlendedCost, NetAmortizedCost,
-        /// 			NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
-        ///
-        /// 			         If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.
-        ///
-        /// 		        Metrics is required for GetCostAndUsage requests.
+        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
         public let metrics: [String]
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1852,11 +1890,9 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression  "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression
-        /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If
-        /// 	    Granularity isn't set, the response object doesn't include the
-        /// 	    Granularity, MONTHLY, DAILY, or HOURLY.
+        /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
         public let granularity: Granularity
         /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
         public let groupBy: [GroupDefinition]?
@@ -1864,7 +1900,7 @@ extension CostExplorer {
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
         public init(filter: Expression, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
@@ -2005,32 +2041,13 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastRequest: AWSEncodableShape {
-        /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:
-        ///
-        /// 	           AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
+        /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts.
-        /// 		       The GetCostForecast operation supports only DAILY and MONTHLY granularities.
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
-        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see
-        /// 			Why does the "blended" annotation
-        /// 				appear on some line items in my bill?.
-        /// 		       Valid values for a GetCostForecast call are the following:
-        ///
-        /// 				           AMORTIZED_COST
-        ///
-        /// 				           BLENDED_COST
-        ///
-        /// 				           NET_AMORTIZED_COST
-        ///
-        /// 				           NET_UNBLENDED_COST
-        ///
-        /// 				           UNBLENDED_COST
-        ///
+        /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST
         public let metric: Metric
-        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean
-        /// 			by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value
-        /// 			falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
+        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
         /// The period of time that you want the forecast to cover. The start date must be equal to or no later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
@@ -2060,8 +2077,7 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastResponse: AWSDecodableShape {
-        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts,
-        /// 			this is a list of months.
+        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you are forecasted to spend over the forecast period, in USD.
         public let total: MetricValue?
@@ -2078,15 +2094,9 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSEncodableShape {
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE.
-        /// 			The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values
-        /// 			can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE,
-        /// 			the resulting dimension values can be used in the GetCostAndUsage operation.
-        /// 		       If you set the context to COST_AND_USAGE, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this  operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
-        /// The name of the dimension. Each Dimension is available for a different Context.
-        /// 		  For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
-        ///
+        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
         public let dimension: Dimension
         public let filter: Expression?
         /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
@@ -2137,8 +2147,7 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesResponse: AWSDecodableShape {
-        /// The filters that you used to filter your request. Some dimensions are available only for a specific context.
-        /// 		       If you set the context to COST_AND_USAGE, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand  Instances and Standard Reserved Instances.   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this  operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service. You can opt-in by enabling Hourly and Resource Level Data in Cost Management Console preferences.   If you set the context to RESERVATIONS, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
+        /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service. You can opt-in by enabling Hourly and Resource Level Data in Cost Management Console preferences.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
         public let dimensionValues: [DimensionValuesWithAttributes]
         /// The token for the next set of retrievable results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -2163,34 +2172,21 @@ extension CostExplorer {
     }
 
     public struct GetReservationCoverageRequest: AWSEncodableShape {
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:
-        /// 		         AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY
-        /// 		        GetReservationCoverage uses the same
-        /// 			Expression object
-        /// 			as the other operations, but only AND is supported among each dimension. You can nest only one level deep.
-        /// 			If there are multiple values for a dimension, they are OR'd together.
-        /// 		       If you don't provide a SERVICE filter, Cost Explorer defaults to EC2.
-        /// 	        Cost category is also supported.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2. Cost category is also supported.
         public let filter: Expression?
-        /// The granularity of the Amazon Web Services cost data for the reservation. Valid values are MONTHLY and DAILY.
-        /// 		       If GroupBy is set, Granularity can't be set. If Granularity isn't set,
-        /// 			the response object doesn't include Granularity, either MONTHLY or DAILY.
-        /// 		       The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
+        /// The granularity of the Amazon Web Services cost data for the reservation. Valid values are MONTHLY and DAILY. If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. The GetReservationCoverage operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
-        /// You can group the data by the following attributes:
-        /// 		         AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   INVOICING_ENTITY   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TENANCY
+        /// You can group the data by the following attributes:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   INVOICING_ENTITY   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   TENANCY
         public let groupBy: [GroupDefinition]?
         /// The maximum number of objects that you returned for this request. If more objects are available, in the response, Amazon Web Services provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
-        /// The measurement that you want your reservation coverage reported in.
-        /// 		       Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
+        /// The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The value by which you want to sort the data. The following values are supported for Key:    OnDemandCost     CoverageHoursPercentage     OnDemandHours     ReservedHours     TotalRunningHours     CoverageNormalizedUnitsPercentage     OnDemandNormalizedUnits     ReservedNormalizedUnits     TotalRunningNormalizedUnits     Time     Supported values for SortOrder are ASCENDING or DESCENDING.
+        /// The value by which you want to sort the data. The following values are supported for Key:    OnDemandCost     CoverageHoursPercentage     OnDemandHours     ReservedHours     TotalRunningHours     CoverageNormalizedUnitsPercentage     OnDemandNormalizedUnits     ReservedNormalizedUnits     TotalRunningNormalizedUnits     Time    Supported values for SortOrder are ASCENDING or DESCENDING.
         public let sortBy: SortDefinition?
-        /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data
-        /// 			for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
@@ -2334,17 +2330,9 @@ extension CostExplorer {
     }
 
     public struct GetReservationUtilizationRequest: AWSEncodableShape {
-        /// Filters utilization data by dimensions. You can filter by the following dimensions:
-        /// 		         AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY
-        /// 		        GetReservationUtilization uses the same
-        /// 			Expression object
-        /// 			as the other operations, but only AND is supported among each dimension, and nesting is supported up to
-        /// 			only one level deep. If there are multiple values for a dimension, they are OR'd together.
+        /// Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   SCOPE   TENANCY    GetReservationUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together.
         public let filter: Expression?
-        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set,
-        /// 			the response object doesn't include Granularity, either MONTHLY or DAILY.
-        /// 			If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY.
-        /// 		       The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
+        /// If GroupBy is set, Granularity can't be set. If Granularity isn't set, the response object doesn't include Granularity, either MONTHLY or DAILY. If both GroupBy and Granularity aren't set, GetReservationUtilization defaults to DAILY. The GetReservationUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
         /// Groups only by SUBSCRIPTION_ID. Metadata is included.
         public let groupBy: [GroupDefinition]?
@@ -2352,7 +2340,7 @@ extension CostExplorer {
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The value that you want to sort the data by.  The following values are supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits     PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours     UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings     AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee     RICostForUnusedHours     RealizedSavings     UnrealizedSavings     The supported values for SortOrder are ASCENDING and DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits     PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours     UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings     AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee     RICostForUnusedHours     RealizedSavings     UnrealizedSavings    The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
@@ -2419,7 +2407,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
         public let pageSize: Int?
-        /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is  	"AmazonEC2".
+        /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
         public let service: String
 
         public init(configuration: RightsizingRecommendationConfiguration? = nil, filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
@@ -2478,10 +2466,9 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansCoverageRequest: AWSEncodableShape {
-        /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same  Expression object  as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together. Cost category is also supported.
+        /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together. Cost category is also supported.
         public let filter: Expression?
-        /// The granularity of the Amazon Web Services cost data for your Savings Plans. Granularity can't be set if GroupBy is set.
-        /// 	        The GetSavingsPlansCoverage operation supports only DAILY and MONTHLY granularities.
+        /// The granularity of the Amazon Web Services cost data for your Savings Plans. Granularity can't be set if GroupBy is set. The GetSavingsPlansCoverage operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
         /// You can group the data using the attributes INSTANCE_FAMILY, REGION, or SERVICE.
         public let groupBy: [GroupDefinition]?
@@ -2491,7 +2478,7 @@ extension CostExplorer {
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        /// The value that you want to sort the data by. The following values are supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage     TotalCost     InstanceFamily     Region     Service     The supported values for SortOrder are ASCENDING and DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage     TotalCost     InstanceFamily     Region     Service    The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2624,13 +2611,13 @@ extension CostExplorer {
     public struct GetSavingsPlansUtilizationDetailsRequest: AWSEncodableShape {
         /// The data type.
         public let dataType: [SavingsPlansDataType]?
-        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions.  You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same  Expression object  as the other operations, but only AND is supported among each dimension.
+        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
         /// The number of items to be returned in a response. The default is 20, with a minimum value of 1.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        /// The value that you want to sort the data by.  The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     AmortizedRecurringCommitment     AmortizedUpfrontCommitment     The supported values for SortOrder are ASCENDING and DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     AmortizedRecurringCommitment     AmortizedUpfrontCommitment    The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2688,12 +2675,11 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationRequest: AWSEncodableShape {
-        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions.  You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same  Expression object  as the other operations, but only AND is supported among each dimension.
+        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension.
         public let filter: Expression?
-        /// The granularity of the Amazon Web Services utillization data for your Savings Plans.
-        /// 	        The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
+        /// The granularity of the Amazon Web Services utillization data for your Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
-        /// The value that you want to sort the data by. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     The supported values for SortOrder are ASCENDING and DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings    The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2748,7 +2734,7 @@ extension CostExplorer {
         public let sortBy: [SortDefinition]?
         /// The key of the tag that you want to return values for.
         public let tagKey: String?
-        /// The start and end dates for retrieving the dimension values. The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
@@ -2813,24 +2799,13 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastRequest: AWSEncodableShape {
-        /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:
-        ///
-        /// 	           AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
+        /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts.
-        /// 		       The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
-        /// Which metric Cost Explorer uses to create your forecast.
-        /// 		       Valid values for a GetUsageForecast call are the following:
-        ///
-        /// 				           USAGE_QUANTITY
-        ///
-        /// 				           NORMALIZED_USAGE_AMOUNT
-        ///
+        /// Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT
         public let metric: Metric
-        /// Amazon Web Services Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean
-        /// 			by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value
-        /// 			falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
+        /// Amazon Web Services Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
         /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is included in the period, but the end date isn't included in the period. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
@@ -2860,8 +2835,7 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastResponse: AWSDecodableShape {
-        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts,
-        /// 			this is a list of months.
+        /// The forecasts for your query, in order. For DAILY forecasts, this is a list of days. For MONTHLY forecasts, this is a list of months.
         public let forecastResultsByTime: [ForecastResult]?
         /// How much you're forecasted to use over the forecast period.
         public let total: MetricValue?
@@ -2919,17 +2893,29 @@ extension CostExplorer {
     public struct Impact: AWSDecodableShape {
         /// The maximum dollar value that's observed for an anomaly.
         public let maxImpact: Double
-        /// The cumulative dollar value that's observed for an anomaly.
+        /// The cumulative dollar amount that was actually spent during the anomaly.
+        public let totalActualSpend: Double?
+        /// The cumulative dollar amount that was expected to be spent during the anomaly. It is calculated using advanced machine learning models to determine the typical spending pattern based on historical data for a customer.
+        public let totalExpectedSpend: Double?
+        /// The cumulative dollar difference between the total actual spend and total expected spend. It is calculated as TotalActualSpend - TotalExpectedSpend.
         public let totalImpact: Double?
+        /// The cumulative percentage difference between the total actual spend and total expected spend. It is calculated as (TotalImpact / TotalExpectedSpend) * 100. When TotalExpectedSpend is zero, this field is omitted. Expected spend can be zero in situations such as when you start to use a service for the first time.
+        public let totalImpactPercentage: Double?
 
-        public init(maxImpact: Double, totalImpact: Double? = nil) {
+        public init(maxImpact: Double, totalActualSpend: Double? = nil, totalExpectedSpend: Double? = nil, totalImpact: Double? = nil, totalImpactPercentage: Double? = nil) {
             self.maxImpact = maxImpact
+            self.totalActualSpend = totalActualSpend
+            self.totalExpectedSpend = totalExpectedSpend
             self.totalImpact = totalImpact
+            self.totalImpactPercentage = totalImpactPercentage
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxImpact = "MaxImpact"
+            case totalActualSpend = "TotalActualSpend"
+            case totalExpectedSpend = "TotalExpectedSpend"
             case totalImpact = "TotalImpact"
+            case totalImpactPercentage = "TotalImpactPercentage"
         }
     }
 
@@ -3066,6 +3052,59 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case costCategoryReferences = "CostCategoryReferences"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSavingsPlansPurchaseRecommendationGenerationRequest: AWSEncodableShape {
+        /// The status of the recommendation generation.
+        public let generationStatus: GenerationStatus?
+        /// The token to retrieve the next set of results.
+        public let nextPageToken: String?
+        /// The number of recommendations that you want returned in a single response object.
+        public let pageSize: Int?
+        /// The IDs for each specific recommendation.
+        public let recommendationIds: [String]?
+
+        public init(generationStatus: GenerationStatus? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, recommendationIds: [String]? = nil) {
+            self.generationStatus = generationStatus
+            self.nextPageToken = nextPageToken
+            self.pageSize = pageSize
+            self.recommendationIds = recommendationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
+            try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.recommendationIds?.forEach {
+                try validate($0, name: "recommendationIds[]", parent: name, max: 36)
+                try validate($0, name: "recommendationIds[]", parent: name, min: 36)
+                try validate($0, name: "recommendationIds[]", parent: name, pattern: "^[\\S\\s]{8}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{4}-[\\S\\s]{12}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationStatus = "GenerationStatus"
+            case nextPageToken = "NextPageToken"
+            case pageSize = "PageSize"
+            case recommendationIds = "RecommendationIds"
+        }
+    }
+
+    public struct ListSavingsPlansPurchaseRecommendationGenerationResponse: AWSDecodableShape {
+        /// The list of historical recommendation generations.
+        public let generationSummaryList: [GenerationSummary]?
+        /// The token to retrieve the next set of results.
+        public let nextPageToken: String?
+
+        public init(generationSummaryList: [GenerationSummary]? = nil, nextPageToken: String? = nil) {
+            self.generationSummaryList = generationSummaryList
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationSummaryList = "GenerationSummaryList"
+            case nextPageToken = "NextPageToken"
         }
     }
 
@@ -3723,6 +3762,8 @@ extension CostExplorer {
     public struct RootCause: AWSDecodableShape {
         /// The member account value that's associated with the cost anomaly.
         public let linkedAccount: String?
+        /// The member account name value that's associated with the cost anomaly.
+        public let linkedAccountName: String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public let region: String?
         /// The Amazon Web Service name that's associated with the cost anomaly.
@@ -3730,8 +3771,9 @@ extension CostExplorer {
         /// The UsageType value that's associated with the cost anomaly.
         public let usageType: String?
 
-        public init(linkedAccount: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
+        public init(linkedAccount: String? = nil, linkedAccountName: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
             self.linkedAccount = linkedAccount
+            self.linkedAccountName = linkedAccountName
             self.region = region
             self.service = service
             self.usageType = usageType
@@ -3739,6 +3781,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case linkedAccount = "LinkedAccount"
+            case linkedAccountName = "LinkedAccountName"
             case region = "Region"
             case service = "Service"
             case usageType = "UsageType"
@@ -4167,6 +4210,31 @@ extension CostExplorer {
         }
     }
 
+    public struct StartSavingsPlansPurchaseRecommendationGenerationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct StartSavingsPlansPurchaseRecommendationGenerationResponse: AWSDecodableShape {
+        /// The estimated time for when the recommendation generation will complete.
+        public let estimatedCompletionTime: String?
+        /// The start time of the recommendation generation.
+        public let generationStartedTime: String?
+        /// The ID for this specific recommendation.
+        public let recommendationId: String?
+
+        public init(estimatedCompletionTime: String? = nil, generationStartedTime: String? = nil, recommendationId: String? = nil) {
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.generationStartedTime = generationStartedTime
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedCompletionTime = "EstimatedCompletionTime"
+            case generationStartedTime = "GenerationStartedTime"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
     public struct Subscriber: AWSEncodableShape & AWSDecodableShape {
         /// The email address or SNS Amazon Resource Name (ARN). This depends on the Type.
         public let address: String?
@@ -4411,16 +4479,30 @@ extension CostExplorer {
         public let subscriptionArn: String
         /// The new name of the subscription.
         public let subscriptionName: String?
-        /// The update to the threshold value for receiving notifications.
+        /// (deprecated) The update to the threshold value for receiving notifications.  This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression.
         public let threshold: Double?
+        /// The update to the Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        public let thresholdExpression: Expression?
 
-        public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, threshold: Double? = nil) {
+        public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, thresholdExpression: Expression? = nil) {
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = nil
+            self.thresholdExpression = thresholdExpression
+        }
+
+        @available(*, deprecated, message: "Members threshold have been deprecated")
+        public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, threshold: Double? = nil, thresholdExpression: Expression? = nil) {
             self.frequency = frequency
             self.monitorArnList = monitorArnList
             self.subscribers = subscribers
             self.subscriptionArn = subscriptionArn
             self.subscriptionName = subscriptionName
             self.threshold = threshold
+            self.thresholdExpression = thresholdExpression
         }
 
         public func validate(name: String) throws {
@@ -4437,6 +4519,7 @@ extension CostExplorer {
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0.0)
+            try self.thresholdExpression?.validate(name: "\(name).thresholdExpression")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4446,6 +4529,7 @@ extension CostExplorer {
             case subscriptionArn = "SubscriptionArn"
             case subscriptionName = "SubscriptionName"
             case threshold = "Threshold"
+            case thresholdExpression = "ThresholdExpression"
         }
     }
 
@@ -4616,6 +4700,7 @@ public struct CostExplorerErrorType: AWSErrorType {
     enum Code: String {
         case billExpirationException = "BillExpirationException"
         case dataUnavailableException = "DataUnavailableException"
+        case generationExistsException = "GenerationExistsException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case limitExceededException = "LimitExceededException"
         case requestChangedException = "RequestChangedException"
@@ -4649,6 +4734,8 @@ public struct CostExplorerErrorType: AWSErrorType {
     public static var billExpirationException: Self { .init(.billExpirationException) }
     /// The requested data is unavailable.
     public static var dataUnavailableException: Self { .init(.dataUnavailableException) }
+    /// A request to generate a recommendation is already in progress.
+    public static var generationExistsException: Self { .init(.generationExistsException) }
     /// The pagination token is invalid. Try again without a pagination token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// You made too many calls in a short period of time. Try again later.

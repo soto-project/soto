@@ -446,7 +446,7 @@ extension Translate {
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// Describes the format of the data that you submit to Amazon Translate as input. You can specify one of the following multipurpose internet mail extension (MIME) types:    text/html: The input data consists of one or more HTML files. Amazon Translate translates only the text that resides in the html element in each file.    text/plain: The input data consists of one or more unformatted text files. Amazon Translate translates every character in this type of input.    application/vnd.openxmlformats-officedocument.wordprocessingml.document: The input data consists of one or more Word documents (.docx).    application/vnd.openxmlformats-officedocument.presentationml.presentation: The input data consists of one or more PowerPoint Presentation files (.pptx).    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: The input data consists of one or more Excel Workbook files (.xlsx).    application/x-xliff+xml: The input data consists of one or more XML Localization Interchange File Format (XLIFF) files (.xlf). Amazon Translate supports only XLIFF version 1.2.    If you structure your input data as HTML, ensure that you set this parameter to text/html. By doing so, you cut costs by limiting the translation to the contents of the html element in each file. Otherwise, if you set this parameter to text/plain, your costs will cover the translation of every character.
         public let contentType: String
-        /// The URI of the AWS S3 folder that contains the input files. Amazon Translate translates all the files in the folder. The folder must be in the same Region as the API endpoint you are calling.  The URI can also point to a single input document, or it can provide the prefix for a collection of input documents. For example. if you use the URI S3://bucketName/prefix and the prefix is a single file, Amazon Translate uses that files as input. If more than one file begins with the prefix, Amazon Translate uses all of them as input.
+        /// The URI of the AWS S3 folder that contains the input files. Amazon Translate translates all the files in the folder and all its sub-folders. The folder must be in the same Region as the API endpoint you are calling.
         public let s3Uri: String
 
         public init(contentType: String, s3Uri: String) {
@@ -853,7 +853,7 @@ extension Translate {
     public struct StartTextTranslationJobRequest: AWSEncodableShape {
         /// A unique identifier for the request. This token is generated for you when using the Amazon Translate SDK.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more information, see  Identity and access management .
+        /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that grants Amazon Translate read access to your input data. For more information, see Identity and access management .
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input documents for the translation job.
         public let inputDataConfig: InputDataConfig
@@ -861,13 +861,13 @@ extension Translate {
         public let jobName: String?
         /// Specifies the S3 folder to which your job output will be saved.
         public let outputDataConfig: OutputDataConfig
-        /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated.  If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see  Customizing your translations with parallel data.
+        /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see  Customizing your translations with parallel data.
         public let parallelDataNames: [String]?
         /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
         public let settings: TranslationSettings?
-        /// The language code of the input language. For a list of language codes, see   Supported languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
+        /// The language code of the input language. Specify the language if all input documents share the same language. If you don't know the language of the source files, or your input documents contains different source languages, select auto. Amazon Translate auto detects the source language for each input document. For a list of supported language codes, see Supported languages.
         public let sourceLanguageCode: String
-        /// The target languages of the translation job. Enter up to 10 language codes.    Each input file is translated into each target language. Each language code is two or five characters long. For a list of language codes, see   Supported languages.
+        /// The target languages of the translation job. Enter up to 10 language codes. Each input file is translated into each target language. Each language code is 2 or 5 characters long. For a list of language codes, see Supported languages.
         public let targetLanguageCodes: [String]
         /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. If you specify multiple target languages for the job, translate uses the designated terminology for each requested target language that has an entry for the source term in the terminology file. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see Custom terminology.
         public let terminologyNames: [String]?
@@ -1269,7 +1269,7 @@ extension Translate {
         public let targetLanguageCode: String
         /// The name of the terminology list file to be used in the TranslateText request. You can use 1 terminology list at most in a TranslateText request. Terminology lists can contain a maximum of 256 terms.
         public let terminologyNames: [String]?
-        /// The text to translate. The text string can be a maximum of 5,000 bytes long. Depending on your character set, this may be fewer than 5,000 characters.
+        /// The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters.
         public let text: String
 
         public init(settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil, text: String) {
@@ -1290,9 +1290,9 @@ extension Translate {
                 try validate($0, name: "terminologyNames[]", parent: name, min: 1)
                 try validate($0, name: "terminologyNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             }
-            try self.validate(self.text, name: "text", parent: name, max: 5000)
+            try self.validate(self.text, name: "text", parent: name, max: 10000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
-            try self.validate(self.text, name: "text", parent: name, pattern: "^[\\P{M}\\p{M}]{1,5000}$")
+            try self.validate(self.text, name: "text", parent: name, pattern: "^[\\P{M}\\p{M}]{1,10000}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,9 +1334,9 @@ extension Translate {
     }
 
     public struct TranslationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Setting Formality in the Amazon Translate Developer Guide.
+        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as register) in the translation output.  You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see Supported languages in the Amazon Translate Developer Guide.
         public let formality: Formality?
-        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that support profanity detection, see Masking profanity in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
+        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see Unsupported languages in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public let profanity: Profanity?
 
         public init(formality: Formality? = nil, profanity: Profanity? = nil) {

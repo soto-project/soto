@@ -56,11 +56,11 @@ extension Ivschat {
     }
 
     public enum DestinationConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
-        /// Name of the Amazon CloudWatch Logs destination where chat activity will be logged.
+        /// An Amazon CloudWatch Logs destination configuration where chat activity will be logged.
         case cloudWatchLogs(CloudWatchLogsDestinationConfiguration)
-        /// Name of the Amazon Kinesis Data Firehose destination where chat activity will be logged
+        /// An Amazon Kinesis Data Firehose destination configuration where chat activity will be logged.
         case firehose(FirehoseDestinationConfiguration)
-        /// Name of the Amazon S3 bucket where chat activity will be logged.
+        /// An Amazon S3 destination configuration where chat activity will be logged.
         case s3(S3DestinationConfiguration)
 
         public init(from decoder: Decoder) throws {

@@ -351,6 +351,13 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobEndBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cancel = "CANCEL"
+        case forceCancel = "FORCE_CANCEL"
+        case stopRollout = "STOP_ROLLOUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobExecutionFailureType: String, CustomStringConvertible, Codable, _SotoSendable {
         case all = "ALL"
         case failed = "FAILED"
@@ -376,6 +383,7 @@ extension IoT {
         case completed = "COMPLETED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
         case inProgress = "IN_PROGRESS"
+        case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
@@ -1095,8 +1103,6 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.targets.forEach {
                 try validate($0, name: "targets[]", parent: name, max: 2048)
@@ -3246,6 +3252,8 @@ extension IoT {
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
         public let presignedUrlConfig: PresignedUrlConfig?
+        /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
+        public let schedulingConfig: SchedulingConfig?
         /// Metadata which can be used to manage the job.
         public let tags: [Tag]?
         /// A list of things and thing groups to which the job should be sent.
@@ -3255,7 +3263,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, schedulingConfig: SchedulingConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
@@ -3267,6 +3275,7 @@ extension IoT {
             self.jobTemplateArn = jobTemplateArn
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
+            self.schedulingConfig = schedulingConfig
             self.tags = tags
             self.targets = targets
             self.targetSelection = targetSelection
@@ -3296,10 +3305,9 @@ extension IoT {
             try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, max: 1600)
             try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, min: 1)
             try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, pattern: "^arn:[!-~]+$")
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
+            try self.schedulingConfig?.validate(name: "\(name).schedulingConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3320,6 +3328,7 @@ extension IoT {
             case jobTemplateArn
             case namespaceId
             case presignedUrlConfig
+            case schedulingConfig
             case tags
             case targets
             case targetSelection
@@ -4815,8 +4824,6 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
@@ -4850,8 +4857,6 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
@@ -8634,6 +8639,8 @@ extension IoT {
         public let presignedUrlConfig: PresignedUrlConfig?
         /// If the job was updated, provides the reason code for the update.
         public let reasonCode: String?
+        /// The configuration that allows you to schedule a job for a future date and time in addition to specifying the end behavior for each job execution.
+        public let schedulingConfig: SchedulingConfig?
         /// The status of the job, one of IN_PROGRESS, CANCELED,  DELETION_IN_PROGRESS or COMPLETED.
         public let status: JobStatus?
         /// A list of IoT things and thing groups to which the job should be sent.
@@ -8643,7 +8650,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -8662,6 +8669,7 @@ extension IoT {
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.reasonCode = reasonCode
+            self.schedulingConfig = schedulingConfig
             self.status = status
             self.targets = targets
             self.targetSelection = targetSelection
@@ -8687,6 +8695,7 @@ extension IoT {
             case namespaceId
             case presignedUrlConfig
             case reasonCode
+            case schedulingConfig
             case status
             case targets
             case targetSelection
@@ -10157,8 +10166,6 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
@@ -10265,8 +10272,6 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, max: 128)
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, min: 1)
@@ -12356,6 +12361,52 @@ extension IoT {
         }
     }
 
+    public struct MqttHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// A UTF-8 encoded string that describes the content of the publishing message. For more information, see  Content Type from the MQTT Version 5.0 specification. Supports substitution templates.
+        public let contentType: String?
+        /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. For more information, see  Correlation Data from the MQTT Version 5.0 specification.   This binary data must be based64-encoded.   Supports substitution templates.
+        public let correlationData: String?
+        /// A user-defined integer value that will persist a message at the message broker for a specified amount of time to ensure that the message will expire if it's no longer relevant to the subscriber. The value of messageExpiry represents the number of seconds before it expires. For more information about the limits of messageExpiry, see Amazon Web Services IoT Core message broker and protocol limits and quotas  from the Amazon Web Services Reference Guide.       Supports substitution templates.
+        public let messageExpiry: String?
+        /// An Enum string value that indicates whether the payload is formatted as UTF-8. Valid values are UNSPECIFIED_BYTES and UTF8_DATA. For more information, see  Payload Format Indicator from the MQTT Version 5.0 specification. Supports substitution templates.
+        public let payloadFormatIndicator: String?
+        /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic is used to describe  the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard  characters. For more information, see  Response Topic from the MQTT Version 5.0 specification. Supports substitution templates.
+        public let responseTopic: String?
+        /// An array of key-value pairs that you define in the MQTT5 header.
+        public let userProperties: [UserProperty]?
+
+        public init(contentType: String? = nil, correlationData: String? = nil, messageExpiry: String? = nil, payloadFormatIndicator: String? = nil, responseTopic: String? = nil, userProperties: [UserProperty]? = nil) {
+            self.contentType = contentType
+            self.correlationData = correlationData
+            self.messageExpiry = messageExpiry
+            self.payloadFormatIndicator = payloadFormatIndicator
+            self.responseTopic = responseTopic
+            self.userProperties = userProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
+            try self.validate(self.correlationData, name: "correlationData", parent: name, max: 1024)
+            try self.validate(self.messageExpiry, name: "messageExpiry", parent: name, max: 1024)
+            try self.validate(self.payloadFormatIndicator, name: "payloadFormatIndicator", parent: name, max: 1024)
+            try self.validate(self.responseTopic, name: "responseTopic", parent: name, max: 1024)
+            try self.userProperties?.forEach {
+                try $0.validate(name: "\(name).userProperties[]")
+            }
+            try self.validate(self.userProperties, name: "userProperties", parent: name, max: 100)
+            try self.validate(self.userProperties, name: "userProperties", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType
+            case correlationData
+            case messageExpiry
+            case payloadFormatIndicator
+            case responseTopic
+            case userProperties
+        }
+    }
+
     public struct NonCompliantResource: AWSDecodableShape {
         /// Other information about the noncompliant resource.
         public let additionalInfo: [String: String]?
@@ -13307,6 +13358,8 @@ extension IoT {
     }
 
     public struct RepublishAction: AWSEncodableShape & AWSDecodableShape {
+        /// MQTT Version 5.0 headers information. For more information, see  MQTT from the Amazon Web Services IoT Core Developer Guide.
+        public let headers: MqttHeaders?
         /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
         public let qos: Int?
         /// The ARN of the IAM role that grants access.
@@ -13314,18 +13367,21 @@ extension IoT {
         /// The name of the MQTT topic.
         public let topic: String
 
-        public init(qos: Int? = nil, roleArn: String, topic: String) {
+        public init(headers: MqttHeaders? = nil, qos: Int? = nil, roleArn: String, topic: String) {
+            self.headers = headers
             self.qos = qos
             self.roleArn = roleArn
             self.topic = topic
         }
 
         public func validate(name: String) throws {
+            try self.headers?.validate(name: "\(name).headers")
             try self.validate(self.qos, name: "qos", parent: name, max: 1)
             try self.validate(self.qos, name: "qos", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case headers
             case qos
             case roleArn
             case topic
@@ -13579,6 +13635,34 @@ extension IoT {
             case frequency
             case scheduledAuditArn
             case scheduledAuditName
+        }
+    }
+
+    public struct SchedulingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
+        public let endBehavior: JobEndBehavior?
+        /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years.
+        public let endTime: String?
+        /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time.
+        public let startTime: String?
+
+        public init(endBehavior: JobEndBehavior? = nil, endTime: String? = nil, startTime: String? = nil) {
+            self.endBehavior = endBehavior
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endTime, name: "endTime", parent: name, max: 64)
+            try self.validate(self.endTime, name: "endTime", parent: name, min: 1)
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 64)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endBehavior
+            case endTime
+            case startTime
         }
     }
 
@@ -14758,7 +14842,7 @@ extension IoT {
     public struct ThingGroupIndexingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public let customFields: [Field]?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see Managed fields in the Amazon Web Services IoT Core Developer Guide.
         public let managedFields: [Field]?
         /// Thing group indexing mode.
         public let thingGroupIndexingMode: ThingGroupIndexingMode
@@ -16026,8 +16110,6 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
-            try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
         }
@@ -16633,6 +16715,28 @@ extension IoT {
 
     public struct UpdateTopicRuleDestinationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UserProperty: AWSEncodableShape & AWSDecodableShape {
+        /// A key to be specified in UserProperty.
+        public let key: String
+        /// A value to be specified in UserProperty.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case value
+        }
     }
 
     public struct ValidateSecurityProfileBehaviorsRequest: AWSEncodableShape {

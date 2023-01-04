@@ -283,6 +283,18 @@ extension IoTFleetWise {
         /// The scientific unit for the actuator.
         public let unit: String?
 
+        public init(allowedValues: [String]? = nil, dataType: NodeDataType, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
+            self.allowedValues = allowedValues
+            self.assignedValue = nil
+            self.dataType = dataType
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+            self.max = max
+            self.min = min
+            self.unit = unit
+        }
+
+        @available(*, deprecated, message: "Members assignedValue have been deprecated")
         public init(allowedValues: [String]? = nil, assignedValue: String? = nil, dataType: NodeDataType, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
@@ -365,6 +377,19 @@ extension IoTFleetWise {
         /// The scientific unit for the attribute.
         public let unit: String?
 
+        public init(allowedValues: [String]? = nil, dataType: NodeDataType, defaultValue: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
+            self.allowedValues = allowedValues
+            self.assignedValue = nil
+            self.dataType = dataType
+            self.defaultValue = defaultValue
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+            self.max = max
+            self.min = min
+            self.unit = unit
+        }
+
+        @available(*, deprecated, message: "Members assignedValue have been deprecated")
         public init(allowedValues: [String]? = nil, assignedValue: String? = nil, dataType: NodeDataType, defaultValue: String? = nil, description: String? = nil, fullyQualifiedName: String, max: Double? = nil, min: Double? = nil, unit: String? = nil) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
@@ -710,7 +735,7 @@ extension IoTFleetWise {
         public let description: String?
         ///  (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
         public let diagnosticsMode: DiagnosticsMode?
-        ///  (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires.  Default: 253402243200 (December 31, 9999, 00:00:00 UTC)
+        ///  (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
         public let expiryTime: Date?
         ///  The name of the campaign to create.
         public let name: String

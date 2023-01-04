@@ -289,8 +289,21 @@ extension MediaLive {
 
     public enum DeviceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case notUpToDate = "NOT_UP_TO_DATE"
-        case updating = "UPDATING"
         case upToDate = "UP_TO_DATE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DolbyEProgramSelection: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allChannels = "ALL_CHANNELS"
+        case program1 = "PROGRAM_1"
+        case program2 = "PROGRAM_2"
+        case program3 = "PROGRAM_3"
+        case program4 = "PROGRAM_4"
+        case program5 = "PROGRAM_5"
+        case program6 = "PROGRAM_6"
+        case program7 = "PROGRAM_7"
+        case program8 = "PROGRAM_8"
         public var description: String { return self.rawValue }
     }
 
@@ -1051,8 +1064,8 @@ extension MediaLive {
     }
 
     public enum InputDeviceIpScheme: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dhcp = "DHCP"
         case `static` = "STATIC"
+        case dhcp = "DHCP"
         public var description: String { return self.rawValue }
     }
 
@@ -1076,6 +1089,7 @@ extension MediaLive {
 
     public enum InputDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case hd = "HD"
+        case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
@@ -1152,8 +1166,8 @@ extension MediaLive {
     }
 
     public enum InputSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dynamic = "DYNAMIC"
         case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
         public var description: String { return self.rawValue }
     }
 
@@ -1751,6 +1765,27 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimecodeBurninFontSize: String, CustomStringConvertible, Codable, _SotoSendable {
+        case extraSmall10 = "EXTRA_SMALL_10"
+        case large48 = "LARGE_48"
+        case medium32 = "MEDIUM_32"
+        case small16 = "SMALL_16"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bottomCenter = "BOTTOM_CENTER"
+        case bottomLeft = "BOTTOM_LEFT"
+        case bottomRight = "BOTTOM_RIGHT"
+        case middleCenter = "MIDDLE_CENTER"
+        case middleLeft = "MIDDLE_LEFT"
+        case middleRight = "MIDDLE_RIGHT"
+        case topCenter = "TOP_CENTER"
+        case topLeft = "TOP_LEFT"
+        case topRight = "TOP_RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TimecodeConfigSource: String, CustomStringConvertible, Codable, _SotoSendable {
         case embedded = "EMBEDDED"
         case systemclock = "SYSTEMCLOCK"
@@ -2166,6 +2201,19 @@ extension MediaLive {
         }
     }
 
+    public struct AudioDolbyEDecode: AWSEncodableShape & AWSDecodableShape {
+        /// Applies only to Dolby E. Enter the program ID (according to the metadata in the audio) of the Dolby E program to extract from the specified track. One program extracted per audio selector. To select multiple programs, create multiple selectors with the same Track and different Program numbers. “All channels” means to ignore the program IDs and include all the channels in this selector; useful if metadata is known to be incorrect.
+        public let programSelection: DolbyEProgramSelection
+
+        public init(programSelection: DolbyEProgramSelection) {
+            self.programSelection = programSelection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case programSelection
+        }
+    }
+
     public struct AudioHlsRenditionSelection: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
         public let groupId: String
@@ -2370,10 +2418,13 @@ extension MediaLive {
     }
 
     public struct AudioTrackSelection: AWSEncodableShape & AWSDecodableShape {
+        /// Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337
+        public let dolbyEDecode: AudioDolbyEDecode?
         /// Selects one or more unique audio tracks from within a source.
         public let tracks: [AudioTrack]
 
-        public init(tracks: [AudioTrack]) {
+        public init(dolbyEDecode: AudioDolbyEDecode? = nil, tracks: [AudioTrack]) {
+            self.dolbyEDecode = dolbyEDecode
             self.tracks = tracks
         }
 
@@ -2384,6 +2435,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dolbyEDecode
             case tracks
         }
     }
@@ -5238,11 +5290,11 @@ extension MediaLive {
         public let acquisitionPointId: String
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public let adAvailOffset: Int?
-        /// Password if credentials are required to access the POIS endpoint.  This is a reference to an AWS parameter store name from which the password can be retrieved.  AWS Parameter store format: "ssm://"
+        /// Documentation update needed
         public let passwordParam: String?
         /// The URL of the signal conditioner endpoint on the Placement Opportunity Information System (POIS). MediaLive sends SignalProcessingEvents here when SCTE-35 messages are read.
         public let poisEndpoint: String
-        /// Username if credentials are required to access the POIS endpoint.  This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved.  AWS Parameter store format: "ssm://"
+        /// Documentation update needed
         public let username: String?
         /// Optional data sent as zoneIdentity to identify the MediaLive channel to the POIS.
         public let zoneIdentity: String?
@@ -5260,6 +5312,7 @@ extension MediaLive {
             try self.validate(self.acquisitionPointId, name: "acquisitionPointId", parent: name, max: 256)
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
+            try self.validate(self.poisEndpoint, name: "poisEndpoint", parent: name, max: 2048)
             try self.validate(self.zoneIdentity, name: "zoneIdentity", parent: name, max: 256)
         }
 
@@ -5474,20 +5527,25 @@ extension MediaLive {
         public let captureInterval: Int?
         /// Unit for the frame capture interval.
         public let captureIntervalUnits: FrameCaptureIntervalUnit?
+        /// Timecode burn-in settings
+        public let timecodeBurninSettings: TimecodeBurninSettings?
 
-        public init(captureInterval: Int? = nil, captureIntervalUnits: FrameCaptureIntervalUnit? = nil) {
+        public init(captureInterval: Int? = nil, captureIntervalUnits: FrameCaptureIntervalUnit? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
             self.captureInterval = captureInterval
             self.captureIntervalUnits = captureIntervalUnits
+            self.timecodeBurninSettings = timecodeBurninSettings
         }
 
         public func validate(name: String) throws {
             try self.validate(self.captureInterval, name: "captureInterval", parent: name, max: 3_600_000)
             try self.validate(self.captureInterval, name: "captureInterval", parent: name, min: 1)
+            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case captureInterval
             case captureIntervalUnits
+            case timecodeBurninSettings
         }
     }
 
@@ -5666,12 +5724,14 @@ extension MediaLive {
         public let syntax: H264Syntax?
         /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
         public let temporalAq: H264TemporalAq?
+        /// Timecode burn-in settings
+        public let timecodeBurninSettings: TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
         /// - 'disabled': Do not include timecodes
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -5712,6 +5772,7 @@ extension MediaLive {
             self.subgopLength = subgopLength
             self.syntax = syntax
             self.temporalAq = temporalAq
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
 
@@ -5738,6 +5799,7 @@ extension MediaLive {
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
+            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5781,6 +5843,7 @@ extension MediaLive {
             case subgopLength
             case syntax
             case temporalAq
+            case timecodeBurninSettings
             case timecodeInsertion
         }
     }
@@ -5895,12 +5958,14 @@ extension MediaLive {
         public let slices: Int?
         /// H.265 Tier.
         public let tier: H265Tier?
+        /// Timecode burn-in settings
+        public let timecodeBurninSettings: TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
         /// - 'disabled': Do not include timecodes
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H265TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.alternativeTransferFunction = alternativeTransferFunction
@@ -5929,6 +5994,7 @@ extension MediaLive {
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
             self.tier = tier
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
 
@@ -5952,6 +6018,7 @@ extension MediaLive {
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
             try self.validate(self.slices, name: "slices", parent: name, max: 16)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5983,6 +6050,7 @@ extension MediaLive {
             case sceneChangeDetect
             case slices
             case tier
+            case timecodeBurninSettings
             case timecodeInsertion
         }
     }
@@ -6196,7 +6264,7 @@ extension MediaLive {
         public let manifestCompression: HlsManifestCompression?
         /// Indicates whether the output manifest should use floating point or integer values for segment duration.
         public let manifestDurationFormat: HlsManifestDurationFormat?
-        /// When set, minimumSegmentLength is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
+        /// Minimum length of MPEG-2 Transport Stream segments in seconds. When set, minimum segment length is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
         public let minSegmentLength: Int?
         /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event.
         /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
@@ -6219,7 +6287,7 @@ extension MediaLive {
         public let redundantManifest: HlsRedundantManifest?
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public let segmentationMode: HlsSegmentationMode?
-        /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.
+        /// Length of MPEG-2 Transport Stream segments to create in seconds. Note that segments will end on the next keyframe after this duration, so actual segment length may be longer.
         public let segmentLength: Int?
         /// Number of segments to write to a subdirectory before starting a new one. directoryStructure must be subdirectoryPerStream for this setting to have an effect.
         public let segmentsPerSubdirectory: Int?
@@ -6771,16 +6839,20 @@ extension MediaLive {
     public struct InputDeviceConfigurableSettings: AWSEncodableShape {
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public let configuredInput: InputDeviceConfiguredInput?
+        /// The Link device's buffer size (latency) in milliseconds (ms).
+        public let latencyMs: Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
         public let maxBitrate: Int?
 
-        public init(configuredInput: InputDeviceConfiguredInput? = nil, maxBitrate: Int? = nil) {
+        public init(configuredInput: InputDeviceConfiguredInput? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil) {
             self.configuredInput = configuredInput
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuredInput
+            case latencyMs
             case maxBitrate
         }
     }
@@ -6796,6 +6868,8 @@ extension MediaLive {
         public let framerate: Double?
         /// The height of the video source, in pixels.
         public let height: Int?
+        /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
+        public let latencyMs: Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
         public let maxBitrate: Int?
         /// The scan type of the video source.
@@ -6803,12 +6877,13 @@ extension MediaLive {
         /// The width of the video source, in pixels.
         public let width: Int?
 
-        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
+        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
             self.activeInput = activeInput
             self.configuredInput = configuredInput
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.scanType = scanType
             self.width = width
@@ -6820,6 +6895,7 @@ extension MediaLive {
             case deviceState
             case framerate
             case height
+            case latencyMs
             case maxBitrate
             case scanType
             case width
@@ -6949,6 +7025,8 @@ extension MediaLive {
         public let framerate: Double?
         /// The height of the video source, in pixels.
         public let height: Int?
+        /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
+        public let latencyMs: Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
         public let maxBitrate: Int?
         /// The scan type of the video source.
@@ -6956,12 +7034,13 @@ extension MediaLive {
         /// The width of the video source, in pixels.
         public let width: Int?
 
-        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
+        public init(activeInput: InputDeviceActiveInput? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
             self.activeInput = activeInput
             self.configuredInput = configuredInput
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.scanType = scanType
             self.width = width
@@ -6973,6 +7052,7 @@ extension MediaLive {
             case deviceState
             case framerate
             case height
+            case latencyMs
             case maxBitrate
             case scanType
             case width
@@ -8367,12 +8447,14 @@ extension MediaLive {
         /// FIXED: Set the number of B-frames in each sub-GOP to the value in gopNumBFrames.
         /// DYNAMIC: Let MediaLive optimize the number of B-frames in each sub-GOP, to improve visual quality.
         public let subgopLength: Mpeg2SubGopLength?
+        /// Timecode burn-in settings
+        public let timecodeBurninSettings: TimecodeBurninSettings?
         /// Determines how MediaLive inserts timecodes in the output video. For detailed information about setting up the input and the output for a timecode, see the section on \"MediaLive Features - Timecode configuration\" in the MediaLive User Guide.
         /// DISABLED: do not include timecodes.
         /// GOP_TIMECODE: Include timecode metadata in the GOP header.
         public let timecodeInsertion: Mpeg2TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, colorMetadata: Mpeg2ColorMetadata? = nil, colorSpace: Mpeg2ColorSpace? = nil, displayAspectRatio: Mpeg2DisplayRatio? = nil, filterSettings: Mpeg2FilterSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, scanType: Mpeg2ScanType? = nil, subgopLength: Mpeg2SubGopLength? = nil, timecodeInsertion: Mpeg2TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: Mpeg2AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, colorMetadata: Mpeg2ColorMetadata? = nil, colorSpace: Mpeg2ColorSpace? = nil, displayAspectRatio: Mpeg2DisplayRatio? = nil, filterSettings: Mpeg2FilterSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Mpeg2GopSizeUnits? = nil, scanType: Mpeg2ScanType? = nil, subgopLength: Mpeg2SubGopLength? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: Mpeg2TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.colorMetadata = colorMetadata
@@ -8388,6 +8470,7 @@ extension MediaLive {
             self.gopSizeUnits = gopSizeUnits
             self.scanType = scanType
             self.subgopLength = subgopLength
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
 
@@ -8397,6 +8480,7 @@ extension MediaLive {
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
+            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8415,6 +8499,7 @@ extension MediaLive {
             case gopSizeUnits
             case scanType
             case subgopLength
+            case timecodeBurninSettings
             case timecodeInsertion
         }
     }
@@ -9431,7 +9516,7 @@ extension MediaLive {
         /// A collection of key-value pairs
         public let tags: [String: String]?
 
-        public init(count: Int, name: String? = nil, offeringId: String, renewalSettings: RenewalSettings? = nil, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int = 0, name: String? = nil, offeringId: String, renewalSettings: RenewalSettings? = nil, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.offeringId = offeringId
@@ -10749,6 +10834,31 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case postFilterSharpening
             case strength
+        }
+    }
+
+    public struct TimecodeBurninSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose a timecode burn-in font size
+        public let fontSize: TimecodeBurninFontSize
+        /// Choose a timecode burn-in output position
+        public let position: TimecodeBurninPosition
+        /// Create a timecode burn-in prefix (optional)
+        public let prefix: String?
+
+        public init(fontSize: TimecodeBurninFontSize, position: TimecodeBurninPosition, prefix: String? = nil) {
+            self.fontSize = fontSize
+            self.position = position
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontSize
+            case position
+            case prefix
         }
     }
 

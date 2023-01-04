@@ -434,7 +434,7 @@ public struct NetworkManager: AWSService {
         return self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables for the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
+    /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
     public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOrganizationServiceAccessUpdateResponse> {
         return self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

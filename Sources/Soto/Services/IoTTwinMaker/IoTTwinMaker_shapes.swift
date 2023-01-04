@@ -37,6 +37,9 @@ extension IoTTwinMaker {
 
     public enum ErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case internalFailure = "INTERNAL_FAILURE"
+        case syncCreatingError = "SYNC_CREATING_ERROR"
+        case syncInitializingError = "SYNC_INITIALIZING_ERROR"
+        case syncProcessingError = "SYNC_PROCESSING_ERROR"
         case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
@@ -110,6 +113,30 @@ extension IoTTwinMaker {
         case deleting = "DELETING"
         case error = "ERROR"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncJobState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case initializing = "INITIALIZING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncResourceState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case deleted = "DELETED"
+        case error = "ERROR"
+        case initializing = "INITIALIZING"
+        case inSync = "IN_SYNC"
+        case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case componentType = "COMPONENT_TYPE"
+        case entity = "ENTITY"
         public var description: String { return self.rawValue }
     }
 
@@ -217,6 +244,53 @@ extension IoTTwinMaker {
             case componentTypeId
             case externalId
             case parentEntityId
+        }
+    }
+
+    public enum SyncResourceFilter: AWSEncodableShape, _SotoSendable {
+        /// The external Id.
+        case externalId(String)
+        /// The sync resource filter resource Id.
+        case resourceId(String)
+        /// The sync resource filter resoucre type
+        case resourceType(SyncResourceType)
+        /// The sync resource filter's state.
+        case state(SyncResourceState)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .externalId(let value):
+                try container.encode(value, forKey: .externalId)
+            case .resourceId(let value):
+                try container.encode(value, forKey: .resourceId)
+            case .resourceType(let value):
+                try container.encode(value, forKey: .resourceType)
+            case .state(let value):
+                try container.encode(value, forKey: .state)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .externalId(let value):
+                try self.validate(value, name: "externalId", parent: name, max: 128)
+                try self.validate(value, name: "externalId", parent: name, min: 1)
+                try self.validate(value, name: "externalId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            case .resourceId(let value):
+                try self.validate(value, name: "resourceId", parent: name, max: 128)
+                try self.validate(value, name: "resourceId", parent: name, min: 1)
+                try self.validate(value, name: "resourceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId
+            case resourceId
+            case resourceType
+            case state
         }
     }
 
@@ -405,7 +479,7 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.properties?.forEach {
                 try validate($0.key, name: "properties.key", parent: name, max: 256)
@@ -444,8 +518,10 @@ extension IoTTwinMaker {
         public let propertyGroups: [String: ComponentPropertyGroupResponse]?
         /// The status of the component type.
         public let status: Status?
+        /// The syncSource of the sync job, if this entity was created by a sync job.
+        public let syncSource: String?
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil) {
+        public init(componentName: String? = nil, componentTypeId: String? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil) {
             self.componentName = componentName
             self.componentTypeId = componentTypeId
             self.definedIn = definedIn
@@ -453,6 +529,7 @@ extension IoTTwinMaker {
             self.properties = properties
             self.propertyGroups = propertyGroups
             self.status = status
+            self.syncSource = syncSource
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -463,6 +540,7 @@ extension IoTTwinMaker {
             case properties
             case propertyGroups
             case status
+            case syncSource
         }
     }
 
@@ -471,6 +549,8 @@ extension IoTTwinMaker {
         public let arn: String
         /// The ID of the component type.
         public let componentTypeId: String
+        /// The component type name.
+        public let componentTypeName: String?
         /// The date and time when the component type was created.
         public let creationDateTime: Date
         /// The description of the component type.
@@ -480,9 +560,10 @@ extension IoTTwinMaker {
         /// The date and time when the component type was last updated.
         public let updateDateTime: Date
 
-        public init(arn: String, componentTypeId: String, creationDateTime: Date, description: String? = nil, status: Status? = nil, updateDateTime: Date) {
+        public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, creationDateTime: Date, description: String? = nil, status: Status? = nil, updateDateTime: Date) {
             self.arn = arn
             self.componentTypeId = componentTypeId
+            self.componentTypeName = componentTypeName
             self.creationDateTime = creationDateTime
             self.description = description
             self.status = status
@@ -492,6 +573,7 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case arn
             case componentTypeId
+            case componentTypeName
             case creationDateTime
             case description
             case status
@@ -523,7 +605,7 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.propertyGroupUpdates?.forEach {
                 try validate($0.key, name: "propertyGroupUpdates.key", parent: name, max: 256)
@@ -556,6 +638,8 @@ extension IoTTwinMaker {
 
         /// The ID of the component type.
         public let componentTypeId: String
+        /// A friendly name for the component type.
+        public let componentTypeName: String?
         /// The description of the component type.
         public let description: String?
         /// Specifies the parent component type to extend.
@@ -572,8 +656,9 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, componentTypeName: String? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
+            self.componentTypeName = componentTypeName
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
@@ -588,7 +673,9 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, max: 256)
+            try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]*")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.extendsFrom?.forEach {
                 try validate($0, name: "extendsFrom[]", parent: name, max: 256)
@@ -628,6 +715,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentTypeName
             case description
             case extendsFrom
             case functions
@@ -696,14 +784,14 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "components.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).components[\"\($0.key)\"]")
             }
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
             try self.validate(self.entityName, name: "entityName", parent: name, max: 256)
             try self.validate(self.entityName, name: "entityName", parent: name, min: 1)
-            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^[a-zA-Z_0-9-.][a-zA-Z_0-9-. ]*[a-zA-Z0-9]+$")
+            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.parentEntityId, name: "parentEntityId", parent: name, max: 128)
             try self.validate(self.parentEntityId, name: "parentEntityId", parent: name, min: 1)
             try self.validate(self.parentEntityId, name: "parentEntityId", parent: name, pattern: "^\\$ROOT|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
@@ -791,7 +879,7 @@ extension IoTTwinMaker {
             try self.validate(self.capabilities, name: "capabilities", parent: name, max: 50)
             try self.validate(self.contentLocation, name: "contentLocation", parent: name, max: 256)
             try self.validate(self.contentLocation, name: "contentLocation", parent: name, pattern: "^[sS]3://[A-Za-z0-9._/-]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.sceneId, name: "sceneId", parent: name, max: 128)
             try self.validate(self.sceneId, name: "sceneId", parent: name, min: 1)
@@ -836,6 +924,74 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct CreateSyncJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The SyncJob IAM role. This IAM role is used by the sync job to read from the syncSource, and create,  update or delete the corresponding resources.
+        public let syncRole: String
+        /// The sync source.  Currently the only supported syncSoucre is SITEWISE .
+        public let syncSource: String
+        /// The SyncJob tags.
+        public let tags: [String: String]?
+        /// The workspace Id.
+        public let workspaceId: String
+
+        public init(syncRole: String, syncSource: String, tags: [String: String]? = nil, workspaceId: String) {
+            self.syncRole = syncRole
+            self.syncSource = syncSource
+            self.tags = tags
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.syncRole, name: "syncRole", parent: name, max: 2048)
+            try self.validate(self.syncRole, name: "syncRole", parent: name, min: 20)
+            try self.validate(self.syncRole, name: "syncRole", parent: name, pattern: "^arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/")
+            try self.validate(self.syncSource, name: "syncSource", parent: name, pattern: "^[a-zA-Z_0-9]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncRole
+            case tags
+        }
+    }
+
+    public struct CreateSyncJobResponse: AWSDecodableShape {
+        /// The SyncJob ARN.
+        public let arn: String
+        /// The date and time for the SyncJob creation.
+        public let creationDateTime: Date
+        /// The SyncJob response state.
+        public let state: SyncJobState
+
+        public init(arn: String, creationDateTime: Date, state: SyncJobState) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case creationDateTime
+            case state
+        }
+    }
+
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
@@ -861,7 +1017,7 @@ extension IoTTwinMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
@@ -1153,6 +1309,45 @@ extension IoTTwinMaker {
         public init() {}
     }
 
+    public struct DeleteSyncJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The sync source.  Currently the only supported syncSoucre is SITEWISE .
+        public let syncSource: String
+        /// The workspace Id.
+        public let workspaceId: String
+
+        public init(syncSource: String, workspaceId: String) {
+            self.syncSource = syncSource
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.syncSource, name: "syncSource", parent: name, pattern: "^[a-zA-Z_0-9]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSyncJobResponse: AWSDecodableShape {
+        /// The SyncJob response state.
+        public let state: SyncJobState
+
+        public init(state: SyncJobState) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state
+        }
+    }
+
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
@@ -1432,6 +1627,8 @@ extension IoTTwinMaker {
         public let arn: String
         /// The ID of the component type.
         public let componentTypeId: String
+        /// The component type name.
+        public let componentTypeName: String?
         /// The date and time when the component type was created.
         public let creationDateTime: Date
         /// The description of the component type.
@@ -1452,14 +1649,17 @@ extension IoTTwinMaker {
         public let propertyGroups: [String: PropertyGroupResponse]?
         /// The current status of the component type.
         public let status: Status?
+        /// The syncSource of the sync job, if this entity was created by a sync job.
+        public let syncSource: String?
         /// The date and time when the component was last updated.
         public let updateDateTime: Date
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
-        public init(arn: String, componentTypeId: String, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.componentTypeId = componentTypeId
+            self.componentTypeName = componentTypeName
             self.creationDateTime = creationDateTime
             self.description = description
             self.extendsFrom = extendsFrom
@@ -1470,6 +1670,7 @@ extension IoTTwinMaker {
             self.propertyDefinitions = propertyDefinitions
             self.propertyGroups = propertyGroups
             self.status = status
+            self.syncSource = syncSource
             self.updateDateTime = updateDateTime
             self.workspaceId = workspaceId
         }
@@ -1477,6 +1678,7 @@ extension IoTTwinMaker {
         private enum CodingKeys: String, CodingKey {
             case arn
             case componentTypeId
+            case componentTypeName
             case creationDateTime
             case description
             case extendsFrom
@@ -1487,6 +1689,7 @@ extension IoTTwinMaker {
             case propertyDefinitions
             case propertyGroups
             case status
+            case syncSource
             case updateDateTime
             case workspaceId
         }
@@ -1539,12 +1742,14 @@ extension IoTTwinMaker {
         public let parentEntityId: String
         /// The current status of the entity.
         public let status: Status
+        /// The syncSource of the sync job, if this entity was created by a sync job.
+        public let syncSource: String?
         /// The date and time when the entity was last updated.
         public let updateDateTime: Date
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(arn: String, components: [String: ComponentResponse]? = nil, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool, parentEntityId: String, status: Status, updateDateTime: Date, workspaceId: String) {
+        public init(arn: String, components: [String: ComponentResponse]? = nil, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool, parentEntityId: String, status: Status, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.components = components
             self.creationDateTime = creationDateTime
@@ -1554,6 +1759,7 @@ extension IoTTwinMaker {
             self.hasChildEntities = hasChildEntities
             self.parentEntityId = parentEntityId
             self.status = status
+            self.syncSource = syncSource
             self.updateDateTime = updateDateTime
             self.workspaceId = workspaceId
         }
@@ -1568,6 +1774,7 @@ extension IoTTwinMaker {
             case hasChildEntities
             case parentEntityId
             case status
+            case syncSource
             case updateDateTime
             case workspaceId
         }
@@ -1900,6 +2107,69 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct GetSyncJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
+            AWSMemberEncoding(label: "workspaceId", location: .querystring("workspace"))
+        ]
+
+        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        public let syncSource: String
+        /// The workspace Id.
+        public let workspaceId: String?
+
+        public init(syncSource: String, workspaceId: String? = nil) {
+            self.syncSource = syncSource
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.syncSource, name: "syncSource", parent: name, pattern: "^[a-zA-Z_0-9]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSyncJobResponse: AWSDecodableShape {
+        /// The sync job ARN.
+        public let arn: String
+        /// The creation date and time.
+        public let creationDateTime: Date
+        /// The SyncJob response status.
+        public let status: SyncJobStatus
+        /// The sync IAM role.
+        public let syncRole: String
+        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        public let syncSource: String
+        /// The update date and time.
+        public let updateDateTime: Date
+        /// The ID of the workspace that contains the sync job.
+        public let workspaceId: String
+
+        public init(arn: String, creationDateTime: Date, status: SyncJobStatus, syncRole: String, syncSource: String, updateDateTime: Date, workspaceId: String) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.status = status
+            self.syncRole = syncRole
+            self.syncSource = syncSource
+            self.updateDateTime = updateDateTime
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case creationDateTime
+            case status
+            case syncRole
+            case syncSource
+            case updateDateTime
+            case workspaceId
+        }
+    }
+
     public struct GetWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
@@ -2169,6 +2439,120 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct ListSyncJobsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The maximum number of results to return at one time. The default is 50.  Valid Range: Minimum value of 0. Maximum value of 200.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The ID of the workspace that contains the sync job.
+        public let workspaceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListSyncJobsResponse: AWSDecodableShape {
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The listed SyncJob summaries.
+        public let syncJobSummaries: [SyncJobSummary]?
+
+        public init(nextToken: String? = nil, syncJobSummaries: [SyncJobSummary]? = nil) {
+            self.nextToken = nextToken
+            self.syncJobSummaries = syncJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case syncJobSummaries
+        }
+    }
+
+    public struct ListSyncResourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "syncSource", location: .uri("syncSource")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// A list of objects that filter the request.
+        public let filters: [SyncResourceFilter]?
+        /// The maximum number of results to return at one time. The default is 50.  Valid Range: Minimum value of 0. Maximum value of 200.
+        public let maxResults: Int?
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+        public let syncSource: String
+        /// The ID of the workspace that contains the sync job.
+        public let workspaceId: String
+
+        public init(filters: [SyncResourceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncSource: String, workspaceId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.syncSource = syncSource
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 17880)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.syncSource, name: "syncSource", parent: name, pattern: "^[a-zA-Z_0-9]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListSyncResourcesResponse: AWSDecodableShape {
+        /// The string that specifies the next page of results.
+        public let nextToken: String?
+        /// The sync resources.
+        public let syncResources: [SyncResourceSummary]?
+
+        public init(nextToken: String? = nil, syncResources: [SyncResourceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.syncResources = syncResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case syncResources
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The maximum number of results to return at one time. The default is 25.  Valid Range: Minimum value of 1. Maximum value of 250.
         public let maxResults: Int?
@@ -2344,6 +2728,8 @@ extension IoTTwinMaker {
         public let dataType: DataType?
         /// An object that contains the default value.
         public let defaultValue: DataValue?
+        /// A friendly name for the property.
+        public let displayName: String?
         /// A Boolean value that specifies whether the property ID comes from an external data store.
         public let isExternalId: Bool?
         /// A Boolean value that specifies whether the property is required.
@@ -2353,10 +2739,11 @@ extension IoTTwinMaker {
         /// A Boolean value that specifies whether the property consists of time series data.
         public let isTimeSeries: Bool?
 
-        public init(configuration: [String: String]? = nil, dataType: DataType? = nil, defaultValue: DataValue? = nil, isExternalId: Bool? = nil, isRequiredInEntity: Bool? = nil, isStoredExternally: Bool? = nil, isTimeSeries: Bool? = nil) {
+        public init(configuration: [String: String]? = nil, dataType: DataType? = nil, defaultValue: DataValue? = nil, displayName: String? = nil, isExternalId: Bool? = nil, isRequiredInEntity: Bool? = nil, isStoredExternally: Bool? = nil, isTimeSeries: Bool? = nil) {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
+            self.displayName = displayName
             self.isExternalId = isExternalId
             self.isRequiredInEntity = isRequiredInEntity
             self.isStoredExternally = isStoredExternally
@@ -2372,12 +2759,15 @@ extension IoTTwinMaker {
             }
             try self.dataType?.validate(name: "\(name).dataType")
             try self.defaultValue?.validate(name: "\(name).defaultValue")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration
             case dataType
             case defaultValue
+            case displayName
             case isExternalId
             case isRequiredInEntity
             case isStoredExternally
@@ -2392,6 +2782,8 @@ extension IoTTwinMaker {
         public let dataType: DataType
         /// An object that contains the default value.
         public let defaultValue: DataValue?
+        /// A friendly name for the property.
+        public let displayName: String?
         /// A Boolean value that specifies whether the property ID comes from an external data store.
         public let isExternalId: Bool
         /// A Boolean value that specifies whether the property definition can be updated.
@@ -2407,10 +2799,11 @@ extension IoTTwinMaker {
         /// A Boolean value that specifies whether the property consists of time series data.
         public let isTimeSeries: Bool
 
-        public init(configuration: [String: String]? = nil, dataType: DataType, defaultValue: DataValue? = nil, isExternalId: Bool, isFinal: Bool, isImported: Bool, isInherited: Bool, isRequiredInEntity: Bool, isStoredExternally: Bool, isTimeSeries: Bool) {
+        public init(configuration: [String: String]? = nil, dataType: DataType, defaultValue: DataValue? = nil, displayName: String? = nil, isExternalId: Bool, isFinal: Bool, isImported: Bool, isInherited: Bool, isRequiredInEntity: Bool, isStoredExternally: Bool, isTimeSeries: Bool) {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
+            self.displayName = displayName
             self.isExternalId = isExternalId
             self.isFinal = isFinal
             self.isImported = isImported
@@ -2424,6 +2817,7 @@ extension IoTTwinMaker {
             case configuration
             case dataType
             case defaultValue
+            case displayName
             case isExternalId
             case isFinal
             case isImported
@@ -2763,6 +3157,102 @@ extension IoTTwinMaker {
         }
     }
 
+    public struct SyncJobStatus: AWSDecodableShape {
+        /// The SyncJob error.
+        public let error: ErrorDetails?
+        /// The SyncJob status state.
+        public let state: SyncJobState?
+
+        public init(error: ErrorDetails? = nil, state: SyncJobState? = nil) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case state
+        }
+    }
+
+    public struct SyncJobSummary: AWSDecodableShape {
+        /// The SyncJob summary ARN.
+        public let arn: String?
+        /// The creation date and time.
+        public let creationDateTime: Date?
+        /// The SyncJob summaries status.
+        public let status: SyncJobStatus?
+        /// The sync source.
+        public let syncSource: String?
+        /// The update date and time.
+        public let updateDateTime: Date?
+        /// The ID of the workspace that contains the sync job.
+        public let workspaceId: String?
+
+        public init(arn: String? = nil, creationDateTime: Date? = nil, status: SyncJobStatus? = nil, syncSource: String? = nil, updateDateTime: Date? = nil, workspaceId: String? = nil) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.status = status
+            self.syncSource = syncSource
+            self.updateDateTime = updateDateTime
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case creationDateTime
+            case status
+            case syncSource
+            case updateDateTime
+            case workspaceId
+        }
+    }
+
+    public struct SyncResourceStatus: AWSDecodableShape {
+        /// The status error.
+        public let error: ErrorDetails?
+        /// The sync resource status state.
+        public let state: SyncResourceState?
+
+        public init(error: ErrorDetails? = nil, state: SyncResourceState? = nil) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error
+            case state
+        }
+    }
+
+    public struct SyncResourceSummary: AWSDecodableShape {
+        /// The external Id.
+        public let externalId: String?
+        /// The resource Id.
+        public let resourceId: String?
+        /// The resource type.
+        public let resourceType: SyncResourceType?
+        /// The sync resource summary status.
+        public let status: SyncResourceStatus?
+        /// The update date and time.
+        public let updateDateTime: Date?
+
+        public init(externalId: String? = nil, resourceId: String? = nil, resourceType: SyncResourceType? = nil, status: SyncResourceStatus? = nil, updateDateTime: Date? = nil) {
+            self.externalId = externalId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.status = status
+            self.updateDateTime = updateDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId
+            case resourceId
+            case resourceType
+            case status
+            case updateDateTime
+        }
+    }
+
     public struct TabularConditions: AWSEncodableShape {
         /// Filter criteria that orders the output. It can be sorted in ascending or descending order.
         public let orderBy: [OrderBy]?
@@ -2872,6 +3362,8 @@ extension IoTTwinMaker {
 
         /// The ID of the component type.
         public let componentTypeId: String
+        /// The component type name.
+        public let componentTypeName: String?
         /// The description of the component type.
         public let description: String?
         /// Specifies the component type that this component type extends.
@@ -2884,11 +3376,12 @@ extension IoTTwinMaker {
         public let propertyDefinitions: [String: PropertyDefinitionRequest]?
         /// The property groups
         public let propertyGroups: [String: PropertyGroupRequest]?
-        /// The ID of the workspace that contains the component type.
+        /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(componentTypeId: String, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
+        public init(componentTypeId: String, componentTypeName: String? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
+            self.componentTypeName = componentTypeName
             self.description = description
             self.extendsFrom = extendsFrom
             self.functions = functions
@@ -2902,7 +3395,9 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, max: 256)
+            try self.validate(self.componentTypeName, name: "componentTypeName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]*")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.extendsFrom?.forEach {
                 try validate($0, name: "extendsFrom[]", parent: name, max: 256)
@@ -2933,6 +3428,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentTypeName
             case description
             case extendsFrom
             case functions
@@ -3002,14 +3498,14 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "componentUpdates.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
                 try $0.value.validate(name: "\(name).componentUpdates[\"\($0.key)\"]")
             }
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
             try self.validate(self.entityName, name: "entityName", parent: name, max: 256)
             try self.validate(self.entityName, name: "entityName", parent: name, min: 1)
-            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^[a-zA-Z_0-9-.][a-zA-Z_0-9-. ]*[a-zA-Z0-9]+$")
+            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.parentEntityUpdate?.validate(name: "\(name).parentEntityUpdate")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
@@ -3118,7 +3614,7 @@ extension IoTTwinMaker {
             try self.validate(self.capabilities, name: "capabilities", parent: name, max: 50)
             try self.validate(self.contentLocation, name: "contentLocation", parent: name, max: 256)
             try self.validate(self.contentLocation, name: "contentLocation", parent: name, pattern: "^[sS]3://[A-Za-z0-9._/-]+$")
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.sceneId, name: "sceneId", parent: name, max: 128)
             try self.validate(self.sceneId, name: "sceneId", parent: name, min: 1)
@@ -3167,7 +3663,7 @@ extension IoTTwinMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)

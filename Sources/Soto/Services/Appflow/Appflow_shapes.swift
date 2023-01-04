@@ -1233,17 +1233,17 @@ extension Appflow {
 
     public struct ConnectorProfileConfig: AWSEncodableShape {
         ///  The connector-specific credentials required by each connector.
-        public let connectorProfileCredentials: ConnectorProfileCredentials
+        public let connectorProfileCredentials: ConnectorProfileCredentials?
         ///  The connector-specific properties of the profile configuration.
         public let connectorProfileProperties: ConnectorProfileProperties
 
-        public init(connectorProfileCredentials: ConnectorProfileCredentials, connectorProfileProperties: ConnectorProfileProperties) {
+        public init(connectorProfileCredentials: ConnectorProfileCredentials? = nil, connectorProfileProperties: ConnectorProfileProperties) {
             self.connectorProfileCredentials = connectorProfileCredentials
             self.connectorProfileProperties = connectorProfileProperties
         }
 
         public func validate(name: String) throws {
-            try self.connectorProfileCredentials.validate(name: "\(name).connectorProfileCredentials")
+            try self.connectorProfileCredentials?.validate(name: "\(name).connectorProfileCredentials")
             try self.connectorProfileProperties.validate(name: "\(name).connectorProfileProperties")
         }
 
@@ -3082,12 +3082,18 @@ extension Appflow {
         public let connectorType: ConnectorType?
         ///  This optional parameter is specific to connector implementation. Some connectors support multiple levels or categories of entities. You can find out the list of roots for such providers by sending a request without the entitiesPath parameter. If the connector supports entities at different roots, this initial request returns the list of roots. Otherwise, this request returns all entities supported by the provider.
         public let entitiesPath: String?
+        /// The maximum number of items that the operation returns in the response.
+        public let maxResults: Int?
+        /// A token that was provided by your prior ListConnectorEntities operation if the response was too big for the page size. You specify this token to get the next page of results in paginated response.
+        public let nextToken: String?
 
-        public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
+        public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.entitiesPath = entitiesPath
+            self.maxResults = maxResults
+            self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
@@ -3096,7 +3102,11 @@ extension Appflow {
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
             try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, max: 256)
-            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, pattern: "^[\\s\\w/!@#+=.-]*$")
+            try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, pattern: "^[\\s\\w/!@#+=,.-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3104,19 +3114,25 @@ extension Appflow {
             case connectorProfileName
             case connectorType
             case entitiesPath
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListConnectorEntitiesResponse: AWSDecodableShape {
         ///  The response of ListConnectorEntities lists entities grouped by category. This map's key represents the group name, and its value contains the list of entities belonging to that group.
         public let connectorEntityMap: [String: [ConnectorEntity]]
+        /// A token that you specify in your next ListConnectorEntities operation to get the next page of results in paginated response. The ListConnectorEntities operation provides this token if the response is too big for the page size.
+        public let nextToken: String?
 
-        public init(connectorEntityMap: [String: [ConnectorEntity]]) {
+        public init(connectorEntityMap: [String: [ConnectorEntity]], nextToken: String? = nil) {
             self.connectorEntityMap = connectorEntityMap
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorEntityMap
+            case nextToken
         }
     }
 
@@ -3356,7 +3372,7 @@ extension Appflow {
     public struct MetadataCatalogDetail: AWSDecodableShape {
         /// The type of metadata catalog that Amazon AppFlow used for the associated flow run. This parameter returns the following value:  GLUE  The metadata catalog is provided by the Glue Data Catalog. Glue includes the Glue Data Catalog as a component.
         public let catalogType: CatalogType?
-        /// Describes the status of the attempt from Amazon AppFlow to register the data partitions with the metadata catalog. The data partitions organize the flow output into a hierarchical path, such as a folder path in an  S3 bucket. Amazon AppFlow creates the partitions (if they don't already exist) based on your flow configuration.
+        /// Describes the status of the attempt from Amazon AppFlow to register the data partitions with the metadata catalog. The data partitions organize the flow output into a hierarchical path, such as a folder path in an S3 bucket. Amazon AppFlow creates the partitions (if they don't already exist) based on your flow configuration.
         public let partitionRegistrationOutput: RegistrationOutput?
         /// The name of the table that stores the metadata for the associated flow run. The table stores metadata that represents the data that the flow transferred. Amazon AppFlow stores the table in the metadata catalog.
         public let tableName: String?
@@ -3652,11 +3668,11 @@ extension Appflow {
 
     public struct RedshiftConnectorProfileCredentials: AWSEncodableShape {
         ///  The password that corresponds to the user name.
-        public let password: String
+        public let password: String?
         ///  The name of the user.
-        public let username: String
+        public let username: String?
 
-        public init(password: String, username: String) {
+        public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
         }
@@ -3664,8 +3680,8 @@ extension Appflow {
         public func validate(name: String) throws {
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
-            try self.validate(self.username, name: "username", parent: name, max: 512)
-            try self.validate(self.username, name: "username", parent: name, pattern: "^\\S+$")
+            try self.validate(self.username, name: "username", parent: name, max: 2048)
+            try self.validate(self.username, name: "username", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3679,16 +3695,31 @@ extension Appflow {
         public let bucketName: String
         ///  The object key for the destination bucket in which Amazon AppFlow places the files.
         public let bucketPrefix: String?
+        /// The unique ID that's assigned to an Amazon Redshift cluster.
+        public let clusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) of an IAM role that permits Amazon AppFlow to access your Amazon Redshift database through the Data API. For more information, and for the polices that you attach to this role, see Allow Amazon AppFlow to access Amazon Redshift databases with the Data API.
+        public let dataApiRoleArn: String?
+        /// The name of an Amazon Redshift database.
+        public let databaseName: String?
         ///  The JDBC URL of the Amazon Redshift cluster.
-        public let databaseUrl: String
-        ///  The Amazon Resource Name (ARN) of the IAM role.
+        public let databaseUrl: String?
+        /// Indicates whether the connector profile defines a connection to an Amazon Redshift Serverless data warehouse.
+        public let isRedshiftServerless: Bool?
+        ///  The Amazon Resource Name (ARN) of IAM role that grants Amazon Redshift read-only access to Amazon S3. For more information, and for the polices that you attach to this role, see Allow Amazon Redshift to access your Amazon AppFlow data in Amazon S3.
         public let roleArn: String
+        /// The name of an Amazon Redshift workgroup.
+        public let workgroupName: String?
 
-        public init(bucketName: String, bucketPrefix: String? = nil, databaseUrl: String, roleArn: String) {
+        public init(bucketName: String, bucketPrefix: String? = nil, clusterIdentifier: String? = nil, dataApiRoleArn: String? = nil, databaseName: String? = nil, databaseUrl: String? = nil, isRedshiftServerless: Bool? = nil, roleArn: String, workgroupName: String? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
+            self.clusterIdentifier = clusterIdentifier
+            self.dataApiRoleArn = dataApiRoleArn
+            self.databaseName = databaseName
             self.databaseUrl = databaseUrl
+            self.isRedshiftServerless = isRedshiftServerless
             self.roleArn = roleArn
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
@@ -3697,17 +3728,30 @@ extension Appflow {
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^\\S+$")
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 512)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^\\S+$")
+            try self.validate(self.dataApiRoleArn, name: "dataApiRoleArn", parent: name, max: 512)
+            try self.validate(self.dataApiRoleArn, name: "dataApiRoleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 512)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^\\S+$")
             try self.validate(self.databaseUrl, name: "databaseUrl", parent: name, max: 512)
             try self.validate(self.databaseUrl, name: "databaseUrl", parent: name, pattern: "^\\S+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 512)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucketName
             case bucketPrefix
+            case clusterIdentifier
+            case dataApiRoleArn
+            case databaseName
             case databaseUrl
+            case isRedshiftServerless
             case roleArn
+            case workgroupName
         }
     }
 

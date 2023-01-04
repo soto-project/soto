@@ -198,10 +198,29 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum DQStopJobOnFailureTiming: String, CustomStringConvertible, Codable, _SotoSendable {
+        case afterDataLoad = "AfterDataLoad"
+        case immediate = "Immediate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DQTransformOutput: String, CustomStringConvertible, Codable, _SotoSendable {
+        case evaluationResults = "EvaluationResults"
+        case primaryInput = "PrimaryInput"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataFormat: String, CustomStringConvertible, Codable, _SotoSendable {
         case avro = "AVRO"
         case json = "JSON"
         case protobuf = "PROTOBUF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataQualityRuleResultStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
+        case fail = "FAIL"
+        case pass = "PASS"
         public var description: String { return self.rawValue }
     }
 
@@ -399,6 +418,17 @@ extension Glue {
         case crawler = "CRAWLER"
         case job = "JOB"
         case trigger = "TRIGGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParamType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bool
+        case complex
+        case float
+        case int
+        case list
+        case null
+        case str
         public var description: String { return self.rawValue }
     }
 
@@ -1362,6 +1392,46 @@ extension Glue {
         }
     }
 
+    public struct BatchGetDataQualityResultRequest: AWSEncodableShape {
+        /// A list of unique result IDs for the data quality results.
+        public let resultIds: [String]
+
+        public init(resultIds: [String]) {
+            self.resultIds = resultIds
+        }
+
+        public func validate(name: String) throws {
+            try self.resultIds.forEach {
+                try validate($0, name: "resultIds[]", parent: name, max: 255)
+                try validate($0, name: "resultIds[]", parent: name, min: 1)
+                try validate($0, name: "resultIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.resultIds, name: "resultIds", parent: name, max: 100)
+            try self.validate(self.resultIds, name: "resultIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultIds = "ResultIds"
+        }
+    }
+
+    public struct BatchGetDataQualityResultResponse: AWSDecodableShape {
+        /// A list of DataQualityResult objects representing the data quality results.
+        public let results: [DataQualityResult]
+        /// A list of result IDs for which results were not found.
+        public let resultsNotFound: [String]?
+
+        public init(results: [DataQualityResult], resultsNotFound: [String]? = nil) {
+            self.results = results
+            self.resultsNotFound = resultsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
+            case resultsNotFound = "ResultsNotFound"
+        }
+    }
+
     public struct BatchGetDevEndpointsRequest: AWSEncodableShape {
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
@@ -1803,9 +1873,7 @@ extension Glue {
         public let name: String?
         /// A JSON string that indicates the list of parameter specifications for the blueprint.
         public let parameterSpec: String?
-        /// The status of the blueprint registration.
-        ///
-        /// 	          Creating — The blueprint registration is in progress.   Active — The blueprint has been successfully registered.   Updating — An update to the blueprint registration is in progress.   Failed — The blueprint registration failed.
+        /// The status of the blueprint registration.   Creating — The blueprint registration is in progress.   Active — The blueprint has been successfully registered.   Updating — An update to the blueprint registration is in progress.   Failed — The blueprint registration failed.
         public let status: BlueprintStatus?
 
         public init(blueprintLocation: String? = nil, blueprintServiceLocation: String? = nil, createdOn: Date? = nil, description: String? = nil, errorMessage: String? = nil, lastActiveDefinition: LastActiveDefinition? = nil, lastModifiedOn: Date? = nil, name: String? = nil, parameterSpec: String? = nil, status: BlueprintStatus? = nil) {
@@ -1869,9 +1937,7 @@ extension Glue {
         public let runId: String?
         /// The date and time that the blueprint run started.
         public let startedOn: Date?
-        /// The state of the blueprint run. Possible values are:
-        ///
-        /// 	          Running — The blueprint run is in progress.   Succeeded — The blueprint run completed successfully.   Failed — The blueprint run failed and rollback is complete.   Rolling Back — The blueprint run failed and rollback is in progress.
+        /// The state of the blueprint run. Possible values are:   Running — The blueprint run is in progress.   Succeeded — The blueprint run completed successfully.   Failed — The blueprint run failed and rollback is complete.   Rolling Back — The blueprint run failed and rollback is in progress.
         public let state: BlueprintRunState?
         /// The name of a workflow that is created as a result of a successful blueprint run. If a blueprint run has an error, there will not be a workflow created.
         public let workflowName: String?
@@ -1928,6 +1994,52 @@ extension Glue {
             case numberOfNulls = "NumberOfNulls"
             case numberOfTrues = "NumberOfTrues"
         }
+    }
+
+    public struct CancelDataQualityRuleRecommendationRunRequest: AWSEncodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String
+
+        public init(runId: String) {
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
+    public struct CancelDataQualityRuleRecommendationRunResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CancelDataQualityRulesetEvaluationRunRequest: AWSEncodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String
+
+        public init(runId: String) {
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
+    public struct CancelDataQualityRulesetEvaluationRunResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CancelMLTaskRunRequest: AWSEncodableShape {
@@ -2348,7 +2460,11 @@ extension Glue {
         public let dropFields: DropFields?
         /// Specifies a transform that removes columns from the dataset if all values in the column are 'null'. By default, Glue Studio will recognize null objects, but some values such as empty strings, strings that are "null", -1 integers or other placeholders such as zeros, are not automatically recognized as nulls.
         public let dropNullFields: DropNullFields?
+        /// Specifies a custom visual transform created by a user.
+        public let dynamicTransform: DynamicTransform?
         public let dynamoDBCatalogSource: DynamoDBCatalogSource?
+        /// Specifies your data quality evaluation criteria.
+        public let evaluateDataQuality: EvaluateDataQuality?
         /// Specifies a transform that locates records in the dataset that have missing values and adds a new field with a value determined by imputation. The input data set is used to train the machine learning model that determines what the missing value should be.
         public let fillMissingValues: FillMissingValues?
         /// Specifies a transform that splits a dataset into two, based on a filter condition.
@@ -2421,7 +2537,7 @@ extension Glue {
         /// Specifies a transform that combines the rows from two or more datasets into a single result.
         public let union: Union?
 
-        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamicTransform: DynamicTransform? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, evaluateDataQuality: EvaluateDataQuality? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
             self.aggregate = aggregate
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
@@ -2435,7 +2551,9 @@ extension Glue {
             self.dropDuplicates = dropDuplicates
             self.dropFields = dropFields
             self.dropNullFields = dropNullFields
+            self.dynamicTransform = dynamicTransform
             self.dynamoDBCatalogSource = dynamoDBCatalogSource
+            self.evaluateDataQuality = evaluateDataQuality
             self.fillMissingValues = fillMissingValues
             self.filter = filter
             self.governedCatalogSource = governedCatalogSource
@@ -2488,7 +2606,9 @@ extension Glue {
             try self.dropDuplicates?.validate(name: "\(name).dropDuplicates")
             try self.dropFields?.validate(name: "\(name).dropFields")
             try self.dropNullFields?.validate(name: "\(name).dropNullFields")
+            try self.dynamicTransform?.validate(name: "\(name).dynamicTransform")
             try self.dynamoDBCatalogSource?.validate(name: "\(name).dynamoDBCatalogSource")
+            try self.evaluateDataQuality?.validate(name: "\(name).evaluateDataQuality")
             try self.fillMissingValues?.validate(name: "\(name).fillMissingValues")
             try self.filter?.validate(name: "\(name).filter")
             try self.governedCatalogSource?.validate(name: "\(name).governedCatalogSource")
@@ -2541,7 +2661,9 @@ extension Glue {
             case dropDuplicates = "DropDuplicates"
             case dropFields = "DropFields"
             case dropNullFields = "DropNullFields"
+            case dynamicTransform = "DynamicTransform"
             case dynamoDBCatalogSource = "DynamoDBCatalogSource"
+            case evaluateDataQuality = "EvaluateDataQuality"
             case fillMissingValues = "FillMissingValues"
             case filter = "Filter"
             case governedCatalogSource = "GovernedCatalogSource"
@@ -2967,8 +3089,7 @@ extension Glue {
     public struct ConnectionInput: AWSEncodableShape {
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:
-        /// 	           JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.    CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -3018,9 +3139,7 @@ extension Glue {
     }
 
     public struct ConnectionPasswordEncryption: AWSEncodableShape & AWSDecodableShape {
-        /// An KMS key that is used to encrypt the connection password.
-        /// 	 If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified KMS key, to encrypt passwords before storing them in the Data Catalog.
-        /// 	        You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
+        /// An KMS key that is used to encrypt the connection password.  If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified KMS key, to encrypt passwords before storing them in the Data Catalog.  You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
         public let awsKmsKeyId: String?
         /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption.
         public let returnConnectionPasswordEncrypted: Bool
@@ -3320,13 +3439,11 @@ extension Glue {
     }
 
     public struct CrawlsFilter: AWSEncodableShape {
-        /// A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are:
-        /// 	           CRAWL_ID: A string representing the UUID identifier for a crawl.    STATE: A string representing the state of the crawl.    START_TIME and END_TIME: The epoch timestamp in milliseconds.    DPU_HOUR: The number of data processing unit (DPU) hours used for the crawl.
+        /// A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are:    CRAWL_ID: A string representing the UUID identifier for a crawl.    STATE: A string representing the state of the crawl.    START_TIME and END_TIME: The epoch timestamp in milliseconds.    DPU_HOUR: The number of data processing unit (DPU) hours used for the crawl.
         public let fieldName: FieldName?
         /// The value provided for comparison on the crawl field.
         public let fieldValue: String?
-        /// A defined comparator that operates on the value. The available operators are:
-        /// 	           GT: Greater than.    GE: Greater than or equal to.    LT: Less than.    LE: Less than or equal to.    EQ: Equal to.    NE: Not equal to.
+        /// A defined comparator that operates on the value. The available operators are:    GT: Greater than.    GE: Greater than or equal to.    LT: Less than.    LE: Less than or equal to.    EQ: Equal to.    NE: Not equal to.
         public let filterOperator: FilterOperator?
 
         public init(fieldName: FieldName? = nil, fieldValue: String? = nil, filterOperator: FilterOperator? = nil) {
@@ -3635,9 +3752,7 @@ extension Glue {
     }
 
     public struct CreateCustomEntityTypeRequest: AWSEncodableShape {
-        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
-        ///
-        /// 	        If no context words are passed only a regular expression is checked.
+        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data. If no context words are passed only a regular expression is checked.
         public let contextWords: [String]?
         /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
         public let name: String
@@ -3675,6 +3790,72 @@ extension Glue {
 
     public struct CreateCustomEntityTypeResponse: AWSDecodableShape {
         /// The name of the custom pattern you created.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct CreateDataQualityRulesetRequest: AWSEncodableShape {
+        /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+        public let clientToken: String?
+        /// A description of the data quality ruleset.
+        public let description: String?
+        /// A unique name for the data quality ruleset.
+        public let name: String
+        /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+        public let ruleset: String
+        /// A list of tags applied to the data quality ruleset.
+        public let tags: [String: String]?
+        /// A target table associated with the data quality ruleset.
+        public let targetTable: DataQualityTargetTable?
+
+        public init(clientToken: String? = nil, description: String? = nil, name: String, ruleset: String, tags: [String: String]? = nil, targetTable: DataQualityTargetTable? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.ruleset = ruleset
+            self.tags = tags
+            self.targetTable = targetTable
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
+            try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.targetTable?.validate(name: "\(name).targetTable")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case ruleset = "Ruleset"
+            case tags = "Tags"
+            case targetTable = "TargetTable"
+        }
+    }
+
+    public struct CreateDataQualityRulesetResponse: AWSDecodableShape {
+        /// A unique name for the data quality ruleset.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -3733,21 +3914,15 @@ extension Glue {
         public let extraJarsS3Path: String?
         /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
         public let extraPythonLibsS3Path: String?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
-        ///
-        /// 	        Development endpoints that are created without specifying a Glue version default to Glue 0.9.
-        ///
-        /// 	        You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let glueVersion: String?
         /// The number of Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The number of workers of a defined workerType that are allocated to the development endpoint.
-        ///
-        /// 	        The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
         public let publicKey: String?
-        /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.   If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute.
+        /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute.
         public let publicKeys: [String]?
         /// The IAM role for the DevEndpoint.
         public let roleArn: String
@@ -3759,9 +3934,7 @@ extension Glue {
         public let subnetId: String?
         /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
         public let tags: [String: String]?
-        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
-        /// 	        Known issue: when a development endpoint is created with the G.2X  WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
@@ -3820,11 +3993,7 @@ extension Glue {
     }
 
     public struct CreateDevEndpointResponse: AWSDecodableShape {
-        /// The map of arguments used to configure this DevEndpoint.
-        ///
-        /// 	        Valid arguments are:
-        /// 	           "--enable-glue-datacatalog": ""
-        /// 	 You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        /// The map of arguments used to configure this DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
@@ -3838,7 +4007,7 @@ extension Glue {
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
         public let glueVersion: String?
         /// The number of Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
@@ -3945,8 +4114,7 @@ extension Glue {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
-        /// This parameter is deprecated. Use MaxCapacity instead.
-        /// 	 The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// This parameter is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
@@ -3954,27 +4122,19 @@ extension Glue {
         public let command: JobCommand
         /// The connections used for this job.
         public let connections: ConnectionsList?
-        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide.
-        /// 	   For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
+        /// The default arguments for this job. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
         public let defaultArguments: [String: String]?
         /// Description of the job being defined.
         public let description: String?
-        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
-        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
-        ///
-        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
-        ///
-        /// 	        Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///
-        /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
@@ -3996,8 +4156,7 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -4148,25 +4307,17 @@ extension Glue {
         public let glueVersion: String?
         /// A list of Glue table definitions used by the transform.
         public let inputRecordTables: [GlueTable]
-        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///
-        /// 			       MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
-        ///
-        /// 	        When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
-        /// 		 When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.   MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.   When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only. When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
         public let maxRetries: Int?
         /// The unique name that you give the transform when you create it.
         public let name: String
-        /// The number of workers of a defined workerType that are allocated when this task runs.
-        ///
-        /// 		       If WorkerType is set, then NumberOfWorkers is required (and vice versa).
+        /// The number of workers of a defined workerType that are allocated when this task runs. If WorkerType is set, then NumberOfWorkers is required (and vice versa).
         public let numberOfWorkers: Int?
         /// The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type.
         public let parameters: TransformParameters
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both Glue service role permissions to Glue resources, and Amazon S3 permissions required by the transform.
-        /// 		         This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both Glue service role permissions to Glue resources, and Amazon S3 permissions required by the transform.    This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
         public let role: String
         /// The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
         public let tags: [String: String]?
@@ -4174,10 +4325,7 @@ extension Glue {
         public let timeout: Int?
         /// The encryption-at-rest settings of the transform that apply to accessing user data. Machine learning transforms can access user data encrypted in Amazon S3 using KMS.
         public let transformEncryption: TransformEncryption?
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
-        ///
-        /// 	         MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
         public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, workerType: WorkerType? = nil) {
@@ -4395,8 +4543,7 @@ extension Glue {
     }
 
     public struct CreateSchemaInput: AWSEncodableShape {
-        /// The compatibility mode of the schema. The possible values are:
-        /// 	    NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.    DISABLED: This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema.    BACKWARD: This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version.    BACKWARD_ALL: This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions.     FORWARD: This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version.    FORWARD_ALL: This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions.    FULL: This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version.    FULL_ALL: This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions.
+        /// The compatibility mode of the schema. The possible values are:    NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.    DISABLED: This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema.    BACKWARD: This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version.    BACKWARD_ALL: This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions.     FORWARD: This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version.    FORWARD_ALL: This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions.    FULL: This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version.    FULL_ALL: This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions.
         public let compatibility: Compatibility?
         /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat
@@ -4632,8 +4779,7 @@ extension Glue {
         public let tags: [String: String]?
         /// The number of seconds before request times out.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
         public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -5078,9 +5224,7 @@ extension Glue {
     }
 
     public struct CustomEntityType: AWSDecodableShape {
-        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
-        ///
-        /// 	        If no context words are passed only a regular expression is checked.
+        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data. If no context words are passed only a regular expression is checked.
         public let contextWords: [String]?
         /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
         public let name: String
@@ -5097,6 +5241,49 @@ extension Glue {
             case contextWords = "ContextWords"
             case name = "Name"
             case regexString = "RegexString"
+        }
+    }
+
+    public struct DQResultsPublishingOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Enable metrics for your data quality results.
+        public let cloudWatchMetricsEnabled: Bool?
+        /// The context of the evaluation.
+        public let evaluationContext: String?
+        /// Enable publishing for your data quality results.
+        public let resultsPublishingEnabled: Bool?
+        /// The Amazon S3 prefix prepended to the results.
+        public let resultsS3Prefix: String?
+
+        public init(cloudWatchMetricsEnabled: Bool? = nil, evaluationContext: String? = nil, resultsPublishingEnabled: Bool? = nil, resultsS3Prefix: String? = nil) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.evaluationContext = evaluationContext
+            self.resultsPublishingEnabled = resultsPublishingEnabled
+            self.resultsS3Prefix = resultsS3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.validate(self.resultsS3Prefix, name: "resultsS3Prefix", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+            case evaluationContext = "EvaluationContext"
+            case resultsPublishingEnabled = "ResultsPublishingEnabled"
+            case resultsS3Prefix = "ResultsS3Prefix"
+        }
+    }
+
+    public struct DQStopJobOnFailureOptions: AWSEncodableShape & AWSDecodableShape {
+        /// When to stop job if your data quality evaluation fails. Options are Immediate or AfterDataLoad.
+        public let stopJobOnFailureTiming: DQStopJobOnFailureTiming?
+
+        public init(stopJobOnFailureTiming: DQStopJobOnFailureTiming? = nil) {
+            self.stopJobOnFailureTiming = stopJobOnFailureTiming
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stopJobOnFailureTiming = "StopJobOnFailureTiming"
         }
     }
 
@@ -5137,6 +5324,395 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case dataLakePrincipalIdentifier = "DataLakePrincipalIdentifier"
+        }
+    }
+
+    public struct DataQualityEvaluationRunAdditionalRunOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Whether or not to enable CloudWatch metrics.
+        public let cloudWatchMetricsEnabled: Bool?
+        /// Prefix for Amazon S3 to store results.
+        public let resultsS3Prefix: String?
+
+        public init(cloudWatchMetricsEnabled: Bool? = nil, resultsS3Prefix: String? = nil) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.resultsS3Prefix = resultsS3Prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+            case resultsS3Prefix = "ResultsS3Prefix"
+        }
+    }
+
+    public struct DataQualityResult: AWSDecodableShape {
+        /// The date and time when this data quality run completed.
+        public let completedOn: Date?
+        /// The table associated with the data quality result, if any.
+        public let dataSource: DataSource?
+        /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
+        public let evaluationContext: String?
+        /// The job name associated with the data quality result, if any.
+        public let jobName: String?
+        /// The job run ID associated with the data quality result, if any.
+        public let jobRunId: String?
+        /// A unique result ID for the data quality result.
+        public let resultId: String?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public let ruleResults: [DataQualityRuleResult]?
+        /// The unique run ID for the ruleset evaluation for this data quality result.
+        public let rulesetEvaluationRunId: String?
+        /// The name of the ruleset associated with the data quality result.
+        public let rulesetName: String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public let score: Double?
+        /// The date and time when this data quality run started.
+        public let startedOn: Date?
+
+        public init(completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.evaluationContext = evaluationContext
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.resultId = resultId
+            self.ruleResults = ruleResults
+            self.rulesetEvaluationRunId = rulesetEvaluationRunId
+            self.rulesetName = rulesetName
+            self.score = score
+            self.startedOn = startedOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case dataSource = "DataSource"
+            case evaluationContext = "EvaluationContext"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+            case resultId = "ResultId"
+            case ruleResults = "RuleResults"
+            case rulesetEvaluationRunId = "RulesetEvaluationRunId"
+            case rulesetName = "RulesetName"
+            case score = "Score"
+            case startedOn = "StartedOn"
+        }
+    }
+
+    public struct DataQualityResultDescription: AWSDecodableShape {
+        /// The table name associated with the data quality result.
+        public let dataSource: DataSource?
+        /// The job name associated with the data quality result.
+        public let jobName: String?
+        /// The job run ID associated with the data quality result.
+        public let jobRunId: String?
+        /// The unique result ID for this data quality result.
+        public let resultId: String?
+        /// The time that the run started for this data quality result.
+        public let startedOn: Date?
+
+        public init(dataSource: DataSource? = nil, jobName: String? = nil, jobRunId: String? = nil, resultId: String? = nil, startedOn: Date? = nil) {
+            self.dataSource = dataSource
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.resultId = resultId
+            self.startedOn = startedOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+            case resultId = "ResultId"
+            case startedOn = "StartedOn"
+        }
+    }
+
+    public struct DataQualityResultFilterCriteria: AWSEncodableShape {
+        /// Filter results by the specified data source. For example, retrieving all results for an Glue table.
+        public let dataSource: DataSource?
+        /// Filter results by the specified job name.
+        public let jobName: String?
+        /// Filter results by the specified job run ID.
+        public let jobRunId: String?
+        /// Filter results by runs that started after this time.
+        public let startedAfter: Date?
+        /// Filter results by runs that started before this time.
+        public let startedBefore: Date?
+
+        public init(dataSource: DataSource? = nil, jobName: String? = nil, jobRunId: String? = nil, startedAfter: Date? = nil, startedBefore: Date? = nil) {
+            self.dataSource = dataSource
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource?.validate(name: "\(name).dataSource")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 255)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+            case startedAfter = "StartedAfter"
+            case startedBefore = "StartedBefore"
+        }
+    }
+
+    public struct DataQualityRuleRecommendationRunDescription: AWSDecodableShape {
+        /// The data source (Glue table) associated with the recommendation run.
+        public let dataSource: DataSource?
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+        /// The date and time when this run started.
+        public let startedOn: Date?
+        /// The status for this run.
+        public let status: TaskStatusType?
+
+        public init(dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
+            self.dataSource = dataSource
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case status = "Status"
+        }
+    }
+
+    public struct DataQualityRuleRecommendationRunFilter: AWSEncodableShape {
+        /// Filter based on a specified data source (Glue table).
+        public let dataSource: DataSource
+        /// Filter based on time for results started after provided time.
+        public let startedAfter: Date?
+        /// Filter based on time for results started before provided time.
+        public let startedBefore: Date?
+
+        public init(dataSource: DataSource, startedAfter: Date? = nil, startedBefore: Date? = nil) {
+            self.dataSource = dataSource
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource.validate(name: "\(name).dataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case startedAfter = "StartedAfter"
+            case startedBefore = "StartedBefore"
+        }
+    }
+
+    public struct DataQualityRuleResult: AWSDecodableShape {
+        /// A description of the data quality rule.
+        public let description: String?
+        /// An evaluation message.
+        public let evaluationMessage: String?
+        /// The name of the data quality rule.
+        public let name: String?
+        /// A pass or fail status for the rule.
+        public let result: DataQualityRuleResultStatus?
+
+        public init(description: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil) {
+            self.description = description
+            self.evaluationMessage = evaluationMessage
+            self.name = name
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case evaluationMessage = "EvaluationMessage"
+            case name = "Name"
+            case result = "Result"
+        }
+    }
+
+    public struct DataQualityRulesetEvaluationRunDescription: AWSDecodableShape {
+        /// The data source (an Glue table) associated with the run.
+        public let dataSource: DataSource?
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+        /// The date and time when the run started.
+        public let startedOn: Date?
+        /// The status for this run.
+        public let status: TaskStatusType?
+
+        public init(dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
+            self.dataSource = dataSource
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case status = "Status"
+        }
+    }
+
+    public struct DataQualityRulesetEvaluationRunFilter: AWSEncodableShape {
+        /// Filter based on a data source (an Glue table) associated with the run.
+        public let dataSource: DataSource
+        /// Filter results by runs that started after this time.
+        public let startedAfter: Date?
+        /// Filter results by runs that started before this time.
+        public let startedBefore: Date?
+
+        public init(dataSource: DataSource, startedAfter: Date? = nil, startedBefore: Date? = nil) {
+            self.dataSource = dataSource
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource.validate(name: "\(name).dataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case startedAfter = "StartedAfter"
+            case startedBefore = "StartedBefore"
+        }
+    }
+
+    public struct DataQualityRulesetFilterCriteria: AWSEncodableShape {
+        /// Filter on rulesets created after this date.
+        public let createdAfter: Date?
+        /// Filter on rulesets created before this date.
+        public let createdBefore: Date?
+        /// The description of the ruleset filter criteria.
+        public let description: String?
+        /// Filter on rulesets last modified after this date.
+        public let lastModifiedAfter: Date?
+        /// Filter on rulesets last modified before this date.
+        public let lastModifiedBefore: Date?
+        /// The name of the ruleset filter criteria.
+        public let name: String?
+        /// The name and database name of the target table.
+        public let targetTable: DataQualityTargetTable?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, description: String? = nil, lastModifiedAfter: Date? = nil, lastModifiedBefore: Date? = nil, name: String? = nil, targetTable: DataQualityTargetTable? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.description = description
+            self.lastModifiedAfter = lastModifiedAfter
+            self.lastModifiedBefore = lastModifiedBefore
+            self.name = name
+            self.targetTable = targetTable
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.targetTable?.validate(name: "\(name).targetTable")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case description = "Description"
+            case lastModifiedAfter = "LastModifiedAfter"
+            case lastModifiedBefore = "LastModifiedBefore"
+            case name = "Name"
+            case targetTable = "TargetTable"
+        }
+    }
+
+    public struct DataQualityRulesetListDetails: AWSDecodableShape {
+        /// The date and time the data quality ruleset was created.
+        public let createdOn: Date?
+        /// A description of the data quality ruleset.
+        public let description: String?
+        /// The date and time the data quality ruleset was last modified.
+        public let lastModifiedOn: Date?
+        /// The name of the data quality ruleset.
+        public let name: String?
+        /// When a ruleset was created from a recommendation run, this run ID is generated to link the two together.
+        public let recommendationRunId: String?
+        /// The number of rules in the ruleset.
+        public let ruleCount: Int?
+        /// An object representing an Glue table.
+        public let targetTable: DataQualityTargetTable?
+
+        public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleCount: Int? = nil, targetTable: DataQualityTargetTable? = nil) {
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+            self.recommendationRunId = recommendationRunId
+            self.ruleCount = ruleCount
+            self.targetTable = targetTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case lastModifiedOn = "LastModifiedOn"
+            case name = "Name"
+            case recommendationRunId = "RecommendationRunId"
+            case ruleCount = "RuleCount"
+            case targetTable = "TargetTable"
+        }
+    }
+
+    public struct DataQualityTargetTable: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database where the Glue table exists.
+        public let databaseName: String
+        /// The name of the Glue table.
+        public let tableName: String
+
+        public init(databaseName: String, tableName: String) {
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+        /// An Glue table.
+        public let glueTable: GlueTable
+
+        public init(glueTable: GlueTable) {
+            self.glueTable = glueTable
+        }
+
+        public func validate(name: String) throws {
+            try self.glueTable.validate(name: "\(name).glueTable")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueTable = "GlueTable"
         }
     }
 
@@ -5595,6 +6171,29 @@ extension Glue {
         }
     }
 
+    public struct DeleteDataQualityRulesetRequest: AWSEncodableShape {
+        /// A name for the data quality ruleset.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteDataQualityRulesetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDatabaseRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which the database resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -5903,8 +6502,7 @@ extension Glue {
     public struct DeleteSchemaVersionsInput: AWSEncodableShape {
         /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
         public let schemaId: SchemaId
-        /// A version range may be supplied which may be of the format:
-        /// 	          a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
+        /// A version range may be supplied which may be of the format:   a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
         public let versions: String
 
         public init(schemaId: SchemaId, versions: String) {
@@ -6192,28 +6790,30 @@ extension Glue {
     public struct DeltaTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the Delta table target.
         public let connectionName: String?
+        /// Specifies whether the crawler will create native tables, to allow integration with query engines that support querying of the Delta transaction log directly.
+        public let createNativeDeltaTable: Bool?
         /// A list of the Amazon S3 paths to the Delta tables.
         public let deltaTables: [String]?
         /// Specifies whether to write the manifest files to the Delta table path.
         public let writeManifest: Bool?
 
-        public init(connectionName: String? = nil, deltaTables: [String]? = nil, writeManifest: Bool? = nil) {
+        public init(connectionName: String? = nil, createNativeDeltaTable: Bool? = nil, deltaTables: [String]? = nil, writeManifest: Bool? = nil) {
             self.connectionName = connectionName
+            self.createNativeDeltaTable = createNativeDeltaTable
             self.deltaTables = deltaTables
             self.writeManifest = writeManifest
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectionName = "ConnectionName"
+            case createNativeDeltaTable = "CreateNativeDeltaTable"
             case deltaTables = "DeltaTables"
             case writeManifest = "WriteManifest"
         }
     }
 
     public struct DevEndpoint: AWSDecodableShape {
-        /// A map of arguments used to configure the DevEndpoint. Valid arguments are:
-        /// 	           "--enable-glue-datacatalog": ""
-        /// 	 You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        /// A map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The Amazon Web Services Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
@@ -6223,15 +6823,11 @@ extension Glue {
         public let endpointName: String?
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint.
         public let extraJarsS3Path: String?
-        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.   You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported.
+        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported.
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
-        ///
-        /// 	        Development endpoints that are created without specifying a Glue version default to Glue 0.9.
-        ///
-        /// 	        You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let glueVersion: String?
         /// The point in time at which this DevEndpoint was last modified.
         public let lastModifiedTimestamp: Date?
@@ -6239,9 +6835,7 @@ extension Glue {
         public let lastUpdateStatus: String?
         /// The number of Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The number of workers of a defined workerType that are allocated to the development endpoint.
-        ///
-        /// 		       The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// A private IP address to access the DevEndpoint within a VPC if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your VPC.
         public let privateAddress: String?
@@ -6263,10 +6857,7 @@ extension Glue {
         public let subnetId: String?
         /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
         public let vpcId: String?
-        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
-        ///
-        /// 	        Known issue: when a development endpoint is created with the G.2X  WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
         public let workerType: WorkerType?
         /// The YARN endpoint address used by this DevEndpoint.
         public let yarnEndpointAddress: String?
@@ -6546,8 +7137,7 @@ extension Glue {
         public let name: String
         /// A structure that represents whether certain values are recognized as null values for removal.
         public let nullCheckBoxList: NullCheckBoxList?
-        /// A structure that specifies a list of NullValueField structures that represent a custom null value such as zero or other value being used as a null placeholder unique to the dataset.
-        ///  The DropNullFields transform removes custom null values only if both the value of the null placeholder and the datatype match the data.
+        /// A structure that specifies a list of NullValueField structures that represent a custom null value such as zero or other value being used as a null placeholder unique to the dataset. The DropNullFields transform removes custom null values only if both the value of the null placeholder and the datatype match the data.
         public let nullTextList: [NullValueField]?
 
         public init(inputs: [String], name: String, nullCheckBoxList: NullCheckBoxList? = nil, nullTextList: [NullValueField]? = nil) {
@@ -6575,6 +7165,59 @@ extension Glue {
             case name = "Name"
             case nullCheckBoxList = "NullCheckBoxList"
             case nullTextList = "NullTextList"
+        }
+    }
+
+    public struct DynamicTransform: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the name of the function of the dynamic transform.
+        public let functionName: String
+        /// Specifies the inputs for the dynamic transform that are required.
+        public let inputs: [String]
+        /// Specifies the name of the dynamic transform.
+        public let name: String
+        /// Specifies the parameters of the dynamic transform.
+        public let parameters: [TransformConfigParameter]?
+        /// Specifies the path of the dynamic transform source and config files.
+        public let path: String
+        /// Specifies the name of the dynamic transform as it appears in the Glue Studio visual editor.
+        public let transformName: String
+        /// This field is not used and will be deprecated in future release.
+        public let version: String?
+
+        public init(functionName: String, inputs: [String], name: String, parameters: [TransformConfigParameter]? = nil, path: String, transformName: String, version: String? = nil) {
+            self.functionName = functionName
+            self.inputs = inputs
+            self.name = name
+            self.parameters = parameters
+            self.path = path
+            self.transformName = transformName
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.transformName, name: "transformName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.version, name: "version", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName = "FunctionName"
+            case inputs = "Inputs"
+            case name = "Name"
+            case parameters = "Parameters"
+            case path = "Path"
+            case transformName = "TransformName"
+            case version = "Version"
         }
     }
 
@@ -6608,13 +7251,9 @@ extension Glue {
     public struct DynamoDBTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the DynamoDB table to crawl.
         public let path: String?
-        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table.
-        ///
-        /// 	        A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
+        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
         public let scanAll: Bool?
-        /// The percentage of the configured read capacity units to use by the Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be performed on that table per second.
-        ///
-        /// 	        The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode).
+        /// The percentage of the configured read capacity units to use by the Glue crawler. Read capacity units is a term defined by DynamoDB, and is a numeric value that acts as rate limiter for the number of reads that can be performed on that table per second. The valid values are null or a value between 0.1 to 1.5. A null value is used when user does not provide a value, and defaults to 0.5 of the configured Read Capacity Unit (for provisioned tables), or 0.25 of the max configured Read Capacity Unit (for tables using on-demand mode).
         public let scanRate: Double?
 
         public init(path: String? = nil, scanAll: Bool? = nil, scanRate: Double? = nil) {
@@ -6730,6 +7369,52 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct EvaluateDataQuality: AWSEncodableShape & AWSDecodableShape {
+        /// The inputs of your data quality evaluation.
+        public let inputs: [String]
+        /// The name of the data quality evaluation.
+        public let name: String
+        /// The output of your data quality evaluation.
+        public let output: DQTransformOutput?
+        /// Options to configure how your results are published.
+        public let publishingOptions: DQResultsPublishingOptions?
+        /// The ruleset for your data quality evaluation.
+        public let ruleset: String
+        /// Options to configure how your job will stop if your data quality evaluation fails.
+        public let stopJobOnFailureOptions: DQStopJobOnFailureOptions?
+
+        public init(inputs: [String], name: String, output: DQTransformOutput? = nil, publishingOptions: DQResultsPublishingOptions? = nil, ruleset: String, stopJobOnFailureOptions: DQStopJobOnFailureOptions? = nil) {
+            self.inputs = inputs
+            self.name = name
+            self.output = output
+            self.publishingOptions = publishingOptions
+            self.ruleset = ruleset
+            self.stopJobOnFailureOptions = stopJobOnFailureOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.publishingOptions?.validate(name: "\(name).publishingOptions")
+            try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
+            try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
+            try self.validate(self.ruleset, name: "ruleset", parent: name, pattern: "^([\\u0020-\\u007E\\r\\s\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case output = "Output"
+            case publishingOptions = "PublishingOptions"
+            case ruleset = "Ruleset"
+            case stopJobOnFailureOptions = "StopJobOnFailureOptions"
         }
     }
 
@@ -6924,13 +7609,11 @@ extension Glue {
     }
 
     public struct FindMatchesMetrics: AWSDecodableShape {
-        /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff.
-        /// 	        For more information, see Precision and recall in Wikipedia.
+        /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
         public let areaUnderPRCurve: Double?
         /// A list of ColumnImportance structures containing column importance metrics, sorted in order of descending importance.
         public let columnImportances: [ColumnImportance]?
-        /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making.
-        /// 	        For more information, see Confusion matrix in Wikipedia.
+        /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making. For more information, see Confusion matrix in Wikipedia.
         public let confusionMatrix: ConfusionMatrix?
         /// The maximum F1 metric indicates the transform's accuracy between 0 and 1, where 1 is the best accuracy. For more information, see F1 score in Wikipedia.
         public let f1: Double?
@@ -6959,19 +7642,11 @@ extension Glue {
     }
 
     public struct FindMatchesParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy.
-        ///
-        /// 	        Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.
-        ///
-        /// 	        Cost measures how many compute resources, and thus money, are consumed to run the transform.
+        /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.  Cost measures how many compute resources, and thus money, are consumed to run the transform.
         public let accuracyCostTradeoff: Double?
         /// The value to switch on or off to force the output to match the provided labels from users. If the value is True, the find matches transform forces the output to match the provided labels. The results override the normal conflation results. If the value is False, the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the conflation execution time.
         public let enforceProvidedLabels: Bool?
-        /// The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no preference; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low precision.
-        ///
-        /// 	        The precision metric indicates how often your model is correct when it predicts a match.
-        ///
-        /// 	        The recall metric indicates that for an actual match, how often your model predicts the match.
+        /// The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no preference; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low precision. The precision metric indicates how often your model is correct when it predicts a match.  The recall metric indicates that for an actual match, how often your model predicts the match.
         public let precisionRecallTradeoff: Double?
         /// The name of a column that uniquely identifies rows in the source table. Used to help identify matching records.
         public let primaryKeyColumnName: String?
@@ -7693,6 +8368,298 @@ extension Glue {
         }
     }
 
+    public struct GetDataQualityResultRequest: AWSEncodableShape {
+        /// A unique result ID for the data quality result.
+        public let resultId: String
+
+        public init(resultId: String) {
+            self.resultId = resultId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resultId, name: "resultId", parent: name, max: 255)
+            try self.validate(self.resultId, name: "resultId", parent: name, min: 1)
+            try self.validate(self.resultId, name: "resultId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultId = "ResultId"
+        }
+    }
+
+    public struct GetDataQualityResultResponse: AWSDecodableShape {
+        /// The date and time when the run for this data quality result was completed.
+        public let completedOn: Date?
+        /// The table associated with the data quality result, if any.
+        public let dataSource: DataSource?
+        /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
+        public let evaluationContext: String?
+        /// The job name associated with the data quality result, if any.
+        public let jobName: String?
+        /// The job run ID associated with the data quality result, if any.
+        public let jobRunId: String?
+        /// A unique result ID for the data quality result.
+        public let resultId: String?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public let ruleResults: [DataQualityRuleResult]?
+        /// The unique run ID associated with the ruleset evaluation.
+        public let rulesetEvaluationRunId: String?
+        /// The name of the ruleset associated with the data quality result.
+        public let rulesetName: String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public let score: Double?
+        /// The date and time when the run for this data quality result started.
+        public let startedOn: Date?
+
+        public init(completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.evaluationContext = evaluationContext
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+            self.resultId = resultId
+            self.ruleResults = ruleResults
+            self.rulesetEvaluationRunId = rulesetEvaluationRunId
+            self.rulesetName = rulesetName
+            self.score = score
+            self.startedOn = startedOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case dataSource = "DataSource"
+            case evaluationContext = "EvaluationContext"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+            case resultId = "ResultId"
+            case ruleResults = "RuleResults"
+            case rulesetEvaluationRunId = "RulesetEvaluationRunId"
+            case rulesetName = "RulesetName"
+            case score = "Score"
+            case startedOn = "StartedOn"
+        }
+    }
+
+    public struct GetDataQualityRuleRecommendationRunRequest: AWSEncodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String
+
+        public init(runId: String) {
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetDataQualityRuleRecommendationRunResponse: AWSDecodableShape {
+        /// The date and time when this run was completed.
+        public let completedOn: Date?
+        /// The name of the ruleset that was created by the run.
+        public let createdRulesetName: String?
+        /// The data source (an Glue table) associated with this run.
+        public let dataSource: DataSource?
+        /// The error strings that are associated with the run.
+        public let errorString: String?
+        /// The amount of time (in seconds) that the run consumed resources.
+        public let executionTime: Int?
+        /// A timestamp. The last point in time when this data quality rule recommendation run was modified.
+        public let lastModifiedOn: Date?
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public let numberOfWorkers: Int?
+        /// When a start rule recommendation run completes, it creates a recommended ruleset (a set of rules). This member has those rules in Data Quality Definition Language (DQDL) format.
+        public let recommendedRuleset: String?
+        /// An IAM role supplied to encrypt the results of the run.
+        public let role: String?
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+        /// The date and time when this run started.
+        public let startedOn: Date?
+        /// The status for this run.
+        public let status: TaskStatusType?
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+
+        public init(completedOn: Date? = nil, createdRulesetName: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+            self.completedOn = completedOn
+            self.createdRulesetName = createdRulesetName
+            self.dataSource = dataSource
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.numberOfWorkers = numberOfWorkers
+            self.recommendedRuleset = recommendedRuleset
+            self.role = role
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case createdRulesetName = "CreatedRulesetName"
+            case dataSource = "DataSource"
+            case errorString = "ErrorString"
+            case executionTime = "ExecutionTime"
+            case lastModifiedOn = "LastModifiedOn"
+            case numberOfWorkers = "NumberOfWorkers"
+            case recommendedRuleset = "RecommendedRuleset"
+            case role = "Role"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case status = "Status"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct GetDataQualityRulesetEvaluationRunRequest: AWSEncodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String
+
+        public init(runId: String) {
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetDataQualityRulesetEvaluationRunResponse: AWSDecodableShape {
+        /// Additional run options you can specify for an evaluation run.
+        public let additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions?
+        /// The date and time when this run was completed.
+        public let completedOn: Date?
+        /// The data source (an Glue table) associated with this evaluation run.
+        public let dataSource: DataSource?
+        /// The error strings that are associated with the run.
+        public let errorString: String?
+        /// The amount of time (in seconds) that the run consumed resources.
+        public let executionTime: Int?
+        /// A timestamp. The last point in time when this data quality rule recommendation run was modified.
+        public let lastModifiedOn: Date?
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public let numberOfWorkers: Int?
+        /// A list of result IDs for the data quality results for the run.
+        public let resultIds: [String]?
+        /// An IAM role supplied to encrypt the results of the run.
+        public let role: String?
+        /// A list of ruleset names for the run.
+        public let rulesetNames: [String]?
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+        /// The date and time when this run started.
+        public let startedOn: Date?
+        /// The status for this run.
+        public let status: TaskStatusType?
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+
+        public init(additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, resultIds: [String]? = nil, role: String? = nil, rulesetNames: [String]? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+            self.additionalRunOptions = additionalRunOptions
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.numberOfWorkers = numberOfWorkers
+            self.resultIds = resultIds
+            self.role = role
+            self.rulesetNames = rulesetNames
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalRunOptions = "AdditionalRunOptions"
+            case completedOn = "CompletedOn"
+            case dataSource = "DataSource"
+            case errorString = "ErrorString"
+            case executionTime = "ExecutionTime"
+            case lastModifiedOn = "LastModifiedOn"
+            case numberOfWorkers = "NumberOfWorkers"
+            case resultIds = "ResultIds"
+            case role = "Role"
+            case rulesetNames = "RulesetNames"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case status = "Status"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct GetDataQualityRulesetRequest: AWSEncodableShape {
+        /// The name of the ruleset.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetDataQualityRulesetResponse: AWSDecodableShape {
+        /// A timestamp. The time and date that this data quality ruleset was created.
+        public let createdOn: Date?
+        /// A description of the ruleset.
+        public let description: String?
+        /// A timestamp. The last point in time when this data quality ruleset was modified.
+        public let lastModifiedOn: Date?
+        /// The name of the ruleset.
+        public let name: String?
+        /// When a ruleset was created from a recommendation run, this run ID is generated to link the two together.
+        public let recommendationRunId: String?
+        /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+        public let ruleset: String?
+        /// The name and database name of the target table.
+        public let targetTable: DataQualityTargetTable?
+
+        public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleset: String? = nil, targetTable: DataQualityTargetTable? = nil) {
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+            self.recommendationRunId = recommendationRunId
+            self.ruleset = ruleset
+            self.targetTable = targetTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case lastModifiedOn = "LastModifiedOn"
+            case name = "Name"
+            case recommendationRunId = "RecommendationRunId"
+            case ruleset = "Ruleset"
+            case targetTable = "TargetTable"
+        }
+    }
+
     public struct GetDatabaseRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which the database resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -7739,9 +8706,7 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.
-        ///
-        /// 	          If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
+        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
         public let resourceShareType: ResourceShareType?
 
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
@@ -8232,8 +9197,7 @@ extension Glue {
         public let labelCount: Int?
         /// The date and time when the transform was last modified.
         public let lastModifiedOn: Date?
-        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        /// 		 When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
         public let maxRetries: Int?
@@ -8255,8 +9219,7 @@ extension Glue {
         public let transformEncryption: TransformEncryption?
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String?
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
@@ -8508,7 +9471,7 @@ extension Glue {
         public let databaseName: String
         /// When true, specifies not returning the partition column schema. Useful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.
         public let excludeColumnSchema: Bool?
-        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.    Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a  b) is true.  >  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a > b) is not true.    Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a   >=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a >= b) is not true.    Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a   AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.     string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an type is encountered that is not valid, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.    Sample API Call:
+        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.    Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a  b) is true.  >  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a > b) is not true.    Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a   >=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a >= b) is not true.    Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a   AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an type is encountered that is not valid, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call:
         public let expression: String?
         /// The maximum number of partitions to return in a single response.
         public let maxResults: Int?
@@ -8588,13 +9551,7 @@ extension Glue {
     }
 
     public struct GetPlanRequest: AWSEncodableShape {
-        /// A map to hold additional optional key-value parameters.
-        ///
-        /// 	        Currently, these key-value pairs are supported:
-        ///
-        /// 	           inferSchema  —  Specifies whether to set inferSchema to true or false for the default script generated by an Glue job. For example, to set inferSchema to true, pass the following key value pair:
-        /// 	               --additional-plan-options-map '{"inferSchema":"true"}'
-        ///
+        /// A map to hold additional optional key-value parameters. Currently, these key-value pairs are supported:    inferSchema  —  Specifies whether to set inferSchema to true or false for the default script generated by an Glue job. For example, to set inferSchema to true, pass the following key value pair:  --additional-plan-options-map '{"inferSchema":"true"}'
         public let additionalPlanOptionsMap: [String: String]?
         /// The programming language of the code to perform the mapping.
         public let language: Language?
@@ -8787,8 +9744,7 @@ extension Glue {
     public struct GetSchemaByDefinitionInput: AWSEncodableShape {
         /// The definition of the schema for which schema details are required.
         public let schemaDefinition: String
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaId: SchemaId
 
         public init(schemaDefinition: String, schemaId: SchemaId) {
@@ -8839,8 +9795,7 @@ extension Glue {
     }
 
     public struct GetSchemaInput: AWSEncodableShape {
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
         public init(schemaId: SchemaId) {
@@ -8918,8 +9873,7 @@ extension Glue {
     }
 
     public struct GetSchemaVersionInput: AWSEncodableShape {
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId?
         /// The SchemaVersionId of the schema version. This field is required for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
         public let schemaVersionId: String?
@@ -8989,8 +9943,7 @@ extension Glue {
         public let firstSchemaVersionNumber: SchemaVersionNumber
         /// Refers to SYNTAX_DIFF, which is the currently supported diff type.
         public let schemaDiffType: SchemaDiffType
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaId: SchemaId
         /// The second of the two schema versions to be compared.
         public let secondSchemaVersionNumber: SchemaVersionNumber
@@ -10069,6 +11022,8 @@ extension Glue {
     }
 
     public struct GlueTable: AWSEncodableShape & AWSDecodableShape {
+        /// Additional options for the table. Currently there are two keys supported:    pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.    catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public let additionalOptions: [String: String]?
         /// A unique identifier for the Glue Data Catalog.
         public let catalogId: String?
         /// The name of the connection to the Glue Data Catalog.
@@ -10078,7 +11033,8 @@ extension Glue {
         /// A table name in the Glue Data Catalog.
         public let tableName: String
 
-        public init(catalogId: String? = nil, connectionName: String? = nil, databaseName: String, tableName: String) {
+        public init(additionalOptions: [String: String]? = nil, catalogId: String? = nil, connectionName: String? = nil, databaseName: String, tableName: String) {
+            self.additionalOptions = additionalOptions
             self.catalogId = catalogId
             self.connectionName = connectionName
             self.databaseName = databaseName
@@ -10086,6 +11042,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, max: 255)
+                try validate($0.key, name: "additionalOptions.key", parent: name, min: 1)
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.additionalOptions, name: "additionalOptions", parent: name, max: 10)
+            try self.validate(self.additionalOptions, name: "additionalOptions", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -10101,6 +11066,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
             case catalogId = "CatalogId"
             case connectionName = "ConnectionName"
             case databaseName = "DatabaseName"
@@ -10268,11 +11234,7 @@ extension Glue {
     public struct JDBCConnectorOptions: AWSEncodableShape & AWSDecodableShape {
         /// Custom data type mapping that builds a mapping from a JDBC data type to an Glue data type. For example, the option "dataTypeMapping":{"FLOAT":"STRING"} maps data fields of JDBC type FLOAT into the Java String type by calling the ResultSet.getString() method of the driver, and uses it to build the Glue record. The ResultSet object is implemented by each driver, so the behavior is specific to the driver you use. Refer to the documentation for your JDBC driver to understand how the driver performs the conversions.
         public let dataTypeMapping: [JDBCDataType: GlueRecordType]?
-        /// Extra condition clause to filter data from source. For example:
-        ///
-        /// 	         BillingCity='Mountain View'
-        ///
-        /// 	        When using a query instead of a table name, you should validate that the query works with the specified filterPredicate.
+        /// Extra condition clause to filter data from source. For example:  BillingCity='Mountain View'  When using a query instead of a table name, you should validate that the query works with the specified filterPredicate.
         public let filterPredicate: String?
         /// The name of the job bookmark keys on which to sort.
         public let jobBookmarkKeys: [String]?
@@ -10440,9 +11402,7 @@ extension Glue {
     public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
-        /// Specify a value of RAWTYPES or COMMENTS to enable additional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associated with a column or table in the database.
-        ///
-        /// 	        If you do not need additional metadata, keep the field empty.
+        /// Specify a value of RAWTYPES or COMMENTS to enable additional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associated with a column or table in the database. If you do not need additional metadata, keep the field empty.
         public let enableAdditionalMetadata: [JdbcMetadataEntry]?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
         public let exclusions: [String]?
@@ -10465,9 +11425,7 @@ extension Glue {
     }
 
     public struct Job: AWSDecodableShape {
-        /// This field is deprecated. Use MaxCapacity instead.
-        /// 	   The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///
+        /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
@@ -10481,26 +11439,17 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// A description of the job.
         public let description: String?
-        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
-        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
-        ///
-        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
-        ///
-        /// 	        Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
         /// The last point in time when this job definition was modified.
         public let lastModifiedOn: Date?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///
-        /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        ///
-        /// 	        The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int?
@@ -10520,8 +11469,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -10702,8 +11650,7 @@ extension Glue {
     }
 
     public struct JobRun: AWSDecodableShape {
-        /// This field is deprecated. Use MaxCapacity instead.
-        ///  The number of Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
         public let arguments: [String: String]?
@@ -10715,16 +11662,11 @@ extension Glue {
         public let dpuSeconds: Double?
         /// An error message associated with this job run.
         public let errorMessage: String?
-        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
-        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
-        ///
-        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
         /// The amount of time (in seconds) that the job run consumed resources.
         public let executionTime: Int?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
-        ///
-        /// 	        Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
         /// The ID of this job run.
         public let id: String?
@@ -10736,9 +11678,7 @@ extension Glue {
         public let lastModifiedOn: Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public let logGroupName: String?
-        /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///  Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
@@ -10752,7 +11692,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The date and time at which this job run was started.
         public let startedOn: Date?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
@@ -10843,7 +11783,7 @@ extension Glue {
     }
 
     public struct JobUpdate: AWSEncodableShape {
-        /// This field is deprecated. Use MaxCapacity instead.  The number of Glue data processing units (DPUs) to allocate to this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
@@ -10855,22 +11795,15 @@ extension Glue {
         public let defaultArguments: [String: String]?
         /// Description of the job being defined.
         public let description: String?
-        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
-        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
-        ///
-        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.   For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
+        /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
         public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        /// 	        Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        /// 	    The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:
-        ///    When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
-        /// 	        For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
+        /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
@@ -10888,8 +11821,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
 
         public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -11371,9 +12303,7 @@ extension Glue {
     }
 
     public struct LineageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether data lineage is enabled for the crawler. Valid values are:
-        ///
-        /// 	          ENABLE: enables data lineage for the crawler   DISABLE: disables data lineage for the crawler
+        /// Specifies whether data lineage is enabled for the crawler. Valid values are:   ENABLE: enables data lineage for the crawler   DISABLE: disables data lineage for the crawler
         public let crawlerLineageSettings: CrawlerLineageSettings?
 
         public init(crawlerLineageSettings: CrawlerLineageSettings? = nil) {
@@ -11569,6 +12499,192 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case customEntityTypes = "CustomEntityTypes"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityResultsRequest: AWSEncodableShape {
+        /// The filter criteria.
+        public let filter: DataQualityResultFilterCriteria?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+
+        public init(filter: DataQualityResultFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityResultsResponse: AWSDecodableShape {
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of DataQualityResultDescription objects.
+        public let results: [DataQualityResultDescription]
+
+        public init(nextToken: String? = nil, results: [DataQualityResultDescription]) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct ListDataQualityRuleRecommendationRunsRequest: AWSEncodableShape {
+        /// The filter criteria.
+        public let filter: DataQualityRuleRecommendationRunFilter?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+
+        public init(filter: DataQualityRuleRecommendationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityRuleRecommendationRunsResponse: AWSDecodableShape {
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of DataQualityRuleRecommendationRunDescription objects.
+        public let runs: [DataQualityRuleRecommendationRunDescription]?
+
+        public init(nextToken: String? = nil, runs: [DataQualityRuleRecommendationRunDescription]? = nil) {
+            self.nextToken = nextToken
+            self.runs = runs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case runs = "Runs"
+        }
+    }
+
+    public struct ListDataQualityRulesetEvaluationRunsRequest: AWSEncodableShape {
+        /// The filter criteria.
+        public let filter: DataQualityRulesetEvaluationRunFilter?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+
+        public init(filter: DataQualityRulesetEvaluationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityRulesetEvaluationRunsResponse: AWSDecodableShape {
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of DataQualityRulesetEvaluationRunDescription objects representing data quality ruleset runs.
+        public let runs: [DataQualityRulesetEvaluationRunDescription]?
+
+        public init(nextToken: String? = nil, runs: [DataQualityRulesetEvaluationRunDescription]? = nil) {
+            self.nextToken = nextToken
+            self.runs = runs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case runs = "Runs"
+        }
+    }
+
+    public struct ListDataQualityRulesetsRequest: AWSEncodableShape {
+        /// The filter criteria.
+        public let filter: DataQualityRulesetFilterCriteria?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+        /// A list of key-value pair tags.
+        public let tags: [String: String]?
+
+        public init(filter: DataQualityRulesetFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListDataQualityRulesetsResponse: AWSDecodableShape {
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A paginated list of rulesets for the specified list of Glue tables.
+        public let rulesets: [DataQualityRulesetListDetails]?
+
+        public init(nextToken: String? = nil, rulesets: [DataQualityRulesetListDetails]? = nil) {
+            self.nextToken = nextToken
+            self.rulesets = rulesets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rulesets = "Rulesets"
         }
     }
 
@@ -11772,8 +12888,7 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, schemaId: SchemaId) {
@@ -12132,24 +13247,17 @@ extension Glue {
         public let labelCount: Int?
         /// A timestamp. The last point in time when this machine learning transform was modified.
         public let lastModifiedOn: Date?
-        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///
-        /// 		        MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
-        ///
-        /// 	        When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.   MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.   When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry after an MLTaskRun of the machine learning transform fails.
         public let maxRetries: Int?
         /// A user-defined name for the machine learning transform. Names are not guaranteed unique and can be changed at any time.
         public let name: String?
-        /// The number of workers of a defined workerType that are allocated when a task of the transform runs.
-        ///
-        /// 	        If WorkerType is set, then NumberOfWorkers is required (and vice versa).
+        /// The number of workers of a defined workerType that are allocated when a task of the transform runs. If WorkerType is set, then NumberOfWorkers is required (and vice versa).
         public let numberOfWorkers: Int?
         /// A TransformParameters object. You can use parameters to tune (customize) the behavior of the machine learning transform by specifying what data it learns from and your preference on various tradeoffs (such as precious vs. recall, or accuracy vs. cost).
         public let parameters: TransformParameters?
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both Glue service role permissions to Glue resources, and Amazon S3 permissions required by the transform.
-        /// 		         This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both Glue service role permissions to Glue resources, and Amazon S3 permissions required by the transform.    This role needs Glue service role permissions to allow access to resources in Glue. See Attach a Policy to IAM Users That Access Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
         public let role: String?
         /// A map of key-value pairs representing the columns and data types that this transform can run against. Has an upper bound of 100 columns.
         public let schema: [SchemaColumn]?
@@ -12161,10 +13269,7 @@ extension Glue {
         public let transformEncryption: TransformEncryption?
         /// The unique transform ID that is generated for the machine learning transform. The ID is guaranteed to be unique and does not change.
         public let transformId: String?
-        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
-        ///
-        /// 	         MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
+        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformEncryption: TransformEncryption? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
@@ -12215,9 +13320,7 @@ extension Glue {
     public struct MLUserDataEncryption: AWSEncodableShape & AWSDecodableShape {
         /// The ID for the customer-provided KMS key.
         public let kmsKeyId: String?
-        /// The encryption mode applied to user data. Valid values are:
-        ///
-        /// 	          DISABLED: encryption is disabled   SSEKMS: use of server-side encryption with Key Management Service (SSE-KMS) for user data stored in Amazon S3.
+        /// The encryption mode applied to user data. Valid values are:   DISABLED: encryption is disabled   SSEKMS: use of server-side encryption with Key Management Service (SSE-KMS) for user data stored in Amazon S3.
         public let mlUserDataEncryptionMode: MLUserDataEncryptionModeString
 
         public init(kmsKeyId: String? = nil, mlUserDataEncryptionMode: MLUserDataEncryptionModeString) {
@@ -12238,13 +13341,8 @@ extension Glue {
     }
 
     public struct Mapping: AWSEncodableShape & AWSDecodableShape {
-        /// Only applicable to nested data structures. If you want to change the parent structure, but also one of its children, you can fill out this data strucutre. It is also Mapping, but its FromPath will be the parent's FromPath plus the FromPath from this structure.  For the children part, suppose you have the structure:
-        ///
-        /// 	         { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
-        /// }
-        ///  You can specify a Mapping that looks like:
-        ///
-        /// 	         { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
+        /// Only applicable to nested data structures. If you want to change the parent structure, but also one of its children, you can fill out this data strucutre. It is also Mapping, but its FromPath will be the parent's FromPath plus the FromPath from this structure. For the children part, suppose you have the structure:  { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
+        /// }  You can specify a Mapping that looks like:  { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
         /// }
         public let children: [Mapping]?
         /// If true, then the column is removed.
@@ -12472,9 +13570,7 @@ extension Glue {
         public let connectionName: String?
         /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
         public let path: String?
-        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table.
-        ///
-        /// 	        A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
+        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
         public let scanAll: Bool?
 
         public init(connectionName: String? = nil, path: String? = nil, scanAll: Bool? = nil) {
@@ -12907,10 +14003,7 @@ extension Glue {
         public let backfillErrors: [BackfillError]?
         /// The name of the partition index.
         public let indexName: String
-        /// The status of the partition index.
-        ///
-        /// 	        The possible statuses are:
-        /// 	          CREATING: The index is being created. When an index is in a CREATING state, the index or its table cannot be deleted.   ACTIVE: The index creation succeeds.   FAILED: The index creation fails.    DELETING: The index is deleted from the list of indexes.
+        /// The status of the partition index.  The possible statuses are:   CREATING: The index is being created. When an index is in a CREATING state, the index or its table cannot be deleted.   ACTIVE: The index creation succeeds.   FAILED: The index creation fails.    DELETING: The index is deleted from the list of indexes.
         public let indexStatus: PartitionIndexStatus
         /// A list of one or more keys, as KeySchemaElement structures, for the partition index.
         public let keys: [KeySchemaElement]
@@ -12939,9 +14032,7 @@ extension Glue {
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
         public let storageDescriptor: StorageDescriptor?
-        /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input.
-        ///
-        /// 	        The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same order as the partition keys appearing in the Amazon S3 prefix. Otherwise Glue will add the values to the wrong keys.
+        /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same order as the partition keys appearing in the Amazon S3 prefix. Otherwise Glue will add the values to the wrong keys.
         public let values: [String]?
 
         public init(lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
@@ -13441,11 +14532,7 @@ extension Glue {
     }
 
     public struct RecrawlPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run.
-        ///
-        /// 	        A value of CRAWL_EVERYTHING specifies crawling the entire dataset again.  A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run.
-        ///
-        /// 	        A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
+        /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run. A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
         public let recrawlBehavior: RecrawlBehavior?
 
         public init(recrawlBehavior: RecrawlBehavior? = nil) {
@@ -13548,8 +14635,7 @@ extension Glue {
     public struct RegisterSchemaVersionInput: AWSEncodableShape {
         /// The schema definition using the DataFormat setting for the SchemaName.
         public let schemaDefinition: String
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaId$SchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
         public let schemaId: SchemaId
 
         public init(schemaDefinition: String, schemaId: SchemaId) {
@@ -14699,20 +15785,15 @@ extension Glue {
     public struct SearchTablesRequest: AWSEncodableShape {
         /// A unique identifier, consisting of  account_id .
         public let catalogId: String?
-        /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate.
-        ///
-        /// 	        The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name, a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned.
+        /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name, a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned.
         public let filters: [PropertyPredicate]?
         /// The maximum number of tables to return in a single response.
         public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
-        /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL.
-        ///
-        /// 	          If set to FOREIGN, will search the tables shared with your account.    If set to ALL, will search the tables shared with your account, as well as the tables in yor local account.
+        /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will search the tables shared with your account.    If set to ALL, will search the tables shared with your account, as well as the tables in yor local account.
         public let resourceShareType: ResourceShareType?
-        /// A string used for a text search.
-        /// 	        Specifying a value in quotes filters based on an exact match to the value.
+        /// A string used for a text search. Specifying a value in quotes filters based on an exact match to the value.
         public let searchText: String?
         /// A list of criteria for sorting the results by a field name, in an ascending or descending order.
         public let sortCriteria: [SortCriterion]?
@@ -15213,10 +16294,8 @@ extension Glue {
         public let name: String
         /// Specifies the data schema for the SparkSQL transform.
         public let outputSchemas: [GlueSchema]?
-        /// A list of aliases. An alias allows you to specify what name to use in the SQL for a given input. For example, you have a datasource named "MyDataSource". If you specify From as MyDataSource, and Alias as SqlName, then in your SQL you can do:
-        ///   select *
-        /// from SqlName
-        ///  and that gets data from MyDataSource.
+        /// A list of aliases. An alias allows you to specify what name to use in the SQL for a given input. For example, you have a datasource named "MyDataSource". If you specify From as MyDataSource, and Alias as SqlName, then in your SQL you can do:  select *
+        /// from SqlName  and that gets data from MyDataSource.
         public let sqlAliases: [SqlAlias]
         /// A SQL query that must use Spark SQL syntax and return a single data set.
         public let sqlQuery: String
@@ -15439,6 +16518,128 @@ extension Glue {
         public init() {}
     }
 
+    public struct StartDataQualityRuleRecommendationRunRequest: AWSEncodableShape {
+        /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+        public let clientToken: String?
+        /// A name for the ruleset.
+        public let createdRulesetName: String?
+        /// The data source (Glue table) associated with this run.
+        public let dataSource: DataSource
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public let numberOfWorkers: Int?
+        /// An IAM role supplied to encrypt the results of the run.
+        public let role: String
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+
+        public init(clientToken: String? = nil, createdRulesetName: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
+            self.clientToken = clientToken
+            self.createdRulesetName = createdRulesetName
+            self.dataSource = dataSource
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, max: 255)
+            try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, min: 1)
+            try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case createdRulesetName = "CreatedRulesetName"
+            case dataSource = "DataSource"
+            case numberOfWorkers = "NumberOfWorkers"
+            case role = "Role"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct StartDataQualityRuleRecommendationRunResponse: AWSDecodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+
+        public init(runId: String? = nil) {
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
+    public struct StartDataQualityRulesetEvaluationRunRequest: AWSEncodableShape {
+        /// Additional run options you can specify for an evaluation run.
+        public let additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions?
+        /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
+        public let clientToken: String?
+        /// The data source (Glue table) associated with this run.
+        public let dataSource: DataSource
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public let numberOfWorkers: Int?
+        /// An IAM role supplied to encrypt the results of the run.
+        public let role: String
+        /// A list of ruleset names.
+        public let rulesetNames: [String]
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+
+        public init(additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions? = nil, clientToken: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, rulesetNames: [String], timeout: Int? = nil) {
+            self.additionalRunOptions = additionalRunOptions
+            self.clientToken = clientToken
+            self.dataSource = dataSource
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.rulesetNames = rulesetNames
+            self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.rulesetNames.forEach {
+                try validate($0, name: "rulesetNames[]", parent: name, max: 255)
+                try validate($0, name: "rulesetNames[]", parent: name, min: 1)
+                try validate($0, name: "rulesetNames[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.rulesetNames, name: "rulesetNames", parent: name, max: 10)
+            try self.validate(self.rulesetNames, name: "rulesetNames", parent: name, min: 1)
+            try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalRunOptions = "AdditionalRunOptions"
+            case clientToken = "ClientToken"
+            case dataSource = "DataSource"
+            case numberOfWorkers = "NumberOfWorkers"
+            case role = "Role"
+            case rulesetNames = "RulesetNames"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct StartDataQualityRulesetEvaluationRunResponse: AWSDecodableShape {
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+
+        public init(runId: String? = nil) {
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runId = "RunId"
+        }
+    }
+
     public struct StartExportLabelsTaskRunRequest: AWSEncodableShape {
         /// The Amazon S3 path where you export the labels.
         public let outputS3Path: String
@@ -15516,23 +16717,17 @@ extension Glue {
     }
 
     public struct StartJobRunRequest: AWSEncodableShape {
-        /// This field is deprecated. Use MaxCapacity instead.
-        ///  The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
+        /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job.  For information about how to specify and consume your own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the Special Parameters Used by Glue topic in the developer guide.
         public let arguments: [String: String]?
-        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources.
-        ///  The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.
-        ///
-        /// 	        Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
+        /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public let executionClass: ExecutionClass?
         /// The name of the job definition to use.
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
-        /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        ///  Do not set Max Capacity if using WorkerType and NumberOfWorkers.
-        ///  The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        /// The number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
@@ -15540,7 +16735,7 @@ extension Glue {
         public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
         public let workerType: WorkerType?
@@ -16023,9 +17218,7 @@ extension Glue {
         public let outputFormat: String?
         /// The user-supplied properties in key-value form.
         public let parameters: [String: String]?
-        /// An object that references a schema stored in the Glue Schema Registry.
-        ///
-        /// 	        When creating a table, you can pass an empty list of columns for the schema, and instead use a schema reference.
+        /// An object that references a schema stored in the Glue Schema Registry. When creating a table, you can pass an empty list of columns for the schema, and instead use a schema reference.
         public let schemaReference: SchemaReference?
         /// The serialization/deserialization (SerDe) information.
         public let serdeInfo: SerDeInfo?
@@ -16181,8 +17374,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
-        /// 	        When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
@@ -16311,8 +17503,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys.
-        /// 	        When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
@@ -16577,6 +17768,52 @@ extension Glue {
         }
     }
 
+    public struct TransformConfigParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the parameter is optional or not in the config file of the dynamic transform.
+        public let isOptional: Bool?
+        /// Specifies the list type of the parameter in the config file of the dynamic transform.
+        public let listType: ParamType?
+        /// Specifies the name of the parameter in the config file of the dynamic transform.
+        public let name: String
+        /// Specifies the parameter type in the config file of the dynamic transform.
+        public let type: ParamType
+        /// Specifies the validation message in the config file of the dynamic transform.
+        public let validationMessage: String?
+        /// Specifies the validation rule in the config file of the dynamic transform.
+        public let validationRule: String?
+        /// Specifies the value of the parameter in the config file of the dynamic transform.
+        public let value: [String]?
+
+        public init(isOptional: Bool? = nil, listType: ParamType? = nil, name: String, type: ParamType, validationMessage: String? = nil, validationRule: String? = nil, value: [String]? = nil) {
+            self.isOptional = isOptional
+            self.listType = listType
+            self.name = name
+            self.type = type
+            self.validationMessage = validationMessage
+            self.validationRule = validationRule
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.validationMessage, name: "validationMessage", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.validationRule, name: "validationRule", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.value?.forEach {
+                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isOptional = "IsOptional"
+            case listType = "ListType"
+            case name = "Name"
+            case type = "Type"
+            case validationMessage = "ValidationMessage"
+            case validationRule = "ValidationRule"
+            case value = "Value"
+        }
+    }
+
     public struct TransformEncryption: AWSEncodableShape & AWSDecodableShape {
         /// An MLUserDataEncryption object containing the encryption mode and customer-provided KMS key ID.
         public let mlUserDataEncryption: MLUserDataEncryption?
@@ -16662,8 +17899,7 @@ extension Glue {
     public struct TransformParameters: AWSEncodableShape & AWSDecodableShape {
         /// The parameters for the find matches algorithm.
         public let findMatchesParameters: FindMatchesParameters?
-        /// The type of machine learning transform.
-        /// 	        For information about the types of machine learning transforms, see Creating Machine Learning Transforms.
+        /// The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms.
         public let transformType: TransformType
 
         public init(findMatchesParameters: FindMatchesParameters? = nil, transformType: TransformType) {
@@ -16829,10 +18065,7 @@ extension Glue {
         public let inputs: [String]
         /// The name of the transform node.
         public let name: String
-        /// Indicates the type of Union transform.
-        ///
-        /// 	        Specify ALL to join all rows from data sources to the resulting DynamicFrame. The resulting union does not remove duplicate rows.
-        ///  Specify DISTINCT to remove duplicate rows in the resulting DynamicFrame.
+        /// Indicates the type of Union transform.  Specify ALL to join all rows from data sources to the resulting DynamicFrame. The resulting union does not remove duplicate rows. Specify DISTINCT to remove duplicate rows in the resulting DynamicFrame.
         public let unionType: UnionType
 
         public init(inputs: [String], name: String, unionType: UnionType) {
@@ -17300,6 +18533,65 @@ extension Glue {
         }
     }
 
+    public struct UpdateDataQualityRulesetRequest: AWSEncodableShape {
+        /// A description of the ruleset.
+        public let description: String?
+        /// The name of the data quality ruleset.
+        public let name: String
+        /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+        public let ruleset: String?
+        /// The new name of the ruleset, if you are renaming it.
+        public let updatedName: String?
+
+        public init(description: String? = nil, name: String, ruleset: String? = nil, updatedName: String? = nil) {
+            self.description = description
+            self.name = name
+            self.ruleset = ruleset
+            self.updatedName = updatedName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
+            try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
+            try self.validate(self.updatedName, name: "updatedName", parent: name, max: 255)
+            try self.validate(self.updatedName, name: "updatedName", parent: name, min: 1)
+            try self.validate(self.updatedName, name: "updatedName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case ruleset = "Ruleset"
+            case updatedName = "UpdatedName"
+        }
+    }
+
+    public struct UpdateDataQualityRulesetResponse: AWSDecodableShape {
+        /// A description of the ruleset.
+        public let description: String?
+        /// The name of the data quality ruleset.
+        public let name: String?
+        /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
+        public let ruleset: String?
+
+        public init(description: String? = nil, name: String? = nil, ruleset: String? = nil) {
+            self.description = description
+            self.name = name
+            self.ruleset = ruleset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case ruleset = "Ruleset"
+        }
+    }
+
     public struct UpdateDatabaseRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -17336,11 +18628,7 @@ extension Glue {
     }
 
     public struct UpdateDevEndpointRequest: AWSEncodableShape {
-        /// The map of arguments to add the map of arguments used to configure the DevEndpoint.
-        ///
-        /// 	        Valid arguments are:
-        /// 	           "--enable-glue-datacatalog": ""
-        /// 	 You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let addArguments: [String: String]?
         /// The list of public keys for the DevEndpoint to use.
         public let addPublicKeys: [String]?
@@ -17573,8 +18861,7 @@ extension Glue {
         public let description: String?
         /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9.  For more information, see Glue Versions in the developer guide.
         public let glueVersion: String?
-        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
-        /// 		 When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        /// The number of Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
         public let maxCapacity: Double?
         /// The maximum number of times to retry a task for this transform after a task run fails.
         public let maxRetries: Int?
@@ -17590,8 +18877,7 @@ extension Glue {
         public let timeout: Int?
         /// A unique identifier that was generated when the transform was created.
         public let transformId: String
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.
-        /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(description: String? = nil, glueVersion: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
@@ -17657,9 +18943,7 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
         public let databaseName: String
-        /// The new partition object to update the partition to.
-        ///
-        /// 	        The Values property can't be changed. If you want to change the partition key values for a partition, delete and recreate the partition.
+        /// The new partition object to update the partition to. The Values property can't be changed. If you want to change the partition key values for a partition, delete and recreate the partition.
         public let partitionInput: PartitionInput
         /// List of partition key values that define the partition to update.
         public let partitionValueList: [String]
@@ -17749,8 +19033,7 @@ extension Glue {
         public let compatibility: Compatibility?
         /// The new description for the schema.
         public let description: String?
-        /// This is a wrapper structure to contain schema identity fields. The structure contains:
-        /// 	          SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
+        /// This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaId$SchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.
         public let schemaId: SchemaId
         /// Version number required for check pointing. One of VersionNumber or Compatibility has to be provided.
         public let schemaVersionNumber: SchemaVersionNumber?

@@ -23,7 +23,9 @@ extension DataExchange {
 
     public enum AssetType: String, CustomStringConvertible, Codable, _SotoSendable {
         case apiGatewayApi = "API_GATEWAY_API"
+        case lakeFormationDataPermission = "LAKE_FORMATION_DATA_PERMISSION"
         case redshiftDataShare = "REDSHIFT_DATA_SHARE"
+        case s3DataAccess = "S3_DATA_ACCESS"
         case s3Snapshot = "S3_SNAPSHOT"
         public var description: String { return self.rawValue }
     }
@@ -39,8 +41,15 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+        case describe = "DESCRIBE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobErrorLimitName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsLakeFormationDataPermissionAssetsPerRevision = "AWS Lake Formation data permission assets per revision"
         case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
+        case amazonS3DataAccessAssetsPerRevision = "Amazon S3 data access assets per revision"
         case assetSizeInGB = "Asset size in GB"
         case assetsPerRevision = "Assets per revision"
         public var description: String { return self.rawValue }
@@ -50,6 +59,23 @@ extension DataExchange {
         case asset = "ASSET"
         case dataSet = "DATA_SET"
         case revision = "REVISION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LFPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+        case describe = "DESCRIBE"
+        case select = "SELECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LFResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case database = "DATABASE"
+        case table = "TABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case lfTagPolicy = "LFTagPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -80,10 +106,18 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
+    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, _SotoSendable {
+        case describe = "DESCRIBE"
+        case select = "SELECT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createS3DataAccessFromS3Bucket = "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET"
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
         case exportRevisionsToS3 = "EXPORT_REVISIONS_TO_S3"
+        case importAssetsFromLakeFormationTagPolicy = "IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY"
         case importAssetsFromRedshiftDataShares = "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES"
         case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
         case importAssetFromApiGatewayApi = "IMPORT_ASSET_FROM_API_GATEWAY_API"
@@ -155,7 +189,7 @@ extension DataExchange {
     public struct AssetDestinationEntry: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the asset.
         public let assetId: String
-        /// The S3 bucket that is the destination for the asset.
+        /// The Amazon S3 bucket that is the destination for the asset.
         public let bucket: String
         /// The name of the object in Amazon S3 for the asset.
         public let key: String?
@@ -176,20 +210,28 @@ extension DataExchange {
     public struct AssetDetails: AWSDecodableShape {
         /// Information about the API Gateway API asset.
         public let apiGatewayApiAsset: ApiGatewayApiAsset?
+        /// The AWS Lake Formation data permission that is the asset.
+        public let lakeFormationDataPermissionAsset: LakeFormationDataPermissionAsset?
         /// The Amazon Redshift datashare that is the asset.
         public let redshiftDataShareAsset: RedshiftDataShareAsset?
-        /// The S3 object that is the asset.
+        /// The Amazon S3 data access that is the asset.
+        public let s3DataAccessAsset: S3DataAccessAsset?
+        /// The Amazon S3 object that is the asset.
         public let s3SnapshotAsset: S3SnapshotAsset?
 
-        public init(apiGatewayApiAsset: ApiGatewayApiAsset? = nil, redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
+        public init(apiGatewayApiAsset: ApiGatewayApiAsset? = nil, lakeFormationDataPermissionAsset: LakeFormationDataPermissionAsset? = nil, redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3DataAccessAsset: S3DataAccessAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
             self.apiGatewayApiAsset = apiGatewayApiAsset
+            self.lakeFormationDataPermissionAsset = lakeFormationDataPermissionAsset
             self.redshiftDataShareAsset = redshiftDataShareAsset
+            self.s3DataAccessAsset = s3DataAccessAsset
             self.s3SnapshotAsset = s3SnapshotAsset
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiGatewayApiAsset = "ApiGatewayApiAsset"
+            case lakeFormationDataPermissionAsset = "LakeFormationDataPermissionAsset"
             case redshiftDataShareAsset = "RedshiftDataShareAsset"
+            case s3DataAccessAsset = "S3DataAccessAsset"
             case s3SnapshotAsset = "S3SnapshotAsset"
         }
     }
@@ -197,7 +239,7 @@ extension DataExchange {
     public struct AssetEntry: AWSDecodableShape {
         /// The ARN for the asset.
         public let arn: String
-        /// Information about the asset.
+        /// Details about the asset.
         public let assetDetails: AssetDetails
         /// The type of asset that is added to a data set.
         public let assetType: AssetType
@@ -208,7 +250,7 @@ extension DataExchange {
         public let dataSetId: String
         /// The unique identifier for the asset.
         public let id: String
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in LF-tag policy" or "Table(s) included in LF-tag policy" are used as the asset name.
         public let name: String
         /// The unique identifier for the revision associated with this asset.
         public let revisionId: String
@@ -246,7 +288,7 @@ extension DataExchange {
     }
 
     public struct AssetSourceEntry: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket that's part of the source of the asset.
+        /// The Amazon S3 bucket that's part of the source of the asset.
         public let bucket: String
         /// The name of the object in Amazon S3 for the asset.
         public let key: String
@@ -263,7 +305,7 @@ extension DataExchange {
     }
 
     public struct AutoExportRevisionDestinationEntry: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket that is the destination for the event action.
+        /// The Amazon S3 bucket that is the destination for the event action.
         public let bucket: String
         /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions.
         public let keyPattern: String?
@@ -543,7 +585,7 @@ extension DataExchange {
         /// The date and time that the revision was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         public let dataSetId: String?
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
         public let finalized: Bool?
@@ -595,6 +637,48 @@ extension DataExchange {
         }
     }
 
+    public struct CreateS3DataAccessFromS3BucketRequestDetails: AWSEncodableShape {
+        /// Details about the S3 data access source asset.
+        public let assetSource: S3DataAccessAssetSourceEntry
+        /// The unique identifier for the data set associated with the creation of this Amazon S3 data access.
+        public let dataSetId: String
+        /// The unique identifier for a revision.
+        public let revisionId: String
+
+        public init(assetSource: S3DataAccessAssetSourceEntry, dataSetId: String, revisionId: String) {
+            self.assetSource = assetSource
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetSource = "AssetSource"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
+        }
+    }
+
+    public struct CreateS3DataAccessFromS3BucketResponseDetails: AWSDecodableShape {
+        /// Details about the asset source from an Amazon S3 bucket.
+        public let assetSource: S3DataAccessAssetSourceEntry
+        /// The unique identifier for this data set.
+        public let dataSetId: String
+        /// The unique identifier for the revision.
+        public let revisionId: String
+
+        public init(assetSource: S3DataAccessAssetSourceEntry, dataSetId: String, revisionId: String) {
+            self.assetSource = assetSource
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetSource = "AssetSource"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
+        }
+    }
+
     public struct DataSetEntry: AWSDecodableShape {
         /// The ARN for the data set.
         public let arn: String
@@ -643,6 +727,36 @@ extension DataExchange {
             case originDetails = "OriginDetails"
             case sourceId = "SourceId"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DatabaseLFTagPolicy: AWSDecodableShape {
+        /// A list of LF-tag conditions that apply to database resources.
+        public let expression: [LFTag]
+
+        public init(expression: [LFTag]) {
+            self.expression = expression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+        }
+    }
+
+    public struct DatabaseLFTagPolicyAndPermissions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of LF-tag conditions that apply to database resources.
+        public let expression: [LFTag]
+        /// The permissions granted to subscribers on database resources.
+        public let permissions: [DatabaseLFTagPolicyPermission]
+
+        public init(expression: [LFTag], permissions: [DatabaseLFTagPolicyPermission]) {
+            self.expression = expression
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case permissions = "Permissions"
         }
     }
 
@@ -721,7 +835,7 @@ extension DataExchange {
     public struct Details: AWSDecodableShape {
         /// Information about the job error.
         public let importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails?
-        /// Information about the job error.
+        /// Details about the job error.
         public let importAssetsFromS3JobErrorDetails: [AssetSourceEntry]?
 
         public init(importAssetFromSignedUrlJobErrorDetails: ImportAssetFromSignedUrlJobErrorDetails? = nil, importAssetsFromS3JobErrorDetails: [AssetSourceEntry]? = nil) {
@@ -973,7 +1087,7 @@ extension DataExchange {
     public struct GetAssetResponse: AWSDecodableShape {
         /// The ARN for the asset.
         public let arn: String?
-        /// Information about the asset.
+        /// Details about the asset.
         public let assetDetails: AssetDetails?
         /// The type of asset that is added to a data set.
         public let assetType: AssetType?
@@ -984,7 +1098,7 @@ extension DataExchange {
         public let dataSetId: String?
         /// The unique identifier for the asset.
         public let id: String?
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in the LF-tag policy" are used as the asset name.
         public let name: String?
         /// The unique identifier for the revision associated with this asset.
         public let revisionId: String?
@@ -1226,7 +1340,7 @@ extension DataExchange {
         /// The date and time that the revision was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         public let dataSetId: String?
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
         public let finalized: Bool?
@@ -1384,7 +1498,7 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlJobErrorDetails: AWSDecodableShape {
-        /// Information about the job error.
+        /// Details about the job error.
         public let assetName: String
 
         public init(assetName: String) {
@@ -1397,7 +1511,7 @@ extension DataExchange {
     }
 
     public struct ImportAssetFromSignedUrlRequestDetails: AWSEncodableShape {
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name.
         public let assetName: String
         /// The unique identifier for the data set associated with this import job.
         public let dataSetId: String
@@ -1461,6 +1575,79 @@ extension DataExchange {
         }
     }
 
+    public struct ImportAssetsFromLakeFormationTagPolicyRequestDetails: AWSEncodableShape {
+        /// The identifier for the AWS Glue Data Catalog.
+        public let catalogId: String
+        /// A structure for the database object.
+        public let database: DatabaseLFTagPolicyAndPermissions?
+        /// The unique identifier for the data set associated with this import job.
+        public let dataSetId: String
+        /// The unique identifier for the revision associated with this import job.
+        public let revisionId: String
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions of subscribers to AWS Lake Formation data permissions.
+        public let roleArn: String
+        /// A structure for the table object.
+        public let table: TableLFTagPolicyAndPermissions?
+
+        public init(catalogId: String, database: DatabaseLFTagPolicyAndPermissions? = nil, dataSetId: String, revisionId: String, roleArn: String, table: TableLFTagPolicyAndPermissions? = nil) {
+            self.catalogId = catalogId
+            self.database = database
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+            self.roleArn = roleArn
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 12)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 12)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "/^[\\d]{12}$/")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::(\\d{12}):role\\/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case database = "Database"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
+            case roleArn = "RoleArn"
+            case table = "Table"
+        }
+    }
+
+    public struct ImportAssetsFromLakeFormationTagPolicyResponseDetails: AWSDecodableShape {
+        /// The identifier for the AWS Glue Data Catalog.
+        public let catalogId: String
+        /// A structure for the database object.
+        public let database: DatabaseLFTagPolicyAndPermissions?
+        /// The unique identifier for the data set associated with this import job.
+        public let dataSetId: String
+        /// The unique identifier for the revision associated with this import job.
+        public let revisionId: String
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions to AWS Lake Formation data permissions.
+        public let roleArn: String
+        /// A structure for the table object.
+        public let table: TableLFTagPolicyAndPermissions?
+
+        public init(catalogId: String, database: DatabaseLFTagPolicyAndPermissions? = nil, dataSetId: String, revisionId: String, roleArn: String, table: TableLFTagPolicyAndPermissions? = nil) {
+            self.catalogId = catalogId
+            self.database = database
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+            self.roleArn = roleArn
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case database = "Database"
+            case dataSetId = "DataSetId"
+            case revisionId = "RevisionId"
+            case roleArn = "RoleArn"
+            case table = "Table"
+        }
+    }
+
     public struct ImportAssetsFromRedshiftDataSharesRequestDetails: AWSEncodableShape {
         /// A list of Amazon Redshift datashare assets.
         public let assetSources: [RedshiftDataShareAssetSourceEntry]
@@ -1504,7 +1691,7 @@ extension DataExchange {
     }
 
     public struct ImportAssetsFromS3RequestDetails: AWSEncodableShape {
-        /// Is a list of S3 bucket and object key pairs.
+        /// Is a list of Amazon S3 bucket and object key pairs.
         public let assetSources: [AssetSourceEntry]
         /// The unique identifier for the data set associated with this import job.
         public let dataSetId: String
@@ -1622,6 +1809,99 @@ extension DataExchange {
             case message = "Message"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct LFResourceDetails: AWSDecodableShape {
+        /// Details about the database resource included in the AWS Lake Formation data permission.
+        public let database: DatabaseLFTagPolicy?
+        /// Details about the table resource included in the AWS Lake Formation data permission.
+        public let table: TableLFTagPolicy?
+
+        public init(database: DatabaseLFTagPolicy? = nil, table: TableLFTagPolicy? = nil) {
+            self.database = database
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case table = "Table"
+        }
+    }
+
+    public struct LFTag: AWSEncodableShape & AWSDecodableShape {
+        /// The key name for the LF-tag.
+        public let tagKey: String
+        /// A list of LF-tag values.
+        public let tagValues: [String]
+
+        public init(tagKey: String, tagValues: [String]) {
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct LFTagPolicyDetails: AWSDecodableShape {
+        /// The identifier for the AWS Glue Data Catalog.
+        public let catalogId: String
+        /// Details for the Lake Formation Resources included in the LF-tag policy.
+        public let resourceDetails: LFResourceDetails
+        /// The resource type for which the LF-tag policy applies.
+        public let resourceType: LFResourceType
+
+        public init(catalogId: String, resourceDetails: LFResourceDetails, resourceType: LFResourceType) {
+            self.catalogId = catalogId
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case resourceDetails = "ResourceDetails"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct LakeFormationDataPermissionAsset: AWSDecodableShape {
+        /// Details about the AWS Lake Formation data permission.
+        public let lakeFormationDataPermissionDetails: LakeFormationDataPermissionDetails
+        /// The data permission type.
+        public let lakeFormationDataPermissionType: LakeFormationDataPermissionType
+        /// The permissions granted to the subscribers on the resource.
+        public let permissions: [LFPermission]
+        /// The IAM role's ARN that allows AWS Data Exchange to assume the role and grant and revoke permissions to AWS Lake Formation data permissions.
+        public let roleArn: String?
+
+        public init(lakeFormationDataPermissionDetails: LakeFormationDataPermissionDetails, lakeFormationDataPermissionType: LakeFormationDataPermissionType, permissions: [LFPermission], roleArn: String? = nil) {
+            self.lakeFormationDataPermissionDetails = lakeFormationDataPermissionDetails
+            self.lakeFormationDataPermissionType = lakeFormationDataPermissionType
+            self.permissions = permissions
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormationDataPermissionDetails = "LakeFormationDataPermissionDetails"
+            case lakeFormationDataPermissionType = "LakeFormationDataPermissionType"
+            case permissions = "Permissions"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct LakeFormationDataPermissionDetails: AWSDecodableShape {
+        /// Details about the LF-tag policy.
+        public let lfTagPolicy: LFTagPolicyDetails?
+
+        public init(lfTagPolicy: LFTagPolicyDetails? = nil) {
+            self.lfTagPolicy = lfTagPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lfTagPolicy = "LFTagPolicy"
         }
     }
 
@@ -1926,6 +2206,8 @@ extension DataExchange {
     }
 
     public struct RequestDetails: AWSEncodableShape {
+        /// Details of the request to create S3 data access from the Amazon S3 bucket.
+        public let createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketRequestDetails?
         /// Details about the export to Amazon S3 request.
         public let exportAssetsToS3: ExportAssetsToS3RequestDetails?
         /// Details about the export to signed URL request.
@@ -1936,17 +2218,21 @@ extension DataExchange {
         public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails?
         /// Details about the import from Amazon S3 request.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails?
+        /// Request details for the ImportAssetsFromLakeFormationTagPolicy job.
+        public let importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyRequestDetails?
         /// Details from an import from Amazon Redshift datashare request.
         public let importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails?
-        /// Information about the import asset from API Gateway API request.
+        /// Details about the import asset from API Gateway API request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
+        public init(createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketRequestDetails? = nil, exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
+            self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicy
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
@@ -1954,20 +2240,25 @@ extension DataExchange {
         public func validate(name: String) throws {
             try self.importAssetFromApiGatewayApi?.validate(name: "\(name).importAssetFromApiGatewayApi")
             try self.importAssetFromSignedUrl?.validate(name: "\(name).importAssetFromSignedUrl")
+            try self.importAssetsFromLakeFormationTagPolicy?.validate(name: "\(name).importAssetsFromLakeFormationTagPolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createS3DataAccessFromS3Bucket = "CreateS3DataAccessFromS3Bucket"
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+            case importAssetsFromLakeFormationTagPolicy = "ImportAssetsFromLakeFormationTagPolicy"
             case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
         }
     }
 
     public struct ResponseDetails: AWSDecodableShape {
+        /// Response details from the CreateS3DataAccessFromS3Bucket job.
+        public let createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketResponseDetails?
         /// Details for the export to Amazon S3 response.
         public let exportAssetsToS3: ExportAssetsToS3ResponseDetails?
         /// Details for the export to signed URL response.
@@ -1978,34 +2269,40 @@ extension DataExchange {
         public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails?
         /// Details for the import from signed URL response.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails?
+        /// Response details from the ImportAssetsFromLakeFormationTagPolicy job.
+        public let importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyResponseDetails?
         /// Details from an import from Amazon Redshift datashare response.
         public let importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails?
         /// Details for the import from Amazon S3 response.
         public let importAssetsFromS3: ImportAssetsFromS3ResponseDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
+        public init(createS3DataAccessFromS3Bucket: CreateS3DataAccessFromS3BucketResponseDetails? = nil, exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromLakeFormationTagPolicy: ImportAssetsFromLakeFormationTagPolicyResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
+            self.createS3DataAccessFromS3Bucket = createS3DataAccessFromS3Bucket
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
             self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
+            self.importAssetsFromLakeFormationTagPolicy = importAssetsFromLakeFormationTagPolicy
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createS3DataAccessFromS3Bucket = "CreateS3DataAccessFromS3Bucket"
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
             case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
+            case importAssetsFromLakeFormationTagPolicy = "ImportAssetsFromLakeFormationTagPolicy"
             case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
         }
     }
 
     public struct RevisionDestinationEntry: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket that is the destination for the assets in the revision.
+        /// The Amazon S3 bucket that is the destination for the assets in the revision.
         public let bucket: String
         /// A string representing the pattern for generated names of the individual assets in the revision. For more information about key patterns, see Key patterns when exporting revisions.
         public let keyPattern: String?
@@ -2033,7 +2330,7 @@ extension DataExchange {
         /// The date and time that the revision was created, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         public let dataSetId: String
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
         public let finalized: Bool?
@@ -2131,7 +2428,7 @@ extension DataExchange {
         /// The date and time that the revision was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         public let dataSetId: String?
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
         public let finalized: Bool?
@@ -2179,8 +2476,58 @@ extension DataExchange {
         }
     }
 
+    public struct S3DataAccessAsset: AWSDecodableShape {
+        /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
+        public let bucket: String
+        /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
+        public let keyPrefixes: [String]?
+        /// S3 keys made available using this asset.
+        public let keys: [String]?
+        /// The automatically-generated bucket-style alias for your Amazon S3 Access Point. Customers can access their entitled data using the S3 Access Point alias.
+        public let s3AccessPointAlias: String?
+        /// The ARN for your Amazon S3 Access Point. Customers can also access their entitled data using the S3 Access Point ARN.
+        public let s3AccessPointArn: String?
+
+        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil, s3AccessPointAlias: String? = nil, s3AccessPointArn: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+            self.s3AccessPointAlias = s3AccessPointAlias
+            self.s3AccessPointArn = s3AccessPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case keyPrefixes = "KeyPrefixes"
+            case keys = "Keys"
+            case s3AccessPointAlias = "S3AccessPointAlias"
+            case s3AccessPointArn = "S3AccessPointArn"
+        }
+    }
+
+    public struct S3DataAccessAssetSourceEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.
+        public let bucket: String
+        /// Organizes Amazon S3 asset key prefixes stored in an Amazon S3 bucket.
+        public let keyPrefixes: [String]?
+        /// The keys used to create the Amazon S3 data access.
+        public let keys: [String]?
+
+        public init(bucket: String, keyPrefixes: [String]? = nil, keys: [String]? = nil) {
+            self.bucket = bucket
+            self.keyPrefixes = keyPrefixes
+            self.keys = keys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case keyPrefixes = "KeyPrefixes"
+            case keys = "Keys"
+        }
+    }
+
     public struct S3SnapshotAsset: AWSDecodableShape {
-        /// The size of the S3 object that is the object.
+        /// The size of the Amazon S3 object that is the object.
         public let size: Double
 
         public init(size: Double) {
@@ -2282,6 +2629,36 @@ extension DataExchange {
         public init() {}
     }
 
+    public struct TableLFTagPolicy: AWSDecodableShape {
+        /// A list of LF-tag conditions that apply to table resources.
+        public let expression: [LFTag]
+
+        public init(expression: [LFTag]) {
+            self.expression = expression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+        }
+    }
+
+    public struct TableLFTagPolicyAndPermissions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of LF-tag conditions that apply to table resources.
+        public let expression: [LFTag]
+        /// The permissions granted to subscribers on table resources.
+        public let permissions: [TableTagPolicyLFPermission]
+
+        public init(expression: [LFTag], permissions: [TableTagPolicyLFPermission]) {
+            self.expression = expression
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case permissions = "Permissions"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
@@ -2332,7 +2709,7 @@ extension DataExchange {
         public let assetId: String
         /// The unique identifier for a data set.
         public let dataSetId: String
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the name.
         public let name: String
         /// The unique identifier for a revision.
         public let revisionId: String
@@ -2352,7 +2729,7 @@ extension DataExchange {
     public struct UpdateAssetResponse: AWSDecodableShape {
         /// The ARN for the asset.
         public let arn: String?
-        /// Information about the asset.
+        /// Details about the asset.
         public let assetDetails: AssetDetails?
         /// The type of asset that is added to a data set.
         public let assetType: AssetType?
@@ -2363,7 +2740,7 @@ extension DataExchange {
         public let dataSetId: String?
         /// The unique identifier for the asset.
         public let id: String?
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
+        /// The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy"- or "Table(s) included in LF-tag policy" are used as the asset name.
         public let name: String?
         /// The unique identifier for the revision associated with this asset.
         public let revisionId: String?
@@ -2570,7 +2947,7 @@ extension DataExchange {
         /// The date and time that the revision was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The unique identifier for the data set associated with this revision.
+        /// The unique identifier for the data set associated with the data set revision.
         public let dataSetId: String?
         /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
         public let finalized: Bool?

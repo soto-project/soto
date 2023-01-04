@@ -617,7 +617,7 @@ extension Wisdom {
             }
             try self.validate(self.title, name: "title", parent: name, max: 255)
             try self.validate(self.title, name: "title", parent: name, min: 1)
-            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 4096)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 1200)
             try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
         }
 
@@ -2037,7 +2037,7 @@ extension Wisdom {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html))|(application/x\\.wisdom-json;source=(salesforce|servicenow|zendesk))$")
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html))|(application/(pdf|vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document))|(application/x\\.wisdom-json;source=(salesforce|servicenow|zendesk))$")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
         }
 
@@ -2190,7 +2190,7 @@ extension Wisdom {
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 1)
             try self.validate(self.title, name: "title", parent: name, max: 255)
             try self.validate(self.title, name: "title", parent: name, min: 1)
-            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 4096)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 1200)
             try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
         }
 

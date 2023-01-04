@@ -21,6 +21,12 @@ import SotoCore
 extension Nimble {
     // MARK: Enums
 
+    public enum AutomaticTerminationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case activated = "ACTIVATED"
+        case deactivated = "DEACTIVATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LaunchProfilePersona: String, CustomStringConvertible, Codable, _SotoSendable {
         case user = "USER"
         public var description: String { return self.rawValue }
@@ -35,9 +41,9 @@ extension Nimble {
     public enum LaunchProfileState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
@@ -51,12 +57,12 @@ extension Nimble {
         case invalidInstanceTypesProvided = "INVALID_INSTANCE_TYPES_PROVIDED"
         case invalidSubnetsCombination = "INVALID_SUBNETS_COMBINATION"
         case invalidSubnetsProvided = "INVALID_SUBNETS_PROVIDED"
-        case launchProfileCreated = "LAUNCH_PROFILE_CREATED"
         case launchProfileCreateInProgress = "LAUNCH_PROFILE_CREATE_IN_PROGRESS"
-        case launchProfileDeleted = "LAUNCH_PROFILE_DELETED"
+        case launchProfileCreated = "LAUNCH_PROFILE_CREATED"
         case launchProfileDeleteInProgress = "LAUNCH_PROFILE_DELETE_IN_PROGRESS"
-        case launchProfileUpdated = "LAUNCH_PROFILE_UPDATED"
+        case launchProfileDeleted = "LAUNCH_PROFILE_DELETED"
         case launchProfileUpdateInProgress = "LAUNCH_PROFILE_UPDATE_IN_PROGRESS"
+        case launchProfileUpdated = "LAUNCH_PROFILE_UPDATED"
         case launchProfileWithStreamSessionsNotDeleted = "LAUNCH_PROFILE_WITH_STREAM_SESSIONS_NOT_DELETED"
         case streamingImageNotFound = "STREAMING_IMAGE_NOT_FOUND"
         case streamingImageNotReady = "STREAMING_IMAGE_NOT_READY"
@@ -93,6 +99,18 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
+    public enum SessionBackupMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case automatic = "AUTOMATIC"
+        case deactivated = "DEACTIVATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionPersistenceMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case activated = "ACTIVATED"
+        case deactivated = "DEACTIVATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StreamingClipboardMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -107,9 +125,9 @@ extension Nimble {
     public enum StreamingImageState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
@@ -120,8 +138,8 @@ extension Nimble {
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         case streamingImageCreateInProgress = "STREAMING_IMAGE_CREATE_IN_PROGRESS"
-        case streamingImageDeleted = "STREAMING_IMAGE_DELETED"
         case streamingImageDeleteInProgress = "STREAMING_IMAGE_DELETE_IN_PROGRESS"
+        case streamingImageDeleted = "STREAMING_IMAGE_DELETED"
         case streamingImageReady = "STREAMING_IMAGE_READY"
         case streamingImageUpdateInProgress = "STREAMING_IMAGE_UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
@@ -147,15 +165,15 @@ extension Nimble {
     public enum StreamingSessionState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         case startFailed = "START_FAILED"
         case startInProgress = "START_IN_PROGRESS"
-        case stopped = "STOPPED"
         case stopFailed = "STOP_FAILED"
         case stopInProgress = "STOP_IN_PROGRESS"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -169,13 +187,13 @@ extension Nimble {
         case networkConnectionError = "NETWORK_CONNECTION_ERROR"
         case networkInterfaceError = "NETWORK_INTERFACE_ERROR"
         case streamingSessionCreateInProgress = "STREAMING_SESSION_CREATE_IN_PROGRESS"
-        case streamingSessionDeleted = "STREAMING_SESSION_DELETED"
         case streamingSessionDeleteInProgress = "STREAMING_SESSION_DELETE_IN_PROGRESS"
+        case streamingSessionDeleted = "STREAMING_SESSION_DELETED"
         case streamingSessionReady = "STREAMING_SESSION_READY"
-        case streamingSessionStarted = "STREAMING_SESSION_STARTED"
         case streamingSessionStartInProgress = "STREAMING_SESSION_START_IN_PROGRESS"
-        case streamingSessionStopped = "STREAMING_SESSION_STOPPED"
+        case streamingSessionStarted = "STREAMING_SESSION_STARTED"
         case streamingSessionStopInProgress = "STREAMING_SESSION_STOP_IN_PROGRESS"
+        case streamingSessionStopped = "STREAMING_SESSION_STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -187,9 +205,9 @@ extension Nimble {
     public enum StreamingSessionStreamState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         public var description: String { return self.rawValue }
     }
@@ -198,8 +216,8 @@ extension Nimble {
         case internalError = "INTERNAL_ERROR"
         case networkConnectionError = "NETWORK_CONNECTION_ERROR"
         case streamCreateInProgress = "STREAM_CREATE_IN_PROGRESS"
-        case streamDeleted = "STREAM_DELETED"
         case streamDeleteInProgress = "STREAM_DELETE_IN_PROGRESS"
+        case streamDeleted = "STREAM_DELETED"
         case streamReady = "STREAM_READY"
         public var description: String { return self.rawValue }
     }
@@ -213,9 +231,9 @@ extension Nimble {
     public enum StudioComponentState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
@@ -227,12 +245,12 @@ extension Nimble {
         case encryptionKeyAccessDenied = "ENCRYPTION_KEY_ACCESS_DENIED"
         case encryptionKeyNotFound = "ENCRYPTION_KEY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
-        case studioComponentCreated = "STUDIO_COMPONENT_CREATED"
         case studioComponentCreateInProgress = "STUDIO_COMPONENT_CREATE_IN_PROGRESS"
-        case studioComponentDeleted = "STUDIO_COMPONENT_DELETED"
+        case studioComponentCreated = "STUDIO_COMPONENT_CREATED"
         case studioComponentDeleteInProgress = "STUDIO_COMPONENT_DELETE_IN_PROGRESS"
-        case studioComponentUpdated = "STUDIO_COMPONENT_UPDATED"
+        case studioComponentDeleted = "STUDIO_COMPONENT_DELETED"
         case studioComponentUpdateInProgress = "STUDIO_COMPONENT_UPDATE_IN_PROGRESS"
+        case studioComponentUpdated = "STUDIO_COMPONENT_UPDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -267,9 +285,9 @@ extension Nimble {
     public enum StudioState: String, CustomStringConvertible, Codable, _SotoSendable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
         case ready = "READY"
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
@@ -278,28 +296,35 @@ extension Nimble {
 
     public enum StudioStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsSsoAccessDenied = "AWS_SSO_ACCESS_DENIED"
-        case awsSsoConfigurationRepaired = "AWS_SSO_CONFIGURATION_REPAIRED"
         case awsSsoConfigurationRepairInProgress = "AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS"
+        case awsSsoConfigurationRepaired = "AWS_SSO_CONFIGURATION_REPAIRED"
         case awsSsoNotEnabled = "AWS_SSO_NOT_ENABLED"
+        case awsStsRegionDisabled = "AWS_STS_REGION_DISABLED"
         case encryptionKeyAccessDenied = "ENCRYPTION_KEY_ACCESS_DENIED"
         case encryptionKeyNotFound = "ENCRYPTION_KEY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
         case roleCouldNotBeAssumed = "ROLE_COULD_NOT_BE_ASSUMED"
         case roleNotOwnedByStudioOwner = "ROLE_NOT_OWNED_BY_STUDIO_OWNER"
-        case studioCreated = "STUDIO_CREATED"
         case studioCreateInProgress = "STUDIO_CREATE_IN_PROGRESS"
-        case studioDeleted = "STUDIO_DELETED"
+        case studioCreated = "STUDIO_CREATED"
         case studioDeleteInProgress = "STUDIO_DELETE_IN_PROGRESS"
-        case studioUpdated = "STUDIO_UPDATED"
+        case studioDeleted = "STUDIO_DELETED"
         case studioUpdateInProgress = "STUDIO_UPDATE_IN_PROGRESS"
+        case studioUpdated = "STUDIO_UPDATED"
         case studioWithLaunchProfilesNotDeleted = "STUDIO_WITH_LAUNCH_PROFILES_NOT_DELETED"
         case studioWithStreamingImagesNotDeleted = "STUDIO_WITH_STREAMING_IMAGES_NOT_DELETED"
         case studioWithStudioComponentsNotDeleted = "STUDIO_WITH_STUDIO_COMPONENTS_NOT_DELETED"
         public var description: String { return self.rawValue }
     }
 
+    public enum VolumeRetentionMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case delete = "DELETE"
+        case retain = "RETAIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StudioComponentConfiguration: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
-        /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
+        /// The configuration for a Directory Service for Microsoft Active Directory studio resource.
         case activeDirectoryConfiguration(ActiveDirectoryConfiguration)
         /// The configuration for a render farm that is associated with a studio resource.
         case computeFarmConfiguration(ComputeFarmConfiguration)
@@ -374,7 +399,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EULA ID.
         public let eulaIds: [String]?
@@ -487,7 +512,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
@@ -503,7 +528,7 @@ extension Nimble {
         public let studioComponentIds: [String]
         /// The studio ID.
         public let studioId: String
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateLaunchProfileRequest.idempotencyToken(), description: String? = nil, ec2SubnetIds: [String], launchProfileProtocolVersions: [String], name: String, streamConfiguration: StreamConfigurationCreate, studioComponentIds: [String], studioId: String, tags: [String: String]? = nil) {
@@ -564,7 +589,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A human-readable description of the streaming image.
         public let description: String?
@@ -574,7 +599,7 @@ extension Nimble {
         public let name: String
         /// The studio ID.
         public let studioId: String
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateStreamingImageRequest.idempotencyToken(), description: String? = nil, ec2ImageId: String, name: String, studioId: String, tags: [String: String]? = nil) {
@@ -621,22 +646,22 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EC2 Instance type used for the streaming session.
         public let ec2InstanceType: StreamingInstanceType?
-        /// The launch profile ID.
-        public let launchProfileId: String?
+        /// The ID of the launch profile used to control access from the streaming session.
+        public let launchProfileId: String
         /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public let ownedBy: String?
         /// The ID of the streaming image.
         public let streamingImageId: String?
         /// The studio ID.
         public let studioId: String
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateStreamingSessionRequest.idempotencyToken(), ec2InstanceType: StreamingInstanceType? = nil, launchProfileId: String, ownedBy: String? = nil, streamingImageId: String? = nil, studioId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.ec2InstanceType = ec2InstanceType
             self.launchProfileId = launchProfileId
@@ -682,7 +707,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The expiration time in seconds.
         public let expirationInSeconds: Int?
@@ -729,7 +754,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
@@ -741,17 +766,17 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// The name for the studio component.
         public let name: String
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public let secureInitializationRoleArn: String?
         /// The studio ID.
         public let studioId: String
         /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
         /// The type of the studio component.
         public let type: StudioComponentType
@@ -823,9 +848,9 @@ extension Nimble {
             AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token"))
         ]
 
-        /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
+        /// The IAM role that studio admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A friendly name for the studio.
         public let displayName: String
@@ -833,9 +858,9 @@ extension Nimble {
         public let studioEncryptionConfiguration: StudioEncryptionConfiguration?
         /// The studio name that is used in the URL of the Nimble Studio portal when accessed by Nimble Studio users.
         public let studioName: String
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
-        /// The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.
+        /// The IAM role that studio users will assume when logging in to the Nimble Studio portal.
         public let userRoleArn: String
 
         public init(adminRoleArn: String, clientToken: String? = CreateStudioRequest.idempotencyToken(), displayName: String, studioEncryptionConfiguration: StudioEncryptionConfiguration? = nil, studioName: String, tags: [String: String]? = nil, userRoleArn: String) {
@@ -891,9 +916,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
@@ -926,9 +951,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -967,7 +992,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming image ID.
         public let streamingImageId: String
@@ -1008,7 +1033,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming session ID.
         public let sessionId: String
@@ -1049,7 +1074,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio component ID.
         public let studioComponentId: String
@@ -1090,7 +1115,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
@@ -1121,7 +1146,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1155,14 +1180,14 @@ extension Nimble {
     public struct Eula: AWSDecodableShape {
         /// The EULA content.
         public let content: String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The EULA ID.
         public let eulaId: String?
         /// The name for the EULA.
         public let name: String?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -1184,7 +1209,7 @@ extension Nimble {
     }
 
     public struct EulaAcceptance: AWSDecodableShape {
-        /// The Unix epoch timestamp in seconds for when the EULA was accepted.
+        /// The ISO timestamp in seconds for when the EULA was accepted.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var acceptedAt: Date?
         /// The ID of the person who accepted the EULA.
@@ -1247,7 +1272,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -1290,13 +1315,13 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The launch profile protocol versions supported by the client.
         public let launchProfileProtocolVersions: [String]
         /// The launch purpose.
         public let launchPurpose: String
-        /// The platform where this Launch Profile will be used, either WINDOWS or LINUX.
+        /// The platform where this Launch Profile will be used, either Windows or Linux.
         public let platform: String
         /// The studio ID.
         public let studioId: String
@@ -1332,7 +1357,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
@@ -1367,7 +1392,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The studio ID.
         public let studioId: String
@@ -1422,6 +1447,38 @@ extension Nimble {
 
         private enum CodingKeys: String, CodingKey {
             case streamingImage
+        }
+    }
+
+    public struct GetStreamingSessionBackupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupId", location: .uri("backupId")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
+        ]
+
+        /// The ID of the backup.
+        public let backupId: String
+        /// The studio ID.
+        public let studioId: String
+
+        public init(backupId: String, studioId: String) {
+            self.backupId = backupId
+            self.studioId = studioId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStreamingSessionBackupResponse: AWSDecodableShape {
+        /// Information about the streaming session backup.
+        public let streamingSessionBackup: StreamingSessionBackup?
+
+        public init(streamingSessionBackup: StreamingSessionBackup? = nil) {
+            self.streamingSessionBackup = streamingSessionBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingSessionBackup
         }
     }
 
@@ -1586,9 +1643,9 @@ extension Nimble {
     }
 
     public struct LaunchProfile: AWSDecodableShape {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The user ID of the user that created the launch profile.
@@ -1597,7 +1654,7 @@ extension Nimble {
         public let description: String?
         /// Unique identifiers for a collection of EC2 subnets.
         public let ec2SubnetIds: [String]?
-        /// The launch profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String?
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]?
@@ -1613,9 +1670,9 @@ extension Nimble {
         public let streamConfiguration: StreamConfiguration?
         /// Unique identifiers for a collection of studio components that can be used with this launch profile.
         public let studioComponentIds: [String]?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
         /// The user ID of the user that most recently updated the resource.
@@ -1669,7 +1726,7 @@ extension Nimble {
         public let activeDirectory: LaunchProfileInitializationActiveDirectory?
         /// The EC2 security groups that control access to the studio component.
         public let ec2SecurityGroupIds: [String]?
-        /// The launch profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String?
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersion: String?
@@ -1677,7 +1734,7 @@ extension Nimble {
         public let launchPurpose: String?
         /// The name for the launch profile.
         public let name: String?
-        /// The platform of the launch platform, either WINDOWS or LINUX.
+        /// The platform of the launch platform, either Windows or Linux.
         public let platform: LaunchProfilePlatform?
         /// The system initializtion scripts.
         public let systemInitializationScripts: [LaunchProfileInitializationScript]?
@@ -1747,11 +1804,11 @@ extension Nimble {
     }
 
     public struct LaunchProfileInitializationScript: AWSDecodableShape {
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public let runtimeRoleArn: String?
         /// The initialization script.
         public let script: String?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public let secureInitializationRoleArn: String?
         /// The unique identifier for a studio component resource.
         public let studioComponentId: String?
@@ -1822,7 +1879,7 @@ extension Nimble {
 
         /// The list of EULA IDs that have been previously accepted.
         public let eulaIds: [String]?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1861,7 +1918,7 @@ extension Nimble {
 
         /// The list of EULA IDs that should be returned
         public let eulaIds: [String]?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(eulaIds: [String]? = nil, nextToken: String? = nil) {
@@ -1897,11 +1954,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -1949,7 +2006,7 @@ extension Nimble {
 
         /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String?
@@ -1998,7 +2055,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// Filter this request to streaming images with the given owner
         public let owner: String?
@@ -2031,6 +2088,46 @@ extension Nimble {
         }
     }
 
+    public struct ListStreamingSessionBackupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "ownedBy", location: .querystring("ownedBy")),
+            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The user ID of the user that owns the streaming session.
+        public let ownedBy: String?
+        /// The studio ID.
+        public let studioId: String
+
+        public init(nextToken: String? = nil, ownedBy: String? = nil, studioId: String) {
+            self.nextToken = nextToken
+            self.ownedBy = ownedBy
+            self.studioId = studioId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStreamingSessionBackupsResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// Information about the streaming session backups.
+        public let streamingSessionBackups: [StreamingSessionBackup]?
+
+        public init(nextToken: String? = nil, streamingSessionBackups: [StreamingSessionBackup]? = nil) {
+            self.nextToken = nextToken
+            self.streamingSessionBackups = streamingSessionBackups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case streamingSessionBackups
+        }
+    }
+
     public struct ListStreamingSessionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "createdBy", location: .querystring("createdBy")),
@@ -2042,7 +2139,7 @@ extension Nimble {
 
         /// Filters the request to streaming sessions created by the given user.
         public let createdBy: String?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// Filters the request to streaming session owned by the given user
         public let ownedBy: String?
@@ -2090,7 +2187,7 @@ extension Nimble {
 
         /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// Filters the request to studio components that are in one of the given states.
         public let states: [StudioComponentState]?
@@ -2141,7 +2238,7 @@ extension Nimble {
 
         /// The max number of results to return in the response.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The studio ID.
         public let studioId: String
@@ -2182,7 +2279,7 @@ extension Nimble {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The token to request the next page of results.
+        /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -2225,7 +2322,7 @@ extension Nimble {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2278,11 +2375,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
         public let identityStoreId: String
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// A list of members.
         public let members: [NewLaunchProfileMember]
@@ -2320,7 +2417,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
         public let identityStoreId: String
@@ -2420,14 +2517,17 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// The ID of the backup.
+        public let backupId: String?
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming session ID for the StartStreamingSessionRequest.
         public let sessionId: String
         /// The studio ID for the StartStreamingSessionRequest.
         public let studioId: String
 
-        public init(clientToken: String? = StartStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+        public init(backupId: String? = nil, clientToken: String? = StartStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+            self.backupId = backupId
             self.clientToken = clientToken
             self.sessionId = sessionId
             self.studioId = studioId
@@ -2438,7 +2538,9 @@ extension Nimble {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case backupId
+        }
     }
 
     public struct StartStreamingSessionResponse: AWSDecodableShape {
@@ -2459,7 +2561,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
         public let studioId: String
@@ -2497,17 +2599,20 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming session ID for the StopStreamingSessionRequest.
         public let sessionId: String
         /// The studioId for the StopStreamingSessionRequest.
         public let studioId: String
+        /// Adds additional instructions to a streaming session stop action to either retain the EBS volumes or delete the EBS volumes.
+        public let volumeRetentionMode: VolumeRetentionMode?
 
-        public init(clientToken: String? = StopStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String) {
+        public init(clientToken: String? = StopStreamingSessionRequest.idempotencyToken(), sessionId: String, studioId: String, volumeRetentionMode: VolumeRetentionMode? = nil) {
             self.clientToken = clientToken
             self.sessionId = sessionId
             self.studioId = studioId
+            self.volumeRetentionMode = volumeRetentionMode
         }
 
         public func validate(name: String) throws {
@@ -2515,7 +2620,9 @@ extension Nimble {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case volumeRetentionMode
+        }
     }
 
     public struct StopStreamingSessionResponse: AWSDecodableShape {
@@ -2531,59 +2638,87 @@ extension Nimble {
     }
 
     public struct StreamConfiguration: AWSDecodableShape {
-        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.   When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.   When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.   This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public let automaticTerminationMode: AutomaticTerminationMode?
+        /// Allows or deactivates the use of the system clipboard to copy and paste between the streaming session and streaming client.
         public let clipboardMode: StreamingClipboardMode
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. This field is allowed only when sessionPersistenceMode is ACTIVATED and automaticTerminationMode is ACTIVATED. If the value is set to 0, your sessions can’t be STOPPED. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of STOPPED). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
-        /// (Optional) The upload storage for a streaming session.
+        /// Information about the streaming session backup.
+        public let sessionBackup: StreamConfigurationSessionBackup?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public let sessionPersistenceMode: SessionPersistenceMode?
+        /// The upload storage for a streaming session.
         public let sessionStorage: StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public let volumeConfiguration: VolumeConfiguration?
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
+        public init(automaticTerminationMode: AutomaticTerminationMode? = nil, clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionBackup: StreamConfigurationSessionBackup? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String], volumeConfiguration: VolumeConfiguration? = nil) {
+            self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionBackup = sessionBackup
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
+            self.volumeConfiguration = volumeConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automaticTerminationMode
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
             case maxStoppedSessionLengthInMinutes
+            case sessionBackup
+            case sessionPersistenceMode
             case sessionStorage
             case streamingImageIds
+            case volumeConfiguration
         }
     }
 
     public struct StreamConfigurationCreate: AWSEncodableShape {
-        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.   When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.   When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.   This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public let automaticTerminationMode: AutomaticTerminationMode?
+        /// Allows or deactivates the use of the system clipboard to copy and paste between the streaming session and streaming client.
         public let clipboardMode: StreamingClipboardMode
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. This field is allowed only when sessionPersistenceMode is ACTIVATED and automaticTerminationMode is ACTIVATED. If the value is set to 0, your sessions can’t be STOPPED. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of STOPPED). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
-        /// (Optional) The upload storage for a streaming workstation that is created using this launch profile.
+        /// Configures how streaming sessions are backed up when launched from this launch profile.
+        public let sessionBackup: StreamConfigurationSessionBackup?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public let sessionPersistenceMode: SessionPersistenceMode?
+        /// The upload storage for a streaming workstation that is created using this launch profile.
         public let sessionStorage: StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public let volumeConfiguration: VolumeConfiguration?
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
+        public init(automaticTerminationMode: AutomaticTerminationMode? = nil, clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionBackup: StreamConfigurationSessionBackup? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String], volumeConfiguration: VolumeConfiguration? = nil) {
+            self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionBackup = sessionBackup
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
+            self.volumeConfiguration = volumeConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2593,6 +2728,7 @@ extension Nimble {
             try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, min: 1)
             try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, max: 5760)
             try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, min: 0)
+            try self.sessionBackup?.validate(name: "\(name).sessionBackup")
             try self.sessionStorage?.validate(name: "\(name).sessionStorage")
             try self.streamingImageIds.forEach {
                 try validate($0, name: "streamingImageIds[]", parent: name, max: 22)
@@ -2600,15 +2736,42 @@ extension Nimble {
             }
             try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, max: 20)
             try self.validate(self.streamingImageIds, name: "streamingImageIds", parent: name, min: 1)
+            try self.volumeConfiguration?.validate(name: "\(name).volumeConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automaticTerminationMode
             case clipboardMode
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
             case maxStoppedSessionLengthInMinutes
+            case sessionBackup
+            case sessionPersistenceMode
             case sessionStorage
             case streamingImageIds
+            case volumeConfiguration
+        }
+    }
+
+    public struct StreamConfigurationSessionBackup: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of backups that each streaming session created from this launch profile can have.
+        public let maxBackupsToRetain: Int?
+        /// Specifies how artists sessions are backed up. Configures backups for streaming sessions launched with this launch profile. The default value is DEACTIVATED, which means that backups are deactivated. To allow backups, set this value to AUTOMATIC.
+        public let mode: SessionBackupMode?
+
+        public init(maxBackupsToRetain: Int? = nil, mode: SessionBackupMode? = nil) {
+            self.maxBackupsToRetain = maxBackupsToRetain
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBackupsToRetain, name: "maxBackupsToRetain", parent: name, max: 10)
+            try self.validate(self.maxBackupsToRetain, name: "maxBackupsToRetain", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBackupsToRetain
+            case mode
         }
     }
 
@@ -2635,7 +2798,7 @@ extension Nimble {
     }
 
     public struct StreamingImage: AWSDecodableShape {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
         /// A human-readable description of the streaming image.
         public let description: String?
@@ -2647,9 +2810,9 @@ extension Nimble {
         public let eulaIds: [String]?
         /// A friendly name for a streaming image resource.
         public let name: String?
-        /// The owner of the streaming image, either the studioId that contains the streaming image, or 'amazon' for images that are provided by Amazon Nimble Studio.
+        /// The owner of the streaming image, either the studioId that contains the streaming image, or amazon for images that are provided by Amazon Nimble Studio.
         public let owner: String?
-        /// The platform of the streaming image, either WINDOWS or LINUX.
+        /// The platform of the streaming image, either Windows or Linux.
         public let platform: String?
         /// The current state.
         public let state: StreamingImageState?
@@ -2659,7 +2822,7 @@ extension Nimble {
         public let statusMessage: String?
         /// The ID of the streaming image.
         public let streamingImageId: String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, description: String? = nil, ec2ImageId: String? = nil, encryptionConfiguration: StreamingImageEncryptionConfiguration? = nil, eulaIds: [String]? = nil, name: String? = nil, owner: String? = nil, platform: String? = nil, state: StreamingImageState? = nil, statusCode: StreamingImageStatusCode? = nil, statusMessage: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil) {
@@ -2713,9 +2876,13 @@ extension Nimble {
     }
 
     public struct StreamingSession: AWSDecodableShape {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.   When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.   When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.   This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public let automaticTerminationMode: AutomaticTerminationMode?
+        /// Shows the current backup setting of the session.
+        public let backupMode: SessionBackupMode?
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The user ID of the user that created the streaming session.
@@ -2724,15 +2891,21 @@ extension Nimble {
         public let ec2InstanceType: String?
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String?
+        /// The maximum number of backups of a streaming session that you can have. When the maximum number of backups is reached, the oldest backup is deleted.
+        public let maxBackupsToRetain: Int?
         /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public let ownedBy: String?
         /// The session ID.
         public let sessionId: String?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public let sessionPersistenceMode: SessionPersistenceMode?
         /// The time the session entered START_IN_PROGRESS state.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
         /// The user ID of the user that started the streaming session.
         public let startedBy: String?
+        /// The backup ID used to restore a streaming session.
+        public let startedFromBackupId: String?
         /// The current state.
         public let state: StreamingSessionState?
         /// The status code.
@@ -2749,27 +2922,36 @@ extension Nimble {
         public let stoppedBy: String?
         /// The ID of the streaming image.
         public let streamingImageId: String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
         /// The time the streaming session will automatically terminate if not terminated by the user.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var terminateAt: Date?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public let volumeConfiguration: VolumeConfiguration?
+        /// Determine if an EBS volume created from this streaming session will be backed up.
+        public let volumeRetentionMode: VolumeRetentionMode?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, stopAt: Date? = nil, stoppedAt: Date? = nil, stoppedBy: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, automaticTerminationMode: AutomaticTerminationMode? = nil, backupMode: SessionBackupMode? = nil, createdAt: Date? = nil, createdBy: String? = nil, ec2InstanceType: String? = nil, launchProfileId: String? = nil, maxBackupsToRetain: Int? = nil, ownedBy: String? = nil, sessionId: String? = nil, sessionPersistenceMode: SessionPersistenceMode? = nil, startedAt: Date? = nil, startedBy: String? = nil, startedFromBackupId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, stopAt: Date? = nil, stoppedAt: Date? = nil, stoppedBy: String? = nil, streamingImageId: String? = nil, tags: [String: String]? = nil, terminateAt: Date? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, volumeConfiguration: VolumeConfiguration? = nil, volumeRetentionMode: VolumeRetentionMode? = nil) {
             self.arn = arn
+            self.automaticTerminationMode = automaticTerminationMode
+            self.backupMode = backupMode
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.ec2InstanceType = ec2InstanceType
             self.launchProfileId = launchProfileId
+            self.maxBackupsToRetain = maxBackupsToRetain
             self.ownedBy = ownedBy
             self.sessionId = sessionId
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.startedAt = startedAt
             self.startedBy = startedBy
+            self.startedFromBackupId = startedFromBackupId
             self.state = state
             self.statusCode = statusCode
             self.statusMessage = statusMessage
@@ -2781,18 +2963,25 @@ extension Nimble {
             self.terminateAt = terminateAt
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.volumeConfiguration = volumeConfiguration
+            self.volumeRetentionMode = volumeRetentionMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case automaticTerminationMode
+            case backupMode
             case createdAt
             case createdBy
             case ec2InstanceType
             case launchProfileId
+            case maxBackupsToRetain
             case ownedBy
             case sessionId
+            case sessionPersistenceMode
             case startedAt
             case startedBy
+            case startedFromBackupId
             case state
             case statusCode
             case statusMessage
@@ -2804,6 +2993,57 @@ extension Nimble {
             case terminateAt
             case updatedAt
             case updatedBy
+            case volumeConfiguration
+            case volumeRetentionMode
+        }
+    }
+
+    public struct StreamingSessionBackup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
+        public let arn: String?
+        /// The ID of the backup.
+        public let backupId: String?
+        /// The ISO timestamp in for when the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The ID of the launch profile which allowed the backups for the streaming session.
+        public let launchProfileId: String?
+        /// The user ID of the user that owns the streaming session.
+        public let ownedBy: String?
+        /// The streaming session ID for the StreamingSessionBackup.
+        public let sessionId: String?
+        public let state: StreamingSessionState?
+        /// The status code.
+        public let statusCode: StreamingSessionStatusCode?
+        /// The status message for the streaming session backup.
+        public let statusMessage: String?
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, backupId: String? = nil, createdAt: Date? = nil, launchProfileId: String? = nil, ownedBy: String? = nil, sessionId: String? = nil, state: StreamingSessionState? = nil, statusCode: StreamingSessionStatusCode? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.backupId = backupId
+            self.createdAt = createdAt
+            self.launchProfileId = launchProfileId
+            self.ownedBy = ownedBy
+            self.sessionId = sessionId
+            self.state = state
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case backupId
+            case createdAt
+            case launchProfileId
+            case ownedBy
+            case sessionId
+            case state
+            case statusCode
+            case statusMessage
+            case tags
         }
     }
 
@@ -2834,12 +3074,12 @@ extension Nimble {
     }
 
     public struct StreamingSessionStream: AWSDecodableShape {
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The user ID of the user that created the streaming session stream.
         public let createdBy: String?
-        /// The Unix epoch timestamp in seconds for when the resource expires.
+        /// The ISO timestamp in seconds for when the resource expires.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expiresAt: Date?
         /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
@@ -2881,14 +3121,14 @@ extension Nimble {
         public let adminRoleArn: String?
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// A friendly name for the studio.
         public let displayName: String?
         /// The Amazon Web Services Region where the studio resource is located.
         public let homeRegion: String?
-        /// The IAM Identity Center application client ID used to integrate with IAM Identity Center to enable IAM Identity Center users to log in to Nimble Studio portal.
+        /// The IAM Identity Center application client ID used to integrate with IAM Identity Center. This ID allows IAM Identity Center users to log in to Nimble Studio portal.
         public let ssoClientId: String?
         /// The current state of the studio resource.
         public let state: StudioState?
@@ -2904,9 +3144,9 @@ extension Nimble {
         public let studioName: String?
         /// The address of the web page for the studio.
         public let studioUrl: String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
         /// The IAM role that studio users assume when logging in to the Nimble Studio portal.
@@ -2952,11 +3192,11 @@ extension Nimble {
     }
 
     public struct StudioComponent: AWSDecodableShape {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public let arn: String?
         /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The user ID of the user that created the studio component.
@@ -2969,11 +3209,11 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// A friendly name for the studio component resource.
         public let name: String?
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public let secureInitializationRoleArn: String?
         /// The current state.
         public let state: StudioComponentState?
@@ -2985,11 +3225,11 @@ extension Nimble {
         public let studioComponentId: String?
         /// The specific subtype of a studio component.
         public let subtype: StudioComponentSubtype?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
         /// The type of the studio component.
         public let type: StudioComponentType?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
         /// The user ID of the user that most recently updated the resource.
@@ -3045,7 +3285,7 @@ extension Nimble {
     public struct StudioComponentInitializationScript: AWSEncodableShape & AWSDecodableShape {
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersion: String?
-        /// The platform of the initialization script, either WINDOWS or LINUX.
+        /// The platform of the initialization script, either Windows or Linux.
         public let platform: LaunchProfilePlatform?
         /// The method to use when running the initialization script.
         public let runContext: StudioComponentInitializationScriptRunContext?
@@ -3075,7 +3315,7 @@ extension Nimble {
     }
 
     public struct StudioComponentSummary: AWSDecodableShape {
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         /// The user ID of the user that created the studio component.
@@ -3090,7 +3330,7 @@ extension Nimble {
         public let subtype: StudioComponentSubtype?
         /// The type of the studio component.
         public let type: StudioComponentType?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
         /// The user ID of the user that most recently updated the resource.
@@ -3173,9 +3413,9 @@ extension Nimble {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        ///  The Amazon Resource Name (ARN) of the resource you want to add tags to.
+        /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public let tags: [String: String]?
 
         public init(resourceArn: String, tags: [String: String]? = nil) {
@@ -3223,9 +3463,9 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The persona.
         public let persona: LaunchProfilePersona
@@ -3272,11 +3512,11 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
-        /// The Launch Profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public let launchProfileProtocolVersions: [String]?
@@ -3344,7 +3584,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
         public let description: String?
@@ -3395,7 +3635,7 @@ extension Nimble {
             AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
         ]
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
         public let configuration: StudioComponentConfiguration?
@@ -3407,11 +3647,11 @@ extension Nimble {
         public let initializationScripts: [StudioComponentInitializationScript]?
         /// The name for the studio component.
         public let name: String?
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public let runtimeRoleArn: String?
         /// Parameters for the studio component scripts.
         public let scriptParameters: [ScriptParameterKeyValue]?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public let secureInitializationRoleArn: String?
         /// The studio component ID.
         public let studioComponentId: String
@@ -3491,7 +3731,7 @@ extension Nimble {
 
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String?
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A friendly name for the studio.
         public let displayName: String?
@@ -3560,6 +3800,36 @@ extension Nimble {
             case type
         }
     }
+
+    public struct VolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of I/O operations per second for the root volume that is attached to streaming session.
+        public let iops: Int?
+        /// The size of the root volume that is attached to the streaming session. The root volume size is measured in GiBs.
+        public let size: Int?
+        /// The throughput to provision for the root volume that is attached to the streaming session. The throughput is measured in MiB/s.
+        public let throughput: Int?
+
+        public init(iops: Int? = nil, size: Int? = nil, throughput: Int? = nil) {
+            self.iops = iops
+            self.size = size
+            self.throughput = throughput
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iops, name: "iops", parent: name, max: 16000)
+            try self.validate(self.iops, name: "iops", parent: name, min: 3000)
+            try self.validate(self.size, name: "size", parent: name, max: 16000)
+            try self.validate(self.size, name: "size", parent: name, min: 100)
+            try self.validate(self.throughput, name: "throughput", parent: name, max: 1000)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 125)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iops
+            case size
+            case throughput
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3602,7 +3872,7 @@ public struct NimbleErrorType: AWSErrorType {
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use AWS Service Quotas to request an increase.
+    /// Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request throughput limit was exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }

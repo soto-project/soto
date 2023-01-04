@@ -57,6 +57,7 @@ public struct VoiceID: AWSService {
             endpoint: endpoint,
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
+                    "ca-central-1": "voiceid-fips.ca-central-1.amazonaws.com",
                     "us-east-1": "voiceid-fips.us-east-1.amazonaws.com",
                     "us-west-2": "voiceid-fips.us-west-2.amazonaws.com"
                 ])

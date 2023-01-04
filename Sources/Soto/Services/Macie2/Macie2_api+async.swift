@@ -98,7 +98,7 @@ extension Macie2 {
         return try await self.client.execute(operation: "DeleteMember", path: "/members/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     public func describeBuckets(_ input: DescribeBucketsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeBucketsResponse {
         return try await self.client.execute(operation: "DescribeBuckets", path: "/datasources/s3", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -158,7 +158,12 @@ extension Macie2 {
         return try await self.client.execute(operation: "GetAllowList", path: "/allow-lists/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors and analyzes.
+    /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
+    public func getAutomatedDiscoveryConfiguration(_ input: GetAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAutomatedDiscoveryConfigurationResponse {
+        return try await self.client.execute(operation: "GetAutomatedDiscoveryConfiguration", path: "/automated-discovery/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     public func getBucketStatistics(_ input: GetBucketStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBucketStatisticsResponse {
         return try await self.client.execute(operation: "GetBucketStatistics", path: "/datasources/s3/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -166,6 +171,11 @@ extension Macie2 {
     /// Retrieves the configuration settings for storing data classification results.
     public func getClassificationExportConfiguration(_ input: GetClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetClassificationExportConfigurationResponse {
         return try await self.client.execute(operation: "GetClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the classification scope settings for an account.
+    public func getClassificationScope(_ input: GetClassificationScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetClassificationScopeResponse {
+        return try await self.client.execute(operation: "GetClassificationScope", path: "/classification-scopes/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the criteria and other settings for a custom data identifier.
@@ -198,7 +208,7 @@ extension Macie2 {
         return try await self.client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the current status and configuration settings for an Amazon Macie account.
+    /// Retrieves the status and configuration settings for an Amazon Macie account.
     public func getMacieSession(_ input: GetMacieSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMacieSessionResponse {
         return try await self.client.execute(operation: "GetMacieSession", path: "/macie", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -211,6 +221,11 @@ extension Macie2 {
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     public func getMember(_ input: GetMemberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMemberResponse {
         return try await self.client.execute(operation: "GetMember", path: "/members/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
+    public func getResourceProfile(_ input: GetResourceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResourceProfileResponse {
+        return try await self.client.execute(operation: "GetResourceProfile", path: "/resource-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
@@ -226,6 +241,11 @@ extension Macie2 {
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     public func getSensitiveDataOccurrencesAvailability(_ input: GetSensitiveDataOccurrencesAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitiveDataOccurrencesAvailabilityResponse {
         return try await self.client.execute(operation: "GetSensitiveDataOccurrencesAvailability", path: "/findings/{findingId}/reveal/availability", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the settings for the sensitivity inspection template for an account.
+    public func getSensitivityInspectionTemplate(_ input: GetSensitivityInspectionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSensitivityInspectionTemplateResponse {
+        return try await self.client.execute(operation: "GetSensitivityInspectionTemplate", path: "/templates/sensitivity-inspections/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
@@ -246,6 +266,11 @@ extension Macie2 {
     /// Retrieves a subset of information about one or more classification jobs.
     public func listClassificationJobs(_ input: ListClassificationJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClassificationJobsResponse {
         return try await self.client.execute(operation: "ListClassificationJobs", path: "/jobs/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a subset of information about the classification scope for an account.
+    public func listClassificationScopes(_ input: ListClassificationScopesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClassificationScopesResponse {
+        return try await self.client.execute(operation: "ListClassificationScopes", path: "/classification-scopes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a subset of information about all the custom data identifiers for an account.
@@ -281,6 +306,21 @@ extension Macie2 {
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOrganizationAdminAccountsResponse {
         return try await self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    public func listResourceProfileArtifacts(_ input: ListResourceProfileArtifactsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResourceProfileArtifactsResponse {
+        return try await self.client.execute(operation: "ListResourceProfileArtifacts", path: "/resource-profiles/artifacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
+    public func listResourceProfileDetections(_ input: ListResourceProfileDetectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResourceProfileDetectionsResponse {
+        return try await self.client.execute(operation: "ListResourceProfileDetections", path: "/resource-profiles/detections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a subset of information about the sensitivity inspection template for an account.
+    public func listSensitivityInspectionTemplates(_ input: ListSensitivityInspectionTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSensitivityInspectionTemplatesResponse {
+        return try await self.client.execute(operation: "ListSensitivityInspectionTemplates", path: "/templates/sensitivity-inspections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
@@ -323,9 +363,19 @@ extension Macie2 {
         return try await self.client.execute(operation: "UpdateAllowList", path: "/allow-lists/{id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Enables or disables automated sensitive data discovery for an account.
+    public func updateAutomatedDiscoveryConfiguration(_ input: UpdateAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAutomatedDiscoveryConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateAutomatedDiscoveryConfiguration", path: "/automated-discovery/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Changes the status of a classification job.
     public func updateClassificationJob(_ input: UpdateClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateClassificationJobResponse {
         return try await self.client.execute(operation: "UpdateClassificationJob", path: "/jobs/{jobId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the classification scope settings for an account.
+    public func updateClassificationScope(_ input: UpdateClassificationScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateClassificationScopeResponse {
+        return try await self.client.execute(operation: "UpdateClassificationScope", path: "/classification-scopes/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the criteria and other settings for a findings filter.
@@ -348,9 +398,24 @@ extension Macie2 {
         return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the sensitivity score for an S3 bucket.
+    public func updateResourceProfile(_ input: UpdateResourceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResourceProfileResponse {
+        return try await self.client.execute(operation: "UpdateResourceProfile", path: "/resource-profiles", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the sensitivity scoring settings for an S3 bucket.
+    public func updateResourceProfileDetections(_ input: UpdateResourceProfileDetectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateResourceProfileDetectionsResponse {
+        return try await self.client.execute(operation: "UpdateResourceProfileDetections", path: "/resource-profiles/detections", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     public func updateRevealConfiguration(_ input: UpdateRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRevealConfigurationResponse {
         return try await self.client.execute(operation: "UpdateRevealConfiguration", path: "/reveal-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the settings for the sensitivity inspection template for an account.
+    public func updateSensitivityInspectionTemplate(_ input: UpdateSensitivityInspectionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSensitivityInspectionTemplateResponse {
+        return try await self.client.execute(operation: "UpdateSensitivityInspectionTemplate", path: "/templates/sensitivity-inspections/{id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
@@ -358,7 +423,7 @@ extension Macie2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Macie2 {
-    ///  Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
+    ///  Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -402,6 +467,28 @@ extension Macie2 {
         )
     }
 
+    ///  Retrieves a subset of information about all the allow lists for an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAllowListsPaginator(
+        _ input: ListAllowListsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAllowListsRequest, ListAllowListsResponse> {
+        return .init(
+            input: input,
+            command: self.listAllowLists,
+            inputKey: \ListAllowListsRequest.nextToken,
+            outputKey: \ListAllowListsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a subset of information about one or more classification jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -419,6 +506,28 @@ extension Macie2 {
             command: self.listClassificationJobs,
             inputKey: \ListClassificationJobsRequest.nextToken,
             outputKey: \ListClassificationJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a subset of information about the classification scope for an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClassificationScopesPaginator(
+        _ input: ListClassificationScopesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClassificationScopesRequest, ListClassificationScopesResponse> {
+        return .init(
+            input: input,
+            command: self.listClassificationScopes,
+            inputKey: \ListClassificationScopesRequest.nextToken,
+            outputKey: \ListClassificationScopesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -512,6 +621,28 @@ extension Macie2 {
         )
     }
 
+    ///  Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listManagedDataIdentifiersPaginator(
+        _ input: ListManagedDataIdentifiersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListManagedDataIdentifiersRequest, ListManagedDataIdentifiersResponse> {
+        return .init(
+            input: input,
+            command: self.listManagedDataIdentifiers,
+            inputKey: \ListManagedDataIdentifiersRequest.nextToken,
+            outputKey: \ListManagedDataIdentifiersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     /// Return PaginatorSequence for operation.
     ///
@@ -551,6 +682,72 @@ extension Macie2 {
             command: self.listOrganizationAdminAccounts,
             inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
             outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listResourceProfileArtifactsPaginator(
+        _ input: ListResourceProfileArtifactsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListResourceProfileArtifactsRequest, ListResourceProfileArtifactsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceProfileArtifacts,
+            inputKey: \ListResourceProfileArtifactsRequest.nextToken,
+            outputKey: \ListResourceProfileArtifactsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listResourceProfileDetectionsPaginator(
+        _ input: ListResourceProfileDetectionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListResourceProfileDetectionsRequest, ListResourceProfileDetectionsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceProfileDetections,
+            inputKey: \ListResourceProfileDetectionsRequest.nextToken,
+            outputKey: \ListResourceProfileDetectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a subset of information about the sensitivity inspection template for an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSensitivityInspectionTemplatesPaginator(
+        _ input: ListSensitivityInspectionTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSensitivityInspectionTemplatesRequest, ListSensitivityInspectionTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.listSensitivityInspectionTemplates,
+            inputKey: \ListSensitivityInspectionTemplatesRequest.nextToken,
+            outputKey: \ListSensitivityInspectionTemplatesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

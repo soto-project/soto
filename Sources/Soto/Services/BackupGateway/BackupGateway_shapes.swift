@@ -34,6 +34,15 @@ extension BackupGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case created = "CREATED"
+        case failed = "FAILED"
+        case partiallyFailed = "PARTIALLY_FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociateGatewayToServerInput: AWSEncodableShape {
@@ -72,6 +81,58 @@ extension BackupGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct BandwidthRateLimitInterval: AWSEncodableShape & AWSDecodableShape {
+        /// The average upload rate limit component of the bandwidth rate limit  interval, in bits per second. This field does not appear in the response if  the upload rate limit is not set.  For Backup Gateway, the minimum value is (Value).
+        public let averageUploadRateLimitInBitsPerSec: Int64?
+        /// The days of the week component of the bandwidth rate limit interval,  represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents  Saturday.
+        public let daysOfWeek: [Int]
+        /// The hour of the day to end the bandwidth rate limit interval.
+        public let endHourOfDay: Int
+        /// The minute of the hour to end the bandwidth rate limit interval.  The bandwidth rate limit interval ends at the end of the minute.  To end an interval at the end of an hour, use the value 59.
+        public let endMinuteOfHour: Int
+        /// The hour of the day to start the bandwidth rate limit interval.
+        public let startHourOfDay: Int
+        /// The minute of the hour to start the bandwidth rate limit interval. The  interval begins at the start of that minute. To begin an interval exactly at  the start of the hour, use the value 0.
+        public let startMinuteOfHour: Int
+
+        public init(averageUploadRateLimitInBitsPerSec: Int64? = nil, daysOfWeek: [Int], endHourOfDay: Int, endMinuteOfHour: Int, startHourOfDay: Int, startMinuteOfHour: Int) {
+            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
+            self.daysOfWeek = daysOfWeek
+            self.endHourOfDay = endHourOfDay
+            self.endMinuteOfHour = endMinuteOfHour
+            self.startHourOfDay = startHourOfDay
+            self.startMinuteOfHour = startMinuteOfHour
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, max: 8_000_000_000_000)
+            try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
+            try self.daysOfWeek.forEach {
+                try validate($0, name: "daysOfWeek[]", parent: name, max: 6)
+                try validate($0, name: "daysOfWeek[]", parent: name, min: 0)
+            }
+            try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, max: 7)
+            try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, min: 1)
+            try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, max: 23)
+            try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, min: 0)
+            try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, max: 59)
+            try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, min: 0)
+            try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, max: 23)
+            try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, min: 0)
+            try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, max: 59)
+            try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+            case daysOfWeek = "DaysOfWeek"
+            case endHourOfDay = "EndHourOfDay"
+            case endMinuteOfHour = "EndMinuteOfHour"
+            case startHourOfDay = "StartHourOfDay"
+            case startMinuteOfHour = "StartMinuteOfHour"
         }
     }
 
@@ -291,6 +352,42 @@ extension BackupGateway {
         }
     }
 
+    public struct GetBandwidthRateLimitScheduleInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        public let gatewayArn: String
+
+        public init(gatewayArn: String) {
+            self.gatewayArn = gatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct GetBandwidthRateLimitScheduleOutput: AWSDecodableShape {
+        /// An array containing bandwidth rate limit schedule intervals for a gateway.  When no bandwidth rate limit intervals have been scheduled, the array is empty.
+        public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]?
+        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        public let gatewayArn: String?
+
+        public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]? = nil, gatewayArn: String? = nil) {
+            self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
     public struct GetGatewayInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the gateway.
         public let gatewayArn: String
@@ -320,6 +417,78 @@ extension BackupGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gateway = "Gateway"
+        }
+    }
+
+    public struct GetHypervisorInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String
+
+        public init(hypervisorArn: String) {
+            self.hypervisorArn = hypervisorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+        }
+    }
+
+    public struct GetHypervisorOutput: AWSDecodableShape {
+        /// Details about the requested hypervisor.
+        public let hypervisor: HypervisorDetails?
+
+        public init(hypervisor: HypervisorDetails? = nil) {
+            self.hypervisor = hypervisor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisor = "Hypervisor"
+        }
+    }
+
+    public struct GetHypervisorPropertyMappingsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String
+
+        public init(hypervisorArn: String) {
+            self.hypervisorArn = hypervisorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+        }
+    }
+
+    public struct GetHypervisorPropertyMappingsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role.
+        public let iamRoleArn: String?
+        /// This is a display of the mappings of on-premises VMware tags to the  Amazon Web Services tags.
+        public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]?
+
+        public init(hypervisorArn: String? = nil, iamRoleArn: String? = nil, vmwareToAwsTagMappings: [VmwareToAwsTagMapping]? = nil) {
+            self.hypervisorArn = hypervisorArn
+            self.iamRoleArn = iamRoleArn
+            self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+            case iamRoleArn = "IamRoleArn"
+            case vmwareToAwsTagMappings = "VmwareToAwsTagMappings"
         }
     }
 
@@ -379,6 +548,51 @@ extension BackupGateway {
             case host = "Host"
             case hypervisorArn = "HypervisorArn"
             case kmsKeyArn = "KmsKeyArn"
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public struct HypervisorDetails: AWSDecodableShape {
+        /// The server host of the hypervisor. This can be either an IP address or  a fully-qualified domain name (FQDN).
+        public let host: String?
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String?
+        /// The Amazon Resource Name (ARN) of the KMS   used to encrypt the hypervisor.
+        public let kmsKeyArn: String?
+        /// This is the time when the most recent successful sync  of metadata occurred.
+        public let lastSuccessfulMetadataSyncTime: Date?
+        /// This is the most recent status for the indicated metadata sync.
+        public let latestMetadataSyncStatus: SyncMetadataStatus?
+        /// This is the most recent status for the indicated metadata sync.
+        public let latestMetadataSyncStatusMessage: String?
+        /// The Amazon Resource Name (ARN) of the group of gateways within  the requested log.
+        public let logGroupArn: String?
+        /// This is the name of the specified hypervisor.
+        public let name: String?
+        /// This is the current state of the specified hypervisor. The possible states are PENDING, ONLINE,  OFFLINE, or ERROR.
+        public let state: HypervisorState?
+
+        public init(host: String? = nil, hypervisorArn: String? = nil, kmsKeyArn: String? = nil, lastSuccessfulMetadataSyncTime: Date? = nil, latestMetadataSyncStatus: SyncMetadataStatus? = nil, latestMetadataSyncStatusMessage: String? = nil, logGroupArn: String? = nil, name: String? = nil, state: HypervisorState? = nil) {
+            self.host = host
+            self.hypervisorArn = hypervisorArn
+            self.kmsKeyArn = kmsKeyArn
+            self.lastSuccessfulMetadataSyncTime = lastSuccessfulMetadataSyncTime
+            self.latestMetadataSyncStatus = latestMetadataSyncStatus
+            self.latestMetadataSyncStatusMessage = latestMetadataSyncStatusMessage
+            self.logGroupArn = logGroupArn
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "Host"
+            case hypervisorArn = "HypervisorArn"
+            case kmsKeyArn = "KmsKeyArn"
+            case lastSuccessfulMetadataSyncTime = "LastSuccessfulMetadataSyncTime"
+            case latestMetadataSyncStatus = "LatestMetadataSyncStatus"
+            case latestMetadataSyncStatusMessage = "LatestMetadataSyncStatusMessage"
+            case logGroupArn = "LogGroupArn"
             case name = "Name"
             case state = "State"
         }
@@ -642,6 +856,92 @@ extension BackupGateway {
         }
     }
 
+    public struct PutBandwidthRateLimitScheduleInput: AWSEncodableShape {
+        /// An array containing bandwidth rate limit schedule intervals for a gateway.  When no bandwidth rate limit intervals have been scheduled, the array is empty.
+        public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]
+        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        public let gatewayArn: String
+
+        public init(bandwidthRateLimitIntervals: [BandwidthRateLimitInterval], gatewayArn: String) {
+            self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+            self.gatewayArn = gatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.bandwidthRateLimitIntervals.forEach {
+                try $0.validate(name: "\(name).bandwidthRateLimitIntervals[]")
+            }
+            try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, max: 20)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct PutBandwidthRateLimitScheduleOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        public let gatewayArn: String?
+
+        public init(gatewayArn: String? = nil) {
+            self.gatewayArn = gatewayArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct PutHypervisorPropertyMappingsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String
+        /// The Amazon Resource Name (ARN) of the IAM role.
+        public let iamRoleArn: String
+        /// This action requests the mappings of on-premises VMware tags to the  Amazon Web Services tags.
+        public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]
+
+        public init(hypervisorArn: String, iamRoleArn: String, vmwareToAwsTagMappings: [VmwareToAwsTagMapping]) {
+            self.hypervisorArn = hypervisorArn
+            self.iamRoleArn = iamRoleArn
+            self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
+            try self.vmwareToAwsTagMappings.forEach {
+                try $0.validate(name: "\(name).vmwareToAwsTagMappings[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+            case iamRoleArn = "IamRoleArn"
+            case vmwareToAwsTagMappings = "VmwareToAwsTagMappings"
+        }
+    }
+
+    public struct PutHypervisorPropertyMappingsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String?
+
+        public init(hypervisorArn: String? = nil) {
+            self.hypervisorArn = hypervisorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+        }
+    }
+
     public struct PutMaintenanceStartTimeInput: AWSEncodableShape {
         /// The day of the month start maintenance on a gateway. Valid values range from Sunday to Saturday.
         public let dayOfMonth: Int?
@@ -695,6 +995,38 @@ extension BackupGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayArn = "GatewayArn"
+        }
+    }
+
+    public struct StartVirtualMachinesMetadataSyncInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String
+
+        public init(hypervisorArn: String) {
+            self.hypervisorArn = hypervisorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
+            try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
+        }
+    }
+
+    public struct StartVirtualMachinesMetadataSyncOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public let hypervisorArn: String?
+
+        public init(hypervisorArn: String? = nil) {
+            self.hypervisorArn = hypervisorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hypervisorArn = "HypervisorArn"
         }
     }
 
@@ -923,6 +1255,8 @@ extension BackupGateway {
         public let host: String?
         /// The Amazon Resource Name (ARN) of the hypervisor to update.
         public let hypervisorArn: String
+        /// The Amazon Resource Name (ARN) of the group of gateways within the requested log.
+        public let logGroupArn: String?
         /// The updated name for the hypervisor
         public let name: String?
         /// The updated password for the hypervisor.
@@ -930,9 +1264,10 @@ extension BackupGateway {
         /// The updated username for the hypervisor.
         public let username: String?
 
-        public init(host: String? = nil, hypervisorArn: String, name: String? = nil, password: String? = nil, username: String? = nil) {
+        public init(host: String? = nil, hypervisorArn: String, logGroupArn: String? = nil, name: String? = nil, password: String? = nil, username: String? = nil) {
             self.host = host
             self.hypervisorArn = hypervisorArn
+            self.logGroupArn = logGroupArn
             self.name = name
             self.password = password
             self.username = username
@@ -945,6 +1280,8 @@ extension BackupGateway {
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, max: 500)
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, min: 50)
             try self.validate(self.hypervisorArn, name: "hypervisorArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 2048)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^$|^arn:(aws|aws-cn|aws-us-gov):logs:([a-zA-Z0-9-]+):([0-9]+):log-group:[a-zA-Z0-9_\\-\\/\\.]+:\\*$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-]*$")
@@ -959,6 +1296,7 @@ extension BackupGateway {
         private enum CodingKeys: String, CodingKey {
             case host = "Host"
             case hypervisorArn = "HypervisorArn"
+            case logGroupArn = "LogGroupArn"
             case name = "Name"
             case password = "Password"
             case username = "Username"
@@ -1024,14 +1362,17 @@ extension BackupGateway {
         public let path: String?
         /// The Amazon Resource Name (ARN) of the virtual machine. For example,  arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public let resourceArn: String?
+        /// These are the details of the VMware tags associated with the specified  virtual machine.
+        public let vmwareTags: [VmwareTag]?
 
-        public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil) {
+        public init(hostName: String? = nil, hypervisorId: String? = nil, lastBackupDate: Date? = nil, name: String? = nil, path: String? = nil, resourceArn: String? = nil, vmwareTags: [VmwareTag]? = nil) {
             self.hostName = hostName
             self.hypervisorId = hypervisorId
             self.lastBackupDate = lastBackupDate
             self.name = name
             self.path = path
             self.resourceArn = resourceArn
+            self.vmwareTags = vmwareTags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1041,6 +1382,65 @@ extension BackupGateway {
             case name = "Name"
             case path = "Path"
             case resourceArn = "ResourceArn"
+            case vmwareTags = "VmwareTags"
+        }
+    }
+
+    public struct VmwareTag: AWSDecodableShape {
+        /// The is the category of VMware.
+        public let vmwareCategory: String?
+        /// This is a user-defined description of a VMware tag.
+        public let vmwareTagDescription: String?
+        /// This is the user-defined name of a VMware tag.
+        public let vmwareTagName: String?
+
+        public init(vmwareCategory: String? = nil, vmwareTagDescription: String? = nil, vmwareTagName: String? = nil) {
+            self.vmwareCategory = vmwareCategory
+            self.vmwareTagDescription = vmwareTagDescription
+            self.vmwareTagName = vmwareTagName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vmwareCategory = "VmwareCategory"
+            case vmwareTagDescription = "VmwareTagDescription"
+            case vmwareTagName = "VmwareTagName"
+        }
+    }
+
+    public struct VmwareToAwsTagMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The key part of the Amazon Web Services tag's key-value pair.
+        public let awsTagKey: String
+        /// The value part of the Amazon Web Services tag's key-value pair.
+        public let awsTagValue: String
+        /// The is the category of VMware.
+        public let vmwareCategory: String
+        /// This is the user-defined name of a VMware tag.
+        public let vmwareTagName: String
+
+        public init(awsTagKey: String, awsTagValue: String, vmwareCategory: String, vmwareTagName: String) {
+            self.awsTagKey = awsTagKey
+            self.awsTagValue = awsTagValue
+            self.vmwareCategory = vmwareCategory
+            self.vmwareTagName = vmwareTagName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsTagKey, name: "awsTagKey", parent: name, max: 128)
+            try self.validate(self.awsTagKey, name: "awsTagKey", parent: name, min: 1)
+            try self.validate(self.awsTagKey, name: "awsTagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.awsTagValue, name: "awsTagValue", parent: name, max: 256)
+            try self.validate(self.awsTagValue, name: "awsTagValue", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.vmwareCategory, name: "vmwareCategory", parent: name, max: 80)
+            try self.validate(self.vmwareCategory, name: "vmwareCategory", parent: name, min: 1)
+            try self.validate(self.vmwareTagName, name: "vmwareTagName", parent: name, max: 80)
+            try self.validate(self.vmwareTagName, name: "vmwareTagName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsTagKey = "AwsTagKey"
+            case awsTagValue = "AwsTagValue"
+            case vmwareCategory = "VmwareCategory"
+            case vmwareTagName = "VmwareTagName"
         }
     }
 }
