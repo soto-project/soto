@@ -22,8 +22,8 @@ extension EMR {
     // MARK: Enums
 
     public enum ActionOnFailure: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelAndWait = "CANCEL_AND_WAIT"
         case `continue` = "CONTINUE"
+        case cancelAndWait = "CANCEL_AND_WAIT"
         case terminateCluster = "TERMINATE_CLUSTER"
         case terminateJobFlow = "TERMINATE_JOB_FLOW"
         public var description: String { return self.rawValue }
@@ -225,11 +225,11 @@ extension EMR {
         case finished = "FINISHED"
         case finishing = "FINISHING"
         case running = "RUNNING"
-        case starting = "STARTING"
         case startPending = "START_PENDING"
+        case starting = "STARTING"
+        case stopPending = "STOP_PENDING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
-        case stopPending = "STOP_PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -302,9 +302,9 @@ extension EMR {
     }
 
     public enum StepExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `continue` = "CONTINUE"
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
-        case `continue` = "CONTINUE"
         case failed = "FAILED"
         case interrupted = "INTERRUPTED"
         case pending = "PENDING"
@@ -313,8 +313,8 @@ extension EMR {
     }
 
     public enum StepState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelled = "CANCELLED"
         case cancelPending = "CANCEL_PENDING"
+        case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
         case interrupted = "INTERRUPTED"
@@ -1169,7 +1169,7 @@ extension EMR {
     }
 
     public struct CreateStudioInput: AWSEncodableShape {
-        /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
+        /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
         public let authMode: AuthMode
         /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String
@@ -1189,7 +1189,7 @@ extension EMR {
         public let subnetIds: [String]
         /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]?
-        /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
+        /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
         public let userRole: String?
         /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
         public let vpcId: String
@@ -1270,9 +1270,9 @@ extension EMR {
     }
 
     public struct CreateStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
+        /// The globally unique identifier (GUID) of the user or group from the IAM Identity Center Identity Store. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
         public let identityName: String?
         /// Specifies whether the identity to map to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
@@ -1350,9 +1350,9 @@ extension EMR {
     }
 
     public struct DeleteStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the Amazon Web Services SSO Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the IAM Identity Center Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType
@@ -1863,6 +1863,47 @@ extension EMR {
         }
     }
 
+    public struct GetClusterSessionCredentialsInput: AWSEncodableShape {
+        /// The unique identifier of the cluster.
+        public let clusterId: String
+        /// The Amazon Resource Name (ARN) of the runtime role for interactive workload submission on the cluster.  The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name,  and role type using the following format: arn:partition:service:region:account:resource.
+        public let executionRoleArn: String
+
+        public init(clusterId: String, executionRoleArn: String) {
+            self.clusterId = clusterId
+            self.executionRoleArn = executionRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case executionRoleArn = "ExecutionRoleArn"
+        }
+    }
+
+    public struct GetClusterSessionCredentialsOutput: AWSDecodableShape {
+        /// The credentials that you can use to connect to cluster endpoints that support username-based and password-based authentication.
+        public let credentials: Credentials?
+        /// The time when the credentials that are returned by the GetClusterSessionCredentials API expire.
+        public let expiresAt: Date?
+
+        public init(credentials: Credentials? = nil, expiresAt: Date? = nil) {
+            self.credentials = credentials
+            self.expiresAt = expiresAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case expiresAt = "ExpiresAt"
+        }
+    }
+
     public struct GetManagedScalingPolicyInput: AWSEncodableShape {
         /// Specifies the ID of the cluster for which the managed scaling policy will be fetched.
         public let clusterId: String
@@ -1890,9 +1931,9 @@ extension EMR {
     }
 
     public struct GetStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user or group to fetch. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user or group to fetch. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to fetch is a user or a group.
         public let identityType: IdentityType
@@ -4105,7 +4146,7 @@ extension EMR {
         public let scaleDownBehavior: ScaleDownBehavior?
         /// The name of a security configuration to apply to the cluster.
         public let securityConfiguration: String?
-        /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
+        /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf. If you've created a custom service role path, you must specify it for the service role when you launch your cluster.
         public let serviceRole: String?
         /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
         public let stepConcurrencyLevel: Int?
@@ -4370,7 +4411,7 @@ extension EMR {
         public let creationTime: Date?
         /// The globally unique identifier (GUID) of the user or group.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference.
         public let identityName: String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
@@ -4405,9 +4446,9 @@ extension EMR {
     public struct SessionMappingSummary: AWSDecodableShape {
         /// The time the session mapping was created.
         public let creationTime: Date?
-        /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store.
+        /// The globally unique identifier (GUID) of the user or group from the IAM Identity Center Identity Store.
         public let identityId: String?
-        /// The name of the user or group. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference.
         public let identityName: String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public let identityType: IdentityType?
@@ -4441,7 +4482,7 @@ extension EMR {
         /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
         public let terminationProtected: Bool
 
-        public init(jobFlowIds: [String], terminationProtected: Bool) {
+        public init(jobFlowIds: [String], terminationProtected: Bool = false) {
             self.jobFlowIds = jobFlowIds
             self.terminationProtected = terminationProtected
         }
@@ -4465,7 +4506,7 @@ extension EMR {
         /// A value of true indicates that an IAM principal in the Amazon Web Services account can perform EMR actions on the cluster that the IAM policies attached to the principal allow. A value of false indicates that only the IAM principal that created the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
         public let visibleToAllUsers: Bool
 
-        public init(jobFlowIds: [String], visibleToAllUsers: Bool) {
+        public init(jobFlowIds: [String], visibleToAllUsers: Bool = false) {
             self.jobFlowIds = jobFlowIds
             self.visibleToAllUsers = visibleToAllUsers
         }
@@ -4855,7 +4896,7 @@ extension EMR {
     }
 
     public struct Studio: AWSDecodableShape {
-        /// Specifies whether the Amazon EMR Studio authenticates users using IAM or Amazon Web Services SSO.
+        /// Specifies whether the Amazon EMR Studio authenticates users using IAM or IAM Identity Center.
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
         public let creationTime: Date?
@@ -4932,7 +4973,7 @@ extension EMR {
     }
 
     public struct StudioSummary: AWSDecodableShape {
-        /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
+        /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
         public let authMode: AuthMode?
         /// The time when the Amazon EMR Studio was created.
         public let creationTime: Date?
@@ -5072,9 +5113,9 @@ extension EMR {
     }
 
     public struct UpdateStudioSessionMappingInput: AWSEncodableShape {
-        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
-        /// The name of the user or group to update. For more information, see UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+        /// The name of the user or group to update. For more information, see UserName and DisplayName in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityName: String?
         /// Specifies whether the identity to update is a user or a group.
         public let identityType: IdentityType
@@ -5111,14 +5152,31 @@ extension EMR {
         }
     }
 
+    public struct UsernamePassword: AWSDecodableShape {
+        /// The password associated with the temporary credentials that you use to connect to cluster endpoints.
+        public let password: String?
+        /// The username associated with the temporary credentials that you use to connect to cluster endpoints.
+        public let username: String?
+
+        public init(password: String? = nil, username: String? = nil) {
+            self.password = password
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
     public struct VolumeSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The number of I/O operations per second (IOPS) that the volume supports.
         public let iops: Int?
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
         public let sizeInGB: Int
-        /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number from 125 - 1000 and is valid only for gp3 volumes.
+        /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number  from 125 - 1000 and is valid only for gp3 volumes.
         public let throughput: Int?
-        /// The volume type. Volume types supported are gp2, io1, and standard.
+        /// The volume type. Volume types supported are gp3, gp2, io1, st1, sc1, and standard.
         public let volumeType: String
 
         public init(iops: Int? = nil, sizeInGB: Int, throughput: Int? = nil, volumeType: String) {
@@ -5137,6 +5195,19 @@ extension EMR {
             case sizeInGB = "SizeInGB"
             case throughput = "Throughput"
             case volumeType = "VolumeType"
+        }
+    }
+
+    public struct Credentials: AWSDecodableShape {
+        /// The username and password that you use to connect to cluster endpoints.
+        public let usernamePassword: UsernamePassword?
+
+        public init(usernamePassword: UsernamePassword? = nil) {
+            self.usernamePassword = usernamePassword
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usernamePassword = "UsernamePassword"
         }
     }
 }

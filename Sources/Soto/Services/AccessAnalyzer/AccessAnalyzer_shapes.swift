@@ -62,6 +62,7 @@ extension AccessAnalyzer {
         case bucketAcl = "BUCKET_ACL"
         case policy = "POLICY"
         case s3AccessPoint = "S3_ACCESS_POINT"
+        case s3AccessPointAccount = "S3_ACCESS_POINT_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -1203,14 +1204,18 @@ extension AccessAnalyzer {
     }
 
     public struct FindingSourceDetail: AWSDecodableShape {
+        /// The account of the cross-account access point that generated the finding.
+        public let accessPointAccount: String?
         /// The ARN of the access point that generated the finding. The ARN format depends on whether the ARN represents an access point or a multi-region access point.
         public let accessPointArn: String?
 
-        public init(accessPointArn: String? = nil) {
+        public init(accessPointAccount: String? = nil, accessPointArn: String? = nil) {
+            self.accessPointAccount = accessPointAccount
             self.accessPointArn = accessPointArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointAccount
             case accessPointArn
         }
     }

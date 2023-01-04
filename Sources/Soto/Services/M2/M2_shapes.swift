@@ -32,6 +32,7 @@ extension M2 {
         case created = "Created"
         case creating = "Creating"
         case deleting = "Deleting"
+        case deletingFromEnvironment = "Deleting From Environment"
         case failed = "Failed"
         case ready = "Ready"
         case running = "Running"
@@ -93,6 +94,7 @@ extension M2 {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -355,7 +357,7 @@ extension M2 {
         public let applicationVersion: Int
         /// The timestamp when the application was created.
         public let creationTime: Date
-        /// Indicates whether there is an ongoing deployment or if the application has ever deployed successfully.
+        /// Indicates either an ongoing deployment or if the application has ever deployed successfully.
         public let deploymentStatus: ApplicationDeploymentLifecycle?
         /// The description of the application.
         public let description: String?
@@ -363,7 +365,7 @@ extension M2 {
         public let engineType: EngineType
         /// The unique identifier of the runtime environment that hosts this application.
         public let environmentId: String?
-        /// The timestamp when the application was last started. Null until the application has started running for the first time.
+        /// The timestamp when you last started the application. Null until the application runs for the first time.
         public let lastStartTime: Date?
         /// The name of the application.
         public let name: String
@@ -506,16 +508,19 @@ extension M2 {
         public let description: String?
         /// The type of the target platform for this application.
         public let engineType: EngineType
+        /// The identifier of a customer managed key.
+        public let kmsKeyId: String?
         /// The unique identifier of the application.
         public let name: String
         /// A list of tags to apply to the application.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateApplicationRequest.idempotencyToken(), definition: Definition, description: String? = nil, engineType: EngineType, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateApplicationRequest.idempotencyToken(), definition: Definition, description: String? = nil, engineType: EngineType, kmsKeyId: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.definition = definition
             self.description = description
             self.engineType = engineType
+            self.kmsKeyId = kmsKeyId
             self.name = name
             self.tags = tags
         }
@@ -538,6 +543,7 @@ extension M2 {
             case definition
             case description
             case engineType
+            case kmsKeyId
             case name
             case tags
         }
@@ -617,7 +623,7 @@ extension M2 {
         public let applicationVersion: Int
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a deployment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
         public let clientToken: String?
-        /// The identifier of the environment where this application will be deployed.
+        /// The identifier of the runtime environment where you want to deploy this application.
         public let environmentId: String
 
         public init(applicationId: String, applicationVersion: Int, clientToken: String? = CreateDeploymentRequest.idempotencyToken(), environmentId: String) {
@@ -656,38 +662,41 @@ extension M2 {
     public struct CreateEnvironmentRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
         public let clientToken: String?
-        /// The description of the environment.
+        /// The description of the runtime environment.
         public let description: String?
-        /// The engine type for the environment.
+        /// The engine type for the runtime environment.
         public let engineType: EngineType
-        /// The version of the engine type for the environment.
+        /// The version of the engine type for the runtime environment.
         public let engineVersion: String?
         /// The details of a high availability configuration for this runtime environment.
         public let highAvailabilityConfig: HighAvailabilityConfig?
-        /// The type of instance for the environment.
+        /// The type of instance for the runtime environment.
         public let instanceType: String
-        /// The unique identifier of the environment.
+        /// The identifier of a customer managed key.
+        public let kmsKeyId: String?
+        /// The name of the runtime environment. Must be unique within the account.
         public let name: String
-        /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
-        /// Specifies whether the environment is publicly accessible.
+        /// Specifies whether the runtime environment is publicly accessible.
         public let publiclyAccessible: Bool?
-        /// The list of security groups for the VPC associated with this environment.
+        /// The list of security groups for the VPC associated with this runtime environment.
         public let securityGroupIds: [String]?
-        /// Optional. The storage configurations for this environment.
+        /// Optional. The storage configurations for this runtime environment.
         public let storageConfigurations: [StorageConfiguration]?
-        /// The list of subnets associated with the VPC for this environment.
+        /// The list of subnets associated with the VPC for this runtime environment.
         public let subnetIds: [String]?
-        /// The tags for the environment.
+        /// The tags for the runtime environment.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, engineType: EngineType, engineVersion: String? = nil, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, name: String, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, engineType: EngineType, engineVersion: String? = nil, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, name: String, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.highAvailabilityConfig = highAvailabilityConfig
             self.instanceType = instanceType
+            self.kmsKeyId = kmsKeyId
             self.name = name
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
@@ -729,6 +738,7 @@ extension M2 {
             case engineVersion
             case highAvailabilityConfig
             case instanceType
+            case kmsKeyId
             case name
             case preferredMaintenanceWindow
             case publiclyAccessible
@@ -740,7 +750,7 @@ extension M2 {
     }
 
     public struct CreateEnvironmentResponse: AWSDecodableShape {
-        /// The identifier of this environment.
+        /// The unique identifier of the runtime environment.
         public let environmentId: String
 
         public init(environmentId: String) {
@@ -755,7 +765,7 @@ extension M2 {
     public struct DataSet: AWSEncodableShape {
         /// The logical identifier for a specific data set (in mainframe format).
         public let datasetName: String
-        /// The type of dataset. Possible values include VSAM, IS, PS, GDG, PO, PS, UNKNOWN etc.
+        /// The type of dataset. The only supported value is VSAM.
         public let datasetOrg: DatasetOrgAttributes
         /// The length of a record.
         public let recordLength: RecordLength
@@ -857,7 +867,7 @@ extension M2 {
         public let creationTime: Date?
         /// The name of the data set.
         public let dataSetName: String
-        /// The type of data set. Possible values include VSAM, IS, PS, GDG, PO, PS, or unknown.
+        /// The type of data set. The only supported value is VSAM.
         public let dataSetOrg: String?
         /// The format of the data set.
         public let format: String?
@@ -989,7 +999,7 @@ extension M2 {
         public let creationTime: Date
         /// The unique identifier of the deployment.
         public let deploymentId: String
-        /// The unique identifier of the environment.
+        /// The unique identifier of the runtime environment.
         public let environmentId: String
         /// The current status of the deployment.
         public let status: DeploymentLifecycle
@@ -1057,9 +1067,9 @@ extension M2 {
     }
 
     public struct EnvironmentSummary: AWSDecodableShape {
-        /// The timestamp when the environment was created.
+        /// The timestamp when the runtime environment was created.
         public let creationTime: Date
-        /// The target platform for the environment.
+        /// The target platform for the runtime environment.
         public let engineType: EngineType
         /// The version of the runtime engine.
         public let engineVersion: String
@@ -1067,11 +1077,11 @@ extension M2 {
         public let environmentArn: String
         /// The unique identifier of a particular runtime environment.
         public let environmentId: String
-        /// The instance type of the environment.
+        /// The instance type of the runtime environment.
         public let instanceType: String
-        /// The name of the environment.
+        /// The name of the runtime environment.
         public let name: String
-        /// The status of the environment
+        /// The status of the runtime environment
         public let status: EnvironmentLifecycle
 
         public init(creationTime: Date, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, instanceType: String, name: String, status: EnvironmentLifecycle) {
@@ -1219,19 +1229,21 @@ extension M2 {
         public let description: String?
         /// The type of the target platform for the application.
         public let engineType: EngineType
-        /// The identifier of the environment where the application will be deployed.
+        /// The identifier of the runtime environment where you want to deploy the application.
         public let environmentId: String?
-        /// The timestamp when the application was last started. Null until the application has started running for the first time.
+        /// The identifier of a customer managed key.
+        public let kmsKeyId: String?
+        /// The timestamp when you last started the application. Null until the application runs for the first time.
         public let lastStartTime: Date?
         /// The latest version of the application.
         public let latestVersion: ApplicationVersionSummary
-        /// The Amazon Resource Name (ARN) for the network load balancer listener created in your Amazon Web Services account. Amazon Web Services Mainframe Modernization creates this listener on your behalf the first time you deploy an application.
+        /// The Amazon Resource Name (ARN) for the network load balancer listener created in your Amazon Web Services account. Amazon Web Services Mainframe Modernization creates this listener for you the first time you deploy an application.
         public let listenerArns: [String]?
         /// The port associated with the network load balancer listener created in your Amazon Web Services account.
         public let listenerPorts: [Int]?
         /// The public DNS name of the load balancer created in your Amazon Web Services account.
         public let loadBalancerDnsName: String?
-        /// The list of log summaries. Each log summary includes the log type as well as the log group identifier. These are CloudWatch logs. The Amazon Web Services Mainframe Modernization application log is pushed to CloudWatch under the customer's account.
+        /// The list of log summaries. Each log summary includes the log type as well as the log group identifier. These are CloudWatch logs. Amazon Web Services Mainframe Modernization pushes the application log to CloudWatch under the customer's account.
         public let logGroups: [LogGroupSummary]?
         /// The unique identifier of the application.
         public let name: String
@@ -1244,7 +1256,7 @@ extension M2 {
         /// Returns the Amazon Resource Names (ARNs) of the target groups that are attached to the network load balancer.
         public let targetGroupArns: [String]?
 
-        public init(applicationArn: String, applicationId: String, creationTime: Date, deployedVersion: DeployedVersionSummary? = nil, description: String? = nil, engineType: EngineType, environmentId: String? = nil, lastStartTime: Date? = nil, latestVersion: ApplicationVersionSummary, listenerArns: [String]? = nil, listenerPorts: [Int]? = nil, loadBalancerDnsName: String? = nil, logGroups: [LogGroupSummary]? = nil, name: String, status: ApplicationLifecycle, statusReason: String? = nil, tags: [String: String]? = nil, targetGroupArns: [String]? = nil) {
+        public init(applicationArn: String, applicationId: String, creationTime: Date, deployedVersion: DeployedVersionSummary? = nil, description: String? = nil, engineType: EngineType, environmentId: String? = nil, kmsKeyId: String? = nil, lastStartTime: Date? = nil, latestVersion: ApplicationVersionSummary, listenerArns: [String]? = nil, listenerPorts: [Int]? = nil, loadBalancerDnsName: String? = nil, logGroups: [LogGroupSummary]? = nil, name: String, status: ApplicationLifecycle, statusReason: String? = nil, tags: [String: String]? = nil, targetGroupArns: [String]? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.creationTime = creationTime
@@ -1252,6 +1264,7 @@ extension M2 {
             self.description = description
             self.engineType = engineType
             self.environmentId = environmentId
+            self.kmsKeyId = kmsKeyId
             self.lastStartTime = lastStartTime
             self.latestVersion = latestVersion
             self.listenerArns = listenerArns
@@ -1273,6 +1286,7 @@ extension M2 {
             case description
             case engineType
             case environmentId
+            case kmsKeyId
             case lastStartTime
             case latestVersion
             case listenerArns
@@ -1316,7 +1330,7 @@ extension M2 {
         public let applicationVersion: Int
         /// The timestamp when the application version was created.
         public let creationTime: Date
-        /// The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application.
+        /// The content of the application definition. This is a JSON object that contains the resource configuration and definitions that identify an application.
         public let definitionContent: String
         /// The application description.
         public let description: String?
@@ -1452,13 +1466,13 @@ extension M2 {
         public let creationTime: Date?
         /// The name of the data set.
         public let dataSetName: String
-        /// The type of data set. Possible values include VSAM, IS, PS, GDG, PO, PS, or unknown.
+        /// The type of data set. The only supported value is VSAM.
         public let dataSetOrg: DatasetDetailOrgAttributes?
         /// The last time the data set was referenced.
         public let lastReferencedTime: Date?
         /// The last time the data set was updated.
         public let lastUpdatedTime: Date?
-        /// The locaion where the data set is stored.
+        /// The location where the data set is stored.
         public let location: String?
         /// The length of records in the data set.
         public let recordLength: Int?
@@ -1630,13 +1644,15 @@ extension M2 {
         public let highAvailabilityConfig: HighAvailabilityConfig?
         /// The type of instance underlying the runtime environment.
         public let instanceType: String
+        /// The identifier of a customer managed key.
+        public let kmsKeyId: String?
         /// The Amazon Resource Name (ARN) for the load balancer used with the runtime environment.
         public let loadBalancerArn: String?
-        /// The name of the runtime environment.
+        /// The name of the runtime environment. Must be unique within the account.
         public let name: String
         /// Indicates the pending maintenance scheduled on this environment.
         public let pendingMaintenance: PendingMaintenance?
-        /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
         /// Whether applications running in this runtime environment are publicly accessible.
         public let publiclyAccessible: Bool?
@@ -1655,7 +1671,7 @@ extension M2 {
         /// The unique identifier for the VPC used with this runtime environment.
         public let vpcId: String
 
-        public init(actualCapacity: Int? = nil, creationTime: Date, description: String? = nil, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, loadBalancerArn: String? = nil, name: String, pendingMaintenance: PendingMaintenance? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String], status: EnvironmentLifecycle, statusReason: String? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
+        public init(actualCapacity: Int? = nil, creationTime: Date, description: String? = nil, engineType: EngineType, engineVersion: String, environmentArn: String, environmentId: String, highAvailabilityConfig: HighAvailabilityConfig? = nil, instanceType: String, kmsKeyId: String? = nil, loadBalancerArn: String? = nil, name: String, pendingMaintenance: PendingMaintenance? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String], status: EnvironmentLifecycle, statusReason: String? = nil, storageConfigurations: [StorageConfiguration]? = nil, subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
             self.actualCapacity = actualCapacity
             self.creationTime = creationTime
             self.description = description
@@ -1665,6 +1681,7 @@ extension M2 {
             self.environmentId = environmentId
             self.highAvailabilityConfig = highAvailabilityConfig
             self.instanceType = instanceType
+            self.kmsKeyId = kmsKeyId
             self.loadBalancerArn = loadBalancerArn
             self.name = name
             self.pendingMaintenance = pendingMaintenance
@@ -1689,6 +1706,7 @@ extension M2 {
             case environmentId
             case highAvailabilityConfig
             case instanceType
+            case kmsKeyId
             case loadBalancerArn
             case name
             case pendingMaintenance
@@ -1809,7 +1827,7 @@ extension M2 {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
-        /// Returns a list of summary details for all the applications in an environment.
+        /// Returns a list of summary details for all the applications in a runtime environment.
         public let applications: [ApplicationSummary]
         /// A pagination token that's returned when the response doesn't contain all applications.
         public let nextToken: String?
@@ -2032,7 +2050,7 @@ extension M2 {
     }
 
     public struct ListDataSetsResponse: AWSDecodableShape {
-        /// The list of data sets, containing ionformation including the creating time, the data set name, the data set organization, the data set format, and the last time the data set was referenced or updated.
+        /// The list of data sets, containing information including the creation time, the data set name, the data set organization, the data set format, and the last time the data set was referenced or updated.
         public let dataSets: [DataSetSummary]
         /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
         public let nextToken: String?
@@ -2149,13 +2167,13 @@ extension M2 {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The engine type for the environment.
+        /// The engine type for the runtime environment.
         public let engineType: EngineType?
-        /// The maximum number of environments to return.
+        /// The maximum number of runtime environments to return.
         public let maxResults: Int?
-        /// The name of the environment.
+        /// The names of the runtime environments. Must be unique within the account.
         public let names: [String]?
-        /// A pagination token to control the number of environments displayed in the list.
+        /// A pagination token to control the number of runtime environments displayed in the list.
         public let nextToken: String?
 
         public init(engineType: EngineType? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
@@ -2180,9 +2198,9 @@ extension M2 {
     }
 
     public struct ListEnvironmentsResponse: AWSDecodableShape {
-        /// Returns a list of summary details for all the environments in your account.
+        /// Returns a list of summary details for all the runtime environments in your account.
         public let environments: [EnvironmentSummary]
-        /// A pagination token that's returned when the response doesn't contain all the environments.
+        /// A pagination token that's returned when the response doesn't contain all the runtime environments.
         public let nextToken: String?
 
         public init(environments: [EnvironmentSummary], nextToken: String? = nil) {
@@ -2265,7 +2283,7 @@ extension M2 {
     public struct PendingMaintenance: AWSDecodableShape {
         /// The specific runtime engine that the maintenance schedule applies to.
         public let engineVersion: String?
-        /// The maintenance schedule for the engine version.
+        /// The maintenance schedule for the runtime engine version.
         public let schedule: MaintenanceSchedule?
 
         public init(engineVersion: String? = nil, schedule: MaintenanceSchedule? = nil) {
@@ -2306,7 +2324,7 @@ extension M2 {
         /// The minimum record length of a record.
         public let min: Int
 
-        public init(max: Int, min: Int) {
+        public init(max: Int = 0, min: Int = 0) {
             self.max = max
             self.min = min
         }
@@ -2562,17 +2580,17 @@ extension M2 {
             AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
         ]
 
-        /// Indicates whether to update the environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
+        /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
         public let applyDuringMaintenanceWindow: Bool?
-        /// The desired capacity for the environment to update.
+        /// The desired capacity for the runtime environment to update.
         public let desiredCapacity: Int?
-        /// The version of the runtime engine for the environment.
+        /// The version of the runtime engine for the runtime environment.
         public let engineVersion: String?
         /// The unique identifier of the runtime environment that you want to update.
         public let environmentId: String
-        /// The instance type for the environment to update.
+        /// The instance type for the runtime environment to update.
         public let instanceType: String?
-        /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+        /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
         public let preferredMaintenanceWindow: String?
 
         public init(applyDuringMaintenanceWindow: Bool? = nil, desiredCapacity: Int? = nil, engineVersion: String? = nil, environmentId: String, instanceType: String? = nil, preferredMaintenanceWindow: String? = nil) {

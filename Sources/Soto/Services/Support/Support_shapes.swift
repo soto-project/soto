@@ -74,6 +74,12 @@ extension Support {
             self.communicationBody = communicationBody
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
+            try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
+            try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case attachmentSetId
             case caseId
@@ -138,7 +144,8 @@ extension Support {
         public let ccEmailAddresses: [String]?
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public let displayId: String?
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
+        /// currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public let language: String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public let recentCommunications: RecentCaseCommunications?
@@ -243,7 +250,8 @@ extension Support {
         public let communicationBody: String
         /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
         public let issueType: String?
-        /// The language in which Amazon Web Services Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English ("en") and Japanese ("ja") are supported.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
+        /// currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public let language: String?
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String?
@@ -265,6 +273,9 @@ extension Support {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
+            try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
+            try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[0-9a-z\\-_]+$")
         }
 
@@ -333,7 +344,8 @@ extension Support {
         public let includeCommunications: Bool?
         /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
+        /// currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public let language: String?
         /// The maximum number of results to return before paginating.
         public let maxResults: Int?
@@ -440,7 +452,8 @@ extension Support {
     }
 
     public struct DescribeServicesRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
+        /// currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public let language: String?
         /// A JSON-formatted list of service codes available for Amazon Web Services services.
         public let serviceCodeList: [String]?
@@ -477,7 +490,8 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
+        /// currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public let language: String?
 
         public init(language: String? = nil) {
@@ -531,7 +545,7 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSEncodableShape {
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English - en    French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja    Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
         public let language: String?
 
         public init(checkId: String, language: String? = nil) {
@@ -585,7 +599,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language that you want your checks to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English - en    French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja    Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
         public let language: String
 
         public init(language: String) {
@@ -628,7 +642,7 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSEncodableShape {
-        /// The unique identifier for the Trusted Advisor check to refresh.       Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        /// The unique identifier for the Trusted Advisor check to refresh.  Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
 
         public init(checkId: String) {

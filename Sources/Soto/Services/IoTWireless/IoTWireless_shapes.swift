@@ -21,6 +21,11 @@ import SotoCore
 extension IoTWireless {
     // MARK: Enums
 
+    public enum ApplicationConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case semtechGeoLocation = "SemtechGeolocation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatteryLevel: String, CustomStringConvertible, Codable, _SotoSendable {
         case critical
         case low
@@ -36,9 +41,9 @@ extension IoTWireless {
 
     public enum DeviceState: String, CustomStringConvertible, Codable, _SotoSendable {
         case provisioned = "Provisioned"
-        case registeredNotSeen = "RegisteredNotSeen"
-        case registeredReachable = "RegisteredReachable"
-        case registeredUnreachable = "RegisteredUnreachable"
+        case registerednotseen = "RegisteredNotSeen"
+        case registeredreachable = "RegisteredReachable"
+        case registeredunreachable = "RegisteredUnreachable"
         public var description: String { return self.rawValue }
     }
 
@@ -92,8 +97,8 @@ extension IoTWireless {
         case fragAlgoUnsupported = "FragAlgo_unsupported"
         case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
-        case micError = "MICError"
         case memoryError = "MemoryError"
+        case micError = "MICError"
         case missingFrag = "MissingFrag"
         case notEnoughMemory = "Not_enough_memory"
         case packageNotSupported = "Package_Not_Supported"
@@ -169,6 +174,12 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum PositioningConfigStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SigningAlg: String, CustomStringConvertible, Codable, _SotoSendable {
         case ed25519 = "Ed25519"
         case p256r1 = "P256r1"
@@ -213,8 +224,8 @@ extension IoTWireless {
     }
 
     public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cupsRequest = "CUPS_Request"
         case certificate = "Certificate"
+        case cupsRequest = "CUPS_Request"
         public var description: String { return self.rawValue }
     }
 
@@ -310,9 +321,9 @@ extension IoTWireless {
     }
 
     public struct Accuracy: AWSDecodableShape {
-        /// The horizontal accuracy of the estimated position in meters.
+        /// The horizontal accuracy of the estimated position, which is the difference between the estimated location and the actual device location.
         public let horizontalAccuracy: Float?
-        /// The vertical accuracy of the estimated position in meters.
+        /// The vertical accuracy of the estimated position, which is the difference between the estimated altitude and actual device latitude in meters.
         public let verticalAccuracy: Float?
 
         public init(horizontalAccuracy: Float? = nil, verticalAccuracy: Float? = nil) {
@@ -323,6 +334,33 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case horizontalAccuracy = "HorizontalAccuracy"
             case verticalAccuracy = "VerticalAccuracy"
+        }
+    }
+
+    public struct ApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        public let destinationName: String?
+        public let fPort: Int?
+        /// Application type, which can be specified to obtain real-time position information of your LoRaWAN device.
+        public let type: ApplicationConfigType?
+
+        public init(destinationName: String? = nil, fPort: Int? = nil, type: ApplicationConfigType? = nil) {
+            self.destinationName = destinationName
+            self.fPort = fPort
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
+            try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.fPort, name: "fPort", parent: name, max: 223)
+            try self.validate(self.fPort, name: "fPort", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationName = "DestinationName"
+            case fPort = "FPort"
+            case type = "Type"
         }
     }
 
@@ -598,6 +636,191 @@ extension IoTWireless {
 
     public struct CancelMulticastGroupSessionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CdmaLocalId: AWSEncodableShape {
+        /// CDMA channel information.
+        public let cdmaChannel: Int
+        /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
+        public let pnOffset: Int
+
+        public init(cdmaChannel: Int, pnOffset: Int) {
+            self.cdmaChannel = cdmaChannel
+            self.pnOffset = pnOffset
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cdmaChannel, name: "cdmaChannel", parent: name, max: 4095)
+            try self.validate(self.cdmaChannel, name: "cdmaChannel", parent: name, min: 0)
+            try self.validate(self.pnOffset, name: "pnOffset", parent: name, max: 511)
+            try self.validate(self.pnOffset, name: "pnOffset", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdmaChannel = "CdmaChannel"
+            case pnOffset = "PnOffset"
+        }
+    }
+
+    public struct CdmaNmrObj: AWSEncodableShape {
+        /// CDMA base station ID (BSID).
+        public let baseStationId: Int?
+        /// CDMA channel information.
+        public let cdmaChannel: Int
+        /// Transmit power level of the pilot signal, measured in dBm (decibel-milliwatts).
+        public let pilotPower: Int?
+        /// Pseudo-noise offset, which is a characteristic of the signal from a cell on a radio tower.
+        public let pnOffset: Int
+
+        public init(baseStationId: Int? = nil, cdmaChannel: Int, pilotPower: Int? = nil, pnOffset: Int) {
+            self.baseStationId = baseStationId
+            self.cdmaChannel = cdmaChannel
+            self.pilotPower = pilotPower
+            self.pnOffset = pnOffset
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseStationId, name: "baseStationId", parent: name, max: 65535)
+            try self.validate(self.baseStationId, name: "baseStationId", parent: name, min: 0)
+            try self.validate(self.cdmaChannel, name: "cdmaChannel", parent: name, max: 4095)
+            try self.validate(self.cdmaChannel, name: "cdmaChannel", parent: name, min: 0)
+            try self.validate(self.pilotPower, name: "pilotPower", parent: name, max: -49)
+            try self.validate(self.pilotPower, name: "pilotPower", parent: name, min: -142)
+            try self.validate(self.pnOffset, name: "pnOffset", parent: name, max: 511)
+            try self.validate(self.pnOffset, name: "pnOffset", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseStationId = "BaseStationId"
+            case cdmaChannel = "CdmaChannel"
+            case pilotPower = "PilotPower"
+            case pnOffset = "PnOffset"
+        }
+    }
+
+    public struct CdmaObj: AWSEncodableShape {
+        /// CDMA base station latitude in degrees.
+        public let baseLat: Float?
+        /// CDMA base station longtitude in degrees.
+        public let baseLng: Float?
+        /// CDMA base station ID (BSID).
+        public let baseStationId: Int
+        /// CDMA local identification (local ID) parameters.
+        public let cdmaLocalId: CdmaLocalId?
+        /// CDMA network measurement reports.
+        public let cdmaNmr: [CdmaNmrObj]?
+        /// CDMA network ID (NID).
+        public let networkId: Int
+        /// Transmit power level of the pilot signal, measured in dBm (decibel-milliwatts).
+        public let pilotPower: Int?
+        /// CDMA registration zone (RZ).
+        public let registrationZone: Int?
+        /// CDMA system ID (SID).
+        public let systemId: Int
+
+        public init(baseLat: Float? = nil, baseLng: Float? = nil, baseStationId: Int, cdmaLocalId: CdmaLocalId? = nil, cdmaNmr: [CdmaNmrObj]? = nil, networkId: Int, pilotPower: Int? = nil, registrationZone: Int? = nil, systemId: Int) {
+            self.baseLat = baseLat
+            self.baseLng = baseLng
+            self.baseStationId = baseStationId
+            self.cdmaLocalId = cdmaLocalId
+            self.cdmaNmr = cdmaNmr
+            self.networkId = networkId
+            self.pilotPower = pilotPower
+            self.registrationZone = registrationZone
+            self.systemId = systemId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseLat, name: "baseLat", parent: name, max: 90.0)
+            try self.validate(self.baseLat, name: "baseLat", parent: name, min: -90.0)
+            try self.validate(self.baseLng, name: "baseLng", parent: name, max: 180.0)
+            try self.validate(self.baseLng, name: "baseLng", parent: name, min: -180.0)
+            try self.validate(self.baseStationId, name: "baseStationId", parent: name, max: 65535)
+            try self.validate(self.baseStationId, name: "baseStationId", parent: name, min: 0)
+            try self.cdmaLocalId?.validate(name: "\(name).cdmaLocalId")
+            try self.cdmaNmr?.forEach {
+                try $0.validate(name: "\(name).cdmaNmr[]")
+            }
+            try self.validate(self.cdmaNmr, name: "cdmaNmr", parent: name, max: 32)
+            try self.validate(self.cdmaNmr, name: "cdmaNmr", parent: name, min: 1)
+            try self.validate(self.networkId, name: "networkId", parent: name, max: 65535)
+            try self.validate(self.networkId, name: "networkId", parent: name, min: 0)
+            try self.validate(self.pilotPower, name: "pilotPower", parent: name, max: -49)
+            try self.validate(self.pilotPower, name: "pilotPower", parent: name, min: -142)
+            try self.validate(self.registrationZone, name: "registrationZone", parent: name, max: 4095)
+            try self.validate(self.registrationZone, name: "registrationZone", parent: name, min: 0)
+            try self.validate(self.systemId, name: "systemId", parent: name, max: 32767)
+            try self.validate(self.systemId, name: "systemId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseLat = "BaseLat"
+            case baseLng = "BaseLng"
+            case baseStationId = "BaseStationId"
+            case cdmaLocalId = "CdmaLocalId"
+            case cdmaNmr = "CdmaNmr"
+            case networkId = "NetworkId"
+            case pilotPower = "PilotPower"
+            case registrationZone = "RegistrationZone"
+            case systemId = "SystemId"
+        }
+    }
+
+    public struct CellTowers: AWSEncodableShape {
+        /// CDMA object information.
+        public let cdma: [CdmaObj]?
+        /// GSM object information.
+        public let gsm: [GsmObj]?
+        /// LTE object information.
+        public let lte: [LteObj]?
+        /// TD-SCDMA object information.
+        public let tdscdma: [TdscdmaObj]?
+        /// WCDMA object information.
+        public let wcdma: [WcdmaObj]?
+
+        public init(cdma: [CdmaObj]? = nil, gsm: [GsmObj]? = nil, lte: [LteObj]? = nil, tdscdma: [TdscdmaObj]? = nil, wcdma: [WcdmaObj]? = nil) {
+            self.cdma = cdma
+            self.gsm = gsm
+            self.lte = lte
+            self.tdscdma = tdscdma
+            self.wcdma = wcdma
+        }
+
+        public func validate(name: String) throws {
+            try self.cdma?.forEach {
+                try $0.validate(name: "\(name).cdma[]")
+            }
+            try self.validate(self.cdma, name: "cdma", parent: name, max: 16)
+            try self.validate(self.cdma, name: "cdma", parent: name, min: 1)
+            try self.gsm?.forEach {
+                try $0.validate(name: "\(name).gsm[]")
+            }
+            try self.validate(self.gsm, name: "gsm", parent: name, max: 16)
+            try self.validate(self.gsm, name: "gsm", parent: name, min: 1)
+            try self.lte?.forEach {
+                try $0.validate(name: "\(name).lte[]")
+            }
+            try self.validate(self.lte, name: "lte", parent: name, max: 16)
+            try self.validate(self.lte, name: "lte", parent: name, min: 1)
+            try self.tdscdma?.forEach {
+                try $0.validate(name: "\(name).tdscdma[]")
+            }
+            try self.validate(self.tdscdma, name: "tdscdma", parent: name, max: 16)
+            try self.validate(self.tdscdma, name: "tdscdma", parent: name, min: 1)
+            try self.wcdma?.forEach {
+                try $0.validate(name: "\(name).wcdma[]")
+            }
+            try self.validate(self.wcdma, name: "wcdma", parent: name, max: 16)
+            try self.validate(self.wcdma, name: "wcdma", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdma = "Cdma"
+            case gsm = "Gsm"
+            case lte = "Lte"
+            case tdscdma = "Tdscdma"
+            case wcdma = "Wcdma"
+        }
     }
 
     public struct CertificateList: AWSDecodableShape {
@@ -1019,17 +1242,20 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDevice?
         /// The name of the new resource.
         public let name: String?
+        /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+        public let positioning: PositioningConfigStatus?
         /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
         /// The wireless device type.
         public let type: WirelessDeviceType
 
-        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
+        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.destinationName = destinationName
             self.loRaWAN = loRaWAN
             self.name = name
+            self.positioning = positioning
             self.tags = tags
             self.type = type
         }
@@ -1055,6 +1281,7 @@ extension IoTWireless {
             case destinationName = "DestinationName"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case positioning = "Positioning"
             case tags = "Tags"
             case type = "Type"
         }
@@ -1148,7 +1375,7 @@ extension IoTWireless {
         /// Information about the gateways to update.
         public let update: UpdateWirelessGatewayTaskCreate?
 
-        public init(autoCreateTasks: Bool, clientRequestToken: String? = CreateWirelessGatewayTaskDefinitionRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
+        public init(autoCreateTasks: Bool = false, clientRequestToken: String? = CreateWirelessGatewayTaskDefinitionRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
             self.autoCreateTasks = autoCreateTasks
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -1836,13 +2063,16 @@ extension IoTWireless {
     }
 
     public struct FPorts: AWSEncodableShape & AWSDecodableShape {
+        /// Optional LoRaWAN application information, which can be used for geolocation.
+        public let applications: [ApplicationConfig]?
         public let clockSync: Int?
         public let fuota: Int?
         public let multicast: Int?
         /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
         public let positioning: Positioning?
 
-        public init(clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil, positioning: Positioning? = nil) {
+        public init(applications: [ApplicationConfig]? = nil, clockSync: Int? = nil, fuota: Int? = nil, multicast: Int? = nil, positioning: Positioning? = nil) {
+            self.applications = applications
             self.clockSync = clockSync
             self.fuota = fuota
             self.multicast = multicast
@@ -1850,6 +2080,9 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
+            try self.applications?.forEach {
+                try $0.validate(name: "\(name).applications[]")
+            }
             try self.validate(self.clockSync, name: "clockSync", parent: name, max: 223)
             try self.validate(self.clockSync, name: "clockSync", parent: name, min: 1)
             try self.validate(self.fuota, name: "fuota", parent: name, max: 223)
@@ -1860,6 +2093,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
             case clockSync = "ClockSync"
             case fuota = "Fuota"
             case multicast = "Multicast"
@@ -2322,6 +2556,63 @@ extension IoTWireless {
         }
     }
 
+    public struct GetPositionEstimateRequest: AWSEncodableShape {
+        /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The  position is resolved using HERE's cellular-based solver.
+        public let cellTowers: CellTowers?
+        /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
+        public let gnss: Gnss?
+        /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
+        public let ip: Ip?
+        /// Optional information that specifies the time when the position information will be resolved. It uses the UNIX timestamp format. If not specified, the time at which the request was received will be used.
+        public let timestamp: Date?
+        /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
+        public let wiFiAccessPoints: [WiFiAccessPoint]?
+
+        public init(cellTowers: CellTowers? = nil, gnss: Gnss? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
+            self.cellTowers = cellTowers
+            self.gnss = gnss
+            self.ip = ip
+            self.timestamp = timestamp
+            self.wiFiAccessPoints = wiFiAccessPoints
+        }
+
+        public func validate(name: String) throws {
+            try self.cellTowers?.validate(name: "\(name).cellTowers")
+            try self.gnss?.validate(name: "\(name).gnss")
+            try self.wiFiAccessPoints?.forEach {
+                try $0.validate(name: "\(name).wiFiAccessPoints[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellTowers = "CellTowers"
+            case gnss = "Gnss"
+            case ip = "Ip"
+            case timestamp = "Timestamp"
+            case wiFiAccessPoints = "WiFiAccessPoints"
+        }
+    }
+
+    public struct GetPositionEstimateResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "geoJsonPayload"
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "geoJsonPayload", location: .body("GeoJsonPayload"))
+        ]
+
+        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
+        public let geoJsonPayload: AWSPayload?
+
+        public init(geoJsonPayload: AWSPayload? = nil) {
+            self.geoJsonPayload = geoJsonPayload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geoJsonPayload = "GeoJsonPayload"
+        }
+    }
+
     public struct GetPositionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
@@ -2346,7 +2637,7 @@ extension IoTWireless {
     }
 
     public struct GetPositionResponse: AWSDecodableShape {
-        /// The accuracy of the estimated position in meters. An empty value indicates that no position data is available.  A value of ‘0.0’ value indicates that position data is available. This data corresponds to the position information that you specified instead of the position computed by solver.
+        /// The accuracy of the estimated position in meters. An empty value indicates that no position data is available. A value of ‘0.0’ value indicates that position data is available. This data corresponds to the position information that you specified instead of the position computed by solver.
         public let accuracy: Accuracy?
         /// The position information of the resource.
         public let position: [Float]?
@@ -2468,6 +2759,49 @@ extension IoTWireless {
         }
     }
 
+    public struct GetResourcePositionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+        public let resourceIdentifier: String
+        /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
+        public let resourceType: PositionResourceType
+
+        public init(resourceIdentifier: String, resourceType: PositionResourceType) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePositionResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "geoJsonPayload"
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "geoJsonPayload", location: .body("GeoJsonPayload"))
+        ]
+
+        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
+        public let geoJsonPayload: AWSPayload?
+
+        public init(geoJsonPayload: AWSPayload? = nil) {
+            self.geoJsonPayload = geoJsonPayload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geoJsonPayload = "GeoJsonPayload"
+        }
+    }
+
     public struct GetServiceEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
@@ -2584,6 +2918,8 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDevice?
         /// The name of the resource.
         public let name: String?
+        /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+        public let positioning: PositioningConfigStatus?
         /// Sidewalk device object.
         public let sidewalk: SidewalkDevice?
         /// The ARN of the thing associated with the wireless device.
@@ -2593,13 +2929,14 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType?
 
-        public init(arn: String? = nil, description: String? = nil, destinationName: String? = nil, id: String? = nil, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, sidewalk: SidewalkDevice? = nil, thingArn: String? = nil, thingName: String? = nil, type: WirelessDeviceType? = nil) {
+        public init(arn: String? = nil, description: String? = nil, destinationName: String? = nil, id: String? = nil, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil, sidewalk: SidewalkDevice? = nil, thingArn: String? = nil, thingName: String? = nil, type: WirelessDeviceType? = nil) {
             self.arn = arn
             self.description = description
             self.destinationName = destinationName
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.positioning = positioning
             self.sidewalk = sidewalk
             self.thingArn = thingArn
             self.thingName = thingName
@@ -2613,6 +2950,7 @@ extension IoTWireless {
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case positioning = "Positioning"
             case sidewalk = "Sidewalk"
             case thingArn = "ThingArn"
             case thingName = "ThingName"
@@ -2922,6 +3260,203 @@ extension IoTWireless {
             case taskCreatedAt = "TaskCreatedAt"
             case wirelessGatewayId = "WirelessGatewayId"
             case wirelessGatewayTaskDefinitionId = "WirelessGatewayTaskDefinitionId"
+        }
+    }
+
+    public struct GlobalIdentity: AWSEncodableShape {
+        /// GERAN (GSM EDGE Radio Access Network) cell global identifier.
+        public let geranCid: Int
+        /// Location area code of the global identity.
+        public let lac: Int
+
+        public init(geranCid: Int, lac: Int) {
+            self.geranCid = geranCid
+            self.lac = lac
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.geranCid, name: "geranCid", parent: name, max: 65535)
+            try self.validate(self.geranCid, name: "geranCid", parent: name, min: 0)
+            try self.validate(self.lac, name: "lac", parent: name, max: 65535)
+            try self.validate(self.lac, name: "lac", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geranCid = "GeranCid"
+            case lac = "Lac"
+        }
+    }
+
+    public struct Gnss: AWSEncodableShape {
+        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above  the WGS84 reference ellipsoid.
+        public let assistAltitude: Float?
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The co-ordinates are inside the WGS84 reference frame.
+        public let assistPosition: [Float]?
+        /// Optional parameter that gives an estimate of the time when the GNSS scan information is  taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
+        public let captureTime: Float?
+        /// Optional value that gives the capture time estimate accuracy, in seconds. If capture time accuracy is not specified, default value of 300 is used.
+        public let captureTimeAccuracy: Float?
+        /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal notation.
+        public let payload: String
+        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution  problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
+        public let use2DSolver: Bool?
+
+        public init(assistAltitude: Float? = nil, assistPosition: [Float]? = nil, captureTime: Float? = nil, captureTimeAccuracy: Float? = nil, payload: String, use2DSolver: Bool? = nil) {
+            self.assistAltitude = assistAltitude
+            self.assistPosition = assistPosition
+            self.captureTime = captureTime
+            self.captureTimeAccuracy = captureTimeAccuracy
+            self.payload = payload
+            self.use2DSolver = use2DSolver
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistPosition, name: "assistPosition", parent: name, max: 2)
+            try self.validate(self.assistPosition, name: "assistPosition", parent: name, min: 2)
+            try self.validate(self.payload, name: "payload", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistAltitude = "AssistAltitude"
+            case assistPosition = "AssistPosition"
+            case captureTime = "CaptureTime"
+            case captureTimeAccuracy = "CaptureTimeAccuracy"
+            case payload = "Payload"
+            case use2DSolver = "Use2DSolver"
+        }
+    }
+
+    public struct GsmLocalId: AWSEncodableShape {
+        /// GSM broadcast control channel.
+        public let bcch: Int
+        /// GSM base station identity code (BSIC).
+        public let bsic: Int
+
+        public init(bcch: Int, bsic: Int) {
+            self.bcch = bcch
+            self.bsic = bsic
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bcch, name: "bcch", parent: name, max: 1023)
+            try self.validate(self.bcch, name: "bcch", parent: name, min: 0)
+            try self.validate(self.bsic, name: "bsic", parent: name, max: 63)
+            try self.validate(self.bsic, name: "bsic", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bcch = "Bcch"
+            case bsic = "Bsic"
+        }
+    }
+
+    public struct GsmNmrObj: AWSEncodableShape {
+        /// GSM broadcast control channel.
+        public let bcch: Int
+        /// GSM base station identity code (BSIC).
+        public let bsic: Int
+        /// Global identity information of the GSM object.
+        public let globalIdentity: GlobalIdentity?
+        /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
+        public let rxLevel: Int?
+
+        public init(bcch: Int, bsic: Int, globalIdentity: GlobalIdentity? = nil, rxLevel: Int? = nil) {
+            self.bcch = bcch
+            self.bsic = bsic
+            self.globalIdentity = globalIdentity
+            self.rxLevel = rxLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bcch, name: "bcch", parent: name, max: 1023)
+            try self.validate(self.bcch, name: "bcch", parent: name, min: 0)
+            try self.validate(self.bsic, name: "bsic", parent: name, max: 63)
+            try self.validate(self.bsic, name: "bsic", parent: name, min: 0)
+            try self.globalIdentity?.validate(name: "\(name).globalIdentity")
+            try self.validate(self.rxLevel, name: "rxLevel", parent: name, max: -25)
+            try self.validate(self.rxLevel, name: "rxLevel", parent: name, min: -110)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bcch = "Bcch"
+            case bsic = "Bsic"
+            case globalIdentity = "GlobalIdentity"
+            case rxLevel = "RxLevel"
+        }
+    }
+
+    public struct GsmObj: AWSEncodableShape {
+        /// GERAN (GSM EDGE Radio Access Network) Cell Global Identifier.
+        public let geranCid: Int
+        /// GSM local identification (local ID) information.
+        public let gsmLocalId: GsmLocalId?
+        /// GSM object for network measurement reports.
+        public let gsmNmr: [GsmNmrObj]?
+        /// Timing advance value, which corresponds to the length of time a signal takes to reach the base station from a mobile phone.
+        public let gsmTimingAdvance: Int?
+        /// Location area code.
+        public let lac: Int
+        /// Mobile Country Code.
+        public let mcc: Int
+        /// Mobile Network Code.
+        public let mnc: Int
+        /// Rx level, which is the received signal power, measured in dBm (decibel-milliwatts).
+        public let rxLevel: Int?
+
+        public init(geranCid: Int, gsmLocalId: GsmLocalId? = nil, gsmNmr: [GsmNmrObj]? = nil, gsmTimingAdvance: Int? = nil, lac: Int, mcc: Int, mnc: Int, rxLevel: Int? = nil) {
+            self.geranCid = geranCid
+            self.gsmLocalId = gsmLocalId
+            self.gsmNmr = gsmNmr
+            self.gsmTimingAdvance = gsmTimingAdvance
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.rxLevel = rxLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.geranCid, name: "geranCid", parent: name, max: 65535)
+            try self.validate(self.geranCid, name: "geranCid", parent: name, min: 0)
+            try self.gsmLocalId?.validate(name: "\(name).gsmLocalId")
+            try self.gsmNmr?.forEach {
+                try $0.validate(name: "\(name).gsmNmr[]")
+            }
+            try self.validate(self.gsmNmr, name: "gsmNmr", parent: name, max: 32)
+            try self.validate(self.gsmNmr, name: "gsmNmr", parent: name, min: 1)
+            try self.validate(self.gsmTimingAdvance, name: "gsmTimingAdvance", parent: name, max: 63)
+            try self.validate(self.gsmTimingAdvance, name: "gsmTimingAdvance", parent: name, min: 0)
+            try self.validate(self.lac, name: "lac", parent: name, max: 65535)
+            try self.validate(self.lac, name: "lac", parent: name, min: 1)
+            try self.validate(self.mcc, name: "mcc", parent: name, max: 999)
+            try self.validate(self.mcc, name: "mcc", parent: name, min: 200)
+            try self.validate(self.mnc, name: "mnc", parent: name, max: 999)
+            try self.validate(self.mnc, name: "mnc", parent: name, min: 0)
+            try self.validate(self.rxLevel, name: "rxLevel", parent: name, max: -25)
+            try self.validate(self.rxLevel, name: "rxLevel", parent: name, min: -110)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geranCid = "GeranCid"
+            case gsmLocalId = "GsmLocalId"
+            case gsmNmr = "GsmNmr"
+            case gsmTimingAdvance = "GsmTimingAdvance"
+            case lac = "Lac"
+            case mcc = "Mcc"
+            case mnc = "Mnc"
+            case rxLevel = "RxLevel"
+        }
+    }
+
+    public struct Ip: AWSEncodableShape {
+        /// IP address information.
+        public let ipAddress: String
+
+        public init(ipAddress: String) {
+            self.ipAddress = ipAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
         }
     }
 
@@ -4349,9 +4884,147 @@ extension IoTWireless {
         }
     }
 
+    public struct LteLocalId: AWSEncodableShape {
+        /// Evolved universal terrestrial radio access (E-UTRA) absolute radio frequency channel number (FCN).
+        public let earfcn: Int
+        /// Physical cell ID.
+        public let pci: Int
+
+        public init(earfcn: Int, pci: Int) {
+            self.earfcn = earfcn
+            self.pci = pci
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262_143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
+            try self.validate(self.pci, name: "pci", parent: name, max: 503)
+            try self.validate(self.pci, name: "pci", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earfcn = "Earfcn"
+            case pci = "Pci"
+        }
+    }
+
+    public struct LteNmrObj: AWSEncodableShape {
+        /// E-UTRA (Evolved universal terrestrial Radio Access) absolute radio frequency channel Number (EARFCN).
+        public let earfcn: Int
+        /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) cell global identifier (EUTRANCID).
+        public let eutranCid: Int
+        /// Physical cell ID.
+        public let pci: Int
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public let rsrp: Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public let rsrq: Float?
+
+        public init(earfcn: Int, eutranCid: Int, pci: Int, rsrp: Int? = nil, rsrq: Float? = nil) {
+            self.earfcn = earfcn
+            self.eutranCid = eutranCid
+            self.pci = pci
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262_143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268_435_455)
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, min: 0)
+            try self.validate(self.pci, name: "pci", parent: name, max: 503)
+            try self.validate(self.pci, name: "pci", parent: name, min: 0)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, max: -44)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, min: -140)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, max: -3.0)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, min: -19.5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earfcn = "Earfcn"
+            case eutranCid = "EutranCid"
+            case pci = "Pci"
+            case rsrp = "Rsrp"
+            case rsrq = "Rsrq"
+        }
+    }
+
+    public struct LteObj: AWSEncodableShape {
+        /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) Cell Global Identifier.
+        public let eutranCid: Int
+        /// LTE local identification (local ID) information.
+        public let lteLocalId: LteLocalId?
+        /// LTE object for network measurement reports.
+        public let lteNmr: [LteNmrObj]?
+        /// LTE timing advance.
+        public let lteTimingAdvance: Int?
+        /// Mobile Country Code.
+        public let mcc: Int
+        /// Mobile Network Code.
+        public let mnc: Int
+        /// Parameter that determines whether the LTE object is capable of supporting NR (new radio).
+        public let nrCapable: Bool?
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public let rsrp: Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public let rsrq: Float?
+        /// LTE tracking area code.
+        public let tac: Int?
+
+        public init(eutranCid: Int, lteLocalId: LteLocalId? = nil, lteNmr: [LteNmrObj]? = nil, lteTimingAdvance: Int? = nil, mcc: Int, mnc: Int, nrCapable: Bool? = nil, rsrp: Int? = nil, rsrq: Float? = nil, tac: Int? = nil) {
+            self.eutranCid = eutranCid
+            self.lteLocalId = lteLocalId
+            self.lteNmr = lteNmr
+            self.lteTimingAdvance = lteTimingAdvance
+            self.mcc = mcc
+            self.mnc = mnc
+            self.nrCapable = nrCapable
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+            self.tac = tac
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268_435_455)
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, min: 0)
+            try self.lteLocalId?.validate(name: "\(name).lteLocalId")
+            try self.lteNmr?.forEach {
+                try $0.validate(name: "\(name).lteNmr[]")
+            }
+            try self.validate(self.lteNmr, name: "lteNmr", parent: name, max: 32)
+            try self.validate(self.lteNmr, name: "lteNmr", parent: name, min: 1)
+            try self.validate(self.lteTimingAdvance, name: "lteTimingAdvance", parent: name, max: 1282)
+            try self.validate(self.lteTimingAdvance, name: "lteTimingAdvance", parent: name, min: 0)
+            try self.validate(self.mcc, name: "mcc", parent: name, max: 999)
+            try self.validate(self.mcc, name: "mcc", parent: name, min: 200)
+            try self.validate(self.mnc, name: "mnc", parent: name, max: 999)
+            try self.validate(self.mnc, name: "mnc", parent: name, min: 0)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, max: -44)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, min: -140)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, max: -3.0)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, min: -19.5)
+            try self.validate(self.tac, name: "tac", parent: name, max: 65535)
+            try self.validate(self.tac, name: "tac", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eutranCid = "EutranCid"
+            case lteLocalId = "LteLocalId"
+            case lteNmr = "LteNmr"
+            case lteTimingAdvance = "LteTimingAdvance"
+            case mcc = "Mcc"
+            case mnc = "Mnc"
+            case nrCapable = "NrCapable"
+            case rsrp = "Rsrp"
+            case rsrq = "Rsrq"
+            case tac = "Tac"
+        }
+    }
+
     public struct MessageDeliveryStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let sidewalk: SidewalkEventNotificationConfigurations?
-        /// Denotes whether the wireless device ID device registration state event topic is enabled or disabled.
+        /// Denotes whether the wireless device ID message delivery status event topic is enabled or disabled.
         public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
         public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
@@ -4523,7 +5196,7 @@ extension IoTWireless {
     }
 
     public struct PositionConfigurationItem: AWSDecodableShape {
-        /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
+        /// The position data destination that describes the AWS IoT rule that processes the device's position  data for use by AWS IoT Core for LoRaWAN.
         public let destination: String?
         /// Resource identifier for the position configuration.
         public let resourceIdentifier: String?
@@ -5084,7 +5757,7 @@ extension IoTWireless {
     }
 
     public struct SidewalkSendDataToDevice: AWSEncodableShape {
-        /// The duration of time in seconds for which you want to retry sending the ACK.
+        /// The duration of time in seconds to retry sending the ACK.
         public let ackModeRetryDurationSecs: Int?
         public let messageType: MessageType?
         /// The sequence number.
@@ -5306,6 +5979,140 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct TdscdmaLocalId: AWSEncodableShape {
+        /// Cell parameters for TD-SCDMA.
+        public let cellParams: Int
+        /// TD-SCDMA UTRA (Universal Terrestrial Radio Access Network) absolute RF channel number (UARFCN).
+        public let uarfcn: Int
+
+        public init(cellParams: Int, uarfcn: Int) {
+            self.cellParams = cellParams
+            self.uarfcn = uarfcn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cellParams, name: "cellParams", parent: name, max: 127)
+            try self.validate(self.cellParams, name: "cellParams", parent: name, min: 0)
+            try self.validate(self.uarfcn, name: "uarfcn", parent: name, max: 16383)
+            try self.validate(self.uarfcn, name: "uarfcn", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellParams = "CellParams"
+            case uarfcn = "Uarfcn"
+        }
+    }
+
+    public struct TdscdmaNmrObj: AWSEncodableShape {
+        /// Cell parameters for TD-SCDMA network measurement reports object.
+        public let cellParams: Int
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it  propagates through space.
+        public let pathLoss: Int?
+        /// Code power of the received signal, measured in decibel-milliwatts (dBm).
+        public let rscp: Int?
+        /// TD-SCDMA UTRA (Universal Terrestrial Radio Access Network) absolute RF channel number.
+        public let uarfcn: Int
+        /// UTRAN (UMTS Terrestrial Radio Access Network) cell global identifier.
+        public let utranCid: Int?
+
+        public init(cellParams: Int, pathLoss: Int? = nil, rscp: Int? = nil, uarfcn: Int, utranCid: Int? = nil) {
+            self.cellParams = cellParams
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.uarfcn = uarfcn
+            self.utranCid = utranCid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cellParams, name: "cellParams", parent: name, max: 127)
+            try self.validate(self.cellParams, name: "cellParams", parent: name, min: 0)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, max: 158)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, min: 46)
+            try self.validate(self.rscp, name: "rscp", parent: name, max: -25)
+            try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
+            try self.validate(self.uarfcn, name: "uarfcn", parent: name, max: 16383)
+            try self.validate(self.uarfcn, name: "uarfcn", parent: name, min: 0)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellParams = "CellParams"
+            case pathLoss = "PathLoss"
+            case rscp = "Rscp"
+            case uarfcn = "Uarfcn"
+            case utranCid = "UtranCid"
+        }
+    }
+
+    public struct TdscdmaObj: AWSEncodableShape {
+        /// Location Area Code.
+        public let lac: Int?
+        /// Mobile Country Code.
+        public let mcc: Int
+        /// Mobile Network Code.
+        public let mnc: Int
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as it propagates through space.
+        public let pathLoss: Int?
+        /// Signal power of the received signal (Received Signal Code Power), measured in decibel-milliwatts (dBm).
+        public let rscp: Int?
+        /// TD-SCDMA local identification (local ID) information.
+        public let tdscdmaLocalId: TdscdmaLocalId?
+        /// TD-SCDMA object for network measurement reports.
+        public let tdscdmaNmr: [TdscdmaNmrObj]?
+        /// TD-SCDMA Timing advance.
+        public let tdscdmaTimingAdvance: Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        public let utranCid: Int
+
+        public init(lac: Int? = nil, mcc: Int, mnc: Int, pathLoss: Int? = nil, rscp: Int? = nil, tdscdmaLocalId: TdscdmaLocalId? = nil, tdscdmaNmr: [TdscdmaNmrObj]? = nil, tdscdmaTimingAdvance: Int? = nil, utranCid: Int) {
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.tdscdmaLocalId = tdscdmaLocalId
+            self.tdscdmaNmr = tdscdmaNmr
+            self.tdscdmaTimingAdvance = tdscdmaTimingAdvance
+            self.utranCid = utranCid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lac, name: "lac", parent: name, max: 65535)
+            try self.validate(self.lac, name: "lac", parent: name, min: 1)
+            try self.validate(self.mcc, name: "mcc", parent: name, max: 999)
+            try self.validate(self.mcc, name: "mcc", parent: name, min: 200)
+            try self.validate(self.mnc, name: "mnc", parent: name, max: 999)
+            try self.validate(self.mnc, name: "mnc", parent: name, min: 0)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, max: 158)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, min: 46)
+            try self.validate(self.rscp, name: "rscp", parent: name, max: -25)
+            try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
+            try self.tdscdmaLocalId?.validate(name: "\(name).tdscdmaLocalId")
+            try self.tdscdmaNmr?.forEach {
+                try $0.validate(name: "\(name).tdscdmaNmr[]")
+            }
+            try self.validate(self.tdscdmaNmr, name: "tdscdmaNmr", parent: name, max: 32)
+            try self.validate(self.tdscdmaNmr, name: "tdscdmaNmr", parent: name, min: 1)
+            try self.validate(self.tdscdmaTimingAdvance, name: "tdscdmaTimingAdvance", parent: name, max: 1530)
+            try self.validate(self.tdscdmaTimingAdvance, name: "tdscdmaTimingAdvance", parent: name, min: 0)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lac = "Lac"
+            case mcc = "Mcc"
+            case mnc = "Mnc"
+            case pathLoss = "PathLoss"
+            case rscp = "Rscp"
+            case tdscdmaLocalId = "TdscdmaLocalId"
+            case tdscdmaNmr = "TdscdmaNmr"
+            case tdscdmaTimingAdvance = "TdscdmaTimingAdvance"
+            case utranCid = "UtranCid"
+        }
+    }
+
     public struct TestWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -5501,18 +6308,25 @@ extension IoTWireless {
     }
 
     public struct UpdateFPorts: AWSEncodableShape {
+        /// LoRaWAN application, which can be used for geolocation by activating positioning.
+        public let applications: [ApplicationConfig]?
         /// Positioning FPorts for the ClockSync, Stream, and GNSS functions.
         public let positioning: Positioning?
 
-        public init(positioning: Positioning? = nil) {
+        public init(applications: [ApplicationConfig]? = nil, positioning: Positioning? = nil) {
+            self.applications = applications
             self.positioning = positioning
         }
 
         public func validate(name: String) throws {
+            try self.applications?.forEach {
+                try $0.validate(name: "\(name).applications[]")
+            }
             try self.positioning?.validate(name: "\(name).positioning")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applications = "Applications"
             case positioning = "Positioning"
         }
     }
@@ -5796,6 +6610,39 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct UpdateResourcePositionRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "geoJsonPayload"
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
+        public let geoJsonPayload: AWSPayload?
+        /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+        public let resourceIdentifier: String
+        /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
+        public let resourceType: PositionResourceType
+
+        public init(geoJsonPayload: AWSPayload? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
+            self.geoJsonPayload = geoJsonPayload
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateResourcePositionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateWirelessDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -5811,13 +6658,16 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANUpdateDevice?
         /// The new name of the resource.
         public let name: String?
+        /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+        public let positioning: PositioningConfigStatus?
 
-        public init(description: String? = nil, destinationName: String? = nil, id: String, loRaWAN: LoRaWANUpdateDevice? = nil, name: String? = nil) {
+        public init(description: String? = nil, destinationName: String? = nil, id: String, loRaWAN: LoRaWANUpdateDevice? = nil, name: String? = nil, positioning: PositioningConfigStatus? = nil) {
             self.description = description
             self.destinationName = destinationName
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.positioning = positioning
         }
 
         public func validate(name: String) throws {
@@ -5834,6 +6684,7 @@ extension IoTWireless {
             case destinationName = "DestinationName"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case positioning = "Positioning"
         }
     }
 
@@ -5937,6 +6788,159 @@ extension IoTWireless {
             case arn = "Arn"
             case id = "Id"
             case loRaWAN = "LoRaWAN"
+        }
+    }
+
+    public struct WcdmaLocalId: AWSEncodableShape {
+        /// Primary Scrambling Code.
+        public let psc: Int
+        /// WCDMA UTRA Absolute RF Channel Number downlink.
+        public let uarfcndl: Int
+
+        public init(psc: Int, uarfcndl: Int) {
+            self.psc = psc
+            self.uarfcndl = uarfcndl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.psc, name: "psc", parent: name, max: 511)
+            try self.validate(self.psc, name: "psc", parent: name, min: 0)
+            try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, max: 16383)
+            try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case psc = "Psc"
+            case uarfcndl = "Uarfcndl"
+        }
+    }
+
+    public struct WcdmaNmrObj: AWSEncodableShape {
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as  it propagates through space.
+        public let pathLoss: Int?
+        /// Primary Scrambling Code.
+        public let psc: Int
+        /// Received Signal Code Power (signal power) (dBm)
+        public let rscp: Int?
+        /// WCDMA UTRA Absolute RF Channel Number downlink.
+        public let uarfcndl: Int
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        public let utranCid: Int
+
+        public init(pathLoss: Int? = nil, psc: Int, rscp: Int? = nil, uarfcndl: Int, utranCid: Int) {
+            self.pathLoss = pathLoss
+            self.psc = psc
+            self.rscp = rscp
+            self.uarfcndl = uarfcndl
+            self.utranCid = utranCid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, max: 158)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, min: 46)
+            try self.validate(self.psc, name: "psc", parent: name, max: 511)
+            try self.validate(self.psc, name: "psc", parent: name, min: 0)
+            try self.validate(self.rscp, name: "rscp", parent: name, max: -25)
+            try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
+            try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, max: 16383)
+            try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, min: 0)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pathLoss = "PathLoss"
+            case psc = "Psc"
+            case rscp = "Rscp"
+            case uarfcndl = "Uarfcndl"
+            case utranCid = "UtranCid"
+        }
+    }
+
+    public struct WcdmaObj: AWSEncodableShape {
+        /// Location Area Code.
+        public let lac: Int?
+        /// Mobile Country Code.
+        public let mcc: Int
+        /// Mobile Network Code.
+        public let mnc: Int
+        /// Path loss, or path attenuation, is the reduction in power density of an electromagnetic wave as  it propagates through space.
+        public let pathLoss: Int?
+        /// Received Signal Code Power (signal power) (dBm).
+        public let rscp: Int?
+        /// UTRAN (UMTS Terrestrial Radio Access Network) Cell Global Identifier.
+        public let utranCid: Int
+        /// WCDMA local ID information.
+        public let wcdmaLocalId: WcdmaLocalId?
+        /// WCDMA object for network measurement reports.
+        public let wcdmaNmr: [WcdmaNmrObj]?
+
+        public init(lac: Int? = nil, mcc: Int, mnc: Int, pathLoss: Int? = nil, rscp: Int? = nil, utranCid: Int, wcdmaLocalId: WcdmaLocalId? = nil, wcdmaNmr: [WcdmaNmrObj]? = nil) {
+            self.lac = lac
+            self.mcc = mcc
+            self.mnc = mnc
+            self.pathLoss = pathLoss
+            self.rscp = rscp
+            self.utranCid = utranCid
+            self.wcdmaLocalId = wcdmaLocalId
+            self.wcdmaNmr = wcdmaNmr
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lac, name: "lac", parent: name, max: 65535)
+            try self.validate(self.lac, name: "lac", parent: name, min: 1)
+            try self.validate(self.mcc, name: "mcc", parent: name, max: 999)
+            try self.validate(self.mcc, name: "mcc", parent: name, min: 200)
+            try self.validate(self.mnc, name: "mnc", parent: name, max: 999)
+            try self.validate(self.mnc, name: "mnc", parent: name, min: 0)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, max: 158)
+            try self.validate(self.pathLoss, name: "pathLoss", parent: name, min: 46)
+            try self.validate(self.rscp, name: "rscp", parent: name, max: -25)
+            try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
+            try self.wcdmaLocalId?.validate(name: "\(name).wcdmaLocalId")
+            try self.wcdmaNmr?.forEach {
+                try $0.validate(name: "\(name).wcdmaNmr[]")
+            }
+            try self.validate(self.wcdmaNmr, name: "wcdmaNmr", parent: name, max: 32)
+            try self.validate(self.wcdmaNmr, name: "wcdmaNmr", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lac = "Lac"
+            case mcc = "Mcc"
+            case mnc = "Mnc"
+            case pathLoss = "PathLoss"
+            case rscp = "Rscp"
+            case utranCid = "UtranCid"
+            case wcdmaLocalId = "WcdmaLocalId"
+            case wcdmaNmr = "WcdmaNmr"
+        }
+    }
+
+    public struct WiFiAccessPoint: AWSEncodableShape {
+        /// Wi-Fi MAC Address.
+        public let macAddress: String
+        /// Recived signal strength of the WLAN measurement data.
+        public let rss: Int
+
+        public init(macAddress: String, rss: Int) {
+            self.macAddress = macAddress
+            self.rss = rss
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.macAddress, name: "macAddress", parent: name, max: 17)
+            try self.validate(self.macAddress, name: "macAddress", parent: name, min: 12)
+            try self.validate(self.macAddress, name: "macAddress", parent: name, pattern: "^([0-9A-Fa-f]{2}[:-]?){5}([0-9A-Fa-f]{2})$")
+            try self.validate(self.rss, name: "rss", parent: name, max: 0)
+            try self.validate(self.rss, name: "rss", parent: name, min: -128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case macAddress = "MacAddress"
+            case rss = "Rss"
         }
     }
 

@@ -43,6 +43,11 @@ extension IoTTwinMaker {
         return try await self.client.execute(operation: "CreateScene", path: "/workspaces/{workspaceId}/scenes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
+    /// This action creates a SyncJob.
+    public func createSyncJob(_ input: CreateSyncJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSyncJobResponse {
+        return try await self.client.execute(operation: "CreateSyncJob", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
     /// Creates a workplace.
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkspaceResponse {
         return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
@@ -61,6 +66,11 @@ extension IoTTwinMaker {
     /// Deletes a scene.
     public func deleteScene(_ input: DeleteSceneRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSceneResponse {
         return try await self.client.execute(operation: "DeleteScene", path: "/workspaces/{workspaceId}/scenes/{sceneId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// Delete the SyncJob.
+    public func deleteSyncJob(_ input: DeleteSyncJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteSyncJobResponse {
+        return try await self.client.execute(operation: "DeleteSyncJob", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Deletes a workspace.
@@ -103,6 +113,11 @@ extension IoTTwinMaker {
         return try await self.client.execute(operation: "GetScene", path: "/workspaces/{workspaceId}/scenes/{sceneId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
+    /// Gets the SyncJob.
+    public func getSyncJob(_ input: GetSyncJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSyncJobResponse {
+        return try await self.client.execute(operation: "GetSyncJob", path: "/sync-jobs/{syncSource}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
     /// Retrieves information about a workspace.
     public func getWorkspace(_ input: GetWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetWorkspaceResponse {
         return try await self.client.execute(operation: "GetWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
@@ -121,6 +136,16 @@ extension IoTTwinMaker {
     /// Lists all scenes in a workspace.
     public func listScenes(_ input: ListScenesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListScenesResponse {
         return try await self.client.execute(operation: "ListScenes", path: "/workspaces/{workspaceId}/scenes-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// List all SyncJobs.
+    public func listSyncJobs(_ input: ListSyncJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSyncJobsResponse {
+        return try await self.client.execute(operation: "ListSyncJobs", path: "/workspaces/{workspaceId}/sync-jobs-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// Lists the sync resources.
+    public func listSyncResources(_ input: ListSyncResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSyncResourcesResponse {
+        return try await self.client.execute(operation: "ListSyncResources", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}/resources-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Lists all tags associated with a resource.
@@ -300,6 +325,50 @@ extension IoTTwinMaker {
             command: self.listScenes,
             inputKey: \ListScenesRequest.nextToken,
             outputKey: \ListScenesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List all SyncJobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSyncJobsPaginator(
+        _ input: ListSyncJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSyncJobsRequest, ListSyncJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listSyncJobs,
+            inputKey: \ListSyncJobsRequest.nextToken,
+            outputKey: \ListSyncJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the sync resources.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSyncResourcesPaginator(
+        _ input: ListSyncResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSyncResourcesRequest, ListSyncResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listSyncResources,
+            inputKey: \ListSyncResourcesRequest.nextToken,
+            outputKey: \ListSyncResourcesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

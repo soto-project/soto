@@ -38,7 +38,7 @@ extension Organizations {
         case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
         case approveAllFeatures = "APPROVE_ALL_FEATURES"
         case enableAllFeatures = "ENABLE_ALL_FEATURES"
-        case invite = "INVITE"
+        case inviteAccountToOrganization = "INVITE"
         public var description: String { return self.rawValue }
     }
 
@@ -61,8 +61,9 @@ extension Organizations {
         case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
         case missingBusinessValidation = "MISSING_BUSINESS_VALIDATION"
         case missingPaymentInstrument = "MISSING_PAYMENT_INSTRUMENT"
-        case pendingBusinessValidation = "PENDING_BUSINESS_VALIDATION"
+        case pendingBUSINESSValidationv = "PENDING_BUSINESS_VALIDATION"
         case unknownBusinessValidation = "UNKNOWN_BUSINESS_VALIDATION"
+        case updateExistingResourcePolicyWithTagsNotSupported = "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -316,7 +317,7 @@ extension Organizations {
         public let email: String
         /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:    Accessing and Administering the Member Accounts in Your Organization in the Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles in the IAM User Guide    The regex pattern that  is used to validate this parameter. The pattern can include uppercase  letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        /// The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:    Accessing and Administering the Member Accounts in Your Organization in the Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles in the IAM User Guide    The regex pattern that  is used to validate this parameter. The pattern can include uppercase  letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
         /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is invalid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
         public let tags: [Tag]?
@@ -938,6 +939,19 @@ extension Organizations {
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
+        }
+    }
+
+    public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+        /// A structure that contains details about the resource policy.
+        public let resourcePolicy: ResourcePolicy?
+
+        public init(resourcePolicy: ResourcePolicy? = nil) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "ResourcePolicy"
         }
     }
 
@@ -1940,7 +1954,7 @@ extension Organizations {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100_000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2210,6 +2224,45 @@ extension Organizations {
         }
     }
 
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see Service Control Policy Syntax in the Organizations User Guide.
+        public let content: String
+        /// Updates the list of tags that you want to attach to the newly-created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is invalid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
+        public let tags: [Tag]?
+
+        public init(content: String, tags: [Tag]? = nil) {
+            self.content = content
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 40000)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.content, name: "content", parent: name, pattern: "^[\\s\\S]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// A structure that contains details about the resource policy.
+        public let resourcePolicy: ResourcePolicy?
+
+        public init(resourcePolicy: ResourcePolicy? = nil) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
     public struct RegisterDelegatedAdministratorRequest: AWSEncodableShape {
         /// The account ID number of the member account in the organization to register as a delegated administrator.
         public let accountId: String
@@ -2250,6 +2303,40 @@ extension Organizations {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+        }
+    }
+
+    public struct ResourcePolicy: AWSDecodableShape {
+        /// The policy text of the resource policy.
+        public let content: String?
+        /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
+        public let resourcePolicySummary: ResourcePolicySummary?
+
+        public init(content: String? = nil, resourcePolicySummary: ResourcePolicySummary? = nil) {
+            self.content = content
+            self.resourcePolicySummary = resourcePolicySummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case resourcePolicySummary = "ResourcePolicySummary"
+        }
+    }
+
+    public struct ResourcePolicySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource policy.
+        public let arn: String?
+        /// The unique identifier (ID) of the resource policy.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
         }
     }
 
@@ -2316,7 +2403,7 @@ extension Organizations {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2341,7 +2428,7 @@ extension Organizations {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 130)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})|(^rp-[0-9a-zA-Z_]{4,128})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2490,6 +2577,7 @@ public struct OrganizationsErrorType: AWSErrorType {
         case policyTypeAlreadyEnabledException = "PolicyTypeAlreadyEnabledException"
         case policyTypeNotAvailableForOrganizationException = "PolicyTypeNotAvailableForOrganizationException"
         case policyTypeNotEnabledException = "PolicyTypeNotEnabledException"
+        case resourcePolicyNotFoundException = "ResourcePolicyNotFoundException"
         case rootNotFoundException = "RootNotFoundException"
         case serviceException = "ServiceException"
         case sourceParentNotFoundException = "SourceParentNotFoundException"
@@ -2596,6 +2684,8 @@ public struct OrganizationsErrorType: AWSErrorType {
     public static var policyTypeNotAvailableForOrganizationException: Self { .init(.policyTypeNotAvailableForOrganizationException) }
     /// The specified policy type isn&#39;t currently enabled in this root. You can&#39;t attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see Enabling All Features in Your Organization in the Organizations User Guide.
     public static var policyTypeNotEnabledException: Self { .init(.policyTypeNotEnabledException) }
+    /// We can&#39;t find a resource policy request with the parameter that you specified.
+    public static var resourcePolicyNotFoundException: Self { .init(.resourcePolicyNotFoundException) }
     /// We can&#39;t find a root with the RootId that you specified.
     public static var rootNotFoundException: Self { .init(.rootNotFoundException) }
     /// Organizations can&#39;t complete your request because of an internal service error. Try again later.

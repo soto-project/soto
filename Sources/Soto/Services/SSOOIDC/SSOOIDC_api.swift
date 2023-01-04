@@ -57,6 +57,7 @@ public struct SSOOIDC: AWSService {
             apiVersion: "2019-06-10",
             endpoint: endpoint,
             serviceEndpoints: [
+                "af-south-1": "oidc.af-south-1.amazonaws.com",
                 "ap-east-1": "oidc.ap-east-1.amazonaws.com",
                 "ap-northeast-1": "oidc.ap-northeast-1.amazonaws.com",
                 "ap-northeast-2": "oidc.ap-northeast-2.amazonaws.com",
@@ -64,6 +65,7 @@ public struct SSOOIDC: AWSService {
                 "ap-south-1": "oidc.ap-south-1.amazonaws.com",
                 "ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com",
                 "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com",
+                "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
                 "ca-central-1": "oidc.ca-central-1.amazonaws.com",
                 "eu-central-1": "oidc.eu-central-1.amazonaws.com",
                 "eu-north-1": "oidc.eu-north-1.amazonaws.com",
@@ -77,6 +79,7 @@ public struct SSOOIDC: AWSService {
                 "us-east-2": "oidc.us-east-2.amazonaws.com",
                 "us-gov-east-1": "oidc.us-gov-east-1.amazonaws.com",
                 "us-gov-west-1": "oidc.us-gov-west-1.amazonaws.com",
+                "us-west-1": "oidc.us-west-1.amazonaws.com",
                 "us-west-2": "oidc.us-west-2.amazonaws.com"
             ],
             errorType: SSOOIDCErrorType.self,

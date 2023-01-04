@@ -33,7 +33,7 @@ extension Grafana {
         return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an API key for the workspace.  This key can be used to authenticate  requests sent to the workspace's HTTP API.  See  https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html  for available APIs and example requests.
+    /// Creates a Grafana API key for the workspace.  This key can be used to  authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
     public func createWorkspaceApiKey(_ input: CreateWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkspaceApiKeyResponse {
         return try await self.client.execute(operation: "CreateWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -43,7 +43,7 @@ extension Grafana {
         return try await self.client.execute(operation: "DeleteWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an API key for a workspace.
+    /// Deletes a Grafana API key for the workspace.
     public func deleteWorkspaceApiKey(_ input: DeleteWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWorkspaceApiKeyResponse {
         return try await self.client.execute(operation: "DeleteWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys/{keyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -56,6 +56,11 @@ extension Grafana {
     /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
     public func describeWorkspaceAuthentication(_ input: DescribeWorkspaceAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeWorkspaceAuthenticationResponse {
         return try await self.client.execute(operation: "DescribeWorkspaceAuthentication", path: "/workspaces/{workspaceId}/authentication", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the current configuration string for the given workspace.
+    public func describeWorkspaceConfiguration(_ input: DescribeWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeWorkspaceConfigurationResponse {
+        return try await self.client.execute(operation: "DescribeWorkspaceConfiguration", path: "/workspaces/{workspaceId}/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes the Grafana Enterprise license from a workspace.
@@ -93,7 +98,7 @@ extension Grafana {
         return try await self.client.execute(operation: "UpdatePermissions", path: "/workspaces/{workspaceId}/permissions", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any  optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or Amazon Web Services SSO,  use UpdateWorkspaceAuthentication. To modify which users in the workspace have the Admin and Editor Grafana roles,  use UpdatePermissions.
+    /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any  optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center,  use UpdateWorkspaceAuthentication. To modify which users in the workspace have the Admin and Editor Grafana roles,  use UpdatePermissions.
     public func updateWorkspace(_ input: UpdateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkspaceResponse {
         return try await self.client.execute(operation: "UpdateWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -101,6 +106,11 @@ extension Grafana {
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
     public func updateWorkspaceAuthentication(_ input: UpdateWorkspaceAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkspaceAuthenticationResponse {
         return try await self.client.execute(operation: "UpdateWorkspaceAuthentication", path: "/workspaces/{workspaceId}/authentication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the configuration string for the given workspace
+    public func updateWorkspaceConfiguration(_ input: UpdateWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkspaceConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateWorkspaceConfiguration", path: "/workspaces/{workspaceId}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

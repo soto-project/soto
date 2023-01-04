@@ -64,6 +64,7 @@ extension Billingconductor {
     public enum PricingRuleType: String, CustomStringConvertible, Codable, _SotoSendable {
         case discount = "DISCOUNT"
         case markup = "MARKUP"
+        case tiering = "TIERING"
         public var description: String { return self.rawValue }
     }
 
@@ -566,6 +567,19 @@ extension Billingconductor {
         }
     }
 
+    public struct CreateFreeTierConfig: AWSEncodableShape {
+        ///  Activate or deactivate Amazon Web Services Free Tier.
+        public let activated: Bool
+
+        public init(activated: Bool) {
+            self.activated = activated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activated = "Activated"
+        }
+    }
+
     public struct CreatePricingPlanInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
@@ -644,7 +658,7 @@ extension Billingconductor {
         ///  The pricing rule description.
         public let description: String?
         ///  A percentage modifier that's applied on the public pricing rates.
-        public let modifierPercentage: Double
+        public let modifierPercentage: Double?
         ///  The pricing rule name. The names must be unique to each pricing rule.
         public let name: String
         ///  The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
@@ -653,10 +667,12 @@ extension Billingconductor {
         public let service: String?
         ///  A map that contains tag keys and tag values that are attached to a pricing rule.
         public let tags: [String: String]?
+        ///  The set of tiering configurations for the pricing rule.
+        public let tiering: CreateTieringInput?
         ///  The type of pricing rule.
         public let type: PricingRuleType
 
-        public init(billingEntity: String? = nil, clientToken: String? = CreatePricingRuleInput.idempotencyToken(), description: String? = nil, modifierPercentage: Double, name: String, scope: PricingRuleScope, service: String? = nil, tags: [String: String]? = nil, type: PricingRuleType) {
+        public init(billingEntity: String? = nil, clientToken: String? = CreatePricingRuleInput.idempotencyToken(), description: String? = nil, modifierPercentage: Double? = nil, name: String, scope: PricingRuleScope, service: String? = nil, tags: [String: String]? = nil, tiering: CreateTieringInput? = nil, type: PricingRuleType) {
             self.billingEntity = billingEntity
             self.clientToken = clientToken
             self.description = description
@@ -665,6 +681,7 @@ extension Billingconductor {
             self.scope = scope
             self.service = service
             self.tags = tags
+            self.tiering = tiering
             self.type = type
         }
 
@@ -698,6 +715,7 @@ extension Billingconductor {
             case scope = "Scope"
             case service = "Service"
             case tags = "Tags"
+            case tiering = "Tiering"
             case type = "Type"
         }
     }
@@ -712,6 +730,19 @@ extension Billingconductor {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+        }
+    }
+
+    public struct CreateTieringInput: AWSEncodableShape {
+        ///  The possible Amazon Web Services Free Tier configurations.
+        public let freeTier: CreateFreeTierConfig
+
+        public init(freeTier: CreateFreeTierConfig) {
+            self.freeTier = freeTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeTier = "FreeTier"
         }
     }
 
@@ -1124,6 +1155,19 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case error = "Error"
+        }
+    }
+
+    public struct FreeTierConfig: AWSDecodableShape {
+        ///  Activate or deactivate Amazon Web Services Free Tier application.
+        public let activated: Bool
+
+        public init(activated: Bool) {
+            self.activated = activated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activated = "Activated"
         }
     }
 
@@ -2002,10 +2046,12 @@ extension Billingconductor {
         public let scope: PricingRuleScope?
         ///  If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
         public let service: String?
+        ///  The set of tiering configurations for the pricing rule.
+        public let tiering: Tiering?
         ///  The type of pricing rule.
         public let type: PricingRuleType?
 
-        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, type: PricingRuleType? = nil) {
+        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: Tiering? = nil, type: PricingRuleType? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
             self.billingEntity = billingEntity
@@ -2016,6 +2062,7 @@ extension Billingconductor {
             self.name = name
             self.scope = scope
             self.service = service
+            self.tiering = tiering
             self.type = type
         }
 
@@ -2030,6 +2077,7 @@ extension Billingconductor {
             case name = "Name"
             case scope = "Scope"
             case service = "Service"
+            case tiering = "Tiering"
             case type = "Type"
         }
     }
@@ -2068,6 +2116,19 @@ extension Billingconductor {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Tiering: AWSDecodableShape {
+        ///  The possible Amazon Web Services Free Tier configurations.
+        public let freeTier: FreeTierConfig
+
+        public init(freeTier: FreeTierConfig) {
+            self.freeTier = freeTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeTier = "FreeTier"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2321,6 +2382,19 @@ extension Billingconductor {
         }
     }
 
+    public struct UpdateFreeTierConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  Activate or deactivate application of Amazon Web Services Free Tier.
+        public let activated: Bool
+
+        public init(activated: Bool) {
+            self.activated = activated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activated = "Activated"
+        }
+    }
+
     public struct UpdatePricingPlanInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the pricing plan that you're updating.
         public let arn: String
@@ -2388,14 +2462,17 @@ extension Billingconductor {
         public let modifierPercentage: Double?
         ///  The new name of the pricing rule. The name must be unique to each pricing rule.
         public let name: String?
+        ///  The set of tiering configurations for the pricing rule.
+        public let tiering: UpdateTieringInput?
         ///  The new pricing rule type.
         public let type: PricingRuleType?
 
-        public init(arn: String, description: String? = nil, modifierPercentage: Double? = nil, name: String? = nil, type: PricingRuleType? = nil) {
+        public init(arn: String, description: String? = nil, modifierPercentage: Double? = nil, name: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil) {
             self.arn = arn
             self.description = description
             self.modifierPercentage = modifierPercentage
             self.name = name
+            self.tiering = tiering
             self.type = type
         }
 
@@ -2413,6 +2490,7 @@ extension Billingconductor {
             case description = "Description"
             case modifierPercentage = "ModifierPercentage"
             case name = "Name"
+            case tiering = "Tiering"
             case type = "Type"
         }
     }
@@ -2436,10 +2514,12 @@ extension Billingconductor {
         public let scope: PricingRuleScope?
         ///  If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
         public let service: String?
+        ///  The set of tiering configurations for the pricing rule.
+        public let tiering: UpdateTieringInput?
         ///  The new pricing rule type.
         public let type: PricingRuleType?
 
-        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, type: PricingRuleType? = nil) {
+        public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
             self.billingEntity = billingEntity
@@ -2449,6 +2529,7 @@ extension Billingconductor {
             self.name = name
             self.scope = scope
             self.service = service
+            self.tiering = tiering
             self.type = type
         }
 
@@ -2462,7 +2543,21 @@ extension Billingconductor {
             case name = "Name"
             case scope = "Scope"
             case service = "Service"
+            case tiering = "Tiering"
             case type = "Type"
+        }
+    }
+
+    public struct UpdateTieringInput: AWSEncodableShape & AWSDecodableShape {
+        ///  The possible Amazon Web Services Free Tier configurations.
+        public let freeTier: UpdateFreeTierConfig
+
+        public init(freeTier: UpdateFreeTierConfig) {
+            self.freeTier = freeTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeTier = "FreeTier"
         }
     }
 }

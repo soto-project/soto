@@ -55,8 +55,9 @@ public struct ChimeSDKVoice: AWSService {
             endpoint: endpoint,
             variantEndpoints: [
                 [.fips]: .init(endpoints: [
-                    "us-east-1": "fips.voice-chime.us-east-1.amazonaws.com",
-                    "us-west-2": "fips.voice-chime.us-west-2.amazonaws.com"
+                    "ca-central-1": "voice-chime-fips.ca-central-1.amazonaws.com",
+                    "us-east-1": "voice-chime-fips.us-east-1.amazonaws.com",
+                    "us-west-2": "voice-chime-fips.us-west-2.amazonaws.com"
                 ])
             ],
             errorType: ChimeSDKVoiceErrorType.self,

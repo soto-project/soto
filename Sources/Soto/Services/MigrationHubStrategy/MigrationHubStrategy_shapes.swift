@@ -29,22 +29,56 @@ extension MigrationHubStrategy {
     }
 
     public enum AppType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cassandra = "Cassandra"
+        case db2 = "DB2"
         case dotNetFramework = "DotNetFramework"
+        case dotnet = "Dotnet"
+        case dotnetCore = "DotnetCore"
+        case ibmWebsphere = "IBM WebSphere"
         case iis = "IIS"
+        case jBoss = "JBoss"
         case java = "Java"
+        case mariaDB = "Maria DB"
+        case mongoDB = "Mongo DB"
+        case mySQL = "MySQL"
         case oracle = "Oracle"
+        case oracleWeblogic = "Oracle WebLogic"
         case other = "Other"
+        case postgreSQLServer = "PostgreSQLServer"
         case sqlServer = "SQLServer"
+        case spring = "Spring"
+        case sybase = "Sybase"
+        case tomcat = "Tomcat"
+        case unknown = "Unknown"
+        case visualBasic = "Visual Basic"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppUnitErrorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+        case connectivityError = "CONNECTIVITY_ERROR"
+        case credentialError = "CREDENTIAL_ERROR"
+        case otherError = "OTHER_ERROR"
+        case permissionError = "PERMISSION_ERROR"
+        case unsupportedError = "UNSUPPORTED_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum ApplicationComponentCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+        case analysisStatus = "ANALYSIS_STATUS"
         case appName = "APP_NAME"
         case appType = "APP_TYPE"
         case destination = "DESTINATION"
+        case errorCategory = "ERROR_CATEGORY"
         case notDefined = "NOT_DEFINED"
         case serverId = "SERVER_ID"
         case strategy = "STRATEGY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case known = "KNOWN"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -53,6 +87,13 @@ extension MigrationHubStrategy {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cert = "CERT"
+        case ntlm = "NTLM"
+        case ssh = "SSH"
         public var description: String { return self.rawValue }
     }
 
@@ -66,6 +107,14 @@ extension MigrationHubStrategy {
     public enum CollectorHealth: String, CustomStringConvertible, Codable, _SotoSendable {
         case collectorHealthy = "COLLECTOR_HEALTHY"
         case collectorUnhealthy = "COLLECTOR_UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Condition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case contains = "CONTAINS"
+        case equals = "EQUALS"
+        case notContains = "NOT_CONTAINS"
+        case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -146,6 +195,11 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
+    public enum PipelineType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case azureDevops = "AZURE_DEVOPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecommendationReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -171,6 +225,14 @@ extension MigrationHubStrategy {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuntimeAnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case analysisFailed = "ANALYSIS_FAILED"
+        case analysisStarted = "ANALYSIS_STARTED"
+        case analysisSuccess = "ANALYSIS_SUCCESS"
+        case analysisToBeScheduled = "ANALYSIS_TO_BE_SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SelfManageTargetDestination: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonElasticCloudComputeEC2 = "Amazon Elastic Cloud Compute (EC2)"
         case amazonElasticContainerServiceECS = "Amazon Elastic Container Service (ECS)"
@@ -180,11 +242,22 @@ extension MigrationHubStrategy {
     }
 
     public enum ServerCriteria: String, CustomStringConvertible, Codable, _SotoSendable {
+        case analysisStatus = "ANALYSIS_STATUS"
         case destination = "DESTINATION"
+        case errorCategory = "ERROR_CATEGORY"
         case notDefined = "NOT_DEFINED"
         case osName = "OS_NAME"
         case serverId = "SERVER_ID"
         case strategy = "STRATEGY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerErrorCategory: String, CustomStringConvertible, Codable, _SotoSendable {
+        case architectureError = "ARCHITECTURE_ERROR"
+        case connectivityError = "CONNECTIVITY_ERROR"
+        case credentialError = "CREDENTIAL_ERROR"
+        case otherError = "OTHER_ERROR"
+        case permissionError = "PERMISSION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -212,9 +285,12 @@ extension MigrationHubStrategy {
 
     public enum SrcCodeOrDbAnalysisStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case analysisFailed = "ANALYSIS_FAILED"
+        case analysisPartialSuccess = "ANALYSIS_PARTIAL_SUCCESS"
         case analysisStarted = "ANALYSIS_STARTED"
         case analysisSuccess = "ANALYSIS_SUCCESS"
         case analysisToBeScheduled = "ANALYSIS_TO_BE_SCHEDULED"
+        case configured = "CONFIGURED"
+        case unconfigured = "UNCONFIGURED"
         public var description: String { return self.rawValue }
     }
 
@@ -231,6 +307,7 @@ extension MigrationHubStrategy {
 
     public enum StrategyRecommendation: String, CustomStringConvertible, Codable, _SotoSendable {
         case notRecommended
+        case potential
         case recommended
         case viableOption
         public var description: String { return self.rawValue }
@@ -263,6 +340,7 @@ extension MigrationHubStrategy {
         case amazonRelationalDatabaseServiceOnPostgresql = "Amazon Relational Database Service on PostgreSQL"
         case auroraMysql = "Aurora MySQL"
         case auroraPostgresql = "Aurora PostgreSQL"
+        case babelfishForAuroraPostgresql = "Babelfish for Aurora PostgreSQL"
         case noneSpecified = "None specified"
         public var description: String { return self.rawValue }
     }
@@ -282,6 +360,14 @@ extension MigrationHubStrategy {
     }
 
     public enum VersionControl: String, CustomStringConvertible, Codable, _SotoSendable {
+        case azureDevopsGit = "AZURE_DEVOPS_GIT"
+        case github = "GITHUB"
+        case githubEnterprise = "GITHUB_ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionControlType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case azureDevopsGit = "AZURE_DEVOPS_GIT"
         case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
@@ -426,6 +512,19 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct AppUnitError: AWSDecodableShape {
+        /// The category of the error.
+        public let appUnitErrorCategory: AppUnitErrorCategory?
+
+        public init(appUnitErrorCategory: AppUnitErrorCategory? = nil) {
+            self.appUnitErrorCategory = appUnitErrorCategory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appUnitErrorCategory
+        }
+    }
+
     public struct ApplicationComponentDetail: AWSDecodableShape {
         ///  The status of analysis, if the application component has source code or an associated database.
         public let analysisStatus: SrcCodeOrDbAnalysisStatus?
@@ -437,6 +536,8 @@ extension MigrationHubStrategy {
         public let antipatternReportStatusMessage: String?
         ///  The type of application component.
         public let appType: AppType?
+        /// The error in the analysis of the source code or database.
+        public let appUnitError: AppUnitError?
         ///  The ID of the server that the application component is running on.
         public let associatedServerId: String?
         ///  Configuration details for the database associated with the application component.
@@ -461,17 +562,22 @@ extension MigrationHubStrategy {
         public let recommendationSet: RecommendationSet?
         ///  The application component subtype.
         public let resourceSubType: ResourceSubType?
+        /// The status of the application unit.
+        public let runtimeStatus: RuntimeAnalysisStatus?
+        /// The status message for the application unit.
+        public let runtimeStatusMessage: String?
         ///  Details about the source code repository associated with the application component.
         public let sourceCodeRepositories: [SourceCodeRepository]?
         ///  A detailed description of the analysis status and any failure message.
         public let statusMessage: String?
 
-        public init(analysisStatus: SrcCodeOrDbAnalysisStatus? = nil, antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, appType: AppType? = nil, associatedServerId: String? = nil, databaseConfigDetail: DatabaseConfigDetail? = nil, id: String? = nil, inclusionStatus: InclusionStatus? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, moreServerAssociationExists: Bool? = nil, name: String? = nil, osDriver: String? = nil, osVersion: String? = nil, recommendationSet: RecommendationSet? = nil, resourceSubType: ResourceSubType? = nil, sourceCodeRepositories: [SourceCodeRepository]? = nil, statusMessage: String? = nil) {
+        public init(analysisStatus: SrcCodeOrDbAnalysisStatus? = nil, antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, appType: AppType? = nil, appUnitError: AppUnitError? = nil, associatedServerId: String? = nil, databaseConfigDetail: DatabaseConfigDetail? = nil, id: String? = nil, inclusionStatus: InclusionStatus? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, moreServerAssociationExists: Bool? = nil, name: String? = nil, osDriver: String? = nil, osVersion: String? = nil, recommendationSet: RecommendationSet? = nil, resourceSubType: ResourceSubType? = nil, runtimeStatus: RuntimeAnalysisStatus? = nil, runtimeStatusMessage: String? = nil, sourceCodeRepositories: [SourceCodeRepository]? = nil, statusMessage: String? = nil) {
             self.analysisStatus = analysisStatus
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
             self.appType = appType
+            self.appUnitError = appUnitError
             self.associatedServerId = associatedServerId
             self.databaseConfigDetail = databaseConfigDetail
             self.id = id
@@ -484,6 +590,8 @@ extension MigrationHubStrategy {
             self.osVersion = osVersion
             self.recommendationSet = recommendationSet
             self.resourceSubType = resourceSubType
+            self.runtimeStatus = runtimeStatus
+            self.runtimeStatusMessage = runtimeStatusMessage
             self.sourceCodeRepositories = sourceCodeRepositories
             self.statusMessage = statusMessage
         }
@@ -494,6 +602,7 @@ extension MigrationHubStrategy {
             case antipatternReportStatus
             case antipatternReportStatusMessage
             case appType
+            case appUnitError
             case associatedServerId
             case databaseConfigDetail
             case id
@@ -506,8 +615,27 @@ extension MigrationHubStrategy {
             case osVersion
             case recommendationSet
             case resourceSubType
+            case runtimeStatus
+            case runtimeStatusMessage
             case sourceCodeRepositories
             case statusMessage
+        }
+    }
+
+    public struct ApplicationComponentStatusSummary: AWSDecodableShape {
+        /// The number of application components successfully analyzed, partially successful or failed analysis.
+        public let count: Int?
+        /// The status of database analysis.
+        public let srcCodeOrDbAnalysisStatus: SrcCodeOrDbAnalysisStatus?
+
+        public init(count: Int? = nil, srcCodeOrDbAnalysisStatus: SrcCodeOrDbAnalysisStatus? = nil) {
+            self.count = count
+            self.srcCodeOrDbAnalysisStatus = srcCodeOrDbAnalysisStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count
+            case srcCodeOrDbAnalysisStatus
         }
     }
 
@@ -577,23 +705,29 @@ extension MigrationHubStrategy {
         public let lastAnalyzedTimestamp: Date?
         ///  List of AntipatternSeveritySummary.
         public let listAntipatternSeveritySummary: [AntipatternSeveritySummary]?
+        /// List of status summaries of the analyzed application components.
+        public let listApplicationComponentStatusSummary: [ApplicationComponentStatusSummary]?
         ///  List of ApplicationComponentStrategySummary.
         public let listApplicationComponentStrategySummary: [StrategySummary]?
         ///  List of ApplicationComponentSummary.
         public let listApplicationComponentSummary: [ApplicationComponentSummary]?
+        /// List of status summaries of the analyzed servers.
+        public let listServerStatusSummary: [ServerStatusSummary]?
         ///  List of ServerStrategySummary.
         public let listServerStrategySummary: [StrategySummary]?
         ///  List of ServerSummary.
         public let listServerSummary: [ServerSummary]?
 
-        public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, listApplicationComponentStrategySummary: [StrategySummary]? = nil, listApplicationComponentSummary: [ApplicationComponentSummary]? = nil, listServerStrategySummary: [StrategySummary]? = nil, listServerSummary: [ServerSummary]? = nil) {
+        public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, listApplicationComponentStatusSummary: [ApplicationComponentStatusSummary]? = nil, listApplicationComponentStrategySummary: [StrategySummary]? = nil, listApplicationComponentSummary: [ApplicationComponentSummary]? = nil, listServerStatusSummary: [ServerStatusSummary]? = nil, listServerStrategySummary: [StrategySummary]? = nil, listServerSummary: [ServerSummary]? = nil) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
             self.lastAnalyzedTimestamp = lastAnalyzedTimestamp
             self.listAntipatternSeveritySummary = listAntipatternSeveritySummary
+            self.listApplicationComponentStatusSummary = listApplicationComponentStatusSummary
             self.listApplicationComponentStrategySummary = listApplicationComponentStrategySummary
             self.listApplicationComponentSummary = listApplicationComponentSummary
+            self.listServerStatusSummary = listServerStatusSummary
             self.listServerStrategySummary = listServerStrategySummary
             self.listServerSummary = listServerSummary
         }
@@ -604,10 +738,42 @@ extension MigrationHubStrategy {
             case antipatternReportStatusMessage
             case lastAnalyzedTimestamp
             case listAntipatternSeveritySummary
+            case listApplicationComponentStatusSummary
             case listApplicationComponentStrategySummary
             case listApplicationComponentSummary
+            case listServerStatusSummary
             case listServerStrategySummary
             case listServerSummary
+        }
+    }
+
+    public struct AssessmentTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Condition of an assessment.
+        public let condition: Condition
+        /// Name of an assessment.
+        public let name: String
+        /// Values of an assessment.
+        public let values: [String]
+
+        public init(condition: Condition, name: String, values: [String]) {
+            self.condition = condition
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition
+            case name
+            case values
         }
     }
 
@@ -689,6 +855,8 @@ extension MigrationHubStrategy {
         public let collectorId: String?
         ///  Current version of the collector that is running in the environment that you specify.
         public let collectorVersion: String?
+        /// Summary of the collector configuration.
+        public let configurationSummary: ConfigurationSummary?
         ///  Hostname of the server that is hosting the collector.
         public let hostName: String?
         ///  IP address of the server that is hosting the collector.
@@ -698,10 +866,11 @@ extension MigrationHubStrategy {
         ///  Time when the collector registered with the service.
         public let registeredTimeStamp: String?
 
-        public init(collectorHealth: CollectorHealth? = nil, collectorId: String? = nil, collectorVersion: String? = nil, hostName: String? = nil, ipAddress: String? = nil, lastActivityTimeStamp: String? = nil, registeredTimeStamp: String? = nil) {
+        public init(collectorHealth: CollectorHealth? = nil, collectorId: String? = nil, collectorVersion: String? = nil, configurationSummary: ConfigurationSummary? = nil, hostName: String? = nil, ipAddress: String? = nil, lastActivityTimeStamp: String? = nil, registeredTimeStamp: String? = nil) {
             self.collectorHealth = collectorHealth
             self.collectorId = collectorId
             self.collectorVersion = collectorVersion
+            self.configurationSummary = configurationSummary
             self.hostName = hostName
             self.ipAddress = ipAddress
             self.lastActivityTimeStamp = lastActivityTimeStamp
@@ -712,10 +881,40 @@ extension MigrationHubStrategy {
             case collectorHealth
             case collectorId
             case collectorVersion
+            case configurationSummary
             case hostName
             case ipAddress
             case lastActivityTimeStamp
             case registeredTimeStamp
+        }
+    }
+
+    public struct ConfigurationSummary: AWSDecodableShape {
+        /// IP address based configurations.
+        public let ipAddressBasedRemoteInfoList: [IPAddressBasedRemoteInfo]?
+        /// The list of pipeline info configurations.
+        public let pipelineInfoList: [PipelineInfo]?
+        /// Info about the remote server source code configuration.
+        public let remoteSourceCodeAnalysisServerInfo: RemoteSourceCodeAnalysisServerInfo?
+        /// The list of vCenter configurations.
+        public let vcenterBasedRemoteInfoList: [VcenterBasedRemoteInfo]?
+        /// The list of the version control configurations.
+        public let versionControlInfoList: [VersionControlInfo]?
+
+        public init(ipAddressBasedRemoteInfoList: [IPAddressBasedRemoteInfo]? = nil, pipelineInfoList: [PipelineInfo]? = nil, remoteSourceCodeAnalysisServerInfo: RemoteSourceCodeAnalysisServerInfo? = nil, vcenterBasedRemoteInfoList: [VcenterBasedRemoteInfo]? = nil, versionControlInfoList: [VersionControlInfo]? = nil) {
+            self.ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList
+            self.pipelineInfoList = pipelineInfoList
+            self.remoteSourceCodeAnalysisServerInfo = remoteSourceCodeAnalysisServerInfo
+            self.vcenterBasedRemoteInfoList = vcenterBasedRemoteInfoList
+            self.versionControlInfoList = versionControlInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddressBasedRemoteInfoList
+            case pipelineInfoList
+            case remoteSourceCodeAnalysisServerInfo
+            case vcenterBasedRemoteInfoList
+            case versionControlInfoList
         }
     }
 
@@ -732,16 +931,19 @@ extension MigrationHubStrategy {
         public let startTime: Date?
         ///  The status of the assessment.
         public let status: AssessmentStatus?
+        /// The status message of the assessment.
+        public let statusMessage: String?
         ///  The number of successful servers in the assessment.
         public let success: Int?
 
-        public init(completionTime: Date? = nil, failed: Int? = nil, inProgress: Int? = nil, servers: Int? = nil, startTime: Date? = nil, status: AssessmentStatus? = nil, success: Int? = nil) {
+        public init(completionTime: Date? = nil, failed: Int? = nil, inProgress: Int? = nil, servers: Int? = nil, startTime: Date? = nil, status: AssessmentStatus? = nil, statusMessage: String? = nil, success: Int? = nil) {
             self.completionTime = completionTime
             self.failed = failed
             self.inProgress = inProgress
             self.servers = servers
             self.startTime = startTime
             self.status = status
+            self.statusMessage = statusMessage
             self.success = success
         }
 
@@ -752,6 +954,7 @@ extension MigrationHubStrategy {
             case servers
             case startTime
             case status
+            case statusMessage
             case success
         }
     }
@@ -889,17 +1092,21 @@ extension MigrationHubStrategy {
     }
 
     public struct GetAssessmentResponse: AWSDecodableShape {
+        /// List of criteria for assessment.
+        public let assessmentTargets: [AssessmentTarget]?
         ///  Detailed information about the assessment.
         public let dataCollectionDetails: DataCollectionDetails?
         ///  The ID for the specific assessment task.
         public let id: String?
 
-        public init(dataCollectionDetails: DataCollectionDetails? = nil, id: String? = nil) {
+        public init(assessmentTargets: [AssessmentTarget]? = nil, dataCollectionDetails: DataCollectionDetails? = nil, id: String? = nil) {
+            self.assessmentTargets = assessmentTargets
             self.dataCollectionDetails = dataCollectionDetails
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assessmentTargets
             case dataCollectionDetails
             case id
         }
@@ -978,11 +1185,30 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct GetLatestAssessmentIdRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetLatestAssessmentIdResponse: AWSDecodableShape {
+        /// The latest ID for the specific assessment task.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+        }
+    }
+
     public struct GetPortfolioPreferencesRequest: AWSEncodableShape {
         public init() {}
     }
 
     public struct GetPortfolioPreferencesResponse: AWSDecodableShape {
+        /// The classification for application component types.
+        public let applicationMode: ApplicationMode?
         ///  The transformation preferences for non-database applications.
         public let applicationPreferences: ApplicationPreferences?
         ///  The transformation preferences for database applications.
@@ -990,13 +1216,15 @@ extension MigrationHubStrategy {
         ///  The rank of business goals based on priority.
         public let prioritizeBusinessGoals: PrioritizeBusinessGoals?
 
-        public init(applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
+        public init(applicationMode: ApplicationMode? = nil, applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
+            self.applicationMode = applicationMode
             self.applicationPreferences = applicationPreferences
             self.databasePreferences = databasePreferences
             self.prioritizeBusinessGoals = prioritizeBusinessGoals
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationMode
             case applicationPreferences
             case databasePreferences
             case prioritizeBusinessGoals
@@ -1025,7 +1253,7 @@ extension MigrationHubStrategy {
             AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
-        ///  The recommendation report generation task id returned by  StartRecommendationReportGeneration.
+        ///  The recommendation report generation task id returned by StartRecommendationReportGeneration.
         public let id: String
 
         public init(id: String) {
@@ -1201,6 +1429,27 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct IPAddressBasedRemoteInfo: AWSDecodableShape {
+        /// The type of authorization.
+        public let authType: AuthType?
+        /// The time stamp of the configuration.
+        public let ipAddressConfigurationTimeStamp: String?
+        /// The type of the operating system.
+        public let osType: OSType?
+
+        public init(authType: AuthType? = nil, ipAddressConfigurationTimeStamp: String? = nil, osType: OSType? = nil) {
+            self.authType = authType
+            self.ipAddressConfigurationTimeStamp = ipAddressConfigurationTimeStamp
+            self.osType = osType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType
+            case ipAddressConfigurationTimeStamp
+            case osType
+        }
+    }
+
     public struct ImportFileTaskInformation: AWSDecodableShape {
         ///  The time that the import task completes.
         public let completionTime: Date?
@@ -1222,7 +1471,7 @@ extension MigrationHubStrategy {
         public let status: ImportFileTaskStatus?
         ///  The S3 bucket name for status report of import task.
         public let statusReportS3Bucket: String?
-        ///  The Amazon S3 key name for status report of import task. The report contains  details about whether each record imported successfully or why it did not.
+        ///  The Amazon S3 key name for status report of import task. The report contains details about whether each record imported successfully or why it did not.
         public let statusReportS3Key: String?
 
         public init(completionTime: Date? = nil, id: String? = nil, importName: String? = nil, inputS3Bucket: String? = nil, inputS3Key: String? = nil, numberOfRecordsFailed: Int? = nil, numberOfRecordsSuccess: Int? = nil, startTime: Date? = nil, status: ImportFileTaskStatus? = nil, statusReportS3Bucket: String? = nil, statusReportS3Key: String? = nil) {
@@ -1538,6 +1787,23 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct PipelineInfo: AWSDecodableShape {
+        /// The time when the pipeline info was configured.
+        public let pipelineConfigurationTimeStamp: String?
+        /// The type of pipeline.
+        public let pipelineType: PipelineType?
+
+        public init(pipelineConfigurationTimeStamp: String? = nil, pipelineType: PipelineType? = nil) {
+            self.pipelineConfigurationTimeStamp = pipelineConfigurationTimeStamp
+            self.pipelineType = pipelineType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineConfigurationTimeStamp
+            case pipelineType
+        }
+    }
+
     public struct PrioritizeBusinessGoals: AWSEncodableShape & AWSDecodableShape {
         ///  Rank of business goals based on priority.
         public let businessGoals: BusinessGoals?
@@ -1556,6 +1822,8 @@ extension MigrationHubStrategy {
     }
 
     public struct PutPortfolioPreferencesRequest: AWSEncodableShape {
+        /// The classification for application component types.
+        public let applicationMode: ApplicationMode?
         ///  The transformation preferences for non-database applications.
         public let applicationPreferences: ApplicationPreferences?
         ///  The transformation preferences for database applications.
@@ -1563,7 +1831,8 @@ extension MigrationHubStrategy {
         ///  The rank of the business goals based on priority.
         public let prioritizeBusinessGoals: PrioritizeBusinessGoals?
 
-        public init(applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
+        public init(applicationMode: ApplicationMode? = nil, applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
+            self.applicationMode = applicationMode
             self.applicationPreferences = applicationPreferences
             self.databasePreferences = databasePreferences
             self.prioritizeBusinessGoals = prioritizeBusinessGoals
@@ -1576,6 +1845,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationMode
             case applicationPreferences
             case databasePreferences
             case prioritizeBusinessGoals
@@ -1640,6 +1910,19 @@ extension MigrationHubStrategy {
         }
     }
 
+    public struct RemoteSourceCodeAnalysisServerInfo: AWSDecodableShape {
+        /// The time when the remote source code server was configured.
+        public let remoteSourceCodeAnalysisServerConfigurationTimestamp: String?
+
+        public init(remoteSourceCodeAnalysisServerConfigurationTimestamp: String? = nil) {
+            self.remoteSourceCodeAnalysisServerConfigurationTimestamp = remoteSourceCodeAnalysisServerConfigurationTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remoteSourceCodeAnalysisServerConfigurationTimestamp
+        }
+    }
+
     public struct S3Object: AWSDecodableShape {
         ///  The S3 bucket name.
         public let s3Bucket: String?
@@ -1696,6 +1979,8 @@ extension MigrationHubStrategy {
         public let name: String?
         ///  A set of recommendations.
         public let recommendationSet: RecommendationSet?
+        /// The error in server analysis.
+        public let serverError: ServerError?
         ///  The type of server.
         public let serverType: String?
         ///  A message about the status of data collection, which contains detailed descriptions of any error messages.
@@ -1703,7 +1988,7 @@ extension MigrationHubStrategy {
         ///  System information about the server.
         public let systemInfo: SystemInfo?
 
-        public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, applicationComponentStrategySummary: [StrategySummary]? = nil, dataCollectionStatus: RunTimeAssessmentStatus? = nil, id: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, name: String? = nil, recommendationSet: RecommendationSet? = nil, serverType: String? = nil, statusMessage: String? = nil, systemInfo: SystemInfo? = nil) {
+        public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, applicationComponentStrategySummary: [StrategySummary]? = nil, dataCollectionStatus: RunTimeAssessmentStatus? = nil, id: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, name: String? = nil, recommendationSet: RecommendationSet? = nil, serverError: ServerError? = nil, serverType: String? = nil, statusMessage: String? = nil, systemInfo: SystemInfo? = nil) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
@@ -1714,6 +1999,7 @@ extension MigrationHubStrategy {
             self.listAntipatternSeveritySummary = listAntipatternSeveritySummary
             self.name = name
             self.recommendationSet = recommendationSet
+            self.serverError = serverError
             self.serverType = serverType
             self.statusMessage = statusMessage
             self.systemInfo = systemInfo
@@ -1730,9 +2016,40 @@ extension MigrationHubStrategy {
             case listAntipatternSeveritySummary
             case name
             case recommendationSet
+            case serverError
             case serverType
             case statusMessage
             case systemInfo
+        }
+    }
+
+    public struct ServerError: AWSDecodableShape {
+        /// The error category of server analysis.
+        public let serverErrorCategory: ServerErrorCategory?
+
+        public init(serverErrorCategory: ServerErrorCategory? = nil) {
+            self.serverErrorCategory = serverErrorCategory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverErrorCategory
+        }
+    }
+
+    public struct ServerStatusSummary: AWSDecodableShape {
+        /// The number of servers successfully analyzed, partially successful or failed analysis.
+        public let count: Int?
+        /// The status of the run time.
+        public let runTimeAssessmentStatus: RunTimeAssessmentStatus?
+
+        public init(count: Int? = nil, runTimeAssessmentStatus: RunTimeAssessmentStatus? = nil) {
+            self.count = count
+            self.runTimeAssessmentStatus = runTimeAssessmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count
+            case runTimeAssessmentStatus
         }
     }
 
@@ -1781,13 +2098,16 @@ extension MigrationHubStrategy {
     public struct SourceCode: AWSEncodableShape {
         ///  The repository name for the source code.
         public let location: String?
+        /// The name of the project.
+        public let projectName: String?
         ///  The branch of the source code.
         public let sourceVersion: String?
         ///  The type of repository to use for the source code.
         public let versionControl: VersionControl?
 
-        public init(location: String? = nil, sourceVersion: String? = nil, versionControl: VersionControl? = nil) {
+        public init(location: String? = nil, projectName: String? = nil, sourceVersion: String? = nil, versionControl: VersionControl? = nil) {
             self.location = location
+            self.projectName = projectName
             self.sourceVersion = sourceVersion
             self.versionControl = versionControl
         }
@@ -1796,6 +2116,9 @@ extension MigrationHubStrategy {
             try self.validate(self.location, name: "location", parent: name, max: 128)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: ".*\\S.*")
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, max: 40)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, min: 1)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, pattern: ".*\\S.*")
@@ -1803,6 +2126,7 @@ extension MigrationHubStrategy {
 
         private enum CodingKeys: String, CodingKey {
             case location
+            case projectName
             case sourceVersion
             case versionControl
         }
@@ -1811,36 +2135,47 @@ extension MigrationHubStrategy {
     public struct SourceCodeRepository: AWSDecodableShape {
         ///  The branch of the source code.
         public let branch: String?
+        /// The name of the project.
+        public let projectName: String?
         ///  The repository name for the source code.
         public let repository: String?
         ///  The type of repository to use for the source code.
         public let versionControlType: String?
 
-        public init(branch: String? = nil, repository: String? = nil, versionControlType: String? = nil) {
+        public init(branch: String? = nil, projectName: String? = nil, repository: String? = nil, versionControlType: String? = nil) {
             self.branch = branch
+            self.projectName = projectName
             self.repository = repository
             self.versionControlType = versionControlType
         }
 
         private enum CodingKeys: String, CodingKey {
             case branch
+            case projectName
             case repository
             case versionControlType
         }
     }
 
     public struct StartAssessmentRequest: AWSEncodableShape {
+        /// List of criteria for assessment.
+        public let assessmentTargets: [AssessmentTarget]?
         ///  The S3 bucket used by the collectors to send analysis data to the service. The bucket name must begin with migrationhub-strategy-.
         public let s3bucketForAnalysisData: String?
         ///  The S3 bucket where all the reports generated by the service are stored. The bucket name must begin with migrationhub-strategy-.
         public let s3bucketForReportData: String?
 
-        public init(s3bucketForAnalysisData: String? = nil, s3bucketForReportData: String? = nil) {
+        public init(assessmentTargets: [AssessmentTarget]? = nil, s3bucketForAnalysisData: String? = nil, s3bucketForReportData: String? = nil) {
+            self.assessmentTargets = assessmentTargets
             self.s3bucketForAnalysisData = s3bucketForAnalysisData
             self.s3bucketForReportData = s3bucketForReportData
         }
 
         public func validate(name: String) throws {
+            try self.assessmentTargets?.forEach {
+                try $0.validate(name: "\(name).assessmentTargets[]")
+            }
+            try self.validate(self.assessmentTargets, name: "assessmentTargets", parent: name, max: 10)
             try self.validate(self.s3bucketForAnalysisData, name: "s3bucketForAnalysisData", parent: name, max: 1024)
             try self.validate(self.s3bucketForAnalysisData, name: "s3bucketForAnalysisData", parent: name, pattern: ".*\\S.*")
             try self.validate(self.s3bucketForReportData, name: "s3bucketForReportData", parent: name, max: 1024)
@@ -1848,6 +2183,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assessmentTargets
             case s3bucketForAnalysisData
             case s3bucketForReportData
         }
@@ -2075,6 +2411,10 @@ extension MigrationHubStrategy {
     public struct UpdateApplicationComponentConfigRequest: AWSEncodableShape {
         ///  The ID of the application component. The ID is unique within an AWS account.
         public let applicationComponentId: String
+        /// The type of known component.
+        public let appType: AppType?
+        /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are updated. If it is set to false, the source code and/or database credentials are updated and an analysis is initiated.
+        public let configureOnly: Bool?
         ///  Indicates whether the application component has been included for server recommendation or not.
         public let inclusionStatus: InclusionStatus?
         ///  Database credentials.
@@ -2084,8 +2424,10 @@ extension MigrationHubStrategy {
         ///  The preferred strategy options for the application component. Use values from the GetApplicationComponentStrategies response.
         public let strategyOption: StrategyOption?
 
-        public init(applicationComponentId: String, inclusionStatus: InclusionStatus? = nil, secretsManagerKey: String? = nil, sourceCodeList: [SourceCode]? = nil, strategyOption: StrategyOption? = nil) {
+        public init(applicationComponentId: String, appType: AppType? = nil, configureOnly: Bool? = nil, inclusionStatus: InclusionStatus? = nil, secretsManagerKey: String? = nil, sourceCodeList: [SourceCode]? = nil, strategyOption: StrategyOption? = nil) {
             self.applicationComponentId = applicationComponentId
+            self.appType = appType
+            self.configureOnly = configureOnly
             self.inclusionStatus = inclusionStatus
             self.secretsManagerKey = secretsManagerKey
             self.sourceCodeList = sourceCodeList
@@ -2105,6 +2447,8 @@ extension MigrationHubStrategy {
 
         private enum CodingKeys: String, CodingKey {
             case applicationComponentId
+            case appType
+            case configureOnly
             case inclusionStatus
             case secretsManagerKey
             case sourceCodeList
@@ -2142,6 +2486,40 @@ extension MigrationHubStrategy {
     public struct UpdateServerConfigResponse: AWSDecodableShape {
         public init() {}
     }
+
+    public struct VcenterBasedRemoteInfo: AWSDecodableShape {
+        /// The type of the operating system.
+        public let osType: OSType?
+        /// The time when the remote server based on vCenter was last configured.
+        public let vcenterConfigurationTimeStamp: String?
+
+        public init(osType: OSType? = nil, vcenterConfigurationTimeStamp: String? = nil) {
+            self.osType = osType
+            self.vcenterConfigurationTimeStamp = vcenterConfigurationTimeStamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case osType
+            case vcenterConfigurationTimeStamp
+        }
+    }
+
+    public struct VersionControlInfo: AWSDecodableShape {
+        /// The time when the version control system was last configured.
+        public let versionControlConfigurationTimeStamp: String?
+        /// The type of version control.
+        public let versionControlType: VersionControlType?
+
+        public init(versionControlConfigurationTimeStamp: String? = nil, versionControlType: VersionControlType? = nil) {
+            self.versionControlConfigurationTimeStamp = versionControlConfigurationTimeStamp
+            self.versionControlType = versionControlType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case versionControlConfigurationTimeStamp
+            case versionControlType
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2151,6 +2529,7 @@ public struct MigrationHubStrategyErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case dependencyException = "DependencyException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceLinkedRoleLockClientException = "ServiceLinkedRoleLockClientException"
@@ -2179,8 +2558,10 @@ public struct MigrationHubStrategyErrorType: AWSErrorType {
 
     ///  The AWS user account does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this account.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    ///  Exception to indicate that there is an ongoing task when a new task is created.  Return when once the existing tasks are complete.
+    ///  Exception to indicate that there is an ongoing task when a new task is created. Return when once the existing tasks are complete.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Dependency encountered an error.
+    public static var dependencyException: Self { .init(.dependencyException) }
     ///  The server experienced an internal error. Try again.
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  The specified ID in the request is not found.

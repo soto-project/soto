@@ -170,13 +170,16 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider
         /// The name of the user-based subscription product.
         public let product: String
+        /// An object that details the registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+        public let settings: Settings
         /// The status of an identity provider.
         public let status: String
 
-        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, product: String, status: String) {
+        public init(failureMessage: String? = nil, identityProvider: IdentityProvider, product: String, settings: Settings, status: String) {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
             self.product = product
+            self.settings = settings
             self.status = status
         }
 
@@ -184,6 +187,7 @@ extension LicenseManagerUserSubscriptions {
             case failureMessage = "FailureMessage"
             case identityProvider = "IdentityProvider"
             case product = "Product"
+            case settings = "Settings"
             case status = "Status"
         }
     }
@@ -468,15 +472,23 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider
         /// The name of the user-based subscription product.
         public let product: String
+        /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
+        public let settings: Settings?
 
-        public init(identityProvider: IdentityProvider, product: String) {
+        public init(identityProvider: IdentityProvider, product: String, settings: Settings? = nil) {
             self.identityProvider = identityProvider
             self.product = product
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.settings?.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityProvider = "IdentityProvider"
             case product = "Product"
+            case settings = "Settings"
         }
     }
 
@@ -490,6 +502,32 @@ extension LicenseManagerUserSubscriptions {
 
         private enum CodingKeys: String, CodingKey {
             case identityProviderSummary = "IdentityProviderSummary"
+        }
+    }
+
+    public struct Settings: AWSEncodableShape & AWSDecodableShape {
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoint for activation servers.
+        public let securityGroupId: String
+        /// The subnets defined for the registered identity provider.
+        public let subnets: [String]
+
+        public init(securityGroupId: String, subnets: [String]) {
+            self.securityGroupId = securityGroupId
+            self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, max: 200)
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, min: 5)
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
+            try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "SecurityGroupId"
+            case subnets = "Subnets"
         }
     }
 
@@ -566,6 +604,75 @@ extension LicenseManagerUserSubscriptions {
 
         private enum CodingKeys: String, CodingKey {
             case productUserSummary = "ProductUserSummary"
+        }
+    }
+
+    public struct UpdateIdentityProviderSettingsRequest: AWSEncodableShape {
+        public let identityProvider: IdentityProvider
+        /// The name of the user-based subscription product.
+        public let product: String
+        /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
+        public let updateSettings: UpdateSettings
+
+        public init(identityProvider: IdentityProvider, product: String, updateSettings: UpdateSettings) {
+            self.identityProvider = identityProvider
+            self.product = product
+            self.updateSettings = updateSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.updateSettings.validate(name: "\(name).updateSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
+            case product = "Product"
+            case updateSettings = "UpdateSettings"
+        }
+    }
+
+    public struct UpdateIdentityProviderSettingsResponse: AWSDecodableShape {
+        public let identityProviderSummary: IdentityProviderSummary
+
+        public init(identityProviderSummary: IdentityProviderSummary) {
+            self.identityProviderSummary = identityProviderSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProviderSummary = "IdentityProviderSummary"
+        }
+    }
+
+    public struct UpdateSettings: AWSEncodableShape {
+        /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that require connectivity to activation servers.
+        public let addSubnets: [String]
+        /// The ID of one or more subnets to remove.
+        public let removeSubnets: [String]
+        /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoints for activation servers.
+        public let securityGroupId: String?
+
+        public init(addSubnets: [String], removeSubnets: [String], securityGroupId: String? = nil) {
+            self.addSubnets = addSubnets
+            self.removeSubnets = removeSubnets
+            self.securityGroupId = securityGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.addSubnets.forEach {
+                try validate($0, name: "addSubnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+            }
+            try self.removeSubnets.forEach {
+                try validate($0, name: "removeSubnets[]", parent: name, pattern: "subnet-[a-z0-9]{8,17}")
+            }
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, max: 200)
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, min: 5)
+            try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addSubnets = "AddSubnets"
+            case removeSubnets = "RemoveSubnets"
+            case securityGroupId = "SecurityGroupId"
         }
     }
 

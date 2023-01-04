@@ -308,14 +308,21 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get the position information for a given resource.
+    /// Get the position information for a given resource.  This action is no longer supported. Calls to retrieve the position information should use the GetResourcePosition  API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionResponse> {
         return self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get position configuration for a given resource.
+    /// Get position configuration for a given resource.  This action is no longer supported. Calls to retrieve the position configuration should use the GetResourcePosition  API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionConfigurationResponse> {
         return self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is  resolved using solvers that are provided by third-party vendors.
+    public func getPositionEstimate(_ input: GetPositionEstimateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionEstimateResponse> {
+        return self.client.execute(operation: "GetPositionEstimate", path: "/position-estimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get the event configuration for a particular resource identifier.
@@ -326,6 +333,11 @@ public struct IoTWireless: AWSService {
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceLogLevelResponse> {
         return self.client.execute(operation: "GetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the position information for a given wireless device or a wireless gateway resource. The postion information uses the  World Geodetic System (WGS84).
+    public func getResourcePosition(_ input: GetResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePositionResponse> {
+        return self.client.execute(operation: "GetResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
@@ -418,7 +430,8 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List position configurations for a given resource, such as positioning solvers.
+    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPositionConfigurationsResponse> {
         return self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -453,7 +466,8 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "ListWirelessGateways", path: "/wireless-gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Put position configuration for a given resource.
+    /// Put position configuration for a given resource.  This action is no longer supported. Calls to update the position configuration should use the UpdateResourcePosition API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func putPositionConfiguration(_ input: PutPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPositionConfigurationResponse> {
         return self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -553,7 +567,8 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the position information of a resource.
+    /// Update the position information of a resource.  This action is no longer supported. Calls to update the position information should use the UpdateResourcePosition API operation instead.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func updatePosition(_ input: UpdatePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePositionResponse> {
         return self.client.execute(operation: "UpdatePosition", path: "/positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -561,6 +576,11 @@ public struct IoTWireless: AWSService {
     /// Update the event configuration for a particular resource identifier.
     public func updateResourceEventConfiguration(_ input: UpdateResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceEventConfigurationResponse> {
         return self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update the position information of a given wireless device or a wireless gateway resource. The postion coordinates are based on the  World Geodetic System (WGS84).
+    public func updateResourcePosition(_ input: UpdateResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourcePositionResponse> {
+        return self.client.execute(operation: "UpdateResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates properties of a wireless device.
@@ -904,7 +924,7 @@ extension IoTWireless {
         )
     }
 
-    ///  List position configurations for a given resource, such as positioning solvers.
+    ///  List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -916,6 +936,7 @@ extension IoTWireless {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func listPositionConfigurationsPaginator<Result>(
         _ input: ListPositionConfigurationsRequest,
         _ initialValue: Result,
@@ -941,6 +962,7 @@ extension IoTWireless {
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "This operation is no longer supported.")
     public func listPositionConfigurationsPaginator(
         _ input: ListPositionConfigurationsRequest,
         logger: Logger = AWSClient.loggingDisabled,

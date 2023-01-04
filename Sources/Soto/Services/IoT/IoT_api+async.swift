@@ -61,8 +61,7 @@ extension IoT {
     }
 
     /// Attaches the specified principal to the specified thing. A principal can be X.509
-    /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    /// 			identities.
+    /// 			certificates, Amazon Cognito identities or federated identities.
     /// 		       Requires permission to access the AttachThingPrincipal action.
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachThingPrincipalResponse {
         return try await self.client.execute(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

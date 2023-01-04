@@ -772,7 +772,8 @@ extension LookoutEquipment.ListInferenceSchedulersRequest: AWSPaginateToken {
             inferenceSchedulerNameBeginsWith: self.inferenceSchedulerNameBeginsWith,
             maxResults: self.maxResults,
             modelName: self.modelName,
-            nextToken: token
+            nextToken: token,
+            status: self.status
         )
     }
 }

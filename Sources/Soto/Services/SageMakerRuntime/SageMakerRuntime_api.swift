@@ -73,6 +73,7 @@ public struct SageMakerRuntime: AWSService {
                     "eu-west-1": "runtime-fips.sagemaker.eu-west-1.amazonaws.com",
                     "eu-west-2": "runtime-fips.sagemaker.eu-west-2.amazonaws.com",
                     "eu-west-3": "runtime-fips.sagemaker.eu-west-3.amazonaws.com",
+                    "me-central-1": "runtime-fips.sagemaker.me-central-1.amazonaws.com",
                     "me-south-1": "runtime-fips.sagemaker.me-south-1.amazonaws.com",
                     "sa-east-1": "runtime-fips.sagemaker.sa-east-1.amazonaws.com",
                     "us-east-1": "runtime-fips.sagemaker.us-east-1.amazonaws.com",

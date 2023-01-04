@@ -21,6 +21,14 @@ import SotoCore
 extension CloudWatchLogs {
     // MARK: Enums
 
+    public enum DataProtectionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case activated = "ACTIVATED"
+        case archived = "ARCHIVED"
+        case deleted = "DELETED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Distribution: String, CustomStringConvertible, Codable, _SotoSendable {
         case byLogStream = "ByLogStream"
         case random = "Random"
@@ -88,7 +96,7 @@ extension CloudWatchLogs {
     // MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - Key Management Service and Using Symmetric and Asymmetric Keys.
+        /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. This must be a symmetric KMS key. For more information, see Amazon Resource Names and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
         /// The name of the log group.
         public let logGroupName: String
@@ -130,7 +138,7 @@ extension CloudWatchLogs {
     }
 
     public struct CreateExportTaskRequest: AWSEncodableShape {
-        /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services region.
+        /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region.
         public let destination: String
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
         public let destinationPrefix: String?
@@ -195,11 +203,11 @@ extension CloudWatchLogs {
     }
 
     public struct CreateLogGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.  For more information, see Amazon Resource Names - Key Management Service.
+        /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names.
         public let kmsKeyId: String?
         /// The name of the log group.
         public let logGroupName: String
-        /// The key-value pairs to use for the tags. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to  log groups using the aws:Resource/key-name or aws:TagKeys condition keys.  For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
+        /// The key-value pairs to use for the tags. You can grant users access to certain log groups while preventing them from accessing other log groups. To do so, tag your groups and use IAM policies that refer to those tags. To assign tags when  you create a log group, you must have either the logs:TagResource or logs:TagLogGroup permission. For more information about tagging, see  Tagging Amazon Web Services resources. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
         public init(kmsKeyId: String? = nil, logGroupName: String, tags: [String: String]? = nil) {
@@ -254,6 +262,25 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case logGroupName
             case logStreamName
+        }
+    }
+
+    public struct DeleteDataProtectionPolicyRequest: AWSEncodableShape {
+        /// The name or ARN of the log group that you want to delete the data protection policy for.
+        public let logGroupIdentifier: String
+
+        public init(logGroupIdentifier: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier
         }
     }
 
@@ -488,7 +515,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
         public let statusCode: ExportTaskStatusCode?
-        /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
+        /// The ID of the export task. Specifying a task ID filters the results to one or zero export tasks.
         public let taskId: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil, statusCode: ExportTaskStatusCode? = nil, taskId: String? = nil) {
@@ -531,22 +558,44 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsRequest: AWSEncodableShape {
+        /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+        public let accountIdentifiers: [String]?
+        /// If you are using a monitoring account, set this to True to have the operation return log groups in  the accounts listed in accountIdentifiers.
+        ///   If this parameter is set to true and accountIdentifiers
+        ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.   If you specify includeLinkedAccounts in your request, then metricFilterCount, retentionInDays, and storedBytes are not included in the response.
+        public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// The prefix to match.
+        /// If you specify a string for this parameter, the operation returns only log groups that have names
+        /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
+        /// named FooBar, aws/Foo, and GroupFoo would match, but foo,
+        /// F/o/o and Froo would not match.      logGroupNamePattern and logGroupNamePrefix are mutually exclusive.  Only one  of these parameters can be passed.
+        public let logGroupNamePattern: String?
+        /// The prefix to match.   logGroupNamePrefix and logGroupNamePattern are mutually exclusive.  Only one  of these parameters can be passed.
         public let logGroupNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(limit: Int? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+        public init(accountIdentifiers: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupNamePattern: String? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
+            self.accountIdentifiers = accountIdentifiers
+            self.includeLinkedAccounts = includeLinkedAccounts
             self.limit = limit
+            self.logGroupNamePattern = logGroupNamePattern
             self.logGroupNamePrefix = logGroupNamePrefix
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.accountIdentifiers?.forEach {
+                try validate($0, name: "accountIdentifiers[]", parent: name, max: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, min: 12)
+                try validate($0, name: "accountIdentifiers[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.accountIdentifiers, name: "accountIdentifiers", parent: name, max: 20)
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, max: 512)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]*$")
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, max: 512)
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, min: 1)
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -554,14 +603,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountIdentifiers
+            case includeLinkedAccounts
             case limit
+            case logGroupNamePattern
             case logGroupNamePrefix
             case nextToken
         }
     }
 
     public struct DescribeLogGroupsResponse: AWSDecodableShape {
-        /// The log groups. If the retentionInDays value is not included for a log group, then that log group is set to have its events never expire.
+        /// The log groups. If the retentionInDays value is not included for a log group, then that log group's events do not expire.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
 
@@ -581,7 +633,9 @@ extension CloudWatchLogs {
         public let descending: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// The name of the log group.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        public let logGroupIdentifier: String?
+        /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupName: String
         /// The prefix to match.  If orderBy is LastEventTime, you cannot specify this parameter.
         public let logStreamNamePrefix: String?
@@ -590,9 +644,10 @@ extension CloudWatchLogs {
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time.  The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.  lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimestamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let orderBy: OrderBy?
 
-        public init(descending: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
+        public init(descending: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
             self.descending = descending
             self.limit = limit
+            self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
             self.nextToken = nextToken
@@ -602,6 +657,9 @@ extension CloudWatchLogs {
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -614,6 +672,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case descending
             case limit
+            case logGroupIdentifier
             case logGroupName
             case logStreamNamePrefix
             case nextToken
@@ -638,7 +697,7 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeMetricFiltersRequest: AWSEncodableShape {
-        /// The prefix to match. CloudWatch Logs uses the value you set here only if you also include the logGroupName parameter in your request.
+        /// The prefix to match. CloudWatch Logs uses the value that you set here only if you also include the logGroupName parameter in your request.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
@@ -1023,11 +1082,13 @@ extension CloudWatchLogs {
         public let endTime: Int64?
         /// The filter pattern to use. For more information, see Filter and Pattern Syntax. If not provided, all the events are matched.
         public let filterPattern: String?
-        /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.  Important: Starting on June 17, 2019, this parameter is ignored and the value is assumed to be true. The response from this operation always interleaves events from multiple log streams within a log group.
+        /// If the value is true, the operation attempts to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on.  Important As of June 17, 2019, this parameter is ignored and the value is assumed to be true. The response from this operation always interleaves events from multiple log streams within a log group.
         public let interleaved: Bool?
         /// The maximum number of events to return. The default is 10,000 events.
         public let limit: Int?
-        /// The name of the log group to search.
+        /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        public let logGroupIdentifier: String?
+        /// The name of the log group to search.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupName: String
         /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
         public let logStreamNamePrefix: String?
@@ -1037,30 +1098,36 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
+        /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+        public let unmask: Bool?
 
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = nil
             self.limit = limit
+            self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
             self.logStreamNames = logStreamNames
             self.nextToken = nextToken
             self.startTime = startTime
+            self.unmask = unmask
         }
 
         @available(*, deprecated, message: "Members interleaved have been deprecated")
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = interleaved
             self.limit = limit
+            self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
             self.logStreamNames = logStreamNames
             self.nextToken = nextToken
             self.startTime = startTime
+            self.unmask = unmask
         }
 
         public func validate(name: String) throws {
@@ -1068,6 +1135,9 @@ extension CloudWatchLogs {
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -1090,11 +1160,13 @@ extension CloudWatchLogs {
             case filterPattern
             case interleaved
             case limit
+            case logGroupIdentifier
             case logGroupName
             case logStreamNamePrefix
             case logStreamNames
             case nextToken
             case startTime
+            case unmask
         }
     }
 
@@ -1103,7 +1175,7 @@ extension CloudWatchLogs {
         public let events: [FilteredLogEvent]?
         /// The token to use when requesting the next set of items. The token expires after 24 hours.
         public let nextToken: String?
-        ///  IMPORTANT Starting on May 15, 2020,  this parameter will be deprecated. This parameter will be an empty list  after the deprecation occurs. Indicates which log streams have been searched and whether each has been searched completely.
+        ///  Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
 
         public init(events: [FilteredLogEvent]? = nil, nextToken: String? = nil, searchedLogStreams: [SearchedLogStream]? = nil) {
@@ -1148,12 +1220,54 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct GetDataProtectionPolicyRequest: AWSEncodableShape {
+        /// The name or ARN of the log group that contains the data protection policy that you want to see.
+        public let logGroupIdentifier: String
+
+        public init(logGroupIdentifier: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier
+        }
+    }
+
+    public struct GetDataProtectionPolicyResponse: AWSDecodableShape {
+        /// The date and time that this policy was most recently updated.
+        public let lastUpdatedTime: Int64?
+        /// The log group name or ARN that you specified in your request.
+        public let logGroupIdentifier: String?
+        /// The data protection policy document for this log group.
+        public let policyDocument: String?
+
+        public init(lastUpdatedTime: Int64? = nil, logGroupIdentifier: String? = nil, policyDocument: String? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.logGroupIdentifier = logGroupIdentifier
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime
+            case logGroupIdentifier
+            case policyDocument
+        }
+    }
+
     public struct GetLogEventsRequest: AWSEncodableShape {
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
-        /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
+        /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events).
         public let limit: Int?
-        /// The name of the log group.
+        /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        public let logGroupIdentifier: String?
+        /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
@@ -1163,21 +1277,28 @@ extension CloudWatchLogs {
         public let startFromHead: Bool?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
         public let startTime: Int64?
+        /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+        public let unmask: Bool?
 
-        public init(endTime: Int64? = nil, limit: Int? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil) {
+        public init(endTime: Int64? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.limit = limit
+            self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
             self.nextToken = nextToken
             self.startFromHead = startFromHead
             self.startTime = startTime
+            self.unmask = unmask
         }
 
         public func validate(name: String) throws {
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -1191,18 +1312,20 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case endTime
             case limit
+            case logGroupIdentifier
             case logGroupName
             case logStreamName
             case nextToken
             case startFromHead
             case startTime
+            case unmask
         }
     }
 
     public struct GetLogEventsResponse: AWSDecodableShape {
         /// The events.
         public let events: [OutputLogEvent]?
-        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is never null. If you have reached the end of the stream, it returns the same token you passed in.
+        /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is not null. If you have reached the end of the stream, it returns the same token you passed in.
         public let nextBackwardToken: String?
         /// The token for the next set of items in the forward direction. The token expires after 24 hours. If you have reached the end of the stream, it returns the same token you passed in.
         public let nextForwardToken: String?
@@ -1221,17 +1344,23 @@ extension CloudWatchLogs {
     }
 
     public struct GetLogGroupFieldsRequest: AWSEncodableShape {
-        /// The name of the log group to search.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        public let logGroupIdentifier: String?
+        /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
         public let logGroupName: String
-        /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
 
-        public init(logGroupName: String, time: Int64? = nil) {
+        public init(logGroupIdentifier: String? = nil, logGroupName: String, time: Int64? = nil) {
+            self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.time = time
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -1239,13 +1368,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier
             case logGroupName
             case time
         }
     }
 
     public struct GetLogGroupFieldsResponse: AWSDecodableShape {
-        /// The array of fields found in the query. Each object in the array contains the name of the field, along with the  percentage of time it appeared in the log events that were queried.
+        /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
         public let logGroupFields: [LogGroupField]?
 
         public init(logGroupFields: [LogGroupField]? = nil) {
@@ -1260,13 +1390,17 @@ extension CloudWatchLogs {
     public struct GetLogRecordRequest: AWSEncodableShape {
         /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
         public let logRecordPointer: String
+        /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
+        public let unmask: Bool?
 
-        public init(logRecordPointer: String) {
+        public init(logRecordPointer: String, unmask: Bool? = nil) {
             self.logRecordPointer = logRecordPointer
+            self.unmask = unmask
         }
 
         private enum CodingKeys: String, CodingKey {
             case logRecordPointer
+            case unmask
         }
     }
 
@@ -1305,7 +1439,7 @@ extension CloudWatchLogs {
         public let results: [[ResultField]]?
         /// Includes the number of log events scanned by the query, the number of log events that matched the  query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
         public let statistics: QueryStatistics?
-        /// The status of the most recent running of the query. Possible values are Cancelled,  Complete, Failed, Running, Scheduled,  Timeout, and Unknown. Queries time out after 15 minutes of execution. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
+        /// The status of the most recent running of the query. Possible values are Cancelled,  Complete, Failed, Running, Scheduled,  Timeout, and Unknown. Queries time out after 15 minutes of runtime. To avoid having your queries time out, reduce the time range being searched or partition your query into a number of queries.
         public let status: QueryStatus?
 
         public init(results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
@@ -1412,7 +1546,9 @@ extension CloudWatchLogs {
         public let arn: String?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
-        /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data.
+        /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see  PutDataProtectionPolicy.
+        public let dataProtectionStatus: DataProtectionStatus?
+        /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public let kmsKeyId: String?
         /// The name of the log group.
         public let logGroupName: String?
@@ -1422,9 +1558,10 @@ extension CloudWatchLogs {
         /// The number of bytes stored.
         public let storedBytes: Int64?
 
-        public init(arn: String? = nil, creationTime: Int64? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, kmsKeyId: String? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.dataProtectionStatus = dataProtectionStatus
             self.kmsKeyId = kmsKeyId
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
@@ -1435,6 +1572,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case arn
             case creationTime
+            case dataProtectionStatus
             case kmsKeyId
             case logGroupName
             case metricFilterCount
@@ -1473,7 +1611,7 @@ extension CloudWatchLogs {
         public let lastIngestionTime: Int64?
         /// The name of the log stream.
         public let logStreamName: String?
-        /// The number of bytes stored.  Important: On June 17, 2019, this parameter was deprecated for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
+        /// The number of bytes stored.  Important: As of June 17, 2019, this parameter is no longer supported for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
         public let storedBytes: Int64?
         /// The sequence token.
         public let uploadSequenceToken: String?
@@ -1565,7 +1703,7 @@ extension CloudWatchLogs {
     public struct MetricTransformation: AWSEncodableShape & AWSDecodableShape {
         /// (Optional) The value to emit when a filter pattern does not match a log event.  This value can be null.
         public let defaultValue: Double?
-        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  To help prevent accidental high charges, Amazon disables a metric filter if it generates 1000 different name/value pairs for the dimensions that you  have specified within a certain amount of time. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
+        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs disables a metric filter if it generates 1000 different name/value pairs for your specified dimensions within a certain amount of time. This helps to prevent accidental high charges. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
         public let dimensions: [String: String]?
         /// The name of the CloudWatch metric.
         public let metricName: String
@@ -1625,6 +1763,50 @@ extension CloudWatchLogs {
             case ingestionTime
             case message
             case timestamp
+        }
+    }
+
+    public struct PutDataProtectionPolicyRequest: AWSEncodableShape {
+        /// Specify either the log group name or log group ARN.
+        public let logGroupIdentifier: String
+        /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Kinesis Data Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of two DataIdentifer arrays must match exactly.
+        public let policyDocument: String
+
+        public init(logGroupIdentifier: String, policyDocument: String) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.policyDocument = policyDocument
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier
+            case policyDocument
+        }
+    }
+
+    public struct PutDataProtectionPolicyResponse: AWSDecodableShape {
+        /// The date and time that this policy was most recently updated.
+        public let lastUpdatedTime: Int64?
+        /// The log group name or ARN that you specified in your request.
+        public let logGroupIdentifier: String?
+        /// The data protection policy used for this log group.
+        public let policyDocument: String?
+
+        public init(lastUpdatedTime: Int64? = nil, logGroupIdentifier: String? = nil, policyDocument: String? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.logGroupIdentifier = logGroupIdentifier
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime
+            case logGroupIdentifier
+            case policyDocument
         }
     }
 
@@ -1811,7 +1993,7 @@ extension CloudWatchLogs {
     public struct PutQueryDefinitionRequest: AWSEncodableShape {
         /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
         public let logGroupNames: [String]?
-        /// A name for the query definition. If you are saving a lot of query definitions, we recommend that you name them so that you can easily find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
+        /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
         public let name: String
         /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
         public let queryDefinitionId: String?
@@ -1862,7 +2044,7 @@ extension CloudWatchLogs {
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of  your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount
-        /// condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs and replace the value of SourceAccount with  the Amazon Web Services account ID making that call.   { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ]
+        /// condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call.   { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ]
         /// }
         public let policyDocument: String?
         /// Name of the new policy. This parameter is required.
@@ -1920,9 +2102,9 @@ extension CloudWatchLogs {
     }
 
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
-        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account,  for cross-account delivery. If you are setting up a cross-account subscription, the destination must have an  IAM policy associated with it that allows the sender to send logs to the destination. For more information, see PutDestinationPolicy.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
+        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account,  for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy.   A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
         public let destinationArn: String
-        /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
+        /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
         public let distribution: Distribution?
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
@@ -2048,7 +2230,7 @@ extension CloudWatchLogs {
         public let expiredLogEventEndIndex: Int?
         /// The log events that are too new.
         public let tooNewLogEventStartIndex: Int?
-        /// The log events that are too old.
+        /// The log events that are dated too far in the past.
         public let tooOldLogEventEndIndex: Int?
 
         public init(expiredLogEventEndIndex: Int? = nil, tooNewLogEventStartIndex: Int? = nil, tooOldLogEventEndIndex: Int? = nil) {
@@ -2124,18 +2306,21 @@ extension CloudWatchLogs {
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
         public let limit: Int?
-        /// The log group on which to perform the query. A StartQuery operation must include a logGroupNames or a logGroupName parameter, but not both.
+        /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
+        public let logGroupIdentifiers: [String]?
+        /// The log group on which to perform the query.  A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
         public let logGroupName: String?
-        /// The list of log groups to be queried. You can include up to 20 log groups. A StartQuery operation must include a logGroupNames or a logGroupName parameter, but not both.
+        /// The list of log groups to be queried. You can include up to 50 log groups.  A StartQuery operation must include exactly one  of the following parameters:  logGroupName, logGroupNames or logGroupIdentifiers.
         public let logGroupNames: [String]?
         /// The query string to use. For more information, see CloudWatch Logs Insights Query Syntax.
         public let queryString: String
         /// The beginning of the time range to query. The range is inclusive, so the specified start time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let startTime: Int64
 
-        public init(endTime: Int64, limit: Int? = nil, logGroupName: String? = nil, logGroupNames: [String]? = nil, queryString: String, startTime: Int64) {
+        public init(endTime: Int64, limit: Int? = nil, logGroupIdentifiers: [String]? = nil, logGroupName: String? = nil, logGroupNames: [String]? = nil, queryString: String, startTime: Int64) {
             self.endTime = endTime
             self.limit = limit
+            self.logGroupIdentifiers = logGroupIdentifiers
             self.logGroupName = logGroupName
             self.logGroupNames = logGroupNames
             self.queryString = queryString
@@ -2146,6 +2331,11 @@ extension CloudWatchLogs {
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.logGroupIdentifiers?.forEach {
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
+                try validate($0, name: "logGroupIdentifiers[]", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            }
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -2161,6 +2351,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case endTime
             case limit
+            case logGroupIdentifiers
             case logGroupName
             case logGroupNames
             case queryString
@@ -2465,7 +2656,7 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// A resource can have no more than 50 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The most likely cause is an invalid Amazon Web Services access key ID or secret key.
+    /// The most likely cause is an Amazon Web Services access key ID or secret key that&#39;s not valid.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
 }
 

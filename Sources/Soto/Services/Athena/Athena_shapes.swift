@@ -21,6 +21,18 @@ import SotoCore
 extension Athena {
     // MARK: Enums
 
+    public enum CalculationExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case canceled = "CANCELED"
+        case canceling = "CANCELING"
+        case completed = "COMPLETED"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColumnNullable: String, CustomStringConvertible, Codable, _SotoSendable {
         case notNull = "NOT_NULL"
         case nullable = "NULLABLE"
@@ -42,6 +54,28 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutorState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case created = "CREATED"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case registered = "REGISTERED"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutorType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case coordinator = "COORDINATOR"
+        case gateway = "GATEWAY"
+        case worker = "WORKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotebookType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case ipynb = "IPYNB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueryExecutionState: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
@@ -53,6 +87,18 @@ extension Athena {
 
     public enum S3AclOption: String, CustomStringConvertible, Codable, _SotoSendable {
         case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case busy = "BUSY"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case degraded = "DEGRADED"
+        case failed = "FAILED"
+        case idle = "IDLE"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
@@ -81,6 +127,23 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case s3AclOption = "S3AclOption"
+        }
+    }
+
+    public struct ApplicationDPUSizes: AWSDecodableShape {
+        /// The name of the supported application runtime (for example, Jupyter 1.0).
+        public let applicationRuntimeId: String?
+        /// A list of the supported DPU sizes that the application runtime supports.
+        public let supportedDPUSizes: [Int]?
+
+        public init(applicationRuntimeId: String? = nil, supportedDPUSizes: [Int]? = nil) {
+            self.applicationRuntimeId = applicationRuntimeId
+            self.supportedDPUSizes = supportedDPUSizes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationRuntimeId = "ApplicationRuntimeId"
+            case supportedDPUSizes = "SupportedDPUSizes"
         }
     }
 
@@ -229,6 +292,111 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case queryExecutions = "QueryExecutions"
             case unprocessedQueryExecutionIds = "UnprocessedQueryExecutionIds"
+        }
+    }
+
+    public struct CalculationConfiguration: AWSEncodableShape {
+        /// A string that contains the code for the calculation.
+        public let codeBlock: String?
+
+        public init(codeBlock: String? = nil) {
+            self.codeBlock = codeBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeBlock, name: "codeBlock", parent: name, max: 68000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeBlock = "CodeBlock"
+        }
+    }
+
+    public struct CalculationResult: AWSDecodableShape {
+        /// The Amazon S3 location of the folder for the calculation results.
+        public let resultS3Uri: String?
+        /// The data format of the calculation result.
+        public let resultType: String?
+        /// The Amazon S3 location of the stderr error messages file for the calculation.
+        public let stdErrorS3Uri: String?
+        /// The Amazon S3 location of the stdout file for the calculation.
+        public let stdOutS3Uri: String?
+
+        public init(resultS3Uri: String? = nil, resultType: String? = nil, stdErrorS3Uri: String? = nil, stdOutS3Uri: String? = nil) {
+            self.resultS3Uri = resultS3Uri
+            self.resultType = resultType
+            self.stdErrorS3Uri = stdErrorS3Uri
+            self.stdOutS3Uri = stdOutS3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultS3Uri = "ResultS3Uri"
+            case resultType = "ResultType"
+            case stdErrorS3Uri = "StdErrorS3Uri"
+            case stdOutS3Uri = "StdOutS3Uri"
+        }
+    }
+
+    public struct CalculationStatistics: AWSDecodableShape {
+        /// The data processing unit execution time in milliseconds for the calculation.
+        public let dpuExecutionInMillis: Int64?
+        /// The progress of the calculation.
+        public let progress: String?
+
+        public init(dpuExecutionInMillis: Int64? = nil, progress: String? = nil) {
+            self.dpuExecutionInMillis = dpuExecutionInMillis
+            self.progress = progress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dpuExecutionInMillis = "DpuExecutionInMillis"
+            case progress = "Progress"
+        }
+    }
+
+    public struct CalculationStatus: AWSDecodableShape {
+        /// The date and time the calculation completed processing.
+        public let completionDateTime: Date?
+        /// The state of the calculation execution. A description of each state follows.  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
+        public let state: CalculationExecutionState?
+        /// The reason for the calculation state change (for example, the calculation was canceled because the session was terminated).
+        public let stateChangeReason: String?
+        /// The date and time the calculation was submitted for processing.
+        public let submissionDateTime: Date?
+
+        public init(completionDateTime: Date? = nil, state: CalculationExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
+            self.completionDateTime = completionDateTime
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.submissionDateTime = submissionDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionDateTime = "CompletionDateTime"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case submissionDateTime = "SubmissionDateTime"
+        }
+    }
+
+    public struct CalculationSummary: AWSDecodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String?
+        /// A description of the calculation.
+        public let description: String?
+        /// Contains information about the status of the calculation.
+        public let status: CalculationStatus?
+
+        public init(calculationExecutionId: String? = nil, description: String? = nil, status: CalculationStatus? = nil) {
+            self.calculationExecutionId = calculationExecutionId
+            self.description = description
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+            case description = "Description"
+            case status = "Status"
         }
     }
 
@@ -412,6 +580,50 @@ extension Athena {
         }
     }
 
+    public struct CreateNotebookInput: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once).  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// The name of the ipynb file to be created in the Spark workgroup, without the .ipynb extension.
+        public let name: String
+        /// The name of the Spark enabled workgroup in which the notebook will be created.
+        public let workGroup: String
+
+        public init(clientRequestToken: String? = nil, name: String, workGroup: String) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+$")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct CreateNotebookOutput: AWSDecodableShape {
+        /// A unique identifier for the notebook.
+        public let notebookId: String?
+
+        public init(notebookId: String? = nil) {
+            self.notebookId = notebookId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookId = "NotebookId"
+        }
+    }
+
     public struct CreatePreparedStatementInput: AWSEncodableShape {
         /// The description of the prepared statement.
         public let description: String?
@@ -452,8 +664,47 @@ extension Athena {
         public init() {}
     }
 
+    public struct CreatePresignedNotebookUrlRequest: AWSEncodableShape {
+        /// The session ID.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct CreatePresignedNotebookUrlResponse: AWSDecodableShape {
+        /// The authentication token for the notebook.
+        public let authToken: String
+        /// The UTC epoch time when the authentication token expires.
+        public let authTokenExpirationTime: Int64
+        /// The URL of the notebook. The URL includes the authentication token and notebook file name and points directly to the opened notebook.
+        public let notebookUrl: String
+
+        public init(authToken: String, authTokenExpirationTime: Int64, notebookUrl: String) {
+            self.authToken = authToken
+            self.authTokenExpirationTime = authTokenExpirationTime
+            self.notebookUrl = notebookUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authToken = "AuthToken"
+            case authTokenExpirationTime = "AuthTokenExpirationTime"
+            case notebookUrl = "NotebookUrl"
+        }
+    }
+
     public struct CreateWorkGroupInput: AWSEncodableShape {
-        /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
+        /// Contains configuration information for creating an Athena SQL workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
         /// The workgroup description.
         public let description: String?
@@ -488,6 +739,25 @@ extension Athena {
 
     public struct CreateWorkGroupOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CustomerContentEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        public let kmsKey: String
+
+        public init(kmsKey: String) {
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKey = "KmsKey"
+        }
     }
 
     public struct DataCatalog: AWSDecodableShape {
@@ -612,6 +882,29 @@ extension Athena {
         public init() {}
     }
 
+    public struct DeleteNotebookInput: AWSEncodableShape {
+        /// The ID of the notebook to delete.
+        public let notebookId: String
+
+        public init(notebookId: String) {
+            self.notebookId = notebookId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct DeleteNotebookOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePreparedStatementInput: AWSEncodableShape {
         /// The name of the prepared statement to delete.
         public let statementName: String
@@ -682,6 +975,46 @@ extension Athena {
         }
     }
 
+    public struct EngineConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Amazon S3 URI that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookFileURI to AdditionalConfigs that has value of the Amazon S3 URI.
+        public let additionalConfigs: [String: String]?
+        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
+        public let coordinatorDpuSize: Int?
+        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena.
+        public let defaultExecutorDpuSize: Int?
+        /// The maximum number of DPUs that can run concurrently.
+        public let maxConcurrentDpus: Int
+
+        public init(additionalConfigs: [String: String]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int) {
+            self.additionalConfigs = additionalConfigs
+            self.coordinatorDpuSize = coordinatorDpuSize
+            self.defaultExecutorDpuSize = defaultExecutorDpuSize
+            self.maxConcurrentDpus = maxConcurrentDpus
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalConfigs?.forEach {
+                try validate($0.key, name: "additionalConfigs.key", parent: name, max: 255)
+                try validate($0.key, name: "additionalConfigs.key", parent: name, min: 1)
+                try validate($0.key, name: "additionalConfigs.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "additionalConfigs[\"\($0.key)\"]", parent: name, max: 51200)
+            }
+            try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, max: 5000)
+            try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, min: 1)
+            try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, max: 5000)
+            try self.validate(self.defaultExecutorDpuSize, name: "defaultExecutorDpuSize", parent: name, min: 1)
+            try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, max: 5000)
+            try self.validate(self.maxConcurrentDpus, name: "maxConcurrentDpus", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalConfigs = "AdditionalConfigs"
+            case coordinatorDpuSize = "CoordinatorDpuSize"
+            case defaultExecutorDpuSize = "DefaultExecutorDpuSize"
+            case maxConcurrentDpus = "MaxConcurrentDpus"
+        }
+    }
+
     public struct EngineVersion: AWSEncodableShape & AWSDecodableShape {
         /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
         public let effectiveEngineVersion: String?
@@ -703,6 +1036,215 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case effectiveEngineVersion = "EffectiveEngineVersion"
             case selectedEngineVersion = "SelectedEngineVersion"
+        }
+    }
+
+    public struct ExecutorsSummary: AWSDecodableShape {
+        /// The UUID of the executor.
+        public let executorId: String
+        /// The smallest unit of compute that a session can request from Athena. Size is measured in data processing unit (DPU) values, a relative measure of processing power.
+        public let executorSize: Int64?
+        /// The processing state of the executor. A description of each state follows.  CREATING - The executor is being started, including acquiring resources.  CREATED - The executor has been started.  REGISTERED - The executor has been registered.  TERMINATING - The executor is in the process of shutting down.  TERMINATED - The executor is no longer running.  FAILED - Due to a failure, the executor is no longer running.
+        public let executorState: ExecutorState?
+        /// The type of executor used for the application (COORDINATOR, GATEWAY, or WORKER).
+        public let executorType: ExecutorType?
+        /// The date and time that the executor started.
+        public let startDateTime: Int64?
+        /// The date and time that the executor was terminated.
+        public let terminationDateTime: Int64?
+
+        public init(executorId: String, executorSize: Int64? = nil, executorState: ExecutorState? = nil, executorType: ExecutorType? = nil, startDateTime: Int64? = nil, terminationDateTime: Int64? = nil) {
+            self.executorId = executorId
+            self.executorSize = executorSize
+            self.executorState = executorState
+            self.executorType = executorType
+            self.startDateTime = startDateTime
+            self.terminationDateTime = terminationDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executorId = "ExecutorId"
+            case executorSize = "ExecutorSize"
+            case executorState = "ExecutorState"
+            case executorType = "ExecutorType"
+            case startDateTime = "StartDateTime"
+            case terminationDateTime = "TerminationDateTime"
+        }
+    }
+
+    public struct ExportNotebookInput: AWSEncodableShape {
+        /// The ID of the notebook to export.
+        public let notebookId: String
+
+        public init(notebookId: String) {
+            self.notebookId = notebookId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct ExportNotebookOutput: AWSDecodableShape {
+        /// The notebook metadata, including notebook ID, notebook name, and workgroup name.
+        public let notebookMetadata: NotebookMetadata?
+        /// The content of the exported notebook.
+        public let payload: String?
+
+        public init(notebookMetadata: NotebookMetadata? = nil, payload: String? = nil) {
+            self.notebookMetadata = notebookMetadata
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookMetadata = "NotebookMetadata"
+            case payload = "Payload"
+        }
+    }
+
+    public struct FilterDefinition: AWSEncodableShape {
+        /// The name of the notebook to search for.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetCalculationExecutionCodeRequest: AWSEncodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String
+
+        public init(calculationExecutionId: String) {
+            self.calculationExecutionId = calculationExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, max: 36)
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+        }
+    }
+
+    public struct GetCalculationExecutionCodeResponse: AWSDecodableShape {
+        /// A pre-signed URL to the code that executed the calculation.
+        public let codeBlock: String?
+
+        public init(codeBlock: String? = nil) {
+            self.codeBlock = codeBlock
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeBlock = "CodeBlock"
+        }
+    }
+
+    public struct GetCalculationExecutionRequest: AWSEncodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String
+
+        public init(calculationExecutionId: String) {
+            self.calculationExecutionId = calculationExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, max: 36)
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+        }
+    }
+
+    public struct GetCalculationExecutionResponse: AWSDecodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String?
+        /// The description of the calculation execution.
+        public let description: String?
+        /// Contains result information. This field is populated only if the calculation is completed.
+        public let result: CalculationResult?
+        /// The session ID that the calculation ran in.
+        public let sessionId: String?
+        /// Contains information about the data processing unit (DPU) execution time and progress. This field is populated only when statistics are available.
+        public let statistics: CalculationStatistics?
+        /// Contains information about the status of the calculation.
+        public let status: CalculationStatus?
+        /// The Amazon S3 location in which calculation results are stored.
+        public let workingDirectory: String?
+
+        public init(calculationExecutionId: String? = nil, description: String? = nil, result: CalculationResult? = nil, sessionId: String? = nil, statistics: CalculationStatistics? = nil, status: CalculationStatus? = nil, workingDirectory: String? = nil) {
+            self.calculationExecutionId = calculationExecutionId
+            self.description = description
+            self.result = result
+            self.sessionId = sessionId
+            self.statistics = statistics
+            self.status = status
+            self.workingDirectory = workingDirectory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+            case description = "Description"
+            case result = "Result"
+            case sessionId = "SessionId"
+            case statistics = "Statistics"
+            case status = "Status"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct GetCalculationExecutionStatusRequest: AWSEncodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String
+
+        public init(calculationExecutionId: String) {
+            self.calculationExecutionId = calculationExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, max: 36)
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+        }
+    }
+
+    public struct GetCalculationExecutionStatusResponse: AWSDecodableShape {
+        /// Contains information about the DPU execution time and progress.
+        public let statistics: CalculationStatistics?
+        /// Contains information about the calculation execution status.
+        public let status: CalculationStatus?
+
+        public init(statistics: CalculationStatistics? = nil, status: CalculationStatus? = nil) {
+            self.statistics = statistics
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statistics = "Statistics"
+            case status = "Status"
         }
     }
 
@@ -805,6 +1347,38 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case namedQuery = "NamedQuery"
+        }
+    }
+
+    public struct GetNotebookMetadataInput: AWSEncodableShape {
+        /// The ID of the notebook whose metadata is to be retrieved.
+        public let notebookId: String
+
+        public init(notebookId: String) {
+            self.notebookId = notebookId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct GetNotebookMetadataOutput: AWSDecodableShape {
+        /// The metadata that is returned for the specified notebook ID.
+        public let notebookMetadata: NotebookMetadata?
+
+        public init(notebookMetadata: NotebookMetadata? = nil) {
+            self.notebookMetadata = notebookMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookMetadata = "NotebookMetadata"
         }
     }
 
@@ -961,6 +1535,104 @@ extension Athena {
         }
     }
 
+    public struct GetSessionRequest: AWSEncodableShape {
+        /// The session ID.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionResponse: AWSDecodableShape {
+        /// The session description.
+        public let description: String?
+        /// Contains engine configuration information like DPU usage.
+        public let engineConfiguration: EngineConfiguration?
+        /// The engine version used by the session (for example, PySpark engine version 3). You can get a list of engine versions by calling ListEngineVersions.
+        public let engineVersion: String?
+        /// The notebook version.
+        public let notebookVersion: String?
+        /// Contains the workgroup configuration information used by the session.
+        public let sessionConfiguration: SessionConfiguration?
+        /// The session ID.
+        public let sessionId: String?
+        /// Contains the DPU execution time.
+        public let statistics: SessionStatistics?
+        /// Contains information about the status of the session.
+        public let status: SessionStatus?
+        /// The workgroup to which the session belongs.
+        public let workGroup: String?
+
+        public init(description: String? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: String? = nil, notebookVersion: String? = nil, sessionConfiguration: SessionConfiguration? = nil, sessionId: String? = nil, statistics: SessionStatistics? = nil, status: SessionStatus? = nil, workGroup: String? = nil) {
+            self.description = description
+            self.engineConfiguration = engineConfiguration
+            self.engineVersion = engineVersion
+            self.notebookVersion = notebookVersion
+            self.sessionConfiguration = sessionConfiguration
+            self.sessionId = sessionId
+            self.statistics = statistics
+            self.status = status
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case engineConfiguration = "EngineConfiguration"
+            case engineVersion = "EngineVersion"
+            case notebookVersion = "NotebookVersion"
+            case sessionConfiguration = "SessionConfiguration"
+            case sessionId = "SessionId"
+            case statistics = "Statistics"
+            case status = "Status"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct GetSessionStatusRequest: AWSEncodableShape {
+        /// The session ID.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionStatusResponse: AWSDecodableShape {
+        /// The session ID.
+        public let sessionId: String?
+        /// Contains information about the status of the session.
+        public let status: SessionStatus?
+
+        public init(sessionId: String? = nil, status: SessionStatus? = nil) {
+            self.sessionId = sessionId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+            case status = "Status"
+        }
+    }
+
     public struct GetTableMetadataInput: AWSEncodableShape {
         /// The name of the data catalog that contains the database and table metadata to return.
         public let catalogName: String
@@ -1032,6 +1704,151 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ImportNotebookInput: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to import the notebook is idempotent (executes only once).  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// The name of the notebook to import.
+        public let name: String
+        /// The notebook content to be imported.
+        public let payload: String
+        /// The notebook content type. Currently, the only valid type is IPYNB.
+        public let type: NotebookType
+        /// The name of the Spark enabled workgroup to import the notebook to.
+        public let workGroup: String
+
+        public init(clientRequestToken: String? = nil, name: String, payload: String, type: NotebookType, workGroup: String) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.payload = payload
+            self.type = type
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+$")
+            try self.validate(self.payload, name: "payload", parent: name, max: 10_485_760)
+            try self.validate(self.payload, name: "payload", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case payload = "Payload"
+            case type = "Type"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ImportNotebookOutput: AWSDecodableShape {
+        /// The ID of the notebook to import.
+        public let notebookId: String?
+
+        public init(notebookId: String? = nil) {
+            self.notebookId = notebookId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct ListApplicationDPUSizesInput: AWSEncodableShape {
+        /// Specifies the maximum number of results to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationDPUSizesOutput: AWSDecodableShape {
+        /// A list of the supported DPU sizes that the application runtime supports.
+        public let applicationDPUSizes: [ApplicationDPUSizes]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(applicationDPUSizes: [ApplicationDPUSizes]? = nil, nextToken: String? = nil) {
+            self.applicationDPUSizes = applicationDPUSizes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationDPUSizes = "ApplicationDPUSizes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCalculationExecutionsRequest: AWSEncodableShape {
+        /// The maximum number of calculation executions to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The session ID.
+        public let sessionId: String
+        /// A filter for a specific calculation execution state. A description of each state follows.  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
+        public let stateFilter: CalculationExecutionState?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sessionId: String, stateFilter: CalculationExecutionState? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sessionId = sessionId
+            self.stateFilter = stateFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sessionId = "SessionId"
+            case stateFilter = "StateFilter"
+        }
+    }
+
+    public struct ListCalculationExecutionsResponse: AWSDecodableShape {
+        /// A list of CalculationSummary objects.
+        public let calculations: [CalculationSummary]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+
+        public init(calculations: [CalculationSummary]? = nil, nextToken: String? = nil) {
+            self.calculations = calculations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculations = "Calculations"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1165,6 +1982,60 @@ extension Athena {
         }
     }
 
+    public struct ListExecutorsRequest: AWSEncodableShape {
+        /// A filter for a specific executor state. A description of each state follows.  CREATING - The executor is being started, including acquiring resources.  CREATED - The executor has been started.  REGISTERED - The executor has been registered.  TERMINATING - The executor is in the process of shutting down.  TERMINATED - The executor is no longer running.  FAILED - Due to a failure, the executor is no longer running.
+        public let executorStateFilter: ExecutorState?
+        /// The maximum number of executors to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The session ID.
+        public let sessionId: String
+
+        public init(executorStateFilter: ExecutorState? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionId: String) {
+            self.executorStateFilter = executorStateFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executorStateFilter = "ExecutorStateFilter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct ListExecutorsResponse: AWSDecodableShape {
+        /// Contains summary information about the executor.
+        public let executorsSummary: [ExecutorsSummary]?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The session ID.
+        public let sessionId: String
+
+        public init(executorsSummary: [ExecutorsSummary]? = nil, nextToken: String? = nil, sessionId: String) {
+            self.executorsSummary = executorsSummary
+            self.nextToken = nextToken
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executorsSummary = "ExecutorsSummary"
+            case nextToken = "NextToken"
+            case sessionId = "SessionId"
+        }
+    }
+
     public struct ListNamedQueriesInput: AWSEncodableShape {
         /// The maximum number of queries to return in this request.
         public let maxResults: Int?
@@ -1208,6 +2079,105 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case namedQueryIds = "NamedQueryIds"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListNotebookMetadataInput: AWSEncodableShape {
+        /// Search filter string.
+        public let filters: FilterDefinition?
+        /// Specifies the maximum number of results to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+        public let nextToken: String?
+        /// The name of the Spark enabled workgroup to retrieve notebook metadata for.
+        public let workGroup: String
+
+        public init(filters: FilterDefinition? = nil, maxResults: Int? = nil, nextToken: String? = nil, workGroup: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ListNotebookMetadataOutput: AWSDecodableShape {
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The list of notebook metadata for the specified workgroup.
+        public let notebookMetadataList: [NotebookMetadata]?
+
+        public init(nextToken: String? = nil, notebookMetadataList: [NotebookMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.notebookMetadataList = notebookMetadataList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notebookMetadataList = "NotebookMetadataList"
+        }
+    }
+
+    public struct ListNotebookSessionsRequest: AWSEncodableShape {
+        /// The maximum number of notebook sessions to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The ID of the notebook to list sessions for.
+        public let notebookId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, notebookId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.notebookId = notebookId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct ListNotebookSessionsResponse: AWSDecodableShape {
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// A list of the sessions belonging to the notebook.
+        public let notebookSessionsList: [NotebookSessionSummary]
+
+        public init(nextToken: String? = nil, notebookSessionsList: [NotebookSessionSummary]) {
+            self.nextToken = nextToken
+            self.notebookSessionsList = notebookSessionsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notebookSessionsList = "NotebookSessionsList"
         }
     }
 
@@ -1300,6 +2270,55 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case queryExecutionIds = "QueryExecutionIds"
+        }
+    }
+
+    public struct ListSessionsRequest: AWSEncodableShape {
+        /// The maximum number of sessions to return.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// A filter for a specific session state. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
+        public let stateFilter: SessionState?
+        /// The workgroup to which the session belongs.
+        public let workGroup: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stateFilter: SessionState? = nil, workGroup: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stateFilter = stateFilter
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case stateFilter = "StateFilter"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ListSessionsResponse: AWSDecodableShape {
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// A list of sessions.
+        public let sessions: [SessionSummary]?
+
+        public init(nextToken: String? = nil, sessions: [SessionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sessions = "Sessions"
         }
     }
 
@@ -1479,6 +2498,56 @@ extension Athena {
             case namedQueryId = "NamedQueryId"
             case queryString = "QueryString"
             case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct NotebookMetadata: AWSDecodableShape {
+        /// The time when the notebook was created.
+        public let creationTime: Date?
+        /// The time when the notebook was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the notebook.
+        public let name: String?
+        /// The notebook ID.
+        public let notebookId: String?
+        /// The type of notebook. Currently, the only valid type is IPYNB.
+        public let type: NotebookType?
+        /// The name of the Spark enabled workgroup to which the notebook belongs.
+        public let workGroup: String?
+
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, notebookId: String? = nil, type: NotebookType? = nil, workGroup: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.notebookId = notebookId
+            self.type = type
+            self.workGroup = workGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case notebookId = "NotebookId"
+            case type = "Type"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct NotebookSessionSummary: AWSDecodableShape {
+        /// The time when the notebook session was created.
+        public let creationTime: Date?
+        /// The notebook session ID.
+        public let sessionId: String?
+
+        public init(creationTime: Date? = nil, sessionId: String? = nil) {
+            self.creationTime = creationTime
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case sessionId = "SessionId"
         }
     }
 
@@ -1677,7 +2746,7 @@ extension Athena {
     }
 
     public struct QueryRuntimeStatistics: AWSDecodableShape {
-        /// Stage statistics such as input and output rows and bytes, execution time, and stage state. This  information also includes substages and the query stage plan.
+        /// Stage statistics such as input and output rows and bytes, execution time, and stage state. This information also includes substages and the query stage plan.
         public let outputStage: QueryStage?
         public let rows: QueryRuntimeStatisticsRows?
         public let timeline: QueryRuntimeStatisticsTimeline?
@@ -1855,8 +2924,7 @@ extension Athena {
         public let aclConfiguration: AclConfiguration?
         /// The encryption configuration for the query results.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error.
-        ///  If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let expectedBucketOwner: String?
         /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Query Results If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
@@ -1993,6 +3061,171 @@ extension Athena {
         }
     }
 
+    public struct SessionConfiguration: AWSDecodableShape {
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The ARN of the execution role used for the session.
+        public let executionRole: String?
+        /// The idle timeout in seconds for the session.
+        public let idleTimeoutSeconds: Int64?
+        /// The Amazon S3 location that stores information for the notebook.
+        public let workingDirectory: String?
+
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, executionRole: String? = nil, idleTimeoutSeconds: Int64? = nil, workingDirectory: String? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.executionRole = executionRole
+            self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.workingDirectory = workingDirectory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case executionRole = "ExecutionRole"
+            case idleTimeoutSeconds = "IdleTimeoutSeconds"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct SessionStatistics: AWSDecodableShape {
+        /// The data processing unit execution time for a session in milliseconds.
+        public let dpuExecutionInMillis: Int64?
+
+        public init(dpuExecutionInMillis: Int64? = nil) {
+            self.dpuExecutionInMillis = dpuExecutionInMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dpuExecutionInMillis = "DpuExecutionInMillis"
+        }
+    }
+
+    public struct SessionStatus: AWSDecodableShape {
+        /// The date and time that the session ended.
+        public let endDateTime: Date?
+        /// The date and time starting at which the session became idle. Can be empty if the session is not currently idle.
+        public let idleSinceDateTime: Date?
+        /// The most recent date and time that the session was modified.
+        public let lastModifiedDateTime: Date?
+        /// The date and time that the session started.
+        public let startDateTime: Date?
+        /// The state of the session. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
+        public let state: SessionState?
+        /// The reason for the session state change (for example, canceled because the session was terminated).
+        public let stateChangeReason: String?
+
+        public init(endDateTime: Date? = nil, idleSinceDateTime: Date? = nil, lastModifiedDateTime: Date? = nil, startDateTime: Date? = nil, state: SessionState? = nil, stateChangeReason: String? = nil) {
+            self.endDateTime = endDateTime
+            self.idleSinceDateTime = idleSinceDateTime
+            self.lastModifiedDateTime = lastModifiedDateTime
+            self.startDateTime = startDateTime
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime = "EndDateTime"
+            case idleSinceDateTime = "IdleSinceDateTime"
+            case lastModifiedDateTime = "LastModifiedDateTime"
+            case startDateTime = "StartDateTime"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+        }
+    }
+
+    public struct SessionSummary: AWSDecodableShape {
+        /// The session description.
+        public let description: String?
+        /// The engine version used by the session (for example, PySpark engine version 3).
+        public let engineVersion: EngineVersion?
+        /// The notebook version.
+        public let notebookVersion: String?
+        /// The session ID.
+        public let sessionId: String?
+        /// Contains information about the session status.
+        public let status: SessionStatus?
+
+        public init(description: String? = nil, engineVersion: EngineVersion? = nil, notebookVersion: String? = nil, sessionId: String? = nil, status: SessionStatus? = nil) {
+            self.description = description
+            self.engineVersion = engineVersion
+            self.notebookVersion = notebookVersion
+            self.sessionId = sessionId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case engineVersion = "EngineVersion"
+            case notebookVersion = "NotebookVersion"
+            case sessionId = "SessionId"
+            case status = "Status"
+        }
+    }
+
+    public struct StartCalculationExecutionRequest: AWSEncodableShape {
+        /// Contains configuration information for the calculation.
+        public let calculationConfiguration: CalculationConfiguration?
+        /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// A string that contains the code of the calculation.
+        public let codeBlock: String?
+        /// A description of the calculation.
+        public let description: String?
+        /// The session ID.
+        public let sessionId: String
+
+        public init(clientRequestToken: String? = nil, codeBlock: String? = nil, description: String? = nil, sessionId: String) {
+            self.calculationConfiguration = nil
+            self.clientRequestToken = clientRequestToken
+            self.codeBlock = codeBlock
+            self.description = description
+            self.sessionId = sessionId
+        }
+
+        @available(*, deprecated, message: "Members calculationConfiguration have been deprecated")
+        public init(calculationConfiguration: CalculationConfiguration? = nil, clientRequestToken: String? = nil, codeBlock: String? = nil, description: String? = nil, sessionId: String) {
+            self.calculationConfiguration = calculationConfiguration
+            self.clientRequestToken = clientRequestToken
+            self.codeBlock = codeBlock
+            self.description = description
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.calculationConfiguration?.validate(name: "\(name).calculationConfiguration")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.codeBlock, name: "codeBlock", parent: name, max: 68000)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationConfiguration = "CalculationConfiguration"
+            case clientRequestToken = "ClientRequestToken"
+            case codeBlock = "CodeBlock"
+            case description = "Description"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct StartCalculationExecutionResponse: AWSDecodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String?
+        ///  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
+        public let state: CalculationExecutionState?
+
+        public init(calculationExecutionId: String? = nil, state: CalculationExecutionState? = nil) {
+            self.calculationExecutionId = calculationExecutionId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+            case state = "State"
+        }
+    }
+
     public struct StartQueryExecutionInput: AWSEncodableShape {
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
@@ -2056,6 +3289,100 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case queryExecutionId = "QueryExecutionId"
+        }
+    }
+
+    public struct StartSessionRequest: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// The session description.
+        public let description: String?
+        /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
+        public let engineConfiguration: EngineConfiguration
+        /// The notebook version. This value is required only when requesting that a notebook server be started for the session. The only valid notebook version is Jupyter1.0.
+        public let notebookVersion: String?
+        /// The idle timeout in minutes for the session.
+        public let sessionIdleTimeoutInMinutes: Int?
+        /// The workgroup to which the session belongs.
+        public let workGroup: String
+
+        public init(clientRequestToken: String? = nil, description: String? = nil, engineConfiguration: EngineConfiguration, notebookVersion: String? = nil, sessionIdleTimeoutInMinutes: Int? = nil, workGroup: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.engineConfiguration = engineConfiguration
+            self.notebookVersion = notebookVersion
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.engineConfiguration.validate(name: "\(name).engineConfiguration")
+            try self.validate(self.notebookVersion, name: "notebookVersion", parent: name, max: 128)
+            try self.validate(self.notebookVersion, name: "notebookVersion", parent: name, min: 1)
+            try self.validate(self.sessionIdleTimeoutInMinutes, name: "sessionIdleTimeoutInMinutes", parent: name, max: 480)
+            try self.validate(self.sessionIdleTimeoutInMinutes, name: "sessionIdleTimeoutInMinutes", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case engineConfiguration = "EngineConfiguration"
+            case notebookVersion = "NotebookVersion"
+            case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct StartSessionResponse: AWSDecodableShape {
+        /// The session ID.
+        public let sessionId: String?
+        /// The state of the session. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
+        public let state: SessionState?
+
+        public init(sessionId: String? = nil, state: SessionState? = nil) {
+            self.sessionId = sessionId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+            case state = "State"
+        }
+    }
+
+    public struct StopCalculationExecutionRequest: AWSEncodableShape {
+        /// The calculation execution UUID.
+        public let calculationExecutionId: String
+
+        public init(calculationExecutionId: String) {
+            self.calculationExecutionId = calculationExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, max: 36)
+            try self.validate(self.calculationExecutionId, name: "calculationExecutionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculationExecutionId = "CalculationExecutionId"
+        }
+    }
+
+    public struct StopCalculationExecutionResponse: AWSDecodableShape {
+        ///  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
+        public let state: CalculationExecutionState?
+
+        public init(state: CalculationExecutionState? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
         }
     }
 
@@ -2169,6 +3496,37 @@ extension Athena {
 
     public struct TagResourceOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TerminateSessionRequest: AWSEncodableShape {
+        /// The session ID.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct TerminateSessionResponse: AWSDecodableShape {
+        /// The state of the session. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
+        public let state: SessionState?
+
+        public init(state: SessionState? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+        }
     }
 
     public struct UnprocessedNamedQueryId: AWSDecodableShape {
@@ -2347,6 +3705,89 @@ extension Athena {
         public init() {}
     }
 
+    public struct UpdateNotebookInput: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once).  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// The ID of the notebook to update.
+        public let notebookId: String
+        /// The updated content for the notebook.
+        public let payload: String
+        /// The ID of the session in which the notebook will be updated.
+        public let sessionId: String?
+        /// The notebook content type. Currently, the only valid type is IPYNB.
+        public let type: NotebookType
+
+        public init(clientRequestToken: String? = nil, notebookId: String, payload: String, sessionId: String? = nil, type: NotebookType) {
+            self.clientRequestToken = clientRequestToken
+            self.notebookId = notebookId
+            self.payload = payload
+            self.sessionId = sessionId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.payload, name: "payload", parent: name, max: 10_485_760)
+            try self.validate(self.payload, name: "payload", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case notebookId = "NotebookId"
+            case payload = "Payload"
+            case sessionId = "SessionId"
+            case type = "Type"
+        }
+    }
+
+    public struct UpdateNotebookMetadataInput: AWSEncodableShape {
+        /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once).  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+        public let clientRequestToken: String?
+        /// The name to update the notebook to.
+        public let name: String
+        /// The ID of the notebook to update the metadata for.
+        public let notebookId: String
+
+        public init(clientRequestToken: String? = nil, name: String, notebookId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.notebookId = notebookId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+$")
+            try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
+            try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+            case notebookId = "NotebookId"
+        }
+    }
+
+    public struct UpdateNotebookMetadataOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateNotebookOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdatePreparedStatementInput: AWSEncodableShape {
         /// The description of the prepared statement.
         public let description: String?
@@ -2388,7 +3829,7 @@ extension Athena {
     }
 
     public struct UpdateWorkGroupInput: AWSEncodableShape {
-        /// The workgroup configuration that will be updated for the given workgroup.
+        /// Contains configuration updates for an Athena SQL workgroup.
         public let configurationUpdates: WorkGroupConfigurationUpdates?
         /// The workgroup description.
         public let description: String?
@@ -2452,12 +3893,18 @@ extension Athena {
     }
 
     public struct WorkGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a user defined JSON string that is passed to the notebook engine.
+        public let additionalConfiguration: String?
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
+        /// Role used in a notebook session for accessing the user's resources.
+        public let executionRole: String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see Requester Pays Buckets in the Amazon Simple Storage Service Developer Guide.
@@ -2465,25 +3912,37 @@ extension Athena {
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided. For more information, see Query Results.
         public let resultConfiguration: ResultConfiguration?
 
-        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+            self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
+            self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, max: 128)
+            try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "AdditionalConfiguration"
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+            case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
             case engineVersion = "EngineVersion"
+            case executionRole = "ExecutionRole"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case requesterPaysEnabled = "RequesterPaysEnabled"
             case resultConfiguration = "ResultConfiguration"
@@ -2491,43 +3950,64 @@ extension Athena {
     }
 
     public struct WorkGroupConfigurationUpdates: AWSEncodableShape {
+        /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
+        public let additionalConfiguration: String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public let bytesScannedCutoffPerQuery: Int64?
+        public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
+        /// Contains the ARN of the execution role for the workgroup
+        public let executionRole: String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Indicates that the data usage control limit per query is removed. WorkGroupConfiguration$BytesScannedCutoffPerQuery
         public let removeBytesScannedCutoffPerQuery: Bool?
+        /// Removes content encryption configuration for a workgroup.
+        public let removeCustomerContentEncryptionConfiguration: Bool?
         /// If set to true, allows members assigned to a workgroup to specify Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see Requester Pays Buckets in the Amazon Simple Storage Service Developer Guide.
         public let requesterPaysEnabled: Bool?
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
-        public init(bytesScannedCutoffPerQuery: Int64? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+            self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
+            self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
+            self.removeCustomerContentEncryptionConfiguration = removeCustomerContentEncryptionConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfigurationUpdates = resultConfigurationUpdates
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, max: 128)
+            try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.resultConfigurationUpdates?.validate(name: "\(name).resultConfigurationUpdates")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalConfiguration = "AdditionalConfiguration"
             case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+            case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
             case engineVersion = "EngineVersion"
+            case executionRole = "ExecutionRole"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
+            case removeCustomerContentEncryptionConfiguration = "RemoveCustomerContentEncryptionConfiguration"
             case requesterPaysEnabled = "RequesterPaysEnabled"
             case resultConfigurationUpdates = "ResultConfigurationUpdates"
         }
@@ -2572,6 +4052,7 @@ public struct AthenaErrorType: AWSErrorType {
         case invalidRequestException = "InvalidRequestException"
         case metadataException = "MetadataException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case sessionAlreadyExistsException = "SessionAlreadyExistsException"
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
@@ -2601,6 +4082,8 @@ public struct AthenaErrorType: AWSErrorType {
     public static var metadataException: Self { .init(.metadataException) }
     /// A resource, such as a workgroup, was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The specified session already exists.
+    public static var sessionAlreadyExistsException: Self { .init(.sessionAlreadyExistsException) }
     /// Indicates that the request was throttled.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }

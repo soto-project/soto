@@ -27,49 +27,6 @@ extension MarketplaceEntitlementService {
         public var description: String { return self.rawValue }
     }
 
-    public enum EntitlementValue: AWSDecodableShape, _SotoSendable {
-        /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
-        case booleanValue(Bool)
-        /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
-        case doubleValue(Double)
-        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
-        case integerValue(Int)
-        /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
-        case stringValue(String)
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            guard container.allKeys.count == 1, let key = container.allKeys.first else {
-                let context = DecodingError.Context(
-                    codingPath: container.codingPath,
-                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
-                )
-                throw DecodingError.dataCorrupted(context)
-            }
-            switch key {
-            case .booleanValue:
-                let value = try container.decode(Bool.self, forKey: .booleanValue)
-                self = .booleanValue(value)
-            case .doubleValue:
-                let value = try container.decode(Double.self, forKey: .doubleValue)
-                self = .doubleValue(value)
-            case .integerValue:
-                let value = try container.decode(Int.self, forKey: .integerValue)
-                self = .integerValue(value)
-            case .stringValue:
-                let value = try container.decode(String.self, forKey: .stringValue)
-                self = .stringValue(value)
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case booleanValue = "BooleanValue"
-            case doubleValue = "DoubleValue"
-            case integerValue = "IntegerValue"
-            case stringValue = "StringValue"
-        }
-    }
-
     // MARK: Shapes
 
     public struct Entitlement: AWSDecodableShape {
@@ -98,6 +55,31 @@ extension MarketplaceEntitlementService {
             case expirationDate = "ExpirationDate"
             case productCode = "ProductCode"
             case value = "Value"
+        }
+    }
+
+    public struct EntitlementValue: AWSDecodableShape {
+        /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
+        public let booleanValue: Bool?
+        /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
+        public let doubleValue: Double?
+        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
+        public let integerValue: Int?
+        /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
+        public let stringValue: String?
+
+        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, stringValue: String? = nil) {
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "BooleanValue"
+            case doubleValue = "DoubleValue"
+            case integerValue = "IntegerValue"
+            case stringValue = "StringValue"
         }
     }
 

@@ -35,6 +35,7 @@ extension KinesisVideo {
 
     public enum ChannelProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
         case https = "HTTPS"
+        case webrtc = "WEBRTC"
         case wss = "WSS"
         public var description: String { return self.rawValue }
     }
@@ -79,11 +80,39 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaStorageConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaUriType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fileUri = "FILE_URI"
+        case rtspUri = "RTSP_URI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StrategyOnFullSize: String, CustomStringConvertible, Codable, _SotoSendable {
+        case deleteOldestMedia = "DELETE_OLDEST_MEDIA"
+        case denyNewMedia = "DENY_NEW_MEDIA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case acknowledged = "ACKNOWLEDGED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case inSync = "IN_SYNC"
+        case syncFailed = "SYNC_FAILED"
+        case syncing = "SYNCING"
         public var description: String { return self.rawValue }
     }
 
@@ -211,8 +240,7 @@ extension KinesisVideo {
         public let deviceName: String?
         /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used. For more information, see DescribeKey.
         public let kmsKeyId: String?
-        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines.
-        ///  Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
+        /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
         public let mediaType: String?
         /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String
@@ -336,6 +364,96 @@ extension KinesisVideo {
         public init() {}
     }
 
+    public struct DeletionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to  the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are  set to true, such as when the limit for the EdgeRetentionInHours, or the MaxLocalMediaSizeInMB, has been reached.   Since the default value is set to true, configure the uploader schedule such  that the media files are not being deleted before they are initially uploaded to AWS cloud.
+        public let deleteAfterUpload: Bool?
+        /// The number of hours that you want to retain the data in the stream on the Edge Agent. The default value of the retention time is 720 hours, which translates to 30 days.
+        public let edgeRetentionInHours: Int?
+        /// The value of the local size required in order to delete the edge configuration.
+        public let localSizeConfig: LocalSizeConfig?
+
+        public init(deleteAfterUpload: Bool? = nil, edgeRetentionInHours: Int? = nil, localSizeConfig: LocalSizeConfig? = nil) {
+            self.deleteAfterUpload = deleteAfterUpload
+            self.edgeRetentionInHours = edgeRetentionInHours
+            self.localSizeConfig = localSizeConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.edgeRetentionInHours, name: "edgeRetentionInHours", parent: name, max: 720)
+            try self.validate(self.edgeRetentionInHours, name: "edgeRetentionInHours", parent: name, min: 1)
+            try self.localSizeConfig?.validate(name: "\(name).localSizeConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteAfterUpload = "DeleteAfterUpload"
+            case edgeRetentionInHours = "EdgeRetentionInHours"
+            case localSizeConfig = "LocalSizeConfig"
+        }
+    }
+
+    public struct DescribeEdgeConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamNameor the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or  the StreamARN.
+        public let streamName: String?
+
+        public init(streamARN: String? = nil, streamName: String? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct DescribeEdgeConfigurationOutput: AWSDecodableShape {
+        /// The timestamp at which a stream’s edge configuration was first created.
+        public let creationTime: Date?
+        /// A description of the stream's edge configuration that will be used to sync  with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+        public let edgeConfig: EdgeConfig?
+        /// A description of the generated failure status.
+        public let failedStatusDetails: String?
+        /// The timestamp at which a stream’s edge configuration was last updated.
+        public let lastUpdatedTime: Date?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
+        /// The name of the stream from which the edge configuration was updated.
+        public let streamName: String?
+        /// The latest status of the edge configuration update.
+        public let syncStatus: SyncStatus?
+
+        public init(creationTime: Date? = nil, edgeConfig: EdgeConfig? = nil, failedStatusDetails: String? = nil, lastUpdatedTime: Date? = nil, streamARN: String? = nil, streamName: String? = nil, syncStatus: SyncStatus? = nil) {
+            self.creationTime = creationTime
+            self.edgeConfig = edgeConfig
+            self.failedStatusDetails = failedStatusDetails
+            self.lastUpdatedTime = lastUpdatedTime
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.syncStatus = syncStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case edgeConfig = "EdgeConfig"
+            case failedStatusDetails = "FailedStatusDetails"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case syncStatus = "SyncStatus"
+        }
+    }
+
     public struct DescribeImageGenerationConfigurationInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Kinesis video stream from which to retrieve the image generation configuration. You must specify either the StreamName or the StreamARN.
         public let streamARN: String?
@@ -372,6 +490,100 @@ extension KinesisVideo {
 
         private enum CodingKeys: String, CodingKey {
             case imageGenerationConfiguration = "ImageGenerationConfiguration"
+        }
+    }
+
+    public struct DescribeMappedResourceConfigurationInput: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// The token to provide in your next request, to get another batch of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
+        /// The name of the stream.
+        public let streamName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]*$")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct DescribeMappedResourceConfigurationOutput: AWSDecodableShape {
+        /// A structure that encapsulates, or contains, the media storage configuration properties.
+        public let mappedResourceConfigurationList: [MappedResourceConfigurationListItem]?
+        /// The token that was used in the NextTokenrequest to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(mappedResourceConfigurationList: [MappedResourceConfigurationListItem]? = nil, nextToken: String? = nil) {
+            self.mappedResourceConfigurationList = mappedResourceConfigurationList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mappedResourceConfigurationList = "MappedResourceConfigurationList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeMediaStorageConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the channel.
+        public let channelARN: String?
+        /// The name of the channel.
+        public let channelName: String?
+
+        public init(channelARN: String? = nil, channelName: String? = nil) {
+            self.channelARN = channelARN
+            self.channelName = channelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case channelName = "ChannelName"
+        }
+    }
+
+    public struct DescribeMediaStorageConfigurationOutput: AWSDecodableShape {
+        /// A structure that encapsulates, or contains, the media storage configuration properties.
+        public let mediaStorageConfiguration: MediaStorageConfiguration?
+
+        public init(mediaStorageConfiguration: MediaStorageConfiguration? = nil) {
+            self.mediaStorageConfiguration = mediaStorageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaStorageConfiguration = "MediaStorageConfiguration"
         }
     }
 
@@ -489,6 +701,40 @@ extension KinesisVideo {
 
         private enum CodingKeys: String, CodingKey {
             case streamInfo = "StreamInfo"
+        }
+    }
+
+    public struct EdgeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The deletion configuration is made up of the retention time (EdgeRetentionInHours) and local size configuration (LocalSizeConfig) details that are used to make the deletion.
+        public let deletionConfig: DeletionConfig?
+        /// The "Internet of Things (IoT) Thing" Arn of the stream.
+        public let hubDeviceArn: String
+        /// The recorder configuration consists of the local MediaSourceConfig details, that are used as  credentials to access the local media files streamed on the camera.
+        public let recorderConfig: RecorderConfig
+        /// The uploader configuration contains the ScheduleExpression details that are used to schedule upload jobs for the recorded media files from the Edge Agent to a Kinesis Video Stream.
+        public let uploaderConfig: UploaderConfig?
+
+        public init(deletionConfig: DeletionConfig? = nil, hubDeviceArn: String, recorderConfig: RecorderConfig, uploaderConfig: UploaderConfig? = nil) {
+            self.deletionConfig = deletionConfig
+            self.hubDeviceArn = hubDeviceArn
+            self.recorderConfig = recorderConfig
+            self.uploaderConfig = uploaderConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.deletionConfig?.validate(name: "\(name).deletionConfig")
+            try self.validate(self.hubDeviceArn, name: "hubDeviceArn", parent: name, max: 1024)
+            try self.validate(self.hubDeviceArn, name: "hubDeviceArn", parent: name, min: 1)
+            try self.validate(self.hubDeviceArn, name: "hubDeviceArn", parent: name, pattern: "^arn:[a-z\\d-]+:iot:[a-z0-9-]+:[0-9]+:thing/[a-zA-Z0-9_.-]+$")
+            try self.recorderConfig.validate(name: "\(name).recorderConfig")
+            try self.uploaderConfig?.validate(name: "\(name).uploaderConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionConfig = "DeletionConfig"
+            case hubDeviceArn = "HubDeviceArn"
+            case recorderConfig = "RecorderConfig"
+            case uploaderConfig = "UploaderConfig"
         }
     }
 
@@ -632,7 +878,7 @@ extension KinesisVideo {
     public struct ImageGenerationDestinationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The AWS Region of the S3 bucket where images will be delivered. This DestinationRegion must match the Region where the stream is located.
         public let destinationRegion: String
-        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         public let uri: String
 
         public init(destinationRegion: String, uri: String) {
@@ -838,6 +1084,91 @@ extension KinesisVideo {
         }
     }
 
+    public struct LocalSizeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The overall maximum size of the media that you want to store for a stream on the Edge Agent.
+        public let maxLocalMediaSizeInMB: Int?
+        /// The strategy to perform when a stream’s MaxLocalMediaSizeInMB limit is reached.
+        public let strategyOnFullSize: StrategyOnFullSize?
+
+        public init(maxLocalMediaSizeInMB: Int? = nil, strategyOnFullSize: StrategyOnFullSize? = nil) {
+            self.maxLocalMediaSizeInMB = maxLocalMediaSizeInMB
+            self.strategyOnFullSize = strategyOnFullSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxLocalMediaSizeInMB, name: "maxLocalMediaSizeInMB", parent: name, max: 2_000_000)
+            try self.validate(self.maxLocalMediaSizeInMB, name: "maxLocalMediaSizeInMB", parent: name, min: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxLocalMediaSizeInMB = "MaxLocalMediaSizeInMB"
+            case strategyOnFullSize = "StrategyOnFullSize"
+        }
+    }
+
+    public struct MappedResourceConfigurationListItem: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource, associated with the stream.
+        public let arn: String?
+        /// The type of the associated resource for the kinesis video stream.
+        public let type: String?
+
+        public init(arn: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case type = "Type"
+        }
+    }
+
+    public struct MediaSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Secrets Manager ARN for the username and password of the camera, or a local media file location.
+        public let mediaUriSecretArn: String
+        /// The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream  local media files.  Preview only supports the RTSP_URI media source URI format .
+        public let mediaUriType: MediaUriType
+
+        public init(mediaUriSecretArn: String, mediaUriType: MediaUriType) {
+            self.mediaUriSecretArn = mediaUriSecretArn
+            self.mediaUriType = mediaUriType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaUriSecretArn, name: "mediaUriSecretArn", parent: name, max: 2048)
+            try self.validate(self.mediaUriSecretArn, name: "mediaUriSecretArn", parent: name, min: 20)
+            try self.validate(self.mediaUriSecretArn, name: "mediaUriSecretArn", parent: name, pattern: "^arn:[a-z\\d-]+:secretsmanager:[a-z0-9-]+:[0-9]+:secret:[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaUriSecretArn = "MediaUriSecretArn"
+            case mediaUriType = "MediaUriType"
+        }
+    }
+
+    public struct MediaStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the media storage configuration.
+        public let status: MediaStorageConfigurationStatus
+        /// The Amazon Resource Name (ARN) of the stream
+        public let streamARN: String?
+
+        public init(status: MediaStorageConfigurationStatus, streamARN: String? = nil) {
+            self.status = status
+            self.streamARN = streamARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case streamARN = "StreamARN"
+        }
+    }
+
     public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The destination information required to deliver a notification to a customer.
         public let destinationConfig: NotificationDestinationConfig
@@ -860,7 +1191,7 @@ extension KinesisVideo {
     }
 
     public struct NotificationDestinationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         public let uri: String
 
         public init(uri: String) {
@@ -878,6 +1209,28 @@ extension KinesisVideo {
         }
     }
 
+    public struct RecorderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration details that consist of the credentials required  (MediaUriSecretArn and MediaUriType) to access the media files  streamed to the camera.
+        public let mediaSourceConfig: MediaSourceConfig
+        /// The configuration that consists of the ScheduleExpression and the  DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression attribute is not provided, then the Edge Agent will always be set to recording mode.
+        public let scheduleConfig: ScheduleConfig?
+
+        public init(mediaSourceConfig: MediaSourceConfig, scheduleConfig: ScheduleConfig? = nil) {
+            self.mediaSourceConfig = mediaSourceConfig
+            self.scheduleConfig = scheduleConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.mediaSourceConfig.validate(name: "\(name).mediaSourceConfig")
+            try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaSourceConfig = "MediaSourceConfig"
+            case scheduleConfig = "ScheduleConfig"
+        }
+    }
+
     public struct ResourceEndpointListItem: AWSDecodableShape {
         /// The protocol of the signaling channel returned by the GetSignalingChannelEndpoint API.
         public let `protocol`: ChannelProtocol?
@@ -892,6 +1245,31 @@ extension KinesisVideo {
         private enum CodingKeys: String, CodingKey {
             case `protocol` = "Protocol"
             case resourceEndpoint = "ResourceEndpoint"
+        }
+    }
+
+    public struct ScheduleConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The total duration to record the media. If the ScheduleExpression attribute is provided, then the DurationInSeconds attribute should also be specified.
+        public let durationInSeconds: Int
+        /// The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig, then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the   Cron Trigger Tutorial page to understand the valid expressions and its use.
+        public let scheduleExpression: String
+
+        public init(durationInSeconds: Int, scheduleExpression: String) {
+            self.durationInSeconds = durationInSeconds
+            self.scheduleExpression = scheduleExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 3600)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 60)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 100)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 11)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[^\\n]{11,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
@@ -932,6 +1310,74 @@ extension KinesisVideo {
 
         private enum CodingKeys: String, CodingKey {
             case messageTtlSeconds = "MessageTtlSeconds"
+        }
+    }
+
+    public struct StartEdgeConfigurationUpdateInput: AWSEncodableShape {
+        /// The edge configuration details required to invoke the update process.
+        public let edgeConfig: EdgeConfig
+        ///  The Amazon Resource Name (ARN) of the stream. Specify either the  StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(edgeConfig: EdgeConfig, streamARN: String? = nil, streamName: String? = nil) {
+            self.edgeConfig = edgeConfig
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.edgeConfig.validate(name: "\(name).edgeConfig")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeConfig = "EdgeConfig"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct StartEdgeConfigurationUpdateOutput: AWSDecodableShape {
+        /// The timestamp at which a stream’s edge configuration was first created.
+        public let creationTime: Date?
+        /// A description of the stream's edge configuration that will be used to sync  with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+        public let edgeConfig: EdgeConfig?
+        /// A description of the generated failure status.
+        public let failedStatusDetails: String?
+        /// The timestamp at which a stream’s edge configuration was last updated.
+        public let lastUpdatedTime: Date?
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
+        /// The name of the stream from which the edge configuration was updated.
+        public let streamName: String?
+        ///  The current sync status of the stream's edge configuration. When you invoke this API, the sync status will be set to the SYNCING state. Use the DescribeEdgeConfiguration API to get the latest status of the edge configuration.
+        public let syncStatus: SyncStatus?
+
+        public init(creationTime: Date? = nil, edgeConfig: EdgeConfig? = nil, failedStatusDetails: String? = nil, lastUpdatedTime: Date? = nil, streamARN: String? = nil, streamName: String? = nil, syncStatus: SyncStatus? = nil) {
+            self.creationTime = creationTime
+            self.edgeConfig = edgeConfig
+            self.failedStatusDetails = failedStatusDetails
+            self.lastUpdatedTime = lastUpdatedTime
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.syncStatus = syncStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case edgeConfig = "EdgeConfig"
+            case failedStatusDetails = "FailedStatusDetails"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case syncStatus = "SyncStatus"
         }
     }
 
@@ -1259,6 +1705,34 @@ extension KinesisVideo {
         public init() {}
     }
 
+    public struct UpdateMediaStorageConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the channel.
+        public let channelARN: String
+        /// A structure that encapsulates, or contains, the media storage configuration properties.
+        public let mediaStorageConfiguration: MediaStorageConfiguration
+
+        public init(channelARN: String, mediaStorageConfiguration: MediaStorageConfiguration) {
+            self.channelARN = channelARN
+            self.mediaStorageConfiguration = mediaStorageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.mediaStorageConfiguration.validate(name: "\(name).mediaStorageConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case mediaStorageConfiguration = "MediaStorageConfiguration"
+        }
+    }
+
+    public struct UpdateMediaStorageConfigurationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateNotificationConfigurationInput: AWSEncodableShape {
         /// The structure containing the information required for notifications. If the structure is null, the configuration will be deleted from the stream.
         public let notificationConfiguration: NotificationConfiguration?
@@ -1379,6 +1853,23 @@ extension KinesisVideo {
     public struct UpdateStreamOutput: AWSDecodableShape {
         public init() {}
     }
+
+    public struct UploaderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that consists of the ScheduleExpression and the  DurationInMinutesdetails that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided, then the Edge Agent will always be in recording mode.
+        public let scheduleConfig: ScheduleConfig
+
+        public init(scheduleConfig: ScheduleConfig) {
+            self.scheduleConfig = scheduleConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.scheduleConfig.validate(name: "\(name).scheduleConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleConfig = "ScheduleConfig"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1398,6 +1889,7 @@ public struct KinesisVideoErrorType: AWSErrorType {
         case notAuthorizedException = "NotAuthorizedException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case streamEdgeConfigurationNotFoundException = "StreamEdgeConfigurationNotFoundException"
         case tagsPerResourceExceededLimitException = "TagsPerResourceExceededLimitException"
         case versionMismatchException = "VersionMismatchException"
     }
@@ -1440,10 +1932,12 @@ public struct KinesisVideoErrorType: AWSErrorType {
     public static var noDataRetentionException: Self { .init(.noDataRetentionException) }
     /// The caller is not authorized to perform this operation.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
-    /// The resource is currently not available for this operation. New resources cannot be created with the same name as existing resources. Also, resources cannot be updated or deleted unless they are in an ACTIVE state. If this exception is returned, do not use it to determine whether the requested resource already exists. Instead, it is recommended you use the resource-specific describe API, for example, DescribeStream for video streams.
+    /// When the input StreamARN or ChannelARN in CLOUD_STORAGE_MODE is already mapped to a different Kinesis Video Stream resource, or if the provided input StreamARN or ChannelARN is not in Active status, try one of the following :    The DescribeMediaStorageConfiguration API to determine what the stream given channel is mapped to.     The DescribeMappedResourceConfiguration API to determine the channel that the given stream is mapped to.     The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Amazon Kinesis Video Streams can&#39;t find the stream that you specified.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The Exception rendered when the Amazon Kinesis Video Stream can&#39;t find a stream&#39;s edge configuration that you specified.
+    public static var streamEdgeConfigurationNotFoundException: Self { .init(.streamEdgeConfigurationNotFoundException) }
     /// You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     public static var tagsPerResourceExceededLimitException: Self { .init(.tagsPerResourceExceededLimitException) }
     /// The stream version that you specified is not the latest version. To get the latest version, use the DescribeStream API.

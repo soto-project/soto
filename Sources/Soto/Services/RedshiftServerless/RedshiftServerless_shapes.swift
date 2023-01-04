@@ -99,17 +99,28 @@ extension RedshiftServerless {
         public let retentionPeriod: Int?
         /// The name of the snapshot.
         public let snapshotName: String
+        /// An array of Tag objects  to associate with the created snapshot.
+        public let tags: [Tag]?
 
-        public init(recoveryPointId: String, retentionPeriod: Int? = nil, snapshotName: String) {
+        public init(recoveryPointId: String, retentionPeriod: Int? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.recoveryPointId = recoveryPointId
             self.retentionPeriod = retentionPeriod
             self.snapshotName = snapshotName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case recoveryPointId
             case retentionPeriod
             case snapshotName
+            case tags
         }
     }
 
@@ -240,17 +251,28 @@ extension RedshiftServerless {
         public let retentionPeriod: Int?
         /// The name of the snapshot.
         public let snapshotName: String
+        /// An array of Tag objects to associate with the snapshot.
+        public let tags: [Tag]?
 
-        public init(namespaceName: String, retentionPeriod: Int? = nil, snapshotName: String) {
+        public init(namespaceName: String, retentionPeriod: Int? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.namespaceName = namespaceName
             self.retentionPeriod = retentionPeriod
             self.snapshotName = snapshotName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case namespaceName
             case retentionPeriod
             case snapshotName
+            case tags
         }
     }
 
@@ -318,6 +340,8 @@ extension RedshiftServerless {
         public let enhancedVpcRouting: Bool?
         /// The name of the namespace to associate with the workgroup.
         public let namespaceName: String
+        /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+        public let port: Int?
         /// A value that specifies whether the workgroup can be accessed from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -329,11 +353,12 @@ extension RedshiftServerless {
         /// The name of the created workgroup.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
             self.namespaceName = namespaceName
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -359,6 +384,7 @@ extension RedshiftServerless {
             case configParameters
             case enhancedVpcRouting
             case namespaceName
+            case port
             case publiclyAccessible
             case securityGroupIds
             case subnetIds
@@ -618,7 +644,7 @@ extension RedshiftServerless {
     }
 
     public struct GetCredentialsRequest: AWSEncodableShape {
-        /// The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found  in Reserved Words   in the Amazon Redshift Database Developer Guide
+        /// The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found  in Reserved Words   in the Amazon Redshift Database Developer Guide
         public let dbName: String?
         /// The number of seconds until the returned temporary password expires. The minimum is 900 seconds, and the maximum is 3600 seconds.
         public let durationSeconds: Int?
@@ -813,6 +839,32 @@ extension RedshiftServerless {
         }
     }
 
+    public struct GetTableRestoreStatusRequest: AWSEncodableShape {
+        /// The ID of the RestoreTableFromSnapshot request to return status for.
+        public let tableRestoreRequestId: String
+
+        public init(tableRestoreRequestId: String) {
+            self.tableRestoreRequestId = tableRestoreRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreRequestId
+        }
+    }
+
+    public struct GetTableRestoreStatusResponse: AWSDecodableShape {
+        /// The returned TableRestoreStatus object that contains information about the status of your RestoreTableFromSnapshot request.
+        public let tableRestoreStatus: TableRestoreStatus?
+
+        public init(tableRestoreStatus: TableRestoreStatus? = nil) {
+            self.tableRestoreStatus = tableRestoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatus
+        }
+    }
+
     public struct GetUsageLimitRequest: AWSEncodableShape {
         /// The unique identifier of the usage limit to return information for.
         public let usageLimitId: String
@@ -877,9 +929,9 @@ extension RedshiftServerless {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in subsequent ListEndpointAccess operations, which returns results in the next page.
+        /// If your initial ListEndpointAccess operation returns a nextToken, you can include the returned nextToken in following ListEndpointAccess operations, which returns results in the next page.
         public let nextToken: String?
         /// The unique identifier of the virtual private cloud with access to Amazon Redshift Serverless.
         public let vpcId: String?
@@ -922,9 +974,9 @@ extension RedshiftServerless {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in subsequent ListNamespaces operations, which returns results in the next page.
+        /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -960,18 +1012,21 @@ extension RedshiftServerless {
 
         /// The time when creation of the recovery point finished.
         public let endTime: Date?
-        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
+        /// The Amazon Resource Name (ARN) of the namespace from which to list recovery points.
+        public let namespaceArn: String?
         /// The name of the namespace to list recovery points for.
         public let namespaceName: String?
-        /// If your initial ListRecoveryPoints operation returns a nextToken, you can include the returned nextToken in subsequent ListRecoveryPoints operations, which returns results in the next page.
+        /// If your initial ListRecoveryPoints operation returns a nextToken, you can include the returned nextToken in following ListRecoveryPoints operations, which returns results in the next page.
         public let nextToken: String?
         /// The time when the recovery point's creation was initiated.
         public let startTime: Date?
 
-        public init(endTime: Date? = nil, maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+        public init(endTime: Date? = nil, maxResults: Int? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
+            self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
             self.nextToken = nextToken
             self.startTime = startTime
@@ -985,6 +1040,7 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case endTime
+            case namespaceArn
             case namespaceName
             case startTime
         }
@@ -1015,7 +1071,7 @@ extension RedshiftServerless {
 
         /// The timestamp showing when the snapshot creation finished.
         public let endTime: Date?
-        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// The Amazon Resource Name (ARN) of the namespace from which to list all snapshots.
         public let namespaceArn: String?
@@ -1064,6 +1120,56 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ListTableRestoreStatusRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// An optional parameter that specifies the maximum number of results to  return. You can use nextToken to display the next page of results.
+        public let maxResults: Int?
+        /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
+        public let namespaceName: String?
+        /// If your initial ListTableRestoreStatus operation returns a nextToken,  you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
+        public let nextToken: String?
+        /// The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
+        public let workgroupName: String?
+
+        public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil, workgroupName: String? = nil) {
+            self.maxResults = maxResults
+            self.namespaceName = namespaceName
+            self.nextToken = nextToken
+            self.workgroupName = workgroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceName
+            case workgroupName
+        }
+    }
+
+    public struct ListTableRestoreStatusResponse: AWSDecodableShape {
+        /// If your initial ListTableRestoreStatus operation returns a nextToken,  you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
+        public let nextToken: String?
+        /// The array of returned TableRestoreStatus objects.
+        public let tableRestoreStatuses: [TableRestoreStatus]?
+
+        public init(nextToken: String? = nil, tableRestoreStatuses: [TableRestoreStatus]? = nil) {
+            self.nextToken = nextToken
+            self.tableRestoreStatuses = tableRestoreStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case tableRestoreStatuses
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to list tags for.
         public let resourceArn: String
@@ -1103,7 +1209,7 @@ extension RedshiftServerless {
 
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 100.
         public let maxResults: Int?
-        /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in subsequent ListUsageLimits operations, which returns results in the next page.
+        /// If your initial ListUsageLimits operation returns a nextToken, you can include the returned nextToken in following ListUsageLimits operations, which returns results in the next page.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) associated with the resource whose usage limits you want to list.
         public let resourceArn: String?
@@ -1151,9 +1257,9 @@ extension RedshiftServerless {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in subsequent ListNamespaces operations, which returns results in the next page.
+        /// If your initial ListWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1290,6 +1396,8 @@ extension RedshiftServerless {
     }
 
     public struct RecoveryPoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the namespace the recovery point is associated with.
+        public let namespaceArn: String?
         /// The name of the namespace the recovery point is associated with.
         public let namespaceName: String?
         /// The time the recovery point is created.
@@ -1301,7 +1409,8 @@ extension RedshiftServerless {
         /// The name of the workgroup the recovery point is associated with.
         public let workgroupName: String?
 
-        public init(namespaceName: String? = nil, recoveryPointCreateTime: Date? = nil, recoveryPointId: String? = nil, totalSizeInMegaBytes: Double? = nil, workgroupName: String? = nil) {
+        public init(namespaceArn: String? = nil, namespaceName: String? = nil, recoveryPointCreateTime: Date? = nil, recoveryPointId: String? = nil, totalSizeInMegaBytes: Double? = nil, workgroupName: String? = nil) {
+            self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
             self.recoveryPointCreateTime = recoveryPointCreateTime
             self.recoveryPointId = recoveryPointId
@@ -1310,6 +1419,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case namespaceArn
             case namespaceName
             case recoveryPointCreateTime
             case recoveryPointId
@@ -1387,9 +1497,9 @@ extension RedshiftServerless {
         public let namespaceName: String
         /// The Amazon Web Services account that owns the snapshot.
         public let ownerAccount: String?
-        /// The Amazon Resource Name (ARN) of the snapshot to restore from.
+        /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
         public let snapshotArn: String?
-        /// The name of the snapshot to restore from.
+        /// The name of the snapshot to restore from. Must not be specified at the same time as snapshotArn.
         public let snapshotName: String?
         /// The name of the workgroup used to restore the snapshot.
         public let workgroupName: String
@@ -1437,6 +1547,68 @@ extension RedshiftServerless {
             case namespace
             case ownerAccount
             case snapshotName
+        }
+    }
+
+    public struct RestoreTableFromSnapshotRequest: AWSEncodableShape {
+        /// Indicates whether name identifiers for database, schema, and table  are case sensitive. If true, the names are case sensitive. If  false, the names are not case sensitive. The default is false.
+        public let activateCaseSensitiveIdentifier: Bool?
+        /// The namespace of the snapshot to restore from.
+        public let namespaceName: String
+        /// The name of the table to create from the restore operation.
+        public let newTableName: String
+        /// The name of the snapshot to restore the table from.
+        public let snapshotName: String
+        /// The name of the source database that contains the table being restored.
+        public let sourceDatabaseName: String
+        /// The name of the source schema that contains the table being restored.
+        public let sourceSchemaName: String?
+        /// The name of the source table being restored.
+        public let sourceTableName: String
+        /// The name of the database to restore the table to.
+        public let targetDatabaseName: String?
+        /// The name of the schema to restore the table to.
+        public let targetSchemaName: String?
+        /// The workgroup to restore the table to.
+        public let workgroupName: String
+
+        public init(activateCaseSensitiveIdentifier: Bool? = nil, namespaceName: String, newTableName: String, snapshotName: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, workgroupName: String) {
+            self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
+            self.namespaceName = namespaceName
+            self.newTableName = newTableName
+            self.snapshotName = snapshotName
+            self.sourceDatabaseName = sourceDatabaseName
+            self.sourceSchemaName = sourceSchemaName
+            self.sourceTableName = sourceTableName
+            self.targetDatabaseName = targetDatabaseName
+            self.targetSchemaName = targetSchemaName
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activateCaseSensitiveIdentifier
+            case namespaceName
+            case newTableName
+            case snapshotName
+            case sourceDatabaseName
+            case sourceSchemaName
+            case sourceTableName
+            case targetDatabaseName
+            case targetSchemaName
+            case workgroupName
+        }
+    }
+
+    public struct RestoreTableFromSnapshotResponse: AWSDecodableShape {
+        /// The TableRestoreStatus object that contains the status of the restore operation.
+        public let tableRestoreStatus: TableRestoreStatus?
+
+        public init(tableRestoreStatus: TableRestoreStatus? = nil) {
+            self.tableRestoreStatus = tableRestoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableRestoreStatus
         }
     }
 
@@ -1526,6 +1698,75 @@ extension RedshiftServerless {
             case snapshotRetentionStartTime
             case status
             case totalBackupSizeInMegaBytes
+        }
+    }
+
+    public struct TableRestoreStatus: AWSDecodableShape {
+        /// A description of the status of the table restore request.  Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        public let message: String?
+        /// The namespace of the table being restored from.
+        public let namespaceName: String?
+        /// The name of the table to create from the restore operation.
+        public let newTableName: String?
+        /// The amount of data restored to the new table so far, in megabytes (MB).
+        public let progressInMegaBytes: Int64?
+        /// The time that the table restore request was made,  in Universal Coordinated Time (UTC).
+        public let requestTime: Date?
+        /// The name of the snapshot being restored from.
+        public let snapshotName: String?
+        /// The name of the source database being restored from.
+        public let sourceDatabaseName: String?
+        /// The name of the source schema being restored from.
+        public let sourceSchemaName: String?
+        /// The name of the source table being restored from.
+        public let sourceTableName: String?
+        /// A value that describes the current state of the table restore request.  Possible values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
+        public let status: String?
+        /// The ID of the RestoreTableFromSnapshot request.
+        public let tableRestoreRequestId: String?
+        /// The name of the database to restore to.
+        public let targetDatabaseName: String?
+        /// The name of the schema to restore to.
+        public let targetSchemaName: String?
+        /// The total amount of data to restore to the new table, in megabytes (MB).
+        public let totalDataInMegaBytes: Int64?
+        /// The name of the workgroup being restored from.
+        public let workgroupName: String?
+
+        public init(message: String? = nil, namespaceName: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, requestTime: Date? = nil, snapshotName: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: String? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil, workgroupName: String? = nil) {
+            self.message = message
+            self.namespaceName = namespaceName
+            self.newTableName = newTableName
+            self.progressInMegaBytes = progressInMegaBytes
+            self.requestTime = requestTime
+            self.snapshotName = snapshotName
+            self.sourceDatabaseName = sourceDatabaseName
+            self.sourceSchemaName = sourceSchemaName
+            self.sourceTableName = sourceTableName
+            self.status = status
+            self.tableRestoreRequestId = tableRestoreRequestId
+            self.targetDatabaseName = targetDatabaseName
+            self.targetSchemaName = targetSchemaName
+            self.totalDataInMegaBytes = totalDataInMegaBytes
+            self.workgroupName = workgroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message
+            case namespaceName
+            case newTableName
+            case progressInMegaBytes
+            case requestTime
+            case snapshotName
+            case sourceDatabaseName
+            case sourceSchemaName
+            case sourceTableName
+            case status
+            case tableRestoreRequestId
+            case targetDatabaseName
+            case targetSchemaName
+            case totalDataInMegaBytes
+            case workgroupName
         }
     }
 
@@ -1731,7 +1972,7 @@ extension RedshiftServerless {
     }
 
     public struct UpdateUsageLimitRequest: AWSEncodableShape {
-        /// The new limit amount. For more information about this parameter.
+        /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour.  If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing.  The value must be a positive number.
         public let amount: Int64?
         /// The new action that Amazon Redshift Serverless takes when the limit is reached.
         public let breachAction: UsageLimitBreachAction?
@@ -1771,6 +2012,8 @@ extension RedshiftServerless {
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+        public let port: Int?
         /// A value that specifies whether the workgroup can be accessible from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -1780,10 +2023,11 @@ extension RedshiftServerless {
         /// The name of the workgroup to update.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1800,6 +2044,7 @@ extension RedshiftServerless {
             case baseCapacity
             case configParameters
             case enhancedVpcRouting
+            case port
             case publiclyAccessible
             case securityGroupIds
             case subnetIds
@@ -1908,6 +2153,8 @@ extension RedshiftServerless {
         public let enhancedVpcRouting: Bool?
         /// The namespace the workgroup is associated with.
         public let namespaceName: String?
+        /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
+        public let port: Int?
         /// A value that specifies whether the workgroup  can be accessible from a public network
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -1923,13 +2170,14 @@ extension RedshiftServerless {
         /// The name of the workgroup.
         public let workgroupName: String?
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, namespaceName: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
             self.namespaceName = namespaceName
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -1946,6 +2194,7 @@ extension RedshiftServerless {
             case endpoint
             case enhancedVpcRouting
             case namespaceName
+            case port
             case publiclyAccessible
             case securityGroupIds
             case status

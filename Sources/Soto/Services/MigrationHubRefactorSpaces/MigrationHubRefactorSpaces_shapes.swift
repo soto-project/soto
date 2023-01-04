@@ -657,7 +657,7 @@ extension MigrationHubRefactorSpaces {
         public let name: String
         /// The tags to assign to the service. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair..
         public let tags: [String: String]?
-        /// The configuration for the URL endpoint type.
+        /// The configuration for the URL endpoint type. When creating a route to a service, Refactor Spaces automatically resolves the address in the UrlEndpointInput object URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds.
         public let urlEndpoint: UrlEndpointInput?
         /// The ID of the VPC.
         public let vpcId: String?
@@ -1643,7 +1643,7 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct LambdaEndpointInput: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Lambda endpoint.
+        /// The Amazon Resource Name (ARN) of the Lambda function or alias.
         public let arn: String
 
         public init(arn: String) {
@@ -1653,7 +1653,7 @@ extension MigrationHubRefactorSpaces {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:\n(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -76,15 +76,26 @@ extension Lambda {
     }
 
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabledKMSKey = "DisabledKMSKey"
+        case efsMountConnectivityError = "EFSMountConnectivityError"
+        case efsMountFailure = "EFSMountFailure"
+        case efsMountTimeout = "EFSMountTimeout"
+        case efsioError = "EFSIOError"
         case eniLimitExceeded = "EniLimitExceeded"
+        case functionError = "FunctionError"
         case imageAccessDenied = "ImageAccessDenied"
         case imageDeleted = "ImageDeleted"
         case insufficientRolePermissions = "InsufficientRolePermissions"
         case internalError = "InternalError"
         case invalidConfiguration = "InvalidConfiguration"
         case invalidImage = "InvalidImage"
+        case invalidRuntime = "InvalidRuntime"
         case invalidSecurityGroup = "InvalidSecurityGroup"
+        case invalidStateKMSKey = "InvalidStateKMSKey"
         case invalidSubnet = "InvalidSubnet"
+        case invalidZipFileException = "InvalidZipFileException"
+        case kmsKeyAccessDenied = "KMSKeyAccessDenied"
+        case kmsKeyNotFound = "KMSKeyNotFound"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
@@ -140,6 +151,18 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum SnapStartApplyOn: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "None"
+        case publishedVersions = "PublishedVersions"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SnapStartOptimizationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case off = "Off"
+        case on = "On"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceAccessType: String, CustomStringConvertible, Codable, _SotoSendable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
@@ -162,7 +185,13 @@ extension Lambda {
 
     public enum StateReasonCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case creating = "Creating"
+        case disabledKMSKey = "DisabledKMSKey"
+        case efsMountConnectivityError = "EFSMountConnectivityError"
+        case efsMountFailure = "EFSMountFailure"
+        case efsMountTimeout = "EFSMountTimeout"
+        case efsioError = "EFSIOError"
         case eniLimitExceeded = "EniLimitExceeded"
+        case functionError = "FunctionError"
         case idle = "Idle"
         case imageAccessDenied = "ImageAccessDenied"
         case imageDeleted = "ImageDeleted"
@@ -170,8 +199,13 @@ extension Lambda {
         case internalError = "InternalError"
         case invalidConfiguration = "InvalidConfiguration"
         case invalidImage = "InvalidImage"
+        case invalidRuntime = "InvalidRuntime"
         case invalidSecurityGroup = "InvalidSecurityGroup"
+        case invalidStateKMSKey = "InvalidStateKMSKey"
         case invalidSubnet = "InvalidSubnet"
+        case invalidZipFileException = "InvalidZipFileException"
+        case kmsKeyAccessDenied = "KMSKeyAccessDenied"
+        case kmsKeyNotFound = "KMSKeyNotFound"
         case restoring = "Restoring"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
@@ -310,23 +344,23 @@ extension Lambda {
 
         /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
         public let action: String
-        /// For Alexa Smart Home functions, a token that must be supplied by the invoker.
+        /// For Alexa Smart Home functions, a token that the invoker must supply.
         public let eventSourceToken: String?
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let functionUrlAuthType: FunctionUrlAuthType?
-        /// The Amazon Web Services service or account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+        /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
         public let principalOrgID: String?
         /// Specify a version or alias to add permissions to a published version of the function.
         public let qualifier: String?
-        /// Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
+        /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
-        /// For Amazon S3, the ID of the account that owns the resource. Use this together with SourceArn to ensure that the resource is owned by the specified account. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+        /// For Amazon Web Service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
-        /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+        /// For Amazon Web Services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
@@ -536,7 +570,7 @@ extension Lambda {
     }
 
     public struct Concurrency: AWSDecodableShape {
-        /// The number of concurrent executions that are reserved for this function. For more information, see Managing Concurrency.
+        /// The number of concurrent executions that are reserved for this function. For more information, see Managing Lambda reserved concurrency.
         public let reservedConcurrentExecutions: Int?
 
         public init(reservedConcurrentExecutions: Int? = nil) {
@@ -703,9 +737,9 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
         public let eventSourceArn: String?
-        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
@@ -836,30 +870,30 @@ extension Lambda {
         /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration
         /// includes a set of signing profiles, which define the trusted publishers for this function.
         public let codeSigningConfigArn: String?
-        /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
+        /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
-        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB.
         public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to execute your function.
-        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+        /// The name of the method within your code that Lambda calls to run your function.
+        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
         public let handler: String?
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of  memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
-        /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
+        /// The type of deployment package. Set to Image for container image and set to Zip for .zip file archive.
         public let packageType: PackageType?
         /// Set to true to publish the first version of the function during creation.
         public let publish: Bool?
@@ -867,17 +901,19 @@ extension Lambda {
         public let role: String
         /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
         public let runtime: Runtime?
+        /// The function's SnapStart setting.
+        public let snapStart: SnapStart?
         /// A list of tags to apply to the function.
         public let tags: [String: String]?
-        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
+        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
         public let timeout: Int?
         /// Set Mode to Active to sample and trace a subset of incoming requests with
         /// X-Ray.
         public let tracingConfig: TracingConfig?
-        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
+        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, snapStart: SnapStart? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.architectures = architectures
             self.code = code
             self.codeSigningConfigArn = codeSigningConfigArn
@@ -896,6 +932,7 @@ extension Lambda {
             self.publish = publish
             self.role = role
             self.runtime = runtime
+            self.snapStart = snapStart
             self.tags = tags
             self.timeout = timeout
             self.tracingConfig = tracingConfig
@@ -954,6 +991,7 @@ extension Lambda {
             case publish = "Publish"
             case role = "Role"
             case runtime = "Runtime"
+            case snapStart = "SnapStart"
             case tags = "Tags"
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
@@ -967,11 +1005,11 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
         public let qualifier: String?
@@ -1000,7 +1038,7 @@ extension Lambda {
     }
 
     public struct CreateFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -1138,7 +1176,7 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
@@ -1188,9 +1226,9 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function or version.  Name formats     Function name - my-function (name-only), my-function:1 (with version).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function or version.  Name formats     Function name – my-function (name-only), my-function:1 (with version).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Specify a version to delete. You can't delete a version that's referenced by an alias.
+        /// Specify a version to delete. You can't delete a version that an alias references.
         public let qualifier: String?
 
         public init(functionName: String, qualifier: String? = nil) {
@@ -1216,7 +1254,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
         public let qualifier: String?
@@ -1269,7 +1307,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The version number or alias name.
         public let qualifier: String
@@ -1367,7 +1405,7 @@ extension Lambda {
     }
 
     public struct EphemeralStorage: AWSEncodableShape & AWSDecodableShape {
-        /// The size of the function’s /tmp directory.
+        /// The size of the function's /tmp directory.
         public let size: Int
 
         public init(size: Int) {
@@ -1395,7 +1433,7 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
-        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The ARN of the Lambda function.
         public let functionArn: String?
@@ -1565,7 +1603,7 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
 
         public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
@@ -1633,7 +1671,7 @@ extension Lambda {
         public let description: String?
         /// The function's environment variables. Omitted from CloudTrail logs.
         public let environment: EnvironmentResponse?
-        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
         public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
@@ -1641,11 +1679,11 @@ extension Lambda {
         public let functionArn: String?
         /// The name of the function.
         public let functionName: String?
-        /// The function that Lambda calls to begin executing your function.
+        /// The function that Lambda calls to begin running your function.
         public let handler: String?
         /// The function's image configuration values.
         public let imageConfigResponse: ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed key.
+        /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
         public let kmsKeyArn: String?
         /// The date and time that the function was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModified: String?
@@ -1655,7 +1693,7 @@ extension Lambda {
         public let lastUpdateStatusReason: String?
         /// The reason code for the last update that was performed on the function.
         public let lastUpdateStatusReasonCode: LastUpdateStatusReasonCode?
-        /// The function's  layers.
+        /// The function's layers.
         public let layers: [Layer]?
         /// For Lambda@Edge functions, the ARN of the main function.
         public let masterArn: String?
@@ -1673,6 +1711,8 @@ extension Lambda {
         public let signingJobArn: String?
         /// The ARN of the signing profile version.
         public let signingProfileVersionArn: String?
+        /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see Reducing startup time with Lambda SnapStart.
+        public let snapStart: SnapStartResponse?
         /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
         public let state: State?
         /// The reason for the function's current state.
@@ -1688,7 +1728,7 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, snapStart: SnapStartResponse? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -1715,6 +1755,7 @@ extension Lambda {
             self.runtime = runtime
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
+            self.snapStart = snapStart
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
@@ -1751,6 +1792,7 @@ extension Lambda {
             case runtime = "Runtime"
             case signingJobArn = "SigningJobArn"
             case signingProfileVersionArn = "SigningProfileVersionArn"
+            case snapStart = "SnapStart"
             case state = "State"
             case stateReason = "StateReason"
             case stateReasonCode = "StateReasonCode"
@@ -1791,7 +1833,7 @@ extension Lambda {
     }
 
     public struct FunctionUrlConfig: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -1963,7 +2005,7 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
@@ -1998,7 +2040,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
@@ -2054,7 +2096,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
         public let qualifier: String?
@@ -2107,7 +2149,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
         public let qualifier: String?
@@ -2130,7 +2172,7 @@ extension Lambda {
     }
 
     public struct GetFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -2302,7 +2344,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get the policy for that resource.
         public let qualifier: String?
@@ -2347,7 +2389,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The version number or alias name.
         public let qualifier: String
@@ -2475,15 +2517,15 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// Up to 3583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
+        /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
         public let clientContext: String?
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// Choose from the following options.    RequestResponse (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.    DryRun - Validate parameter values and verify that the user or role has permission to invoke the function.
+        /// Choose from the following options.    RequestResponse (default) – Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event – Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is configured). The API response only includes a status code.    DryRun – Validate parameter values and verify that the user or role has permission to invoke the function.
         public let invocationType: InvocationType?
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
-        /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'.  You can also specify a file path. For example, --payload file://payload.json.
+        /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
         public let payload: AWSPayload?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
@@ -2525,7 +2567,7 @@ extension Lambda {
         public let executedVersion: String?
         /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.
         public let functionError: String?
-        /// The last 4 KB of the execution log, which is base64 encoded.
+        /// The last 4 KB of the execution log, which is base64-encoded.
         public let logResult: String?
         /// The response from the function, or an error object.
         public let payload: AWSPayload?
@@ -2557,7 +2599,7 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
         public let invokeArgs: AWSPayload
@@ -2844,7 +2886,7 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
@@ -2944,7 +2986,7 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
@@ -3044,7 +3086,7 @@ extension Lambda {
         public let functionVersion: FunctionVersion?
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// For Lambda@Edge functions, the Amazon Web Services Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
+        /// For Lambda@Edge functions, the Amazon Web Services Region of the master function. For example, us-east-1 filters the list of functions to include only Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: SotoCore.Region?
         /// The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
@@ -3195,7 +3237,7 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
@@ -3568,7 +3610,7 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The number of simultaneous executions to reserve for the function.
         public let reservedConcurrentExecutions: Int
@@ -3642,7 +3684,7 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The amount of provisioned concurrency to allocate for the version or alias.
         public let provisionedConcurrentExecutions: Int
@@ -3747,11 +3789,11 @@ extension Lambda {
             AWSMemberEncoding(label: "statementId", location: .uri("StatementId"))
         ]
 
-        /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to remove permissions from a published version of the function.
         public let qualifier: String?
-        /// Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
+        /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
         /// Statement ID of the permission to remove.
         public let statementId: String
@@ -3816,6 +3858,36 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case consumerGroupId = "ConsumerGroupId"
+        }
+    }
+
+    public struct SnapStart: AWSEncodableShape {
+        /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
+        public let applyOn: SnapStartApplyOn?
+
+        public init(applyOn: SnapStartApplyOn? = nil) {
+            self.applyOn = applyOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyOn = "ApplyOn"
+        }
+    }
+
+    public struct SnapStartResponse: AWSDecodableShape {
+        /// When set to PublishedVersions, Lambda creates a snapshot of the execution environment when you publish a function version.
+        public let applyOn: SnapStartApplyOn?
+        /// When you provide a qualified Amazon Resource Name (ARN), this response element indicates whether SnapStart is activated for the specified function version.
+        public let optimizationStatus: SnapStartOptimizationStatus?
+
+        public init(applyOn: SnapStartApplyOn? = nil, optimizationStatus: SnapStartOptimizationStatus? = nil) {
+            self.applyOn = applyOn
+            self.optimizationStatus = optimizationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyOn = "ApplyOn"
+            case optimizationStatus = "OptimizationStatus"
         }
     }
 
@@ -4026,7 +4098,7 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
-        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
@@ -4115,13 +4187,13 @@ extension Lambda {
         public let architectures: [Architecture]?
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
         public let dryRun: Bool?
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
         public let imageUri: String?
         /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
         public let publish: Bool?
-        /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
+        /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
         /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different
         /// Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
@@ -4130,7 +4202,7 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients
         /// handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
         public let zipFile: AWSBase64Data?
 
@@ -4180,44 +4252,46 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
         ]
 
-        /// A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
+        /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
-        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB.
         public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to execute your function.
-        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+        /// The name of the method within your code that Lambda calls to run your function.
+        /// Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
-        /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+        /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
         public let kmsKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of  memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
-        /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
+        /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String?
         /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
         public let runtime: Runtime?
-        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
+        /// The function's SnapStart setting.
+        public let snapStart: SnapStart?
+        /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
         public let timeout: Int?
         /// Set Mode to Active to sample and trace a subset of incoming requests with
         /// X-Ray.
         public let tracingConfig: TracingConfig?
-        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
+        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, snapStart: SnapStart? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
@@ -4232,6 +4306,7 @@ extension Lambda {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.snapStart = snapStart
             self.timeout = timeout
             self.tracingConfig = tracingConfig
             self.vpcConfig = vpcConfig
@@ -4279,6 +4354,7 @@ extension Lambda {
             case revisionId = "RevisionId"
             case role = "Role"
             case runtime = "Runtime"
+            case snapStart = "SnapStart"
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
             case vpcConfig = "VpcConfig"
@@ -4337,11 +4413,11 @@ extension Lambda {
             AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
         ]
 
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType?
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
-        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
         public let qualifier: String?
@@ -4370,7 +4446,7 @@ extension Lambda {
     }
 
     public struct UpdateFunctionUrlConfigResponse: AWSDecodableShape {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
         public let cors: Cors?
@@ -4403,7 +4479,7 @@ extension Lambda {
     }
 
     public struct VpcConfig: AWSEncodableShape {
-        /// A list of VPC security groups IDs.
+        /// A list of VPC security group IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
         public let subnetIds: [String]?
@@ -4425,7 +4501,7 @@ extension Lambda {
     }
 
     public struct VpcConfigResponse: AWSDecodableShape {
-        /// A list of VPC security groups IDs.
+        /// A list of VPC security group IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
         public let subnetIds: [String]?
@@ -4482,6 +4558,9 @@ public struct LambdaErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceNotReadyException = "ResourceNotReadyException"
         case serviceException = "ServiceException"
+        case snapStartException = "SnapStartException"
+        case snapStartNotReadyException = "SnapStartNotReadyException"
+        case snapStartTimeoutException = "SnapStartTimeoutException"
         case subnetIPAddressLimitReachedException = "SubnetIPAddressLimitReachedException"
         case tooManyRequestsException = "TooManyRequestsException"
         case unsupportedMediaTypeException = "UnsupportedMediaTypeException"
@@ -4507,59 +4586,59 @@ public struct LambdaErrorType: AWSErrorType {
 
     /// The specified code signing configuration does not exist.
     public static var codeSigningConfigNotFoundException: Self { .init(.codeSigningConfigNotFoundException) }
-    /// You have exceeded your maximum total code size per account. Learn more
+    /// Your Amazon Web Services account has exceeded its maximum total code size. For more information, see Lambda quotas.
     public static var codeStorageExceededException: Self { .init(.codeStorageExceededException) }
     /// The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
     public static var codeVerificationFailedException: Self { .init(.codeVerificationFailedException) }
     /// Need additional permissions to configure VPC settings.
     public static var ec2AccessDeniedException: Self { .init(.ec2AccessDeniedException) }
-    /// Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
+    /// Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
     public static var ec2ThrottledException: Self { .init(.ec2ThrottledException) }
-    /// Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
+    /// Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
     public static var ec2UnexpectedException: Self { .init(.ec2UnexpectedException) }
-    /// The function couldn&#39;t make a network connection to the configured file system.
+    /// The Lambda function couldn&#39;t make a network connection to the configured file system.
     public static var efsMountConnectivityException: Self { .init(.efsMountConnectivityException) }
-    /// The function couldn&#39;t mount the configured file system due to a permission or configuration issue.
+    /// The Lambda function couldn&#39;t mount the configured file system due to a permission or configuration issue.
     public static var efsMountFailureException: Self { .init(.efsMountFailureException) }
-    /// The function was able to make a network connection to the configured file system, but the mount operation timed out.
+    /// The Lambda function made a network connection to the configured file system, but the mount operation timed out.
     public static var efsMountTimeoutException: Self { .init(.efsMountTimeoutException) }
     /// An error occurred when reading from or writing to a connected file system.
     public static var efsioException: Self { .init(.efsioException) }
-    /// Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
+    /// Lambda couldn&#39;t create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see Lambda quotas.
     public static var eniLimitReachedException: Self { .init(.eniLimitReachedException) }
-    /// The code signature failed the integrity check. Lambda always blocks deployment if the integrity check fails, even if code signing policy is set to WARN.
+    /// The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
     public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
-    /// One of the parameters in the request is invalid.
+    /// One of the parameters in the request is not valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// The request body could not be parsed as JSON.
     public static var invalidRequestContentException: Self { .init(.invalidRequestContentException) }
     /// The runtime or runtime version specified is not supported.
     public static var invalidRuntimeException: Self { .init(.invalidRuntimeException) }
-    /// The Security Group ID provided in the Lambda function VPC configuration is invalid.
+    /// The security group ID provided in the Lambda function VPC configuration is not valid.
     public static var invalidSecurityGroupIDException: Self { .init(.invalidSecurityGroupIDException) }
-    /// The Subnet ID provided in the Lambda function VPC configuration is invalid.
+    /// The subnet ID provided in the Lambda function VPC configuration is not valid.
     public static var invalidSubnetIDException: Self { .init(.invalidSubnetIDException) }
     /// Lambda could not unzip the deployment package.
     public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
-    /// Lambda was unable to decrypt the environment variables because KMS access was denied. Check the Lambda function&#39;s KMS permissions.
+    /// Lambda couldn&#39;t decrypt the environment variables because KMS access was denied. Check the Lambda function&#39;s KMS permissions.
     public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
-    /// Lambda was unable to decrypt the environment variables because the KMS key used is disabled. Check the Lambda function&#39;s KMS key settings.
+    /// Lambda couldn&#39;t decrypt the environment variables because the KMS key used is disabled. Check the Lambda function&#39;s KMS key settings.
     public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
-    /// Lambda was unable to decrypt the environment variables because the KMS key used is in an invalid state for Decrypt. Check the function&#39;s KMS key settings.
+    /// Lambda couldn&#39;t decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function&#39;s KMS key settings.
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
-    /// Lambda was unable to decrypt the environment variables because the KMS key was not found. Check the function&#39;s KMS key settings.
+    /// Lambda couldn&#39;t decrypt the environment variables because the KMS key was not found. Check the function&#39;s KMS key settings.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
-    /// The permissions policy for the resource is too large. Learn more
+    /// The permissions policy for the resource is too large. For more information, see Lambda quotas.
     public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
-    /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API to retrieve the latest RevisionId for your resource.
+    /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
-    /// The request payload exceeded the Invoke request body JSON input limit. For more information, see Limits.
+    /// The request payload exceeded the Invoke request body JSON input quota. For more information, see Lambda quotas.
     public static var requestTooLargeException: Self { .init(.requestTooLargeException) }
     /// The resource already exists, or another operation is in progress.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// The operation conflicts with the resource&#39;s availability. For example, you attempted to update an EventSource Mapping in CREATING, or tried to delete a EventSource mapping currently in the UPDATING state.
+    /// The operation conflicts with the resource&#39;s availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The resource specified in the request does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
@@ -4567,9 +4646,15 @@ public struct LambdaErrorType: AWSErrorType {
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// The Lambda service encountered an internal error.
     public static var serviceException: Self { .init(.serviceException) }
-    /// Lambda was not able to set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
+    /// The runtime restore hook encountered an error. For more information, check the Amazon CloudWatch logs.
+    public static var snapStartException: Self { .init(.snapStartException) }
+    /// Lambda is initializing your function. You can invoke the function when the function state becomes Active.
+    public static var snapStartNotReadyException: Self { .init(.snapStartNotReadyException) }
+    /// The runtime restore hook failed to complete within the timeout limit (2 seconds).
+    public static var snapStartTimeoutException: Self { .init(.snapStartTimeoutException) }
+    /// Lambda couldn&#39;t set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }
-    /// The request throughput limit was exceeded.
+    /// The request throughput limit was exceeded. For more information, see Lambda quotas.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The content type of the Invoke request body is not JSON.
     public static var unsupportedMediaTypeException: Self { .init(.unsupportedMediaTypeException) }

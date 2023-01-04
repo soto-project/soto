@@ -53,12 +53,12 @@ extension EC2 {
         return try await self.client.execute(operation: "AcceptVpcEndpointConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use DescribeVpcPeeringConnections to view your outstanding VPC peering connection requests. 	      For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
+    /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use DescribeVpcPeeringConnections to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
     public func acceptVpcPeeringConnection(_ input: AcceptVpcPeeringConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AcceptVpcPeeringConnectionResult {
         return try await self.client.execute(operation: "AcceptVpcPeeringConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through  bring your own IP addresses (BYOIP).  You can perform this operation at most once every 10 seconds, even if you specify different  address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current  location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
+    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through  bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different  address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current  location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
     public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AdvertiseByoipCidrResult {
         return try await self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -89,19 +89,18 @@ extension EC2 {
         return try await self.client.execute(operation: "AssignIpv6Addresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns one or more secondary private IP addresses to the specified network interface.  You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about  Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
+    /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about  Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
     public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssignPrivateIpAddressesResult {
         return try await self.client.execute(operation: "AssignPrivateIpAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC.
-    /// 			For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface.  You cannot associate an Elastic IP address with an interface in a different network border group.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing.    We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface.  You cannot associate an Elastic IP address with an interface in a different network border group.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2 Pricing.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func associateAddress(_ input: AssociateAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateAddressResult {
         return try await self.client.execute(operation: "AssociateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy.
-    /// 	        If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
+    /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
     public func associateClientVpnTargetNetwork(_ input: AssociateClientVpnTargetNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateClientVpnTargetNetworkResult {
         return try await self.client.execute(operation: "AssociateClientVpnTargetNetwork", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -114,13 +113,9 @@ extension EC2 {
     /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate.
     /// 			This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more
     /// 			information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves
-    /// 					User Guide.
-    ///
-    /// 		       When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted
+    /// 					User Guide. When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted
     /// 			private key are placed in an Amazon S3 location that only the associated IAM role can access. The private key of the certificate
-    /// 			is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy.
-    ///
-    /// 		       To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject
+    /// 			is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy. To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject
     /// 			on the Amazon S3 bucket returned by the command. To enable the IAM role to access the KMS key,
     /// 			you must grant it permission to call kms:Decrypt on the KMS key returned by the command.
     /// 			For more information, see
@@ -165,7 +160,7 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateTransitGatewayRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  This API action is currently in limited preview only.  If you are interested in using this feature, contact your account manager.   Associates a branch network interface with a trunk network interface. Before you create the association, run the create-network-interface command and set --interface-type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface.
+    ///  This API action is currently in limited preview only.  If you are interested in using this feature, contact your account manager.  Associates a branch network interface with a trunk network interface. Before you create the association, run the create-network-interface command and set --interface-type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface.
     public func associateTrunkInterface(_ input: AssociateTrunkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateTrunkInterfaceResult {
         return try await self.client.execute(operation: "AssociateTrunkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -175,15 +170,11 @@ extension EC2 {
         return try await self.client.execute(operation: "AssociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
-    /// 	        Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC's
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC's
     /// 			security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You
     /// 			can only link an instance that's in the running state. An instance is
     /// 			automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when
-    /// 			you restart it.
-    /// 		       After you've linked an instance, you cannot change the VPC security groups that are associated with it. To change the security groups, you must first unlink the instance, and then link it again.
-    /// 		       Linking your instance to a VPC is sometimes referred to as attaching your instance.
+    /// 			you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. To change the security groups, you must first unlink the instance, and then link it again. Linking your instance to a VPC is sometimes referred to as attaching your instance.
     public func attachClassicLinkVpc(_ input: AttachClassicLinkVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachClassicLinkVpcResult {
         return try await self.client.execute(operation: "AttachClassicLinkVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,6 +188,11 @@ extension EC2 {
     /// Attaches a network interface to an instance.
     public func attachNetworkInterface(_ input: AttachNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachNetworkInterfaceResult {
         return try await self.client.execute(operation: "AttachNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. One or more trust providers can be attached to an Amazon Web Services Verified Access instance.
+    public func attachVerifiedAccessTrustProvider(_ input: AttachVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachVerifiedAccessTrustProviderResult {
+        return try await self.client.execute(operation: "AttachVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see  Make an EBS volume available for use. If a volume has an Amazon Web Services Marketplace product code:   The volume can be attached only to a stopped instance.   Amazon Web Services Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attach an Amazon EBS volume to an instance in the Amazon Elastic Compute Cloud User Guide.
@@ -221,13 +217,12 @@ extension EC2 {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AuthorizeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.
-    ///
     public func bundleInstance(_ input: BundleInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BundleInstanceResult {
         return try await self.client.execute(operation: "BundleInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -238,8 +233,7 @@ extension EC2 {
     }
 
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to
-    /// 			cancelled.
-    /// 		       Instances running in the reserved capacity continue running until you stop them. Stopped
+    /// 			cancelled. Instances running in the reserved capacity continue running until you stop them. Stopped
     /// 			instances that target the Capacity Reservation can no longer launch. Modify these instances to either
     /// 			target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation
     /// 			that has matching attributes and sufficient capacity.
@@ -248,16 +242,9 @@ extension EC2 {
     }
 
     /// Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation
-    /// 			Fleet, the following happens:
-    ///
-    /// 				           The Capacity Reservation Fleet's status changes to cancelled.
-    ///
-    /// 				           The individual Capacity Reservations in the Fleet are cancelled. Instances running
+    /// 			Fleet, the following happens:   The Capacity Reservation Fleet's status changes to cancelled.   The individual Capacity Reservations in the Fleet are cancelled. Instances running
     /// 					in the Capacity Reservations at the time of cancelling the Fleet continue to run in
-    /// 					shared capacity.
-    ///
-    /// 				           The Fleet stops creating new Capacity Reservations.
-    ///
+    /// 					shared capacity.   The Fleet stops creating new Capacity Reservations.
     public func cancelCapacityReservationFleets(_ input: CancelCapacityReservationFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelCapacityReservationFleetsResult {
         return try await self.client.execute(operation: "CancelCapacityReservationFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -272,7 +259,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CancelExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see Cancel having an AMI shared with your Amazon Web Services account  in the Amazon Elastic Compute Cloud User Guide.
+    /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see Cancel having an AMI shared with your Amazon Web Services account  in the Amazon EC2 User Guide.
     public func cancelImageLaunchPermission(_ input: CancelImageLaunchPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelImageLaunchPermissionResult {
         return try await self.client.execute(operation: "CancelImageLaunchPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -307,29 +294,24 @@ extension EC2 {
         return try await self.client.execute(operation: "CopyFpgaImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. 	 	   To copy an AMI from one Region to another, specify the source Region using the   		SourceRegion parameter, and specify the  		destination Region using its endpoint. Copies of encrypted backing snapshots for 		the AMI are encrypted. Copies of unencrypted backing snapshots remain unencrypted,  		unless you set Encrypted during the copy operation. You cannot  		create an unencrypted copy of an encrypted backing snapshot. 	 	     To copy an AMI from a Region to an Outpost, specify the source Region using the   		SourceRegion parameter, and specify the  		ARN of the destination Outpost using DestinationOutpostArn.  		Backing snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.  For more information about the prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region using the   		SourceRegion parameter, and specify the  		destination Region using its endpoint. Copies of encrypted backing snapshots for 		the AMI are encrypted. Copies of unencrypted backing snapshots remain unencrypted,  		unless you set Encrypted during the copy operation. You cannot  		create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from a Region to an Outpost, specify the source Region using the   		SourceRegion parameter, and specify the  		ARN of the destination Outpost using DestinationOutpostArn.  		Backing snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EC2 User Guide. For more information about the prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
     public func copyImage(_ input: CopyImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopyImageResult {
         return try await self.client.execute(operation: "CopyImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs).  	 When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default Key Management Service (KMS)  	KMS key; however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. 	 	      Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default Key Management Service (KMS)  	KMS key; however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopySnapshotResult {
         return try await self.client.execute(operation: "CopySnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new Capacity Reservation with the specified attributes.
-    /// 		       Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. This
+    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. This
     /// 			gives you the flexibility to selectively add capacity reservations and still get the Regional RI discounts for that usage.
     /// 			By creating Capacity Reservations, you ensure that you always have access to Amazon EC2 capacity when you need it, for as long as you need it.
-    /// 			For more information, see Capacity Reservations in the Amazon EC2 User Guide.
-    ///
-    /// 		       Your request to create a Capacity Reservation could fail if Amazon EC2 does not have sufficient capacity to
+    /// 			For more information, see Capacity Reservations in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if Amazon EC2 does not have sufficient capacity to
     /// 			fulfill the request. If your request fails due to Amazon EC2 capacity constraints, either try
     /// 			again at a later time, try in a different Availability Zone, or request a smaller
     /// 			capacity reservation. If your application is flexible across instance types and sizes,
-    /// 			try to create a Capacity Reservation with different instance attributes.
-    ///
-    /// 		       Your request could also fail if the requested quantity exceeds your On-Demand Instance
+    /// 			try to create a Capacity Reservation with different instance attributes. Your request could also fail if the requested quantity exceeds your On-Demand Instance
     /// 			limit for the selected instance type. If your request fails due to limit constraints,
     /// 			increase your On-Demand Instance limit for the required instance type and try again. For
     /// 			more information about increasing your instance limits, see Amazon EC2 Service
@@ -386,17 +368,12 @@ extension EC2 {
     /// 			in each Availability Zone. For more information about the components of a default VPC,
     /// 			see Default VPC and
     /// 			default subnets in the Amazon Virtual Private Cloud User Guide. You cannot
-    /// 			specify the components of the default VPC yourself.
-    /// 		       If you deleted your previous default VPC, you can create a default VPC. You cannot have
-    /// 			more than one default VPC per Region.
-    /// 		       If your account supports EC2-Classic, you cannot use this action to create a default VPC
+    /// 			specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have
+    /// 			more than one default VPC per Region. If your account supports EC2-Classic, you cannot use this action to create a default VPC
     /// 			in a Region that supports EC2-Classic. If you want a default VPC in a Region that
     /// 			supports EC2-Classic, see "I really want a default VPC for my existing EC2 account. Is
     /// 			that possible?" in the Default VPCs
-    /// 			FAQ.
-    ///
-    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
+    /// 			FAQ.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func createDefaultVpc(_ input: CreateDefaultVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDefaultVpcResult {
         return try await self.client.execute(operation: "CreateDefaultVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -404,8 +381,7 @@ extension EC2 {
     /// Creates a set of DHCP options for your VPC. After creating the set, you must
     /// 				associate it with the VPC, causing all existing and new instances that you launch in
     /// 				the VPC to use this set of DHCP options. The following are the individual DHCP
-    /// 				options you can specify. For more information about the options, see RFC 2132.    domain-name-servers - The IP addresses of up to four domain name servers, or AmazonProvidedDNS. The default DHCP option set specifies AmazonProvidedDNS. If specifying more than one domain name server, specify the IP addresses in a single parameter, separated by commas. To have your instance receive a custom DNS hostname as specified in domain-name, you must set domain-name-servers to a custom DNS server.    domain-name - If you're using AmazonProvidedDNS in us-east-1, specify ec2.internal. If you're using AmazonProvidedDNS in another Region, specify region.compute.internal (for example, ap-northeast-1.compute.internal). Otherwise, specify a domain name (for example, ExampleCompany.com). This value is used to complete unqualified DNS hostnames. Important: Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP options set is associated with a VPC that has instances with multiple operating systems, specify only one domain name.    ntp-servers - The IP addresses of up to four Network Time Protocol (NTP) servers.    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2 (broadcast and multicast are not currently supported). For more information about these node types, see RFC 2132.
-    ///  Your VPC automatically starts out with a set of DHCP options that includes only a DNS
+    /// 				options you can specify. For more information about the options, see RFC 2132.    domain-name-servers - The IP addresses of up to four domain name servers, or AmazonProvidedDNS. The default DHCP option set specifies AmazonProvidedDNS. If specifying more than one domain name server, specify the IP addresses in a single parameter, separated by commas. To have your instance receive a custom DNS hostname as specified in domain-name, you must set domain-name-servers to a custom DNS server.    domain-name - If you're using AmazonProvidedDNS in us-east-1, specify ec2.internal. If you're using AmazonProvidedDNS in another Region, specify region.compute.internal (for example, ap-northeast-1.compute.internal). Otherwise, specify a domain name (for example, ExampleCompany.com). This value is used to complete unqualified DNS hostnames. Important: Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP options set is associated with a VPC that has instances with multiple operating systems, specify only one domain name.    ntp-servers - The IP addresses of up to four Network Time Protocol (NTP) servers.    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2 (broadcast and multicast are not currently supported). For more information about these node types, see RFC 2132.   Your VPC automatically starts out with a set of DHCP options that includes only a DNS
     /// 			server that we provide (AmazonProvidedDNS). If you create a set of options, and if your
     /// 			VPC has an internet gateway, make sure to set the domain-name-servers
     /// 			option either to AmazonProvidedDNS or to a domain name server of your
@@ -428,7 +404,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC.   Flow log data for a monitored network interface is recorded as flow log records, which are log events  consisting of fields that describe the traffic flow. For more information, see  Flow log records  in the Amazon Virtual Private Cloud User Guide.  When publishing to CloudWatch Logs, flow log records are published to a log group, and each network  interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all  of the monitored network interfaces are published to a single log file object that is stored in the specified  bucket.  For more information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
+    /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC.  Flow log data for a monitored network interface is recorded as flow log records, which are log events  consisting of fields that describe the traffic flow. For more information, see  Flow log records  in the Amazon Virtual Private Cloud User Guide. When publishing to CloudWatch Logs, flow log records are published to a log group, and each network  interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all  of the monitored network interfaces are published to a single log file object that is stored in the specified  bucket. For more information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
     public func createFlowLogs(_ input: CreateFlowLogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFlowLogsResult {
         return try await self.client.execute(operation: "CreateFlowLogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -438,21 +414,18 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateFpgaImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped.
-    /// 	        By default, when Amazon EC2 creates the new AMI, it reboots the instance so that it can
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped. By default, when Amazon EC2 creates the new AMI, it reboots the instance so that it can
     /// 					take snapshots of the attached volumes while data is at rest, in order to ensure a consistent
     /// 					state. You can set the NoReboot parameter to true in the API request,
     /// 					or use the --no-reboot option in the CLI to prevent Amazon EC2 from shutting down and
-    /// 					rebooting the instance.
-    /// 					       If you choose to bypass the shutdown and reboot process by setting the NoReboot
+    /// 					rebooting the instance.  If you choose to bypass the shutdown and reboot process by setting the NoReboot
     /// 					parameter to true in the API request, or by using the --no-reboot option
-    /// 					in the CLI, we can't guarantee the file system integrity of the created image.
-    /// 				         	 	     If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. 	     For more information, see Create an Amazon EBS-backed Linux AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// 					in the CLI, we can't guarantee the file system integrity of the created image.  If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. For more information, see Create an Amazon EBS-backed Linux AMI in the Amazon Elastic Compute Cloud User Guide.
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateImageResult {
         return try await self.client.execute(operation: "CreateImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an event window in which scheduled events for the associated Amazon EC2 instances can run. You can define either a set of time ranges or a cron expression when creating the event window, but not both. All event window times are in UTC. You can create up to 200 event windows per Amazon Web Services Region. When you create the event window, targets (instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that the event window can be used, you must associate one or more targets with it by using the AssociateInstanceEventWindow API.   Event windows are applicable only for scheduled events that stop, reboot, or terminate instances. Event windows are not applicable for:   Expedited scheduled events and network maintenance events.    Unscheduled maintenance such as AutoRecovery and unplanned reboots.     For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    /// Creates an event window in which scheduled events for the associated Amazon EC2 instances can run. You can define either a set of time ranges or a cron expression when creating the event window, but not both. All event window times are in UTC. You can create up to 200 event windows per Amazon Web Services Region. When you create the event window, targets (instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that the event window can be used, you must associate one or more targets with it by using the AssociateInstanceEventWindow API.  Event windows are applicable only for scheduled events that stop, reboot, or terminate instances. Event windows are not applicable for:   Expedited scheduled events and network maintenance events.    Unscheduled maintenance such as AutoRecovery and unplanned reboots.    For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
     public func createInstanceEventWindow(_ input: CreateInstanceEventWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateInstanceEventWindowResult {
         return try await self.client.execute(operation: "CreateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -483,8 +456,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateIpamScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified PEM or PPK format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error.
-    /// 		       The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified PEM or PPK format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
     public func createKeyPair(_ input: CreateKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> KeyPair {
         return try await self.client.execute(operation: "CreateKeyPair", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -524,13 +496,12 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateManagedPrefixList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks.  For more information, see NAT gateways in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon Virtual Private Cloud User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNatGatewayResult {
         return try await self.client.execute(operation: "CreateNatGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC.
-    /// 		       For more information, see Network ACLs in the
+    /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information, see Network ACLs in the
     /// 				Amazon Virtual Private Cloud User Guide.
     public func createNetworkAcl(_ input: CreateNetworkAclRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNetworkAclResult {
         return try await self.client.execute(operation: "CreateNetworkAcl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -539,10 +510,8 @@ extension EC2 {
     /// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules
     /// 		        and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated
     /// 		        with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of
-    /// 		        ingress rules and a separate set of egress rules.
-    /// 		       We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the
-    /// 		        other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules.
-    /// 		       After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
+    /// 		        ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the
+    /// 		        other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see Network ACLs in the Amazon Virtual Private Cloud User Guide.
     public func createNetworkAclEntry(_ input: CreateNetworkAclEntryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "CreateNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -562,8 +531,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account.
-    /// 	        You can grant permission to a single Amazon Web Services account only, and only one account at a time.
+    /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single Amazon Web Services account only, and only one account at a time.
     public func createNetworkInterfacePermission(_ input: CreateNetworkInterfacePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNetworkInterfacePermissionResult {
         return try await self.client.execute(operation: "CreateNetworkInterfacePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -578,33 +546,25 @@ extension EC2 {
         return try await self.client.execute(operation: "CreatePublicIpv4Pool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance.  For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance. For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
     public func createReplaceRootVolumeTask(_ input: CreateReplaceRootVolumeTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateReplaceRootVolumeTaskResult {
         return try await self.client.execute(operation: "CreateReplaceRootVolumeTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance
     /// 			Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your
-    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.
-    /// 		       The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances.
-    /// 		       To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Reserved Instance Marketplace in the
+    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Reserved Instance Marketplace in the
     /// 				Amazon EC2 User Guide.
     public func createReservedInstancesListing(_ input: CreateReservedInstancesListingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateReservedInstancesListingResult {
         return try await self.client.execute(operation: "CreateReservedInstancesListing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using CreateStoreImageTask. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+    /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using CreateStoreImageTask. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
     public func createRestoreImageTask(_ input: CreateRestoreImageTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRestoreImageTaskResult {
         return try await self.client.execute(operation: "CreateRestoreImageTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify   exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:
-    ///
-    /// 					           192.0.2.0/24 (goes to some target A)
-    ///
-    /// 					           192.0.2.0/28 (goes to some target B)
-    ///
-    /// 		       Both routes apply to the traffic destined for 192.0.2.3. However, the second route
+    /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify   exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.2.0/28 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However, the second route
     /// 				in the list covers a smaller number of IP addresses and is therefore more specific,
     /// 				so we use that route to determine where to target the traffic. For more information about route tables, see Route tables in the Amazon Virtual Private Cloud User Guide.
     public func createRoute(_ input: CreateRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRouteResult {
@@ -625,17 +585,17 @@ extension EC2 {
     /// 					AuthorizeSecurityGroupIngress,
     /// 					AuthorizeSecurityGroupEgress,
     /// 					RevokeSecurityGroupIngress, and
-    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 					RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func createSecurityGroup(_ input: CreateSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSecurityGroupResult {
         return try await self.client.execute(operation: "CreateSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance.   You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. 	 When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for Amazon EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for Amazon EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Snapshot {
         return try await self.client.execute(operation: "CreateSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates crash-consistent snapshots of multiple EBS volumes and stores the data in S3. Volumes are chosen by specifying an instance. Any attached volumes will produce one snapshot each that is crash-consistent across the instance.  You can include all of the volumes currently attached to the instance, or you can exclude  the root volume or specific data (non-root) volumes from the multi-volume snapshot set. 	 You can create multi-volume snapshots of instances in a Region and instances on an  	Outpost. If you create snapshots from an instance in a Region, the snapshots must be stored  	in the same Region as the instance. If you create snapshots from an instance on an Outpost,  	the snapshots can be stored on the same Outpost as the instance, or in the Region for that  	Outpost.
+    /// Creates crash-consistent snapshots of multiple EBS volumes and stores the data in S3. Volumes are chosen by specifying an instance. Any attached volumes will produce one snapshot each that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude  the root volume or specific data (non-root) volumes from the multi-volume snapshot set. You can create multi-volume snapshots of instances in a Region and instances on an  	Outpost. If you create snapshots from an instance in a Region, the snapshots must be stored  	in the same Region as the instance. If you create snapshots from an instance on an Outpost,  	the snapshots can be stored on the same Outpost as the instance, or in the Region for that  	Outpost.
     public func createSnapshots(_ input: CreateSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSnapshotsResult {
         return try await self.client.execute(operation: "CreateSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -645,7 +605,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateSpotDatafeedSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+    /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
     public func createStoreImageTask(_ input: CreateStoreImageTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateStoreImageTaskResult {
         return try await self.client.execute(operation: "CreateStoreImageTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -660,7 +620,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateSubnetCidrReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or overwrites only the specified tags for the specified Amazon EC2 resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource.  For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see Supported resource-level permissions for Amazon EC2 API actions in the Amazon Elastic Compute Cloud User Guide.
+    /// Adds or overwrites only the specified tags for the specified Amazon EC2 resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see Supported resource-level permissions for Amazon EC2 API actions in the Amazon Elastic Compute Cloud User Guide.
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -685,7 +645,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateTrafficMirrorTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway.  To attach your VPCs, use CreateTransitGatewayVpcAttachment.  To attach a VPN connection, use CreateCustomerGateway to create a customer  gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnConnection. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use CreateTransitGatewayRouteTable to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table.  You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource  attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
+    /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use CreateTransitGatewayVpcAttachment. To attach a VPN connection, use CreateCustomerGateway to create a customer  gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to CreateVpnConnection. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use CreateTransitGatewayRouteTable to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table.  You can use EnableTransitGatewayRouteTablePropagation to propagate routes from a resource  attachment to a transit gateway route table. If you disable automatic associations, you can use AssociateTransitGatewayRouteTable to associate a resource attachment with a transit gateway route table.
     public func createTransitGateway(_ input: CreateTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTransitGatewayResult {
         return try await self.client.execute(operation: "CreateTransitGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -740,6 +700,26 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
+    public func createVerifiedAccessEndpoint(_ input: CreateVerifiedAccessEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessEndpointResult {
+        return try await self.client.execute(operation: "CreateVerifiedAccessEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within an Amazon Web Services Verified Access group shares an Amazon Web Services Verified Access policy. For example, you can group all Amazon Web Services Verified Access instances associated with “sales” applications together and use one common Amazon Web Services Verified Access policy.
+    public func createVerifiedAccessGroup(_ input: CreateVerifiedAccessGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessGroupResult {
+        return try await self.client.execute(operation: "CreateVerifiedAccessGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants access only when your security requirements are met.
+    public func createVerifiedAccessInstance(_ input: CreateVerifiedAccessInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessInstanceResult {
+        return try await self.client.execute(operation: "CreateVerifiedAccessInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider will be evaluated by Amazon Web Services Verified Access, before allowing or denying the application request.
+    public func createVerifiedAccessTrustProvider(_ input: CreateVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVerifiedAccessTrustProviderResult {
+        return try await self.client.execute(operation: "CreateVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that  support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically  encrypted. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Create an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
     public func createVolume(_ input: CreateVolumeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> Volume {
         return try await self.client.execute(operation: "CreateVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -748,8 +728,7 @@ extension EC2 {
     /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create
     /// 			uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
     /// 			addresses). For more information about how large to make your VPC, see Your VPC and
-    /// 				subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP).
-    /// 	        By default, each instance you launch in the VPC has the default DHCP options, which
+    /// 				subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance you launch in the VPC has the default DHCP options, which
     /// 			include only a default DNS server that we provide (AmazonProvidedDNS). For more
     /// 			information, see DHCP options sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
     public func createVpc(_ input: CreateVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcResult {
@@ -766,8 +745,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateVpcEndpointConnectionNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, IAM users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:   A Network Load Balancer.  Service consumers connect to your service using an interface endpoint.   A Gateway Load Balancer.  Service consumers connect to your service using a Gateway Load Balancer endpoint.   If you set the private DNS name, you must prove that you own the private DNS domain name.
-    /// 	        For more information, see the Amazon Web Services PrivateLink
+    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, IAM users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:   A Network Load Balancer.  Service consumers connect to your service using an interface endpoint.   A Gateway Load Balancer.  Service consumers connect to your service using a Gateway Load Balancer endpoint.   If you set the private DNS name, you must prove that you own the private DNS domain name. For more information, see the Amazon Web Services PrivateLink
     /// 	        Guide.
     public func createVpcEndpointServiceConfiguration(_ input: CreateVpcEndpointServiceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateVpcEndpointServiceConfigurationResult {
         return try await self.client.execute(operation: "CreateVpcEndpointServiceConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -839,7 +817,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DeleteEgressOnlyInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether a deleted EC2 Fleet should also terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.   Up to 1000 instances can be terminated in a single request to delete instant fleets.    For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether a deleted EC2 Fleet should also terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.   Up to 1000 instances can be terminated in a single request to delete instant fleets.   For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
     public func deleteFleets(_ input: DeleteFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteFleetsResult {
         return try await self.client.execute(operation: "DeleteFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -996,7 +974,7 @@ extension EC2 {
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance, or is
     /// 			  referenced by another security group, the operation fails with
     /// 				InvalidGroup.InUse in EC2-Classic or
-    /// 				DependencyViolation in EC2-VPC.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				DependencyViolation in EC2-VPC.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1101,6 +1079,26 @@ extension EC2 {
         return try await self.client.execute(operation: "DeleteTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete an Amazon Web Services Verified Access endpoint.
+    public func deleteVerifiedAccessEndpoint(_ input: DeleteVerifiedAccessEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVerifiedAccessEndpointResult {
+        return try await self.client.execute(operation: "DeleteVerifiedAccessEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an Amazon Web Services Verified Access group.
+    public func deleteVerifiedAccessGroup(_ input: DeleteVerifiedAccessGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVerifiedAccessGroupResult {
+        return try await self.client.execute(operation: "DeleteVerifiedAccessGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an Amazon Web Services Verified Access instance.
+    public func deleteVerifiedAccessInstance(_ input: DeleteVerifiedAccessInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVerifiedAccessInstanceResult {
+        return try await self.client.execute(operation: "DeleteVerifiedAccessInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an Amazon Web Services Verified Access trust provider.
+    public func deleteVerifiedAccessTrustProvider(_ input: DeleteVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteVerifiedAccessTrustProviderResult {
+        return try await self.client.execute(operation: "DeleteVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Delete an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
     public func deleteVolume(_ input: DeleteVolumeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1161,7 +1159,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DeprovisionPublicIpv4PoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to  launch new instances.   If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.  When you deregister an AMI, it doesn't affect any instances that you've already  launched from the AMI. You'll continue to incur usage costs for those instances until  you terminate them. 	     When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was
+    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to  launch new instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see Recycle Bin in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any instances that you've already  launched from the AMI. You'll continue to incur usage costs for those instances until  you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was
     /// 			created for the root volume of the instance during the AMI creation process. When you
     /// 			deregister an instance store-backed AMI, it doesn't affect the files that you uploaded
     /// 			to Amazon S3 when you created the AMI.
@@ -1206,7 +1204,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeAddressesAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs).  This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
+    /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     public func describeAggregateIdFormat(_ input: DescribeAggregateIdFormatRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAggregateIdFormatResult {
         return try await self.client.execute(operation: "DescribeAggregateIdFormat", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1214,6 +1212,11 @@ extension EC2 {
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon Elastic Compute Cloud User Guide.
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAvailabilityZonesResult {
         return try await self.client.execute(operation: "DescribeAvailabilityZones", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the current Infrastructure Performance metric subscriptions.
+    public func describeAwsNetworkPerformanceMetricSubscriptions(_ input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAwsNetworkPerformanceMetricSubscriptionsResult {
+        return try await self.client.execute(operation: "DescribeAwsNetworkPerformanceMetricSubscriptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the specified bundle tasks or all of your bundle tasks.  Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task.
@@ -1244,10 +1247,7 @@ extension EC2 {
 
     /// Describes one or more of your linked EC2-Classic instances. This request only returns
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
-    /// 			use this request to return information about other instances.
-    ///
-    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
+    /// 			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func describeClassicLinkInstances(_ input: DescribeClassicLinkInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClassicLinkInstancesResult {
         return try await self.client.execute(operation: "DescribeClassicLinkInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1293,8 +1293,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeCustomerGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your DHCP options sets.
-    /// 		       For more information, see DHCP options sets in the
+    /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
     /// 				Amazon Virtual Private Cloud User Guide.
     public func describeDhcpOptions(_ input: DescribeDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDhcpOptionsResult {
         return try await self.client.execute(operation: "DescribeDhcpOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1345,7 +1344,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more flow logs.  To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
+    /// Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     public func describeFlowLogs(_ input: DescribeFlowLogsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeFlowLogsResult {
         return try await self.client.execute(operation: "DescribeFlowLogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1397,7 +1396,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeImageAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you.  The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeImagesResult {
         return try await self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1538,8 +1537,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeNatGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your network ACLs.
-    /// 		       For more information, see Network ACLs in the
+    /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
     /// 				Amazon Virtual Private Cloud User Guide.
     public func describeNetworkAcls(_ input: DescribeNetworkAclsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeNetworkAclsResult {
         return try await self.client.execute(operation: "DescribeNetworkAcls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1600,7 +1598,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribePublicIpv4Pools", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the Regions that are enabled for your account, or all Regions.  For a list of the Regions supported by Amazon EC2, see  Amazon Elastic Compute Cloud endpoints and quotas. For information about enabling and disabling Regions for your account, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference.
+    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see  Amazon Elastic Compute Cloud endpoints and quotas. For information about enabling and disabling Regions for your account, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference.
     public func describeRegions(_ input: DescribeRegionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRegionsResult {
         return try await self.client.execute(operation: "DescribeRegions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1616,15 +1614,12 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace.
-    /// 		       The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances.
-    /// 		       As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase.
-    /// 		       As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace  in the Amazon EC2 User Guide.
+    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace  in the Amazon EC2 User Guide.
     public func describeReservedInstancesListings(_ input: DescribeReservedInstancesListingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedInstancesListingsResult {
         return try await self.client.execute(operation: "DescribeReservedInstancesListings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     public func describeReservedInstancesModifications(_ input: DescribeReservedInstancesModificationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedInstancesModificationsResult {
         return try await self.client.execute(operation: "DescribeReservedInstancesModifications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1635,8 +1630,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeReservedInstancesOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations.
-    /// 		       For more information, see Route tables in the
+    /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
     /// 				Amazon Virtual Private Cloud User Guide.
     public func describeRouteTables(_ input: DescribeRouteTablesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRouteTablesResult {
         return try await self.client.execute(operation: "DescribeRouteTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1722,7 +1716,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeStaleSecurityGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
     public func describeStoreImageTasks(_ input: DescribeStoreImageTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeStoreImageTasksResult {
         return try await self.client.execute(operation: "DescribeStoreImageTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1808,6 +1802,31 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeTrunkInterfaceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describe Amazon Web Services Verified Access endpoints.
+    public func describeVerifiedAccessEndpoints(_ input: DescribeVerifiedAccessEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessEndpointsResult {
+        return try await self.client.execute(operation: "DescribeVerifiedAccessEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describe details of existing Verified Access groups.
+    public func describeVerifiedAccessGroups(_ input: DescribeVerifiedAccessGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessGroupsResult {
+        return try await self.client.execute(operation: "DescribeVerifiedAccessGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    public func describeVerifiedAccessInstanceLoggingConfigurations(_ input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsResult {
+        return try await self.client.execute(operation: "DescribeVerifiedAccessInstanceLoggingConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describe Verified Access instances.
+    public func describeVerifiedAccessInstances(_ input: DescribeVerifiedAccessInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessInstancesResult {
+        return try await self.client.execute(operation: "DescribeVerifiedAccessInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describe details of existing Verified Access trust providers.
+    public func describeVerifiedAccessTrustProviders(_ input: DescribeVerifiedAccessTrustProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVerifiedAccessTrustProvidersResult {
+        return try await self.client.execute(operation: "DescribeVerifiedAccessTrustProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumeAttribute(_ input: DescribeVolumeAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVolumeAttributeResult {
         return try await self.client.execute(operation: "DescribeVolumeAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1833,10 +1852,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeVpcAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the ClassicLink status of one or more VPCs.
-    ///
-    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
+    /// Describes the ClassicLink status of one or more VPCs.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func describeVpcClassicLink(_ input: DescribeVpcClassicLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeVpcClassicLinkResult {
         return try await self.client.execute(operation: "DescribeVpcClassicLink", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1896,9 +1912,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DescribeVpnGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// 	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
-    /// 		       Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
     public func detachClassicLinkVpc(_ input: DetachClassicLinkVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachClassicLinkVpcResult {
         return try await self.client.execute(operation: "DetachClassicLinkVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1913,6 +1927,11 @@ extension EC2 {
     /// Detaches a network interface from an instance.
     public func detachNetworkInterface(_ input: DetachNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DetachNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Detach a trust provider from an Amazon Web Services Verified Access instance.
+    public func detachVerifiedAccessTrustProvider(_ input: DetachVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetachVerifiedAccessTrustProviderResult {
+        return try await self.client.execute(operation: "DetachVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detach an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
@@ -1930,6 +1949,11 @@ extension EC2 {
         return try await self.client.execute(operation: "DisableAddressTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disables Infrastructure Performance metric subscriptions.
+    public func disableAwsNetworkPerformanceMetricSubscription(_ input: DisableAwsNetworkPerformanceMetricSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableAwsNetworkPerformanceMetricSubscriptionResult {
+        return try await self.client.execute(operation: "DisableAwsNetworkPerformanceMetricSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by  enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
     public func disableEbsEncryptionByDefault(_ input: DisableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableEbsEncryptionByDefaultResult {
         return try await self.client.execute(operation: "DisableEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1937,10 +1961,7 @@ extension EC2 {
 
     /// Discontinue faster launching for a Windows AMI, and clean up existing pre-provisioned snapshots.
     /// 			When you disable faster launching, the AMI uses the standard launch process for each
-    /// 			instance. All pre-provisioned snapshots must be removed before you can enable faster launching again.
-    ///
-    /// 			         To change these settings, you must own the AMI.
-    ///
+    /// 			instance. All pre-provisioned snapshots must be removed before you can enable faster launching again.  To change these settings, you must own the AMI.
     public func disableFastLaunch(_ input: DisableFastLaunchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableFastLaunchResult {
         return try await self.client.execute(operation: "DisableFastLaunch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1950,7 +1971,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DisableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in the Amazon EC2 User Guide.
     public func disableImageDeprecation(_ input: DisableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableImageDeprecationResult {
         return try await self.client.execute(operation: "DisableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1986,30 +2007,20 @@ extension EC2 {
     /// Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to
     /// 			public IP addresses when addressed between a linked EC2-Classic instance and instances
     /// 			in the VPC to which it's linked. For more information, see ClassicLink in the
-    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 				Amazon Elastic Compute Cloud User Guide. You must specify a VPC ID in the request.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func disableVpcClassicLinkDnsSupport(_ input: DisableVpcClassicLinkDnsSupportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisableVpcClassicLinkDnsSupportResult {
         return try await self.client.execute(operation: "DisableVpcClassicLinkDnsSupport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates an Elastic IP address from the instance or network interface it's associated with.
-    /// 			      An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more
+    /// Disassociates an Elastic IP address from the instance or network interface it's associated with. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more
     /// 			information, see Elastic IP
-    /// 				Addresses in the Amazon Elastic Compute Cloud User Guide.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
+    /// 				Addresses in the Amazon Elastic Compute Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
     public func disassociateAddress(_ input: DisassociateAddressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DisassociateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the
-    /// 			last target network from a Client VPN, the following happens:
-    ///
-    /// 				           The route that was automatically added for the VPC is deleted
-    ///
-    /// 				           All active client connections are terminated
-    ///
-    /// 				           New client connections are disallowed
-    ///
-    /// 				           The Client VPN endpoint's status changes to pending-associate
-    ///
+    /// 			last target network from a Client VPN, the following happens:   The route that was automatically added for the VPC is deleted   All active client connections are terminated   New client connections are disallowed   The Client VPN endpoint's status changes to pending-associate
     public func disassociateClientVpnTargetNetwork(_ input: DisassociateClientVpnTargetNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateClientVpnTargetNetworkResult {
         return try await self.client.execute(operation: "DisassociateClientVpnTargetNetwork", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2033,8 +2044,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DisassociateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a subnet or gateway from a route table.
-    /// 		       After you perform this action, the subnet no longer uses the routes in the route table.
+    /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table.
     /// 				Instead, it uses the routes in the VPC's main route table. For more information
     /// 				about route tables, see Route
     /// 				tables in the Amazon Virtual Private Cloud User Guide.
@@ -2067,8 +2077,7 @@ extension EC2 {
         return try await self.client.execute(operation: "DisassociateTrunkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
-    /// 		       You cannot disassociate the CIDR block with which you originally created the VPC (the
+    /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.  You cannot disassociate the CIDR block with which you originally created the VPC (the
     /// 			primary CIDR block).
     public func disassociateVpcCidrBlock(_ input: DisassociateVpcCidrBlockRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateVpcCidrBlockResult {
         return try await self.client.execute(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2079,7 +2088,12 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableAddressTransfer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. 	      You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
+    /// Enables Infrastructure Performance subscriptions.
+    public func enableAwsNetworkPerformanceMetricSubscription(_ input: EnableAwsNetworkPerformanceMetricSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableAwsNetworkPerformanceMetricSubscriptionResult {
+        return try await self.client.execute(operation: "EnableAwsNetworkPerformanceMetricSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
     public func enableEbsEncryptionByDefault(_ input: EnableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableEbsEncryptionByDefaultResult {
         return try await self.client.execute(operation: "EnableEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2089,10 +2103,7 @@ extension EC2 {
     /// 			image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required.
     /// 			Then it creates a set of reserved snapshots that are used for subsequent launches. The
     /// 			reserved snapshots are automatically replenished as they are used, depending on your
-    /// 			settings for launch frequency.
-    ///
-    /// 			         To change these settings, you must own the AMI.
-    ///
+    /// 			settings for launch frequency.  To change these settings, you must own the AMI.
     public func enableFastLaunch(_ input: EnableFastLaunchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableFastLaunchResult {
         return try await self.client.execute(operation: "EnableFastLaunch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2102,7 +2113,7 @@ extension EC2 {
         return try await self.client.execute(operation: "EnableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon EC2 User Guide.
     public func enableImageDeprecation(_ input: EnableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableImageDeprecationResult {
         return try await self.client.execute(operation: "EnableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2110,6 +2121,11 @@ extension EC2 {
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide.
     public func enableIpamOrganizationAdminAccount(_ input: EnableIpamOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableIpamOrganizationAdminAccountResult {
         return try await self.client.execute(operation: "EnableIpamOrganizationAdminAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Establishes a trust relationship between Reachability Analyzer and Organizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management account or  a delegated administrator account can run a cross-account analysis using resources  from the member accounts.
+    public func enableReachabilityAnalyzerOrganizationSharing(_ input: EnableReachabilityAnalyzerOrganizationSharingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> EnableReachabilityAnalyzerOrganizationSharingResult {
+        return try await self.client.execute(operation: "EnableReachabilityAnalyzerOrganizationSharing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Enables access to the EC2 serial console of all instances for your account. By default,
@@ -2188,6 +2204,11 @@ extension EC2 {
     /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
     public func getAssociatedIpv6PoolCidrs(_ input: GetAssociatedIpv6PoolCidrsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAssociatedIpv6PoolCidrsResult {
         return try await self.client.execute(operation: "GetAssociatedIpv6PoolCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets network performance data.
+    public func getAwsNetworkPerformanceData(_ input: GetAwsNetworkPerformanceDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAwsNetworkPerformanceDataResult {
+        return try await self.client.execute(operation: "GetAwsNetworkPerformanceData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner
@@ -2360,6 +2381,16 @@ extension EC2 {
         return try await self.client.execute(operation: "GetTransitGatewayRouteTablePropagations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get the Verified Access policy associated with the endpoint.
+    public func getVerifiedAccessEndpointPolicy(_ input: GetVerifiedAccessEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetVerifiedAccessEndpointPolicyResult {
+        return try await self.client.execute(operation: "GetVerifiedAccessEndpointPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Shows the contents of the Verified Access policy associated with the group.
+    public func getVerifiedAccessGroupPolicy(_ input: GetVerifiedAccessGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetVerifiedAccessGroupPolicyResult {
+        return try await self.client.execute(operation: "GetVerifiedAccessGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Download an Amazon Web Services-provided sample configuration file to be used with the customer gateway device specified for your Site-to-Site VPN connection.
     public func getVpnConnectionDeviceSampleConfiguration(_ input: GetVpnConnectionDeviceSampleConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetVpnConnectionDeviceSampleConfigurationResult {
         return try await self.client.execute(operation: "GetVpnConnectionDeviceSampleConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2370,8 +2401,7 @@ extension EC2 {
         return try await self.client.execute(operation: "GetVpnConnectionDeviceTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list.
-    /// 		       Uploading a client certificate revocation list resets existing client connections.
+    /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list. Uploading a client certificate revocation list resets existing client connections.
     public func importClientVpnClientCertificateRevocationList(_ input: ImportClientVpnClientCertificateRevocationListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportClientVpnClientCertificateRevocationListResult {
         return try await self.client.execute(operation: "ImportClientVpnClientCertificateRevocationList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2402,7 +2432,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ImportVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    /// Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon EC2 User Guide.
     public func listImagesInRecycleBin(_ input: ListImagesInRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListImagesInRecycleBinResult {
         return try await self.client.execute(operation: "ListImagesInRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2431,8 +2461,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies a Capacity Reservation Fleet.
-    /// 		       When you modify the total target capacity of a Capacity Reservation Fleet, the Fleet automatically
+    /// Modifies a Capacity Reservation Fleet. When you modify the total target capacity of a Capacity Reservation Fleet, the Fleet automatically
     /// 			creates new Capacity Reservations, or modifies or cancels existing Capacity Reservations in the Fleet
     /// 			to meet the new total target capacity. When you modify the end date for the Fleet, the end dates for
     /// 			all of the individual Capacity Reservations in the Fleet are updated accordingly.
@@ -2450,7 +2479,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyDefaultCreditSpecification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Changes the default KMS key for EBS encryption by default for your account in this Region. 	      Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
     public func modifyEbsDefaultKmsKeyId(_ input: ModifyEbsDefaultKmsKeyIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyEbsDefaultKmsKeyIdResult {
         return try await self.client.execute(operation: "ModifyEbsDefaultKmsKeyId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2480,7 +2509,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyIdentityIdFormat", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. You can use the Attribute parameter to specify the attribute or one of the following parameters:  Description or LaunchPermission. 	     Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance  and create an AMI from the instance.
+    /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. You can use the Attribute parameter to specify the attribute or one of the following parameters:  Description or LaunchPermission. Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance  and create an AMI from the instance.
     public func modifyImageAttribute(_ input: ModifyImageAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ModifyImageAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2572,8 +2601,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyPrivateDnsNameOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type.
-    /// 		       For more information, see Modifying Reserved
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved
     /// 				Instances in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyReservedInstancesResult {
         return try await self.client.execute(operation: "ModifyReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2599,13 +2627,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifySpotFleetRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies a subnet attribute. You can only modify one attribute at a time.
-    ///
-    /// 	        Use this action to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as a single attribute.   To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.
-    ///
-    /// 	        For more information about Amazon Web Services Outposts, see the following:
-    ///
-    /// 	           Outpost servers     Outpost racks
+    /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as a single attribute.   To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.   For more information about Amazon Web Services Outposts, see the following:    Outpost servers     Outpost racks
     public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "ModifySubnetAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2640,6 +2662,41 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the configuration of an Amazon Web Services Verified Access endpoint.
+    public func modifyVerifiedAccessEndpoint(_ input: ModifyVerifiedAccessEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessEndpointResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified Verified Access endpoint policy.
+    public func modifyVerifiedAccessEndpointPolicy(_ input: ModifyVerifiedAccessEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessEndpointPolicyResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessEndpointPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified Verified Access group configuration.
+    public func modifyVerifiedAccessGroup(_ input: ModifyVerifiedAccessGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessGroupResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the specified Verified Access group policy.
+    public func modifyVerifiedAccessGroupPolicy(_ input: ModifyVerifiedAccessGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessGroupPolicyResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the configuration of the specified Verified Access instance.
+    public func modifyVerifiedAccessInstance(_ input: ModifyVerifiedAccessInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessInstanceResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
+    public func modifyVerifiedAccessInstanceLoggingConfiguration(_ input: ModifyVerifiedAccessInstanceLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessInstanceLoggingConfigurationResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessInstanceLoggingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
+    public func modifyVerifiedAccessTrustProvider(_ input: ModifyVerifiedAccessTrustProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVerifiedAccessTrustProviderResult {
+        return try await self.client.execute(operation: "ModifyVerifiedAccessTrustProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes (Linux instances)  or Amazon EBS Elastic Volumes (Windows instances). When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see Extend a Linux file system or  Extend a Windows file system. You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitor the progress of volume modifications. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume  is in the in-use or available state before you can modify the same  volume. This is sometimes referred to as a cooldown period.
     public func modifyVolume(_ input: ModifyVolumeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVolumeResult {
         return try await self.client.execute(operation: "ModifyVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2665,8 +2722,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyVpcEndpointConnectionNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers or Gateway Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint.
-    /// 	        If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
+    /// Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers or Gateway Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
     public func modifyVpcEndpointServiceConfiguration(_ input: ModifyVpcEndpointServiceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpcEndpointServiceConfigurationResult {
         return try await self.client.execute(operation: "ModifyVpcEndpointServiceConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2677,8 +2733,7 @@ extension EC2 {
     }
 
     /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers
-    /// 	        (IAM users, IAM roles, and Amazon Web Services accounts) to connect to your endpoint service.
-    /// 	        If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// 	        (IAM users, IAM roles, and Amazon Web Services accounts) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     public func modifyVpcEndpointServicePermissions(_ input: ModifyVpcEndpointServicePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpcEndpointServicePermissionsResult {
@@ -2696,9 +2751,7 @@ extension EC2 {
         return try await self.client.execute(operation: "ModifyVpcTenancy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available:   An existing virtual private gateway to a new virtual private gateway   An existing virtual private gateway to a transit gateway   An existing transit gateway to a new transit gateway   An existing transit gateway to a virtual private gateway   Before you perform the migration to the new gateway, you must configure the new gateway. Use CreateVpnGateway to create a virtual private gateway, or CreateTransitGateway to create a transit gateway. This step is required when you migrate from a virtual private gateway with static routes to a transit gateway.  You must delete the static routes before you migrate to the new gateway.
-    ///  Keep a copy of the static route before you delete it. You will need to add back these routes to the transit gateway after the VPN connection migration is complete.
-    ///  After you migrate to the new gateway, you might need to modify your VPC route table. Use CreateRoute and DeleteRoute to make the changes described in Update VPC route tables in the Amazon Web Services Site-to-Site VPN User Guide. When the new gateway is a transit gateway, modify the transit gateway route table to allow traffic between the VPC and the Amazon Web Services Site-to-Site VPN connection. Use CreateTransitGatewayRoute to add the routes. If you deleted VPN static routes, you must add the static routes to the transit gateway route table. After you perform this operation, the VPN endpoint's IP addresses on the Amazon Web Services side and the tunnel options remain intact. Your Amazon Web Services Site-to-Site VPN connection will be temporarily unavailable for a brief period while we provision the new endpoints.
+    /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available:   An existing virtual private gateway to a new virtual private gateway   An existing virtual private gateway to a transit gateway   An existing transit gateway to a new transit gateway   An existing transit gateway to a virtual private gateway   Before you perform the migration to the new gateway, you must configure the new gateway. Use CreateVpnGateway to create a virtual private gateway, or CreateTransitGateway to create a transit gateway. This step is required when you migrate from a virtual private gateway with static routes to a transit gateway.  You must delete the static routes before you migrate to the new gateway. Keep a copy of the static route before you delete it. You will need to add back these routes to the transit gateway after the VPN connection migration is complete. After you migrate to the new gateway, you might need to modify your VPC route table. Use CreateRoute and DeleteRoute to make the changes described in Update VPC route tables in the Amazon Web Services Site-to-Site VPN User Guide. When the new gateway is a transit gateway, modify the transit gateway route table to allow traffic between the VPC and the Amazon Web Services Site-to-Site VPN connection. Use CreateTransitGatewayRoute to add the routes. If you deleted VPN static routes, you must add the static routes to the transit gateway route table. After you perform this operation, the VPN endpoint's IP addresses on the Amazon Web Services side and the tunnel options remain intact. Your Amazon Web Services Site-to-Site VPN connection will be temporarily unavailable for a brief period while we provision the new endpoints.
     public func modifyVpnConnection(_ input: ModifyVpnConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyVpnConnectionResult {
         return try await self.client.execute(operation: "ModifyVpnConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2753,10 +2806,9 @@ extension EC2 {
         return try await self.client.execute(operation: "PurchaseHostReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing.
-    /// 		       Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
+    /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
     /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. 	     For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseReservedInstancesOfferingResult {
         return try await self.client.execute(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2771,9 +2823,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RebootInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  	      For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.
-    ///  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration.  If you make changes to an image, deregister the previous image and register the new image.
-    ///   Register a snapshot of a root device volume  	     You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create a Linux AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  	      Amazon Web Services Marketplace product codes  	     If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:   Launch an instance from an existing AMI with that billing product code.   Customize the instance.   Create an AMI from the instance using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon Elastic Compute Cloud User Guide.
+    /// Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration.  If you make changes to an image, deregister the previous image and register the new image.  Register a snapshot of a root device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create a Linux AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:   Launch an instance from an existing AMI with that billing product code.   Customize the instance.   Create an AMI from the instance using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
     public func registerImage(_ input: RegisterImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterImageResult {
         return try await self.client.execute(operation: "RegisterImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2878,12 +2928,12 @@ extension EC2 {
         return try await self.client.execute(operation: "ReportInstanceStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Fleet request and instances launched by the fleet. You cannot tag other resource types in a Spot Fleet request because only the spot-fleet-request and instance resource types are supported. For more information, see Spot Fleet requests in the Amazon EC2 User Guide.   We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide.
+    /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Fleet request and instances launched by the fleet. You cannot tag other resource types in a Spot Fleet request because only the spot-fleet-request and instance resource types are supported. For more information, see Spot Fleet requests in the Amazon EC2 User Guide.  We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide.
     public func requestSpotFleet(_ input: RequestSpotFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RequestSpotFleetResponse {
         return try await self.client.execute(operation: "RequestSpotFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.   We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.    We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.  We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2 User Guide for Linux Instances.
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RequestSpotInstancesResult {
         return try await self.client.execute(operation: "RequestSpotInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2929,7 +2979,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RestoreAddressToClassic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Restores an AMI from the Recycle Bin. For more information, see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    /// Restores an AMI from the Recycle Bin. For more information, see Recycle Bin in the Amazon EC2 User Guide.
     public func restoreImageFromRecycleBin(_ input: RestoreImageFromRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RestoreImageFromRecycleBinResult {
         return try await self.client.execute(operation: "RestoreImageFromRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2944,7 +2994,7 @@ extension EC2 {
         return try await self.client.execute(operation: "RestoreSnapshotFromRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore  period or restore type for a snapshot that was previously temporarily restored.   For more information see  Restore an archived snapshot and  modify the restore period or restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore  period or restore type for a snapshot that was previously temporarily restored. For more information see  Restore an archived snapshot and  modify the restore period or restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User Guide.
     public func restoreSnapshotTier(_ input: RestoreSnapshotTierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RestoreSnapshotTierResult {
         return try await self.client.execute(operation: "RestoreSnapshotTier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2954,16 +3004,12 @@ extension EC2 {
         return try await self.client.execute(operation: "RevokeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic.
-    ///  You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed.
-    ///  Rule changes are propagated to instances within the security group as quickly as possible. However,  a small delay might occur.
+    /// [VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However,  a small delay might occur.
     public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeSecurityGroupEgressResult {
         return try await self.client.execute(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified inbound (ingress) rules from a security group.
-    ///  You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and source (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed.
-    ///  Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's  values exactly. Each rule has a protocol, from and to ports, and source (CIDR range,  security group, or prefix list). For the TCP and UDP protocols, you must also specify the  destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type  and code. If the security group rule has a description, you do not need to specify the description  to revoke the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RevokeSecurityGroupIngressResult {
         return try await self.client.execute(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2993,17 +3039,12 @@ extension EC2 {
         return try await self.client.execute(operation: "SearchTransitGatewayRoutes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI).
-    ///  In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace.
-    ///  Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks.
-    ///  For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
+    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace. Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks. For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
     public func sendDiagnosticInterrupt(_ input: SendDiagnosticInterruptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "SendDiagnosticInterrupt", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error.
-    ///  If you attempt to start a T3 instance with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated.
-    ///  For more information, see Stop and start your instance in the Amazon EC2 User Guide.
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see Stop and start your instance in the Amazon EC2 User Guide.
     public func startInstances(_ input: StartInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartInstancesResult {
         return try await self.client.execute(operation: "StartInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3033,11 +3074,7 @@ extension EC2 {
         return try await self.client.execute(operation: "TerminateClientVpnConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.
-    ///  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated.
-    ///  If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.
-    ///  For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.
-    ///  Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     public func terminateInstances(_ input: TerminateInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TerminateInstancesResult {
         return try await self.client.execute(operation: "TerminateInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3047,7 +3084,7 @@ extension EC2 {
         return try await self.client.execute(operation: "UnassignIpv6Addresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes from a network interface.
+    /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes from a  	network interface.
     public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "UnassignPrivateIpAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3122,6 +3159,28 @@ extension EC2 {
             command: self.describeAddressesAttribute,
             inputKey: \DescribeAddressesAttributeRequest.nextToken,
             outputKey: \DescribeAddressesAttributeResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the current Infrastructure Performance metric subscriptions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeAwsNetworkPerformanceMetricSubscriptionsPaginator(
+        _ input: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsRequest, DescribeAwsNetworkPerformanceMetricSubscriptionsResult> {
+        return .init(
+            input: input,
+            command: self.describeAwsNetworkPerformanceMetricSubscriptions,
+            inputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsRequest.nextToken,
+            outputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -3218,10 +3277,7 @@ extension EC2 {
 
     ///  Describes one or more of your linked EC2-Classic instances. This request only returns
     ///  			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
-    ///  			use this request to return information about other instances.
-    ///
-    ///  	           We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
-    ///
+    ///  			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3376,8 +3432,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your DHCP options sets.
-    ///  		       For more information, see DHCP options sets in the
+    ///  Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
     ///  				Amazon Virtual Private Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -3510,7 +3565,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more flow logs.  To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
+    ///  Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3639,6 +3694,28 @@ extension EC2 {
             command: self.describeIamInstanceProfileAssociations,
             inputKey: \DescribeIamInstanceProfileAssociationsRequest.nextToken,
             outputKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeImagesPaginator(
+        _ input: DescribeImagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeImagesRequest, DescribeImagesResult> {
+        return .init(
+            input: input,
+            command: self.describeImages,
+            inputKey: \DescribeImagesRequest.nextToken,
+            outputKey: \DescribeImagesResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -4172,8 +4249,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your network ACLs.
-    ///  		       For more information, see Network ACLs in the
+    ///  Describes one or more of your network ACLs. For more information, see Network ACLs in the
     ///  				Amazon Virtual Private Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -4416,7 +4492,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. 	     For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4461,8 +4537,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations.
-    ///  		       For more information, see Route tables in the
+    ///  Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
     ///  				Amazon Virtual Private Cloud User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -4710,7 +4785,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon Elastic Compute Cloud User Guide.
+    ///  Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -5085,6 +5160,116 @@ extension EC2 {
         )
     }
 
+    ///  Describe Amazon Web Services Verified Access endpoints.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVerifiedAccessEndpointsPaginator(
+        _ input: DescribeVerifiedAccessEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVerifiedAccessEndpointsRequest, DescribeVerifiedAccessEndpointsResult> {
+        return .init(
+            input: input,
+            command: self.describeVerifiedAccessEndpoints,
+            inputKey: \DescribeVerifiedAccessEndpointsRequest.nextToken,
+            outputKey: \DescribeVerifiedAccessEndpointsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describe details of existing Verified Access groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVerifiedAccessGroupsPaginator(
+        _ input: DescribeVerifiedAccessGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVerifiedAccessGroupsRequest, DescribeVerifiedAccessGroupsResult> {
+        return .init(
+            input: input,
+            command: self.describeVerifiedAccessGroups,
+            inputKey: \DescribeVerifiedAccessGroupsRequest.nextToken,
+            outputKey: \DescribeVerifiedAccessGroupsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVerifiedAccessInstanceLoggingConfigurationsPaginator(
+        _ input: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsRequest, DescribeVerifiedAccessInstanceLoggingConfigurationsResult> {
+        return .init(
+            input: input,
+            command: self.describeVerifiedAccessInstanceLoggingConfigurations,
+            inputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsRequest.nextToken,
+            outputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describe Verified Access instances.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVerifiedAccessInstancesPaginator(
+        _ input: DescribeVerifiedAccessInstancesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVerifiedAccessInstancesRequest, DescribeVerifiedAccessInstancesResult> {
+        return .init(
+            input: input,
+            command: self.describeVerifiedAccessInstances,
+            inputKey: \DescribeVerifiedAccessInstancesRequest.nextToken,
+            outputKey: \DescribeVerifiedAccessInstancesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describe details of existing Verified Access trust providers.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVerifiedAccessTrustProvidersPaginator(
+        _ input: DescribeVerifiedAccessTrustProvidersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVerifiedAccessTrustProvidersRequest, DescribeVerifiedAccessTrustProvidersResult> {
+        return .init(
+            input: input,
+            command: self.describeVerifiedAccessTrustProviders,
+            inputKey: \DescribeVerifiedAccessTrustProvidersRequest.nextToken,
+            outputKey: \DescribeVerifiedAccessTrustProvidersResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
     /// Return PaginatorSequence for operation.
     ///
@@ -5344,6 +5529,28 @@ extension EC2 {
             command: self.getAssociatedIpv6PoolCidrs,
             inputKey: \GetAssociatedIpv6PoolCidrsRequest.nextToken,
             outputKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets network performance data.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getAwsNetworkPerformanceDataPaginator(
+        _ input: GetAwsNetworkPerformanceDataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetAwsNetworkPerformanceDataRequest, GetAwsNetworkPerformanceDataResult> {
+        return .init(
+            input: input,
+            command: self.getAwsNetworkPerformanceData,
+            inputKey: \GetAwsNetworkPerformanceDataRequest.nextToken,
+            outputKey: \GetAwsNetworkPerformanceDataResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -5701,7 +5908,7 @@ extension EC2 {
         )
     }
 
-    ///  Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    ///  Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -40,14 +40,14 @@ extension APIGateway {
     }
 
     public enum CacheClusterSize: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cacheClusterSize05 = "0.5"
-        case cacheClusterSize16 = "1.6"
-        case cacheClusterSize118 = "118"
-        case cacheClusterSize135 = "13.5"
-        case cacheClusterSize237 = "237"
-        case cacheClusterSize284 = "28.4"
-        case cacheClusterSize582 = "58.2"
-        case cacheClusterSize61 = "6.1"
+        case size0Point5Gb = "0.5"
+        case size118Gb = "118"
+        case size13Point5Gb = "13.5"
+        case size1Point6Gb = "1.6"
+        case size237Gb = "237"
+        case size28Point4Gb = "28.4"
+        case size58Point2Gb = "58.2"
+        case size6Point1Gb = "6.1"
         public var description: String { return self.rawValue }
     }
 
@@ -98,8 +98,8 @@ extension APIGateway {
     }
 
     public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case edge = "EDGE"
         case `private` = "PRIVATE"
+        case edge = "EDGE"
         case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
@@ -175,8 +175,8 @@ extension APIGateway {
 
     public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable, _SotoSendable {
         case failWith403 = "FAIL_WITH_403"
-        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
         case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
+        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
         public var description: String { return self.rawValue }
     }
 
@@ -663,7 +663,7 @@ extension APIGateway {
 
         /// Enables a cache cluster for the Stage resource specified in the input.
         public let cacheClusterEnabled: Bool?
-        /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
+        /// The stage's cache capacity in GB. For more information about choosing a cache size, see Enabling API caching to enhance responsiveness.
         public let cacheClusterSize: CacheClusterSize?
         /// The input configuration for the canary deployment when the deployment is a canary release deployment.
         public let canarySettings: DeploymentCanarySettings?
@@ -964,7 +964,7 @@ extension APIGateway {
 
         /// Whether cache clustering is enabled for the stage.
         public let cacheClusterEnabled: Bool?
-        /// The stage's cache cluster size.
+        /// The stage's cache capacity in GB. For more information about choosing a cache size, see Enabling API caching to enhance responsiveness.
         public let cacheClusterSize: CacheClusterSize?
         /// The canary deployment settings of this stage.
         public let canarySettings: CanarySettings?
@@ -2316,7 +2316,7 @@ extension APIGateway {
         public let accepts: String?
         /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
         public let exportType: String
-        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType  oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with  x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
+        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with  x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
         public let parameters: [String: String]?
         /// The string identifier of the associated RestApi.
         public let restApiId: String
@@ -3019,7 +3019,7 @@ extension APIGateway {
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
-        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is:  The AWS CLI command to set the regional endpoint on the imported API is:
+        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: The AWS CLI command to set the regional endpoint on the imported API is:
         public let parameters: [String: String]?
 
         public init(body: AWSPayload, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
@@ -3042,7 +3042,7 @@ extension APIGateway {
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
         public let credentials: String?
@@ -3060,7 +3060,7 @@ extension APIGateway {
         public let timeoutInMillis: Int?
         /// Specifies the TLS configuration for an integration.
         public let tlsConfig: TlsConfig?
-        /// Specifies an API method integration type. The valid value is one of the following:  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
+        /// Specifies an API method integration type. The valid value is one of the following: For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
         public let type: IntegrationType?
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services  service for fast host-name lookup. action can be used for an Amazon Web Services  service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an Amazon Web Services  service resource, including the region of the integrated Amazon Web Services  service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
         public let uri: String?
@@ -3103,7 +3103,7 @@ extension APIGateway {
     }
 
     public struct IntegrationResponse: AWSDecodableShape {
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
@@ -3435,7 +3435,7 @@ extension APIGateway {
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies whether credentials are required for a put integration.
         public let credentials: String?
@@ -3507,7 +3507,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies a put integration response request's HTTP method.
         public let httpMethod: String
@@ -3977,7 +3977,7 @@ extension APIGateway {
         public let accessLogSettings: AccessLogSettings?
         /// Specifies whether a cache cluster is enabled for the stage.
         public let cacheClusterEnabled: Bool?
-        /// The size of the cache cluster for the stage, if enabled.
+        /// The stage's cache capacity in GB. For more information about choosing a cache size, see Enabling API caching to enhance responsiveness.
         public let cacheClusterSize: CacheClusterSize?
         /// The status of the cache cluster for the stage, if enabled.
         public let cacheClusterStatus: CacheClusterStatus?

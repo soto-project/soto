@@ -52,6 +52,8 @@ extension Grafana {
         case sitewise = "SITEWISE"
         /// Timestream
         case timestream = "TIMESTREAM"
+        /// IoT TwinMaker
+        case twinmaker = "TWINMAKER"
         /// X-Ray
         case xray = "XRAY"
         public var description: String { return self.rawValue }
@@ -140,9 +142,9 @@ extension Grafana {
     }
 
     public enum IdpMetadata: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
-        /// The URL of the location containing the metadata.
+        /// The URL of the location containing the IdP metadata.
         case url(String)
-        /// The actual full metadata file, in XML format.
+        /// The full IdP metadata, in XML format.
         case xml(String)
 
         public init(from decoder: Decoder) throws {
@@ -277,11 +279,11 @@ extension Grafana {
     }
 
     public struct AuthenticationDescription: AWSDecodableShape {
-        /// A structure containing information about how this workspace works with  Amazon Web Services SSO.
+        /// A structure containing information about how this workspace works with  IAM Identity Center.
         public let awsSso: AwsSsoAuthentication?
-        /// Specifies whether this workspace uses Amazon Web Services SSO, SAML, or both methods to authenticate users to use the Grafana console in the Amazon Managed Grafana workspace.
+        /// Specifies whether this workspace uses IAM Identity Center, SAML, or both methods  to authenticate users to use the Grafana console in the Amazon Managed Grafana  workspace.
         public let providers: [AuthenticationProviderTypes]
-        /// A structure containing information about how this workspace works with  SAML, including what attributes within the assertion are to be mapped to user information in the workspace.
+        /// A structure containing information about how this workspace works with  SAML, including what attributes within the assertion are to be mapped to  user information in the workspace.
         public let saml: SamlAuthentication?
 
         public init(awsSso: AwsSsoAuthentication? = nil, providers: [AuthenticationProviderTypes], saml: SamlAuthentication? = nil) {
@@ -298,7 +300,7 @@ extension Grafana {
     }
 
     public struct AuthenticationSummary: AWSDecodableShape {
-        /// Specifies whether the workspace uses SAML, Amazon Web Services SSO, or both methods for user authentication.
+        /// Specifies whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
         public let providers: [AuthenticationProviderTypes]
         /// Specifies whether the workplace's user authentication method is fully configured.
         public let samlConfigurationStatus: SamlConfigurationStatus?
@@ -315,7 +317,7 @@ extension Grafana {
     }
 
     public struct AwsSsoAuthentication: AWSDecodableShape {
-        /// The ID of the Amazon Web Services SSO-managed application that is created by Amazon Managed Grafana.
+        /// The ID of the IAM Identity Center-managed application that is created by Amazon Managed Grafana.
         public let ssoClientId: String?
 
         public init(ssoClientId: String? = nil) {
@@ -332,13 +334,13 @@ extension Grafana {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// Specifies the name of the key to create.  Key names must be unique to the workspace.
+        /// Specifies the name of the key. Keynames must be unique to the workspace.
         public let keyName: String
-        /// Specifies the permission level of the key. Valid Values: VIEWER | EDITOR | ADMIN
+        /// Specifies the permission level of the key. Valid values: VIEWER|EDITOR|ADMIN
         public let keyRole: String
-        /// Specifies the time in seconds until the key expires.  Keys can be valid for up to 30 days.
+        /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days.
         public let secondsToLive: Int
-        /// The ID of the workspace in which to create an API key.
+        /// The ID of the workspace to create an API key.
         public let workspaceId: String
 
         public init(keyName: String, keyRole: String, secondsToLive: Int, workspaceId: String) {
@@ -362,7 +364,7 @@ extension Grafana {
     }
 
     public struct CreateWorkspaceApiKeyResponse: AWSDecodableShape {
-        /// The key token that was created.  Use this value as a bearer token to  authenticate HTTP requests to the workspace.
+        /// The key token. Use this value as a bearer token to  authenticate HTTP requests to the workspace.
         public let key: String
         /// The name of the key that was created.
         public let keyName: String
@@ -385,18 +387,22 @@ extension Grafana {
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType
-        /// Specifies whether this workspace uses SAML 2.0, Amazon Web Services Single Sign On, or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
+        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
         public let authenticationProviders: [AuthenticationProviderTypes]
         /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
+        /// The configuration string for the workspace that you create. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        public let configuration: String?
         /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
         public let organizationRoleName: String?
-        /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role  for you.  If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
+        /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In the CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role  for you. The ability for the Amazon Managed Grafana to create the IAM role on behalf of the user is supported only in the  Amazon Managed Grafana AWS console. Use only the CUSTOMER_MANAGED permission type when creating a workspace in the CLI.   If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
         public let permissionType: PermissionType
         /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
         /// The list of tags associated with the workspace.
         public let tags: [String: String]?
+        /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+        public let vpcConfiguration: VpcConfiguration?
         /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source in the workspace console later. However, you will then have to manually configure permissions for it.
         public let workspaceDataSources: [DataSourceType]?
         /// A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$
@@ -410,14 +416,16 @@ extension Grafana {
         /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. If you already have a role that you want to use, specify it here.  The permission type should be set to  CUSTOMER_MANAGED.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authenticationProviders = authenticationProviders
             self.clientToken = clientToken
+            self.configuration = configuration
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
             self.stackSetName = stackSetName
             self.tags = tags
+            self.vpcConfiguration = vpcConfiguration
             self.workspaceDataSources = workspaceDataSources
             self.workspaceDescription = workspaceDescription
             self.workspaceName = workspaceName
@@ -428,6 +436,8 @@ extension Grafana {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 65536)
+            try self.validate(self.configuration, name: "configuration", parent: name, min: 2)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, max: 2048)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, min: 1)
             try self.tags?.forEach {
@@ -436,6 +446,7 @@ extension Grafana {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
             try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, max: 2048)
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9-._~]{1,255}$")
             try self.validate(self.workspaceRoleArn, name: "workspaceRoleArn", parent: name, max: 2048)
@@ -446,10 +457,12 @@ extension Grafana {
             case accountAccessType
             case authenticationProviders
             case clientToken
+            case configuration
             case organizationRoleName
             case permissionType
             case stackSetName
             case tags
+            case vpcConfiguration
             case workspaceDataSources
             case workspaceDescription
             case workspaceName
@@ -498,7 +511,7 @@ extension Grafana {
     }
 
     public struct DeleteWorkspaceApiKeyResponse: AWSDecodableShape {
-        /// The name of the API key that was deleted.
+        /// The name of the key that was deleted.
         public let keyName: String
         /// The ID of the workspace where the key was deleted.
         public let workspaceId: String
@@ -575,6 +588,38 @@ extension Grafana {
 
         private enum CodingKeys: String, CodingKey {
             case authentication
+        }
+    }
+
+    public struct DescribeWorkspaceConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The ID of the workspace to get configuration information for.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeWorkspaceConfigurationResponse: AWSDecodableShape {
+        /// The configuration string for the workspace that you requested. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        public let configuration: String
+
+        public init(configuration: String) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
         }
     }
 
@@ -664,7 +709,7 @@ extension Grafana {
         public let nextToken: String?
         /// (Optional) Limits the results to only the user that matches this ID.
         public let userId: String?
-        /// (Optional) If you specify SSO_USER, then only the permissions of Amazon Web Services SSO users are returned. If you specify SSO_GROUP, only the permissions of Amazon Web Services SSO groups are returned.
+        /// (Optional) If you specify SSO_USER, then only the permissions of IAM Identity Center users are returned. If you specify SSO_GROUP, only the permissions of IAM Identity Center groups are returned.
         public let userType: UserType?
         /// The ID of the workspace to list permissions for. This parameter is required.
         public let workspaceId: String
@@ -771,7 +816,7 @@ extension Grafana {
     }
 
     public struct PermissionEntry: AWSDecodableShape {
-        /// Specifies whether the user or group has the Admin or Editor role.
+        /// Specifies whether the user or group has the Admin, Editor, or Viewer role.
         public let role: Role
         /// A structure with the ID of the user or group with this role.
         public let user: User
@@ -1028,7 +1073,7 @@ extension Grafana {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// Specifies whether this workspace uses SAML 2.0, Amazon Web Services Single Sign On, or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
+        /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate  users for using the Grafana console within a workspace. For more information,  see User authentication in  Amazon Managed Grafana.
         public let authenticationProviders: [AuthenticationProviderTypes]
         /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and  define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
         public let samlConfiguration: SamlConfiguration?
@@ -1065,6 +1110,36 @@ extension Grafana {
         }
     }
 
+    public struct UpdateWorkspaceConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The new configuration string for the workspace. For more information  about the format and configuration options available, see Working in your Grafana workspace.
+        public let configuration: String
+        /// The ID of the workspace to update.
+        public let workspaceId: String
+
+        public init(configuration: String, workspaceId: String) {
+            self.configuration = configuration
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 65536)
+            try self.validate(self.configuration, name: "configuration", parent: name, min: 2)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration
+        }
+    }
+
+    public struct UpdateWorkspaceConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateWorkspaceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
@@ -1076,8 +1151,12 @@ extension Grafana {
         public let organizationRoleName: String?
         /// If you specify Service Managed, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels
         public let permissionType: PermissionType?
+        /// Whether to remove the VPC configuration from the workspace. Setting this to true and providing a vpcConfiguration to set  will return an error.
+        public let removeVpcConfiguration: Bool?
         /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
+        /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.
+        public let vpcConfiguration: VpcConfiguration?
         /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source later in the workspace console. However, you will then have to manually configure permissions for it.
         public let workspaceDataSources: [DataSourceType]?
         /// A description for the workspace. This is used only to help you identify this workspace.
@@ -1093,11 +1172,13 @@ extension Grafana {
         /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. If you already have a role that you want to use, specify it here. If you omit this field and you specify some Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations, a new IAM role with the necessary permissions is  automatically created.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
+            self.removeVpcConfiguration = removeVpcConfiguration
             self.stackSetName = stackSetName
+            self.vpcConfiguration = vpcConfiguration
             self.workspaceDataSources = workspaceDataSources
             self.workspaceDescription = workspaceDescription
             self.workspaceId = workspaceId
@@ -1110,6 +1191,7 @@ extension Grafana {
         public func validate(name: String) throws {
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, max: 2048)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, min: 1)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
             try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, max: 2048)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9-._~]{1,255}$")
@@ -1121,7 +1203,9 @@ extension Grafana {
             case accountAccessType
             case organizationRoleName
             case permissionType
+            case removeVpcConfiguration
             case stackSetName
+            case vpcConfiguration
             case workspaceDataSources
             case workspaceDescription
             case workspaceName
@@ -1166,10 +1250,40 @@ extension Grafana {
         }
     }
 
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect.
+        public let securityGroupIds: [String]
+        /// The list of Amazon EC2 subnet IDs created in the Amazon VPC for  your Grafana workspace to connect.
+        public let subnetIds: [String]
+
+        public init(securityGroupIds: [String], subnetIds: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 100)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 255)
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 100)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds
+            case subnetIds
+        }
+    }
+
     public struct WorkspaceDescription: AWSDecodableShape {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If this is ORGANIZATION, the workspaceOrganizationalUnits parameter specifies which organizational units the workspace can access.
         public let accountAccessType: AccountAccessType?
-        /// A structure that describes whether the workspace uses SAML, Amazon Web Services SSO, or both methods for user authentication.
+        /// A structure that describes whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
         public let authentication: AuthenticationSummary
         /// The date that the workspace was created.
         public let created: Date
@@ -1209,10 +1323,12 @@ extension Grafana {
         public let status: WorkspaceStatus
         /// The list of tags associated with the workspace.
         public let tags: [String: String]?
+        /// The configuration for connecting to data sources in a private VPC  (Amazon Virtual Private Cloud).
+        public let vpcConfiguration: VpcConfiguration?
         /// The IAM role that grants permissions to the Amazon Web Services resources that the  workspace will view data from. This role must already exist.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
             self.created = created
@@ -1234,6 +1350,7 @@ extension Grafana {
             self.stackSetName = stackSetName
             self.status = status
             self.tags = tags
+            self.vpcConfiguration = vpcConfiguration
             self.workspaceRoleArn = workspaceRoleArn
         }
 
@@ -1259,6 +1376,7 @@ extension Grafana {
             case stackSetName
             case status
             case tags
+            case vpcConfiguration
             case workspaceRoleArn
         }
     }

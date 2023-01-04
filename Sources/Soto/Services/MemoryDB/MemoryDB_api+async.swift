@@ -123,6 +123,16 @@ extension MemoryDB {
         return try await self.client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about reserved nodes for this account, or about a specified reserved node.
+    public func describeReservedNodes(_ input: DescribeReservedNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedNodesResponse {
+        return try await self.client.execute(operation: "DescribeReservedNodes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists available reserved node offerings.
+    public func describeReservedNodesOfferings(_ input: DescribeReservedNodesOfferingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeReservedNodesOfferingsResponse {
+        return try await self.client.execute(operation: "DescribeReservedNodesOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns details of the service updates
     public func describeServiceUpdates(_ input: DescribeServiceUpdatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeServiceUpdatesResponse {
         return try await self.client.execute(operation: "DescribeServiceUpdates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -158,6 +168,11 @@ extension MemoryDB {
         return try await self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Allows you to purchase a reserved  node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
+    public func purchaseReservedNodesOffering(_ input: PurchaseReservedNodesOfferingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PurchaseReservedNodesOfferingResponse {
+        return try await self.client.execute(operation: "PurchaseReservedNodesOffering", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     public func resetParameterGroup(_ input: ResetParameterGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ResetParameterGroupResponse {
         return try await self.client.execute(operation: "ResetParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -165,7 +180,7 @@ extension MemoryDB {
 
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources.
     ///  When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see
-    ///  Resource-level permissions.  For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
+    ///  Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -198,6 +213,275 @@ extension MemoryDB {
     /// Changes user password(s) and/or access string.
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateUserResponse {
         return try await self.client.execute(operation: "UpdateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension MemoryDB {
+    ///  Returns a list of ACLs
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeACLsPaginator(
+        _ input: DescribeACLsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeACLsRequest, DescribeACLsResponse> {
+        return .init(
+            input: input,
+            command: self.describeACLs,
+            inputKey: \DescribeACLsRequest.nextToken,
+            outputKey: \DescribeACLsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeClustersPaginator(
+        _ input: DescribeClustersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeClustersRequest, DescribeClustersResponse> {
+        return .init(
+            input: input,
+            command: self.describeClusters,
+            inputKey: \DescribeClustersRequest.nextToken,
+            outputKey: \DescribeClustersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of the available Redis engine versions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeEngineVersionsPaginator(
+        _ input: DescribeEngineVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeEngineVersionsRequest, DescribeEngineVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeEngineVersions,
+            inputKey: \DescribeEngineVersionsRequest.nextToken,
+            outputKey: \DescribeEngineVersionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.  By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeEventsPaginator(
+        _ input: DescribeEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeEventsRequest, DescribeEventsResponse> {
+        return .init(
+            input: input,
+            command: self.describeEvents,
+            inputKey: \DescribeEventsRequest.nextToken,
+            outputKey: \DescribeEventsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeParameterGroupsPaginator(
+        _ input: DescribeParameterGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeParameterGroupsRequest, DescribeParameterGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.describeParameterGroups,
+            inputKey: \DescribeParameterGroupsRequest.nextToken,
+            outputKey: \DescribeParameterGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns the detailed parameter list for a particular parameter group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeParametersPaginator(
+        _ input: DescribeParametersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeParametersRequest, DescribeParametersResponse> {
+        return .init(
+            input: input,
+            command: self.describeParameters,
+            inputKey: \DescribeParametersRequest.nextToken,
+            outputKey: \DescribeParametersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about reserved nodes for this account, or about a specified reserved node.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeReservedNodesPaginator(
+        _ input: DescribeReservedNodesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeReservedNodesRequest, DescribeReservedNodesResponse> {
+        return .init(
+            input: input,
+            command: self.describeReservedNodes,
+            inputKey: \DescribeReservedNodesRequest.nextToken,
+            outputKey: \DescribeReservedNodesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists available reserved node offerings.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeReservedNodesOfferingsPaginator(
+        _ input: DescribeReservedNodesOfferingsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeReservedNodesOfferingsRequest, DescribeReservedNodesOfferingsResponse> {
+        return .init(
+            input: input,
+            command: self.describeReservedNodesOfferings,
+            inputKey: \DescribeReservedNodesOfferingsRequest.nextToken,
+            outputKey: \DescribeReservedNodesOfferingsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns details of the service updates
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeServiceUpdatesPaginator(
+        _ input: DescribeServiceUpdatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeServiceUpdatesRequest, DescribeServiceUpdatesResponse> {
+        return .init(
+            input: input,
+            command: self.describeServiceUpdates,
+            inputKey: \DescribeServiceUpdatesRequest.nextToken,
+            outputKey: \DescribeServiceUpdatesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,  or just the snapshots associated with a particular cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeSnapshotsPaginator(
+        _ input: DescribeSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeSnapshotsRequest, DescribeSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: self.describeSnapshots,
+            inputKey: \DescribeSnapshotsRequest.nextToken,
+            outputKey: \DescribeSnapshotsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeSubnetGroupsPaginator(
+        _ input: DescribeSubnetGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeSubnetGroupsRequest, DescribeSubnetGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.describeSubnetGroups,
+            inputKey: \DescribeSubnetGroupsRequest.nextToken,
+            outputKey: \DescribeSubnetGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of users.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeUsersPaginator(
+        _ input: DescribeUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeUsersRequest, DescribeUsersResponse> {
+        return .init(
+            input: input,
+            command: self.describeUsers,
+            inputKey: \DescribeUsersRequest.nextToken,
+            outputKey: \DescribeUsersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
     }
 }
 

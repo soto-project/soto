@@ -196,8 +196,8 @@ extension ConfigService {
         return try await self.client.execute(operation: "DescribeAggregateComplianceByConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack.
-    /// 			Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
+    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
+    /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
     /// 		        The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     public func describeAggregateComplianceByConformancePacks(_ input: DescribeAggregateComplianceByConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAggregateComplianceByConformancePacksResponse {
         return try await self.client.execute(operation: "DescribeAggregateComplianceByConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -522,7 +522,7 @@ extension ConfigService {
 
     /// Returns the evaluation results for the specified Amazon Web Services resource.
     /// 			The results indicate which Config rules were used to evaluate
-    /// 			the resource, when each rule was last used, and whether the resource
+    /// 			the resource, when each rule was last invoked, and whether the resource
     /// 			complies with each rule.
     public func getComplianceDetailsByResource(_ input: GetComplianceDetailsByResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetComplianceDetailsByResourceResponse {
         return try await self.client.execute(operation: "GetComplianceDetailsByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -644,6 +644,13 @@ extension ConfigService {
         return try await self.client.execute(operation: "GetResourceConfigHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
+    /// 			The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
+    /// 			the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules.
+    public func getResourceEvaluationSummary(_ input: GetResourceEvaluationSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetResourceEvaluationSummaryResponse {
+        return try await self.client.execute(operation: "GetResourceEvaluationSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the details of a specific stored query.
     public func getStoredQuery(_ input: GetStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStoredQueryResponse {
         return try await self.client.execute(operation: "GetStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -685,6 +692,11 @@ extension ConfigService {
     /// 				nextToken parameter.
     public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDiscoveredResourcesResponse {
         return try await self.client.execute(operation: "ListDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of proactive resource evaluations.
+    public func listResourceEvaluations(_ input: ListResourceEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListResourceEvaluationsResponse {
+        return try await self.client.execute(operation: "ListResourceEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
@@ -905,6 +917,7 @@ extension ConfigService {
     /// 			This API adds a new exception or updates an existing exception for a specific resource with a specific Config rule.
     /// 		        Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
     /// 			Remediation exceptions blocks auto-remediation until the exception is cleared.
+    /// 		        To place an exception on an Amazon Web Services resource, ensure remediation is set as manual remediation.
     public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutRemediationExceptionsResponse {
         return try await self.client.execute(operation: "PutRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1024,6 +1037,16 @@ extension ConfigService {
         return try await self.client.execute(operation: "StartRemediationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules.
+    /// 			You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all
+    /// 			of the Config rules in your account that match with the specified proactive mode and resource type.
+    ///
+    /// 		        Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema.
+    ///
+    public func startResourceEvaluation(_ input: StartResourceEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartResourceEvaluationResponse {
+        return try await self.client.execute(operation: "StartResourceEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
     public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "StopConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1074,8 +1097,8 @@ extension ConfigService {
         )
     }
 
-    ///  Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack.
-    ///  			Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
+    ///  Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
+    ///  			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.
     ///  		        The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     /// Return PaginatorSequence for operation.
     ///
@@ -1751,7 +1774,7 @@ extension ConfigService {
 
     ///  Returns the evaluation results for the specified Amazon Web Services resource.
     ///  			The results indicate which Config rules were used to evaluate
-    ///  			the resource, when each rule was last used, and whether the resource
+    ///  			the resource, when each rule was last invoked, and whether the resource
     ///  			complies with each rule.
     /// Return PaginatorSequence for operation.
     ///
@@ -2052,6 +2075,28 @@ extension ConfigService {
             command: self.listDiscoveredResources,
             inputKey: \ListDiscoveredResourcesRequest.nextToken,
             outputKey: \ListDiscoveredResourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of proactive resource evaluations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listResourceEvaluationsPaginator(
+        _ input: ListResourceEvaluationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListResourceEvaluationsRequest, ListResourceEvaluationsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceEvaluations,
+            inputKey: \ListResourceEvaluationsRequest.nextToken,
+            outputKey: \ListResourceEvaluationsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

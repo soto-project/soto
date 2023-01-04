@@ -61,6 +61,7 @@ public struct ResourceExplorer2: AWSService {
                 "ap-northeast-2": "resource-explorer-2.ap-northeast-2.api.aws",
                 "ap-northeast-3": "resource-explorer-2.ap-northeast-3.api.aws",
                 "ap-south-1": "resource-explorer-2.ap-south-1.api.aws",
+                "ap-south-2": "resource-explorer-2.ap-south-2.api.aws",
                 "ap-southeast-1": "resource-explorer-2.ap-southeast-1.api.aws",
                 "ap-southeast-2": "resource-explorer-2.ap-southeast-2.api.aws",
                 "ca-central-1": "resource-explorer-2.ca-central-1.api.aws",
@@ -88,6 +89,7 @@ public struct ResourceExplorer2: AWSService {
                     "ap-northeast-2": "resource-explorer-2-fips.ap-northeast-2.api.aws",
                     "ap-northeast-3": "resource-explorer-2-fips.ap-northeast-3.api.aws",
                     "ap-south-1": "resource-explorer-2-fips.ap-south-1.api.aws",
+                    "ap-south-2": "resource-explorer-2-fips.ap-south-2.api.aws",
                     "ap-southeast-1": "resource-explorer-2-fips.ap-southeast-1.api.aws",
                     "ap-southeast-2": "resource-explorer-2-fips.ap-southeast-2.api.aws",
                     "ca-central-1": "resource-explorer-2-fips.ca-central-1.api.aws",
@@ -137,7 +139,7 @@ public struct ResourceExplorer2: AWSService {
         return self.client.execute(operation: "CreateView", path: "/CreateView", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the GetIndex operation and checking the Status response value.
+    /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the GetIndex operation and checking the Status response value.  If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
     public func deleteIndex(_ input: DeleteIndexInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIndexOutput> {
         return self.client.execute(operation: "DeleteIndex", path: "/DeleteIndex", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -625,11 +625,11 @@ extension Proton {
         /// The ID of the management account that accepts or rejects the environment account connection. You create and manage the Proton environment in this account. If the management account accepts the environment account connection, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
         public let managementAccountId: String
         /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
-        public let roleArn: String
+        public let roleArn: String?
         /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton User Guide.
         public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), codebuildRoleArn: String? = nil, componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn

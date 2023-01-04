@@ -56,6 +56,10 @@ public struct ECRPublic: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-10-30",
             endpoint: endpoint,
+            serviceEndpoints: [
+                "us-east-1": "api.ecr-public.us-east-1.amazonaws.com",
+                "us-west-2": "api.ecr-public.us-west-2.amazonaws.com"
+            ],
             errorType: ECRPublicErrorType.self,
             xmlNamespace: "http://ecr-public.amazonaws.com/doc/2020-12-02/",
             timeout: timeout,

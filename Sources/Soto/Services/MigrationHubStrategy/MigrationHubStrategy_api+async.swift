@@ -43,6 +43,11 @@ extension MigrationHubStrategy {
         return try await self.client.execute(operation: "GetImportFileTask", path: "/get-import-file-task/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieve the latest ID of a specific assessment task.
+    public func getLatestAssessmentId(_ input: GetLatestAssessmentIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLatestAssessmentIdResponse {
+        return try await self.client.execute(operation: "GetLatestAssessmentId", path: "/get-latest-assessment-id", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Retrieves your migration and modernization preferences.
     public func getPortfolioPreferences(_ input: GetPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetPortfolioPreferencesResponse {
         return try await self.client.execute(operation: "GetPortfolioPreferences", path: "/get-portfolio-preferences", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

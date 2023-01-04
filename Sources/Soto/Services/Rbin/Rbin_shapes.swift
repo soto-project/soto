@@ -21,6 +21,13 @@ import SotoCore
 extension Rbin {
     // MARK: Enums
 
+    public enum LockState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case locked
+        case pendingUnlock = "pending_unlock"
+        case unlocked
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ebsSnapshot = "EBS_SNAPSHOT"
         case ec2Image = "EC2_IMAGE"
@@ -38,11 +45,18 @@ extension Rbin {
         public var description: String { return self.rawValue }
     }
 
+    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, _SotoSendable {
+        case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct CreateRuleRequest: AWSEncodableShape {
         /// The retention rule description.
         public let description: String?
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration?
         /// Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
         public let resourceTags: [ResourceTag]?
         /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
@@ -52,8 +66,9 @@ extension Rbin {
         /// Information about the tags to assign to the retention rule.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType, retentionPeriod: RetentionPeriod, tags: [Tag]? = nil) {
+        public init(description: String? = nil, lockConfiguration: LockConfiguration? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType, retentionPeriod: RetentionPeriod, tags: [Tag]? = nil) {
             self.description = description
+            self.lockConfiguration = lockConfiguration
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
@@ -62,6 +77,7 @@ extension Rbin {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S ]{0,255}$")
+            try self.lockConfiguration?.validate(name: "\(name).lockConfiguration")
             try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -75,6 +91,7 @@ extension Rbin {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case lockConfiguration = "LockConfiguration"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
@@ -87,6 +104,10 @@ extension Rbin {
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
         /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
         /// The resource type retained by the retention rule.
@@ -97,9 +118,11 @@ extension Rbin {
         /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.identifier = identifier
+            self.lockConfiguration = lockConfiguration
+            self.lockState = lockState
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
@@ -110,6 +133,8 @@ extension Rbin {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case identifier = "Identifier"
+            case lockConfiguration = "LockConfiguration"
+            case lockState = "LockState"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
@@ -165,6 +190,12 @@ extension Rbin {
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration?
+        /// The date and time at which the unlock delay is set to expire. Only returned  for retention rules that have been unlocked and that are still within the unlock  delay period.
+        public let lockEndTime: Date?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
         /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
         /// The resource type retained by the retention rule.
@@ -174,9 +205,12 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
+            self.lockConfiguration = lockConfiguration
+            self.lockEndTime = lockEndTime
+            self.lockState = lockState
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
@@ -186,6 +220,9 @@ extension Rbin {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case identifier = "Identifier"
+            case lockConfiguration = "LockConfiguration"
+            case lockEndTime = "LockEndTime"
+            case lockState = "LockState"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
@@ -194,6 +231,8 @@ extension Rbin {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
+        /// The lock state of the retention rules to list. Only retention rules with the specified  lock state are returned.
+        public let lockState: LockState?
         /// The maximum number of results to return with a single call.
         /// 	To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
@@ -204,7 +243,8 @@ extension Rbin {
         /// The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
         public let resourceType: ResourceType
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType) {
+        public init(lockState: LockState? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType) {
+            self.lockState = lockState
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceTags = resourceTags
@@ -222,6 +262,7 @@ extension Rbin {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lockState = "LockState"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case resourceTags = "ResourceTags"
@@ -279,6 +320,88 @@ extension Rbin {
         }
     }
 
+    public struct LockConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the retention rule unlock delay.
+        public let unlockDelay: UnlockDelay
+
+        public init(unlockDelay: UnlockDelay) {
+            self.unlockDelay = unlockDelay
+        }
+
+        public func validate(name: String) throws {
+            try self.unlockDelay.validate(name: "\(name).unlockDelay")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unlockDelay = "UnlockDelay"
+        }
+    }
+
+    public struct LockRuleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The unique ID of the retention rule.
+        public let identifier: String
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration
+
+        public init(identifier: String, lockConfiguration: LockConfiguration) {
+            self.identifier = identifier
+            self.lockConfiguration = lockConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[0-9a-zA-Z]{11}$")
+            try self.lockConfiguration.validate(name: "\(name).lockConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockConfiguration = "LockConfiguration"
+        }
+    }
+
+    public struct LockRuleResponse: AWSDecodableShape {
+        /// The retention rule description.
+        public let description: String?
+        /// The unique ID of the retention rule.
+        public let identifier: String?
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
+        /// Information about the resource tags used to identify resources that are retained by the retention  rule.
+        public let resourceTags: [ResourceTag]?
+        /// The resource type retained by the retention rule.
+        public let resourceType: ResourceType?
+        public let retentionPeriod: RetentionPeriod?
+        /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
+        public let status: RuleStatus?
+
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+            self.description = description
+            self.identifier = identifier
+            self.lockConfiguration = lockConfiguration
+            self.lockState = lockState
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case identifier = "Identifier"
+            case lockConfiguration = "LockConfiguration"
+            case lockState = "LockState"
+            case resourceTags = "ResourceTags"
+            case resourceType = "ResourceType"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+        }
+    }
+
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         /// The tag key.
         public let resourceTagKey: String
@@ -328,18 +451,22 @@ extension Rbin {
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
 
-        public init(description: String? = nil, identifier: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockState: LockState? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.description = description
             self.identifier = identifier
+            self.lockState = lockState
             self.retentionPeriod = retentionPeriod
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case identifier = "Identifier"
+            case lockState = "LockState"
             case retentionPeriod = "RetentionPeriod"
         }
     }
@@ -402,6 +529,91 @@ extension Rbin {
         public init() {}
     }
 
+    public struct UnlockDelay: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can  be measure only in days.
+        public let unlockDelayUnit: UnlockDelayUnit
+        /// The unlock delay period, measured in the unit specified for  UnlockDelayUnit.
+        public let unlockDelayValue: Int
+
+        public init(unlockDelayUnit: UnlockDelayUnit, unlockDelayValue: Int) {
+            self.unlockDelayUnit = unlockDelayUnit
+            self.unlockDelayValue = unlockDelayValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.unlockDelayValue, name: "unlockDelayValue", parent: name, max: 30)
+            try self.validate(self.unlockDelayValue, name: "unlockDelayValue", parent: name, min: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unlockDelayUnit = "UnlockDelayUnit"
+            case unlockDelayValue = "UnlockDelayValue"
+        }
+    }
+
+    public struct UnlockRuleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
+        ]
+
+        /// The unique ID of the retention rule.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[0-9a-zA-Z]{11}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UnlockRuleResponse: AWSDecodableShape {
+        /// The retention rule description.
+        public let description: String?
+        /// The unique ID of the retention rule.
+        public let identifier: String?
+        /// Information about the retention rule lock configuration.
+        public let lockConfiguration: LockConfiguration?
+        /// The date and time at which the unlock delay is set to expire. Only returned  for retention rules that have been unlocked and that are still within the unlock  delay period.
+        public let lockEndTime: Date?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
+        /// Information about the resource tags used to identify resources that are retained by the retention  rule.
+        public let resourceTags: [ResourceTag]?
+        /// The resource type retained by the retention rule.
+        public let resourceType: ResourceType?
+        public let retentionPeriod: RetentionPeriod?
+        /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
+        public let status: RuleStatus?
+
+        public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+            self.description = description
+            self.identifier = identifier
+            self.lockConfiguration = lockConfiguration
+            self.lockEndTime = lockEndTime
+            self.lockState = lockState
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case identifier = "Identifier"
+            case lockConfiguration = "LockConfiguration"
+            case lockEndTime = "LockEndTime"
+            case lockState = "LockState"
+            case resourceTags = "ResourceTags"
+            case resourceType = "ResourceType"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
@@ -447,7 +659,7 @@ extension Rbin {
         public let identifier: String
         /// Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
         public let resourceTags: [ResourceTag]?
-        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
+        ///  This parameter is currently not supported. You can't update a retention rule's resource type  after creation.
         public let resourceType: ResourceType?
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
@@ -483,6 +695,10 @@ extension Rbin {
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
+        /// The date and time at which the unlock delay is set to expire. Only returned  for retention rules that have been unlocked and that are still within the unlock  delay period.
+        public let lockEndTime: Date?
+        /// The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
+        public let lockState: LockState?
         /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
         /// The resource type retained by the retention rule.
@@ -491,9 +707,11 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
-        public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
+        public init(description: String? = nil, identifier: String? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
+            self.lockEndTime = lockEndTime
+            self.lockState = lockState
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.retentionPeriod = retentionPeriod
@@ -503,6 +721,8 @@ extension Rbin {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case identifier = "Identifier"
+            case lockEndTime = "LockEndTime"
+            case lockState = "LockState"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case retentionPeriod = "RetentionPeriod"
@@ -516,6 +736,7 @@ extension Rbin {
 /// Error enum for Rbin
 public struct RbinErrorType: AWSErrorType {
     enum Code: String {
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -540,6 +761,8 @@ public struct RbinErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified retention rule lock request can&#39;t be completed.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The service could not respond to the request due to an internal problem.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource was not found.

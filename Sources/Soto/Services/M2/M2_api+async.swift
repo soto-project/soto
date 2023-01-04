@@ -28,7 +28,7 @@ extension M2 {
         return try await self.client.execute(operation: "CancelBatchJobExecution", path: "/applications/{applicationId}/batch-job-executions/{executionId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new application with given parameters. Requires an existing environment and application definition file.
+    /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateApplicationResponse {
         return try await self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -38,7 +38,7 @@ extension M2 {
         return try await self.client.execute(operation: "CreateDataSetImportTask", path: "/applications/{applicationId}/dataset-import-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates and starts a deployment to deploy an application into an environment.
+    /// Creates and starts a deployment to deploy an application into a runtime environment.
     public func createDeployment(_ input: CreateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDeploymentResponse {
         return try await self.client.execute(operation: "CreateDeployment", path: "/applications/{applicationId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -53,12 +53,12 @@ extension M2 {
         return try await self.client.execute(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a specific application from a specified environment where it has been previously deployed. You cannot delete an environment using DeleteEnvironment, if any application has ever been deployed to it. This API removes the association of the application with the environment so you can delete the environment smoothly.
+    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     public func deleteApplicationFromEnvironment(_ input: DeleteApplicationFromEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteApplicationFromEnvironmentResponse {
         return try await self.client.execute(operation: "DeleteApplicationFromEnvironment", path: "/applications/{applicationId}/environment/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a specific environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
+    /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEnvironmentResponse {
         return try await self.client.execute(operation: "DeleteEnvironment", path: "/environments/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -103,12 +103,12 @@ extension M2 {
         return try await self.client.execute(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific environment in a query parameter to see all applications associated with that environment.
+    /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListApplicationsResponse {
         return try await self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. The listed batch job definitions can then be used to start a batch job.
+    /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     public func listBatchJobDefinitions(_ input: ListBatchJobDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListBatchJobDefinitionsResponse {
         return try await self.client.execute(operation: "ListBatchJobDefinitions", path: "/applications/{applicationId}/batch-job-definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -123,7 +123,7 @@ extension M2 {
         return try await self.client.execute(operation: "ListDataSetImportHistory", path: "/applications/{applicationId}/dataset-import-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
+    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListDataSetsResponse {
         return try await self.client.execute(operation: "ListDataSets", path: "/applications/{applicationId}/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,7 +178,7 @@ extension M2 {
         return try await self.client.execute(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the configuration details for a specific environment.
+    /// Updates the configuration details for a specific runtime environment.
     public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEnvironmentResponse {
         return try await self.client.execute(operation: "UpdateEnvironment", path: "/environments/{environmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -210,7 +210,7 @@ extension M2 {
         )
     }
 
-    ///  Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific environment in a query parameter to see all applications associated with that environment.
+    ///  Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -232,7 +232,7 @@ extension M2 {
         )
     }
 
-    ///  Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. The listed batch job definitions can then be used to start a batch job.
+    ///  Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -298,7 +298,7 @@ extension M2 {
         )
     }
 
-    ///  Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
+    ///  Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

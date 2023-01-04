@@ -44,7 +44,7 @@ extension Route53RecoveryControlConfig {
         public let controlPanelArn: String
         /// Name of the assertion rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for specific assertion routing controls (AssertedControls) that designate how many routing control states must be ON as the result of a transaction. For example, if you have three assertion routing controls, you might specify atleast 2 for your rule configuration. This means that at least two assertion routing control states must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
+        /// The criteria that you set for specific assertion routing controls (AssertedControls) that designate how many routing control states must be ON as the result of a transaction. For example, if you have three assertion routing controls, you might specify ATLEAST 2 for your rule configuration. This means that at least two assertion routing control states must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
         public let ruleConfig: RuleConfig
         /// The Amazon Resource Name (ARN) of the assertion rule.
         public let safetyRuleArn: String
@@ -82,7 +82,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int) {
+        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -586,13 +586,13 @@ extension Route53RecoveryControlConfig {
         public let gatingControls: [String]
         /// The name for the gating rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for gating routing controls that designates how many of the routing control states must be ON to allow you to update target routing control states.
+        /// The criteria that you set for gating routing controls that designate how many of the routing control states must be ON to allow you to update target routing control states.
         public let ruleConfig: RuleConfig
         /// The Amazon Resource Name (ARN) of the gating rule.
         public let safetyRuleArn: String
         /// The deployment status of a gating rule. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status
-        /// An array of target routing control Amazon Resource Names (ARNs) for which the states can only be updated if the rule configuration that you specify evaluates to true for the gating routing control. As a simple example, if you have a single gating control, it acts as an overall "on/off" switch for a set of target routing controls. You can use this to manually override automated fail over, for example.
+        /// An array of target routing control Amazon Resource Names (ARNs) for which the states can only be updated if the rule configuration that you specify evaluates to true for the gating routing control. As a simple example, if you have a single gating control, it acts as an overall "on/off" switch for a set of target routing controls. You can use this to manually override automated failover, for example.
         public let targetControls: [String]
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
@@ -628,7 +628,7 @@ extension Route53RecoveryControlConfig {
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int) {
+        public init(name: String, safetyRuleArn: String, waitPeriodMs: Int = 0) {
             self.name = name
             self.safetyRuleArn = safetyRuleArn
             self.waitPeriodMs = waitPeriodMs
@@ -906,12 +906,12 @@ extension Route53RecoveryControlConfig {
         public let controlPanelArn: String
         /// The name of the assertion rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for specific assertion controls (routing controls) that designate how many control states must be ON as the result of a transaction. For example, if you have three assertion controls, you might specify ATLEAST 2for your rule configuration. This means that at least two assertion controls must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
+        /// The criteria that you set for specific assertion controls (routing controls) that designate how many control states must be ON as the result of a transaction. For example, if you have three assertion controls, you might specify ATLEAST 2 for your rule configuration. This means that at least two assertion controls must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
         public let ruleConfig: RuleConfig
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, waitPeriodMs: Int) {
+        public init(assertedControls: [String], controlPanelArn: String, name: String, ruleConfig: RuleConfig, waitPeriodMs: Int = 0) {
             self.assertedControls = assertedControls
             self.controlPanelArn = controlPanelArn
             self.name = name
@@ -949,14 +949,14 @@ extension Route53RecoveryControlConfig {
         public let gatingControls: [String]
         /// The name for the new gating rule.
         public let name: String
-        /// The criteria that you set for specific gating controls (routing controls) that designates how many control states must be ON to allow you to change (set or unset) the target control states.
+        /// The criteria that you set for specific gating controls (routing controls) that designate how many control states must be ON to allow you to change (set or unset) the target control states.
         public let ruleConfig: RuleConfig
-        /// Routing controls that can only be set or unset if the specified RuleConfig evaluates to true for the specified GatingControls. For example, say you have three gating controls, one for each of three Amazon Web Services Regions. Now you specify AtLeast 2 as your RuleConfig. With these settings, you can only change (set or unset) the routing controls that you have specified as TargetControls if that rule evaluates to true. In other words, your ability to change the routing controls that you have specified as TargetControls is gated by the rule that you set for the routing controls in GatingControls.
+        /// Routing controls that can only be set or unset if the specified RuleConfig evaluates to true for the specified GatingControls. For example, say you have three gating controls, one for each of three Amazon Web Services Regions. Now you specify ATLEAST 2 as your RuleConfig. With these settings, you can only change (set or unset) the routing controls that you have specified as TargetControls if that rule evaluates to true. In other words, your ability to change the routing controls that you have specified as TargetControls is gated by the rule that you set for the routing controls in GatingControls.
         public let targetControls: [String]
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
 
-        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, targetControls: [String], waitPeriodMs: Int) {
+        public init(controlPanelArn: String, gatingControls: [String], name: String, ruleConfig: RuleConfig, targetControls: [String], waitPeriodMs: Int = 0) {
             self.controlPanelArn = controlPanelArn
             self.gatingControls = gatingControls
             self.name = name
@@ -1020,9 +1020,9 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct Rule: AWSDecodableShape {
-        /// An assertion rule enforces that, when a routing control state is changed, the criteria set by the rule configuration is met. Otherwise, the change to the routing control state is not accepted. For example, the criteria might be that at least one routing control state is On after the transation so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario.
+        /// An assertion rule enforces that, when a routing control state is changed, the criteria set by the rule configuration is met. Otherwise, the change to the routing control state is not accepted. For example, the criteria might be that at least one routing control state is On after the transaction so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario.
         public let assertion: AssertionRule?
-        /// A gating rule verifies that a gating routing control or set of gating rounting controls, evaluates as true, based on a rule configuration that you specify, which allows a set of routing control state changes to complete. For example, if you specify one gating routing control and you set the Type in the rule configuration to OR, that indicates that you must set the gating routing control to On for the rule to evaluate as true; that is, for the gating control "switch" to be "On". When you do that, then you can update the routing control states for the target routing controls that you specify in the gating rule.
+        /// A gating rule verifies that a gating routing control or set of gating routing controls, evaluates as true, based on a rule configuration that you specify, which allows a set of routing control state changes to complete. For example, if you specify one gating routing control and you set the Type in the rule configuration to OR, that indicates that you must set the gating routing control to On for the rule to evaluate as true; that is, for the gating control "switch" to be "On". When you do that, then you can update the routing control states for the target routing controls that you specify in the gating rule.
         public let gating: GatingRule?
 
         public init(assertion: AssertionRule? = nil, gating: GatingRule? = nil) {
@@ -1267,7 +1267,7 @@ public struct Route53RecoveryControlConfigErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// 500 response - InternalServiceError. Temporary service error. Retry the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// 404 response - MalformedQueryString. The query string contains a syntax error or resource not found..
+    /// 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// 402 response - You attempted to create more resources than the service allows based on service quotas.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

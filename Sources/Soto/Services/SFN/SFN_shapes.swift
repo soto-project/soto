@@ -56,6 +56,10 @@ extension SFN {
         case mapIterationFailed = "MapIterationFailed"
         case mapIterationStarted = "MapIterationStarted"
         case mapIterationSucceeded = "MapIterationSucceeded"
+        case mapRunAborted = "MapRunAborted"
+        case mapRunFailed = "MapRunFailed"
+        case mapRunStarted = "MapRunStarted"
+        case mapRunSucceeded = "MapRunSucceeded"
         case mapStateAborted = "MapStateAborted"
         case mapStateEntered = "MapStateEntered"
         case mapStateExited = "MapStateExited"
@@ -94,6 +98,14 @@ extension SFN {
         case error = "ERROR"
         case fatal = "FATAL"
         case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MapRunStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case aborted = "ABORTED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -508,11 +520,17 @@ extension SFN {
     }
 
     public struct DescribeExecutionOutput: AWSDecodableShape {
+        /// The cause string if the state machine execution failed.
+        public let cause: String?
+        /// The error string if the state machine execution failed.
+        public let error: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The string that contains the JSON input data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         public let inputDetails: CloudWatchEventsExecutionDataDetails?
+        /// The Amazon Resource Name (ARN) that identifies a Map Run, which dispatched this execution.
+        public let mapRunArn: String?
         /// The name of the execution.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String?
         /// The JSON output data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.  This field is set only if the execution succeeds. If the execution fails, this field is null.
@@ -529,10 +547,13 @@ extension SFN {
         /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
-        public init(executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
+        public init(cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, mapRunArn: String? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
+            self.cause = cause
+            self.error = error
             self.executionArn = executionArn
             self.input = input
             self.inputDetails = inputDetails
+            self.mapRunArn = mapRunArn
             self.name = name
             self.output = output
             self.outputDetails = outputDetails
@@ -544,9 +565,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cause
+            case error
             case executionArn
             case input
             case inputDetails
+            case mapRunArn
             case name
             case output
             case outputDetails
@@ -555,6 +579,73 @@ extension SFN {
             case status
             case stopDate
             case traceHeader
+        }
+    }
+
+    public struct DescribeMapRunInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies a Map Run.
+        public let mapRunArn: String
+
+        public init(mapRunArn: String) {
+            self.mapRunArn = mapRunArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, max: 2000)
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapRunArn
+        }
+    }
+
+    public struct DescribeMapRunOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the execution in which the Map Run was started.
+        public let executionArn: String
+        /// A JSON object that contains information about the total number of child workflow executions for the Map Run, and the count of child workflow executions for each status, such as failed and succeeded.
+        public let executionCounts: MapRunExecutionCounts
+        /// A JSON object that contains information about the total number of items, and the item count for each processing status, such as pending and failed.
+        public let itemCounts: MapRunItemCounts
+        /// The Amazon Resource Name (ARN) that identifies a Map Run.
+        public let mapRunArn: String
+        /// The maximum number of child workflow executions configured to run in parallel for the Map Run at the same time.
+        public let maxConcurrency: Int
+        /// The date when the Map Run was started.
+        public let startDate: Date
+        /// The current status of the Map Run.
+        public let status: MapRunStatus
+        /// The date when the Map Run was stopped.
+        public let stopDate: Date?
+        /// The maximum number of failed child workflow executions before the Map Run fails.
+        public let toleratedFailureCount: Int64
+        /// The maximum percentage of failed child workflow executions before the Map Run fails.
+        public let toleratedFailurePercentage: Float
+
+        public init(executionArn: String, executionCounts: MapRunExecutionCounts, itemCounts: MapRunItemCounts, mapRunArn: String, maxConcurrency: Int, startDate: Date, status: MapRunStatus, stopDate: Date? = nil, toleratedFailureCount: Int64, toleratedFailurePercentage: Float) {
+            self.executionArn = executionArn
+            self.executionCounts = executionCounts
+            self.itemCounts = itemCounts
+            self.mapRunArn = mapRunArn
+            self.maxConcurrency = maxConcurrency
+            self.startDate = startDate
+            self.status = status
+            self.stopDate = stopDate
+            self.toleratedFailureCount = toleratedFailureCount
+            self.toleratedFailurePercentage = toleratedFailurePercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn
+            case executionCounts
+            case itemCounts
+            case mapRunArn
+            case maxConcurrency
+            case startDate
+            case status
+            case stopDate
+            case toleratedFailureCount
+            case toleratedFailurePercentage
         }
     }
 
@@ -579,7 +670,11 @@ extension SFN {
     public struct DescribeStateMachineForExecutionOutput: AWSDecodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+        public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
+        /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow execution. This field is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+        public let mapRunArn: String?
         /// The name of the state machine associated with the execution.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the execution.
@@ -591,9 +686,11 @@ extension SFN {
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
+        public init(definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
             self.definition = definition
+            self.label = label
             self.loggingConfiguration = loggingConfiguration
+            self.mapRunArn = mapRunArn
             self.name = name
             self.roleArn = roleArn
             self.stateMachineArn = stateMachineArn
@@ -603,7 +700,9 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition
+            case label
             case loggingConfiguration
+            case mapRunArn
             case name
             case roleArn
             case stateMachineArn
@@ -635,6 +734,8 @@ extension SFN {
         public let creationDate: Date
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
+        public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
@@ -649,9 +750,10 @@ extension SFN {
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
 
-        public init(creationDate: Date, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
+            self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.roleArn = roleArn
@@ -664,6 +766,7 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case creationDate
             case definition
+            case label
             case loggingConfiguration
             case name
             case roleArn
@@ -711,6 +814,10 @@ extension SFN {
     public struct ExecutionListItem: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
+        /// The total number of items processed in a child workflow execution. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the itemCount field isn't returned.
+        public let itemCount: Int?
+        /// The Amazon Resource Name (ARN) of a Map Run. This field is returned only if mapRunArn was specified in the ListExecutions API action. If stateMachineArn was specified in ListExecutions, the mapRunArn isn't returned.
+        public let mapRunArn: String?
         /// The name of the execution.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The date the execution started.
@@ -722,8 +829,10 @@ extension SFN {
         /// If the execution already ended, the date the execution stopped.
         public let stopDate: Date?
 
-        public init(executionArn: String, name: String, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
+        public init(executionArn: String, itemCount: Int? = nil, mapRunArn: String? = nil, name: String, startDate: Date, stateMachineArn: String, status: ExecutionStatus, stopDate: Date? = nil) {
             self.executionArn = executionArn
+            self.itemCount = itemCount
+            self.mapRunArn = mapRunArn
             self.name = name
             self.startDate = startDate
             self.stateMachineArn = stateMachineArn
@@ -733,6 +842,8 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case executionArn
+            case itemCount
+            case mapRunArn
             case name
             case startDate
             case stateMachineArn
@@ -923,6 +1034,10 @@ extension SFN {
         public let mapIterationStartedEventDetails: MapIterationEventDetails?
         /// Contains details about an iteration of a Map state that succeeded.
         public let mapIterationSucceededEventDetails: MapIterationEventDetails?
+        /// Contains error and cause details about a Map Run that failed.
+        public let mapRunFailedEventDetails: MapRunFailedEventDetails?
+        /// Contains details, such as mapRunArn, and the start date and time of a Map Run. mapRunArn is the Amazon Resource Name (ARN) of the Map Run that was started.
+        public let mapRunStartedEventDetails: MapRunStartedEventDetails?
         /// Contains details about Map state that was started.
         public let mapStateStartedEventDetails: MapStateStartedEventDetails?
         /// The id of the previous event.
@@ -950,7 +1065,7 @@ extension SFN {
         /// The type of the event.
         public let type: HistoryEventType
 
-        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
+        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapRunFailedEventDetails: MapRunFailedEventDetails? = nil, mapRunStartedEventDetails: MapRunStartedEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
@@ -973,6 +1088,8 @@ extension SFN {
             self.mapIterationFailedEventDetails = mapIterationFailedEventDetails
             self.mapIterationStartedEventDetails = mapIterationStartedEventDetails
             self.mapIterationSucceededEventDetails = mapIterationSucceededEventDetails
+            self.mapRunFailedEventDetails = mapRunFailedEventDetails
+            self.mapRunStartedEventDetails = mapRunStartedEventDetails
             self.mapStateStartedEventDetails = mapStateStartedEventDetails
             self.previousEventId = previousEventId
             self.stateEnteredEventDetails = stateEnteredEventDetails
@@ -1012,6 +1129,8 @@ extension SFN {
             case mapIterationFailedEventDetails
             case mapIterationStartedEventDetails
             case mapIterationSucceededEventDetails
+            case mapRunFailedEventDetails
+            case mapRunStartedEventDetails
             case mapStateStartedEventDetails
             case previousEventId
             case stateEnteredEventDetails
@@ -1198,16 +1317,19 @@ extension SFN {
     }
 
     public struct ListExecutionsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Map Run that started the child workflow executions. If the mapRunArn field is specified, a list of all of the child workflow executions started by a Map Run is returned. For more information, see Examining Map Run in the Step Functions Developer Guide. You can specify either a mapRunArn or a stateMachineArn, but not both.
+        public let mapRunArn: String?
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
-        public let stateMachineArn: String
+        /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both.
+        public let stateMachineArn: String?
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String, statusFilter: ExecutionStatus? = nil) {
+        public init(mapRunArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String? = nil, statusFilter: ExecutionStatus? = nil) {
+            self.mapRunArn = mapRunArn
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stateMachineArn = stateMachineArn
@@ -1215,6 +1337,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, max: 2000)
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3096)
@@ -1224,6 +1348,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case mapRunArn
             case maxResults
             case nextToken
             case stateMachineArn
@@ -1244,6 +1369,53 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case executions
+            case nextToken
+        }
+    }
+
+    public struct ListMapRunsInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the execution for which the Map Runs must be listed.
+        public let executionArn: String
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default.  This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(executionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.executionArn = executionArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionArn, name: "executionArn", parent: name, max: 256)
+            try self.validate(self.executionArn, name: "executionArn", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListMapRunsOutput: AWSDecodableShape {
+        /// An array that lists information related to a Map Run, such as the Amazon Resource Name (ARN) of the Map Run and the ARN of the state machine that started the Map Run.
+        public let mapRuns: [MapRunListItem]
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(mapRuns: [MapRunListItem], nextToken: String? = nil) {
+            self.mapRuns = mapRuns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapRuns
             case nextToken
         }
     }
@@ -1377,6 +1549,147 @@ extension SFN {
         private enum CodingKeys: String, CodingKey {
             case index
             case name
+        }
+    }
+
+    public struct MapRunExecutionCounts: AWSDecodableShape {
+        /// The total number of child workflow executions that were started by a Map Run and were running, but were either stopped by the user or by Step Functions because the Map Run failed.
+        public let aborted: Int64
+        /// The total number of child workflow executions that were started by a Map Run, but have failed.
+        public let failed: Int64
+        /// The total number of child workflow executions that were started by a Map Run, but haven't started executing yet.
+        public let pending: Int64
+        /// Returns the count of child workflow executions whose results were written by ResultWriter. For more information, see ResultWriter in the Step Functions Developer Guide.
+        public let resultsWritten: Int64
+        /// The total number of child workflow executions that were started by a Map Run and are currently in-progress.
+        public let running: Int64
+        /// The total number of child workflow executions that were started by a Map Run and have completed successfully.
+        public let succeeded: Int64
+        /// The total number of child workflow executions that were started by a Map Run and have timed out.
+        public let timedOut: Int64
+        /// The total number of child workflow executions that were started by a Map Run.
+        public let total: Int64
+
+        public init(aborted: Int64, failed: Int64, pending: Int64, resultsWritten: Int64, running: Int64, succeeded: Int64, timedOut: Int64, total: Int64) {
+            self.aborted = aborted
+            self.failed = failed
+            self.pending = pending
+            self.resultsWritten = resultsWritten
+            self.running = running
+            self.succeeded = succeeded
+            self.timedOut = timedOut
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aborted
+            case failed
+            case pending
+            case resultsWritten
+            case running
+            case succeeded
+            case timedOut
+            case total
+        }
+    }
+
+    public struct MapRunFailedEventDetails: AWSDecodableShape {
+        /// A more detailed explanation of the cause of the failure.
+        public let cause: String?
+        /// The error code of the Map Run failure.
+        public let error: String?
+
+        public init(cause: String? = nil, error: String? = nil) {
+            self.cause = cause
+            self.error = error
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause
+            case error
+        }
+    }
+
+    public struct MapRunItemCounts: AWSDecodableShape {
+        /// The total number of items processed in child workflow executions that were either stopped by the user or by Step Functions, because the Map Run failed.
+        public let aborted: Int64
+        /// The total number of items processed in child workflow executions that have failed.
+        public let failed: Int64
+        /// The total number of items to process in child workflow executions that haven't started running yet.
+        public let pending: Int64
+        /// Returns the count of items whose results were written by ResultWriter. For more information, see ResultWriter in the Step Functions Developer Guide.
+        public let resultsWritten: Int64
+        /// The total number of items being processed in child workflow executions that are currently in-progress.
+        public let running: Int64
+        /// The total number of items processed in child workflow executions that have completed successfully.
+        public let succeeded: Int64
+        /// The total number of items processed in child workflow executions that have timed out.
+        public let timedOut: Int64
+        /// The total number of items processed in all the child workflow executions started by a Map Run.
+        public let total: Int64
+
+        public init(aborted: Int64, failed: Int64, pending: Int64, resultsWritten: Int64, running: Int64, succeeded: Int64, timedOut: Int64, total: Int64) {
+            self.aborted = aborted
+            self.failed = failed
+            self.pending = pending
+            self.resultsWritten = resultsWritten
+            self.running = running
+            self.succeeded = succeeded
+            self.timedOut = timedOut
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aborted
+            case failed
+            case pending
+            case resultsWritten
+            case running
+            case succeeded
+            case timedOut
+            case total
+        }
+    }
+
+    public struct MapRunListItem: AWSDecodableShape {
+        /// The executionArn of the execution from which the Map Run was started.
+        public let executionArn: String
+        /// The Amazon Resource Name (ARN) of the Map Run.
+        public let mapRunArn: String
+        /// The date on which the Map Run started.
+        public let startDate: Date
+        /// The Amazon Resource Name (ARN) of the executed state machine.
+        public let stateMachineArn: String
+        /// The date on which the Map Run stopped.
+        public let stopDate: Date?
+
+        public init(executionArn: String, mapRunArn: String, startDate: Date, stateMachineArn: String, stopDate: Date? = nil) {
+            self.executionArn = executionArn
+            self.mapRunArn = mapRunArn
+            self.startDate = startDate
+            self.stateMachineArn = stateMachineArn
+            self.stopDate = stopDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionArn
+            case mapRunArn
+            case startDate
+            case stateMachineArn
+            case stopDate
+        }
+    }
+
+    public struct MapRunStartedEventDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a Map Run that was started.
+        public let mapRunArn: String?
+
+        public init(mapRunArn: String? = nil) {
+            self.mapRunArn = mapRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapRunArn
         }
     }
 
@@ -2043,6 +2356,44 @@ extension SFN {
         public init() {}
     }
 
+    public struct UpdateMapRunInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a Map Run.
+        public let mapRunArn: String
+        /// The maximum number of child workflow executions that can be specified to run in parallel for the Map Run at the same time.
+        public let maxConcurrency: Int?
+        /// The maximum number of failed items before the Map Run fails.
+        public let toleratedFailureCount: Int64?
+        /// The maximum percentage of failed items before the Map Run fails.
+        public let toleratedFailurePercentage: Float?
+
+        public init(mapRunArn: String, maxConcurrency: Int? = nil, toleratedFailureCount: Int64? = nil, toleratedFailurePercentage: Float? = nil) {
+            self.mapRunArn = mapRunArn
+            self.maxConcurrency = maxConcurrency
+            self.toleratedFailureCount = toleratedFailureCount
+            self.toleratedFailurePercentage = toleratedFailurePercentage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, max: 2000)
+            try self.validate(self.mapRunArn, name: "mapRunArn", parent: name, min: 1)
+            try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 0)
+            try self.validate(self.toleratedFailureCount, name: "toleratedFailureCount", parent: name, min: 0)
+            try self.validate(self.toleratedFailurePercentage, name: "toleratedFailurePercentage", parent: name, max: 100.0)
+            try self.validate(self.toleratedFailurePercentage, name: "toleratedFailurePercentage", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mapRunArn
+            case maxConcurrency
+            case toleratedFailureCount
+            case toleratedFailurePercentage
+        }
+    }
+
+    public struct UpdateMapRunOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
@@ -2125,6 +2476,7 @@ public struct SFNErrorType: AWSErrorType {
         case taskDoesNotExist = "TaskDoesNotExist"
         case taskTimedOut = "TaskTimedOut"
         case tooManyTags = "TooManyTags"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -2157,18 +2509,18 @@ public struct SFNErrorType: AWSErrorType {
     public static var executionDoesNotExist: Self { .init(.executionDoesNotExist) }
     /// The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
     public static var executionLimitExceeded: Self { .init(.executionLimitExceeded) }
-    /// The provided Amazon Resource Name (ARN) is invalid.
+    /// The provided Amazon Resource Name (ARN) is not valid.
     public static var invalidArn: Self { .init(.invalidArn) }
-    /// The provided Amazon States Language definition is invalid.
+    /// The provided Amazon States Language definition is not valid.
     public static var invalidDefinition: Self { .init(.invalidDefinition) }
-    /// The provided JSON input data is invalid.
+    /// The provided JSON input data is not valid.
     public static var invalidExecutionInput: Self { .init(.invalidExecutionInput) }
     public static var invalidLoggingConfiguration: Self { .init(.invalidLoggingConfiguration) }
-    /// The provided name is invalid.
+    /// The provided name is not valid.
     public static var invalidName: Self { .init(.invalidName) }
-    /// The provided JSON output data is invalid.
+    /// The provided JSON output data is not valid.
     public static var invalidOutput: Self { .init(.invalidOutput) }
-    /// The provided token is invalid.
+    /// The provided token is not valid.
     public static var invalidToken: Self { .init(.invalidToken) }
     /// Your tracingConfiguration key does not match, or enabled has not been set to true or false.
     public static var invalidTracingConfiguration: Self { .init(.invalidTracingConfiguration) }
@@ -2189,6 +2541,8 @@ public struct SFNErrorType: AWSErrorType {
     public static var taskTimedOut: Self { .init(.taskTimedOut) }
     /// You&#39;ve exceeded the number of tags allowed for a resource. See the  Limits Topic in the Step Functions Developer Guide.
     public static var tooManyTags: Self { .init(.tooManyTags) }
+    /// The input does not satisfy the constraints specified by an Amazon Web Services service.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension SFNErrorType: Equatable {

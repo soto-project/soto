@@ -422,7 +422,7 @@ extension AutoScaling {
     public struct AttachLoadBalancerTargetGroupsType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing DescribeTargetGroups API operation.
+        /// The Amazon Resource Names (ARNs) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing DescribeTargetGroups API operation.
         @CustomCoding<StandardArrayCoder>
         public var targetGroupARNs: [String]
 
@@ -481,6 +481,37 @@ extension AutoScaling {
         }
     }
 
+    public struct AttachTrafficSourcesResultType: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AttachTrafficSourcesType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+        @CustomCoding<StandardArrayCoder>
+        public var trafficSources: [TrafficSourceIdentifier]
+
+        public init(autoScalingGroupName: String, trafficSources: [TrafficSourceIdentifier]) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.trafficSources = trafficSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.trafficSources.forEach {
+                try $0.validate(name: "\(name).trafficSources[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case trafficSources = "TrafficSources"
+        }
+    }
+
     public struct AutoScalingGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupARN: String?
@@ -508,7 +539,7 @@ extension AutoScaling {
         public var enabledMetrics: [EnabledMetric]?
         /// The duration of the health check grace period, in seconds.
         public let healthCheckGracePeriod: Int?
-        /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
+        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
         public let healthCheckType: String
         /// The EC2 instances associated with the group.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -550,6 +581,9 @@ extension AutoScaling {
         /// The termination policies for the group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
+        /// The unique identifiers of the traffic sources.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var trafficSources: [TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vpcZoneIdentifier: String?
         /// The warm pool for the group.
@@ -557,7 +591,7 @@ extension AutoScaling {
         /// The current size of the warm pool.
         public let warmPoolSize: Int?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date, defaultCooldown: Int, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date, defaultCooldown: Int, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -588,6 +622,7 @@ extension AutoScaling {
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
+            self.trafficSources = trafficSources
             self.vpcZoneIdentifier = vpcZoneIdentifier
             self.warmPoolConfiguration = warmPoolConfiguration
             self.warmPoolSize = warmPoolSize
@@ -624,6 +659,7 @@ extension AutoScaling {
             case tags = "Tags"
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
+            case trafficSources = "TrafficSources"
             case vpcZoneIdentifier = "VPCZoneIdentifier"
             case warmPoolConfiguration = "WarmPoolConfiguration"
             case warmPoolSize = "WarmPoolSize"
@@ -1009,11 +1045,11 @@ extension AutoScaling {
         public let defaultInstanceWarmup: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
-        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances.  Valid values: units | vcpu | memory-mib
+        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
         public let healthCheckGracePeriod: Int?
-        /// The service to use for the health checks. The valid values are EC2 (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
+        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
         public let healthCheckType: String?
         /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Creating an Auto Scaling group using an EC2 instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
@@ -1044,16 +1080,19 @@ extension AutoScaling {
         /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
-        /// The Amazon Resource Names (ARN) of the target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+        /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var targetGroupARNs: [String]?
         /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
+        ///  Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change.  The unique identifiers of one or more traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var trafficSources: [TrafficSourceIdentifier]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
         public let vpcZoneIdentifier: String?
 
-        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -1079,6 +1118,7 @@ extension AutoScaling {
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
+            self.trafficSources = trafficSources
             self.vpcZoneIdentifier = vpcZoneIdentifier
         }
 
@@ -1132,6 +1172,9 @@ extension AutoScaling {
                 try validate($0, name: "terminationPolicies[]", parent: name, min: 1)
                 try validate($0, name: "terminationPolicies[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
+            try self.trafficSources?.forEach {
+                try $0.validate(name: "\(name).trafficSources[]")
+            }
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -1163,6 +1206,7 @@ extension AutoScaling {
             case tags = "Tags"
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
+            case trafficSources = "TrafficSources"
             case vpcZoneIdentifier = "VPCZoneIdentifier"
         }
     }
@@ -1329,25 +1373,36 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
-        public let metricName: String
+        public let metricName: String?
+        /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var metrics: [TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
-        public let namespace: String
+        public let namespace: String?
         /// The statistic of the metric.
-        public let statistic: MetricStatistic
+        public let statistic: MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
-        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
+        public init(dimensions: [MetricDimension]? = nil, metricName: String? = nil, metrics: [TargetTrackingMetricDataQuery]? = nil, namespace: String? = nil, statistic: MetricStatistic? = nil, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
+            self.metrics = metrics
             self.namespace = namespace
             self.statistic = statistic
             self.unit = unit
         }
 
+        public func validate(name: String) throws {
+            try self.metrics?.forEach {
+                try $0.validate(name: "\(name).metrics[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case metricName = "MetricName"
+            case metrics = "Metrics"
             case namespace = "Namespace"
             case statistic = "Statistic"
             case unit = "Unit"
@@ -2067,11 +2122,64 @@ extension AutoScaling {
         }
     }
 
+    public struct DescribeTrafficSourcesRequest: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The maximum number of items to return with this call. The maximum value is 50.
+        public let maxRecords: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The type of traffic source you are describing. Currently, the only valid value is vpc-lattice.
+        public let trafficSourceType: String
+
+        public init(autoScalingGroupName: String, maxRecords: Int? = nil, nextToken: String? = nil, trafficSourceType: String) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+            self.trafficSourceType = trafficSourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.trafficSourceType, name: "trafficSourceType", parent: name, max: 255)
+            try self.validate(self.trafficSourceType, name: "trafficSourceType", parent: name, min: 1)
+            try self.validate(self.trafficSourceType, name: "trafficSourceType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case trafficSourceType = "TrafficSourceType"
+        }
+    }
+
+    public struct DescribeTrafficSourcesResponse: AWSDecodableShape {
+        /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        /// Information about the traffic sources.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var trafficSources: [TrafficSourceState]?
+
+        public init(nextToken: String? = nil, trafficSources: [TrafficSourceState]? = nil) {
+            self.nextToken = nextToken
+            self.trafficSources = trafficSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trafficSources = "TrafficSources"
+        }
+    }
+
     public struct DescribeWarmPoolAnswer: AWSDecodableShape {
         /// The instances that are currently in the warm pool.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instances: [Instance]?
-        /// The token for the next set of items to return. (You received this token from a previous call.)
+        /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The warm pool configuration details.
         public let warmPoolConfiguration: WarmPoolConfiguration?
@@ -2247,6 +2355,37 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case loadBalancerNames = "LoadBalancerNames"
+        }
+    }
+
+    public struct DetachTrafficSourcesResultType: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DetachTrafficSourcesType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The unique identifiers of one or more traffic sources you are detaching. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the DescribeTrafficSources API call. The instances continue to run.
+        @CustomCoding<StandardArrayCoder>
+        public var trafficSources: [TrafficSourceIdentifier]
+
+        public init(autoScalingGroupName: String, trafficSources: [TrafficSourceIdentifier]) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.trafficSources = trafficSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.trafficSources.forEach {
+                try $0.validate(name: "\(name).trafficSources[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case trafficSources = "TrafficSources"
         }
     }
 
@@ -2955,7 +3094,7 @@ extension AutoScaling {
         public let onDemandBaseCapacity: Int?
         /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity. Expressed as a number (for example, 20 specifies 20% On-Demand Instances, 80% Spot Instances). If set to 100, only On-Demand Instances are used. Default: 100
         public let onDemandPercentageAboveBaseCapacity: Int?
-        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values:  capacity-optimized  Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized.  capacity-optimized-prioritized  You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify InstanceRequirements.  lowest-price  Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity.  price-capacity-optimized (recommended)  Amazon EC2 Auto Scaling identifies the pools with the highest capacity availability for the number of instances that are launching. This means that we will request Spot Instances from the pools that we believe have the lowest chance of interruption in the near term. Amazon EC2 Auto Scaling then requests Spot Instances from the lowest priced of these pools.
+        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values:  capacity-optimized  Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized.  capacity-optimized-prioritized  You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify InstanceRequirements.  lowest-price  Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity.  price-capacity-optimized (recommended)  The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price.
         public let spotAllocationStrategy: String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances. The Spot pools are determined from the different instance types in the overrides. Valid only when the SpotAllocationStrategy is lowest-price. Value must be in the range of 1–20. Default: 2
         public let spotInstancePools: Int?
@@ -3865,7 +4004,7 @@ extension AutoScaling {
     public struct PredictiveScalingPredefinedLoadMetric: AWSEncodableShape & AWSDecodableShape {
         /// The metric type.
         public let predefinedMetricType: PredefinedLoadMetricType
-        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group.  You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: PredefinedLoadMetricType, resourceLabel: String? = nil) {
@@ -3911,7 +4050,7 @@ extension AutoScaling {
     public struct PredictiveScalingPredefinedScalingMetric: AWSEncodableShape & AWSDecodableShape {
         /// The metric type.
         public let predefinedMetricType: PredefinedScalingMetricType
-        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group.  You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: PredefinedScalingMetricType, resourceLabel: String? = nil) {
@@ -4592,7 +4731,7 @@ extension AutoScaling {
         public let healthStatus: String
         /// The ID of the instance.
         public let instanceId: String
-        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group.  For more information about the health check grace period, see CreateAutoScalingGroup in the Amazon EC2 Auto Scaling API Reference.
+        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup in the Amazon EC2 Auto Scaling API Reference.
         public let shouldRespectGracePeriod: Bool?
 
         public init(healthStatus: String, instanceId: String, shouldRespectGracePeriod: Bool? = nil) {
@@ -4842,6 +4981,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.customizedMetricSpecification?.validate(name: "\(name).customizedMetricSpecification")
             try self.predefinedMetricSpecification?.validate(name: "\(name).predefinedMetricSpecification")
         }
 
@@ -4850,6 +4990,73 @@ extension AutoScaling {
             case disableScaleIn = "DisableScaleIn"
             case predefinedMetricSpecification = "PredefinedMetricSpecification"
             case targetValue = "TargetValue"
+        }
+    }
+
+    public struct TargetTrackingMetricDataQuery: AWSEncodableShape & AWSDecodableShape {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions.  Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let expression: String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all TargetTrackingMetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        public let id: String
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public let label: String?
+        /// Information about the metric data to return. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let metricStat: TargetTrackingMetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public let returnData: Bool?
+
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: TargetTrackingMetricStat? = nil, returnData: Bool? = nil) {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 2047)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.label, name: "label", parent: name, max: 2047)
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.metricStat?.validate(name: "\(name).metricStat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case id = "Id"
+            case label = "Label"
+            case metricStat = "MetricStat"
+            case returnData = "ReturnData"
+        }
+    }
+
+    public struct TargetTrackingMetricStat: AWSEncodableShape & AWSDecodableShape {
+        public let metric: Metric
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        public let stat: String
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
+        public let unit: String?
+
+        public init(metric: Metric, stat: String, unit: String? = nil) {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stat, name: "stat", parent: name, max: 100)
+            try self.validate(self.stat, name: "stat", parent: name, min: 1)
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+            case stat = "Stat"
+            case unit = "Unit"
         }
     }
 
@@ -4898,6 +5105,42 @@ extension AutoScaling {
         }
     }
 
+    public struct TrafficSourceIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the traffic source.
+        public let identifier: String?
+
+        public init(identifier: String? = nil) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 511)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct TrafficSourceState: AWSDecodableShape {
+        /// The following are the possible states for a VPC Lattice target group:    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed the VPC_LATTICE health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, VPC Lattice waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.
+        public let state: String?
+        /// The unique identifier of the traffic source. Currently, this is the Amazon Resource Name (ARN) for a VPC Lattice target group.
+        public let trafficSource: String?
+
+        public init(state: String? = nil, trafficSource: String? = nil) {
+            self.state = state
+            self.trafficSource = trafficSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case trafficSource = "TrafficSource"
+        }
+    }
+
     public struct UpdateAutoScalingGroupType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -4916,9 +5159,9 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int?
-        /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
+        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
         public let healthCheckType: String?
         /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
         public let launchConfigurationName: String?

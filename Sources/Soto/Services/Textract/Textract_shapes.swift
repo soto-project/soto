@@ -375,6 +375,19 @@ extension Textract {
         }
     }
 
+    public struct DetectedSignature: AWSDecodableShape {
+        /// The page a detected signature was found on.
+        public let page: Int?
+
+        public init(page: Int? = nil) {
+            self.page = page
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case page = "Page"
+        }
+    }
+
     public struct Document: AWSEncodableShape {
         /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field.
         public let bytes: AWSBase64Data?
@@ -395,6 +408,31 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case bytes = "Bytes"
             case s3Object = "S3Object"
+        }
+    }
+
+    public struct DocumentGroup: AWSDecodableShape {
+        /// A list of the detected signatures found in a document group.
+        public let detectedSignatures: [DetectedSignature]?
+        /// An array that contains information about the pages of a document, defined by logical boundary.
+        public let splitDocuments: [SplitDocument]?
+        /// The type of document that Amazon Textract has detected. See LINK for a list of all types returned by Textract.
+        public let type: String?
+        /// A list of any expected signatures not found in a document group.
+        public let undetectedSignatures: [UndetectedSignature]?
+
+        public init(detectedSignatures: [DetectedSignature]? = nil, splitDocuments: [SplitDocument]? = nil, type: String? = nil, undetectedSignatures: [UndetectedSignature]? = nil) {
+            self.detectedSignatures = detectedSignatures
+            self.splitDocuments = splitDocuments
+            self.type = type
+            self.undetectedSignatures = undetectedSignatures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectedSignatures = "DetectedSignatures"
+            case splitDocuments = "SplitDocuments"
+            case type = "Type"
+            case undetectedSignatures = "UndetectedSignatures"
         }
     }
 
@@ -554,6 +592,25 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case text = "Text"
+        }
+    }
+
+    public struct Extraction: AWSDecodableShape {
+        public let expenseDocument: ExpenseDocument?
+        public let identityDocument: IdentityDocument?
+        /// Holds the structured data returned by AnalyzeDocument for lending documents.
+        public let lendingDocument: LendingDocument?
+
+        public init(expenseDocument: ExpenseDocument? = nil, identityDocument: IdentityDocument? = nil, lendingDocument: LendingDocument? = nil) {
+            self.expenseDocument = expenseDocument
+            self.identityDocument = identityDocument
+            self.lendingDocument = lendingDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expenseDocument = "ExpenseDocument"
+            case identityDocument = "IdentityDocument"
+            case lendingDocument = "LendingDocument"
         }
     }
 
@@ -776,6 +833,124 @@ extension Textract {
         }
     }
 
+    public struct GetLendingAnalysisRequest: AWSEncodableShape {
+        /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+        public let jobId: String
+        /// The maximum number of results to return per paginated call. The largest value that you can specify is 30. If you specify a value greater than 30, a maximum of 30 results is returned. The default value is 30.
+        public let maxResults: Int?
+        /// If the previous response was incomplete, Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of lending results.
+        public let nextToken: String?
+
+        public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetLendingAnalysisResponse: AWSDecodableShape {
+        ///  The current model version of the Analyze Lending API.
+        public let analyzeLendingModelVersion: String?
+        public let documentMetadata: DocumentMetadata?
+        ///  The current status of the lending analysis job.
+        public let jobStatus: JobStatus?
+        /// If the response is truncated, Amazon Textract returns this token.  You can use this token in the subsequent request to retrieve the next set of lending results.
+        public let nextToken: String?
+        ///  Holds the information returned by one of AmazonTextract's document analysis operations for the pinstripe.
+        public let results: [LendingResult]?
+        ///   Returns if the lending analysis job could not be completed. Contains explanation for what error occurred.
+        public let statusMessage: String?
+        ///  A list of warnings that occurred during the lending analysis operation.
+        public let warnings: [Warning]?
+
+        public init(analyzeLendingModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, nextToken: String? = nil, results: [LendingResult]? = nil, statusMessage: String? = nil, warnings: [Warning]? = nil) {
+            self.analyzeLendingModelVersion = analyzeLendingModelVersion
+            self.documentMetadata = documentMetadata
+            self.jobStatus = jobStatus
+            self.nextToken = nextToken
+            self.results = results
+            self.statusMessage = statusMessage
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzeLendingModelVersion = "AnalyzeLendingModelVersion"
+            case documentMetadata = "DocumentMetadata"
+            case jobStatus = "JobStatus"
+            case nextToken = "NextToken"
+            case results = "Results"
+            case statusMessage = "StatusMessage"
+            case warnings = "Warnings"
+        }
+    }
+
+    public struct GetLendingAnalysisSummaryRequest: AWSEncodableShape {
+        ///  A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct GetLendingAnalysisSummaryResponse: AWSDecodableShape {
+        /// The current model version of the Analyze Lending API.
+        public let analyzeLendingModelVersion: String?
+        public let documentMetadata: DocumentMetadata?
+        ///  The current status of the lending analysis job.
+        public let jobStatus: JobStatus?
+        /// Returns if the lending analysis could not be completed. Contains explanation for what error occurred.
+        public let statusMessage: String?
+        ///  Contains summary information for documents grouped by type.
+        public let summary: LendingSummary?
+        /// A list of warnings that occurred during the lending analysis operation.
+        public let warnings: [Warning]?
+
+        public init(analyzeLendingModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, jobStatus: JobStatus? = nil, statusMessage: String? = nil, summary: LendingSummary? = nil, warnings: [Warning]? = nil) {
+            self.analyzeLendingModelVersion = analyzeLendingModelVersion
+            self.documentMetadata = documentMetadata
+            self.jobStatus = jobStatus
+            self.statusMessage = statusMessage
+            self.summary = summary
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzeLendingModelVersion = "AnalyzeLendingModelVersion"
+            case documentMetadata = "DocumentMetadata"
+            case jobStatus = "JobStatus"
+            case statusMessage = "StatusMessage"
+            case summary = "Summary"
+            case warnings = "Warnings"
+        }
+    }
+
     public struct HumanLoopActivationOutput: AWSDecodableShape {
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
@@ -879,6 +1054,105 @@ extension Textract {
         }
     }
 
+    public struct LendingDetection: AWSDecodableShape {
+        /// The confidence level for the text of a detected value in a lending document.
+        public let confidence: Float?
+        public let geometry: Geometry?
+        /// The selection status of a selection element, such as an option button or check box.
+        public let selectionStatus: SelectionStatus?
+        /// The text extracted for a detected value in a lending document.
+        public let text: String?
+
+        public init(confidence: Float? = nil, geometry: Geometry? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil) {
+            self.confidence = confidence
+            self.geometry = geometry
+            self.selectionStatus = selectionStatus
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case geometry = "Geometry"
+            case selectionStatus = "SelectionStatus"
+            case text = "Text"
+        }
+    }
+
+    public struct LendingDocument: AWSDecodableShape {
+        /// An array of LendingField objects.
+        public let lendingFields: [LendingField]?
+        /// A list of signatures detected in a lending document.
+        public let signatureDetections: [SignatureDetection]?
+
+        public init(lendingFields: [LendingField]? = nil, signatureDetections: [SignatureDetection]? = nil) {
+            self.lendingFields = lendingFields
+            self.signatureDetections = signatureDetections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lendingFields = "LendingFields"
+            case signatureDetections = "SignatureDetections"
+        }
+    }
+
+    public struct LendingField: AWSDecodableShape {
+        public let keyDetection: LendingDetection?
+        /// The type of the lending document.
+        public let type: String?
+        /// An array of LendingDetection objects.
+        public let valueDetections: [LendingDetection]?
+
+        public init(keyDetection: LendingDetection? = nil, type: String? = nil, valueDetections: [LendingDetection]? = nil) {
+            self.keyDetection = keyDetection
+            self.type = type
+            self.valueDetections = valueDetections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyDetection = "KeyDetection"
+            case type = "Type"
+            case valueDetections = "ValueDetections"
+        }
+    }
+
+    public struct LendingResult: AWSDecodableShape {
+        /// An array of Extraction to hold structured data. e.g. normalized key value pairs instead of raw OCR detections .
+        public let extractions: [Extraction]?
+        /// The page number for a page, with regard to whole submission.
+        public let page: Int?
+        /// The classifier result for a given page.
+        public let pageClassification: PageClassification?
+
+        public init(extractions: [Extraction]? = nil, page: Int? = nil, pageClassification: PageClassification? = nil) {
+            self.extractions = extractions
+            self.page = page
+            self.pageClassification = pageClassification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extractions = "Extractions"
+            case page = "Page"
+            case pageClassification = "PageClassification"
+        }
+    }
+
+    public struct LendingSummary: AWSDecodableShape {
+        /// Contains an array of all DocumentGroup objects.
+        public let documentGroups: [DocumentGroup]?
+        /// UndetectedDocumentTypes.
+        public let undetectedDocumentTypes: [String]?
+
+        public init(documentGroups: [DocumentGroup]? = nil, undetectedDocumentTypes: [String]? = nil) {
+            self.documentGroups = documentGroups
+            self.undetectedDocumentTypes = undetectedDocumentTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentGroups = "DocumentGroups"
+            case undetectedDocumentTypes = "UndetectedDocumentTypes"
+        }
+    }
+
     public struct LineItemFields: AWSDecodableShape {
         /// ExpenseFields used to show information from detected lines on a table.
         public let lineItemExpenseFields: [ExpenseField]?
@@ -978,6 +1252,23 @@ extension Textract {
         }
     }
 
+    public struct PageClassification: AWSDecodableShape {
+        ///  The page number the value was detected on, relative to Amazon Textract's starting position.
+        public let pageNumber: [Prediction]
+        /// The class, or document type, assigned to a detected Page object. The class, or document type,  assigned to a detected Page object.
+        public let pageType: [Prediction]
+
+        public init(pageNumber: [Prediction], pageType: [Prediction]) {
+            self.pageNumber = pageNumber
+            self.pageType = pageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageNumber = "PageNumber"
+            case pageType = "PageType"
+        }
+    }
+
     public struct Point: AWSDecodableShape {
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
@@ -992,6 +1283,23 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case x = "X"
             case y = "Y"
+        }
+    }
+
+    public struct Prediction: AWSDecodableShape {
+        /// Amazon Textract's confidence in its predicted value.
+        public let confidence: Float?
+        /// The predicted value of a detected object.
+        public let value: String?
+
+        public init(confidence: Float? = nil, value: String? = nil) {
+            self.confidence = confidence
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case value = "Value"
         }
     }
 
@@ -1097,6 +1405,39 @@ extension Textract {
             case bucket = "Bucket"
             case name = "Name"
             case version = "Version"
+        }
+    }
+
+    public struct SignatureDetection: AWSDecodableShape {
+        /// The confidence, from 0 to 100, in the predicted values for a detected signature.
+        public let confidence: Float?
+        public let geometry: Geometry?
+
+        public init(confidence: Float? = nil, geometry: Geometry? = nil) {
+            self.confidence = confidence
+            self.geometry = geometry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case geometry = "Geometry"
+        }
+    }
+
+    public struct SplitDocument: AWSDecodableShape {
+        /// The index for a given document in a DocumentGroup of a specific Type.
+        public let index: Int?
+        /// An array of page numbers for a for a given document, ordered by logical boundary.
+        public let pages: [Int]?
+
+        public init(index: Int? = nil, pages: [Int]? = nil) {
+            self.index = index
+            self.pages = pages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case pages = "Pages"
         }
     }
 
@@ -1291,6 +1632,77 @@ extension Textract {
         }
     }
 
+    public struct StartLendingAnalysisRequest: AWSEncodableShape {
+        /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartLendingAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+        public let clientRequestToken: String?
+        public let documentLocation: DocumentLocation
+        /// An identifier that you specify to be included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
+        public let jobTag: String?
+        /// The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side, using SSE-S3.
+        public let kmsKeyId: String?
+        public let notificationChannel: NotificationChannel?
+        public let outputConfig: OutputConfig?
+
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.documentLocation = documentLocation
+            self.jobTag = jobTag
+            self.kmsKeyId = kmsKeyId
+            self.notificationChannel = notificationChannel
+            self.outputConfig = outputConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.documentLocation.validate(name: "\(name).documentLocation")
+            try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
+            try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
+            try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case documentLocation = "DocumentLocation"
+            case jobTag = "JobTag"
+            case kmsKeyId = "KMSKeyId"
+            case notificationChannel = "NotificationChannel"
+            case outputConfig = "OutputConfig"
+        }
+    }
+
+    public struct StartLendingAnalysisResponse: AWSDecodableShape {
+        /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct UndetectedSignature: AWSDecodableShape {
+        /// The page where a signature was expected but not found.
+        public let page: Int?
+
+        public init(page: Int? = nil) {
+            self.page = page
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case page = "Page"
+        }
+    }
+
     public struct Warning: AWSDecodableShape {
         /// The error code for the warning.
         public let errorCode: String?
@@ -1360,7 +1772,7 @@ public struct TextractErrorType: AWSErrorType {
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
     /// Amazon Textract experienced a service issue. Try your call again.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// An invalid job identifier was passed to GetDocumentAnalysis or to GetDocumentAnalysis.
+    /// An invalid job identifier was passed to an asynchronous analysis operation.
     public static var invalidJobIdException: Self { .init(.invalidJobIdException) }
     ///  Indicates you do not have decrypt permissions with the KMS key entered, or the KMS key was entered incorrectly.
     public static var invalidKMSKeyException: Self { .init(.invalidKMSKeyException) }

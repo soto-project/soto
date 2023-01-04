@@ -67,6 +67,8 @@ public struct Athena: AWSService {
                     "ap-southeast-2": "athena.ap-southeast-2.api.aws",
                     "ap-southeast-3": "athena.ap-southeast-3.api.aws",
                     "ca-central-1": "athena.ca-central-1.api.aws",
+                    "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",
+                    "cn-northwest-1": "athena.cn-northwest-1.api.amazonwebservices.com.cn",
                     "eu-central-1": "athena.eu-central-1.api.aws",
                     "eu-north-1": "athena.eu-north-1.api.aws",
                     "eu-south-1": "athena.eu-south-1.api.aws",
@@ -77,6 +79,8 @@ public struct Athena: AWSService {
                     "sa-east-1": "athena.sa-east-1.api.aws",
                     "us-east-1": "athena.us-east-1.api.aws",
                     "us-east-2": "athena.us-east-2.api.aws",
+                    "us-gov-east-1": "athena.us-gov-east-1.api.aws",
+                    "us-gov-west-1": "athena.us-gov-west-1.api.aws",
                     "us-west-1": "athena.us-west-1.api.aws",
                     "us-west-2": "athena.us-west-2.api.aws"
                 ]),
@@ -123,12 +127,22 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "CreateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists.
+    public func createNotebook(_ input: CreateNotebookInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNotebookOutput> {
+        return self.client.execute(operation: "CreateNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a prepared statement for use with SQL queries in Athena.
     public func createPreparedStatement(_ input: CreatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePreparedStatementOutput> {
         return self.client.execute(operation: "CreatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a workgroup with the specified name.
+    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token.
+    public func createPresignedNotebookUrl(_ input: CreatePresignedNotebookUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePresignedNotebookUrlResponse> {
+        return self.client.execute(operation: "CreatePresignedNotebookUrl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a workgroup with the specified name. Only one of Configurations or Configuration can be specified; Configurations for a workgroup with multi engine support (for example, an Apache Spark enabled workgroup) or Configuration for an Athena SQL workgroup.
     public func createWorkGroup(_ input: CreateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkGroupOutput> {
         return self.client.execute(operation: "CreateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -143,6 +157,11 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "DeleteNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified notebook.
+    public func deleteNotebook(_ input: DeleteNotebookInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNotebookOutput> {
+        return self.client.execute(operation: "DeleteNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the prepared statement with the specified name from the specified workgroup.
     public func deletePreparedStatement(_ input: DeletePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePreparedStatementOutput> {
         return self.client.execute(operation: "DeletePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -151,6 +170,26 @@ public struct Athena: AWSService {
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     public func deleteWorkGroup(_ input: DeleteWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkGroupOutput> {
         return self.client.execute(operation: "DeleteWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Exports the specified notebook and its metadata.
+    public func exportNotebook(_ input: ExportNotebookInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportNotebookOutput> {
+        return self.client.execute(operation: "ExportNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes a previously submitted calculation execution.
+    public func getCalculationExecution(_ input: GetCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculationExecutionResponse> {
+        return self.client.execute(operation: "GetCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a pre-signed URL to a copy of the code that was executed for the calculation.
+    public func getCalculationExecutionCode(_ input: GetCalculationExecutionCodeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculationExecutionCodeResponse> {
+        return self.client.execute(operation: "GetCalculationExecutionCode", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the status of a current calculation.
+    public func getCalculationExecutionStatus(_ input: GetCalculationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalculationExecutionStatusResponse> {
+        return self.client.execute(operation: "GetCalculationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the specified data catalog.
@@ -168,6 +207,11 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "GetNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves notebook metadata for the specified notebook ID.
+    public func getNotebookMetadata(_ input: GetNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNotebookMetadataOutput> {
+        return self.client.execute(operation: "GetNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the prepared statement with the specified name from the specified workgroup.
     public func getPreparedStatement(_ input: GetPreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPreparedStatementOutput> {
         return self.client.execute(operation: "GetPreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -183,9 +227,19 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "GetQueryResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. The query execution runtime statistics is returned only when QueryExecutionStatus$State is in a SUCCEEDED or FAILED state.
+    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Query execution runtime statistics are returned only when QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. Stage-level input and output row count and data size statistics are not shown when a query has row-level filters defined in Lake Formation.
     public func getQueryRuntimeStatistics(_ input: GetQueryRuntimeStatisticsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetQueryRuntimeStatisticsOutput> {
         return self.client.execute(operation: "GetQueryRuntimeStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the full details of a previously created session, including the session status and configuration.
+    public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSessionResponse> {
+        return self.client.execute(operation: "GetSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the current status of a session.
+    public func getSessionStatus(_ input: GetSessionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSessionStatusResponse> {
+        return self.client.execute(operation: "GetSessionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns table metadata for the specified catalog, database, and table.
@@ -196,6 +250,21 @@ public struct Athena: AWSService {
     /// Returns information about the workgroup with the specified name.
     public func getWorkGroup(_ input: GetWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkGroupOutput> {
         return self.client.execute(operation: "GetWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
+    public func importNotebook(_ input: ImportNotebookInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportNotebookOutput> {
+        return self.client.execute(operation: "ImportNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the supported DPU sizes for the supported application runtimes (for example, Jupyter 1.0).
+    public func listApplicationDPUSizes(_ input: ListApplicationDPUSizesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationDPUSizesOutput> {
+        return self.client.execute(operation: "ListApplicationDPUSizes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
+    public func listCalculationExecutions(_ input: ListCalculationExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCalculationExecutionsResponse> {
+        return self.client.execute(operation: "ListCalculationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the data catalogs in the current Amazon Web Services account.
@@ -213,9 +282,24 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "ListEngineVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists, in descending order, the executors that have been submitted to a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
+    public func listExecutors(_ input: ListExecutorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExecutorsResponse> {
+        return self.client.execute(operation: "ListExecutors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listNamedQueries(_ input: ListNamedQueriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNamedQueriesOutput> {
         return self.client.execute(operation: "ListNamedQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Displays the notebook files for the specified workgroup in paginated format.
+    public func listNotebookMetadata(_ input: ListNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotebookMetadataOutput> {
+        return self.client.execute(operation: "ListNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first; older sessions are listed later.
+    public func listNotebookSessions(_ input: ListNotebookSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotebookSessionsResponse> {
+        return self.client.execute(operation: "ListNotebookSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the prepared statements in the specified workgroup.
@@ -226,6 +310,11 @@ public struct Athena: AWSService {
     /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func listQueryExecutions(_ input: ListQueryExecutionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueryExecutionsOutput> {
         return self.client.execute(operation: "ListQueryExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
+    public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSessionsResponse> {
+        return self.client.execute(operation: "ListSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the metadata for the tables in the specified data catalog database.
@@ -243,9 +332,24 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "ListWorkGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request or as an Amazon S3 URL.
+    public func startCalculationExecution(_ input: StartCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCalculationExecutionResponse> {
+        return self.client.execute(operation: "StartCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     public func startQueryExecution(_ input: StartQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartQueryExecutionOutput> {
         return self.client.execute(operation: "StartQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state.
+    public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSessionResponse> {
+        return self.client.execute(operation: "StartSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED, FAILED, or COMPLETED) succeeds but has no effect.  Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running.
+    public func stopCalculationExecution(_ input: StopCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopCalculationExecutionResponse> {
+        return self.client.execute(operation: "StopCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
@@ -256,6 +360,11 @@ public struct Athena: AWSService {
     /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
+    public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateSessionResponse> {
+        return self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes one or more tags from a data catalog or workgroup resource.
@@ -273,12 +382,22 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "UpdateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the contents of a Spark notebook.
+    public func updateNotebook(_ input: UpdateNotebookInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotebookOutput> {
+        return self.client.execute(operation: "UpdateNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the metadata for a notebook.
+    public func updateNotebookMetadata(_ input: UpdateNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNotebookMetadataOutput> {
+        return self.client.execute(operation: "UpdateNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a prepared statement.
     public func updatePreparedStatement(_ input: UpdatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePreparedStatementOutput> {
         return self.client.execute(operation: "UpdatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the workgroup with the specified name. The workgroup's name cannot be changed.
+    /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only one of ConfigurationsUpdates or ConfigurationUpdates can be specified; ConfigurationsUpdates for a workgroup with multi engine support (for example, an Apache Spark enabled workgroup) or ConfigurationUpdates for an Athena SQL workgroup.
     public func updateWorkGroup(_ input: UpdateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkGroupOutput> {
         return self.client.execute(operation: "UpdateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -344,6 +463,112 @@ extension Athena {
             command: self.getQueryResults,
             inputKey: \GetQueryResultsInput.nextToken,
             outputKey: \GetQueryResultsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the supported DPU sizes for the supported application runtimes (for example, Jupyter 1.0).
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listApplicationDPUSizesPaginator<Result>(
+        _ input: ListApplicationDPUSizesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListApplicationDPUSizesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listApplicationDPUSizes,
+            inputKey: \ListApplicationDPUSizesInput.nextToken,
+            outputKey: \ListApplicationDPUSizesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listApplicationDPUSizesPaginator(
+        _ input: ListApplicationDPUSizesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListApplicationDPUSizesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listApplicationDPUSizes,
+            inputKey: \ListApplicationDPUSizesInput.nextToken,
+            outputKey: \ListApplicationDPUSizesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCalculationExecutionsPaginator<Result>(
+        _ input: ListCalculationExecutionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCalculationExecutionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listCalculationExecutions,
+            inputKey: \ListCalculationExecutionsRequest.nextToken,
+            outputKey: \ListCalculationExecutionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCalculationExecutionsPaginator(
+        _ input: ListCalculationExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCalculationExecutionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listCalculationExecutions,
+            inputKey: \ListCalculationExecutionsRequest.nextToken,
+            outputKey: \ListCalculationExecutionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -508,6 +733,59 @@ extension Athena {
         )
     }
 
+    ///  Lists, in descending order, the executors that have been submitted to a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExecutorsPaginator<Result>(
+        _ input: ListExecutorsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExecutorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listExecutors,
+            inputKey: \ListExecutorsRequest.nextToken,
+            outputKey: \ListExecutorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExecutorsPaginator(
+        _ input: ListExecutorsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExecutorsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listExecutors,
+            inputKey: \ListExecutorsRequest.nextToken,
+            outputKey: \ListExecutorsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -662,6 +940,59 @@ extension Athena {
             command: self.listQueryExecutions,
             inputKey: \ListQueryExecutionsInput.nextToken,
             outputKey: \ListQueryExecutionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSessionsPaginator<Result>(
+        _ input: ListSessionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -837,6 +1168,26 @@ extension Athena.GetQueryResultsInput: AWSPaginateToken {
     }
 }
 
+extension Athena.ListApplicationDPUSizesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListApplicationDPUSizesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Athena.ListCalculationExecutionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListCalculationExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId,
+            stateFilter: self.stateFilter
+        )
+    }
+}
+
 extension Athena.ListDataCatalogsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListDataCatalogsInput {
         return .init(
@@ -861,6 +1212,17 @@ extension Athena.ListEngineVersionsInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Athena.ListExecutorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListExecutorsRequest {
+        return .init(
+            executorStateFilter: self.executorStateFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId
         )
     }
 }
@@ -890,6 +1252,17 @@ extension Athena.ListQueryExecutionsInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            workGroup: self.workGroup
+        )
+    }
+}
+
+extension Athena.ListSessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListSessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter,
             workGroup: self.workGroup
         )
     }

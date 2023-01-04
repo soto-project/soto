@@ -21,6 +21,12 @@ import SotoCore
 extension IoTDataPlane {
     // MARK: Enums
 
+    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case unspecifiedBytes = "UNSPECIFIED_BYTES"
+        case utf8Data = "UTF8_DATA"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct DeleteThingShadowRequest: AWSEncodableShape {
@@ -251,25 +257,49 @@ extension IoTDataPlane {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
+            AWSMemberEncoding(label: "contentType", location: .querystring("contentType")),
+            AWSMemberEncoding(label: "correlationData", location: .header("x-amz-mqtt5-correlation-data")),
+            AWSMemberEncoding(label: "messageExpiry", location: .querystring("messageExpiry")),
+            AWSMemberEncoding(label: "payloadFormatIndicator", location: .header("x-amz-mqtt5-payload-format-indicator")),
             AWSMemberEncoding(label: "qos", location: .querystring("qos")),
+            AWSMemberEncoding(label: "responseTopic", location: .querystring("responseTopic")),
             AWSMemberEncoding(label: "retain", location: .querystring("retain")),
-            AWSMemberEncoding(label: "topic", location: .uri("topic"))
+            AWSMemberEncoding(label: "topic", location: .uri("topic")),
+            AWSMemberEncoding(label: "userProperties", location: .header("x-amz-mqtt5-user-properties"))
         ]
 
+        /// A UTF-8 encoded string that describes the content of the publishing message.
+        public let contentType: String?
+        /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
+        public let correlationData: String?
+        /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry, see Amazon Web Services IoT Core message broker and protocol limits and quotas  from the Amazon Web Services Reference Guide.
+        public let messageExpiry: Int64?
         /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
         public let payload: AWSPayload?
-        /// The Quality of Service (QoS) level.
+        /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
+        public let payloadFormatIndicator: PayloadFormatIndicator?
+        /// The Quality of Service (QoS) level. The default QoS level is 0.
         public let qos: Int?
+        /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic is used to describe the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters.
+        public let responseTopic: String?
         /// A Boolean value that determines whether to set the RETAIN flag when the message is published. Setting the RETAIN flag causes the message to be retained and sent to new subscribers to the topic. Valid values: true | false  Default value: false
         public let retain: Bool?
         /// The name of the MQTT topic.
         public let topic: String
+        /// A JSON string that contains an array of JSON objects. If you don’t use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded:  [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+        public let userProperties: String?
 
-        public init(payload: AWSPayload? = nil, qos: Int? = nil, retain: Bool? = nil, topic: String) {
+        public init(contentType: String? = nil, correlationData: String? = nil, messageExpiry: Int64? = nil, payload: AWSPayload? = nil, payloadFormatIndicator: PayloadFormatIndicator? = nil, qos: Int? = nil, responseTopic: String? = nil, retain: Bool? = nil, topic: String, userProperties: String? = nil) {
+            self.contentType = contentType
+            self.correlationData = correlationData
+            self.messageExpiry = messageExpiry
             self.payload = payload
+            self.payloadFormatIndicator = payloadFormatIndicator
             self.qos = qos
+            self.responseTopic = responseTopic
             self.retain = retain
             self.topic = topic
+            self.userProperties = userProperties
         }
 
         public func validate(name: String) throws {

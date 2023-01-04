@@ -67,8 +67,7 @@ public struct KinesisVideo: AWSService {
         return self.client.execute(operation: "CreateSignalingChannel", path: "/createSignalingChannel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new Kinesis video stream.
-    ///  When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version.   CreateStream is an asynchronous operation. For information about how the service works, see How it Works.  You must have permissions for the KinesisVideo:CreateStream action.
+    /// Creates a new Kinesis video stream.  When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version.   CreateStream is an asynchronous operation. For information about how the service works, see How it Works.  You must have permissions for the KinesisVideo:CreateStream action.
     public func createStream(_ input: CreateStreamInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStreamOutput> {
         return self.client.execute(operation: "CreateStream", path: "/createStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,9 +82,24 @@ public struct KinesisVideo: AWSService {
         return self.client.execute(operation: "DeleteStream", path: "/deleteStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API.  Use this API to get the status of the configuration if the configuration is in sync with the  Edge Agent.
+    public func describeEdgeConfiguration(_ input: DescribeEdgeConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEdgeConfigurationOutput> {
+        return self.client.execute(operation: "DescribeEdgeConfiguration", path: "/describeEdgeConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the ImageGenerationConfiguration for a given Kinesis video stream.
     public func describeImageGenerationConfiguration(_ input: DescribeImageGenerationConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImageGenerationConfigurationOutput> {
         return self.client.execute(operation: "DescribeImageGenerationConfiguration", path: "/describeImageGenerationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    public func describeMappedResourceConfiguration(_ input: DescribeMappedResourceConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMappedResourceConfigurationOutput> {
+        return self.client.execute(operation: "DescribeMappedResourceConfiguration", path: "/describeMappedResourceConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
+    public func describeMediaStorageConfiguration(_ input: DescribeMediaStorageConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMediaStorageConfigurationOutput> {
+        return self.client.execute(operation: "DescribeMediaStorageConfiguration", path: "/describeMediaStorageConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the NotificationConfiguration for a given Kinesis video stream.
@@ -103,8 +117,7 @@ public struct KinesisVideo: AWSService {
         return self.client.execute(operation: "DescribeStream", path: "/describeStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation).   The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint.
-    ///  In the request, specify the stream either by StreamName or StreamARN.
+    /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation).   The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint.  In the request, specify the stream either by StreamName or StreamARN.
     public func getDataEndpoint(_ input: GetDataEndpointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataEndpointOutput> {
         return self.client.execute(operation: "GetDataEndpoint", path: "/getDataEndpoint", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -134,6 +147,11 @@ public struct KinesisVideo: AWSService {
         return self.client.execute(operation: "ListTagsForStream", path: "/listTagsForStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// An asynchronous API that updates a stream’s existing edge configuration.  The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass  component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device.  The SyncStatus will be updated as the edge configuration is acknowledged,  and synced with the Edge Agent.  If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again.  If you invoke this API during the syncing process, a ResourceInUseException will be thrown.  The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+    public func startEdgeConfigurationUpdate(_ input: StartEdgeConfigurationUpdateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartEdgeConfigurationUpdateOutput> {
+        return self.client.execute(operation: "StartEdgeConfigurationUpdate", path: "/startEdgeConfigurationUpdate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see Using Cost Allocation Tags in the Billing and Cost Management and Cost Management User Guide.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
         return self.client.execute(operation: "TagResource", path: "/TagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -154,9 +172,7 @@ public struct KinesisVideo: AWSService {
         return self.client.execute(operation: "UntagStream", path: "/untagStream", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN.   The retention period that you specify replaces the current value.
-    ///  This operation requires permission for the KinesisVideo:UpdateDataRetention action.
-    ///  Changing the data retention period affects the data in the stream as follows:   If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.   If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.
+    ///  Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN.   The retention period that you specify replaces the current value.  This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:   If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.   If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.
     public func updateDataRetention(_ input: UpdateDataRetentionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataRetentionOutput> {
         return self.client.execute(operation: "UpdateDataRetention", path: "/updateDataRetention", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -164,6 +180,11 @@ public struct KinesisVideo: AWSService {
     /// Updates the StreamInfo and ImageProcessingConfiguration fields.
     public func updateImageGenerationConfiguration(_ input: UpdateImageGenerationConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateImageGenerationConfigurationOutput> {
         return self.client.execute(operation: "UpdateImageGenerationConfiguration", path: "/updateImageGenerationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that  can specified :   If the StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.    If the StorageStatus is enabled, the data will be stored in the  StreamARN provided.
+    public func updateMediaStorageConfiguration(_ input: UpdateMediaStorageConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMediaStorageConfigurationOutput> {
+        return self.client.execute(operation: "UpdateMediaStorageConfiguration", path: "/updateMediaStorageConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the notification information for a stream.
@@ -194,6 +215,59 @@ extension KinesisVideo {
 // MARK: Paginators
 
 extension KinesisVideo {
+    ///  Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeMappedResourceConfigurationPaginator<Result>(
+        _ input: DescribeMappedResourceConfigurationInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeMappedResourceConfigurationOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.describeMappedResourceConfiguration,
+            inputKey: \DescribeMappedResourceConfigurationInput.nextToken,
+            outputKey: \DescribeMappedResourceConfigurationOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeMappedResourceConfigurationPaginator(
+        _ input: DescribeMappedResourceConfigurationInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeMappedResourceConfigurationOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.describeMappedResourceConfiguration,
+            inputKey: \DescribeMappedResourceConfigurationInput.nextToken,
+            outputKey: \DescribeMappedResourceConfigurationOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -297,6 +371,17 @@ extension KinesisVideo {
             outputKey: \ListStreamsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension KinesisVideo.DescribeMappedResourceConfigurationInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisVideo.DescribeMappedResourceConfigurationInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            streamARN: self.streamARN,
+            streamName: self.streamName
         )
     }
 }

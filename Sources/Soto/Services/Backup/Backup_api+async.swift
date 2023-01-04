@@ -23,6 +23,11 @@ import SotoCore
 extension Backup {
     // MARK: Async API Calls
 
+    /// This action removes the specified legal hold on a recovery point.  This action can only be performed by a user with sufficient permissions.
+    public func cancelLegalHold(_ input: CancelLegalHoldInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelLegalHoldOutput {
+        return try await self.client.execute(operation: "CancelLegalHold", path: "/legal-holds/{LegalHoldId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     public func createBackupPlan(_ input: CreateBackupPlanInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateBackupPlanOutput {
         return try await self.client.execute(operation: "CreateBackupPlan", path: "/backup/plans", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -41,6 +46,11 @@ extension Backup {
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
     public func createFramework(_ input: CreateFrameworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFrameworkOutput {
         return try await self.client.execute(operation: "CreateFramework", path: "/audit/frameworks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This action creates a legal hold on a recovery point (backup). A legal hold  is a restraint on altering or deleting a backup until an authorized user cancels the  legal hold. Any actions to delete or disassociate a recovery point will fail with  an error if one or more active legal holds are on the recovery point.
+    public func createLegalHold(_ input: CreateLegalHoldInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLegalHoldOutput {
+        return try await self.client.execute(operation: "CreateLegalHold", path: "/legal-holds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
@@ -83,7 +93,7 @@ extension Backup {
         return try await self.client.execute(operation: "DeleteFramework", path: "/audit/frameworks/{FrameworkName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup.
+    /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state.  EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see   Troubleshooting manual deletions. If the user or role is deleted or the permission within the role is removed,  the deletion will not be successful and will enter an EXPIRED state.
     public func deleteRecoveryPoint(_ input: DeleteRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -153,6 +163,11 @@ extension Backup {
         return try await self.client.execute(operation: "DisassociateRecoveryPoint", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This action to a specific child (nested) recovery point removes the relationship  between the specified recovery point and its parent (composite) recovery point.
+    public func disassociateRecoveryPointFromParent(_ input: DisassociateRecoveryPointFromParentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+        return try await self.client.execute(operation: "DisassociateRecoveryPointFromParent", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/parentAssociation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the backup plan that is specified by the plan ID as a backup template.
     public func exportBackupPlanTemplate(_ input: ExportBackupPlanTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ExportBackupPlanTemplateOutput {
         return try await self.client.execute(operation: "ExportBackupPlanTemplate", path: "/backup/plans/{BackupPlanId}/toTemplate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -186,6 +201,11 @@ extension Backup {
     /// Returns event notifications for the specified backup vault.
     public func getBackupVaultNotifications(_ input: GetBackupVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBackupVaultNotificationsOutput {
         return try await self.client.execute(operation: "GetBackupVaultNotifications", path: "/backup-vaults/{BackupVaultName}/notification-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This action returns details for a specified legal hold. The details are the  body of a legal hold in JSON format, in addition to metadata.
+    public func getLegalHold(_ input: GetLegalHoldInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLegalHoldOutput {
+        return try await self.client.execute(operation: "GetLegalHold", path: "/legal-holds/{LegalHoldId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a set of metadata key-value pairs that were used to create the backup.
@@ -238,6 +258,11 @@ extension Backup {
         return try await self.client.execute(operation: "ListFrameworks", path: "/audit/frameworks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This action returns metadata about active and previous legal holds.
+    public func listLegalHolds(_ input: ListLegalHoldsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLegalHoldsOutput {
+        return try await self.client.execute(operation: "ListLegalHolds", path: "/legal-holds", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProtectedResourcesOutput {
         return try await self.client.execute(operation: "ListProtectedResources", path: "/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -246,6 +271,11 @@ extension Backup {
     /// Returns detailed information about the recovery points stored in a backup vault.
     public func listRecoveryPointsByBackupVault(_ input: ListRecoveryPointsByBackupVaultInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRecoveryPointsByBackupVaultOutput {
         return try await self.client.execute(operation: "ListRecoveryPointsByBackupVault", path: "/backup-vaults/{BackupVaultName}/recovery-points", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This action returns recovery point ARNs (Amazon Resource Names) of the  specified legal hold.
+    public func listRecoveryPointsByLegalHold(_ input: ListRecoveryPointsByLegalHoldInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRecoveryPointsByLegalHoldOutput {
+        return try await self.client.execute(operation: "ListRecoveryPointsByLegalHold", path: "/legal-holds/{LegalHoldId}/recovery-points", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
@@ -308,7 +338,7 @@ extension Backup {
         return try await self.client.execute(operation: "StartRestoreJob", path: "/restore-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attempts to cancel a job to create a one-time backup of a resource.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "StopBackupJob", path: "/backup-jobs/{BackupJobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -534,6 +564,28 @@ extension Backup {
         )
     }
 
+    ///  This action returns metadata about active and previous legal holds.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLegalHoldsPaginator(
+        _ input: ListLegalHoldsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLegalHoldsInput, ListLegalHoldsOutput> {
+        return .init(
+            input: input,
+            command: self.listLegalHolds,
+            inputKey: \ListLegalHoldsInput.nextToken,
+            outputKey: \ListLegalHoldsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     /// Return PaginatorSequence for operation.
     ///
@@ -573,6 +625,28 @@ extension Backup {
             command: self.listRecoveryPointsByBackupVault,
             inputKey: \ListRecoveryPointsByBackupVaultInput.nextToken,
             outputKey: \ListRecoveryPointsByBackupVaultOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  This action returns recovery point ARNs (Amazon Resource Names) of the  specified legal hold.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRecoveryPointsByLegalHoldPaginator(
+        _ input: ListRecoveryPointsByLegalHoldInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput> {
+        return .init(
+            input: input,
+            command: self.listRecoveryPointsByLegalHold,
+            inputKey: \ListRecoveryPointsByLegalHoldInput.nextToken,
+            outputKey: \ListRecoveryPointsByLegalHoldOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

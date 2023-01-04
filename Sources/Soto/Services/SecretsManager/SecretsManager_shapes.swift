@@ -25,6 +25,7 @@ extension SecretsManager {
         case all
         case description
         case name
+        case owningService = "owning-service"
         case primaryRegion = "primary-region"
         case tagKey = "tag-key"
         case tagValue = "tag-value"
@@ -47,7 +48,7 @@ extension SecretsManager {
     // MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSEncodableShape {
-        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
+        /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -96,7 +97,7 @@ extension SecretsManager {
         public let forceOverwriteReplicaSecret: Bool?
         /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt the secret value in the secret. An alias is always prefixed by alias/,  for example alias/aws/secretsmanager. For more information, see About aliases. To use a KMS key in a different account, use the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager uses the key aws/secretsmanager.  If that key doesn't yet exist, then Secrets Manager creates it for you automatically the first time it  encrypts the secret value. If the secret is in a different Amazon Web Services account from the credentials calling the API, then  you can't use aws/secretsmanager to encrypt the secret, and you must create  and use a customer managed KMS key.
         public let kmsKeyId: String?
-        /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@-  Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
+        /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@- Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
         public let name: String
         /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretString or SecretBinary must have a value, but not both. This parameter is not available in the Secrets Manager console.
         public let secretBinary: AWSBase64Data?
@@ -292,6 +293,7 @@ extension SecretsManager {
         public let lastRotatedDate: Date?
         /// The name of the secret.
         public let name: String?
+        public let nextRotationDate: Date?
         /// The ID of the service that created this secret. For more information, see Secrets managed by other Amazon Web Services services.
         public let owningService: String?
         /// The Region the secret is in. If a secret is replicated to other Regions, the replicas are listed in ReplicationStatus.
@@ -309,7 +311,7 @@ extension SecretsManager {
         /// A list of the versions of the secret that have staging labels attached. Versions that don't have staging labels are considered deprecated and Secrets Manager  can delete them. Secrets Manager uses staging labels to indicate the status of a secret version during rotation. The three  staging labels for rotation are:     AWSCURRENT, which indicates the current version of the secret.    AWSPENDING, which indicates the version of the secret that contains new  secret information that will become the next current version when rotation finishes. During   rotation, Secrets Manager creates an AWSPENDING version ID before creating the new secret version.  To check if a secret version exists, call GetSecretValue.    AWSPREVIOUS, which indicates the previous current version of the secret.  You can use this as the last known good version.   For more information about rotation and staging labels, see How rotation works.
         public let versionIdsToStages: [String: [String]]?
 
-        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -319,6 +321,7 @@ extension SecretsManager {
             self.lastChangedDate = lastChangedDate
             self.lastRotatedDate = lastRotatedDate
             self.name = name
+            self.nextRotationDate = nextRotationDate
             self.owningService = owningService
             self.primaryRegion = primaryRegion
             self.replicationStatus = replicationStatus
@@ -339,6 +342,7 @@ extension SecretsManager {
             case lastChangedDate = "LastChangedDate"
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
+            case nextRotationDate = "NextRotationDate"
             case owningService = "OwningService"
             case primaryRegion = "PrimaryRegion"
             case replicationStatus = "ReplicationStatus"
@@ -364,7 +368,7 @@ extension SecretsManager {
         public func validate(name: String) throws {
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 512)
-                try validate($0, name: "values[]", parent: name, pattern: "^\\!?[a-zA-Z0-9 :_@\\/\\+\\=\\.\\-]*$")
+                try validate($0, name: "values[]", parent: name, pattern: "^\\!?[a-zA-Z0-9 :_@\\/\\+\\=\\.\\-\\!]*$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -604,15 +608,17 @@ extension SecretsManager {
     public struct ListSecretsRequest: AWSEncodableShape {
         /// The filters to apply to the list of secrets.
         public let filters: [Filter]?
-        /// The number of results to include in the response.  If there are more results available, in the response, Secrets Manager includes NextToken.  To get the next results, call ListSecrets again with the value from  NextToken.
+        public let includePlannedDeletion: Bool?
+        /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken.  To get the next results, call ListSecrets again with the value from  NextToken.
         public let maxResults: Int?
         /// A token that indicates where the output should continue from, if a  previous call did not show all results. To get the next results, call ListSecrets again  with this value.
         public let nextToken: String?
         /// Secrets are listed by CreatedDate.
         public let sortOrder: SortOrderType?
 
-        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
+        public init(filters: [Filter]? = nil, includePlannedDeletion: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
             self.filters = filters
+            self.includePlannedDeletion = includePlannedDeletion
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortOrder = sortOrder
@@ -631,6 +637,7 @@ extension SecretsManager {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
+            case includePlannedDeletion = "IncludePlannedDeletion"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case sortOrder = "SortOrder"
@@ -704,7 +711,7 @@ extension SecretsManager {
         public let clientRequestToken: String?
         /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console.
         public let secretBinary: AWSBase64Data?
-        /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.  If the secret doesn't already exist, use CreateSecret instead.
+        /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN. If the secret doesn't already exist, use CreateSecret instead.
         public let secretId: String
         /// The text to encrypt and store in the new version of the secret.  You must include SecretBinary or SecretString, but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example.
         public let secretString: String?
@@ -1058,6 +1065,7 @@ extension SecretsManager {
         public let lastRotatedDate: Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public let name: String?
+        public let nextRotationDate: Date?
         /// Returns the name of the service that created the secret.
         public let owningService: String?
         /// The Region where Secrets Manager originated the secret.
@@ -1073,7 +1081,7 @@ extension SecretsManager {
         /// The list of user-defined tags associated with the secret. To add tags to a secret, use  TagResource .  To remove tags, use  UntagResource .
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, primaryRegion: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, nextRotationDate: Date? = nil, owningService: String? = nil, primaryRegion: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -1083,6 +1091,7 @@ extension SecretsManager {
             self.lastChangedDate = lastChangedDate
             self.lastRotatedDate = lastRotatedDate
             self.name = name
+            self.nextRotationDate = nextRotationDate
             self.owningService = owningService
             self.primaryRegion = primaryRegion
             self.rotationEnabled = rotationEnabled
@@ -1102,6 +1111,7 @@ extension SecretsManager {
             case lastChangedDate = "LastChangedDate"
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
+            case nextRotationDate = "NextRotationDate"
             case owningService = "OwningService"
             case primaryRegion = "PrimaryRegion"
             case rotationEnabled = "RotationEnabled"
@@ -1196,10 +1206,9 @@ extension SecretsManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
+        /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
-        /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value.
-        ///  For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
+        /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value. For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
         public let tags: [Tag]
 
         public init(secretId: String, tags: [Tag]) {
@@ -1256,7 +1265,7 @@ extension SecretsManager {
         public let kmsKeyId: String?
         /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
         public let secretBinary: AWSBase64Data?
-        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
+        /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value.  Either SecretBinary or SecretString must have a value, but not both.
         public let secretString: String?
@@ -1317,7 +1326,7 @@ extension SecretsManager {
         public let moveToVersionId: String?
         /// The ID of the version that the staging label is to be removed from. If the staging label you are trying to attach to one version is already attached to a different version, then you must include this parameter and specify the version that the label is to be removed from. If the label is attached and you either do not specify this parameter, or the version ID does not match, then the operation fails.
         public let removeFromVersionId: String?
-        /// The ARN or the name of the secret with the version and staging labelsto modify.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
+        /// The ARN or the name of the secret with the version and staging labelsto modify. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The staging label to add to this version.
         public let versionStage: String

@@ -209,9 +209,9 @@ extension NetworkFirewall {
     }
 
     public struct AssociateFirewallPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// The Amazon Resource Name (ARN) of the firewall policy.
         public let firewallPolicyArn: String
@@ -274,9 +274,9 @@ extension NetworkFirewall {
     }
 
     public struct AssociateSubnetsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// The IDs of the subnets that you want to associate with the firewall.
         public let subnetMappings: [SubnetMapping]
@@ -338,20 +338,24 @@ extension NetworkFirewall {
     public struct Attachment: AWSDecodableShape {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
-        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING, DELETING, or FAILED.
+        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
         public let status: AttachmentStatus?
+        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the failure and how to resolve it. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the errors and solutions available for this field, see Troubleshooting firewall endpoint failures in the Network Firewall Developer Guide.
+        public let statusMessage: String?
         /// The unique identifier of the subnet that you've specified to be used for a firewall endpoint.
         public let subnetId: String?
 
-        public init(endpointId: String? = nil, status: AttachmentStatus? = nil, subnetId: String? = nil) {
+        public init(endpointId: String? = nil, status: AttachmentStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
             self.endpointId = endpointId
             self.status = status
+            self.statusMessage = statusMessage
             self.subnetId = subnetId
         }
 
         private enum CodingKeys: String, CodingKey {
             case endpointId = "EndpointId"
             case status = "Status"
+            case statusMessage = "StatusMessage"
             case subnetId = "SubnetId"
         }
     }
@@ -542,7 +546,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateRuleGroupRequest: AWSEncodableShape {
-        /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.    You can't change or exceed this capacity when you update the rule group, so leave room for your rule group to grow.    Capacity for a stateless rule group  For a stateless rule group, the capacity required is the sum of the capacity requirements of the individual rules that you expect to have in the rule group.  To calculate the capacity requirement of a single rule, multiply the capacity requirement values of each of the rule's match settings:   A match setting with no criteria specified has a value of 1.    A match setting with Any specified has a value of 1.    All other match settings have a value equal to the number of elements provided in the setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.    A rule with no criteria specified in any of its match settings has a capacity requirement of 1. A rule with protocol setting ["UDP","TCP"], source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single specification or no specification for each of the other match settings has a capacity requirement of 6.   Capacity for a stateful rule group  For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
+        /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.   You can't change or exceed this capacity when you update the rule group, so leave room for your rule group to grow.    Capacity for a stateless rule group  For a stateless rule group, the capacity required is the sum of the capacity requirements of the individual rules that you expect to have in the rule group.  To calculate the capacity requirement of a single rule, multiply the capacity requirement values of each of the rule's match settings:   A match setting with no criteria specified has a value of 1.    A match setting with Any specified has a value of 1.    All other match settings have a value equal to the number of elements provided in the setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.    A rule with no criteria specified in any of its match settings has a capacity requirement of 1. A rule with protocol setting ["UDP","TCP"], source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single specification or no specification for each of the other match settings has a capacity requirement of 6.   Capacity for a stateful rule group  For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
         public let capacity: Int
         /// A description of the rule group.
         public let description: String?
@@ -652,9 +656,9 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall policy.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
-        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyName: String?
 
         public init(firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil) {
@@ -691,9 +695,9 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
@@ -755,12 +759,12 @@ extension NetworkFirewall {
     }
 
     public struct DeleteRuleGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the rule group.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
@@ -799,9 +803,9 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall policy.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
-        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyName: String?
 
         public init(firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil) {
@@ -846,9 +850,9 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
@@ -893,9 +897,9 @@ extension NetworkFirewall {
     }
 
     public struct DescribeLoggingConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
 
         public init(firewallArn: String? = nil, firewallName: String? = nil) {
@@ -967,12 +971,12 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupMetadataRequest: AWSEncodableShape {
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
@@ -1004,13 +1008,13 @@ extension NetworkFirewall {
         public let description: String?
         /// The last time that the rule group was changed.
         public let lastModifiedTime: Date?
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String
         public let statefulRuleOptions: StatefulRuleOptions?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         public init(capacity: Int? = nil, description: String? = nil, lastModifiedTime: Date? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
@@ -1035,12 +1039,12 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the rule group.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
         public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
@@ -1106,9 +1110,9 @@ extension NetworkFirewall {
     }
 
     public struct DisassociateSubnetsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// The unique identifiers for the subnets that you want to disassociate.
         public let subnetIds: [String]
@@ -1208,7 +1212,7 @@ extension NetworkFirewall {
         public let firewallId: String
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public let firewallName: String?
-        /// The Amazon Resource Name (ARN) of the firewall policy.  The relationship of firewall to firewall policy is many to one. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
+        /// The Amazon Resource Name (ARN) of the firewall policy. The relationship of firewall to firewall policy is many to one. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
@@ -1343,7 +1347,7 @@ extension NetworkFirewall {
         public let description: String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall policy.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The Amazon Resource Name (ARN) of the firewall policy.   If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
+        /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let firewallPolicyArn: String
         /// The unique identifier for the firewall policy.
         public let firewallPolicyId: String
@@ -2026,7 +2030,7 @@ extension NetworkFirewall {
         public let lastModifiedTime: Date?
         /// The number of firewall policies that use this rule group.
         public let numberOfAssociations: Int?
-        /// The Amazon Resource Name (ARN) of the rule group.   If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
+        /// The Amazon Resource Name (ARN) of the rule group.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let ruleGroupArn: String
         /// The unique identifier for the rule group.
         public let ruleGroupId: String
@@ -2177,7 +2181,6 @@ extension NetworkFirewall {
         /// Whether you want to allow or deny access to the domains in your target list.
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
-        ///
         public let targets: [String]
         /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
         public let targetTypes: [TargetType]
@@ -2239,7 +2242,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRule: AWSEncodableShape & AWSDecodableShape {
-        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall  LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall  LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
+        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
         public let action: StatefulAction
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
         public let header: Header
@@ -2534,14 +2537,14 @@ extension NetworkFirewall {
     public struct UpdateFirewallDeleteProtectionRequest: AWSEncodableShape {
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
-        public init(deleteProtection: Bool, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+        public init(deleteProtection: Bool = false, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
             self.deleteProtection = deleteProtection
             self.firewallArn = firewallArn
             self.firewallName = firewallName
@@ -2596,9 +2599,9 @@ extension NetworkFirewall {
     public struct UpdateFirewallDescriptionRequest: AWSEncodableShape {
         /// The new description for the firewall. If you omit this setting, Network Firewall removes the description for the firewall.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
@@ -2719,16 +2722,16 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallPolicyChangeProtectionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
-        public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyChangeProtection: Bool, updateToken: String? = nil) {
+        public init(firewallArn: String? = nil, firewallName: String? = nil, firewallPolicyChangeProtection: Bool = false, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
@@ -2789,9 +2792,9 @@ extension NetworkFirewall {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The updated firewall policy to use for the firewall.
         public let firewallPolicy: FirewallPolicy
-        /// The Amazon Resource Name (ARN) of the firewall policy.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
-        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyName: String?
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
@@ -2851,9 +2854,9 @@ extension NetworkFirewall {
     }
 
     public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// Defines how Network Firewall performs logging for a firewall. If you omit this setting, Network Firewall disables logging for the firewall.
         public let loggingConfiguration: LoggingConfiguration?
@@ -2910,9 +2913,9 @@ extension NetworkFirewall {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
         public let ruleGroup: RuleGroup?
-        /// The Amazon Resource Name (ARN) of the rule group.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
-        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
         /// A string containing stateful rule group rules specifications in Suricata flat format, with one rule
         /// per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in Suricata flat format through this setting when you create or update your rule group. The call
@@ -2921,7 +2924,7 @@ extension NetworkFirewall {
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
         public let sourceMetadata: SourceMetadata?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
-        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
@@ -2989,16 +2992,16 @@ extension NetworkFirewall {
     }
 
     public struct UpdateSubnetChangeProtectionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the firewall.  You must specify the ARN or the name, and you can specify both.
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
-        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.  You must specify the ARN or the name, and you can specify both.
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
         public let firewallName: String?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool
         /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
-        public init(firewallArn: String? = nil, firewallName: String? = nil, subnetChangeProtection: Bool, updateToken: String? = nil) {
+        public init(firewallArn: String? = nil, firewallName: String? = nil, subnetChangeProtection: Bool = false, updateToken: String? = nil) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
             self.subnetChangeProtection = subnetChangeProtection

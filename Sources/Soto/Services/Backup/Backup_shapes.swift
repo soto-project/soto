@@ -28,6 +28,7 @@ extension Backup {
         case created = "CREATED"
         case expired = "EXPIRED"
         case failed = "FAILED"
+        case partial = "PARTIAL"
         case pending = "PENDING"
         case running = "RUNNING"
         public var description: String { return self.rawValue }
@@ -63,7 +64,16 @@ extension Backup {
         case completed = "COMPLETED"
         case created = "CREATED"
         case failed = "FAILED"
+        case partial = "PARTIAL"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LegalHoldStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case canceled = "CANCELED"
+        case canceling = "CANCELING"
+        case creating = "CREATING"
         public var description: String { return self.rawValue }
     }
 
@@ -145,6 +155,10 @@ extension Backup {
         public let expectedCompletionDate: Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public let iamRoleArn: String?
+        /// This is a boolean value indicating this is  a parent (composite) backup job.
+        public let isParent: Bool?
+        /// This uniquely identifies a request to Backup  to back up a resource. The return will be the  parent (composite) job ID.
+        public let parentJobId: String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -160,7 +174,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupOptions = backupOptions
@@ -174,6 +188,8 @@ extension Backup {
             self.creationDate = creationDate
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
@@ -197,6 +213,8 @@ extension Backup {
             case creationDate = "CreationDate"
             case expectedCompletionDate = "ExpectedCompletionDate"
             case iamRoleArn = "IamRoleArn"
+            case isParent = "IsParent"
+            case parentJobId = "ParentJobId"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
@@ -337,7 +355,7 @@ extension Backup {
         public let ruleName: String
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.  If this value is included, it must be at least 60 minutes to avoid errors.
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
@@ -384,7 +402,7 @@ extension Backup {
         public let ruleName: String
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public let scheduleExpression: String?
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.  If this value is included, it must be at least 60 minutes to avoid errors.
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
@@ -555,6 +573,33 @@ extension Backup {
         }
     }
 
+    public struct CancelLegalHoldInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "cancelDescription", location: .querystring("cancelDescription")),
+            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId")),
+            AWSMemberEncoding(label: "retainRecordInDays", location: .querystring("retainRecordInDays"))
+        ]
+
+        /// String describing the reason for removing the legal hold.
+        public let cancelDescription: String
+        /// Legal hold ID required to remove the specified legal hold on a recovery point.
+        public let legalHoldId: String
+        /// The integer amount in days specifying amount of days after this  API operation to remove legal hold.
+        public let retainRecordInDays: Int64?
+
+        public init(cancelDescription: String, legalHoldId: String, retainRecordInDays: Int64? = nil) {
+            self.cancelDescription = cancelDescription
+            self.legalHoldId = legalHoldId
+            self.retainRecordInDays = retainRecordInDays
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelLegalHoldOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
         /// The key in a key-value pair. For example, in the tag Department: Accounting, Department is the key.
         public let conditionKey: String
@@ -682,8 +727,12 @@ extension Backup {
         public let accountId: String?
         /// The size, in bytes, of a copy job.
         public let backupSizeInBytes: Int64?
+        /// This returns the statistics of the included  child (nested) copy jobs.
+        public let childJobsInState: [CopyJobState: Int64]?
         /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
+        /// This is the identifier of a resource within a composite group, such as  nested (child) recovery point belonging to a composite (parent) stack. The  ID is transferred from  the  logical ID within a stack.
+        public let compositeMemberIdentifier: String?
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         public let createdBy: RecoveryPointCreator?
@@ -695,6 +744,12 @@ extension Backup {
         public let destinationRecoveryPointArn: String?
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This is a boolean value indicating this is  a parent (composite) copy job.
+        public let isParent: Bool?
+        /// This is the number of child (nested) copy jobs.
+        public let numberOfChildJobs: Int64?
+        /// This uniquely identifies a request to Backup  to copy a resource. The return will be the  parent (composite) job ID.
+        public let parentJobId: String?
         /// The Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceArn: String?
         /// The type of Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
@@ -708,16 +763,21 @@ extension Backup {
         /// A detailed message explaining the status of the job to copy a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
+            self.childJobsInState = childJobsInState
             self.completionDate = completionDate
+            self.compositeMemberIdentifier = compositeMemberIdentifier
             self.copyJobId = copyJobId
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.destinationRecoveryPointArn = destinationRecoveryPointArn
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.numberOfChildJobs = numberOfChildJobs
+            self.parentJobId = parentJobId
             self.resourceArn = resourceArn
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
@@ -729,13 +789,18 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case backupSizeInBytes = "BackupSizeInBytes"
+            case childJobsInState = "ChildJobsInState"
             case completionDate = "CompletionDate"
+            case compositeMemberIdentifier = "CompositeMemberIdentifier"
             case copyJobId = "CopyJobId"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case destinationBackupVaultArn = "DestinationBackupVaultArn"
             case destinationRecoveryPointArn = "DestinationRecoveryPointArn"
             case iamRoleArn = "IamRoleArn"
+            case isParent = "IsParent"
+            case numberOfChildJobs = "NumberOfChildJobs"
+            case parentJobId = "ParentJobId"
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
@@ -958,6 +1023,72 @@ extension Backup {
         }
     }
 
+    public struct CreateLegalHoldInput: AWSEncodableShape {
+        /// This is the string description of the legal hold.
+        public let description: String
+        /// This is a user-chosen string used to distinguish between otherwise identical  calls. Retrying a successful request with the  same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+        /// This specifies criteria to assign  a set of resources, such as resource types or backup vaults.
+        public let recoveryPointSelection: RecoveryPointSelection?
+        /// Optional tags to include. A tag is a key-value pair you can use to manage,  filter, and search for your resources. Allowed characters include UTF-8 letters,  numbers, spaces, and the following characters: + - = . _ : /.
+        public let tags: [String: String]?
+        /// This is the string title of the legal hold.
+        public let title: String
+
+        public init(description: String, idempotencyToken: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, tags: [String: String]? = nil, title: String) {
+            self.description = description
+            self.idempotencyToken = idempotencyToken
+            self.recoveryPointSelection = recoveryPointSelection
+            self.tags = tags
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case idempotencyToken = "IdempotencyToken"
+            case recoveryPointSelection = "RecoveryPointSelection"
+            case tags = "Tags"
+            case title = "Title"
+        }
+    }
+
+    public struct CreateLegalHoldOutput: AWSDecodableShape {
+        /// Time in number format when legal hold was created.
+        public let creationDate: Date?
+        /// This is the returned string description of the legal hold.
+        public let description: String?
+        /// This is the ARN (Amazon Resource Number) of the created legal hold.
+        public let legalHoldArn: String?
+        /// Legal hold ID returned for the specified legal hold on a recovery point.
+        public let legalHoldId: String?
+        /// This specifies criteria to assign  a set of resources, such as resource types or backup vaults.
+        public let recoveryPointSelection: RecoveryPointSelection?
+        /// This displays the status of the legal hold returned after creating the legal hold.  Statuses can be ACTIVE, PENDING, CANCELED,  CANCELING, or FAILED.
+        public let status: LegalHoldStatus?
+        /// This is the string title of the legal hold returned after creating the legal hold.
+        public let title: String?
+
+        public init(creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
+            self.creationDate = creationDate
+            self.description = description
+            self.legalHoldArn = legalHoldArn
+            self.legalHoldId = legalHoldId
+            self.recoveryPointSelection = recoveryPointSelection
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case description = "Description"
+            case legalHoldArn = "LegalHoldArn"
+            case legalHoldId = "LegalHoldId"
+            case recoveryPointSelection = "RecoveryPointSelection"
+            case status = "Status"
+            case title = "Title"
+        }
+    }
+
     public struct CreateReportPlanInput: AWSEncodableShape {
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
@@ -1017,6 +1148,23 @@ extension Backup {
             case creationTime = "CreationTime"
             case reportPlanArn = "ReportPlanArn"
             case reportPlanName = "ReportPlanName"
+        }
+    }
+
+    public struct DateRange: AWSEncodableShape & AWSDecodableShape {
+        /// This value is the beginning date, inclusive. The date and time are in Unix format and Coordinated  Universal Time (UTC), and it is accurate to milliseconds  (milliseconds are optional).
+        public let fromDate: Date
+        /// This value is the end date, inclusive. The date and time are in Unix format and Coordinated  Universal Time (UTC), and it is accurate to milliseconds  (milliseconds are optional).
+        public let toDate: Date
+
+        public init(fromDate: Date, toDate: Date) {
+            self.fromDate = fromDate
+            self.toDate = toDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromDate = "FromDate"
+            case toDate = "ToDate"
         }
     }
 
@@ -1248,6 +1396,8 @@ extension Backup {
         public let backupVaultName: String?
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public let bytesTransferred: Int64?
+        /// This returns the statistics of the included child (nested) backup jobs.
+        public let childJobsInState: [BackupJobState: Int64]?
         /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
         /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
@@ -1258,6 +1408,12 @@ extension Backup {
         public let expectedCompletionDate: Date?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This returns the boolean value that a backup job is a parent (composite) job.
+        public let isParent: Bool?
+        /// This returns the number of child (nested) backup jobs.
+        public let numberOfChildJobs: Int64?
+        /// This returns the parent (composite) resource backup job ID.
+        public let parentJobId: String?
         /// Contains an estimated percentage that is complete of a job at the time the job status was queried.
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1273,7 +1429,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, childJobsInState: [BackupJobState: Int64]? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
             self.backupOptions = backupOptions
@@ -1282,11 +1438,15 @@ extension Backup {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.bytesTransferred = bytesTransferred
+            self.childJobsInState = childJobsInState
             self.completionDate = completionDate
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.numberOfChildJobs = numberOfChildJobs
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
@@ -1305,11 +1465,15 @@ extension Backup {
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case bytesTransferred = "BytesTransferred"
+            case childJobsInState = "ChildJobsInState"
             case completionDate = "CompletionDate"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case expectedCompletionDate = "ExpectedCompletionDate"
             case iamRoleArn = "IamRoleArn"
+            case isParent = "IsParent"
+            case numberOfChildJobs = "NumberOfChildJobs"
+            case parentJobId = "ParentJobId"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
@@ -1434,7 +1598,7 @@ extension Backup {
     }
 
     public struct DescribeFrameworkOutput: AWSDecodableShape {
-        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
         public let creationTime: Date?
         /// The deployment status of a framework. The statuses are:  CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
         public let deploymentStatus: String?
@@ -1565,6 +1729,8 @@ extension Backup {
         public let calculatedLifecycle: CalculatedLifecycle?
         /// The date and time that a job to create a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
+        /// This is the identifier of a resource within a composite group, such as  nested (child) recovery point belonging to a composite (parent) stack. The  ID is transferred from  the  logical ID within a stack.
+        public let compositeMemberIdentifier: String?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time that a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1575,10 +1741,14 @@ extension Backup {
         public let iamRoleArn: String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
+        /// This returns the boolean value that a recovery point is a parent (composite) job.
+        public let isParent: Bool?
         /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types.
         public let lifecycle: Lifecycle?
+        /// This is an ARN that uniquely identifies a parent (composite) recovery point; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let parentRecoveryPointArn: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
@@ -1587,26 +1757,29 @@ extension Backup {
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
         public let sourceBackupVaultArn: String?
-        /// A status code specifying the state of the recovery point.  PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see UpdateBackupPlan. You can also increase your backup plan window using the Console by choosing and editing your backup plan.  EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.
+        /// A status code specifying the state of the recovery point.  PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see UpdateBackupPlan. You can also increase your backup plan window using the Console by choosing and editing your backup plan.  EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.  STOPPED status occurs on a continuous backup where a user has taken some  action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge,  or disabling the EventBridge rules that are put in place by Backup. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created.  The recovery points with STOPPED status do not need to be deleted.
         public let status: RecoveryPointStatus?
         /// A status message explaining the reason for the recovery point deletion failure.
         public let statusMessage: String?
         /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
         public let storageClass: StorageClass?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.calculatedLifecycle = calculatedLifecycle
             self.completionDate = completionDate
+            self.compositeMemberIdentifier = compositeMemberIdentifier
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
             self.isEncrypted = isEncrypted
+            self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
             self.lifecycle = lifecycle
+            self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -1622,13 +1795,16 @@ extension Backup {
             case backupVaultName = "BackupVaultName"
             case calculatedLifecycle = "CalculatedLifecycle"
             case completionDate = "CompletionDate"
+            case compositeMemberIdentifier = "CompositeMemberIdentifier"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
             case iamRoleArn = "IamRoleArn"
             case isEncrypted = "IsEncrypted"
+            case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
             case lifecycle = "Lifecycle"
+            case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
@@ -1798,6 +1974,29 @@ extension Backup {
         }
     }
 
+    public struct DisassociateRecoveryPointFromParentInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri("RecoveryPointArn"))
+        ]
+
+        /// This is the name of a logical container where the child (nested) recovery point is stored. Backup vaults are identified by names that are unique to the account used  to create them and the Amazon Web Services Region where they are created. They consist of lowercase  letters, numbers, and hyphens.
+        public let backupVaultName: String
+        /// This is the Amazon Resource Name (ARN) that uniquely identifies the child  (nested) recovery point; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+
+        public init(backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultName = backupVaultName
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DisassociateRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
@@ -1850,7 +2049,7 @@ extension Backup {
     }
 
     public struct Framework: AWSDecodableShape {
-        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a framework is created, in ISO 8601 representation.  The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
         public let creationTime: Date?
         /// The deployment status of a framework. The statuses are:  CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
         public let deploymentStatus: String?
@@ -2157,6 +2356,70 @@ extension Backup {
         }
     }
 
+    public struct GetLegalHoldInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId"))
+        ]
+
+        /// This is the ID required to use GetLegalHold. This unique ID  is associated with a specific legal hold.
+        public let legalHoldId: String
+
+        public init(legalHoldId: String) {
+            self.legalHoldId = legalHoldId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLegalHoldOutput: AWSDecodableShape {
+        /// String describing the reason for removing the legal hold.
+        public let cancelDescription: String?
+        /// Time in number when legal hold was cancelled.
+        public let cancellationDate: Date?
+        /// Time in number format when legal hold was created.
+        public let creationDate: Date?
+        /// This is the returned string description of the legal hold.
+        public let description: String?
+        /// This is the returned framework ARN for the specified legal hold.  An Amazon Resource Name (ARN) uniquely identifies a resource. The format  of the ARN depends on the resource type.
+        public let legalHoldArn: String?
+        /// This is the returned ID associated with a specified legal hold.
+        public let legalHoldId: String?
+        /// This specifies criteria to assign  a set of resources, such as resource types or backup vaults.
+        public let recoveryPointSelection: RecoveryPointSelection?
+        /// This is the date and time until which the legal hold record will  be retained.
+        public let retainRecordUntil: Date?
+        /// This is the status of the legal hold. Statuses can be  ACTIVE, CREATING, CANCELED, and  CANCELING.
+        public let status: LegalHoldStatus?
+        /// This is the string title of the legal hold.
+        public let title: String?
+
+        public init(cancelDescription: String? = nil, cancellationDate: Date? = nil, creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, retainRecordUntil: Date? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
+            self.cancelDescription = cancelDescription
+            self.cancellationDate = cancellationDate
+            self.creationDate = creationDate
+            self.description = description
+            self.legalHoldArn = legalHoldArn
+            self.legalHoldId = legalHoldId
+            self.recoveryPointSelection = recoveryPointSelection
+            self.retainRecordUntil = retainRecordUntil
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelDescription = "CancelDescription"
+            case cancellationDate = "CancellationDate"
+            case creationDate = "CreationDate"
+            case description = "Description"
+            case legalHoldArn = "LegalHoldArn"
+            case legalHoldId = "LegalHoldId"
+            case recoveryPointSelection = "RecoveryPointSelection"
+            case retainRecordUntil = "RetainRecordUntil"
+            case status = "Status"
+            case title = "Title"
+        }
+    }
+
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName")),
@@ -2214,6 +2477,43 @@ extension Backup {
         }
     }
 
+    public struct LegalHold: AWSDecodableShape {
+        /// This is the time in number format when legal hold was cancelled.
+        public let cancellationDate: Date?
+        /// This is the time in number format when legal hold was created.
+        public let creationDate: Date?
+        /// This is the description of a legal hold.
+        public let description: String?
+        /// This is an Amazon Resource Number (ARN) that uniquely identifies the legal hold; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let legalHoldArn: String?
+        /// ID of specific legal hold on one or more recovery points.
+        public let legalHoldId: String?
+        /// This is the status of the legal hold. Statuses can be  ACTIVE, CREATING, CANCELED, and  CANCELING.
+        public let status: LegalHoldStatus?
+        /// This is the title of a legal hold.
+        public let title: String?
+
+        public init(cancellationDate: Date? = nil, creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
+            self.cancellationDate = cancellationDate
+            self.creationDate = creationDate
+            self.description = description
+            self.legalHoldArn = legalHoldArn
+            self.legalHoldId = legalHoldId
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancellationDate = "CancellationDate"
+            case creationDate = "CreationDate"
+            case description = "Description"
+            case legalHoldArn = "LegalHoldArn"
+            case legalHoldId = "LegalHoldId"
+            case status = "Status"
+            case title = "Title"
+        }
+    }
+
     public struct Lifecycle: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public let deleteAfterDays: Int64?
@@ -2239,6 +2539,7 @@ extension Backup {
             AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byParentJobId", location: .querystring("parentJobId")),
             AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
             AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
             AWSMemberEncoding(label: "byState", location: .querystring("state")),
@@ -2258,6 +2559,8 @@ extension Backup {
         public let byCreatedAfter: Date?
         /// Returns only backup jobs that were created before the specified date.
         public let byCreatedBefore: Date?
+        /// This is a filter to list child (nested) jobs based on parent job ID.
+        public let byParentJobId: String?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
         /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Storage Gateway for Storage Gateway    S3 for Amazon S3    VirtualMachine for virtual machines
@@ -2269,13 +2572,14 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byBackupVaultName = byBackupVaultName
             self.byCompleteAfter = byCompleteAfter
             self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
+            self.byParentJobId = byParentJobId
             self.byResourceArn = byResourceArn
             self.byResourceType = byResourceType
             self.byState = byState
@@ -2536,6 +2840,7 @@ extension Backup {
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
             AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring("destinationVaultArn")),
+            AWSMemberEncoding(label: "byParentJobId", location: .querystring("parentJobId")),
             AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
             AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
             AWSMemberEncoding(label: "byState", location: .querystring("state")),
@@ -2555,6 +2860,8 @@ extension Backup {
         public let byCreatedBefore: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let byDestinationVaultArn: String?
+        /// This is a filter to list child (nested) jobs based on parent job ID.
+        public let byParentJobId: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
         /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Storage Gateway for Storage Gateway    S3 for Amazon S3    VirtualMachine for virtual machines
@@ -2566,13 +2873,14 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCompleteAfter = byCompleteAfter
             self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
             self.byDestinationVaultArn = byDestinationVaultArn
+            self.byParentJobId = byParentJobId
             self.byResourceArn = byResourceArn
             self.byResourceType = byResourceType
             self.byState = byState
@@ -2648,6 +2956,47 @@ extension Backup {
         }
     }
 
+    public struct ListLegalHoldsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of resource list items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLegalHoldsOutput: AWSDecodableShape {
+        /// This is an array of returned legal holds, both active and previous.
+        public let legalHolds: [LegalHold]?
+        /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        public init(legalHolds: [LegalHold]? = nil, nextToken: String? = nil) {
+            self.legalHolds = legalHolds
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case legalHolds = "LegalHolds"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListProtectedResourcesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -2695,6 +3044,7 @@ extension Backup {
             AWSMemberEncoding(label: "byBackupPlanId", location: .querystring("backupPlanId")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
+            AWSMemberEncoding(label: "byParentRecoveryPointArn", location: .querystring("parentRecoveryPointArn")),
             AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
             AWSMemberEncoding(label: "byResourceType", location: .querystring("resourceType")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -2709,6 +3059,8 @@ extension Backup {
         public let byCreatedAfter: Date?
         /// Returns only recovery points that were created before the specified timestamp.
         public let byCreatedBefore: Date?
+        /// This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN).
+        public let byParentRecoveryPointArn: String?
         /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
         /// Returns only recovery points that match the specified resource type.
@@ -2718,11 +3070,12 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentRecoveryPointArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupVaultName = backupVaultName
             self.byBackupPlanId = byBackupPlanId
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
+            self.byParentRecoveryPointArn = byParentRecoveryPointArn
             self.byResourceArn = byResourceArn
             self.byResourceType = byResourceType
             self.maxResults = maxResults
@@ -2746,6 +3099,51 @@ extension Backup {
         public let recoveryPoints: [RecoveryPointByBackupVault]?
 
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByBackupVault]? = nil) {
+            self.nextToken = nextToken
+            self.recoveryPoints = recoveryPoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recoveryPoints = "RecoveryPoints"
+        }
+    }
+
+    public struct ListRecoveryPointsByLegalHoldInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "legalHoldId", location: .uri("LegalHoldId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// This is the ID of the legal hold.
+        public let legalHoldId: String
+        /// This is the maximum number of resource list items to be returned.
+        public let maxResults: Int?
+        /// This is the next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        public init(legalHoldId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.legalHoldId = legalHoldId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecoveryPointsByLegalHoldOutput: AWSDecodableShape {
+        /// This return is the next item following a partial list of returned resources.
+        public let nextToken: String?
+        /// This is a list of the recovery points returned by  ListRecoveryPointsByLegalHold.
+        public let recoveryPoints: [RecoveryPointMember]?
+
+        public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointMember]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
         }
@@ -3095,7 +3493,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri("BackupVaultName"))
         ]
 
-        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     Ignore the list below because it includes deprecated events. Refer to the list above.
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED     The list below shows items that are deprecated events (for reference) and are no longer  in use. They are no longer supported and will not return statuses or notifications.  Refer to the list above for current supported events.
         public let backupVaultEvents: [BackupVaultEvent]
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
@@ -3129,6 +3527,8 @@ extension Backup {
         public let calculatedLifecycle: CalculatedLifecycle?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
+        /// This is the identifier of a resource within a composite group, such as  nested (child) recovery point belonging to a composite (parent) stack. The  ID is transferred from  the  logical ID within a stack.
+        public let compositeMemberIdentifier: String?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public let createdBy: RecoveryPointCreator?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -3139,10 +3539,14 @@ extension Backup {
         public let iamRoleArn: String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public let isEncrypted: Bool?
+        /// This is a boolean value indicating this is  a parent (composite) recovery point.
+        public let isParent: Bool?
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastRestoreTime: Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types.
         public let lifecycle: Lifecycle?
+        /// This is the Amazon Resource Name (ARN) of the parent (composite)  recovery point.
+        public let parentRecoveryPointArn: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -3156,19 +3560,22 @@ extension Backup {
         /// A message explaining the reason of the recovery point deletion failure.
         public let statusMessage: String?
 
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.calculatedLifecycle = calculatedLifecycle
             self.completionDate = completionDate
+            self.compositeMemberIdentifier = compositeMemberIdentifier
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
             self.isEncrypted = isEncrypted
+            self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
             self.lifecycle = lifecycle
+            self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -3183,13 +3590,16 @@ extension Backup {
             case backupVaultName = "BackupVaultName"
             case calculatedLifecycle = "CalculatedLifecycle"
             case completionDate = "CompletionDate"
+            case compositeMemberIdentifier = "CompositeMemberIdentifier"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
             case iamRoleArn = "IamRoleArn"
             case isEncrypted = "IsEncrypted"
+            case isParent = "IsParent"
             case lastRestoreTime = "LastRestoreTime"
             case lifecycle = "Lifecycle"
+            case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
@@ -3208,6 +3618,10 @@ extension Backup {
         public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// This is a boolean value indicating this is  a parent (composite) recovery point.
+        public let isParent: Bool?
+        /// This is the Amazon Resource Name (ARN) of the parent (composite)  recovery point.
+        public let parentRecoveryPointArn: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
         /// A status code specifying the state of the recovery point.
@@ -3215,11 +3629,13 @@ extension Backup {
         /// A message explaining the reason of the recovery point deletion failure.
         public let statusMessage: String?
 
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
+        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.isParent = isParent
+            self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.status = status
             self.statusMessage = statusMessage
@@ -3230,6 +3646,8 @@ extension Backup {
             case backupVaultName = "BackupVaultName"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case isParent = "IsParent"
+            case parentRecoveryPointArn = "ParentRecoveryPointArn"
             case recoveryPointArn = "RecoveryPointArn"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -3258,6 +3676,39 @@ extension Backup {
             case backupPlanId = "BackupPlanId"
             case backupPlanVersion = "BackupPlanVersion"
             case backupRuleId = "BackupRuleId"
+        }
+    }
+
+    public struct RecoveryPointMember: AWSDecodableShape {
+        /// This is the Amazon Resource Name (ARN) of the parent (composite)  recovery point.
+        public let recoveryPointArn: String?
+
+        public init(recoveryPointArn: String? = nil) {
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPointArn = "RecoveryPointArn"
+        }
+    }
+
+    public struct RecoveryPointSelection: AWSEncodableShape & AWSDecodableShape {
+        public let dateRange: DateRange?
+        /// These are the resources included in the resource selection  (including type of resources and vaults).
+        public let resourceIdentifiers: [String]?
+        /// These are the names of the vaults in which the selected  recovery points are contained.
+        public let vaultNames: [String]?
+
+        public init(dateRange: DateRange? = nil, resourceIdentifiers: [String]? = nil, vaultNames: [String]? = nil) {
+            self.dateRange = dateRange
+            self.resourceIdentifiers = resourceIdentifiers
+            self.vaultNames = vaultNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+            case resourceIdentifiers = "ResourceIdentifiers"
+            case vaultNames = "VaultNames"
         }
     }
 
@@ -3386,22 +3837,34 @@ extension Backup {
     }
 
     public struct ReportSetting: AWSEncodableShape & AWSDecodableShape {
+        /// These are the accounts to be included in the report.
+        public let accounts: [String]?
         /// The Amazon Resource Names (ARNs) of the frameworks a report covers.
         public let frameworkArns: [String]?
         /// The number of frameworks a report covers.
         public let numberOfFrameworks: Int?
+        /// These are the Organizational Units to be included in the report.
+        public let organizationUnits: [String]?
+        /// These are the Regions to be included in the report.
+        public let regions: [String]?
         /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
         public let reportTemplate: String
 
-        public init(frameworkArns: [String]? = nil, numberOfFrameworks: Int? = nil, reportTemplate: String) {
+        public init(accounts: [String]? = nil, frameworkArns: [String]? = nil, numberOfFrameworks: Int? = nil, organizationUnits: [String]? = nil, regions: [String]? = nil, reportTemplate: String) {
+            self.accounts = accounts
             self.frameworkArns = frameworkArns
             self.numberOfFrameworks = numberOfFrameworks
+            self.organizationUnits = organizationUnits
+            self.regions = regions
             self.reportTemplate = reportTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accounts = "Accounts"
             case frameworkArns = "FrameworkArns"
             case numberOfFrameworks = "NumberOfFrameworks"
+            case organizationUnits = "OrganizationUnits"
+            case regions = "Regions"
             case reportTemplate = "ReportTemplate"
         }
     }
@@ -3484,7 +3947,7 @@ extension Backup {
         public let recoveryPointTags: [String: String]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
-        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.
+        /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.  If this value is included, it must be at least 60 minutes to avoid errors.
         public let startWindowMinutes: Int64?
 
         public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
@@ -3525,18 +3988,22 @@ extension Backup {
         public let backupJobId: String?
         /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
+        /// This is a returned boolean value indicating this is a parent (composite)  backup job.
+        public let isParent: Bool?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
 
-        public init(backupJobId: String? = nil, creationDate: Date? = nil, recoveryPointArn: String? = nil) {
+        public init(backupJobId: String? = nil, creationDate: Date? = nil, isParent: Bool? = nil, recoveryPointArn: String? = nil) {
             self.backupJobId = backupJobId
             self.creationDate = creationDate
+            self.isParent = isParent
             self.recoveryPointArn = recoveryPointArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupJobId = "BackupJobId"
             case creationDate = "CreationDate"
+            case isParent = "IsParent"
             case recoveryPointArn = "RecoveryPointArn"
         }
     }
@@ -3582,15 +4049,19 @@ extension Backup {
         public let copyJobId: String?
         /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
+        /// This is a returned boolean value indicating this is a parent (composite)  copy job.
+        public let isParent: Bool?
 
-        public init(copyJobId: String? = nil, creationDate: Date? = nil) {
+        public init(copyJobId: String? = nil, creationDate: Date? = nil, isParent: Bool? = nil) {
             self.copyJobId = copyJobId
             self.creationDate = creationDate
+            self.isParent = isParent
         }
 
         private enum CodingKeys: String, CodingKey {
             case copyJobId = "CopyJobId"
             case creationDate = "CreationDate"
+            case isParent = "IsParent"
         }
     }
 
@@ -3634,7 +4105,7 @@ extension Backup {
     }
 
     public struct StartRestoreJobInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
@@ -3827,7 +4298,7 @@ extension Backup {
     }
 
     public struct UpdateFrameworkOutput: AWSDecodableShape {
-        /// The date and time that a framework is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
         public let creationTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let frameworkArn: String?

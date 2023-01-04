@@ -126,6 +126,7 @@ extension FMS {
     }
 
     public enum ThirdPartyFirewall: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fortigateCloudNativeFirewall = "FORTIGATE_CLOUD_NATIVE_FIREWALL"
         case paloAltoNetworksCloudNgfw = "PALO_ALTO_NETWORKS_CLOUD_NGFW"
         public var description: String { return self.rawValue }
     }

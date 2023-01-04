@@ -21,8 +21,27 @@ import SotoCore
 extension TranscribeStreaming {
     // MARK: Enums
 
+    public enum CallAnalyticsLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case deDe = "de-DE"
+        case enAu = "en-AU"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case esUs = "es-US"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case ptBr = "pt-BR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentIdentificationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, _SotoSendable {
+        case redacted
+        case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
 
@@ -74,6 +93,20 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParticipantRole: String, CustomStringConvertible, Codable, _SotoSendable {
+        case agent = "AGENT"
+        case customer = "CUSTOMER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Sentiment: String, CustomStringConvertible, Codable, _SotoSendable {
+        case mixed = "MIXED"
+        case negative = "NEGATIVE"
+        case neutral = "NEUTRAL"
+        case positive = "POSITIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Specialty: String, CustomStringConvertible, Codable, _SotoSendable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
@@ -95,6 +128,93 @@ extension TranscribeStreaming {
         case conversation = "CONVERSATION"
         case dictation = "DICTATION"
         public var description: String { return self.rawValue }
+    }
+
+    public enum AudioStream: AWSEncodableShape, _SotoSendable {
+        /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see Event stream encoding.
+        case audioEvent(AudioEvent)
+        /// Contains audio channel definitions and post-call analytics settings.
+        case configurationEvent(ConfigurationEvent)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .audioEvent(let value):
+                try container.encode(value, forKey: .audioEvent)
+            case .configurationEvent(let value):
+                try container.encode(value, forKey: .configurationEvent)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .configurationEvent(let value):
+                try value.validate(name: "\(name).configurationEvent")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioEvent = "AudioEvent"
+            case configurationEvent = "ConfigurationEvent"
+        }
+    }
+
+    public enum CallAnalyticsTranscriptResultStream: AWSDecodableShape, _SotoSendable {
+        case badRequestException(BadRequestException)
+        /// Provides information on matched categories that were used to generate real-time supervisor  alerts.
+        case categoryEvent(CategoryEvent)
+        case conflictException(ConflictException)
+        case internalFailureException(InternalFailureException)
+        case limitExceededException(LimitExceededException)
+        case serviceUnavailableException(ServiceUnavailableException)
+        /// Contains set of transcription results from one or more audio segments, along with additional  information per your request parameters. This can include information relating to channel definitions, partial result stabilization, sentiment, issue detection, and other transcription-related data.
+        case utteranceEvent(UtteranceEvent)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .badRequestException:
+                let value = try container.decode(BadRequestException.self, forKey: .badRequestException)
+                self = .badRequestException(value)
+            case .categoryEvent:
+                let value = try container.decode(CategoryEvent.self, forKey: .categoryEvent)
+                self = .categoryEvent(value)
+            case .conflictException:
+                let value = try container.decode(ConflictException.self, forKey: .conflictException)
+                self = .conflictException(value)
+            case .internalFailureException:
+                let value = try container.decode(InternalFailureException.self, forKey: .internalFailureException)
+                self = .internalFailureException(value)
+            case .limitExceededException:
+                let value = try container.decode(LimitExceededException.self, forKey: .limitExceededException)
+                self = .limitExceededException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
+            case .utteranceEvent:
+                let value = try container.decode(UtteranceEvent.self, forKey: .utteranceEvent)
+                self = .utteranceEvent(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case badRequestException = "BadRequestException"
+            case categoryEvent = "CategoryEvent"
+            case conflictException = "ConflictException"
+            case internalFailureException = "InternalFailureException"
+            case limitExceededException = "LimitExceededException"
+            case serviceUnavailableException = "ServiceUnavailableException"
+            case utteranceEvent = "UtteranceEvent"
+        }
     }
 
     public enum MedicalTranscriptResultStream: AWSDecodableShape, _SotoSendable {
@@ -250,6 +370,157 @@ extension TranscribeStreaming {
         }
     }
 
+    public struct CallAnalyticsEntity: AWSDecodableShape {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified entity.
+        public let beginOffsetMillis: Int64?
+        /// The category of information identified. For example, PII.
+        public let category: String?
+        /// The confidence score associated with the identification of an entity in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
+        public let confidence: Double?
+        /// The word or words that represent the identified entity.
+        public let content: String?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the identified entity.
+        public let endOffsetMillis: Int64?
+        /// The type of PII identified. For example, NAME or  CREDIT_DEBIT_NUMBER.
+        public let type: String?
+
+        public init(beginOffsetMillis: Int64? = nil, category: String? = nil, confidence: Double? = nil, content: String? = nil, endOffsetMillis: Int64? = nil, type: String? = nil) {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.category = category
+            self.confidence = confidence
+            self.content = content
+            self.endOffsetMillis = endOffsetMillis
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffsetMillis = "BeginOffsetMillis"
+            case category = "Category"
+            case confidence = "Confidence"
+            case content = "Content"
+            case endOffsetMillis = "EndOffsetMillis"
+            case type = "Type"
+        }
+    }
+
+    public struct CallAnalyticsItem: AWSDecodableShape {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified item.
+        public let beginOffsetMillis: Int64?
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
+        public let confidence: Double?
+        /// The word or punctuation that was transcribed.
+        public let content: String?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the identified item.
+        public let endOffsetMillis: Int64?
+        /// If partial result stabilization is enabled, Stable indicates whether the specified  item is stable (true) or if it may change when the segment is complete  (false).
+        public let stable: Bool?
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
+        public let type: ItemType?
+        /// Indicates whether the specified item matches a word in the vocabulary filter included in your Call Analytics request. If true, there is a vocabulary filter match.
+        public let vocabularyFilterMatch: Bool?
+
+        public init(beginOffsetMillis: Int64? = nil, confidence: Double? = nil, content: String? = nil, endOffsetMillis: Int64? = nil, stable: Bool? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.confidence = confidence
+            self.content = content
+            self.endOffsetMillis = endOffsetMillis
+            self.stable = stable
+            self.type = type
+            self.vocabularyFilterMatch = vocabularyFilterMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffsetMillis = "BeginOffsetMillis"
+            case confidence = "Confidence"
+            case content = "Content"
+            case endOffsetMillis = "EndOffsetMillis"
+            case stable = "Stable"
+            case type = "Type"
+            case vocabularyFilterMatch = "VocabularyFilterMatch"
+        }
+    }
+
+    public struct CategoryEvent: AWSDecodableShape {
+        /// Lists the categories that were matched in your audio segment.
+        public let matchedCategories: [String]?
+        /// Contains information about the matched categories, including category names and timestamps.
+        public let matchedDetails: [String: PointsOfInterest]?
+
+        public init(matchedCategories: [String]? = nil, matchedDetails: [String: PointsOfInterest]? = nil) {
+            self.matchedCategories = matchedCategories
+            self.matchedDetails = matchedDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchedCategories = "MatchedCategories"
+            case matchedDetails = "MatchedDetails"
+        }
+    }
+
+    public struct ChannelDefinition: AWSEncodableShape {
+        /// Specify the audio channel you want to define.
+        public let channelId: Int
+        /// Specify the speaker you want to define. Omitting this parameter is equivalent to specifying both participants.
+        public let participantRole: ParticipantRole
+
+        public init(channelId: Int = 0, participantRole: ParticipantRole) {
+            self.channelId = channelId
+            self.participantRole = participantRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 1)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "ChannelId"
+            case participantRole = "ParticipantRole"
+        }
+    }
+
+    public struct CharacterOffsets: AWSDecodableShape {
+        /// Provides the character count of the first character where a match is identified. For example, the first character associated with an issue or a category match in a segment transcript.
+        public let begin: Int?
+        /// Provides the character count of the last character where a match is identified. For example, the last  character associated with an issue or a category match in a segment transcript.
+        public let end: Int?
+
+        public init(begin: Int? = nil, end: Int? = nil) {
+            self.begin = begin
+            self.end = end
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case begin = "Begin"
+            case end = "End"
+        }
+    }
+
+    public struct ConfigurationEvent: AWSEncodableShape {
+        /// Indicates which speaker is on which audio channel.
+        public let channelDefinitions: [ChannelDefinition]?
+        /// Provides additional optional settings for your Call Analytics post-call request, including  encryption and output locations for your redacted and unredacted transcript.
+        public let postCallAnalyticsSettings: PostCallAnalyticsSettings?
+
+        public init(channelDefinitions: [ChannelDefinition]? = nil, postCallAnalyticsSettings: PostCallAnalyticsSettings? = nil) {
+            self.channelDefinitions = channelDefinitions
+            self.postCallAnalyticsSettings = postCallAnalyticsSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.channelDefinitions?.forEach {
+                try $0.validate(name: "\(name).channelDefinitions[]")
+            }
+            try self.validate(self.channelDefinitions, name: "channelDefinitions", parent: name, max: 2)
+            try self.validate(self.channelDefinitions, name: "channelDefinitions", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDefinitions = "ChannelDefinitions"
+            case postCallAnalyticsSettings = "PostCallAnalyticsSettings"
+        }
+    }
+
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
@@ -304,6 +575,19 @@ extension TranscribeStreaming {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct IssueDetected: AWSDecodableShape {
+        /// Provides the timestamps that identify when in an audio segment the specified issue occurs.
+        public let characterOffsets: CharacterOffsets?
+
+        public init(characterOffsets: CharacterOffsets? = nil) {
+            self.characterOffsets = characterOffsets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case characterOffsets = "CharacterOffsets"
         }
     }
 
@@ -519,10 +803,48 @@ extension TranscribeStreaming {
         }
     }
 
+    public struct PointsOfInterest: AWSDecodableShape {
+        /// Contains the timestamp ranges (start time through end time) of matched categories and rules.
+        public let timestampRanges: [TimestampRange]?
+
+        public init(timestampRanges: [TimestampRange]? = nil) {
+            self.timestampRanges = timestampRanges
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestampRanges = "TimestampRanges"
+        }
+    }
+
+    public struct PostCallAnalyticsSettings: AWSEncodableShape {
+        /// Specify whether you want only a redacted transcript or both a redacted and an unredacted  transcript. If you choose redacted and unredacted, two JSON files are generated and stored in the  Amazon S3 output location you specify. Note that to include ContentRedactionOutput in your request, you must  enable content redaction (ContentRedactionType).
+        public let contentRedactionOutput: ContentRedactionOutput?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3  location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        public let dataAccessRoleArn: String
+        /// The KMS key you want to use to encrypt your Call Analytics post-call output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:   Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   Note that the user making the  request must have permission to use the specified KMS key.
+        public let outputEncryptionKMSKeyId: String?
+        /// The Amazon S3 location where you want your Call Analytics post-call  transcription output stored. You can use any of the following formats to specify the output  location:   s3://DOC-EXAMPLE-BUCKET   s3://DOC-EXAMPLE-BUCKET/my-output-folder/   s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json
+        public let outputLocation: String
+
+        public init(contentRedactionOutput: ContentRedactionOutput? = nil, dataAccessRoleArn: String, outputEncryptionKMSKeyId: String? = nil, outputLocation: String) {
+            self.contentRedactionOutput = contentRedactionOutput
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
+            self.outputLocation = outputLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentRedactionOutput = "ContentRedactionOutput"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
+            case outputLocation = "OutputLocation"
+        }
+    }
+
     public struct Result: AWSDecodableShape {
         /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public let alternatives: [Alternative]?
-        /// Indicates the channel identified for the Result.
+        /// Indicates which audio channel is associated with the Result.
         public let channelId: String?
         /// The end time, in milliseconds, of the Result.
         public let endTime: Double?
@@ -569,6 +891,186 @@ extension TranscribeStreaming {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct StartCallAnalyticsStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "audioStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
+            AWSMemberEncoding(label: "contentIdentificationType", location: .header("x-amzn-transcribe-content-identification-type")),
+            AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
+            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
+            AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
+            AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
+            AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
+            AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
+        ]
+
+        public let audioStream: AudioStream
+        /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        public let contentIdentificationType: ContentIdentificationType?
+        /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
+        public let contentRedactionType: ContentRedactionType?
+        /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see  Partial-result  stabilization.
+        public let enablePartialResultsStabilization: Bool?
+        /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using  IdentifyLanguage to enable automatic language identification. For a list of languages supported with streaming Call Analytics, refer to the  Supported  languages table.
+        public let languageCode: CallAnalyticsLanguageCode
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch.  For more information, see Custom language models.
+        public let languageModelName: String?
+        /// Specify the encoding of your input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
+        public let mediaEncoding: MediaEncoding
+        /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
+        public let mediaSampleRateHertz: Int
+        /// Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization).  Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
+        public let partialResultsStability: PartialResultsStability?
+        /// Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. To include PiiEntityTypes in your Call Analytics request, you must also include  either ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, or ALL.
+        public let piiEntityTypes: String?
+        /// Specify a name for your Call Analytics transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
+        public let sessionId: String?
+        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
+        public let vocabularyFilterMethod: VocabularyFilterMethod?
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.   For more information, see Using vocabulary filtering with unwanted  words.
+        public let vocabularyFilterName: String?
+        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see Custom vocabularies.
+        public let vocabularyName: String?
+
+        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.audioStream = audioStream
+            self.contentIdentificationType = contentIdentificationType
+            self.contentRedactionType = contentRedactionType
+            self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.languageCode = languageCode
+            self.languageModelName = languageModelName
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.partialResultsStability = partialResultsStability
+            self.piiEntityTypes = piiEntityTypes
+            self.sessionId = sessionId
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try self.audioStream.validate(name: "\(name).audioStream")
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
+            try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 300)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, min: 1)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, pattern: "^[A-Z_, ]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioStream = "AudioStream"
+        }
+    }
+
+    public struct StartCallAnalyticsStreamTranscriptionResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "callAnalyticsTranscriptResultStream"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "callAnalyticsTranscriptResultStream", location: .body("CallAnalyticsTranscriptResultStream")),
+            AWSMemberEncoding(label: "contentIdentificationType", location: .header("x-amzn-transcribe-content-identification-type")),
+            AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
+            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
+            AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
+            AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
+            AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
+            AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
+            AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
+            AWSMemberEncoding(label: "requestId", location: .header("x-amzn-request-id")),
+            AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
+        ]
+
+        /// Provides detailed information about your Call Analytics streaming session.
+        public let callAnalyticsTranscriptResultStream: CallAnalyticsTranscriptResultStream?
+        /// Shows whether content identification was enabled for your Call Analytics transcription.
+        public let contentIdentificationType: ContentIdentificationType?
+        /// Shows whether content redaction was enabled for your Call Analytics transcription.
+        public let contentRedactionType: ContentRedactionType?
+        /// Shows whether partial results stabilization was enabled for your Call Analytics transcription.
+        public let enablePartialResultsStabilization: Bool?
+        /// Provides the language code that you specified in your Call Analytics request.
+        public let languageCode: CallAnalyticsLanguageCode?
+        /// Provides the name of the custom language model that you specified in your Call Analytics  request.
+        public let languageModelName: String?
+        /// Provides the media encoding you specified in your Call Analytics request.
+        public let mediaEncoding: MediaEncoding?
+        /// Provides the sample rate that you specified in your Call Analytics request.
+        public let mediaSampleRateHertz: Int?
+        /// Provides the stabilization level used for your transcription.
+        public let partialResultsStability: PartialResultsStability?
+        /// Lists the PII entity types you specified in your Call Analytics request.
+        public let piiEntityTypes: String?
+        /// Provides the identifier for your Call Analytics streaming request.
+        public let requestId: String?
+        /// Provides the identifier for your Call Analytics transcription session.
+        public let sessionId: String?
+        /// Provides the vocabulary filtering method used in your Call Analytics transcription.
+        public let vocabularyFilterMethod: VocabularyFilterMethod?
+        /// Provides the name of the custom vocabulary filter that you specified in your Call Analytics request.
+        public let vocabularyFilterName: String?
+        /// Provides the name of the custom vocabulary that you specified in your Call Analytics request.
+        public let vocabularyName: String?
+
+        public init(callAnalyticsTranscriptResultStream: CallAnalyticsTranscriptResultStream? = nil, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, requestId: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
+            self.contentIdentificationType = contentIdentificationType
+            self.contentRedactionType = contentRedactionType
+            self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.languageCode = languageCode
+            self.languageModelName = languageModelName
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.partialResultsStability = partialResultsStability
+            self.piiEntityTypes = piiEntityTypes
+            self.requestId = requestId
+            self.sessionId = sessionId
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callAnalyticsTranscriptResultStream = "CallAnalyticsTranscriptResultStream"
+            case contentIdentificationType = "x-amzn-transcribe-content-identification-type"
+            case contentRedactionType = "x-amzn-transcribe-content-redaction-type"
+            case enablePartialResultsStabilization = "x-amzn-transcribe-enable-partial-results-stabilization"
+            case languageCode = "x-amzn-transcribe-language-code"
+            case languageModelName = "x-amzn-transcribe-language-model-name"
+            case mediaEncoding = "x-amzn-transcribe-media-encoding"
+            case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
+            case partialResultsStability = "x-amzn-transcribe-partial-results-stability"
+            case piiEntityTypes = "x-amzn-transcribe-pii-entity-types"
+            case requestId = "x-amzn-request-id"
+            case sessionId = "x-amzn-transcribe-session-id"
+            case vocabularyFilterMethod = "x-amzn-transcribe-vocabulary-filter-method"
+            case vocabularyFilterName = "x-amzn-transcribe-vocabulary-filter-name"
+            case vocabularyName = "x-amzn-transcribe-vocabulary-name"
         }
     }
 
@@ -630,6 +1132,7 @@ extension TranscribeStreaming {
         }
 
         public func validate(name: String) throws {
+            try self.audioStream.validate(name: "\(name).audioStream")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
@@ -767,11 +1270,11 @@ extension TranscribeStreaming {
         public let identifyLanguage: Bool?
         /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using  IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.
         public let languageCode: LanguageCode?
-        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied. There  are no errors or warnings associated with a language mismatch.  For more information, see Custom language  models.
+        /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch.  For more information, see Custom language models.
         public let languageModelName: String?
         /// Specify two or more language codes that represent the languages you think may be present  in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. If you include LanguageOptions in your request, you must also include  IdentifyLanguage. For a list of languages supported with Amazon Transcribe streaming, refer to the  Supported  languages table.  You can only include one language dialect per language per stream. For example, you cannot include en-US and en-AU in the same request.
         public let languageOptions: String?
-        /// Specify the encoding used for the input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
+        /// Specify the encoding of your input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)   For more information, see Media formats.
         public let mediaEncoding: MediaEncoding
         /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
@@ -789,11 +1292,11 @@ extension TranscribeStreaming {
         public let showSpeakerLabel: Bool?
         /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, your job fails.      This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
+        /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.      This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterName: String?
         /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive.     If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails.  This parameter is only intended for use with  the IdentifyLanguage parameter. If you're not  including IdentifyLanguage in your request and want to use a custom vocabulary filter  with your transcription, use the VocabularyFilterName parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
         public let vocabularyFilterNames: String?
-        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, your job fails.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead.  For more information, see Custom vocabularies.
+        /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyName: String?
         /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive.     If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyNames: String?
@@ -824,6 +1327,7 @@ extension TranscribeStreaming {
         }
 
         public func validate(name: String) throws {
+            try self.audioStream.validate(name: "\(name).audioStream")
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
@@ -987,6 +1491,23 @@ extension TranscribeStreaming {
         }
     }
 
+    public struct TimestampRange: AWSDecodableShape {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the category  match.
+        public let beginOffsetMillis: Int64?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the category  match.
+        public let endOffsetMillis: Int64?
+
+        public init(beginOffsetMillis: Int64? = nil, endOffsetMillis: Int64? = nil) {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.endOffsetMillis = endOffsetMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffsetMillis = "BeginOffsetMillis"
+            case endOffsetMillis = "EndOffsetMillis"
+        }
+    }
+
     public struct Transcript: AWSDecodableShape {
         /// Contains a set of transcription results from one or more audio segments, along with additional  information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public let results: [Result]?
@@ -1013,16 +1534,52 @@ extension TranscribeStreaming {
         }
     }
 
-    public struct AudioStream: AWSEncodableShape {
-        /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see Event stream encoding.
-        public let audioEvent: AudioEvent?
+    public struct UtteranceEvent: AWSDecodableShape {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the UtteranceEvent.
+        public let beginOffsetMillis: Int64?
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the  UtteranceEvent.
+        public let endOffsetMillis: Int64?
+        /// Contains entities identified as personally identifiable information (PII) in your transcription  output.
+        public let entities: [CallAnalyticsEntity]?
+        /// Indicates whether the segment in the UtteranceEvent is complete  (FALSE) or partial (TRUE).
+        public let isPartial: Bool?
+        /// Provides the issue that was detected in the specified segment.
+        public let issuesDetected: [IssueDetected]?
+        /// Contains words, phrases, or punctuation marks that are associated with the specified  UtteranceEvent.
+        public let items: [CallAnalyticsItem]?
+        /// Provides the role of the speaker for each audio channel, either CUSTOMER or  AGENT.
+        public let participantRole: ParticipantRole?
+        /// Provides the sentiment that was detected in the specified segment.
+        public let sentiment: Sentiment?
+        /// Contains transcribed text.
+        public let transcript: String?
+        /// The unique identifier that is associated with the specified UtteranceEvent.
+        public let utteranceId: String?
 
-        public init(audioEvent: AudioEvent? = nil) {
-            self.audioEvent = audioEvent
+        public init(beginOffsetMillis: Int64? = nil, endOffsetMillis: Int64? = nil, entities: [CallAnalyticsEntity]? = nil, isPartial: Bool? = nil, issuesDetected: [IssueDetected]? = nil, items: [CallAnalyticsItem]? = nil, participantRole: ParticipantRole? = nil, sentiment: Sentiment? = nil, transcript: String? = nil, utteranceId: String? = nil) {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.endOffsetMillis = endOffsetMillis
+            self.entities = entities
+            self.isPartial = isPartial
+            self.issuesDetected = issuesDetected
+            self.items = items
+            self.participantRole = participantRole
+            self.sentiment = sentiment
+            self.transcript = transcript
+            self.utteranceId = utteranceId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioEvent = "AudioEvent"
+            case beginOffsetMillis = "BeginOffsetMillis"
+            case endOffsetMillis = "EndOffsetMillis"
+            case entities = "Entities"
+            case isPartial = "IsPartial"
+            case issuesDetected = "IssuesDetected"
+            case items = "Items"
+            case participantRole = "ParticipantRole"
+            case sentiment = "Sentiment"
+            case transcript = "Transcript"
+            case utteranceId = "UtteranceId"
         }
     }
 }
@@ -1057,7 +1614,7 @@ public struct TranscribeStreamingErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// One or more arguments to the StartStreamTranscription or StartMedicalStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
+    /// One or more arguments to the StartStreamTranscription,  StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription  operation was not valid. For example, MediaEncoding or LanguageCode  used not valid values. Check the specified parameters and try your request again.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// A new stream started with the same session ID. The current stream has been terminated.
     public static var conflictException: Self { .init(.conflictException) }

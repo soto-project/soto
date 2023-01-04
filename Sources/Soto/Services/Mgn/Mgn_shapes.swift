@@ -21,6 +21,20 @@ import SotoCore
 extension Mgn {
     // MARK: Enums
 
+    public enum ApplicationHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
+        case healthy = "HEALTHY"
+        case lagging = "LAGGING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationProgressStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BootMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case legacyBios = "LEGACY_BIOS"
         case uefi = "UEFI"
@@ -181,6 +195,7 @@ extension Mgn {
     public enum PostLaunchActionsDeploymentType: String, CustomStringConvertible, Codable, _SotoSendable {
         case cutoverOnly = "CUTOVER_ONLY"
         case testAndCutover = "TEST_AND_CUTOVER"
+        case testOnly = "TEST_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -238,7 +253,212 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case gp2
+        case gp3
+        case io1
+        case io2
+        case sc1
+        case st1
+        case standard
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WaveHealthStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case error = "ERROR"
+        case healthy = "HEALTHY"
+        case lagging = "LAGGING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WaveProgressStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct Application: AWSDecodableShape {
+        /// Application aggregated status.
+        public let applicationAggregatedStatus: ApplicationAggregatedStatus?
+        /// Application ID.
+        public let applicationID: String?
+        /// Application ARN.
+        public let arn: String?
+        /// Application creation dateTime.
+        public let creationDateTime: String?
+        /// Application description.
+        public let description: String?
+        /// Application archival status.
+        public let isArchived: Bool?
+        /// Application last modified dateTime.
+        public let lastModifiedDateTime: String?
+        /// Application name.
+        public let name: String?
+        /// Application tags.
+        public let tags: [String: String]?
+        /// Application wave ID.
+        public let waveID: String?
+
+        public init(applicationAggregatedStatus: ApplicationAggregatedStatus? = nil, applicationID: String? = nil, arn: String? = nil, creationDateTime: String? = nil, description: String? = nil, isArchived: Bool? = nil, lastModifiedDateTime: String? = nil, name: String? = nil, tags: [String: String]? = nil, waveID: String? = nil) {
+            self.applicationAggregatedStatus = applicationAggregatedStatus
+            self.applicationID = applicationID
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.isArchived = isArchived
+            self.lastModifiedDateTime = lastModifiedDateTime
+            self.name = name
+            self.tags = tags
+            self.waveID = waveID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationAggregatedStatus
+            case applicationID
+            case arn
+            case creationDateTime
+            case description
+            case isArchived
+            case lastModifiedDateTime
+            case name
+            case tags
+            case waveID
+        }
+    }
+
+    public struct ApplicationAggregatedStatus: AWSDecodableShape {
+        /// Application aggregated status health status.
+        public let healthStatus: ApplicationHealthStatus?
+        /// Application aggregated status last update dateTime.
+        public let lastUpdateDateTime: String?
+        /// Application aggregated status progress status.
+        public let progressStatus: ApplicationProgressStatus?
+        /// Application aggregated status total source servers amount.
+        public let totalSourceServers: Int64?
+
+        public init(healthStatus: ApplicationHealthStatus? = nil, lastUpdateDateTime: String? = nil, progressStatus: ApplicationProgressStatus? = nil, totalSourceServers: Int64? = nil) {
+            self.healthStatus = healthStatus
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.progressStatus = progressStatus
+            self.totalSourceServers = totalSourceServers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthStatus
+            case lastUpdateDateTime
+            case progressStatus
+            case totalSourceServers
+        }
+    }
+
+    public struct ArchiveApplicationRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+
+        public init(applicationID: String) {
+            self.applicationID = applicationID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+        }
+    }
+
+    public struct ArchiveWaveRequest: AWSEncodableShape {
+        /// Wave ID.
+        public let waveID: String
+
+        public init(waveID: String) {
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waveID
+        }
+    }
+
+    public struct AssociateApplicationsRequest: AWSEncodableShape {
+        /// Application IDs list.
+        public let applicationIDs: [String]
+        /// Wave ID.
+        public let waveID: String
+
+        public init(applicationIDs: [String], waveID: String) {
+            self.applicationIDs = applicationIDs
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationIDs.forEach {
+                try validate($0, name: "applicationIDs[]", parent: name, max: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, min: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, max: 50)
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, min: 1)
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIDs
+            case waveID
+        }
+    }
+
+    public struct AssociateApplicationsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateSourceServersRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+        /// Source server IDs list.
+        public let sourceServerIDs: [String]
+
+        public init(applicationID: String, sourceServerIDs: [String]) {
+            self.applicationID = applicationID
+            self.sourceServerIDs = sourceServerIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            try self.sourceServerIDs.forEach {
+                try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
+                try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
+                try validate($0, name: "sourceServerIDs[]", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.sourceServerIDs, name: "sourceServerIDs", parent: name, max: 50)
+            try self.validate(self.sourceServerIDs, name: "sourceServerIDs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+            case sourceServerIDs
+        }
+    }
+
+    public struct AssociateSourceServersResponse: AWSDecodableShape {
+        public init() {}
+    }
 
     public struct CPU: AWSDecodableShape {
         /// The number of CPU cores on the source server.
@@ -293,19 +513,26 @@ extension Mgn {
         }
     }
 
-    public struct CreateLaunchConfigurationTemplateRequest: AWSEncodableShape {
-        /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
-        public let postLaunchActions: PostLaunchActions?
-        /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// Application description.
+        public let description: String?
+        /// Application name.
+        public let name: String
+        /// Application tags.
         public let tags: [String: String]?
 
-        public init(postLaunchActions: PostLaunchActions? = nil, tags: [String: String]? = nil) {
-            self.postLaunchActions = postLaunchActions
+        public init(description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -313,8 +540,85 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case postLaunchActions
+            case description
+            case name
             case tags
+        }
+    }
+
+    public struct CreateLaunchConfigurationTemplateRequest: AWSEncodableShape {
+        /// Associate public Ip address.
+        public let associatePublicIpAddress: Bool?
+        /// Launch configuration template boot mode.
+        public let bootMode: BootMode?
+        /// Copy private Ip.
+        public let copyPrivateIp: Bool?
+        /// Copy tags.
+        public let copyTags: Bool?
+        /// Enable map auto tagging.
+        public let enableMapAutoTagging: Bool?
+        /// Large volume config.
+        public let largeVolumeConf: LaunchTemplateDiskConf?
+        /// Launch disposition.
+        public let launchDisposition: LaunchDisposition?
+        public let licensing: Licensing?
+        /// Launch configuration template map auto tagging MPE ID.
+        public let mapAutoTaggingMpeID: String?
+        /// Launch configuration template post launch actions.
+        public let postLaunchActions: PostLaunchActions?
+        /// Small volume config.
+        public let smallVolumeConf: LaunchTemplateDiskConf?
+        /// Small volume maximum size.
+        public let smallVolumeMaxSize: Int64?
+        /// Request to associate tags during creation of a Launch Configuration Template.
+        public let tags: [String: String]?
+        /// Target instance type right-sizing method.
+        public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
+
+        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.bootMode = bootMode
+            self.copyPrivateIp = copyPrivateIp
+            self.copyTags = copyTags
+            self.enableMapAutoTagging = enableMapAutoTagging
+            self.largeVolumeConf = largeVolumeConf
+            self.launchDisposition = launchDisposition
+            self.licensing = licensing
+            self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+            self.postLaunchActions = postLaunchActions
+            self.smallVolumeConf = smallVolumeConf
+            self.smallVolumeMaxSize = smallVolumeMaxSize
+            self.tags = tags
+            self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+        }
+
+        public func validate(name: String) throws {
+            try self.largeVolumeConf?.validate(name: "\(name).largeVolumeConf")
+            try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
+            try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
+            try self.smallVolumeConf?.validate(name: "\(name).smallVolumeConf")
+            try self.validate(self.smallVolumeMaxSize, name: "smallVolumeMaxSize", parent: name, min: 0)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatePublicIpAddress
+            case bootMode
+            case copyPrivateIp
+            case copyTags
+            case enableMapAutoTagging
+            case largeVolumeConf
+            case launchDisposition
+            case licensing
+            case mapAutoTaggingMpeID
+            case postLaunchActions
+            case smallVolumeConf
+            case smallVolumeMaxSize
+            case tags
+            case targetInstanceTypeRightSizingMethod
         }
     }
 
@@ -346,7 +650,7 @@ extension Mgn {
         /// Request to use Dedicated Replication Servers during Replication Settings template creation.
         public let useDedicatedReplicationServer: Bool
 
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -398,6 +702,39 @@ extension Mgn {
             case stagingAreaTags
             case tags
             case useDedicatedReplicationServer
+        }
+    }
+
+    public struct CreateWaveRequest: AWSEncodableShape {
+        /// Wave description.
+        public let description: String?
+        /// Wave name.
+        public let name: String
+        /// Wave tags.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case tags
         }
     }
 
@@ -522,6 +859,29 @@ extension Mgn {
         }
     }
 
+    public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+
+        public init(applicationID: String) {
+            self.applicationID = applicationID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+        }
+    }
+
+    public struct DeleteApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteJobRequest: AWSEncodableShape {
         /// Request to delete Job from service by Job ID.
         public let jobID: String
@@ -633,6 +993,29 @@ extension Mgn {
         }
     }
 
+    public struct DeleteWaveRequest: AWSEncodableShape {
+        /// Wave ID.
+        public let waveID: String
+
+        public init(waveID: String) {
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waveID
+        }
+    }
+
+    public struct DeleteWaveResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeJobLogItemsRequest: AWSEncodableShape {
         /// Request to describe Job log job ID.
         public let jobID: String
@@ -651,6 +1034,7 @@ extension Mgn {
             try self.validate(self.jobID, name: "jobID", parent: name, max: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, min: 24)
             try self.validate(self.jobID, name: "jobID", parent: name, pattern: "^mgnjob-[0-9a-zA-Z]{17}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -695,6 +1079,7 @@ extension Mgn {
 
         public func validate(name: String) throws {
             try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -760,11 +1145,11 @@ extension Mgn {
     }
 
     public struct DescribeLaunchConfigurationTemplatesRequest: AWSEncodableShape {
-        /// Request to disconnect Source Server from service by Server ID.
+        /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
         public let launchConfigurationTemplateIDs: [String]?
-        /// Request to disconnect Source Server from service by Server ID.
+        /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
         public let maxResults: Int?
-        /// Request to disconnect Source Server from service by Server ID.
+        /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
         public let nextToken: String?
 
         public init(launchConfigurationTemplateIDs: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -780,6 +1165,7 @@ extension Mgn {
                 try validate($0, name: "launchConfigurationTemplateIDs[]", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
             }
             try self.validate(self.launchConfigurationTemplateIDs, name: "launchConfigurationTemplateIDs", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -792,9 +1178,9 @@ extension Mgn {
     }
 
     public struct DescribeLaunchConfigurationTemplatesResponse: AWSDecodableShape {
-        /// Request to disconnect Source Server from service by Server ID.
+        /// List of items returned by DescribeLaunchConfigurationTemplates.
         public let items: [LaunchConfigurationTemplate]?
-        /// Request to disconnect Source Server from service by Server ID.
+        /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
         public let nextToken: String?
 
         public init(items: [LaunchConfigurationTemplate]? = nil, nextToken: String? = nil) {
@@ -823,6 +1209,7 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.replicationConfigurationTemplateIDs?.forEach {
@@ -873,6 +1260,7 @@ extension Mgn {
 
         public func validate(name: String) throws {
             try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -885,6 +1273,8 @@ extension Mgn {
     }
 
     public struct DescribeSourceServersRequestFilters: AWSEncodableShape {
+        /// Request to filter Source Servers list by application IDs.
+        public let applicationIDs: [String]?
         /// Request to filter Source Servers list by archived.
         public let isArchived: Bool?
         /// Request to filter Source Servers list by life cycle states.
@@ -894,7 +1284,8 @@ extension Mgn {
         /// Request to filter Source Servers list by Source Server ID.
         public let sourceServerIDs: [String]?
 
-        public init(isArchived: Bool? = nil, lifeCycleStates: [LifeCycleState]? = nil, replicationTypes: [ReplicationType]? = nil, sourceServerIDs: [String]? = nil) {
+        public init(applicationIDs: [String]? = nil, isArchived: Bool? = nil, lifeCycleStates: [LifeCycleState]? = nil, replicationTypes: [ReplicationType]? = nil, sourceServerIDs: [String]? = nil) {
+            self.applicationIDs = applicationIDs
             self.isArchived = isArchived
             self.lifeCycleStates = lifeCycleStates
             self.replicationTypes = replicationTypes
@@ -902,6 +1293,12 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.applicationIDs?.forEach {
+                try validate($0, name: "applicationIDs[]", parent: name, max: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, min: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, max: 200)
             try self.validate(self.lifeCycleStates, name: "lifeCycleStates", parent: name, max: 10)
             try self.validate(self.replicationTypes, name: "replicationTypes", parent: name, max: 2)
             try self.sourceServerIDs?.forEach {
@@ -913,6 +1310,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationIDs
             case isArchived
             case lifeCycleStates
             case replicationTypes
@@ -954,6 +1352,7 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -976,6 +1375,74 @@ extension Mgn {
             case items
             case nextToken
         }
+    }
+
+    public struct DisassociateApplicationsRequest: AWSEncodableShape {
+        /// Application IDs list.
+        public let applicationIDs: [String]
+        /// Wave ID.
+        public let waveID: String
+
+        public init(applicationIDs: [String], waveID: String) {
+            self.applicationIDs = applicationIDs
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationIDs.forEach {
+                try validate($0, name: "applicationIDs[]", parent: name, max: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, min: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, max: 50)
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, min: 1)
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIDs
+            case waveID
+        }
+    }
+
+    public struct DisassociateApplicationsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateSourceServersRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+        /// Source server IDs list.
+        public let sourceServerIDs: [String]
+
+        public init(applicationID: String, sourceServerIDs: [String]) {
+            self.applicationID = applicationID
+            self.sourceServerIDs = sourceServerIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            try self.sourceServerIDs.forEach {
+                try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
+                try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
+                try validate($0, name: "sourceServerIDs[]", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.sourceServerIDs, name: "sourceServerIDs", parent: name, max: 50)
+            try self.validate(self.sourceServerIDs, name: "sourceServerIDs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+            case sourceServerIDs
+        }
+    }
+
+    public struct DisassociateSourceServersResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisconnectFromServiceRequest: AWSEncodableShape {
@@ -1200,15 +1667,15 @@ extension Mgn {
     }
 
     public struct JobPostLaunchActionsLaunchStatus: AWSDecodableShape {
-        /// Job type.
+        /// AWS Systems Manager Document's execution ID of the of the Job Post Launch Actions.
         public let executionID: String?
-        /// Job type.
+        /// AWS Systems Manager Document's execution status.
         public let executionStatus: PostLaunchActionExecutionStatus?
-        /// Job type.
+        /// AWS Systems Manager Document's failure reason.
         public let failureReason: String?
-        /// Job type.
+        /// AWS Systems Manager's Document of the of the Job Post Launch Actions.
         public let ssmDocument: SsmDocument?
-        /// Job type.
+        /// AWS Systems Manager Document type.
         public let ssmDocumentType: SsmDocumentType?
 
         public init(executionID: String? = nil, executionStatus: PostLaunchActionExecutionStatus? = nil, failureReason: String? = nil, ssmDocument: SsmDocument? = nil, ssmDocumentType: SsmDocumentType? = nil) {
@@ -1237,10 +1704,14 @@ extension Mgn {
         public let copyTags: Bool?
         /// Launch configuration EC2 Launch template ID.
         public let ec2LaunchTemplateID: String?
+        /// Enable map auto tagging.
+        public let enableMapAutoTagging: Bool?
         /// Launch disposition for launch configuration.
         public let launchDisposition: LaunchDisposition?
         /// Launch configuration OS licensing.
         public let licensing: Licensing?
+        /// Map auto tagging MPE ID.
+        public let mapAutoTaggingMpeID: String?
         /// Launch configuration name.
         public let name: String?
         public let postLaunchActions: PostLaunchActions?
@@ -1249,13 +1720,15 @@ extension Mgn {
         /// Launch configuration Target instance type right sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
+            self.enableMapAutoTagging = enableMapAutoTagging
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
             self.name = name
             self.postLaunchActions = postLaunchActions
             self.sourceServerID = sourceServerID
@@ -1267,8 +1740,10 @@ extension Mgn {
             case copyPrivateIp
             case copyTags
             case ec2LaunchTemplateID
+            case enableMapAutoTagging
             case launchDisposition
             case licensing
+            case mapAutoTaggingMpeID
             case name
             case postLaunchActions
             case sourceServerID
@@ -1277,27 +1752,104 @@ extension Mgn {
     }
 
     public struct LaunchConfigurationTemplate: AWSDecodableShape {
-        /// Copy Private IP during Launch Configuration.
+        /// ARN of the Launch Configuration Template.
         public let arn: String?
-        /// Copy Private IP during Launch Configuration.
+        /// Associate public Ip address.
+        public let associatePublicIpAddress: Bool?
+        /// Launch configuration template boot mode.
+        public let bootMode: BootMode?
+        /// Copy private Ip.
+        public let copyPrivateIp: Bool?
+        /// Copy tags.
+        public let copyTags: Bool?
+        /// EC2 launch template ID.
+        public let ec2LaunchTemplateID: String?
+        /// Enable map auto tagging.
+        public let enableMapAutoTagging: Bool?
+        /// Large volume config.
+        public let largeVolumeConf: LaunchTemplateDiskConf?
+        /// ID of the Launch Configuration Template.
         public let launchConfigurationTemplateID: String
-        /// Copy Private IP during Launch Configuration.
+        /// Launch disposition.
+        public let launchDisposition: LaunchDisposition?
+        public let licensing: Licensing?
+        /// Launch configuration template map auto tagging MPE ID.
+        public let mapAutoTaggingMpeID: String?
+        /// Post Launch Actions of the Launch Configuration Template.
         public let postLaunchActions: PostLaunchActions?
-        /// Copy Private IP during Launch Configuration.
+        /// Small volume config.
+        public let smallVolumeConf: LaunchTemplateDiskConf?
+        /// Small volume maximum size.
+        public let smallVolumeMaxSize: Int64?
+        /// Tags of the Launch Configuration Template.
         public let tags: [String: String]?
+        /// Target instance type right-sizing method.
+        public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(arn: String? = nil, launchConfigurationTemplateID: String, postLaunchActions: PostLaunchActions? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.bootMode = bootMode
+            self.copyPrivateIp = copyPrivateIp
+            self.copyTags = copyTags
+            self.ec2LaunchTemplateID = ec2LaunchTemplateID
+            self.enableMapAutoTagging = enableMapAutoTagging
+            self.largeVolumeConf = largeVolumeConf
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.launchDisposition = launchDisposition
+            self.licensing = licensing
+            self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
             self.postLaunchActions = postLaunchActions
+            self.smallVolumeConf = smallVolumeConf
+            self.smallVolumeMaxSize = smallVolumeMaxSize
             self.tags = tags
+            self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case associatePublicIpAddress
+            case bootMode
+            case copyPrivateIp
+            case copyTags
+            case ec2LaunchTemplateID
+            case enableMapAutoTagging
+            case largeVolumeConf
             case launchConfigurationTemplateID
+            case launchDisposition
+            case licensing
+            case mapAutoTaggingMpeID
             case postLaunchActions
+            case smallVolumeConf
+            case smallVolumeMaxSize
             case tags
+            case targetInstanceTypeRightSizingMethod
+        }
+    }
+
+    public struct LaunchTemplateDiskConf: AWSEncodableShape & AWSDecodableShape {
+        /// Launch template disk iops configuration.
+        public let iops: Int64?
+        /// Launch template disk throughput configuration.
+        public let throughput: Int64?
+        /// Launch template disk volume type configuration.
+        public let volumeType: VolumeType?
+
+        public init(iops: Int64? = nil, throughput: Int64? = nil, volumeType: VolumeType? = nil) {
+            self.iops = iops
+            self.throughput = throughput
+            self.volumeType = volumeType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iops, name: "iops", parent: name, min: 0)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iops
+            case throughput
+            case volumeType
         }
     }
 
@@ -1499,6 +2051,139 @@ extension Mgn {
         }
     }
 
+    public struct ListApplicationsRequest: AWSEncodableShape {
+        /// Applications list filters.
+        public let filters: ListApplicationsRequestFilters?
+        /// Maximum results to return when listing applications.
+        public let maxResults: Int?
+        /// Request next token.
+        public let nextToken: String?
+
+        public init(filters: ListApplicationsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListApplicationsRequestFilters: AWSEncodableShape {
+        /// Filter applications list by application ID.
+        public let applicationIDs: [String]?
+        /// Filter applications list by archival status.
+        public let isArchived: Bool?
+        /// Filter applications list by wave ID.
+        public let waveIDs: [String]?
+
+        public init(applicationIDs: [String]? = nil, isArchived: Bool? = nil, waveIDs: [String]? = nil) {
+            self.applicationIDs = applicationIDs
+            self.isArchived = isArchived
+            self.waveIDs = waveIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationIDs?.forEach {
+                try validate($0, name: "applicationIDs[]", parent: name, max: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, min: 21)
+                try validate($0, name: "applicationIDs[]", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.applicationIDs, name: "applicationIDs", parent: name, max: 200)
+            try self.waveIDs?.forEach {
+                try validate($0, name: "waveIDs[]", parent: name, max: 22)
+                try validate($0, name: "waveIDs[]", parent: name, min: 22)
+                try validate($0, name: "waveIDs[]", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.waveIDs, name: "waveIDs", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIDs
+            case isArchived
+            case waveIDs
+        }
+    }
+
+    public struct ListApplicationsResponse: AWSDecodableShape {
+        /// Applications list.
+        public let items: [Application]?
+        /// Response next token.
+        public let nextToken: String?
+
+        public init(items: [Application]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
+    public struct ListSourceServerActionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing source server post migration custom actions.
+        public let filters: SourceServerActionsRequestFilters?
+        /// Maximum amount of items to return when listing source server post migration custom actions.
+        public let maxResults: Int?
+        /// Next token to use when listing source server post migration custom actions.
+        public let nextToken: String?
+        /// Source server ID.
+        public let sourceServerID: String
+
+        public init(filters: SourceServerActionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceServerID: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+            case sourceServerID
+        }
+    }
+
+    public struct ListSourceServerActionsResponse: AWSDecodableShape {
+        /// List of source server post migration custom actions.
+        public let items: [SourceServerActionDocument]?
+        /// Next token returned when listing source server post migration custom actions.
+        public let nextToken: String?
+
+        public init(items: [SourceServerActionDocument]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
@@ -1529,6 +2214,129 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct ListTemplateActionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing template post migration custom actions.
+        public let filters: TemplateActionsRequestFilters?
+        /// Launch configuration template ID.
+        public let launchConfigurationTemplateID: String
+        /// Maximum amount of items to return when listing template post migration custom actions.
+        public let maxResults: Int?
+        /// Next token to use when listing template post migration custom actions.
+        public let nextToken: String?
+
+        public init(filters: TemplateActionsRequestFilters? = nil, launchConfigurationTemplateID: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case launchConfigurationTemplateID
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListTemplateActionsResponse: AWSDecodableShape {
+        /// List of template post migration custom actions.
+        public let items: [TemplateActionDocument]?
+        /// Next token returned when listing template post migration custom actions.
+        public let nextToken: String?
+
+        public init(items: [TemplateActionDocument]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
+    public struct ListWavesRequest: AWSEncodableShape {
+        /// Waves list filters.
+        public let filters: ListWavesRequestFilters?
+        /// Maximum results to return when listing waves.
+        public let maxResults: Int?
+        /// Request next token.
+        public let nextToken: String?
+
+        public init(filters: ListWavesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListWavesRequestFilters: AWSEncodableShape {
+        /// Filter waves list by archival status.
+        public let isArchived: Bool?
+        /// Filter waves list by wave ID.
+        public let waveIDs: [String]?
+
+        public init(isArchived: Bool? = nil, waveIDs: [String]? = nil) {
+            self.isArchived = isArchived
+            self.waveIDs = waveIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.waveIDs?.forEach {
+                try validate($0, name: "waveIDs[]", parent: name, max: 22)
+                try validate($0, name: "waveIDs[]", parent: name, min: 22)
+                try validate($0, name: "waveIDs[]", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.waveIDs, name: "waveIDs", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isArchived
+            case waveIDs
+        }
+    }
+
+    public struct ListWavesResponse: AWSDecodableShape {
+        /// Waves list.
+        public let items: [Wave]?
+        /// Response next token.
+        public let nextToken: String?
+
+        public init(items: [Wave]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
         }
     }
 
@@ -1586,11 +2394,11 @@ extension Mgn {
     }
 
     public struct ParticipatingServer: AWSDecodableShape {
-        /// Participating server Source Server ID.
+        /// Participating server's launched ec2 instance ID.
         public let launchedEc2InstanceID: String?
         /// Participating server launch status.
         public let launchStatus: LaunchStatus?
-        /// Participating server Source Server ID.
+        /// Participating server's Post Launch Actions Status.
         public let postLaunchActionsStatus: PostLaunchActionsStatus?
         /// Participating server Source Server ID.
         public let sourceServerID: String
@@ -1611,15 +2419,15 @@ extension Mgn {
     }
 
     public struct PostLaunchActions: AWSEncodableShape & AWSDecodableShape {
-        /// Server participating in Job.
+        /// AWS Systems Manager Command's CloudWatch log group name.
         public let cloudWatchLogGroupName: String?
-        /// Server participating in Job.
+        /// Deployment type in which AWS Systems Manager Documents will be executed.
         public let deployment: PostLaunchActionsDeploymentType?
-        /// Server participating in Job.
+        /// AWS Systems Manager Command's logs S3 log bucket.
         public let s3LogBucket: String?
-        /// Server participating in Job.
+        /// AWS Systems Manager Command's logs S3 output key prefix.
         public let s3OutputKeyPrefix: String?
-        /// Server participating in Job.
+        /// AWS Systems Manager Documents.
         public let ssmDocuments: [SsmDocument]?
 
         public init(cloudWatchLogGroupName: String? = nil, deployment: PostLaunchActionsDeploymentType? = nil, s3LogBucket: String? = nil, s3OutputKeyPrefix: String? = nil, ssmDocuments: [SsmDocument]? = nil) {
@@ -1653,9 +2461,9 @@ extension Mgn {
     }
 
     public struct PostLaunchActionsStatus: AWSDecodableShape {
-        /// Server participating in Job.
+        /// List of Post Launch Action status.
         public let postLaunchActionsLaunchStatusList: [JobPostLaunchActionsLaunchStatus]?
-        /// Server participating in Job.
+        /// Time where the AWS Systems Manager was detected as running on the Test or Cutover instance.
         public let ssmAgentDiscoveryDatetime: String?
 
         public init(postLaunchActionsLaunchStatusList: [JobPostLaunchActionsLaunchStatus]? = nil, ssmAgentDiscoveryDatetime: String? = nil) {
@@ -1667,6 +2475,215 @@ extension Mgn {
             case postLaunchActionsLaunchStatusList
             case ssmAgentDiscoveryDatetime
         }
+    }
+
+    public struct PutSourceServerActionRequest: AWSEncodableShape {
+        /// Source server post migration custom action ID.
+        public let actionID: String
+        /// Source server post migration custom action name.
+        public let actionName: String
+        /// Source server post migration custom action active status.
+        public let active: Bool?
+        /// Source server post migration custom action document identifier.
+        public let documentIdentifier: String
+        /// Source server post migration custom action document version.
+        public let documentVersion: String?
+        /// Source server post migration custom action must succeed for cutover.
+        public let mustSucceedForCutover: Bool?
+        /// Source server post migration custom action order.
+        public let order: Int
+        /// Source server post migration custom action parameters.
+        public let parameters: [String: [SsmParameterStoreParameter]]?
+        /// Source server ID.
+        public let sourceServerID: String
+        /// Source server post migration custom action timeout in seconds.
+        public let timeoutSeconds: Int?
+
+        public init(actionID: String, actionName: String, active: Bool? = nil, documentIdentifier: String, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, sourceServerID: String, timeoutSeconds: Int? = nil) {
+            self.actionID = actionID
+            self.actionName = actionName
+            self.active = active
+            self.documentIdentifier = documentIdentifier
+            self.documentVersion = documentVersion
+            self.mustSucceedForCutover = mustSucceedForCutover
+            self.order = order
+            self.parameters = parameters
+            self.sourceServerID = sourceServerID
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
+            try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
+            try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
+            try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.validate(self.documentIdentifier, name: "documentIdentifier", parent: name, max: 256)
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.validate(self.order, name: "order", parent: name, max: 10000)
+            try self.validate(self.order, name: "order", parent: name, min: 1001)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case actionName
+            case active
+            case documentIdentifier
+            case documentVersion
+            case mustSucceedForCutover
+            case order
+            case parameters
+            case sourceServerID
+            case timeoutSeconds
+        }
+    }
+
+    public struct PutTemplateActionRequest: AWSEncodableShape {
+        /// Template post migration custom action ID.
+        public let actionID: String
+        /// Template post migration custom action name.
+        public let actionName: String
+        /// Template post migration custom action active status.
+        public let active: Bool?
+        /// Template post migration custom action document identifier.
+        public let documentIdentifier: String
+        /// Template post migration custom action document version.
+        public let documentVersion: String?
+        /// Launch configuration template ID.
+        public let launchConfigurationTemplateID: String
+        /// Template post migration custom action must succeed for cutover.
+        public let mustSucceedForCutover: Bool?
+        /// Operating system eligible for this template post migration custom action.
+        public let operatingSystem: String?
+        /// Template post migration custom action order.
+        public let order: Int
+        /// Template post migration custom action parameters.
+        public let parameters: [String: [SsmParameterStoreParameter]]?
+        /// Template post migration custom action timeout in seconds.
+        public let timeoutSeconds: Int?
+
+        public init(actionID: String, actionName: String, active: Bool? = nil, documentIdentifier: String, documentVersion: String? = nil, launchConfigurationTemplateID: String, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int = 0, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+            self.actionID = actionID
+            self.actionName = actionName
+            self.active = active
+            self.documentIdentifier = documentIdentifier
+            self.documentVersion = documentVersion
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.mustSucceedForCutover = mustSucceedForCutover
+            self.operatingSystem = operatingSystem
+            self.order = order
+            self.parameters = parameters
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
+            try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
+            try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
+            try self.validate(self.actionName, name: "actionName", parent: name, max: 256)
+            try self.validate(self.documentIdentifier, name: "documentIdentifier", parent: name, max: 256)
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^(\\$DEFAULT|\\$LATEST|[0-9]+)$")
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+            try self.validate(self.operatingSystem, name: "operatingSystem", parent: name, pattern: "^(linux|windows)$")
+            try self.validate(self.order, name: "order", parent: name, max: 10000)
+            try self.validate(self.order, name: "order", parent: name, min: 1001)
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 1011)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case actionName
+            case active
+            case documentIdentifier
+            case documentVersion
+            case launchConfigurationTemplateID
+            case mustSucceedForCutover
+            case operatingSystem
+            case order
+            case parameters
+            case timeoutSeconds
+        }
+    }
+
+    public struct RemoveSourceServerActionRequest: AWSEncodableShape {
+        /// Source server post migration custom action ID to remove.
+        public let actionID: String
+        /// Source server ID of the post migration custom action to remove.
+        public let sourceServerID: String
+
+        public init(actionID: String, sourceServerID: String) {
+            self.actionID = actionID
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
+            try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
+            try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case sourceServerID
+        }
+    }
+
+    public struct RemoveSourceServerActionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RemoveTemplateActionRequest: AWSEncodableShape {
+        /// Template post migration custom action ID to remove.
+        public let actionID: String
+        /// Launch configuration template ID of the post migration custom action to remove.
+        public let launchConfigurationTemplateID: String
+
+        public init(actionID: String, launchConfigurationTemplateID: String) {
+            self.actionID = actionID
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionID, name: "actionID", parent: name, max: 64)
+            try self.validate(self.actionID, name: "actionID", parent: name, min: 1)
+            try self.validate(self.actionID, name: "actionID", parent: name, pattern: "[0-9a-zA-Z]$")
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
+            try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case launchConfigurationTemplateID
+        }
+    }
+
+    public struct RemoveTemplateActionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ReplicationConfiguration: AWSDecodableShape {
@@ -1903,6 +2920,8 @@ extension Mgn {
     }
 
     public struct SourceServer: AWSDecodableShape {
+        /// Source server application ID.
+        public let applicationID: String?
         /// Source server ARN.
         public let arn: String?
         /// Source server data replication info.
@@ -1924,7 +2943,8 @@ extension Mgn {
         /// Source server vCenter client id.
         public let vcenterClientID: String?
 
-        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil) {
+        public init(applicationID: String? = nil, arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil) {
+            self.applicationID = applicationID
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.isArchived = isArchived
@@ -1938,6 +2958,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationID
             case arn
             case dataReplicationInfo
             case isArchived
@@ -1951,16 +2972,83 @@ extension Mgn {
         }
     }
 
-    public struct SsmDocument: AWSEncodableShape & AWSDecodableShape {
-        /// Source server replication type.
-        public let actionName: String
-        /// Source server replication type.
+    public struct SourceServerActionDocument: AWSDecodableShape {
+        /// Source server post migration custom action ID.
+        public let actionID: String?
+        /// Source server post migration custom action name.
+        public let actionName: String?
+        /// Source server post migration custom action active status.
+        public let active: Bool?
+        /// Source server post migration custom action document identifier.
+        public let documentIdentifier: String?
+        /// Source server post migration custom action document version.
+        public let documentVersion: String?
+        /// Source server post migration custom action must succeed for cutover.
         public let mustSucceedForCutover: Bool?
-        /// Source server replication type.
+        /// Source server post migration custom action order.
+        public let order: Int?
+        /// Source server post migration custom action parameters.
         public let parameters: [String: [SsmParameterStoreParameter]]?
-        /// Source server replication type.
+        /// Source server post migration custom action timeout in seconds.
+        public let timeoutSeconds: Int?
+
+        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+            self.actionID = actionID
+            self.actionName = actionName
+            self.active = active
+            self.documentIdentifier = documentIdentifier
+            self.documentVersion = documentVersion
+            self.mustSucceedForCutover = mustSucceedForCutover
+            self.order = order
+            self.parameters = parameters
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case actionName
+            case active
+            case documentIdentifier
+            case documentVersion
+            case mustSucceedForCutover
+            case order
+            case parameters
+            case timeoutSeconds
+        }
+    }
+
+    public struct SourceServerActionsRequestFilters: AWSEncodableShape {
+        /// Action IDs to filter source server post migration custom actions by.
+        public let actionIDs: [String]?
+
+        public init(actionIDs: [String]? = nil) {
+            self.actionIDs = actionIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.actionIDs?.forEach {
+                try validate($0, name: "actionIDs[]", parent: name, max: 64)
+                try validate($0, name: "actionIDs[]", parent: name, min: 1)
+                try validate($0, name: "actionIDs[]", parent: name, pattern: "[0-9a-zA-Z]$")
+            }
+            try self.validate(self.actionIDs, name: "actionIDs", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIDs
+        }
+    }
+
+    public struct SsmDocument: AWSEncodableShape & AWSDecodableShape {
+        /// User-friendly name for the AWS Systems Manager Document.
+        public let actionName: String
+        /// If true, Cutover will not be enabled if the document has failed.
+        public let mustSucceedForCutover: Bool?
+        /// AWS Systems Manager Document parameters.
+        public let parameters: [String: [SsmParameterStoreParameter]]?
+        /// AWS Systems Manager Document name or full ARN.
         public let ssmDocumentName: String
-        /// Source server replication type.
+        /// AWS Systems Manager Document timeout seconds.
         public let timeoutSeconds: Int?
 
         public init(actionName: String, mustSucceedForCutover: Bool? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, ssmDocumentName: String, timeoutSeconds: Int? = nil) {
@@ -1979,7 +3067,7 @@ extension Mgn {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^([A-Za-z0-9])+$")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
             }
-            try self.validate(self.parameters, name: "parameters", parent: name, max: 10)
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
             try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, max: 172)
             try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, min: 3)
             try self.validate(self.ssmDocumentName, name: "ssmDocumentName", parent: name, pattern: "^([A-Za-z0-9/:_\\.-])+$")
@@ -1996,9 +3084,9 @@ extension Mgn {
     }
 
     public struct SsmParameterStoreParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Source server replication type.
+        /// AWS Systems Manager Parameter Store parameter name.
         public let parameterName: String
-        /// Source server replication type.
+        /// AWS Systems Manager Parameter Store parameter type.
         public let parameterType: SsmParameterStoreParameterType
 
         public init(parameterName: String, parameterType: SsmParameterStoreParameterType) {
@@ -2154,6 +3242,77 @@ extension Mgn {
         }
     }
 
+    public struct TemplateActionDocument: AWSDecodableShape {
+        /// Template post migration custom action ID.
+        public let actionID: String?
+        /// Template post migration custom action name.
+        public let actionName: String?
+        /// Template post migration custom action active status.
+        public let active: Bool?
+        /// Template post migration custom action document identifier.
+        public let documentIdentifier: String?
+        /// Template post migration custom action document version.
+        public let documentVersion: String?
+        /// Template post migration custom action must succeed for cutover.
+        public let mustSucceedForCutover: Bool?
+        /// Operating system eligible for this template post migration custom action.
+        public let operatingSystem: String?
+        /// Template post migration custom action order.
+        public let order: Int?
+        /// Template post migration custom action parameters.
+        public let parameters: [String: [SsmParameterStoreParameter]]?
+        /// Template post migration custom action timeout in seconds.
+        public let timeoutSeconds: Int?
+
+        public init(actionID: String? = nil, actionName: String? = nil, active: Bool? = nil, documentIdentifier: String? = nil, documentVersion: String? = nil, mustSucceedForCutover: Bool? = nil, operatingSystem: String? = nil, order: Int? = nil, parameters: [String: [SsmParameterStoreParameter]]? = nil, timeoutSeconds: Int? = nil) {
+            self.actionID = actionID
+            self.actionName = actionName
+            self.active = active
+            self.documentIdentifier = documentIdentifier
+            self.documentVersion = documentVersion
+            self.mustSucceedForCutover = mustSucceedForCutover
+            self.operatingSystem = operatingSystem
+            self.order = order
+            self.parameters = parameters
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionID
+            case actionName
+            case active
+            case documentIdentifier
+            case documentVersion
+            case mustSucceedForCutover
+            case operatingSystem
+            case order
+            case parameters
+            case timeoutSeconds
+        }
+    }
+
+    public struct TemplateActionsRequestFilters: AWSEncodableShape {
+        /// Action IDs to filter template post migration custom actions by.
+        public let actionIDs: [String]?
+
+        public init(actionIDs: [String]? = nil) {
+            self.actionIDs = actionIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.actionIDs?.forEach {
+                try validate($0, name: "actionIDs[]", parent: name, max: 64)
+                try validate($0, name: "actionIDs[]", parent: name, min: 1)
+                try validate($0, name: "actionIDs[]", parent: name, pattern: "[0-9a-zA-Z]$")
+            }
+            try self.validate(self.actionIDs, name: "actionIDs", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIDs
+        }
+    }
+
     public struct TerminateTargetInstancesRequest: AWSEncodableShape {
         /// Terminate Target instance by Source Server IDs.
         public let sourceServerIDs: [String]
@@ -2198,6 +3357,44 @@ extension Mgn {
         }
     }
 
+    public struct UnarchiveApplicationRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+
+        public init(applicationID: String) {
+            self.applicationID = applicationID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+        }
+    }
+
+    public struct UnarchiveWaveRequest: AWSEncodableShape {
+        /// Wave ID.
+        public let waveID: String
+
+        public init(waveID: String) {
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waveID
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
@@ -2225,6 +3422,38 @@ extension Mgn {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateApplicationRequest: AWSEncodableShape {
+        /// Application ID.
+        public let applicationID: String
+        /// Application description.
+        public let description: String?
+        /// Application name.
+        public let name: String?
+
+        public init(applicationID: String, description: String? = nil, name: String? = nil) {
+            self.applicationID = applicationID
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationID, name: "applicationID", parent: name, max: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, min: 21)
+            try self.validate(self.applicationID, name: "applicationID", parent: name, pattern: "^app-[0-9a-zA-Z]{17}$")
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationID
+            case description
+            case name
+        }
+    }
+
     public struct UpdateLaunchConfigurationRequest: AWSEncodableShape {
         /// Update Launch configuration boot mode request.
         public let bootMode: BootMode?
@@ -2232,10 +3461,14 @@ extension Mgn {
         public let copyPrivateIp: Bool?
         /// Update Launch configuration copy Tags request.
         public let copyTags: Bool?
+        /// Enable map auto tagging.
+        public let enableMapAutoTagging: Bool?
         /// Update Launch configuration launch disposition request.
         public let launchDisposition: LaunchDisposition?
         /// Update Launch configuration licensing request.
         public let licensing: Licensing?
+        /// Launch configuration map auto tagging MPE ID.
+        public let mapAutoTaggingMpeID: String?
         /// Update Launch configuration name request.
         public let name: String?
         public let postLaunchActions: PostLaunchActions?
@@ -2244,12 +3477,14 @@ extension Mgn {
         /// Update Launch configuration Target instance right sizing request.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, name: String? = nil, postLaunchActions: PostLaunchActions? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
+            self.enableMapAutoTagging = enableMapAutoTagging
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
             self.name = name
             self.postLaunchActions = postLaunchActions
             self.sourceServerID = sourceServerID
@@ -2257,6 +3492,7 @@ extension Mgn {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
@@ -2268,8 +3504,10 @@ extension Mgn {
             case bootMode
             case copyPrivateIp
             case copyTags
+            case enableMapAutoTagging
             case launchDisposition
             case licensing
+            case mapAutoTaggingMpeID
             case name
             case postLaunchActions
             case sourceServerID
@@ -2278,26 +3516,77 @@ extension Mgn {
     }
 
     public struct UpdateLaunchConfigurationTemplateRequest: AWSEncodableShape {
-        /// Update Launch configuration Target instance right sizing request.
+        /// Associate public Ip address.
+        public let associatePublicIpAddress: Bool?
+        /// Launch configuration template boot mode.
+        public let bootMode: BootMode?
+        /// Copy private Ip.
+        public let copyPrivateIp: Bool?
+        /// Copy tags.
+        public let copyTags: Bool?
+        /// Enable map auto tagging.
+        public let enableMapAutoTagging: Bool?
+        /// Large volume config.
+        public let largeVolumeConf: LaunchTemplateDiskConf?
+        /// Launch Configuration Template ID.
         public let launchConfigurationTemplateID: String
-        /// Update Launch configuration Target instance right sizing request.
+        /// Launch disposition.
+        public let launchDisposition: LaunchDisposition?
+        public let licensing: Licensing?
+        /// Launch configuration template map auto tagging MPE ID.
+        public let mapAutoTaggingMpeID: String?
+        /// Post Launch Action to execute on the Test or Cutover instance.
         public let postLaunchActions: PostLaunchActions?
+        /// Small volume config.
+        public let smallVolumeConf: LaunchTemplateDiskConf?
+        /// Small volume maximum size.
+        public let smallVolumeMaxSize: Int64?
+        /// Target instance type right-sizing method.
+        public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(launchConfigurationTemplateID: String, postLaunchActions: PostLaunchActions? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.bootMode = bootMode
+            self.copyPrivateIp = copyPrivateIp
+            self.copyTags = copyTags
+            self.enableMapAutoTagging = enableMapAutoTagging
+            self.largeVolumeConf = largeVolumeConf
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.launchDisposition = launchDisposition
+            self.licensing = licensing
+            self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
             self.postLaunchActions = postLaunchActions
+            self.smallVolumeConf = smallVolumeConf
+            self.smallVolumeMaxSize = smallVolumeMaxSize
+            self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
         public func validate(name: String) throws {
+            try self.largeVolumeConf?.validate(name: "\(name).largeVolumeConf")
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, max: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
+            try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
             try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
+            try self.smallVolumeConf?.validate(name: "\(name).smallVolumeConf")
+            try self.validate(self.smallVolumeMaxSize, name: "smallVolumeMaxSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatePublicIpAddress
+            case bootMode
+            case copyPrivateIp
+            case copyTags
+            case enableMapAutoTagging
+            case largeVolumeConf
             case launchConfigurationTemplateID
+            case launchDisposition
+            case licensing
+            case mapAutoTaggingMpeID
             case postLaunchActions
+            case smallVolumeConf
+            case smallVolumeMaxSize
+            case targetInstanceTypeRightSizingMethod
         }
     }
 
@@ -2507,6 +3796,38 @@ extension Mgn {
         }
     }
 
+    public struct UpdateWaveRequest: AWSEncodableShape {
+        /// Wave description.
+        public let description: String?
+        /// Wave name.
+        public let name: String?
+        /// Wave ID.
+        public let waveID: String
+
+        public init(description: String? = nil, name: String? = nil, waveID: String) {
+            self.description = description
+            self.name = name
+            self.waveID = waveID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.validate(self.waveID, name: "waveID", parent: name, max: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, min: 22)
+            try self.validate(self.waveID, name: "waveID", parent: name, pattern: "^wave-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case name
+            case waveID
+        }
+    }
+
     public struct VcenterClient: AWSDecodableShape {
         /// Arn of vCenter client.
         public let arn: String?
@@ -2545,6 +3866,80 @@ extension Mgn {
             case tags
             case vcenterClientID
             case vcenterUUID
+        }
+    }
+
+    public struct Wave: AWSDecodableShape {
+        /// Wave ARN.
+        public let arn: String?
+        /// Wave creation dateTime.
+        public let creationDateTime: String?
+        /// Wave description.
+        public let description: String?
+        /// Wave archival status.
+        public let isArchived: Bool?
+        /// Wave last modified dateTime.
+        public let lastModifiedDateTime: String?
+        /// Wave name.
+        public let name: String?
+        /// Wave tags.
+        public let tags: [String: String]?
+        /// Wave aggregated status.
+        public let waveAggregatedStatus: WaveAggregatedStatus?
+        /// Wave ID.
+        public let waveID: String?
+
+        public init(arn: String? = nil, creationDateTime: String? = nil, description: String? = nil, isArchived: Bool? = nil, lastModifiedDateTime: String? = nil, name: String? = nil, tags: [String: String]? = nil, waveAggregatedStatus: WaveAggregatedStatus? = nil, waveID: String? = nil) {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.description = description
+            self.isArchived = isArchived
+            self.lastModifiedDateTime = lastModifiedDateTime
+            self.name = name
+            self.tags = tags
+            self.waveAggregatedStatus = waveAggregatedStatus
+            self.waveID = waveID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case creationDateTime
+            case description
+            case isArchived
+            case lastModifiedDateTime
+            case name
+            case tags
+            case waveAggregatedStatus
+            case waveID
+        }
+    }
+
+    public struct WaveAggregatedStatus: AWSDecodableShape {
+        /// Wave aggregated status health status.
+        public let healthStatus: WaveHealthStatus?
+        /// Wave aggregated status last update dateTime.
+        public let lastUpdateDateTime: String?
+        /// Wave aggregated status progress status.
+        public let progressStatus: WaveProgressStatus?
+        /// DateTime marking when the first source server in the wave started replication.
+        public let replicationStartedDateTime: String?
+        /// Wave aggregated status total applications amount.
+        public let totalApplications: Int64?
+
+        public init(healthStatus: WaveHealthStatus? = nil, lastUpdateDateTime: String? = nil, progressStatus: WaveProgressStatus? = nil, replicationStartedDateTime: String? = nil, totalApplications: Int64? = nil) {
+            self.healthStatus = healthStatus
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.progressStatus = progressStatus
+            self.replicationStartedDateTime = replicationStartedDateTime
+            self.totalApplications = totalApplications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthStatus
+            case lastUpdateDateTime
+            case progressStatus
+            case replicationStartedDateTime
+            case totalApplications
         }
     }
 }

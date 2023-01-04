@@ -58,7 +58,7 @@ extension Inspector2 {
         return try await self.client.execute(operation: "DeleteFilter", path: "/filters/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization
+    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeOrganizationConfigurationResponse {
         return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/organizationconfiguration/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -71,7 +71,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
 
     // MARK: API Calls
 
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     public func associateUser(_ input: AssociateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateUserResponse> {
         return self.client.execute(operation: "AssociateUser", path: "/user/AssociateUser", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -111,7 +111,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
         return self.client.execute(operation: "RegisterIdentityProvider", path: "/identity-provider/RegisterIdentityProvider", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a product subscription for a user with the specified identity provider.
+    /// Starts a product subscription for a user with the specified identity provider.  Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see Viewing your monthly charges in the Amazon Web Services Billing User Guide.
     public func startProductSubscription(_ input: StartProductSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartProductSubscriptionResponse> {
         return self.client.execute(operation: "StartProductSubscription", path: "/user/StartProductSubscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -119,6 +119,11 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Stops a product subscription for a user with the specified identity provider.
     public func stopProductSubscription(_ input: StopProductSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopProductSubscriptionResponse> {
         return self.client.execute(operation: "StopProductSubscription", path: "/user/StopProductSubscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates additional product configuration settings for the registered identity provider.
+    public func updateIdentityProviderSettings(_ input: UpdateIdentityProviderSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIdentityProviderSettingsResponse> {
+        return self.client.execute(operation: "UpdateIdentityProviderSettings", path: "/identity-provider/UpdateIdentityProviderSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

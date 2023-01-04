@@ -124,7 +124,7 @@ public struct RedshiftServerless: AWSService {
         return self.client.execute(operation: "DeleteWorkgroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).   The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources.    If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).  The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources.  If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
     public func getCredentials(_ input: GetCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCredentialsResponse> {
         return self.client.execute(operation: "GetCredentials", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,6 +152,11 @@ public struct RedshiftServerless: AWSService {
     /// Returns information about a specific snapshot.
     public func getSnapshot(_ input: GetSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSnapshotResponse> {
         return self.client.execute(operation: "GetSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a TableRestoreStatus object.
+    public func getTableRestoreStatus(_ input: GetTableRestoreStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableRestoreStatusResponse> {
+        return self.client.execute(operation: "GetTableRestoreStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a usage limit.
@@ -184,6 +189,11 @@ public struct RedshiftServerless: AWSService {
         return self.client.execute(operation: "ListSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about an array of TableRestoreStatus objects.
+    public func listTableRestoreStatus(_ input: ListTableRestoreStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTableRestoreStatusResponse> {
+        return self.client.execute(operation: "ListTableRestoreStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags assigned to a resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -212,6 +222,11 @@ public struct RedshiftServerless: AWSService {
     /// Restores a namespace from a snapshot.
     public func restoreFromSnapshot(_ input: RestoreFromSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreFromSnapshotResponse> {
         return self.client.execute(operation: "RestoreFromSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+    public func restoreTableFromSnapshot(_ input: RestoreTableFromSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreTableFromSnapshotResponse> {
+        return self.client.execute(operation: "RestoreTableFromSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Assigns one or more tags to a resource.
@@ -474,6 +489,59 @@ extension RedshiftServerless {
         )
     }
 
+    ///  Returns information about an array of TableRestoreStatus objects.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTableRestoreStatusPaginator<Result>(
+        _ input: ListTableRestoreStatusRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTableRestoreStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return self.client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: self.listTableRestoreStatus,
+            inputKey: \ListTableRestoreStatusRequest.nextToken,
+            outputKey: \ListTableRestoreStatusResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTableRestoreStatusPaginator(
+        _ input: ListTableRestoreStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTableRestoreStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return self.client.paginate(
+            input: input,
+            command: self.listTableRestoreStatus,
+            inputKey: \ListTableRestoreStatusRequest.nextToken,
+            outputKey: \ListTableRestoreStatusResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists all usage limits within Amazon Redshift Serverless.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -606,6 +674,7 @@ extension RedshiftServerless.ListRecoveryPointsRequest: AWSPaginateToken {
         return .init(
             endTime: self.endTime,
             maxResults: self.maxResults,
+            namespaceArn: self.namespaceArn,
             namespaceName: self.namespaceName,
             nextToken: token,
             startTime: self.startTime
@@ -623,6 +692,17 @@ extension RedshiftServerless.ListSnapshotsRequest: AWSPaginateToken {
             nextToken: token,
             ownerAccount: self.ownerAccount,
             startTime: self.startTime
+        )
+    }
+}
+
+extension RedshiftServerless.ListTableRestoreStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RedshiftServerless.ListTableRestoreStatusRequest {
+        return .init(
+            maxResults: self.maxResults,
+            namespaceName: self.namespaceName,
+            nextToken: token,
+            workgroupName: self.workgroupName
         )
     }
 }

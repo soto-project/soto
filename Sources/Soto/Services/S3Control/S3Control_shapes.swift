@@ -311,6 +311,8 @@ extension S3Control {
         public let alias: String?
         /// The name of the bucket associated with this access point.
         public let bucket: String
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+        public let bucketAccountId: String?
         /// The name of this access point.
         public let name: String
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
@@ -318,10 +320,11 @@ extension S3Control {
         /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, bucketAccountId: String? = nil, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -331,6 +334,7 @@ extension S3Control {
             case accessPointArn = "AccessPointArn"
             case alias = "Alias"
             case bucket = "Bucket"
+            case bucketAccountId = "BucketAccountId"
             case name = "Name"
             case networkOrigin = "NetworkOrigin"
             case vpcConfiguration = "VpcConfiguration"
@@ -628,10 +632,12 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The Amazon Web Services account ID for the owner of the bucket for which you want to create an access point.
+        /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+        public let bucketAccountId: String?
         /// The name you want to assign to this access point.
         public let name: String
         ///  The PublicAccessBlock configuration that you want to apply to the access point.
@@ -639,9 +645,10 @@ extension S3Control {
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(accountId: String, bucket: String, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accountId = accountId
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
             self.name = name
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
             self.vpcConfiguration = vpcConfiguration
@@ -652,6 +659,8 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucketAccountId, name: "bucketAccountId", parent: name, max: 64)
+            try self.validate(self.bucketAccountId, name: "bucketAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
@@ -659,6 +668,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
+            case bucketAccountId = "BucketAccountId"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case vpcConfiguration = "VpcConfiguration"
         }
@@ -1038,7 +1048,7 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The account ID for the account that owns the specified access point.
+        /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
@@ -1767,7 +1777,7 @@ extension S3Control {
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
-        /// The account ID for the account that owns the specified access point.
+        /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point whose configuration information you want to retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
@@ -1794,6 +1804,8 @@ extension S3Control {
         public let alias: String?
         /// The name of the bucket associated with the specified access point.
         public let bucket: String?
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+        public let bucketAccountId: String?
         /// The date and time when the specified access point was created.
         public let creationDate: Date?
         /// The VPC endpoint for the access point.
@@ -1807,10 +1819,11 @@ extension S3Control {
         /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, creationDate: Date? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, creationDate: Date? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
             self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
             self.creationDate = creationDate
             self.endpoints = endpoints
             self.name = name
@@ -1823,6 +1836,7 @@ extension S3Control {
             case accessPointArn = "AccessPointArn"
             case alias = "Alias"
             case bucket = "Bucket"
+            case bucketAccountId = "BucketAccountId"
             case creationDate = "CreationDate"
             case endpoints = "Endpoints"
             case name = "Name"
@@ -2208,6 +2222,54 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case accessPoint = "AccessPoint"
+        }
+    }
+
+    public struct GetMultiRegionAccessPointRoutesRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "mrap", location: .uri("Mrap"))
+        ]
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// The Multi-Region Access Point ARN.
+        public let mrap: String
+
+        public init(accountId: String, mrap: String) {
+            self.accountId = accountId
+            self.mrap = mrap
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.mrap, name: "mrap", parent: name, max: 200)
+            try self.validate(self.mrap, name: "mrap", parent: name, pattern: "^[a-zA-Z0-9\\:.-]{3,200}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMultiRegionAccessPointRoutesResult: AWSDecodableShape {
+        public struct _RoutesEncoding: ArrayCoderProperties { public static let member = "Route" }
+
+        /// The Multi-Region Access Point ARN.
+        public let mrap: String?
+        /// The different routes that make up the route configuration. Active routes return a value of 100, and passive routes return a value of 0.
+        @OptionalCustomCoding<ArrayCoder<_RoutesEncoding, MultiRegionAccessPointRoute>>
+        public var routes: [MultiRegionAccessPointRoute]?
+
+        public init(mrap: String? = nil, routes: [MultiRegionAccessPointRoute]? = nil) {
+            self.mrap = mrap
+            self.routes = routes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mrap = "Mrap"
+            case routes = "Routes"
         }
     }
 
@@ -2979,7 +3041,7 @@ extension S3Control {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The Amazon Web Services account ID for owner of the bucket whose access points you want to list.
+        /// The Amazon Web Services account ID for the account that owns the specified access points.
         public let accountId: String
         /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.  For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String?
@@ -3328,6 +3390,36 @@ extension S3Control {
             case publicAccessBlock = "PublicAccessBlock"
             case regions = "Regions"
             case status = "Status"
+        }
+    }
+
+    public struct MultiRegionAccessPointRoute: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
+        public let bucket: String?
+        /// The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
+        public let region: String?
+        /// The traffic state for the specified bucket or Amazon Web Services Region.  A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region.  A value of 100 indicates an active state, which means that traffic will be routed to the specified Region.  When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure status is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error.
+        public let trafficDialPercentage: Int
+
+        public init(bucket: String? = nil, region: String? = nil, trafficDialPercentage: Int) {
+            self.bucket = bucket
+            self.region = region
+            self.trafficDialPercentage = trafficDialPercentage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.region, name: "region", parent: name, max: 64)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, max: 100)
+            try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case region = "Region"
+            case trafficDialPercentage = "TrafficDialPercentage"
         }
     }
 
@@ -4831,6 +4923,48 @@ extension S3Control {
             case key = "Key"
             case value = "Value"
         }
+    }
+
+    public struct SubmitMultiRegionAccessPointRoutesRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header("x-amz-account-id")),
+            AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
+            AWSMemberEncoding(label: "mrap", location: .uri("Mrap"))
+        ]
+        public struct _RouteUpdatesEncoding: ArrayCoderProperties { public static let member = "Route" }
+
+        /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
+        public let accountId: String
+        /// The Multi-Region Access Point ARN.
+        public let mrap: String
+        /// The different routes that make up the new route configuration. Active routes return a value of 100, and passive routes return a value of 0.
+        @CustomCoding<ArrayCoder<_RouteUpdatesEncoding, MultiRegionAccessPointRoute>>
+        public var routeUpdates: [MultiRegionAccessPointRoute]
+
+        public init(accountId: String, mrap: String, routeUpdates: [MultiRegionAccessPointRoute]) {
+            self.accountId = accountId
+            self.mrap = mrap
+            self.routeUpdates = routeUpdates
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.mrap, name: "mrap", parent: name, max: 200)
+            try self.validate(self.mrap, name: "mrap", parent: name, pattern: "^[a-zA-Z0-9\\:.-]{3,200}$")
+            try self.routeUpdates.forEach {
+                try $0.validate(name: "\(name).routeUpdates[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeUpdates = "RouteUpdates"
+        }
+    }
+
+    public struct SubmitMultiRegionAccessPointRoutesResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Tagging: AWSEncodableShape {

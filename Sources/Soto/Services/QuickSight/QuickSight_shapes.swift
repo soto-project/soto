@@ -46,6 +46,26 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnchorOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case now = "NOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArcThickness: String, CustomStringConvertible, Codable, _SotoSendable {
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        case small = "SMALL"
+        case whole = "WHOLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArcThicknessOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        case small = "SMALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssignmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case draft = "DRAFT"
@@ -60,6 +80,66 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AxisBinding: String, CustomStringConvertible, Codable, _SotoSendable {
+        case primaryYaxis = "PRIMARY_YAXIS"
+        case secondaryYaxis = "SECONDARY_YAXIS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BarChartOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case horizontal = "HORIZONTAL"
+        case vertical = "VERTICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BarsArrangement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case clustered = "CLUSTERED"
+        case stacked = "STACKED"
+        case stackedPercent = "STACKED_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BaseMapStyleType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case darkGray = "DARK_GRAY"
+        case imagery = "IMAGERY"
+        case lightGray = "LIGHT_GRAY"
+        case street = "STREET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BoxPlotFillStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case solid = "SOLID"
+        case transparent = "TRANSPARENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CategoricalAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case count = "COUNT"
+        case distinctCount = "DISTINCT_COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CategoryFilterMatchOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case contains = "CONTAINS"
+        case doesNotContain = "DOES_NOT_CONTAIN"
+        case doesNotEqual = "DOES_NOT_EQUAL"
+        case endsWith = "ENDS_WITH"
+        case equals = "EQUALS"
+        case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CategoryFilterSelectAllOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case filterAllValues = "FILTER_ALL_VALUES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ColorFillType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case discrete = "DISCRETE"
+        case gradient = "GRADIENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColumnDataType: String, CustomStringConvertible, Codable, _SotoSendable {
         case datetime = "DATETIME"
         case decimal = "DECIMAL"
@@ -68,9 +148,62 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ColumnRole: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dimension = "DIMENSION"
+        case measure = "MEASURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColumnTagName: String, CustomStringConvertible, Codable, _SotoSendable {
         case columnDescription = "COLUMN_DESCRIPTION"
         case columnGeographicRole = "COLUMN_GEOGRAPHIC_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonMethod: String, CustomStringConvertible, Codable, _SotoSendable {
+        case difference = "DIFFERENCE"
+        case percent = "PERCENT"
+        case percentDifference = "PERCENT_DIFFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConditionalFormattingIconDisplayOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case iconOnly = "ICON_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConditionalFormattingIconSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bars = "BARS"
+        case caretUpMinusDown = "CARET_UP_MINUS_DOWN"
+        case checkX = "CHECK_X"
+        case flags = "FLAGS"
+        case fourColorArrow = "FOUR_COLOR_ARROW"
+        case fourGrayArrow = "FOUR_GRAY_ARROW"
+        case plusMinus = "PLUS_MINUS"
+        case threeCircle = "THREE_CIRCLE"
+        case threeColorArrow = "THREE_COLOR_ARROW"
+        case threeGrayArrow = "THREE_GRAY_ARROW"
+        case threeShape = "THREE_SHAPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrossDatasetTypes: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allDatasets = "ALL_DATASETS"
+        case singleDataset = "SINGLE_DATASET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomContentImageScalingConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+        case doNotScale = "DO_NOT_SCALE"
+        case fitToHeight = "FIT_TO_HEIGHT"
+        case fitToWidth = "FIT_TO_WIDTH"
+        case scaleToVisual = "SCALE_TO_VISUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case image = "IMAGE"
+        case otherEmbeddedContent = "OTHER_EMBEDDED_CONTENT"
         public var description: String { return self.rawValue }
     }
 
@@ -108,6 +241,29 @@ extension QuickSight {
     public enum DashboardUIState: String, CustomStringConvertible, Codable, _SotoSendable {
         case collapsed = "COLLAPSED"
         case expanded = "EXPANDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataLabelContent: String, CustomStringConvertible, Codable, _SotoSendable {
+        case percent = "PERCENT"
+        case value = "VALUE"
+        case valueAndPercent = "VALUE_AND_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataLabelOverlap: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disableOverlap = "DISABLE_OVERLAP"
+        case enableOverlap = "ENABLE_OVERLAP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataLabelPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bottom = "BOTTOM"
+        case inside = "INSIDE"
+        case left = "LEFT"
+        case outside = "OUTSIDE"
+        case right = "RIGHT"
+        case top = "TOP"
         public var description: String { return self.rawValue }
     }
 
@@ -177,6 +333,14 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DateAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case count = "COUNT"
+        case distinctCount = "DISTINCT_COUNT"
+        case max = "MAX"
+        case min = "MIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Edition: String, CustomStringConvertible, Codable, _SotoSendable {
         case enterprise = "ENTERPRISE"
         case enterpriseAndQ = "ENTERPRISE_AND_Q"
@@ -201,9 +365,22 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterNullOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allValues = "ALL_VALUES"
+        case nonNullsOnly = "NON_NULLS_ONLY"
+        case nullsOnly = "NULLS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
         case stringEquals = "StringEquals"
         case stringLike = "StringLike"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterVisualScope: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allVisuals = "ALL_VISUALS"
+        case selectedVisuals = "SELECTED_VISUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -223,6 +400,39 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum FontDecoration: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case underline = "UNDERLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FontStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case italic = "ITALIC"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FontWeightName: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bold = "BOLD"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ForecastComputationSeasonality: String, CustomStringConvertible, Codable, _SotoSendable {
+        case automatic = "AUTOMATIC"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunnelChartMeasureDataLabelStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case percentageByFirstStage = "PERCENTAGE_BY_FIRST_STAGE"
+        case percentageByPreviousStage = "PERCENTAGE_BY_PREVIOUS_STAGE"
+        case valueAndPercentageByFirstStage = "VALUE_AND_PERCENTAGE_BY_FIRST_STAGE"
+        case valueAndPercentageByPreviousStage = "VALUE_AND_PERCENTAGE_BY_PREVIOUS_STAGE"
+        case valueOnly = "VALUE_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case us = "US"
         public var description: String { return self.rawValue }
@@ -239,6 +449,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum GeospatialSelectedPointStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case cluster = "CLUSTER"
+        case point = "POINT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GroupFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
         case groupName = "GROUP_NAME"
         public var description: String { return self.rawValue }
@@ -246,6 +462,50 @@ extension QuickSight {
 
     public enum GroupFilterOperator: String, CustomStringConvertible, Codable, _SotoSendable {
         case startsWith = "StartsWith"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HistogramBinType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case binCount = "BIN_COUNT"
+        case binWidth = "BIN_WIDTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HorizontalTextAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "AUTO"
+        case center = "CENTER"
+        case left = "LEFT"
+        case right = "RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Icon: String, CustomStringConvertible, Codable, _SotoSendable {
+        case arrowDown = "ARROW_DOWN"
+        case arrowDownLeft = "ARROW_DOWN_LEFT"
+        case arrowDownRight = "ARROW_DOWN_RIGHT"
+        case arrowLeft = "ARROW_LEFT"
+        case arrowRight = "ARROW_RIGHT"
+        case arrowUp = "ARROW_UP"
+        case arrowUpLeft = "ARROW_UP_LEFT"
+        case arrowUpRight = "ARROW_UP_RIGHT"
+        case caretDown = "CARET_DOWN"
+        case caretUp = "CARET_UP"
+        case checkmark = "CHECKMARK"
+        case circle = "CIRCLE"
+        case faceDown = "FACE_DOWN"
+        case faceFlat = "FACE_FLAT"
+        case faceUp = "FACE_UP"
+        case flag = "FLAG"
+        case minus = "MINUS"
+        case oneBar = "ONE_BAR"
+        case plus = "PLUS"
+        case square = "SQUARE"
+        case threeBar = "THREE_BAR"
+        case thumbsDown = "THUMBS_DOWN"
+        case thumbsUp = "THUMBS_UP"
+        case triangle = "TRIANGLE"
+        case twoBar = "TWO_BAR"
+        case x = "X"
         public var description: String { return self.rawValue }
     }
 
@@ -357,10 +617,75 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum LayoutElementType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case filterControl = "FILTER_CONTROL"
+        case parameterControl = "PARAMETER_CONTROL"
+        case textBox = "TEXT_BOX"
+        case visual = "VISUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LegendPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "AUTO"
+        case bottom = "BOTTOM"
+        case right = "RIGHT"
+        case top = "TOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineChartLineStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dashed = "DASHED"
+        case dotted = "DOTTED"
+        case solid = "SOLID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineChartMarkerShape: String, CustomStringConvertible, Codable, _SotoSendable {
+        case circle = "CIRCLE"
+        case diamond = "DIAMOND"
+        case roundedSquare = "ROUNDED_SQUARE"
+        case square = "SQUARE"
+        case triangle = "TRIANGLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineChartType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case area = "AREA"
+        case line = "LINE"
+        case stackedArea = "STACKED_AREA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineInterpolation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case linear = "LINEAR"
+        case smooth = "SMOOTH"
+        case stepped = "STEPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MapZoomMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "AUTO"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaximumMinimumComputationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case maximum = "MAXIMUM"
+        case minimum = "MINIMUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberType: String, CustomStringConvertible, Codable, _SotoSendable {
         case analysis = "ANALYSIS"
         case dashboard = "DASHBOARD"
         case dataset = "DATASET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MissingDataTreatmentOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case interpolate = "INTERPOLATE"
+        case showAsBlank = "SHOW_AS_BLANK"
+        case showAsZero = "SHOW_AS_ZERO"
         public var description: String { return self.rawValue }
     }
 
@@ -376,6 +701,157 @@ extension QuickSight {
         case deleting = "DELETING"
         case nonRetryableFailure = "NON_RETRYABLE_FAILURE"
         case retryableFailure = "RETRYABLE_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NegativeValueDisplayMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case negative = "NEGATIVE"
+        case positive = "POSITIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumberScale: String, CustomStringConvertible, Codable, _SotoSendable {
+        case auto = "AUTO"
+        case billions = "BILLIONS"
+        case millions = "MILLIONS"
+        case none = "NONE"
+        case thousands = "THOUSANDS"
+        case trillions = "TRILLIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumericEqualityMatchOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case doesNotEqual = "DOES_NOT_EQUAL"
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumericFilterSelectAllOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case filterAllValues = "FILTER_ALL_VALUES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumericSeparatorSymbol: String, CustomStringConvertible, Codable, _SotoSendable {
+        case comma = "COMMA"
+        case dot = "DOT"
+        case space = "SPACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OtherCategories: String, CustomStringConvertible, Codable, _SotoSendable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PanelBorderStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dashed = "DASHED"
+        case dotted = "DOTTED"
+        case solid = "SOLID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaperOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case landscape = "LANDSCAPE"
+        case portrait = "PORTRAIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PaperSize: String, CustomStringConvertible, Codable, _SotoSendable {
+        case a0 = "A0"
+        case a1 = "A1"
+        case a2 = "A2"
+        case a3 = "A3"
+        case a4 = "A4"
+        case a5 = "A5"
+        case jisB4 = "JIS_B4"
+        case jisB5 = "JIS_B5"
+        case usLegal = "US_LEGAL"
+        case usLetter = "US_LETTER"
+        case usTabloidLedger = "US_TABLOID_LEDGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case multiValued = "MULTI_VALUED"
+        case singleValued = "SINGLE_VALUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PivotTableConditionalFormattingScopeRole: String, CustomStringConvertible, Codable, _SotoSendable {
+        case field = "FIELD"
+        case fieldTotal = "FIELD_TOTAL"
+        case grandTotal = "GRAND_TOTAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PivotTableMetricPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case column = "COLUMN"
+        case row = "ROW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PivotTableSubtotalLevel: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case custom = "CUSTOM"
+        case last = "LAST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrimaryValueDisplayType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case actual = "ACTUAL"
+        case comparison = "COMPARISON"
+        case hidden = "HIDDEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReferenceLineLabelHorizontalPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case center = "CENTER"
+        case left = "LEFT"
+        case right = "RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReferenceLineLabelVerticalPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case above = "ABOVE"
+        case below = "BELOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReferenceLinePatternType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dashed = "DASHED"
+        case dotted = "DOTTED"
+        case solid = "SOLID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReferenceLineValueLabelRelativePosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case afterCustomLabel = "AFTER_CUSTOM_LABEL"
+        case beforeCustomLabel = "BEFORE_CUSTOM_LABEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelativeDateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case last = "LAST"
+        case next = "NEXT"
+        case now = "NOW"
+        case previous = "PREVIOUS"
+        case this = "THIS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelativeFontSize: String, CustomStringConvertible, Codable, _SotoSendable {
+        case extraLarge = "EXTRA_LARGE"
+        case extraSmall = "EXTRA_SMALL"
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        case small = "SMALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResizeOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fixed = "FIXED"
+        case responsive = "RESPONSIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -402,9 +878,117 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum SectionPageBreakStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectAllValueOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allValues = "ALL_VALUES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectedFieldOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allFields = "ALL_FIELDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectedTooltipType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case basic = "BASIC"
+        case detailed = "DETAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case interactive = "INTERACTIVE"
+        case paginated = "PAGINATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetControlDateTimePickerType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dateRange = "DATE_RANGE"
+        case singleValued = "SINGLE_VALUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetControlListType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case multiSelect = "MULTI_SELECT"
+        case singleSelect = "SINGLE_SELECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetControlSliderType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case range = "RANGE"
+        case singlePoint = "SINGLE_POINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimpleNumericalAggregationFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `var` = "VAR"
+        case average = "AVERAGE"
+        case count = "COUNT"
+        case distinctCount = "DISTINCT_COUNT"
+        case max = "MAX"
+        case median = "MEDIAN"
+        case min = "MIN"
+        case stdev = "STDEV"
+        case stdevp = "STDEVP"
+        case sum = "SUM"
+        case varp = "VARP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortDirection: String, CustomStringConvertible, Codable, _SotoSendable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableBorderStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case solid = "SOLID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableCellImageScalingConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+        case doNotScale = "DO_NOT_SCALE"
+        case fitToCellHeight = "FIT_TO_CELL_HEIGHT"
+        case fitToCellWidth = "FIT_TO_CELL_WIDTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableFieldIconSetType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case link = "LINK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case horizontal = "HORIZONTAL"
+        case vertical = "VERTICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableTotalsPlacement: String, CustomStringConvertible, Codable, _SotoSendable {
+        case end = "END"
+        case start = "START"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableTotalsScrollStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case pinned = "PINNED"
+        case scrolled = "SCROLLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetVisualOptions: String, CustomStringConvertible, Codable, _SotoSendable {
+        case allVisuals = "ALL_VISUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -422,6 +1006,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum TextWrap: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case wrap = "WRAP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThemeErrorType: String, CustomStringConvertible, Codable, _SotoSendable {
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
@@ -434,12 +1024,113 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimeGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
+        case day = "DAY"
+        case hour = "HOUR"
+        case millisecond = "MILLISECOND"
+        case minute = "MINUTE"
+        case month = "MONTH"
+        case quarter = "QUARTER"
+        case second = "SECOND"
+        case week = "WEEK"
+        case year = "YEAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TooltipTitleType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case primaryValue = "PRIMARY_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopBottomComputationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bottom = "BOTTOM"
+        case top = "TOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopBottomSortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
+        case absoluteDifference = "ABSOLUTE_DIFFERENCE"
+        case percentDifference = "PERCENT_DIFFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum URLTargetConfiguration: String, CustomStringConvertible, Codable, _SotoSendable {
+        case newTab = "NEW_TAB"
+        case newWindow = "NEW_WINDOW"
+        case sameTab = "SAME_TAB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserRole: String, CustomStringConvertible, Codable, _SotoSendable {
         case admin = "ADMIN"
         case author = "AUTHOR"
         case reader = "READER"
         case restrictedAuthor = "RESTRICTED_AUTHOR"
         case restrictedReader = "RESTRICTED_READER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValueWhenUnsetOption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case null = "NULL"
+        case recommendedValue = "RECOMMENDED_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerticalTextAlignment: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bottom = "BOTTOM"
+        case middle = "MIDDLE"
+        case top = "TOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Visibility: String, CustomStringConvertible, Codable, _SotoSendable {
+        case hidden = "HIDDEN"
+        case visible = "VISIBLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VisualCustomActionTrigger: String, CustomStringConvertible, Codable, _SotoSendable {
+        case dataPointClick = "DATA_POINT_CLICK"
+        case dataPointMenu = "DATA_POINT_MENU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WidgetStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WordCloudCloudLayout: String, CustomStringConvertible, Codable, _SotoSendable {
+        case fluid = "FLUID"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WordCloudWordCasing: String, CustomStringConvertible, Codable, _SotoSendable {
+        case existingCase = "EXISTING_CASE"
+        case lowerCase = "LOWER_CASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WordCloudWordOrientation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case horizontal = "HORIZONTAL"
+        case horizontalAndVertical = "HORIZONTAL_AND_VERTICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WordCloudWordPadding: String, CustomStringConvertible, Codable, _SotoSendable {
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        case small = "SMALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WordCloudWordScaling: String, CustomStringConvertible, Codable, _SotoSendable {
+        case emphasize = "EMPHASIZE"
+        case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 
@@ -973,6 +1664,57 @@ extension QuickSight {
         }
     }
 
+    public struct AggregationFunction: AWSEncodableShape & AWSDecodableShape {
+        /// Aggregation for categorical values.    COUNT: Aggregate by the total number of values, including duplicates.    DISTINCT_COUNT: Aggregate by the total number of distinct values.
+        public let categoricalAggregationFunction: CategoricalAggregationFunction?
+        /// Aggregation for date values.    COUNT: Aggregate by the total number of values, including duplicates.    DISTINCT_COUNT: Aggregate by the total number of distinct values.    MIN: Select the smallest date value.    MAX: Select the largest date value.
+        public let dateAggregationFunction: DateAggregationFunction?
+        /// Aggregation for numerical values.
+        public let numericalAggregationFunction: NumericalAggregationFunction?
+
+        public init(categoricalAggregationFunction: CategoricalAggregationFunction? = nil, dateAggregationFunction: DateAggregationFunction? = nil, numericalAggregationFunction: NumericalAggregationFunction? = nil) {
+            self.categoricalAggregationFunction = categoricalAggregationFunction
+            self.dateAggregationFunction = dateAggregationFunction
+            self.numericalAggregationFunction = numericalAggregationFunction
+        }
+
+        public func validate(name: String) throws {
+            try self.numericalAggregationFunction?.validate(name: "\(name).numericalAggregationFunction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoricalAggregationFunction = "CategoricalAggregationFunction"
+            case dateAggregationFunction = "DateAggregationFunction"
+            case numericalAggregationFunction = "NumericalAggregationFunction"
+        }
+    }
+
+    public struct AggregationSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The function that aggregates the values in Column.
+        public let aggregationFunction: AggregationFunction
+        /// The column that determines the sort order of aggregated values.
+        public let column: ColumnIdentifier
+        /// The sort direction of values.    ASC: Sort in ascending order.    DESC: Sort in descending order.
+        public let sortDirection: SortDirection
+
+        public init(aggregationFunction: AggregationFunction, column: ColumnIdentifier, sortDirection: SortDirection) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.sortDirection = sortDirection
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunction.validate(name: "\(name).aggregationFunction")
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case sortDirection = "SortDirection"
+        }
+    }
+
     public struct AmazonElasticsearchParameters: AWSEncodableShape & AWSDecodableShape {
         /// The OpenSearch domain.
         public let domain: String
@@ -1058,20 +1800,100 @@ extension QuickSight {
         }
     }
 
+    public struct AnalysisDefaults: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for default new sheet settings.
+        public let defaultNewSheetConfiguration: DefaultNewSheetConfiguration
+
+        public init(defaultNewSheetConfiguration: DefaultNewSheetConfiguration) {
+            self.defaultNewSheetConfiguration = defaultNewSheetConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultNewSheetConfiguration = "DefaultNewSheetConfiguration"
+        }
+    }
+
+    public struct AnalysisDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let analysisDefaults: AnalysisDefaults?
+        /// An array of calculated field definitions for the analysis.
+        public let calculatedFields: [CalculatedField]?
+        ///  An array of analysis-level column configurations. Column configurations can be used to set default formatting for a column to be used throughout an analysis.
+        public let columnConfigurations: [ColumnConfiguration]?
+        /// An array of dataset identifier declarations. This mapping allows the usage of dataset identifiers instead of dataset ARNs throughout analysis sub-structures.
+        public let dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration]
+        /// Filter definitions for an analysis. For more information, see Filtering Data in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let filterGroups: [FilterGroup]?
+        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let parameterDeclarations: [ParameterDeclaration]?
+        /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
+        public let sheets: [SheetDefinition]?
+
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
+            self.filterGroups = filterGroups
+            self.parameterDeclarations = parameterDeclarations
+            self.sheets = sheets
+        }
+
+        public func validate(name: String) throws {
+            try self.calculatedFields?.forEach {
+                try $0.validate(name: "\(name).calculatedFields[]")
+            }
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 100)
+            try self.columnConfigurations?.forEach {
+                try $0.validate(name: "\(name).columnConfigurations[]")
+            }
+            try self.validate(self.columnConfigurations, name: "columnConfigurations", parent: name, max: 200)
+            try self.dataSetIdentifierDeclarations.forEach {
+                try $0.validate(name: "\(name).dataSetIdentifierDeclarations[]")
+            }
+            try self.validate(self.dataSetIdentifierDeclarations, name: "dataSetIdentifierDeclarations", parent: name, max: 50)
+            try self.validate(self.dataSetIdentifierDeclarations, name: "dataSetIdentifierDeclarations", parent: name, min: 1)
+            try self.filterGroups?.forEach {
+                try $0.validate(name: "\(name).filterGroups[]")
+            }
+            try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.parameterDeclarations?.forEach {
+                try $0.validate(name: "\(name).parameterDeclarations[]")
+            }
+            try self.validate(self.parameterDeclarations, name: "parameterDeclarations", parent: name, max: 200)
+            try self.sheets?.forEach {
+                try $0.validate(name: "\(name).sheets[]")
+            }
+            try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisDefaults = "AnalysisDefaults"
+            case calculatedFields = "CalculatedFields"
+            case columnConfigurations = "ColumnConfigurations"
+            case dataSetIdentifierDeclarations = "DataSetIdentifierDeclarations"
+            case filterGroups = "FilterGroups"
+            case parameterDeclarations = "ParameterDeclarations"
+            case sheets = "Sheets"
+        }
+    }
+
     public struct AnalysisError: AWSDecodableShape {
         /// The message associated with the analysis error.
         public let message: String?
         /// The type of the analysis error.
         public let type: AnalysisErrorType?
+        public let violatedEntities: [Entity]?
 
-        public init(message: String? = nil, type: AnalysisErrorType? = nil) {
+        public init(message: String? = nil, type: AnalysisErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
+            self.violatedEntities = violatedEntities
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case type = "Type"
+            case violatedEntities = "ViolatedEntities"
         }
     }
 
@@ -1170,6 +1992,29 @@ extension QuickSight {
         }
     }
 
+    public struct AnchorDateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options for the date configuration. Choose one of the options below:    NOW
+        public let anchorOption: AnchorOption?
+        /// The name of the parameter that is used for the anchor date configuration.
+        public let parameterName: String?
+
+        public init(anchorOption: AnchorOption? = nil, parameterName: String? = nil) {
+            self.anchorOption = anchorOption
+            self.parameterName = parameterName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anchorOption = "AnchorOption"
+            case parameterName = "ParameterName"
+        }
+    }
+
     public struct AnonymousUserDashboardEmbeddingConfiguration: AWSEncodableShape {
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardId: String
@@ -1179,7 +2024,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 2048)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 512)
             try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, min: 1)
             try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -1249,6 +2094,70 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case initialTopicId = "InitialTopicId"
+        }
+    }
+
+    public struct ArcAxisConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The arc axis range of a GaugeChartVisual.
+        public let range: ArcAxisDisplayRange?
+        /// The reserved range of the arc axis.
+        public let reserveRange: Int?
+
+        public init(range: ArcAxisDisplayRange? = nil, reserveRange: Int? = nil) {
+            self.range = range
+            self.reserveRange = reserveRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
+            case reserveRange = "ReserveRange"
+        }
+    }
+
+    public struct ArcAxisDisplayRange: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum value of the arc axis range.
+        public let max: Double?
+        /// The minimum value of the arc axis range.
+        public let min: Double?
+
+        public init(max: Double? = nil, min: Double? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case min = "Min"
+        }
+    }
+
+    public struct ArcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the arc angle of a GaugeChartVisual.
+        public let arcAngle: Double?
+        /// The options that determine the arc thickness of a GaugeChartVisual.
+        public let arcThickness: ArcThicknessOptions?
+
+        public init(arcAngle: Double? = nil, arcThickness: ArcThicknessOptions? = nil) {
+            self.arcAngle = arcAngle
+            self.arcThickness = arcThickness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arcAngle = "ArcAngle"
+            case arcThickness = "ArcThickness"
+        }
+    }
+
+    public struct ArcOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The arc thickness of a GaugeChartVisual.
+        public let arcThickness: ArcThickness?
+
+        public init(arcThickness: ArcThickness? = nil) {
+            self.arcThickness = arcThickness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arcThickness = "ArcThickness"
         }
     }
 
@@ -1354,6 +2263,561 @@ extension QuickSight {
         }
     }
 
+    public struct AxisDataOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options for an axis with a date field.
+        public let dateAxisOptions: DateAxisOptions?
+        /// The options for an axis with a numeric field.
+        public let numericAxisOptions: NumericAxisOptions?
+
+        public init(dateAxisOptions: DateAxisOptions? = nil, numericAxisOptions: NumericAxisOptions? = nil) {
+            self.dateAxisOptions = dateAxisOptions
+            self.numericAxisOptions = numericAxisOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateAxisOptions = "DateAxisOptions"
+            case numericAxisOptions = "NumericAxisOptions"
+        }
+    }
+
+    public struct AxisDisplayDataDrivenRange: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AxisDisplayMinMaxRange: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum setup for an axis display range.
+        public let maximum: Double?
+        /// The minimum setup for an axis display range.
+        public let minimum: Double?
+
+        public init(maximum: Double? = nil, minimum: Double? = nil) {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum = "Maximum"
+            case minimum = "Minimum"
+        }
+    }
+
+    public struct AxisDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether or not the axis line is visible.
+        public let axisLineVisibility: Visibility?
+        /// The offset value that determines the starting placement of the axis within a visual's bounds.
+        public let axisOffset: String?
+        /// The data options for an axis.
+        public let dataOptions: AxisDataOptions?
+        /// Determines whether or not the grid line is visible.
+        public let gridLineVisibility: Visibility?
+        /// The scroll bar options for an axis.
+        public let scrollbarOptions: ScrollBarOptions?
+        /// The tick label options of an axis.
+        public let tickLabelOptions: AxisTickLabelOptions?
+
+        public init(axisLineVisibility: Visibility? = nil, axisOffset: String? = nil, dataOptions: AxisDataOptions? = nil, gridLineVisibility: Visibility? = nil, scrollbarOptions: ScrollBarOptions? = nil, tickLabelOptions: AxisTickLabelOptions? = nil) {
+            self.axisLineVisibility = axisLineVisibility
+            self.axisOffset = axisOffset
+            self.dataOptions = dataOptions
+            self.gridLineVisibility = gridLineVisibility
+            self.scrollbarOptions = scrollbarOptions
+            self.tickLabelOptions = tickLabelOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.scrollbarOptions?.validate(name: "\(name).scrollbarOptions")
+            try self.tickLabelOptions?.validate(name: "\(name).tickLabelOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisLineVisibility = "AxisLineVisibility"
+            case axisOffset = "AxisOffset"
+            case dataOptions = "DataOptions"
+            case gridLineVisibility = "GridLineVisibility"
+            case scrollbarOptions = "ScrollbarOptions"
+            case tickLabelOptions = "TickLabelOptions"
+        }
+    }
+
+    public struct AxisDisplayRange: AWSEncodableShape & AWSDecodableShape {
+        /// The data-driven setup of an axis display range.
+        public let dataDriven: AxisDisplayDataDrivenRange?
+        /// The minimum and maximum setup of an axis display range.
+        public let minMax: AxisDisplayMinMaxRange?
+
+        public init(dataDriven: AxisDisplayDataDrivenRange? = nil, minMax: AxisDisplayMinMaxRange? = nil) {
+            self.dataDriven = dataDriven
+            self.minMax = minMax
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataDriven = "DataDriven"
+            case minMax = "MinMax"
+        }
+    }
+
+    public struct AxisLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that indicate which field the label belongs to.
+        public let applyTo: AxisLabelReferenceOptions?
+        /// The text for the axis label.
+        public let customLabel: String?
+        /// The font configuration of the axis label.
+        public let fontConfiguration: FontConfiguration?
+
+        public init(applyTo: AxisLabelReferenceOptions? = nil, customLabel: String? = nil, fontConfiguration: FontConfiguration? = nil) {
+            self.applyTo = applyTo
+            self.customLabel = customLabel
+            self.fontConfiguration = fontConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.applyTo?.validate(name: "\(name).applyTo")
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyTo = "ApplyTo"
+            case customLabel = "CustomLabel"
+            case fontConfiguration = "FontConfiguration"
+        }
+    }
+
+    public struct AxisLabelReferenceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the axis label is targeted to.
+        public let column: ColumnIdentifier
+        /// The field that the axis label is targeted to.
+        public let fieldId: String
+
+        public init(column: ColumnIdentifier, fieldId: String) {
+            self.column = column
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case fieldId = "FieldId"
+        }
+    }
+
+    public struct AxisLinearScale: AWSEncodableShape & AWSDecodableShape {
+        /// The step count setup of a linear axis.
+        public let stepCount: Int?
+        /// The step size setup of a linear axis.
+        public let stepSize: Double?
+
+        public init(stepCount: Int? = nil, stepSize: Double? = nil) {
+            self.stepCount = stepCount
+            self.stepSize = stepSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepCount = "StepCount"
+            case stepSize = "StepSize"
+        }
+    }
+
+    public struct AxisLogarithmicScale: AWSEncodableShape & AWSDecodableShape {
+        /// The base setup of a logarithmic axis scale.
+        public let base: Double?
+
+        public init(base: Double? = nil) {
+            self.base = base
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "Base"
+        }
+    }
+
+    public struct AxisScale: AWSEncodableShape & AWSDecodableShape {
+        /// The linear axis scale setup.
+        public let linear: AxisLinearScale?
+        /// The logarithmic axis scale setup.
+        public let logarithmic: AxisLogarithmicScale?
+
+        public init(linear: AxisLinearScale? = nil, logarithmic: AxisLogarithmicScale? = nil) {
+            self.linear = linear
+            self.logarithmic = logarithmic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linear = "Linear"
+            case logarithmic = "Logarithmic"
+        }
+    }
+
+    public struct AxisTickLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether or not the axis ticks are visible.
+        public let labelOptions: LabelOptions?
+        /// The rotation angle of the axis tick labels.
+        public let rotationAngle: Double?
+
+        public init(labelOptions: LabelOptions? = nil, rotationAngle: Double? = nil) {
+            self.labelOptions = labelOptions
+            self.rotationAngle = rotationAngle
+        }
+
+        public func validate(name: String) throws {
+            try self.labelOptions?.validate(name: "\(name).labelOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelOptions = "LabelOptions"
+            case rotationAngle = "RotationAngle"
+        }
+    }
+
+    public struct BarChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The category (y-axis) field well of a bar chart.
+        public let category: [DimensionField]?
+        /// The color (group/color) field well of a bar chart.
+        public let colors: [DimensionField]?
+        /// The small multiples field well of a bar chart.
+        public let smallMultiples: [DimensionField]?
+        /// The value field wells of a bar chart. Values are aggregated by category.
+        public let values: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, colors: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.category = category
+            self.colors = colors
+            self.smallMultiples = smallMultiples
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 200)
+            try self.colors?.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 200)
+            try self.smallMultiples?.forEach {
+                try $0.validate(name: "\(name).smallMultiples[]")
+            }
+            try self.validate(self.smallMultiples, name: "smallMultiples", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case colors = "Colors"
+            case smallMultiples = "SmallMultiples"
+            case values = "Values"
+        }
+    }
+
+    public struct BarChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the arrangement of the bars. The orientation and arrangement of bars determine the type of bar that is used in the visual.
+        public let barsArrangement: BarsArrangement?
+        /// The label display options (grid line, range, scale, axis step) for bar chart category.
+        public let categoryAxis: AxisDisplayOptions?
+        /// The label options (label text, label visibility and sort icon visibility) for a bar chart.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The label options (label text, label visibility and sort icon visibility) for a color that is used in a bar chart.
+        public let colorLabelOptions: ChartAxisLabelOptions?
+        /// The contribution analysis (anomaly configuration) setup of the visual.
+        public let contributionAnalysisDefaults: [ContributionAnalysisDefault]?
+        /// The options that determine if visual data labels are displayed.
+        public let dataLabels: DataLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: BarChartFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The orientation of the bars in a bar chart visual. There are two valid values in this structure:    HORIZONTAL: Used for charts that have horizontal bars. Visuals that use this value are horizontal bar charts, horizontal stacked bar charts, and horizontal stacked 100% bar charts.    VERTICAL: Used for charts that have vertical bars. Visuals that use this value are vertical bar charts, vertical stacked bar charts, and vertical stacked 100% bar charts.
+        public let orientation: BarChartOrientation?
+        /// The reference line setup of the visual.
+        public let referenceLines: [ReferenceLine]?
+        /// The small multiples setup for the visual.
+        public let smallMultiplesOptions: SmallMultiplesOptions?
+        /// The sort configuration of a BarChartVisual.
+        public let sortConfiguration: BarChartSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The label display options (grid line, range, scale, axis step) for a bar chart value.
+        public let valueAxis: AxisDisplayOptions?
+        /// The label options (label text, label visibility and sort icon visibility) for a bar chart value.
+        public let valueLabelOptions: ChartAxisLabelOptions?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+
+        public init(barsArrangement: BarsArrangement? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: BarChartFieldWells? = nil, legend: LegendOptions? = nil, orientation: BarChartOrientation? = nil, referenceLines: [ReferenceLine]? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: BarChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueAxis: AxisDisplayOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.barsArrangement = barsArrangement
+            self.categoryAxis = categoryAxis
+            self.categoryLabelOptions = categoryLabelOptions
+            self.colorLabelOptions = colorLabelOptions
+            self.contributionAnalysisDefaults = contributionAnalysisDefaults
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.orientation = orientation
+            self.referenceLines = referenceLines
+            self.smallMultiplesOptions = smallMultiplesOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.valueAxis = valueAxis
+            self.valueLabelOptions = valueLabelOptions
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryAxis?.validate(name: "\(name).categoryAxis")
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.colorLabelOptions?.validate(name: "\(name).colorLabelOptions")
+            try self.contributionAnalysisDefaults?.forEach {
+                try $0.validate(name: "\(name).contributionAnalysisDefaults[]")
+            }
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, max: 200)
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, min: 1)
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.referenceLines?.forEach {
+                try $0.validate(name: "\(name).referenceLines[]")
+            }
+            try self.validate(self.referenceLines, name: "referenceLines", parent: name, max: 20)
+            try self.smallMultiplesOptions?.validate(name: "\(name).smallMultiplesOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.valueAxis?.validate(name: "\(name).valueAxis")
+            try self.valueLabelOptions?.validate(name: "\(name).valueLabelOptions")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case barsArrangement = "BarsArrangement"
+            case categoryAxis = "CategoryAxis"
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case colorLabelOptions = "ColorLabelOptions"
+            case contributionAnalysisDefaults = "ContributionAnalysisDefaults"
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case orientation = "Orientation"
+            case referenceLines = "ReferenceLines"
+            case smallMultiplesOptions = "SmallMultiplesOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case valueAxis = "ValueAxis"
+            case valueLabelOptions = "ValueLabelOptions"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct BarChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a bar chart.
+        public let barChartAggregatedFieldWells: BarChartAggregatedFieldWells?
+
+        public init(barChartAggregatedFieldWells: BarChartAggregatedFieldWells? = nil) {
+            self.barChartAggregatedFieldWells = barChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.barChartAggregatedFieldWells?.validate(name: "\(name).barChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case barChartAggregatedFieldWells = "BarChartAggregatedFieldWells"
+        }
+    }
+
+    public struct BarChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of categories displayed in a bar chart.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of category fields.
+        public let categorySort: [FieldSortOptions]?
+        /// The limit on the number of values displayed in a bar chart.
+        public let colorItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of color fields in a bar chart.
+        public let colorSort: [FieldSortOptions]?
+        /// The limit on the number of small multiples panels that are displayed.
+        public let smallMultiplesLimitConfiguration: ItemsLimitConfiguration?
+        /// The sort configuration of the small multiples field.
+        public let smallMultiplesSort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+            self.colorItemsLimit = colorItemsLimit
+            self.colorSort = colorSort
+            self.smallMultiplesLimitConfiguration = smallMultiplesLimitConfiguration
+            self.smallMultiplesSort = smallMultiplesSort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.colorSort?.forEach {
+                try $0.validate(name: "\(name).colorSort[]")
+            }
+            try self.validate(self.colorSort, name: "colorSort", parent: name, max: 100)
+            try self.smallMultiplesSort?.forEach {
+                try $0.validate(name: "\(name).smallMultiplesSort[]")
+            }
+            try self.validate(self.smallMultiplesSort, name: "smallMultiplesSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+            case colorItemsLimit = "ColorItemsLimit"
+            case colorSort = "ColorSort"
+            case smallMultiplesLimitConfiguration = "SmallMultiplesLimitConfiguration"
+            case smallMultiplesSort = "SmallMultiplesSort"
+        }
+    }
+
+    public struct BarChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: BarChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct BinCountOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the bin count value.
+        public let value: Int?
+
+        public init(value: Int? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct BinWidthOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the bin count limit.
+        public let binCountLimit: Int64?
+        /// The options that determine the bin width value.
+        public let value: Double?
+
+        public init(binCountLimit: Int64? = nil, value: Double? = nil) {
+            self.binCountLimit = binCountLimit
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.binCountLimit, name: "binCountLimit", parent: name, max: 1000)
+            try self.validate(self.binCountLimit, name: "binCountLimit", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binCountLimit = "BinCountLimit"
+            case value = "Value"
+        }
+    }
+
+    public struct BodySectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of content in a body section.
+        public let content: BodySectionContent
+        /// The configuration of a page break for a section.
+        public let pageBreakConfiguration: SectionPageBreakConfiguration?
+        /// The unique identifier of a body section.
+        public let sectionId: String
+        /// The style options of a body section.
+        public let style: SectionStyle?
+
+        public init(content: BodySectionContent, pageBreakConfiguration: SectionPageBreakConfiguration? = nil, sectionId: String, style: SectionStyle? = nil) {
+            self.content = content
+            self.pageBreakConfiguration = pageBreakConfiguration
+            self.sectionId = sectionId
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+            try self.validate(self.sectionId, name: "sectionId", parent: name, max: 512)
+            try self.validate(self.sectionId, name: "sectionId", parent: name, min: 1)
+            try self.validate(self.sectionId, name: "sectionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case pageBreakConfiguration = "PageBreakConfiguration"
+            case sectionId = "SectionId"
+            case style = "Style"
+        }
+    }
+
+    public struct BodySectionContent: AWSEncodableShape & AWSDecodableShape {
+        /// The layout configuration of a body section.
+        public let layout: SectionLayoutConfiguration?
+
+        public init(layout: SectionLayoutConfiguration? = nil) {
+            self.layout = layout
+        }
+
+        public func validate(name: String) throws {
+            try self.layout?.validate(name: "\(name).layout")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layout = "Layout"
+        }
+    }
+
     public struct BorderStyle: AWSEncodableShape & AWSDecodableShape {
         /// The option to enable display of borders for visuals.
         public let show: Bool?
@@ -1364,6 +2828,228 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case show = "Show"
+        }
+    }
+
+    public struct BoxPlotAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The group by field well of a box plot chart. Values are grouped based on group by fields.
+        public let groupBy: [DimensionField]?
+        /// The value field well of a box plot chart. Values are aggregated based on group by fields.
+        public let values: [MeasureField]?
+
+        public init(groupBy: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.groupBy = groupBy
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupBy = "GroupBy"
+            case values = "Values"
+        }
+    }
+
+    public struct BoxPlotChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The box plot chart options for a box plot visual
+        public let boxPlotOptions: BoxPlotOptions?
+        /// The label display options (grid line, range, scale, axis step) of a box plot category.
+        public let categoryAxis: AxisDisplayOptions?
+        /// The label options (label text, label visibility and sort Icon visibility) of a box plot category.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: BoxPlotFieldWells?
+        public let legend: LegendOptions?
+        /// The label display options (grid line, range, scale, axis step) of a box plot category.
+        public let primaryYAxisDisplayOptions: AxisDisplayOptions?
+        /// The label options (label text, label visibility and sort icon visibility) of a box plot value.
+        public let primaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The reference line setup of the visual.
+        public let referenceLines: [ReferenceLine]?
+        /// The sort configuration of a BoxPlotVisual.
+        public let sortConfiguration: BoxPlotSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+
+        public init(boxPlotOptions: BoxPlotOptions? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: BoxPlotFieldWells? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, sortConfiguration: BoxPlotSortConfiguration? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.boxPlotOptions = boxPlotOptions
+            self.categoryAxis = categoryAxis
+            self.categoryLabelOptions = categoryLabelOptions
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
+            self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
+            self.referenceLines = referenceLines
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryAxis?.validate(name: "\(name).categoryAxis")
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.primaryYAxisDisplayOptions?.validate(name: "\(name).primaryYAxisDisplayOptions")
+            try self.primaryYAxisLabelOptions?.validate(name: "\(name).primaryYAxisLabelOptions")
+            try self.referenceLines?.forEach {
+                try $0.validate(name: "\(name).referenceLines[]")
+            }
+            try self.validate(self.referenceLines, name: "referenceLines", parent: name, max: 20)
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boxPlotOptions = "BoxPlotOptions"
+            case categoryAxis = "CategoryAxis"
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
+            case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
+            case referenceLines = "ReferenceLines"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct BoxPlotFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a box plot.
+        public let boxPlotAggregatedFieldWells: BoxPlotAggregatedFieldWells?
+
+        public init(boxPlotAggregatedFieldWells: BoxPlotAggregatedFieldWells? = nil) {
+            self.boxPlotAggregatedFieldWells = boxPlotAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.boxPlotAggregatedFieldWells?.validate(name: "\(name).boxPlotAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boxPlotAggregatedFieldWells = "BoxPlotAggregatedFieldWells"
+        }
+    }
+
+    public struct BoxPlotOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the visibility of all data points of the box plot.
+        public let allDataPointsVisibility: Visibility?
+        /// Determines the visibility of the outlier in a box plot.
+        public let outlierVisibility: Visibility?
+        /// The style options of the box plot.
+        public let styleOptions: BoxPlotStyleOptions?
+
+        public init(allDataPointsVisibility: Visibility? = nil, outlierVisibility: Visibility? = nil, styleOptions: BoxPlotStyleOptions? = nil) {
+            self.allDataPointsVisibility = allDataPointsVisibility
+            self.outlierVisibility = outlierVisibility
+            self.styleOptions = styleOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allDataPointsVisibility = "AllDataPointsVisibility"
+            case outlierVisibility = "OutlierVisibility"
+            case styleOptions = "StyleOptions"
+        }
+    }
+
+    public struct BoxPlotSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration of a group by fields.
+        public let categorySort: [FieldSortOptions]?
+        /// The pagination configuration of a table visual or box plot.
+        public let paginationConfiguration: PaginationConfiguration?
+
+        public init(categorySort: [FieldSortOptions]? = nil, paginationConfiguration: PaginationConfiguration? = nil) {
+            self.categorySort = categorySort
+            self.paginationConfiguration = paginationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.paginationConfiguration?.validate(name: "\(name).paginationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categorySort = "CategorySort"
+            case paginationConfiguration = "PaginationConfiguration"
+        }
+    }
+
+    public struct BoxPlotStyleOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The fill styles (solid, transparent) of the box plot.
+        public let fillStyle: BoxPlotFillStyle?
+
+        public init(fillStyle: BoxPlotFillStyle? = nil) {
+            self.fillStyle = fillStyle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fillStyle = "FillStyle"
+        }
+    }
+
+    public struct BoxPlotVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: BoxPlotChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BoxPlotChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 
@@ -1394,6 +3080,60 @@ extension QuickSight {
             case columnId = "ColumnId"
             case columnName = "ColumnName"
             case expression = "Expression"
+        }
+    }
+
+    public struct CalculatedField: AWSEncodableShape & AWSDecodableShape {
+        /// The data set that is used in this calculated field.
+        public let dataSetIdentifier: String
+        /// The expression of the calculated field.
+        public let expression: String
+        /// The name of the calculated field.
+        public let name: String
+
+        public init(dataSetIdentifier: String, expression: String, name: String) {
+            self.dataSetIdentifier = dataSetIdentifier
+            self.expression = expression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetIdentifier = "DataSetIdentifier"
+            case expression = "Expression"
+            case name = "Name"
+        }
+    }
+
+    public struct CalculatedMeasureField: AWSEncodableShape & AWSDecodableShape {
+        /// The expression in the table calculation.
+        public let expression: String
+        /// The custom field ID.
+        public let fieldId: String
+
+        public init(expression: String, fieldId: String) {
+            self.expression = expression
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case fieldId = "FieldId"
         }
     }
 
@@ -1458,6 +3198,47 @@ extension QuickSight {
         }
     }
 
+    public struct CascadingControlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of source controls that determine the values that are used in the current control.
+        public let sourceControls: [CascadingControlSource]?
+
+        public init(sourceControls: [CascadingControlSource]? = nil) {
+            self.sourceControls = sourceControls
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceControls?.forEach {
+                try $0.validate(name: "\(name).sourceControls[]")
+            }
+            try self.validate(self.sourceControls, name: "sourceControls", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceControls = "SourceControls"
+        }
+    }
+
+    public struct CascadingControlSource: AWSEncodableShape & AWSDecodableShape {
+        /// The column identifier that determines which column to look up for the source sheet control.
+        public let columnToMatch: ColumnIdentifier?
+        /// The source sheet control ID of a CascadingControlSource.
+        public let sourceSheetControlId: String?
+
+        public init(columnToMatch: ColumnIdentifier? = nil, sourceSheetControlId: String? = nil) {
+            self.columnToMatch = columnToMatch
+            self.sourceSheetControlId = sourceSheetControlId
+        }
+
+        public func validate(name: String) throws {
+            try self.columnToMatch?.validate(name: "\(name).columnToMatch")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnToMatch = "ColumnToMatch"
+            case sourceSheetControlId = "SourceSheetControlId"
+        }
+    }
+
     public struct CastColumnTypeOperation: AWSEncodableShape & AWSDecodableShape {
         /// Column name.
         public let columnName: String
@@ -1482,6 +3263,271 @@ extension QuickSight {
             case columnName = "ColumnName"
             case format = "Format"
             case newColumnType = "NewColumnType"
+        }
+    }
+
+    public struct CategoricalDimensionField: AWSEncodableShape & AWSDecodableShape {
+        /// The column that is used in the CategoricalDimensionField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: StringFormatConfiguration?
+        /// The custom hierarchy ID.
+        public let hierarchyId: String?
+
+        public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: StringFormatConfiguration? = nil, hierarchyId: String? = nil) {
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
+    public struct CategoricalMeasureField: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the measure field.
+        public let aggregationFunction: CategoricalAggregationFunction?
+        /// The column that is used in the CategoricalMeasureField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: StringFormatConfiguration?
+
+        public init(aggregationFunction: CategoricalAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: StringFormatConfiguration? = nil) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+        }
+    }
+
+    public struct CategoryDrillDownFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A list of the string inputs that are the values of the category drill down filter.
+        public let categoryValues: [String]
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+
+        public init(categoryValues: [String], column: ColumnIdentifier) {
+            self.categoryValues = categoryValues
+            self.column = column
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryValues.forEach {
+                try validate($0, name: "categoryValues[]", parent: name, max: 512)
+            }
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryValues = "CategoryValues"
+            case column = "Column"
+        }
+    }
+
+    public struct CategoryFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// The configuration for a CategoryFilter.
+        public let configuration: CategoryFilterConfiguration?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+
+        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration? = nil, filterId: String) {
+            self.column = column
+            self.configuration = configuration
+            self.filterId = filterId
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case configuration = "Configuration"
+            case filterId = "FilterId"
+        }
+    }
+
+    public struct CategoryFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A custom filter that filters based on a single value. This filter can be partially matched.
+        public let customFilterConfiguration: CustomFilterConfiguration?
+        /// A list of custom filter values. In the Amazon QuickSight console, this filter type is called a custom filter list.
+        public let customFilterListConfiguration: CustomFilterListConfiguration?
+        /// A list of filter configurations. In the Amazon QuickSight console, this filter type is called a filter list.
+        public let filterListConfiguration: FilterListConfiguration?
+
+        public init(customFilterConfiguration: CustomFilterConfiguration? = nil, customFilterListConfiguration: CustomFilterListConfiguration? = nil, filterListConfiguration: FilterListConfiguration? = nil) {
+            self.customFilterConfiguration = customFilterConfiguration
+            self.customFilterListConfiguration = customFilterListConfiguration
+            self.filterListConfiguration = filterListConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.customFilterConfiguration?.validate(name: "\(name).customFilterConfiguration")
+            try self.customFilterListConfiguration?.validate(name: "\(name).customFilterListConfiguration")
+            try self.filterListConfiguration?.validate(name: "\(name).filterListConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customFilterConfiguration = "CustomFilterConfiguration"
+            case customFilterListConfiguration = "CustomFilterListConfiguration"
+            case filterListConfiguration = "FilterListConfiguration"
+        }
+    }
+
+    public struct ChartAxisLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The label options for a chart axis.
+        public let axisLabelOptions: [AxisLabelOptions]?
+        /// The visibility configuration of the sort icon on a chart's axis label.
+        public let sortIconVisibility: Visibility?
+        /// The visibility of an axis label on a chart. Choose one of the following options:    VISIBLE: Shows the axis.    HIDDEN: Hides the axis.
+        public let visibility: Visibility?
+
+        public init(axisLabelOptions: [AxisLabelOptions]? = nil, sortIconVisibility: Visibility? = nil, visibility: Visibility? = nil) {
+            self.axisLabelOptions = axisLabelOptions
+            self.sortIconVisibility = sortIconVisibility
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.axisLabelOptions?.forEach {
+                try $0.validate(name: "\(name).axisLabelOptions[]")
+            }
+            try self.validate(self.axisLabelOptions, name: "axisLabelOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisLabelOptions = "AxisLabelOptions"
+            case sortIconVisibility = "SortIconVisibility"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ClusterMarker: AWSEncodableShape & AWSDecodableShape {
+        /// The simple cluster marker of the cluster marker.
+        public let simpleClusterMarker: SimpleClusterMarker?
+
+        public init(simpleClusterMarker: SimpleClusterMarker? = nil) {
+            self.simpleClusterMarker = simpleClusterMarker
+        }
+
+        public func validate(name: String) throws {
+            try self.simpleClusterMarker?.validate(name: "\(name).simpleClusterMarker")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simpleClusterMarker = "SimpleClusterMarker"
+        }
+    }
+
+    public struct ClusterMarkerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cluster marker that is a part of the cluster marker configuration
+        public let clusterMarker: ClusterMarker?
+
+        public init(clusterMarker: ClusterMarker? = nil) {
+            self.clusterMarker = clusterMarker
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterMarker?.validate(name: "\(name).clusterMarker")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterMarker = "ClusterMarker"
+        }
+    }
+
+    public struct ColorScale: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color fill type.
+        public let colorFillType: ColorFillType
+        /// Determines the list of colors that are applied to the visual.
+        public let colors: [DataColor]
+        /// Determines the color that is applied to null values.
+        public let nullValueColor: DataColor?
+
+        public init(colorFillType: ColorFillType, colors: [DataColor], nullValueColor: DataColor? = nil) {
+            self.colorFillType = colorFillType
+            self.colors = colors
+            self.nullValueColor = nullValueColor
+        }
+
+        public func validate(name: String) throws {
+            try self.colors.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 3)
+            try self.validate(self.colors, name: "colors", parent: name, min: 2)
+            try self.nullValueColor?.validate(name: "\(name).nullValueColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorFillType = "ColorFillType"
+            case colors = "Colors"
+            case nullValueColor = "NullValueColor"
+        }
+    }
+
+    public struct ColumnConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The column.
+        public let column: ColumnIdentifier
+        /// The format configuration of a column.
+        public let formatConfiguration: FormatConfiguration?
+        /// The role of the column.
+        public let role: ColumnRole?
+
+        public init(column: ColumnIdentifier, formatConfiguration: FormatConfiguration? = nil, role: ColumnRole? = nil) {
+            self.column = column
+            self.formatConfiguration = formatConfiguration
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case formatConfiguration = "FormatConfiguration"
+            case role = "Role"
         }
     }
 
@@ -1519,7 +3565,7 @@ extension QuickSight {
         }
     }
 
-    public struct ColumnGroupColumnSchema: AWSDecodableShape {
+    public struct ColumnGroupColumnSchema: AWSEncodableShape & AWSDecodableShape {
         /// The name of the column group's column schema.
         public let name: String?
 
@@ -1532,7 +3578,7 @@ extension QuickSight {
         }
     }
 
-    public struct ColumnGroupSchema: AWSDecodableShape {
+    public struct ColumnGroupSchema: AWSEncodableShape & AWSDecodableShape {
         /// A structure containing the list of schemas for column group columns.
         public let columnGroupColumnSchemaList: [ColumnGroupColumnSchema]?
         /// The name of the column group schema.
@@ -1543,9 +3589,64 @@ extension QuickSight {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.columnGroupColumnSchemaList, name: "columnGroupColumnSchemaList", parent: name, max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case columnGroupColumnSchemaList = "ColumnGroupColumnSchemaList"
             case name = "Name"
+        }
+    }
+
+    public struct ColumnHierarchy: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the hierarchy of any DateTime fields.
+        public let dateTimeHierarchy: DateTimeHierarchy?
+        /// The option that determines the hierarchy of the fields that are built within a visual's field wells. These fields can't be duplicated to other visuals.
+        public let explicitHierarchy: ExplicitHierarchy?
+        /// The option that determines the hierarchy of the fields that are defined during data preparation. These fields are available to use in any analysis that uses the data source.
+        public let predefinedHierarchy: PredefinedHierarchy?
+
+        public init(dateTimeHierarchy: DateTimeHierarchy? = nil, explicitHierarchy: ExplicitHierarchy? = nil, predefinedHierarchy: PredefinedHierarchy? = nil) {
+            self.dateTimeHierarchy = dateTimeHierarchy
+            self.explicitHierarchy = explicitHierarchy
+            self.predefinedHierarchy = predefinedHierarchy
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimeHierarchy?.validate(name: "\(name).dateTimeHierarchy")
+            try self.explicitHierarchy?.validate(name: "\(name).explicitHierarchy")
+            try self.predefinedHierarchy?.validate(name: "\(name).predefinedHierarchy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeHierarchy = "DateTimeHierarchy"
+            case explicitHierarchy = "ExplicitHierarchy"
+            case predefinedHierarchy = "PredefinedHierarchy"
+        }
+    }
+
+    public struct ColumnIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The data set that the column belongs to.
+        public let dataSetIdentifier: String
+
+        public init(columnName: String, dataSetIdentifier: String) {
+            self.columnName = columnName
+            self.dataSetIdentifier = dataSetIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
+            try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case dataSetIdentifier = "DataSetIdentifier"
         }
     }
 
@@ -1572,7 +3673,7 @@ extension QuickSight {
         }
     }
 
-    public struct ColumnSchema: AWSDecodableShape {
+    public struct ColumnSchema: AWSEncodableShape & AWSDecodableShape {
         /// The data type of the column schema.
         public let dataType: String?
         /// The geographic role of the column schema.
@@ -1590,6 +3691,31 @@ extension QuickSight {
             case dataType = "DataType"
             case geographicRole = "GeographicRole"
             case name = "Name"
+        }
+    }
+
+    public struct ColumnSort: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function that is defined in the column sort.
+        public let aggregationFunction: AggregationFunction?
+        /// The sort direction.
+        public let direction: SortDirection
+        public let sortBy: ColumnIdentifier
+
+        public init(aggregationFunction: AggregationFunction? = nil, direction: SortDirection, sortBy: ColumnIdentifier) {
+            self.aggregationFunction = aggregationFunction
+            self.direction = direction
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
+            try self.sortBy.validate(name: "\(name).sortBy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case direction = "Direction"
+            case sortBy = "SortBy"
         }
     }
 
@@ -1611,6 +3737,587 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case columnDescription = "ColumnDescription"
             case columnGeographicRole = "ColumnGeographicRole"
+        }
+    }
+
+    public struct ColumnTooltipItem: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the column tooltip item.
+        public let aggregation: AggregationFunction?
+        /// The target column of the tooltip item.
+        public let column: ColumnIdentifier
+        /// The label of the tooltip item.
+        public let label: String?
+        /// The visibility of the tooltip item.
+        public let visibility: Visibility?
+
+        public init(aggregation: AggregationFunction? = nil, column: ColumnIdentifier, label: String? = nil, visibility: Visibility? = nil) {
+            self.aggregation = aggregation
+            self.column = column
+            self.label = label
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregation?.validate(name: "\(name).aggregation")
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case column = "Column"
+            case label = "Label"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ComboChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated BarValues field well of a combo chart.
+        public let barValues: [MeasureField]?
+        /// The aggregated category field wells of a combo chart.
+        public let category: [DimensionField]?
+        /// The aggregated colors field well of a combo chart.
+        public let colors: [DimensionField]?
+        /// The aggregated LineValues field well of a combo chart.
+        public let lineValues: [MeasureField]?
+
+        public init(barValues: [MeasureField]? = nil, category: [DimensionField]? = nil, colors: [DimensionField]? = nil, lineValues: [MeasureField]? = nil) {
+            self.barValues = barValues
+            self.category = category
+            self.colors = colors
+            self.lineValues = lineValues
+        }
+
+        public func validate(name: String) throws {
+            try self.barValues?.forEach {
+                try $0.validate(name: "\(name).barValues[]")
+            }
+            try self.validate(self.barValues, name: "barValues", parent: name, max: 200)
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 200)
+            try self.colors?.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 200)
+            try self.lineValues?.forEach {
+                try $0.validate(name: "\(name).lineValues[]")
+            }
+            try self.validate(self.lineValues, name: "lineValues", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case barValues = "BarValues"
+            case category = "Category"
+            case colors = "Colors"
+            case lineValues = "LineValues"
+        }
+    }
+
+    public struct ComboChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine if visual data labels are displayed. The data label options for a bar in a combo chart.
+        public let barDataLabels: DataLabelOptions?
+        /// Determines the bar arrangement in a combo chart. The following are valid values in this structure:    CLUSTERED: For clustered bar combo charts.    STACKED: For stacked bar combo charts.    STACKED_PERCENT: Do not use. If you use this value, the operation returns a validation error.
+        public let barsArrangement: BarsArrangement?
+        /// The category axis of a combo chart.
+        public let categoryAxis: AxisDisplayOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of a combo chart category (group/color) field well.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's color field well.
+        public let colorLabelOptions: ChartAxisLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: ComboChartFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The options that determine if visual data labels are displayed. The data label options for a line in a combo chart.
+        public let lineDataLabels: DataLabelOptions?
+        /// The label display options (grid line, range, scale, and axis step) of a combo chart's primary y-axis (bar) field well.
+        public let primaryYAxisDisplayOptions: AxisDisplayOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's primary y-axis (bar) field well.
+        public let primaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The reference line setup of the visual.
+        public let referenceLines: [ReferenceLine]?
+        /// The label display options (grid line, range, scale, axis step) of a combo chart's secondary y-axis (line) field well.
+        public let secondaryYAxisDisplayOptions: AxisDisplayOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's secondary y-axis(line) field well.
+        public let secondaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The sort configuration of a ComboChartVisual.
+        public let sortConfiguration: ComboChartSortConfiguration?
+        /// The legend display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+
+        public init(barDataLabels: DataLabelOptions? = nil, barsArrangement: BarsArrangement? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: ComboChartFieldWells? = nil, legend: LegendOptions? = nil, lineDataLabels: DataLabelOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, secondaryYAxisDisplayOptions: AxisDisplayOptions? = nil, secondaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: ComboChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.barDataLabels = barDataLabels
+            self.barsArrangement = barsArrangement
+            self.categoryAxis = categoryAxis
+            self.categoryLabelOptions = categoryLabelOptions
+            self.colorLabelOptions = colorLabelOptions
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.lineDataLabels = lineDataLabels
+            self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
+            self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
+            self.referenceLines = referenceLines
+            self.secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptions
+            self.secondaryYAxisLabelOptions = secondaryYAxisLabelOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.barDataLabels?.validate(name: "\(name).barDataLabels")
+            try self.categoryAxis?.validate(name: "\(name).categoryAxis")
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.colorLabelOptions?.validate(name: "\(name).colorLabelOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.lineDataLabels?.validate(name: "\(name).lineDataLabels")
+            try self.primaryYAxisDisplayOptions?.validate(name: "\(name).primaryYAxisDisplayOptions")
+            try self.primaryYAxisLabelOptions?.validate(name: "\(name).primaryYAxisLabelOptions")
+            try self.referenceLines?.forEach {
+                try $0.validate(name: "\(name).referenceLines[]")
+            }
+            try self.validate(self.referenceLines, name: "referenceLines", parent: name, max: 20)
+            try self.secondaryYAxisDisplayOptions?.validate(name: "\(name).secondaryYAxisDisplayOptions")
+            try self.secondaryYAxisLabelOptions?.validate(name: "\(name).secondaryYAxisLabelOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case barDataLabels = "BarDataLabels"
+            case barsArrangement = "BarsArrangement"
+            case categoryAxis = "CategoryAxis"
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case colorLabelOptions = "ColorLabelOptions"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case lineDataLabels = "LineDataLabels"
+            case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
+            case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
+            case referenceLines = "ReferenceLines"
+            case secondaryYAxisDisplayOptions = "SecondaryYAxisDisplayOptions"
+            case secondaryYAxisLabelOptions = "SecondaryYAxisLabelOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct ComboChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a combo chart. Combo charts only have aggregated field wells. Columns in a combo chart are aggregated by category.
+        public let comboChartAggregatedFieldWells: ComboChartAggregatedFieldWells?
+
+        public init(comboChartAggregatedFieldWells: ComboChartAggregatedFieldWells? = nil) {
+            self.comboChartAggregatedFieldWells = comboChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.comboChartAggregatedFieldWells?.validate(name: "\(name).comboChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comboChartAggregatedFieldWells = "ComboChartAggregatedFieldWells"
+        }
+    }
+
+    public struct ComboChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The item limit configuration for the category field well of a combo chart.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the category field well in a combo chart.
+        public let categorySort: [FieldSortOptions]?
+        /// The item limit configuration of the color field well in a combo chart.
+        public let colorItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the color field well in a combo chart.
+        public let colorSort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+            self.colorItemsLimit = colorItemsLimit
+            self.colorSort = colorSort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.colorSort?.forEach {
+                try $0.validate(name: "\(name).colorSort[]")
+            }
+            try self.validate(self.colorSort, name: "colorSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+            case colorItemsLimit = "ColorItemsLimit"
+            case colorSort = "ColorSort"
+        }
+    }
+
+    public struct ComboChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: ComboChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ComboChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct ComparisonConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the comparison.
+        public let comparisonFormat: ComparisonFormatConfiguration?
+        /// The method of the comparison. Choose from the following options:    DIFFERENCE     PERCENT_DIFFERENCE     PERCENT
+        public let comparisonMethod: ComparisonMethod?
+
+        public init(comparisonFormat: ComparisonFormatConfiguration? = nil, comparisonMethod: ComparisonMethod? = nil) {
+            self.comparisonFormat = comparisonFormat
+            self.comparisonMethod = comparisonMethod
+        }
+
+        public func validate(name: String) throws {
+            try self.comparisonFormat?.validate(name: "\(name).comparisonFormat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonFormat = "ComparisonFormat"
+            case comparisonMethod = "ComparisonMethod"
+        }
+    }
+
+    public struct ComparisonFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number display format.
+        public let numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration?
+        /// The percentage display format.
+        public let percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration?
+
+        public init(numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration? = nil, percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration? = nil) {
+            self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
+            self.percentageDisplayFormatConfiguration = percentageDisplayFormatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.numberDisplayFormatConfiguration?.validate(name: "\(name).numberDisplayFormatConfiguration")
+            try self.percentageDisplayFormatConfiguration?.validate(name: "\(name).percentageDisplayFormatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberDisplayFormatConfiguration = "NumberDisplayFormatConfiguration"
+            case percentageDisplayFormatConfiguration = "PercentageDisplayFormatConfiguration"
+        }
+    }
+
+    public struct Computation: AWSEncodableShape & AWSDecodableShape {
+        /// The forecast computation configuration.
+        public let forecast: ForecastComputation?
+        /// The growth rate computation configuration.
+        public let growthRate: GrowthRateComputation?
+        /// The maximum and minimum computation configuration.
+        public let maximumMinimum: MaximumMinimumComputation?
+        /// The metric comparison computation configuration.
+        public let metricComparison: MetricComparisonComputation?
+        /// The period over period computation configuration.
+        public let periodOverPeriod: PeriodOverPeriodComputation?
+        /// The period to DataSetIdentifier computation configuration.
+        public let periodToDate: PeriodToDateComputation?
+        /// The top movers and bottom movers computation configuration.
+        public let topBottomMovers: TopBottomMoversComputation?
+        /// The top ranked and bottom ranked computation configuration.
+        public let topBottomRanked: TopBottomRankedComputation?
+        /// The total aggregation computation configuration.
+        public let totalAggregation: TotalAggregationComputation?
+        /// The unique values computation configuration.
+        public let uniqueValues: UniqueValuesComputation?
+
+        public init(forecast: ForecastComputation? = nil, growthRate: GrowthRateComputation? = nil, maximumMinimum: MaximumMinimumComputation? = nil, metricComparison: MetricComparisonComputation? = nil, periodOverPeriod: PeriodOverPeriodComputation? = nil, periodToDate: PeriodToDateComputation? = nil, topBottomMovers: TopBottomMoversComputation? = nil, topBottomRanked: TopBottomRankedComputation? = nil, totalAggregation: TotalAggregationComputation? = nil, uniqueValues: UniqueValuesComputation? = nil) {
+            self.forecast = forecast
+            self.growthRate = growthRate
+            self.maximumMinimum = maximumMinimum
+            self.metricComparison = metricComparison
+            self.periodOverPeriod = periodOverPeriod
+            self.periodToDate = periodToDate
+            self.topBottomMovers = topBottomMovers
+            self.topBottomRanked = topBottomRanked
+            self.totalAggregation = totalAggregation
+            self.uniqueValues = uniqueValues
+        }
+
+        public func validate(name: String) throws {
+            try self.forecast?.validate(name: "\(name).forecast")
+            try self.growthRate?.validate(name: "\(name).growthRate")
+            try self.maximumMinimum?.validate(name: "\(name).maximumMinimum")
+            try self.metricComparison?.validate(name: "\(name).metricComparison")
+            try self.periodOverPeriod?.validate(name: "\(name).periodOverPeriod")
+            try self.periodToDate?.validate(name: "\(name).periodToDate")
+            try self.topBottomMovers?.validate(name: "\(name).topBottomMovers")
+            try self.topBottomRanked?.validate(name: "\(name).topBottomRanked")
+            try self.totalAggregation?.validate(name: "\(name).totalAggregation")
+            try self.uniqueValues?.validate(name: "\(name).uniqueValues")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecast = "Forecast"
+            case growthRate = "GrowthRate"
+            case maximumMinimum = "MaximumMinimum"
+            case metricComparison = "MetricComparison"
+            case periodOverPeriod = "PeriodOverPeriod"
+            case periodToDate = "PeriodToDate"
+            case topBottomMovers = "TopBottomMovers"
+            case topBottomRanked = "TopBottomRanked"
+            case totalAggregation = "TotalAggregation"
+            case uniqueValues = "UniqueValues"
+        }
+    }
+
+    public struct ConditionalFormattingColor: AWSEncodableShape & AWSDecodableShape {
+        /// Formatting configuration for gradient color.
+        public let gradient: ConditionalFormattingGradientColor?
+        /// Formatting configuration for solid color.
+        public let solid: ConditionalFormattingSolidColor?
+
+        public init(gradient: ConditionalFormattingGradientColor? = nil, solid: ConditionalFormattingSolidColor? = nil) {
+            self.gradient = gradient
+            self.solid = solid
+        }
+
+        public func validate(name: String) throws {
+            try self.gradient?.validate(name: "\(name).gradient")
+            try self.solid?.validate(name: "\(name).solid")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gradient = "Gradient"
+            case solid = "Solid"
+        }
+    }
+
+    public struct ConditionalFormattingCustomIconCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color of the icon.
+        public let color: String?
+        /// Determines the icon display configuration.
+        public let displayConfiguration: ConditionalFormattingIconDisplayConfiguration?
+        /// The expression that determines the condition of the icon set.
+        public let expression: String
+        /// Custom icon options for an icon set.
+        public let iconOptions: ConditionalFormattingCustomIconOptions
+
+        public init(color: String? = nil, displayConfiguration: ConditionalFormattingIconDisplayConfiguration? = nil, expression: String, iconOptions: ConditionalFormattingCustomIconOptions) {
+            self.color = color
+            self.displayConfiguration = displayConfiguration
+            self.expression = expression
+            self.iconOptions = iconOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.iconOptions.validate(name: "\(name).iconOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case displayConfiguration = "DisplayConfiguration"
+            case expression = "Expression"
+            case iconOptions = "IconOptions"
+        }
+    }
+
+    public struct ConditionalFormattingCustomIconOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the type of icon.
+        public let icon: Icon?
+        /// Determines the Unicode icon type.
+        public let unicodeIcon: String?
+
+        public init(icon: Icon? = nil, unicodeIcon: String? = nil) {
+            self.icon = icon
+            self.unicodeIcon = unicodeIcon
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.unicodeIcon, name: "unicodeIcon", parent: name, pattern: "^[^\\u0000-\\u00FF]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icon = "Icon"
+            case unicodeIcon = "UnicodeIcon"
+        }
+    }
+
+    public struct ConditionalFormattingGradientColor: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color.
+        public let color: GradientColor
+        /// The expression that determines the formatting configuration for gradient color.
+        public let expression: String
+
+        public init(color: GradientColor, expression: String) {
+            self.color = color
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.color.validate(name: "\(name).color")
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case expression = "Expression"
+        }
+    }
+
+    public struct ConditionalFormattingIcon: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the custom condition for an icon set.
+        public let customCondition: ConditionalFormattingCustomIconCondition?
+        /// Formatting configuration for icon set.
+        public let iconSet: ConditionalFormattingIconSet?
+
+        public init(customCondition: ConditionalFormattingCustomIconCondition? = nil, iconSet: ConditionalFormattingIconSet? = nil) {
+            self.customCondition = customCondition
+            self.iconSet = iconSet
+        }
+
+        public func validate(name: String) throws {
+            try self.customCondition?.validate(name: "\(name).customCondition")
+            try self.iconSet?.validate(name: "\(name).iconSet")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customCondition = "CustomCondition"
+            case iconSet = "IconSet"
+        }
+    }
+
+    public struct ConditionalFormattingIconDisplayConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the icon display configuration.
+        public let iconDisplayOption: ConditionalFormattingIconDisplayOption?
+
+        public init(iconDisplayOption: ConditionalFormattingIconDisplayOption? = nil) {
+            self.iconDisplayOption = iconDisplayOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iconDisplayOption = "IconDisplayOption"
+        }
+    }
+
+    public struct ConditionalFormattingIconSet: AWSEncodableShape & AWSDecodableShape {
+        /// The expression that determines the formatting configuration for the icon set.
+        public let expression: String
+        /// Determines the icon set type.
+        public let iconSetType: ConditionalFormattingIconSetType?
+
+        public init(expression: String, iconSetType: ConditionalFormattingIconSetType? = nil) {
+            self.expression = expression
+            self.iconSetType = iconSetType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case iconSetType = "IconSetType"
+        }
+    }
+
+    public struct ConditionalFormattingSolidColor: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color.
+        public let color: String?
+        /// The expression that determines the formatting configuration for solid color.
+        public let expression: String
+
+        public init(color: String? = nil, expression: String) {
+            self.color = color
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case expression = "Expression"
+        }
+    }
+
+    public struct ContributionAnalysisDefault: AWSEncodableShape & AWSDecodableShape {
+        /// The dimensions columns that are used in the contribution analysis, usually a list of ColumnIdentifiers.
+        public let contributorDimensions: [ColumnIdentifier]
+        /// The measure field that is used in the contribution analysis.
+        public let measureFieldId: String
+
+        public init(contributorDimensions: [ColumnIdentifier], measureFieldId: String) {
+            self.contributorDimensions = contributorDimensions
+            self.measureFieldId = measureFieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.contributorDimensions.forEach {
+                try $0.validate(name: "\(name).contributorDimensions[]")
+            }
+            try self.validate(self.contributorDimensions, name: "contributorDimensions", parent: name, max: 4)
+            try self.validate(self.contributorDimensions, name: "contributorDimensions", parent: name, min: 1)
+            try self.validate(self.measureFieldId, name: "measureFieldId", parent: name, max: 512)
+            try self.validate(self.measureFieldId, name: "measureFieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorDimensions = "ContributorDimensions"
+            case measureFieldId = "MeasureFieldId"
         }
     }
 
@@ -1805,22 +4512,25 @@ extension QuickSight {
         public let analysisId: String
         /// The ID of the Amazon Web Services account where you are creating an analysis.
         public let awsAccountId: String
+        /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: AnalysisDefinition?
         /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
         public let name: String
         /// The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).   To specify no permissions, omit Permissions.
+        /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
         public let permissions: [ResourcePermission]?
         /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets.
-        public let sourceEntity: AnalysisSourceEntity
+        public let sourceEntity: AnalysisSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
         public let tags: [Tag]?
         /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
         public let themeArn: String?
 
-        public init(analysisId: String, awsAccountId: String, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: AnalysisSourceEntity, tags: [Tag]? = nil, themeArn: String? = nil) {
+        public init(analysisId: String, awsAccountId: String, definition: AnalysisDefinition? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: AnalysisSourceEntity? = nil, tags: [Tag]? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+            self.definition = definition
             self.name = name
             self.parameters = parameters
             self.permissions = permissions
@@ -1830,12 +4540,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
@@ -1844,7 +4555,7 @@ extension QuickSight {
             }
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1853,6 +4564,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
             case name = "Name"
             case parameters = "Parameters"
             case permissions = "Permissions"
@@ -1928,15 +4640,16 @@ extension QuickSight {
         public let dashboardId: String
         /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
+        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: DashboardVersionDefinition?
         /// The display name of the dashboard.
         public let name: String
         /// The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.
-        ///  To specify no permissions, omit the permissions list.
+        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
         /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
-        public let sourceEntity: DashboardSourceEntity
+        public let sourceEntity: DashboardSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
@@ -1944,10 +4657,11 @@ extension QuickSight {
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity, tags: [Tag]? = nil, themeArn: String? = nil, versionDescription: String? = nil) {
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity? = nil, tags: [Tag]? = nil, themeArn: String? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.dashboardPublishOptions = dashboardPublishOptions
+            self.definition = definition
             self.name = name
             self.parameters = parameters
             self.permissions = permissions
@@ -1961,9 +4675,10 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
@@ -1972,7 +4687,7 @@ extension QuickSight {
             }
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1984,6 +4699,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardPublishOptions = "DashboardPublishOptions"
+            case definition = "Definition"
             case name = "Name"
             case parameters = "Parameters"
             case permissions = "Permissions"
@@ -2209,8 +4925,7 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
         public let tags: [Tag]?
         /// The type of the data source. To return a
-        /// 			list of all data sources, use ListDataSources.
-        /// 		       Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
+        /// 			list of all data sources, use ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
         public let type: DataSourceType
         /// Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to
         /// 			your underlying source.
@@ -2585,8 +5300,7 @@ extension QuickSight {
 
         /// The name of the assignment, also called a rule. It must be unique within an Amazon Web Services account.
         public let assignmentName: String
-        /// The status of the assignment. Possible values are as follows:
-        /// 		          ENABLED - Anything specified in this assignment is used when creating the data
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data
         /// 					source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 					data source.
         public let assignmentStatus: AssignmentStatus
@@ -2637,8 +5351,7 @@ extension QuickSight {
         public let assignmentId: String?
         /// The name of the assignment. This name must be unique within the Amazon Web Services account.
         public let assignmentName: String?
-        /// The status of the assignment. Possible values are as follows:
-        /// 		          ENABLED - Anything specified in this assignment is used when creating the data
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
@@ -2856,7 +5569,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.templateVersionNumber, name: "templateVersionNumber", parent: name, min: 1)
@@ -2900,6 +5613,8 @@ extension QuickSight {
 
         /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: TemplateVersionDefinition?
         /// A display name for the template.
         public let name: String?
         /// A list of resource permissions to be set on the template.
@@ -2910,11 +5625,10 @@ extension QuickSight {
         /// 			analysis. Both of these require an Amazon Resource Name (ARN). For
         /// 			SourceTemplate, specify the ARN of the source template. For
         /// 			SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate
-        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.
-        /// 		       Use the DataSetReferences entity within SourceTemplate or
+        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate or
         /// 			SourceAnalysis to list the replacement datasets for the placeholders listed
         /// 			in the original. The schema in each dataset must match its placeholder.
-        public let sourceEntity: TemplateSourceEntity
+        public let sourceEntity: TemplateSourceEntity?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [Tag]?
         /// An ID for the template that you want to create. This template is unique per Amazon Web Services Region; in
@@ -2926,8 +5640,9 @@ extension QuickSight {
         /// 			in the VersionDescription field.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, name: String? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: TemplateSourceEntity, tags: [Tag]? = nil, templateId: String, versionDescription: String? = nil) {
+        public init(awsAccountId: String, definition: TemplateVersionDefinition? = nil, name: String? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: TemplateSourceEntity? = nil, tags: [Tag]? = nil, templateId: String, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
+            self.definition = definition
             self.name = name
             self.permissions = permissions
             self.sourceEntity = sourceEntity
@@ -2940,6 +5655,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.permissions?.forEach {
@@ -2947,13 +5663,13 @@ extension QuickSight {
             }
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
@@ -2961,6 +5677,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
             case name = "Name"
             case permissions = "Permissions"
             case sourceEntity = "SourceEntity"
@@ -3039,7 +5756,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
@@ -3122,7 +5839,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
+            try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 512)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.configuration.validate(name: "\(name).configuration")
@@ -3138,7 +5855,7 @@ extension QuickSight {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
@@ -3225,6 +5942,330 @@ extension QuickSight {
         }
     }
 
+    public struct CurrencyDisplayFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the decimal places configuration.
+        public let decimalPlacesConfiguration: DecimalPlacesConfiguration?
+        /// The options that determine the negative value configuration.
+        public let negativeValueConfiguration: NegativeValueConfiguration?
+        /// The options that determine the null value format configuration.
+        public let nullValueFormatConfiguration: NullValueFormatConfiguration?
+        /// Determines the number scale value for the currency format.
+        public let numberScale: NumberScale?
+        /// Determines the prefix value of the currency format.
+        public let prefix: String?
+        /// The options that determine the numeric separator configuration.
+        public let separatorConfiguration: NumericSeparatorConfiguration?
+        /// Determines the suffix value of the currency format.
+        public let suffix: String?
+        /// Determines the symbol for the currency format.
+        public let symbol: String?
+
+        public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numberScale: NumberScale? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil, symbol: String? = nil) {
+            self.decimalPlacesConfiguration = decimalPlacesConfiguration
+            self.negativeValueConfiguration = negativeValueConfiguration
+            self.nullValueFormatConfiguration = nullValueFormatConfiguration
+            self.numberScale = numberScale
+            self.prefix = prefix
+            self.separatorConfiguration = separatorConfiguration
+            self.suffix = suffix
+            self.symbol = symbol
+        }
+
+        public func validate(name: String) throws {
+            try self.decimalPlacesConfiguration?.validate(name: "\(name).decimalPlacesConfiguration")
+            try self.nullValueFormatConfiguration?.validate(name: "\(name).nullValueFormatConfiguration")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.suffix, name: "suffix", parent: name, max: 128)
+            try self.validate(self.suffix, name: "suffix", parent: name, min: 1)
+            try self.validate(self.symbol, name: "symbol", parent: name, pattern: "^[A-Z]{3}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalPlacesConfiguration = "DecimalPlacesConfiguration"
+            case negativeValueConfiguration = "NegativeValueConfiguration"
+            case nullValueFormatConfiguration = "NullValueFormatConfiguration"
+            case numberScale = "NumberScale"
+            case prefix = "Prefix"
+            case separatorConfiguration = "SeparatorConfiguration"
+            case suffix = "Suffix"
+            case symbol = "Symbol"
+        }
+    }
+
+    public struct CustomActionFilterOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that chooses the fields to be filtered.
+        public let selectedFieldsConfiguration: FilterOperationSelectedFieldsConfiguration
+        /// The configuration that chooses the target visuals to be filtered.
+        public let targetVisualsConfiguration: FilterOperationTargetVisualsConfiguration
+
+        public init(selectedFieldsConfiguration: FilterOperationSelectedFieldsConfiguration, targetVisualsConfiguration: FilterOperationTargetVisualsConfiguration) {
+            self.selectedFieldsConfiguration = selectedFieldsConfiguration
+            self.targetVisualsConfiguration = targetVisualsConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.selectedFieldsConfiguration.validate(name: "\(name).selectedFieldsConfiguration")
+            try self.targetVisualsConfiguration.validate(name: "\(name).targetVisualsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectedFieldsConfiguration = "SelectedFieldsConfiguration"
+            case targetVisualsConfiguration = "TargetVisualsConfiguration"
+        }
+    }
+
+    public struct CustomActionNavigationOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that chooses the navigation target.
+        public let localNavigationConfiguration: LocalNavigationConfiguration?
+
+        public init(localNavigationConfiguration: LocalNavigationConfiguration? = nil) {
+            self.localNavigationConfiguration = localNavigationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.localNavigationConfiguration?.validate(name: "\(name).localNavigationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localNavigationConfiguration = "LocalNavigationConfiguration"
+        }
+    }
+
+    public struct CustomActionSetParametersOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter that determines the value configuration.
+        public let parameterValueConfigurations: [SetParameterValueConfiguration]
+
+        public init(parameterValueConfigurations: [SetParameterValueConfiguration]) {
+            self.parameterValueConfigurations = parameterValueConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.parameterValueConfigurations.forEach {
+                try $0.validate(name: "\(name).parameterValueConfigurations[]")
+            }
+            try self.validate(self.parameterValueConfigurations, name: "parameterValueConfigurations", parent: name, max: 200)
+            try self.validate(self.parameterValueConfigurations, name: "parameterValueConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterValueConfigurations = "ParameterValueConfigurations"
+        }
+    }
+
+    public struct CustomActionURLOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The target of the CustomActionURLOperation. Valid values are defined as follows:    NEW_TAB: Opens the target URL in a new browser tab.    NEW_WINDOW: Opens the target URL in a new browser window.    SAME_TAB: Opens the target URL in the same browser tab.
+        public let urlTarget: URLTargetConfiguration
+        /// THe URL link of the CustomActionURLOperation.
+        public let urlTemplate: String
+
+        public init(urlTarget: URLTargetConfiguration, urlTemplate: String) {
+            self.urlTarget = urlTarget
+            self.urlTemplate = urlTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.urlTemplate, name: "urlTemplate", parent: name, max: 2048)
+            try self.validate(self.urlTemplate, name: "urlTemplate", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case urlTarget = "URLTarget"
+            case urlTemplate = "URLTemplate"
+        }
+    }
+
+    public struct CustomContentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The content type of the custom content visual. You can use this to have the visual render as an image.
+        public let contentType: CustomContentType?
+        /// The input URL that links to the custom content that you want in the custom visual.
+        public let contentUrl: String?
+        /// The sizing options for the size of the custom content visual. This structure is required when the ContentType of the visual is 'IMAGE'.
+        public let imageScaling: CustomContentImageScalingConfiguration?
+
+        public init(contentType: CustomContentType? = nil, contentUrl: String? = nil, imageScaling: CustomContentImageScalingConfiguration? = nil) {
+            self.contentType = contentType
+            self.contentUrl = contentUrl
+            self.imageScaling = imageScaling
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentUrl, name: "contentUrl", parent: name, max: 2048)
+            try self.validate(self.contentUrl, name: "contentUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case contentUrl = "ContentUrl"
+            case imageScaling = "ImageScaling"
+        }
+    }
+
+    public struct CustomContentVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a CustomContentVisual.
+        public let chartConfiguration: CustomContentConfiguration?
+        /// The dataset that is used to create the custom content visual. You can't create a visual without a dataset.
+        public let dataSetIdentifier: String
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: CustomContentConfiguration? = nil, dataSetIdentifier: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.dataSetIdentifier = dataSetIdentifier
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case dataSetIdentifier = "DataSetIdentifier"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct CustomFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The category value for the filter. This field is mutually exclusive to ParameterName.
+        public let categoryValue: String?
+        /// The match operator that is used to determine if a filter should be applied.
+        public let matchOperator: CategoryFilterMatchOperator
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// The parameter whose value should be used for the filter value. This field is mutually exclusive to CategoryValue.
+        public let parameterName: String?
+        /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
+        public let selectAllOptions: CategoryFilterSelectAllOptions?
+
+        public init(categoryValue: String? = nil, matchOperator: CategoryFilterMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
+            self.categoryValue = categoryValue
+            self.matchOperator = matchOperator
+            self.nullOption = nullOption
+            self.parameterName = parameterName
+            self.selectAllOptions = selectAllOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.categoryValue, name: "categoryValue", parent: name, max: 512)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryValue = "CategoryValue"
+            case matchOperator = "MatchOperator"
+            case nullOption = "NullOption"
+            case parameterName = "ParameterName"
+            case selectAllOptions = "SelectAllOptions"
+        }
+    }
+
+    public struct CustomFilterListConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of category values for the filter.
+        public let categoryValues: [String]?
+        /// The match operator that is used to determine if a filter should be applied.
+        public let matchOperator: CategoryFilterMatchOperator
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
+        public let selectAllOptions: CategoryFilterSelectAllOptions?
+
+        public init(categoryValues: [String]? = nil, matchOperator: CategoryFilterMatchOperator, nullOption: FilterNullOption, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
+            self.categoryValues = categoryValues
+            self.matchOperator = matchOperator
+            self.nullOption = nullOption
+            self.selectAllOptions = selectAllOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryValues?.forEach {
+                try validate($0, name: "categoryValues[]", parent: name, max: 512)
+            }
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryValues = "CategoryValues"
+            case matchOperator = "MatchOperator"
+            case nullOption = "NullOption"
+            case selectAllOptions = "SelectAllOptions"
+        }
+    }
+
+    public struct CustomNarrativeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The string input of custom narrative.
+        public let narrative: String
+
+        public init(narrative: String) {
+            self.narrative = narrative
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.narrative, name: "narrative", parent: name, max: 150_000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case narrative = "Narrative"
+        }
+    }
+
+    public struct CustomParameterValues: AWSEncodableShape & AWSDecodableShape {
+        /// A list of datetime-type parameter values.
+        public let dateTimeValues: [Date]?
+        /// A list of decimal-type parameter values.
+        public let decimalValues: [Double]?
+        /// A list of integer-type parameter values.
+        public let integerValues: [Int64]?
+        /// A list of string-type parameter values.
+        public let stringValues: [String]?
+
+        public init(dateTimeValues: [Date]? = nil, decimalValues: [Double]? = nil, integerValues: [Int64]? = nil, stringValues: [String]? = nil) {
+            self.dateTimeValues = dateTimeValues
+            self.decimalValues = decimalValues
+            self.integerValues = integerValues
+            self.stringValues = stringValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateTimeValues, name: "dateTimeValues", parent: name, max: 50000)
+            try self.validate(self.decimalValues, name: "decimalValues", parent: name, max: 50000)
+            try self.validate(self.integerValues, name: "integerValues", parent: name, max: 50000)
+            try self.validate(self.stringValues, name: "stringValues", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeValues = "DateTimeValues"
+            case decimalValues = "DecimalValues"
+            case integerValues = "IntegerValues"
+            case stringValues = "StringValues"
+        }
+    }
+
     public struct CustomSql: AWSEncodableShape & AWSDecodableShape {
         /// The column schema from the SQL query result set.
         public let columns: [InputColumn]?
@@ -3262,16 +6303,36 @@ extension QuickSight {
         }
     }
 
+    public struct CustomValuesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let customValues: CustomParameterValues
+        /// Includes the null value in custom action parameter values.
+        public let includeNullValue: Bool?
+
+        public init(customValues: CustomParameterValues, includeNullValue: Bool? = nil) {
+            self.customValues = customValues
+            self.includeNullValue = includeNullValue
+        }
+
+        public func validate(name: String) throws {
+            try self.customValues.validate(name: "\(name).customValues")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValues = "CustomValues"
+            case includeNullValue = "IncludeNullValue"
+        }
+    }
+
     public struct Dashboard: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
-        /// The time that this dataset was created.
+        /// The time that this dashboard was created.
         public let createdTime: Date?
         /// Dashboard ID.
         public let dashboardId: String?
-        /// The last time that this dataset was published.
+        /// The last time that this dashboard was published.
         public let lastPublishedTime: Date?
-        /// The last time that this dataset was updated.
+        /// The last time that this dashboard was updated.
         public let lastUpdatedTime: Date?
         /// A display name for the dashboard.
         public let name: String?
@@ -3304,15 +6365,18 @@ extension QuickSight {
         public let message: String?
         /// Type.
         public let type: DashboardErrorType?
+        public let violatedEntities: [Entity]?
 
-        public init(message: String? = nil, type: DashboardErrorType? = nil) {
+        public init(message: String? = nil, type: DashboardErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
+            self.violatedEntities = violatedEntities
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case type = "Type"
+            case violatedEntities = "ViolatedEntities"
         }
     }
 
@@ -3323,17 +6387,20 @@ extension QuickSight {
         public let exportToCSVOption: ExportToCSVOption?
         /// Sheet controls option.
         public let sheetControlsOption: SheetControlsOption?
+        public let visualPublishOptions: DashboardVisualPublishOptions?
 
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, sheetControlsOption: SheetControlsOption? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, sheetControlsOption: SheetControlsOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.exportToCSVOption = exportToCSVOption
             self.sheetControlsOption = sheetControlsOption
+            self.visualPublishOptions = visualPublishOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case adHocFilteringOption = "AdHocFilteringOption"
             case exportToCSVOption = "ExportToCSVOption"
             case sheetControlsOption = "SheetControlsOption"
+            case visualPublishOptions = "VisualPublishOptions"
         }
     }
 
@@ -3485,6 +6552,70 @@ extension QuickSight {
         }
     }
 
+    public struct DashboardVersionDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let analysisDefaults: AnalysisDefaults?
+        /// An array of calculated field definitions for the dashboard.
+        public let calculatedFields: [CalculatedField]?
+        /// An array of dashboard-level column configurations. Column configurations are used to set the default formatting for a column that is used throughout a dashboard.
+        public let columnConfigurations: [ColumnConfiguration]?
+        /// An array of dataset identifier declarations. With this mapping,you can use dataset identifiers instead of dataset Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
+        public let dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration]
+        /// The filter definitions for a dashboard. For more information, see Filtering Data in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let filterGroups: [FilterGroup]?
+        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let parameterDeclarations: [ParameterDeclaration]?
+        /// An array of sheet definitions for a dashboard.
+        public let sheets: [SheetDefinition]?
+
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
+            self.filterGroups = filterGroups
+            self.parameterDeclarations = parameterDeclarations
+            self.sheets = sheets
+        }
+
+        public func validate(name: String) throws {
+            try self.calculatedFields?.forEach {
+                try $0.validate(name: "\(name).calculatedFields[]")
+            }
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 100)
+            try self.columnConfigurations?.forEach {
+                try $0.validate(name: "\(name).columnConfigurations[]")
+            }
+            try self.validate(self.columnConfigurations, name: "columnConfigurations", parent: name, max: 200)
+            try self.dataSetIdentifierDeclarations.forEach {
+                try $0.validate(name: "\(name).dataSetIdentifierDeclarations[]")
+            }
+            try self.validate(self.dataSetIdentifierDeclarations, name: "dataSetIdentifierDeclarations", parent: name, max: 50)
+            try self.validate(self.dataSetIdentifierDeclarations, name: "dataSetIdentifierDeclarations", parent: name, min: 1)
+            try self.filterGroups?.forEach {
+                try $0.validate(name: "\(name).filterGroups[]")
+            }
+            try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.parameterDeclarations?.forEach {
+                try $0.validate(name: "\(name).parameterDeclarations[]")
+            }
+            try self.validate(self.parameterDeclarations, name: "parameterDeclarations", parent: name, max: 200)
+            try self.sheets?.forEach {
+                try $0.validate(name: "\(name).sheets[]")
+            }
+            try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisDefaults = "AnalysisDefaults"
+            case calculatedFields = "CalculatedFields"
+            case columnConfigurations = "ColumnConfigurations"
+            case dataSetIdentifierDeclarations = "DataSetIdentifierDeclarations"
+            case filterGroups = "FilterGroups"
+            case parameterDeclarations = "ParameterDeclarations"
+            case sheets = "Sheets"
+        }
+    }
+
     public struct DashboardVersionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -3533,13 +6664,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
-            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 2048)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 512)
             try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
             try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
-            try self.validate(self.visualId, name: "visualId", parent: name, max: 2048)
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
             try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
             try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -3548,6 +6679,39 @@ extension QuickSight {
             case dashboardId = "DashboardId"
             case sheetId = "SheetId"
             case visualId = "VisualId"
+        }
+    }
+
+    public struct DashboardVisualPublishOptions: AWSEncodableShape {
+        public let exportHiddenFieldsOption: ExportHiddenFieldsOption?
+
+        public init(exportHiddenFieldsOption: ExportHiddenFieldsOption? = nil) {
+            self.exportHiddenFieldsOption = exportHiddenFieldsOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportHiddenFieldsOption = "ExportHiddenFieldsOption"
+        }
+    }
+
+    public struct DataColor: AWSEncodableShape & AWSDecodableShape {
+        /// The color that is applied to the data value.
+        public let color: String?
+        /// The data value that the color is applied to.
+        public let dataValue: Double?
+
+        public init(color: String? = nil, dataValue: Double? = nil) {
+            self.color = color
+            self.dataValue = dataValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case dataValue = "DataValue"
         }
     }
 
@@ -3581,6 +6745,225 @@ extension QuickSight {
             case colors = "Colors"
             case emptyFillColor = "EmptyFillColor"
             case minMaxGradient = "MinMaxGradient"
+        }
+    }
+
+    public struct DataFieldSeriesItem: AWSEncodableShape & AWSDecodableShape {
+        /// The axis that you are binding the field to.
+        public let axisBinding: AxisBinding
+        /// The field ID of the field that you are setting the axis binding to.
+        public let fieldId: String
+        /// The field value of the field that you are setting the axis binding to.
+        public let fieldValue: String?
+        /// The options that determine the presentation of line series associated to the field.
+        public let settings: LineChartSeriesSettings?
+
+        public init(axisBinding: AxisBinding, fieldId: String, fieldValue: String? = nil, settings: LineChartSeriesSettings? = nil) {
+            self.axisBinding = axisBinding
+            self.fieldId = fieldId
+            self.fieldValue = fieldValue
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.settings?.validate(name: "\(name).settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisBinding = "AxisBinding"
+            case fieldId = "FieldId"
+            case fieldValue = "FieldValue"
+            case settings = "Settings"
+        }
+    }
+
+    public struct DataLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the visibility of the category field labels.
+        public let categoryLabelVisibility: Visibility?
+        /// The option that determines the data label type.
+        public let dataLabelTypes: [DataLabelType]?
+        /// Determines the color of the data labels.
+        public let labelColor: String?
+        /// Determines the content of the data labels.
+        public let labelContent: DataLabelContent?
+        /// Determines the font configuration of the data labels.
+        public let labelFontConfiguration: FontConfiguration?
+        /// Determines the visibility of the measure field labels.
+        public let measureLabelVisibility: Visibility?
+        /// Determines whether overlap is enabled or disabled for the data labels.
+        public let overlap: DataLabelOverlap?
+        /// Determines the position of the data labels.
+        public let position: DataLabelPosition?
+        /// Determines the visibility of the data labels.
+        public let visibility: Visibility?
+
+        public init(categoryLabelVisibility: Visibility? = nil, dataLabelTypes: [DataLabelType]? = nil, labelColor: String? = nil, labelContent: DataLabelContent? = nil, labelFontConfiguration: FontConfiguration? = nil, measureLabelVisibility: Visibility? = nil, overlap: DataLabelOverlap? = nil, position: DataLabelPosition? = nil, visibility: Visibility? = nil) {
+            self.categoryLabelVisibility = categoryLabelVisibility
+            self.dataLabelTypes = dataLabelTypes
+            self.labelColor = labelColor
+            self.labelContent = labelContent
+            self.labelFontConfiguration = labelFontConfiguration
+            self.measureLabelVisibility = measureLabelVisibility
+            self.overlap = overlap
+            self.position = position
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.dataLabelTypes?.forEach {
+                try $0.validate(name: "\(name).dataLabelTypes[]")
+            }
+            try self.validate(self.dataLabelTypes, name: "dataLabelTypes", parent: name, max: 100)
+            try self.validate(self.labelColor, name: "labelColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.labelFontConfiguration?.validate(name: "\(name).labelFontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryLabelVisibility = "CategoryLabelVisibility"
+            case dataLabelTypes = "DataLabelTypes"
+            case labelColor = "LabelColor"
+            case labelContent = "LabelContent"
+            case labelFontConfiguration = "LabelFontConfiguration"
+            case measureLabelVisibility = "MeasureLabelVisibility"
+            case overlap = "Overlap"
+            case position = "Position"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct DataLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// The option that specifies individual data values for labels.
+        public let dataPathLabelType: DataPathLabelType?
+        /// Determines the label configuration for the entire field.
+        public let fieldLabelType: FieldLabelType?
+        /// Determines the label configuration for the maximum value in a visual.
+        public let maximumLabelType: MaximumLabelType?
+        /// Determines the label configuration for the minimum value in a visual.
+        public let minimumLabelType: MinimumLabelType?
+        /// Determines the label configuration for range end value in a visual.
+        public let rangeEndsLabelType: RangeEndsLabelType?
+
+        public init(dataPathLabelType: DataPathLabelType? = nil, fieldLabelType: FieldLabelType? = nil, maximumLabelType: MaximumLabelType? = nil, minimumLabelType: MinimumLabelType? = nil, rangeEndsLabelType: RangeEndsLabelType? = nil) {
+            self.dataPathLabelType = dataPathLabelType
+            self.fieldLabelType = fieldLabelType
+            self.maximumLabelType = maximumLabelType
+            self.minimumLabelType = minimumLabelType
+            self.rangeEndsLabelType = rangeEndsLabelType
+        }
+
+        public func validate(name: String) throws {
+            try self.dataPathLabelType?.validate(name: "\(name).dataPathLabelType")
+            try self.fieldLabelType?.validate(name: "\(name).fieldLabelType")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPathLabelType = "DataPathLabelType"
+            case fieldLabelType = "FieldLabelType"
+            case maximumLabelType = "MaximumLabelType"
+            case minimumLabelType = "MinimumLabelType"
+            case rangeEndsLabelType = "RangeEndsLabelType"
+        }
+    }
+
+    public struct DataPathColor: AWSEncodableShape & AWSDecodableShape {
+        /// The color that needs to be applied to the element.
+        public let color: String
+        /// The element that the color needs to be applied to.
+        public let element: DataPathValue
+        /// The time granularity of the field that the color needs to be applied to.
+        public let timeGranularity: TimeGranularity?
+
+        public init(color: String, element: DataPathValue, timeGranularity: TimeGranularity? = nil) {
+            self.color = color
+            self.element = element
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.element.validate(name: "\(name).element")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case element = "Element"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
+    public struct DataPathLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the field that the data label needs to be applied to.
+        public let fieldId: String?
+        /// The actual value of the field that is labeled.
+        public let fieldValue: String?
+        /// The visibility of the data label.
+        public let visibility: Visibility?
+
+        public init(fieldId: String? = nil, fieldValue: String? = nil, visibility: Visibility? = nil) {
+            self.fieldId = fieldId
+            self.fieldValue = fieldValue
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.fieldValue, name: "fieldValue", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case fieldValue = "FieldValue"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct DataPathSort: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the sort direction.
+        public let direction: SortDirection
+        /// The list of data paths that need to be sorted.
+        public let sortPaths: [DataPathValue]
+
+        public init(direction: SortDirection, sortPaths: [DataPathValue]) {
+            self.direction = direction
+            self.sortPaths = sortPaths
+        }
+
+        public func validate(name: String) throws {
+            try self.sortPaths.forEach {
+                try $0.validate(name: "\(name).sortPaths[]")
+            }
+            try self.validate(self.sortPaths, name: "sortPaths", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+            case sortPaths = "SortPaths"
+        }
+    }
+
+    public struct DataPathValue: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the field that needs to be sorted.
+        public let fieldId: String
+        /// The actual value of the field that needs to be sorted.
+        public let fieldValue: String
+
+        public init(fieldId: String, fieldValue: String) {
+            self.fieldId = fieldId
+            self.fieldValue = fieldValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.fieldValue, name: "fieldValue", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case fieldValue = "FieldValue"
         }
     }
 
@@ -3657,7 +7040,7 @@ extension QuickSight {
         }
     }
 
-    public struct DataSetConfiguration: AWSDecodableShape {
+    public struct DataSetConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A structure containing the list of column group schemas.
         public let columnGroupSchemaList: [ColumnGroupSchema]?
         /// Dataset schema.
@@ -3671,10 +7054,40 @@ extension QuickSight {
             self.placeholder = placeholder
         }
 
+        public func validate(name: String) throws {
+            try self.columnGroupSchemaList?.forEach {
+                try $0.validate(name: "\(name).columnGroupSchemaList[]")
+            }
+            try self.validate(self.columnGroupSchemaList, name: "columnGroupSchemaList", parent: name, max: 500)
+            try self.dataSetSchema?.validate(name: "\(name).dataSetSchema")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case columnGroupSchemaList = "ColumnGroupSchemaList"
             case dataSetSchema = "DataSetSchema"
             case placeholder = "Placeholder"
+        }
+    }
+
+    public struct DataSetIdentifierDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the data set.
+        public let dataSetArn: String
+        /// The identifier of the data set, typically the data set's name.
+        public let identifier: String
+
+        public init(dataSetArn: String, identifier: String) {
+            self.dataSetArn = dataSetArn
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 2048)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetArn = "DataSetArn"
+            case identifier = "Identifier"
         }
     }
 
@@ -3699,12 +7112,16 @@ extension QuickSight {
         }
     }
 
-    public struct DataSetSchema: AWSDecodableShape {
+    public struct DataSetSchema: AWSEncodableShape & AWSDecodableShape {
         /// A structure containing the list of column schemas.
         public let columnSchemaList: [ColumnSchema]?
 
         public init(columnSchemaList: [ColumnSchema]? = nil) {
             self.columnSchemaList = columnSchemaList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnSchemaList, name: "columnSchemaList", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3986,6 +7403,170 @@ extension QuickSight {
         }
     }
 
+    public struct DateAxisOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether or not missing dates are displayed.
+        public let missingDateVisibility: Visibility?
+
+        public init(missingDateVisibility: Visibility? = nil) {
+            self.missingDateVisibility = missingDateVisibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingDateVisibility = "MissingDateVisibility"
+        }
+    }
+
+    public struct DateDimensionField: AWSEncodableShape & AWSDecodableShape {
+        /// The column that is used in the DateDimensionField.
+        public let column: ColumnIdentifier
+        /// The date granularity of the DateDimensionField. Choose one of the following options:    YEAR     QUARTER     MONTH     WEEK     DAY     HOUR     MINUTE     SECOND     MILLISECOND
+        public let dateGranularity: TimeGranularity?
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: DateTimeFormatConfiguration?
+        /// The custom hierarchy ID.
+        public let hierarchyId: String?
+
+        public init(column: ColumnIdentifier, dateGranularity: TimeGranularity? = nil, fieldId: String, formatConfiguration: DateTimeFormatConfiguration? = nil, hierarchyId: String? = nil) {
+            self.column = column
+            self.dateGranularity = dateGranularity
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case dateGranularity = "DateGranularity"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
+    public struct DateMeasureField: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the measure field.
+        public let aggregationFunction: DateAggregationFunction?
+        /// The column that is used in the DateMeasureField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: DateTimeFormatConfiguration?
+
+        public init(aggregationFunction: DateAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: DateTimeFormatConfiguration? = nil) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+        }
+    }
+
+    public struct DateTimeDefaultValues: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic value of the  DataTimeDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
+        public let dynamicValue: DynamicDefaultValue?
+        /// The rolling date of the DataTimeDefaultValues. The date is determined from the dataset based on input expression.
+        public let rollingDate: RollingDateConfiguration?
+        /// The static values of the DataTimeDefaultValues.
+        public let staticValues: [Date]?
+
+        public init(dynamicValue: DynamicDefaultValue? = nil, rollingDate: RollingDateConfiguration? = nil, staticValues: [Date]? = nil) {
+            self.dynamicValue = dynamicValue
+            self.rollingDate = rollingDate
+            self.staticValues = staticValues
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicValue?.validate(name: "\(name).dynamicValue")
+            try self.rollingDate?.validate(name: "\(name).rollingDate")
+            try self.validate(self.staticValues, name: "staticValues", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicValue = "DynamicValue"
+            case rollingDate = "RollingDate"
+            case staticValues = "StaticValues"
+        }
+    }
+
+    public struct DateTimeFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the DateTime format.
+        public let dateTimeFormat: String?
+        /// The options that determine the null value format configuration.
+        public let nullValueFormatConfiguration: NullValueFormatConfiguration?
+        /// The formatting configuration for numeric DateTime fields.
+        public let numericFormatConfiguration: NumericFormatConfiguration?
+
+        public init(dateTimeFormat: String? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numericFormatConfiguration: NumericFormatConfiguration? = nil) {
+            self.dateTimeFormat = dateTimeFormat
+            self.nullValueFormatConfiguration = nullValueFormatConfiguration
+            self.numericFormatConfiguration = numericFormatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, max: 128)
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, min: 1)
+            try self.nullValueFormatConfiguration?.validate(name: "\(name).nullValueFormatConfiguration")
+            try self.numericFormatConfiguration?.validate(name: "\(name).numericFormatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeFormat = "DateTimeFormat"
+            case nullValueFormatConfiguration = "NullValueFormatConfiguration"
+            case numericFormatConfiguration = "NumericFormatConfiguration"
+        }
+    }
+
+    public struct DateTimeHierarchy: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the drill down filters for the DateTime hierarchy.
+        public let drillDownFilters: [DrillDownFilter]?
+        /// The hierarchy ID of the DateTime hierarchy.
+        public let hierarchyId: String
+
+        public init(drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
+            self.drillDownFilters = drillDownFilters
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.drillDownFilters?.forEach {
+                try $0.validate(name: "\(name).drillDownFilters[]")
+            }
+            try self.validate(self.drillDownFilters, name: "drillDownFilters", parent: name, max: 10)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case drillDownFilters = "DrillDownFilters"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
     public struct DateTimeParameter: AWSEncodableShape {
         /// A display name for the date-time parameter.
         public let name: String
@@ -4007,6 +7588,100 @@ extension QuickSight {
         }
     }
 
+    public struct DateTimeParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
+        public let defaultValues: DateTimeDefaultValues?
+        /// The name of the parameter that is being declared.
+        public let name: String
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity?
+        /// The configuration that defines the default value of a DateTime parameter when a value has not been set.
+        public let valueWhenUnset: DateTimeValueWhenUnsetConfiguration?
+
+        public init(defaultValues: DateTimeDefaultValues? = nil, name: String, timeGranularity: TimeGranularity? = nil, valueWhenUnset: DateTimeValueWhenUnsetConfiguration? = nil) {
+            self.defaultValues = defaultValues
+            self.name = name
+            self.timeGranularity = timeGranularity
+            self.valueWhenUnset = valueWhenUnset
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValues?.validate(name: "\(name).defaultValues")
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValues = "DefaultValues"
+            case name = "Name"
+            case timeGranularity = "TimeGranularity"
+            case valueWhenUnset = "ValueWhenUnset"
+        }
+    }
+
+    public struct DateTimePickerControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Customize how dates are formatted in controls.
+        public let dateTimeFormat: String?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(dateTimeFormat: String? = nil, titleOptions: LabelOptions? = nil) {
+            self.dateTimeFormat = dateTimeFormat
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, max: 128)
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, min: 1)
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeFormat = "DateTimeFormat"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct DateTimeValueWhenUnsetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A custom value that's used when the value of a parameter isn't set.
+        public let customValue: Date?
+        /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
+        public let valueWhenUnsetOption: ValueWhenUnsetOption?
+
+        public init(customValue: Date? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
+            self.customValue = customValue
+            self.valueWhenUnsetOption = valueWhenUnsetOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValue = "CustomValue"
+            case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct DecimalDefaultValues: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic value of the DecimalDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
+        public let dynamicValue: DynamicDefaultValue?
+        /// The static values of the DecimalDefaultValues.
+        public let staticValues: [Double]?
+
+        public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [Double]? = nil) {
+            self.dynamicValue = dynamicValue
+            self.staticValues = staticValues
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicValue?.validate(name: "\(name).dynamicValue")
+            try self.validate(self.staticValues, name: "staticValues", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicValue = "DynamicValue"
+            case staticValues = "StaticValues"
+        }
+    }
+
     public struct DecimalParameter: AWSEncodableShape {
         /// A display name for the decimal parameter.
         public let name: String
@@ -4025,6 +7700,163 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct DecimalParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
+        public let defaultValues: DecimalDefaultValues?
+        /// The name of the parameter that is being declared.
+        public let name: String
+        /// The value type determines whether the parameter is a single-value or multi-value parameter.
+        public let parameterValueType: ParameterValueType
+        /// The configuration that defines the default value of a Decimal parameter when a value has not been set.
+        public let valueWhenUnset: DecimalValueWhenUnsetConfiguration?
+
+        public init(defaultValues: DecimalDefaultValues? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: DecimalValueWhenUnsetConfiguration? = nil) {
+            self.defaultValues = defaultValues
+            self.name = name
+            self.parameterValueType = parameterValueType
+            self.valueWhenUnset = valueWhenUnset
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValues?.validate(name: "\(name).defaultValues")
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValues = "DefaultValues"
+            case name = "Name"
+            case parameterValueType = "ParameterValueType"
+            case valueWhenUnset = "ValueWhenUnset"
+        }
+    }
+
+    public struct DecimalPlacesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The values of the decimal places.
+        public let decimalPlaces: Int64
+
+        public init(decimalPlaces: Int64) {
+            self.decimalPlaces = decimalPlaces
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.decimalPlaces, name: "decimalPlaces", parent: name, max: 20)
+            try self.validate(self.decimalPlaces, name: "decimalPlaces", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalPlaces = "DecimalPlaces"
+        }
+    }
+
+    public struct DecimalValueWhenUnsetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A custom value that's used when the value of a parameter isn't set.
+        public let customValue: Double?
+        /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
+        public let valueWhenUnsetOption: ValueWhenUnsetOption?
+
+        public init(customValue: Double? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
+            self.customValue = customValue
+            self.valueWhenUnsetOption = valueWhenUnsetOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValue = "CustomValue"
+            case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct DefaultFreeFormLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the screen canvas size options for a free-form layout.
+        public let canvasSizeOptions: FreeFormLayoutCanvasSizeOptions
+
+        public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions) {
+            self.canvasSizeOptions = canvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvasSizeOptions = "CanvasSizeOptions"
+        }
+    }
+
+    public struct DefaultGridLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the screen canvas size options for a grid layout.
+        public let canvasSizeOptions: GridLayoutCanvasSizeOptions
+
+        public init(canvasSizeOptions: GridLayoutCanvasSizeOptions) {
+            self.canvasSizeOptions = canvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvasSizeOptions = "CanvasSizeOptions"
+        }
+    }
+
+    public struct DefaultInteractiveLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the default settings of a free-form layout configuration.
+        public let freeForm: DefaultFreeFormLayoutConfiguration?
+        /// The options that determine the default settings for a grid layout configuration.
+        public let grid: DefaultGridLayoutConfiguration?
+
+        public init(freeForm: DefaultFreeFormLayoutConfiguration? = nil, grid: DefaultGridLayoutConfiguration? = nil) {
+            self.freeForm = freeForm
+            self.grid = grid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeForm = "FreeForm"
+            case grid = "Grid"
+        }
+    }
+
+    public struct DefaultNewSheetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the default settings for interactive layout configuration.
+        public let interactiveLayoutConfiguration: DefaultInteractiveLayoutConfiguration?
+        /// The options that determine the default settings for a paginated layout configuration.
+        public let paginatedLayoutConfiguration: DefaultPaginatedLayoutConfiguration?
+        /// The option that determines the sheet content type.
+        public let sheetContentType: SheetContentType?
+
+        public init(interactiveLayoutConfiguration: DefaultInteractiveLayoutConfiguration? = nil, paginatedLayoutConfiguration: DefaultPaginatedLayoutConfiguration? = nil, sheetContentType: SheetContentType? = nil) {
+            self.interactiveLayoutConfiguration = interactiveLayoutConfiguration
+            self.paginatedLayoutConfiguration = paginatedLayoutConfiguration
+            self.sheetContentType = sheetContentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interactiveLayoutConfiguration = "InteractiveLayoutConfiguration"
+            case paginatedLayoutConfiguration = "PaginatedLayoutConfiguration"
+            case sheetContentType = "SheetContentType"
+        }
+    }
+
+    public struct DefaultPaginatedLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the default settings for a section-based layout configuration.
+        public let sectionBased: DefaultSectionBasedLayoutConfiguration?
+
+        public init(sectionBased: DefaultSectionBasedLayoutConfiguration? = nil) {
+            self.sectionBased = sectionBased
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sectionBased = "SectionBased"
+        }
+    }
+
+    public struct DefaultSectionBasedLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the screen canvas size options for a section-based layout.
+        public let canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions
+
+        public init(canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions) {
+            self.canvasSizeOptions = canvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvasSizeOptions = "CanvasSizeOptions"
         }
     }
 
@@ -4143,7 +7975,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
@@ -4213,7 +8045,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -4725,7 +8557,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -4792,7 +8624,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -4857,7 +8689,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -4909,8 +8741,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// An ID for the theme that you want to delete.
         public let themeId: String
-        /// The version of the theme that you want to delete.
-        /// 		        Note: If you don't provide a version number, you're
+        /// The version of the theme that you want to delete.   Note: If you don't provide a version number, you're
         /// 			using this call to DeleteTheme to delete all versions of the theme.
         public let versionNumber: Int64?
 
@@ -4924,7 +8755,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -5230,6 +9061,79 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeAnalysisDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
+        ]
+
+        /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
+        public let analysisId: String
+        /// The ID of the Amazon Web Services account that contains the analysis. You must be using the Amazon Web Services account that the analysis is in.
+        public let awsAccountId: String
+
+        public init(analysisId: String, awsAccountId: String) {
+            self.analysisId = analysisId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAnalysisDefinitionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the analysis described.
+        public let analysisId: String?
+        /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: AnalysisDefinition?
+        /// Errors associated with the analysis.
+        public let errors: [AnalysisError]?
+        /// The descriptive name of the analysis.
+        public let name: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// Status associated with the analysis.    CREATION_IN_PROGRESS     CREATION_SUCCESSFUL     CREATION_FAILED     UPDATE_IN_PROGRESS     UPDATE_SUCCESSFUL     UPDATE_FAILED     DELETED
+        public let resourceStatus: ResourceStatus?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ARN of the theme of the analysis.
+        public let themeArn: String?
+
+        public init(analysisId: String? = nil, definition: AnalysisDefinition? = nil, errors: [AnalysisError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
+            self.analysisId = analysisId
+            self.definition = definition
+            self.errors = errors
+            self.name = name
+            self.requestId = requestId
+            self.resourceStatus = resourceStatus
+            self.status = status
+            self.themeArn = themeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "AnalysisId"
+            case definition = "Definition"
+            case errors = "Errors"
+            case name = "Name"
+            case requestId = "RequestId"
+            case resourceStatus = "ResourceStatus"
+            case status = "Status"
+            case themeArn = "ThemeArn"
+        }
+    }
+
     public struct DescribeAnalysisPermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analysisId", location: .uri("AnalysisId")),
@@ -5247,7 +9151,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
@@ -5308,7 +9212,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
@@ -5344,6 +9248,91 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeDashboardDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "dashboardId", location: .uri("DashboardId")),
+            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
+        ]
+
+        /// The alias name.
+        public let aliasName: String?
+        /// The ID of the Amazon Web Services account that contains the dashboard that you're describing.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The version number for the dashboard. If a version number isn't passed, the latest published dashboard version is described.
+        public let versionNumber: Int64?
+
+        public init(aliasName: String? = nil, awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDashboardDefinitionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The ID of the dashboard described.
+        public let dashboardId: String?
+        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: DashboardVersionDefinition?
+        /// Errors associated with this dashboard version.
+        public let errors: [DashboardError]?
+        /// The display name of the dashboard.
+        public let name: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// Status associated with the dashboard version.    CREATION_IN_PROGRESS     CREATION_SUCCESSFUL     CREATION_FAILED     UPDATE_IN_PROGRESS     UPDATE_SUCCESSFUL     UPDATE_FAILED     DELETED
+        public let resourceStatus: ResourceStatus?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ARN of the theme of the dashboard.
+        public let themeArn: String?
+
+        public init(dashboardId: String? = nil, definition: DashboardVersionDefinition? = nil, errors: [DashboardError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
+            self.dashboardId = dashboardId
+            self.definition = definition
+            self.errors = errors
+            self.name = name
+            self.requestId = requestId
+            self.resourceStatus = resourceStatus
+            self.status = status
+            self.themeArn = themeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardId = "DashboardId"
+            case definition = "Definition"
+            case errors = "Errors"
+            case name = "Name"
+            case requestId = "RequestId"
+            case resourceStatus = "ResourceStatus"
+            case status = "Status"
+            case themeArn = "ThemeArn"
+        }
+    }
+
     public struct DescribeDashboardPermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -5364,7 +9353,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -5440,7 +9429,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -6240,7 +10229,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -6273,6 +10262,95 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeTemplateDefinitionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasName", location: .querystring("alias-name")),
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId")),
+            AWSMemberEncoding(label: "versionNumber", location: .querystring("version-number"))
+        ]
+
+        /// The alias of the template that you want to describe. If you name a specific alias, you
+        /// 			 describe the version that the alias points to. You can specify the latest version of the
+        /// 			 template by providing the keyword $LATEST in the AliasName
+        /// 			 parameter. The keyword $PUBLISHED doesn't apply to templates.
+        public let aliasName: String?
+        /// The ID of the Amazon Web Services account that contains the template. You must be using the
+        /// 			 Amazon Web Services account that the template is in.
+        public let awsAccountId: String
+        /// The ID of the template that you're describing.
+        public let templateId: String
+        /// The version number of the template.
+        public let versionNumber: Int64?
+
+        public init(aliasName: String? = nil, awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
+            try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
+            try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTemplateDefinitionResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The definition of the template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: TemplateVersionDefinition?
+        /// Errors associated with the template version.
+        public let errors: [TemplateError]?
+        /// The descriptive name of the template.
+        public let name: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// Status associated with the template.    CREATION_IN_PROGRESS     CREATION_SUCCESSFUL     CREATION_FAILED     UPDATE_IN_PROGRESS     UPDATE_SUCCESSFUL     UPDATE_FAILED     DELETED
+        public let resourceStatus: ResourceStatus?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ID of the template described.
+        public let templateId: String?
+        /// The ARN of the theme of the template.
+        public let themeArn: String?
+
+        public init(definition: TemplateVersionDefinition? = nil, errors: [TemplateError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, templateId: String? = nil, themeArn: String? = nil) {
+            self.definition = definition
+            self.errors = errors
+            self.name = name
+            self.requestId = requestId
+            self.resourceStatus = resourceStatus
+            self.status = status
+            self.templateId = templateId
+            self.themeArn = themeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case errors = "Errors"
+            case name = "Name"
+            case requestId = "RequestId"
+            case resourceStatus = "ResourceStatus"
+            case status = "Status"
+            case templateId = "TemplateId"
+            case themeArn = "ThemeArn"
+        }
+    }
+
     public struct DescribeTemplatePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -6293,7 +10371,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -6369,7 +10447,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -6431,7 +10509,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -6484,7 +10562,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -6558,7 +10636,7 @@ extension QuickSight {
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^(aws|[0-9]{12})$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -6651,6 +10729,215 @@ extension QuickSight {
         }
     }
 
+    public struct DestinationParameterValueConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of custom values for destination parameter in DestinationParameterValueConfiguration.
+        public let customValuesConfiguration: CustomValuesConfiguration?
+        /// The configuration that selects all options.
+        public let selectAllValueOptions: SelectAllValueOptions?
+        /// The source field ID of the destination parameter.
+        public let sourceField: String?
+        /// The source parameter name of the destination parameter.
+        public let sourceParameterName: String?
+
+        public init(customValuesConfiguration: CustomValuesConfiguration? = nil, selectAllValueOptions: SelectAllValueOptions? = nil, sourceField: String? = nil, sourceParameterName: String? = nil) {
+            self.customValuesConfiguration = customValuesConfiguration
+            self.selectAllValueOptions = selectAllValueOptions
+            self.sourceField = sourceField
+            self.sourceParameterName = sourceParameterName
+        }
+
+        public func validate(name: String) throws {
+            try self.customValuesConfiguration?.validate(name: "\(name).customValuesConfiguration")
+            try self.validate(self.sourceField, name: "sourceField", parent: name, max: 512)
+            try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValuesConfiguration = "CustomValuesConfiguration"
+            case selectAllValueOptions = "SelectAllValueOptions"
+            case sourceField = "SourceField"
+            case sourceParameterName = "SourceParameterName"
+        }
+    }
+
+    public struct DimensionField: AWSEncodableShape & AWSDecodableShape {
+        /// The dimension type field with categorical type columns.
+        public let categoricalDimensionField: CategoricalDimensionField?
+        /// The dimension type field with date type columns.
+        public let dateDimensionField: DateDimensionField?
+        /// The dimension type field with numerical type columns.
+        public let numericalDimensionField: NumericalDimensionField?
+
+        public init(categoricalDimensionField: CategoricalDimensionField? = nil, dateDimensionField: DateDimensionField? = nil, numericalDimensionField: NumericalDimensionField? = nil) {
+            self.categoricalDimensionField = categoricalDimensionField
+            self.dateDimensionField = dateDimensionField
+            self.numericalDimensionField = numericalDimensionField
+        }
+
+        public func validate(name: String) throws {
+            try self.categoricalDimensionField?.validate(name: "\(name).categoricalDimensionField")
+            try self.dateDimensionField?.validate(name: "\(name).dateDimensionField")
+            try self.numericalDimensionField?.validate(name: "\(name).numericalDimensionField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoricalDimensionField = "CategoricalDimensionField"
+            case dateDimensionField = "DateDimensionField"
+            case numericalDimensionField = "NumericalDimensionField"
+        }
+    }
+
+    public struct DonutCenterOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
+        public let labelVisibility: Visibility?
+
+        public init(labelVisibility: Visibility? = nil) {
+            self.labelVisibility = labelVisibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelVisibility = "LabelVisibility"
+        }
+    }
+
+    public struct DonutOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The option for define the arc of the chart shape. Valid values are as follows:    WHOLE - A pie chart    SMALL- A small-sized donut chart    MEDIUM- A medium-sized donut chart    LARGE- A large-sized donut chart
+        public let arcOptions: ArcOptions?
+        /// The label options of the label that is displayed in the center of a donut chart. This option isn't available for pie charts.
+        public let donutCenterOptions: DonutCenterOptions?
+
+        public init(arcOptions: ArcOptions? = nil, donutCenterOptions: DonutCenterOptions? = nil) {
+            self.arcOptions = arcOptions
+            self.donutCenterOptions = donutCenterOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arcOptions = "ArcOptions"
+            case donutCenterOptions = "DonutCenterOptions"
+        }
+    }
+
+    public struct DrillDownFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The category type drill down filter. This filter is used for string type columns.
+        public let categoryFilter: CategoryDrillDownFilter?
+        /// The numeric equality type drill down filter. This filter is used for number type columns.
+        public let numericEqualityFilter: NumericEqualityDrillDownFilter?
+        /// The time range drill down filter. This filter is used for date time columns.
+        public let timeRangeFilter: TimeRangeDrillDownFilter?
+
+        public init(categoryFilter: CategoryDrillDownFilter? = nil, numericEqualityFilter: NumericEqualityDrillDownFilter? = nil, timeRangeFilter: TimeRangeDrillDownFilter? = nil) {
+            self.categoryFilter = categoryFilter
+            self.numericEqualityFilter = numericEqualityFilter
+            self.timeRangeFilter = timeRangeFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryFilter?.validate(name: "\(name).categoryFilter")
+            try self.numericEqualityFilter?.validate(name: "\(name).numericEqualityFilter")
+            try self.timeRangeFilter?.validate(name: "\(name).timeRangeFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryFilter = "CategoryFilter"
+            case numericEqualityFilter = "NumericEqualityFilter"
+            case timeRangeFilter = "TimeRangeFilter"
+        }
+    }
+
+    public struct DropDownControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the Select all options in a dropdown control.
+        public let selectAllOptions: ListControlSelectAllOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(selectAllOptions: ListControlSelectAllOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.selectAllOptions = selectAllOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectAllOptions = "SelectAllOptions"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct DynamicDefaultValue: AWSEncodableShape & AWSDecodableShape {
+        /// The column that contains the default value of each user or group.
+        public let defaultValueColumn: ColumnIdentifier
+        /// The column that contains the group name.
+        public let groupNameColumn: ColumnIdentifier?
+        /// The column that contains the username.
+        public let userNameColumn: ColumnIdentifier?
+
+        public init(defaultValueColumn: ColumnIdentifier, groupNameColumn: ColumnIdentifier? = nil, userNameColumn: ColumnIdentifier? = nil) {
+            self.defaultValueColumn = defaultValueColumn
+            self.groupNameColumn = groupNameColumn
+            self.userNameColumn = userNameColumn
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValueColumn.validate(name: "\(name).defaultValueColumn")
+            try self.groupNameColumn?.validate(name: "\(name).groupNameColumn")
+            try self.userNameColumn?.validate(name: "\(name).userNameColumn")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValueColumn = "DefaultValueColumn"
+            case groupNameColumn = "GroupNameColumn"
+            case userNameColumn = "UserNameColumn"
+        }
+    }
+
+    public struct EmptyVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The data set that is used in the empty visual. Every visual requires a dataset to render.
+        public let dataSetIdentifier: String
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, visualId: String) {
+            self.actions = actions
+            self.dataSetIdentifier = dataSetIdentifier
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case dataSetIdentifier = "DataSetIdentifier"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct Entity: AWSDecodableShape {
+        /// The hierarchical path of the entity within the analysis, template, or dashboard definition tree.
+        public let path: String?
+
+        public init(path: String? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+        }
+    }
+
     public struct ErrorInfo: AWSDecodableShape {
         /// Error message.
         public let message: String?
@@ -6692,6 +10979,74 @@ extension QuickSight {
         }
     }
 
+    public struct ExcludePeriodConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The amount or number of the exclude period.
+        public let amount: Int
+        /// The granularity or unit (day, month, year) of the exclude period.
+        public let granularity: TimeGranularity
+        /// The status of the exclude period. Choose from the following options:    ENABLED     DISABLED
+        public let status: WidgetStatus?
+
+        public init(amount: Int, granularity: TimeGranularity, status: WidgetStatus? = nil) {
+            self.amount = amount
+            self.granularity = granularity
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case granularity = "Granularity"
+            case status = "Status"
+        }
+    }
+
+    public struct ExplicitHierarchy: AWSEncodableShape & AWSDecodableShape {
+        /// The list of columns that define the explicit hierarchy.
+        public let columns: [ColumnIdentifier]
+        /// The option that determines the drill down filters for the explicit hierarchy.
+        public let drillDownFilters: [DrillDownFilter]?
+        /// The hierarchy ID of the explicit hierarchy.
+        public let hierarchyId: String
+
+        public init(columns: [ColumnIdentifier], drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
+            self.columns = columns
+            self.drillDownFilters = drillDownFilters
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.columns.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 10)
+            try self.validate(self.columns, name: "columns", parent: name, min: 2)
+            try self.drillDownFilters?.forEach {
+                try $0.validate(name: "\(name).drillDownFilters[]")
+            }
+            try self.validate(self.drillDownFilters, name: "drillDownFilters", parent: name, max: 10)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case drillDownFilters = "DrillDownFilters"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
+    public struct ExportHiddenFieldsOption: AWSEncodableShape {
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
     public struct ExportToCSVOption: AWSEncodableShape {
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
@@ -6702,6 +11057,34 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct FieldBasedTooltip: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of Show aggregations.
+        public let aggregationVisibility: Visibility?
+        /// The fields configuration in the tooltip.
+        public let tooltipFields: [TooltipItem]?
+        /// The type for the >tooltip title. Choose one of the following options:    NONE: Doesn't use the primary value as the title.    PRIMARY_VALUE: Uses primary value as the title.
+        public let tooltipTitleType: TooltipTitleType?
+
+        public init(aggregationVisibility: Visibility? = nil, tooltipFields: [TooltipItem]? = nil, tooltipTitleType: TooltipTitleType? = nil) {
+            self.aggregationVisibility = aggregationVisibility
+            self.tooltipFields = tooltipFields
+            self.tooltipTitleType = tooltipTitleType
+        }
+
+        public func validate(name: String) throws {
+            try self.tooltipFields?.forEach {
+                try $0.validate(name: "\(name).tooltipFields[]")
+            }
+            try self.validate(self.tooltipFields, name: "tooltipFields", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationVisibility = "AggregationVisibility"
+            case tooltipFields = "TooltipFields"
+            case tooltipTitleType = "TooltipTitleType"
         }
     }
 
@@ -6727,6 +11110,651 @@ extension QuickSight {
         }
     }
 
+    public struct FieldLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the field that is targeted by the field label.
+        public let fieldId: String?
+        /// The visibility of the field label.
+        public let visibility: Visibility?
+
+        public init(fieldId: String? = nil, visibility: Visibility? = nil) {
+            self.fieldId = fieldId
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct FieldSeriesItem: AWSEncodableShape & AWSDecodableShape {
+        /// The axis that you are binding the field to.
+        public let axisBinding: AxisBinding
+        /// The field ID of the field for which you are setting the axis binding.
+        public let fieldId: String
+        /// The options that determine the presentation of line series associated to the field.
+        public let settings: LineChartSeriesSettings?
+
+        public init(axisBinding: AxisBinding, fieldId: String, settings: LineChartSeriesSettings? = nil) {
+            self.axisBinding = axisBinding
+            self.fieldId = fieldId
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.settings?.validate(name: "\(name).settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisBinding = "AxisBinding"
+            case fieldId = "FieldId"
+            case settings = "Settings"
+        }
+    }
+
+    public struct FieldSort: AWSEncodableShape & AWSDecodableShape {
+        /// The sort direction. Choose one of the following options:    ASC: Ascending    DESC: Descending
+        public let direction: SortDirection
+        /// The sort configuration target field.
+        public let fieldId: String
+
+        public init(direction: SortDirection, fieldId: String) {
+            self.direction = direction
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+            case fieldId = "FieldId"
+        }
+    }
+
+    public struct FieldSortOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration for a column that is not used in a field well.
+        public let columnSort: ColumnSort?
+        /// The sort configuration for a field in a field well.
+        public let fieldSort: FieldSort?
+
+        public init(columnSort: ColumnSort? = nil, fieldSort: FieldSort? = nil) {
+            self.columnSort = columnSort
+            self.fieldSort = fieldSort
+        }
+
+        public func validate(name: String) throws {
+            try self.columnSort?.validate(name: "\(name).columnSort")
+            try self.fieldSort?.validate(name: "\(name).fieldSort")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnSort = "ColumnSort"
+            case fieldSort = "FieldSort"
+        }
+    }
+
+    public struct FieldTooltipItem: AWSEncodableShape & AWSDecodableShape {
+        /// The unique ID of the field that is targeted by the tooltip.
+        public let fieldId: String
+        /// The label of the tooltip item.
+        public let label: String?
+        /// The visibility of the tooltip item.
+        public let visibility: Visibility?
+
+        public init(fieldId: String, label: String? = nil, visibility: Visibility? = nil) {
+            self.fieldId = fieldId
+            self.label = label
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case label = "Label"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct FilledMapAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated location field well of the filled map. Values are grouped by location fields.
+        public let geospatial: [DimensionField]?
+        /// The aggregated color field well of a filled map. Values are aggregated based on location fields.
+        public let values: [MeasureField]?
+
+        public init(geospatial: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.geospatial = geospatial
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.geospatial?.forEach {
+                try $0.validate(name: "\(name).geospatial[]")
+            }
+            try self.validate(self.geospatial, name: "geospatial", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geospatial = "Geospatial"
+            case values = "Values"
+        }
+    }
+
+    public struct FilledMapConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// Conditional formatting options of a FilledMapVisual.
+        public let conditionalFormattingOptions: [FilledMapConditionalFormattingOption]
+
+        public init(conditionalFormattingOptions: [FilledMapConditionalFormattingOption]) {
+            self.conditionalFormattingOptions = conditionalFormattingOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalFormattingOptions.forEach {
+                try $0.validate(name: "\(name).conditionalFormattingOptions[]")
+            }
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalFormattingOptions = "ConditionalFormattingOptions"
+        }
+    }
+
+    public struct FilledMapConditionalFormattingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting that determines the shape of the filled map.
+        public let shape: FilledMapShapeConditionalFormatting
+
+        public init(shape: FilledMapShapeConditionalFormatting) {
+            self.shape = shape
+        }
+
+        public func validate(name: String) throws {
+            try self.shape.validate(name: "\(name).shape")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shape = "Shape"
+        }
+    }
+
+    public struct FilledMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field wells of the visual.
+        public let fieldWells: FilledMapFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The map style options of the filled map visual.
+        public let mapStyleOptions: GeospatialMapStyleOptions?
+        /// The sort configuration of a FilledMapVisual.
+        public let sortConfiguration: FilledMapSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The window options of the filled map visual.
+        public let windowOptions: GeospatialWindowOptions?
+
+        public init(fieldWells: FilledMapFieldWells? = nil, legend: LegendOptions? = nil, mapStyleOptions: GeospatialMapStyleOptions? = nil, sortConfiguration: FilledMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil, windowOptions: GeospatialWindowOptions? = nil) {
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.mapStyleOptions = mapStyleOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.windowOptions = windowOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.windowOptions?.validate(name: "\(name).windowOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case mapStyleOptions = "MapStyleOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case windowOptions = "WindowOptions"
+        }
+    }
+
+    public struct FilledMapFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field well of the filled map.
+        public let filledMapAggregatedFieldWells: FilledMapAggregatedFieldWells?
+
+        public init(filledMapAggregatedFieldWells: FilledMapAggregatedFieldWells? = nil) {
+            self.filledMapAggregatedFieldWells = filledMapAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.filledMapAggregatedFieldWells?.validate(name: "\(name).filledMapAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filledMapAggregatedFieldWells = "FilledMapAggregatedFieldWells"
+        }
+    }
+
+    public struct FilledMapShapeConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the filled map shape.
+        public let fieldId: String
+        /// The conditional formatting that determines the background color of a filled map's shape.
+        public let format: ShapeConditionalFormat?
+
+        public init(fieldId: String, format: ShapeConditionalFormat? = nil) {
+            self.fieldId = fieldId
+            self.format = format
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.format?.validate(name: "\(name).format")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case format = "Format"
+        }
+    }
+
+    public struct FilledMapSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration of the location fields.
+        public let categorySort: [FieldSortOptions]?
+
+        public init(categorySort: [FieldSortOptions]? = nil) {
+            self.categorySort = categorySort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categorySort = "CategorySort"
+        }
+    }
+
+    public struct FilledMapVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: FilledMapConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The conditional formatting of a FilledMapVisual.
+        public let conditionalFormatting: FilledMapConditionalFormatting?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FilledMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: FilledMapConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.conditionalFormatting = conditionalFormatting
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case conditionalFormatting = "ConditionalFormatting"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        /// A CategoryFilter filters text values. For more information, see Adding text filters in the Amazon QuickSight User Guide.
+        public let categoryFilter: CategoryFilter?
+        /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
+        public let numericEqualityFilter: NumericEqualityFilter?
+        /// A NumericRangeFilter filters numeric values that are either inside or outside a given numeric range.
+        public let numericRangeFilter: NumericRangeFilter?
+        /// A RelativeDatesFilter filters date values that are relative to a given date.
+        public let relativeDatesFilter: RelativeDatesFilter?
+        /// A TimeEqualityFilter filters date-time values that equal or do not equal a given date/time value.
+        public let timeEqualityFilter: TimeEqualityFilter?
+        /// A TimeRangeFilter filters date-time values that are either inside or outside a given date/time range.
+        public let timeRangeFilter: TimeRangeFilter?
+        /// A TopBottomFilter filters data to the top or bottom values for a given column.
+        public let topBottomFilter: TopBottomFilter?
+
+        public init(categoryFilter: CategoryFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
+            self.categoryFilter = categoryFilter
+            self.numericEqualityFilter = numericEqualityFilter
+            self.numericRangeFilter = numericRangeFilter
+            self.relativeDatesFilter = relativeDatesFilter
+            self.timeEqualityFilter = timeEqualityFilter
+            self.timeRangeFilter = timeRangeFilter
+            self.topBottomFilter = topBottomFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryFilter?.validate(name: "\(name).categoryFilter")
+            try self.numericEqualityFilter?.validate(name: "\(name).numericEqualityFilter")
+            try self.numericRangeFilter?.validate(name: "\(name).numericRangeFilter")
+            try self.relativeDatesFilter?.validate(name: "\(name).relativeDatesFilter")
+            try self.timeEqualityFilter?.validate(name: "\(name).timeEqualityFilter")
+            try self.timeRangeFilter?.validate(name: "\(name).timeRangeFilter")
+            try self.topBottomFilter?.validate(name: "\(name).topBottomFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryFilter = "CategoryFilter"
+            case numericEqualityFilter = "NumericEqualityFilter"
+            case numericRangeFilter = "NumericRangeFilter"
+            case relativeDatesFilter = "RelativeDatesFilter"
+            case timeEqualityFilter = "TimeEqualityFilter"
+            case timeRangeFilter = "TimeRangeFilter"
+            case topBottomFilter = "TopBottomFilter"
+        }
+    }
+
+    public struct FilterControl: AWSEncodableShape & AWSDecodableShape {
+        /// A control from a date filter that is used to specify date and time.
+        public let dateTimePicker: FilterDateTimePickerControl?
+        /// A control to display a dropdown list with buttons that are used to select a single value.
+        public let dropdown: FilterDropDownControl?
+        /// A control to display a list of buttons or boxes. This is used to select either a single value or multiple values.
+        public let list: FilterListControl?
+        /// A control from a date filter that is used to specify the relative date.
+        public let relativeDateTime: FilterRelativeDateTimeControl?
+        /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
+        public let slider: FilterSliderControl?
+        /// A control to display a text box that is used to enter multiple entries.
+        public let textArea: FilterTextAreaControl?
+        /// A control to display a text box that is used to enter a single entry.
+        public let textField: FilterTextFieldControl?
+
+        public init(dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
+            self.dateTimePicker = dateTimePicker
+            self.dropdown = dropdown
+            self.list = list
+            self.relativeDateTime = relativeDateTime
+            self.slider = slider
+            self.textArea = textArea
+            self.textField = textField
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimePicker?.validate(name: "\(name).dateTimePicker")
+            try self.dropdown?.validate(name: "\(name).dropdown")
+            try self.list?.validate(name: "\(name).list")
+            try self.relativeDateTime?.validate(name: "\(name).relativeDateTime")
+            try self.slider?.validate(name: "\(name).slider")
+            try self.textArea?.validate(name: "\(name).textArea")
+            try self.textField?.validate(name: "\(name).textField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimePicker = "DateTimePicker"
+            case dropdown = "Dropdown"
+            case list = "List"
+            case relativeDateTime = "RelativeDateTime"
+            case slider = "Slider"
+            case textArea = "TextArea"
+            case textField = "TextField"
+        }
+    }
+
+    public struct FilterDateTimePickerControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: DateTimePickerControlDisplayOptions?
+        /// The ID of the FilterDateTimePickerControl.
+        public let filterControlId: String
+        /// The source filter ID of the FilterDateTimePickerControl.
+        public let sourceFilterId: String
+        /// The title of the FilterDateTimePickerControl.
+        public let title: String
+        /// The date time picker type of a FilterDateTimePickerControl. Choose one of the following options:    SINGLE_VALUED: The filter condition is a fixed date.    DATE_RANGE: The filter condition is a date time range.
+        public let type: SheetControlDateTimePickerType?
+
+        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct FilterDropDownControl: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The display options of the FilterDropDownControl.
+        public let displayOptions: DropDownControlDisplayOptions?
+        /// The ID of the FilterDropDownControl.
+        public let filterControlId: String
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: FilterSelectableValues?
+        /// The source filter ID of the FilterDropDownControl.
+        public let sourceFilterId: String
+        /// The title of the FilterDropDownControl.
+        public let title: String
+        /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public let type: SheetControlListType?
+
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.selectableValues = selectableValues
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case selectableValues = "SelectableValues"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct FilterGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The filter new feature which can apply filter group to all data sets. Choose one of the following options:    ALL_DATASETS     SINGLE_DATASET
+        public let crossDataset: CrossDatasetTypes
+        /// The value that uniquely identifies a FilterGroup within a dashboard, template, or analysis.
+        public let filterGroupId: String
+        /// The list of filters that are present in a FilterGroup.
+        public let filters: [Filter]
+        /// The configuration that specifies what scope to apply to a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public let scopeConfiguration: FilterScopeConfiguration
+        /// The status of the FilterGroup.
+        public let status: WidgetStatus?
+
+        public init(crossDataset: CrossDatasetTypes, filterGroupId: String, filters: [Filter], scopeConfiguration: FilterScopeConfiguration, status: WidgetStatus? = nil) {
+            self.crossDataset = crossDataset
+            self.filterGroupId = filterGroupId
+            self.filters = filters
+            self.scopeConfiguration = scopeConfiguration
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterGroupId, name: "filterGroupId", parent: name, max: 512)
+            try self.validate(self.filterGroupId, name: "filterGroupId", parent: name, min: 1)
+            try self.validate(self.filterGroupId, name: "filterGroupId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.scopeConfiguration.validate(name: "\(name).scopeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossDataset = "CrossDataset"
+            case filterGroupId = "FilterGroupId"
+            case filters = "Filters"
+            case scopeConfiguration = "ScopeConfiguration"
+            case status = "Status"
+        }
+    }
+
+    public struct FilterListConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of category values for the filter.
+        public let categoryValues: [String]?
+        /// The match operator that is used to determine if a filter should be applied.
+        public let matchOperator: CategoryFilterMatchOperator
+        /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
+        public let selectAllOptions: CategoryFilterSelectAllOptions?
+
+        public init(categoryValues: [String]? = nil, matchOperator: CategoryFilterMatchOperator, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
+            self.categoryValues = categoryValues
+            self.matchOperator = matchOperator
+            self.selectAllOptions = selectAllOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryValues?.forEach {
+                try validate($0, name: "categoryValues[]", parent: name, max: 512)
+            }
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryValues = "CategoryValues"
+            case matchOperator = "MatchOperator"
+            case selectAllOptions = "SelectAllOptions"
+        }
+    }
+
+    public struct FilterListControl: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The display options of a control.
+        public let displayOptions: ListControlDisplayOptions?
+        /// The ID of the FilterListControl.
+        public let filterControlId: String
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: FilterSelectableValues?
+        /// The source filter ID of the FilterListControl.
+        public let sourceFilterId: String
+        /// The title of the FilterListControl.
+        public let title: String
+        /// The type of FilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
+        public let type: SheetControlListType?
+
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.selectableValues = selectableValues
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case selectableValues = "SelectableValues"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
     public struct FilterOperation: AWSEncodableShape & AWSDecodableShape {
         /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
         public let conditionExpression: String
@@ -6742,6 +11770,253 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case conditionExpression = "ConditionExpression"
+        }
+    }
+
+    public struct FilterOperationSelectedFieldsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains the options that choose which fields are filtered in the CustomActionFilterOperation. Valid values are defined as follows:    ALL_FIELDS: Applies the filter operation to all fields.
+        public let selectedFieldOptions: SelectedFieldOptions?
+        /// Chooses the fields that are filtered in CustomActionFilterOperation.
+        public let selectedFields: [String]?
+
+        public init(selectedFieldOptions: SelectedFieldOptions? = nil, selectedFields: [String]? = nil) {
+            self.selectedFieldOptions = selectedFieldOptions
+            self.selectedFields = selectedFields
+        }
+
+        public func validate(name: String) throws {
+            try self.selectedFields?.forEach {
+                try validate($0, name: "selectedFields[]", parent: name, max: 512)
+                try validate($0, name: "selectedFields[]", parent: name, min: 1)
+            }
+            try self.validate(self.selectedFields, name: "selectedFields", parent: name, max: 20)
+            try self.validate(self.selectedFields, name: "selectedFields", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectedFieldOptions = "SelectedFieldOptions"
+            case selectedFields = "SelectedFields"
+        }
+    }
+
+    public struct FilterOperationTargetVisualsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the same-sheet target visuals that you want to be filtered.
+        public let sameSheetTargetVisualConfiguration: SameSheetTargetVisualConfiguration?
+
+        public init(sameSheetTargetVisualConfiguration: SameSheetTargetVisualConfiguration? = nil) {
+            self.sameSheetTargetVisualConfiguration = sameSheetTargetVisualConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sameSheetTargetVisualConfiguration?.validate(name: "\(name).sameSheetTargetVisualConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sameSheetTargetVisualConfiguration = "SameSheetTargetVisualConfiguration"
+        }
+    }
+
+    public struct FilterRelativeDateTimeControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: RelativeDateTimeControlDisplayOptions?
+        /// The ID of the FilterTextAreaControl.
+        public let filterControlId: String
+        /// The source filter ID of the FilterTextAreaControl.
+        public let sourceFilterId: String
+        /// The title of the FilterTextAreaControl.
+        public let title: String
+
+        public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+        }
+    }
+
+    public struct FilterScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for applying a filter to specific sheets.
+        public let selectedSheets: SelectedSheetsFilterScopeConfiguration?
+
+        public init(selectedSheets: SelectedSheetsFilterScopeConfiguration? = nil) {
+            self.selectedSheets = selectedSheets
+        }
+
+        public func validate(name: String) throws {
+            try self.selectedSheets?.validate(name: "\(name).selectedSheets")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectedSheets = "SelectedSheets"
+        }
+    }
+
+    public struct FilterSelectableValues: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are used in the FilterSelectableValues.
+        public let values: [String]?
+
+        public init(values: [String]? = nil) {
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct FilterSliderControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: SliderControlDisplayOptions?
+        /// The ID of the FilterSliderControl.
+        public let filterControlId: String
+        /// The smaller value that is displayed at the left of the slider.
+        public let maximumValue: Double
+        /// The larger value that is displayed at the right of the slider.
+        public let minimumValue: Double
+        /// The source filter ID of the FilterSliderControl.
+        public let sourceFilterId: String
+        /// The number of increments that the slider bar is divided into.
+        public let stepSize: Double
+        /// The title of the FilterSliderControl.
+        public let title: String
+        /// The type of FilterSliderControl. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
+        public let type: SheetControlSliderType?
+
+        public init(displayOptions: SliderControlDisplayOptions? = nil, filterControlId: String, maximumValue: Double, minimumValue: Double, sourceFilterId: String, stepSize: Double, title: String, type: SheetControlSliderType? = nil) {
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.sourceFilterId = sourceFilterId
+            self.stepSize = stepSize
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case sourceFilterId = "SourceFilterId"
+            case stepSize = "StepSize"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct FilterTextAreaControl: AWSEncodableShape & AWSDecodableShape {
+        /// The delimiter that is used to separate the lines in text.
+        public let delimiter: String?
+        /// The display options of a control.
+        public let displayOptions: TextAreaControlDisplayOptions?
+        /// The ID of the FilterTextAreaControl.
+        public let filterControlId: String
+        /// The source filter ID of the FilterTextAreaControl.
+        public let sourceFilterId: String
+        /// The title of the FilterTextAreaControl.
+        public let title: String
+
+        public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+            self.delimiter = delimiter
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2048)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+        }
+    }
+
+    public struct FilterTextFieldControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: TextFieldControlDisplayOptions?
+        /// The ID of the FilterTextFieldControl.
+        public let filterControlId: String
+        /// The source filter ID of the FilterTextFieldControl.
+        public let sourceFilterId: String
+        /// The title of the FilterTextFieldControl.
+        public let title: String
+
+        public init(displayOptions: TextFieldControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
         }
     }
 
@@ -6850,6 +12125,828 @@ extension QuickSight {
             case folderType = "FolderType"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+        }
+    }
+
+    public struct Font: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the font family settings.
+        public let fontFamily: String?
+
+        public init(fontFamily: String? = nil) {
+            self.fontFamily = fontFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontFamily = "FontFamily"
+        }
+    }
+
+    public struct FontConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color of the text.
+        public let fontColor: String?
+        /// Determines the appearance of decorative lines on the text.
+        public let fontDecoration: FontDecoration?
+        /// The option that determines the text display size.
+        public let fontSize: FontSize?
+        /// Determines the text display face that is inherited by the given font family.
+        public let fontStyle: FontStyle?
+        /// The option that determines the text display weight, or boldness.
+        public let fontWeight: FontWeight?
+
+        public init(fontColor: String? = nil, fontDecoration: FontDecoration? = nil, fontSize: FontSize? = nil, fontStyle: FontStyle? = nil, fontWeight: FontWeight? = nil) {
+            self.fontColor = fontColor
+            self.fontDecoration = fontDecoration
+            self.fontSize = fontSize
+            self.fontStyle = fontStyle
+            self.fontWeight = fontWeight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fontColor, name: "fontColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontColor = "FontColor"
+            case fontDecoration = "FontDecoration"
+            case fontSize = "FontSize"
+            case fontStyle = "FontStyle"
+            case fontWeight = "FontWeight"
+        }
+    }
+
+    public struct FontSize: AWSEncodableShape & AWSDecodableShape {
+        /// The lexical name for the text size, proportional to its surrounding context.
+        public let relative: RelativeFontSize?
+
+        public init(relative: RelativeFontSize? = nil) {
+            self.relative = relative
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relative = "Relative"
+        }
+    }
+
+    public struct FontWeight: AWSEncodableShape & AWSDecodableShape {
+        /// The lexical name for the level of boldness of the text display.
+        public let name: FontWeightName?
+
+        public init(name: FontWeightName? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ForecastComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The custom seasonality value setup of a forecast computation.
+        public let customSeasonalityValue: Int?
+        /// The lower boundary setup of a forecast computation.
+        public let lowerBoundary: Double?
+        /// The name of a computation.
+        public let name: String?
+        /// The periods backward setup of a forecast computation.
+        public let periodsBackward: Int?
+        /// The periods forward setup of a forecast computation.
+        public let periodsForward: Int?
+        /// The prediction interval setup of a forecast computation.
+        public let predictionInterval: Int?
+        /// The seasonality setup of a forecast computation. Choose one of the following options:    AUTOMATIC     CUSTOM: Checks the custom seasonality value.
+        public let seasonality: ForecastComputationSeasonality?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The upper boundary setup of a forecast computation.
+        public let upperBoundary: Double?
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(computationId: String, customSeasonalityValue: Int? = nil, lowerBoundary: Double? = nil, name: String? = nil, periodsBackward: Int? = nil, periodsForward: Int? = nil, predictionInterval: Int? = nil, seasonality: ForecastComputationSeasonality? = nil, time: DimensionField, upperBoundary: Double? = nil, value: MeasureField? = nil) {
+            self.computationId = computationId
+            self.customSeasonalityValue = customSeasonalityValue
+            self.lowerBoundary = lowerBoundary
+            self.name = name
+            self.periodsBackward = periodsBackward
+            self.periodsForward = periodsForward
+            self.predictionInterval = predictionInterval
+            self.seasonality = seasonality
+            self.time = time
+            self.upperBoundary = upperBoundary
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.customSeasonalityValue, name: "customSeasonalityValue", parent: name, max: 180)
+            try self.validate(self.customSeasonalityValue, name: "customSeasonalityValue", parent: name, min: 1)
+            try self.validate(self.periodsBackward, name: "periodsBackward", parent: name, max: 1000)
+            try self.validate(self.periodsBackward, name: "periodsBackward", parent: name, min: 0)
+            try self.validate(self.periodsForward, name: "periodsForward", parent: name, max: 1000)
+            try self.validate(self.periodsForward, name: "periodsForward", parent: name, min: 1)
+            try self.validate(self.predictionInterval, name: "predictionInterval", parent: name, max: 95)
+            try self.validate(self.predictionInterval, name: "predictionInterval", parent: name, min: 50)
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case customSeasonalityValue = "CustomSeasonalityValue"
+            case lowerBoundary = "LowerBoundary"
+            case name = "Name"
+            case periodsBackward = "PeriodsBackward"
+            case periodsForward = "PeriodsForward"
+            case predictionInterval = "PredictionInterval"
+            case seasonality = "Seasonality"
+            case time = "Time"
+            case upperBoundary = "UpperBoundary"
+            case value = "Value"
+        }
+    }
+
+    public struct ForecastConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The forecast properties setup of a forecast in the line chart.
+        public let forecastProperties: TimeBasedForecastProperties?
+        /// The forecast scenario of a forecast in the line chart.
+        public let scenario: ForecastScenario?
+
+        public init(forecastProperties: TimeBasedForecastProperties? = nil, scenario: ForecastScenario? = nil) {
+            self.forecastProperties = forecastProperties
+            self.scenario = scenario
+        }
+
+        public func validate(name: String) throws {
+            try self.forecastProperties?.validate(name: "\(name).forecastProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forecastProperties = "ForecastProperties"
+            case scenario = "Scenario"
+        }
+    }
+
+    public struct ForecastScenario: AWSEncodableShape & AWSDecodableShape {
+        /// The what-if analysis forecast setup with the target date.
+        public let whatIfPointScenario: WhatIfPointScenario?
+        /// The what-if analysis forecast setup with the date range.
+        public let whatIfRangeScenario: WhatIfRangeScenario?
+
+        public init(whatIfPointScenario: WhatIfPointScenario? = nil, whatIfRangeScenario: WhatIfRangeScenario? = nil) {
+            self.whatIfPointScenario = whatIfPointScenario
+            self.whatIfRangeScenario = whatIfRangeScenario
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whatIfPointScenario = "WhatIfPointScenario"
+            case whatIfRangeScenario = "WhatIfRangeScenario"
+        }
+    }
+
+    public struct FormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Formatting configuration for DateTime fields.
+        public let dateTimeFormatConfiguration: DateTimeFormatConfiguration?
+        /// Formatting configuration for number fields.
+        public let numberFormatConfiguration: NumberFormatConfiguration?
+        /// Formatting configuration for string fields.
+        public let stringFormatConfiguration: StringFormatConfiguration?
+
+        public init(dateTimeFormatConfiguration: DateTimeFormatConfiguration? = nil, numberFormatConfiguration: NumberFormatConfiguration? = nil, stringFormatConfiguration: StringFormatConfiguration? = nil) {
+            self.dateTimeFormatConfiguration = dateTimeFormatConfiguration
+            self.numberFormatConfiguration = numberFormatConfiguration
+            self.stringFormatConfiguration = stringFormatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimeFormatConfiguration?.validate(name: "\(name).dateTimeFormatConfiguration")
+            try self.numberFormatConfiguration?.validate(name: "\(name).numberFormatConfiguration")
+            try self.stringFormatConfiguration?.validate(name: "\(name).stringFormatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeFormatConfiguration = "DateTimeFormatConfiguration"
+            case numberFormatConfiguration = "NumberFormatConfiguration"
+            case stringFormatConfiguration = "StringFormatConfiguration"
+        }
+    }
+
+    public struct FreeFormLayoutCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the sizing of the canvas used in a free-form layout.
+        public let screenCanvasSizeOptions: FreeFormLayoutScreenCanvasSizeOptions?
+
+        public init(screenCanvasSizeOptions: FreeFormLayoutScreenCanvasSizeOptions? = nil) {
+            self.screenCanvasSizeOptions = screenCanvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case screenCanvasSizeOptions = "ScreenCanvasSizeOptions"
+        }
+    }
+
+    public struct FreeFormLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let canvasSizeOptions: FreeFormLayoutCanvasSizeOptions?
+        /// The elements that are included in a free-form layout.
+        public let elements: [FreeFormLayoutElement]
+
+        public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions? = nil, elements: [FreeFormLayoutElement]) {
+            self.canvasSizeOptions = canvasSizeOptions
+            self.elements = elements
+        }
+
+        public func validate(name: String) throws {
+            try self.elements.forEach {
+                try $0.validate(name: "\(name).elements[]")
+            }
+            try self.validate(self.elements, name: "elements", parent: name, max: 430)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvasSizeOptions = "CanvasSizeOptions"
+            case elements = "Elements"
+        }
+    }
+
+    public struct FreeFormLayoutElement: AWSEncodableShape & AWSDecodableShape {
+        /// The background style configuration of a free-form layout element.
+        public let backgroundStyle: FreeFormLayoutElementBackgroundStyle?
+        /// The border style configuration of a free-form layout element.
+        public let borderStyle: FreeFormLayoutElementBorderStyle?
+        /// A unique identifier for an element within a free-form layout.
+        public let elementId: String
+        /// The type of element.
+        public let elementType: LayoutElementType
+        /// The height of an element within a free-form layout.
+        public let height: String
+        /// The loading animation configuration of a free-form layout element.
+        public let loadingAnimation: LoadingAnimation?
+        /// The rendering rules that determine when an element should be displayed within a free-form layout.
+        public let renderingRules: [SheetElementRenderingRule]?
+        /// The border style configuration of a free-form layout element. This border style is used when the element is selected.
+        public let selectedBorderStyle: FreeFormLayoutElementBorderStyle?
+        /// The visibility of an element within a free-form layout.
+        public let visibility: Visibility?
+        /// The width of an element within a free-form layout.
+        public let width: String
+        /// The x-axis coordinate of the element.
+        public let xAxisLocation: String
+        /// The y-axis coordinate of the element.
+        public let yAxisLocation: String
+
+        public init(backgroundStyle: FreeFormLayoutElementBackgroundStyle? = nil, borderStyle: FreeFormLayoutElementBorderStyle? = nil, elementId: String, elementType: LayoutElementType, height: String, loadingAnimation: LoadingAnimation? = nil, renderingRules: [SheetElementRenderingRule]? = nil, selectedBorderStyle: FreeFormLayoutElementBorderStyle? = nil, visibility: Visibility? = nil, width: String, xAxisLocation: String, yAxisLocation: String) {
+            self.backgroundStyle = backgroundStyle
+            self.borderStyle = borderStyle
+            self.elementId = elementId
+            self.elementType = elementType
+            self.height = height
+            self.loadingAnimation = loadingAnimation
+            self.renderingRules = renderingRules
+            self.selectedBorderStyle = selectedBorderStyle
+            self.visibility = visibility
+            self.width = width
+            self.xAxisLocation = xAxisLocation
+            self.yAxisLocation = yAxisLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.backgroundStyle?.validate(name: "\(name).backgroundStyle")
+            try self.borderStyle?.validate(name: "\(name).borderStyle")
+            try self.validate(self.elementId, name: "elementId", parent: name, max: 512)
+            try self.validate(self.elementId, name: "elementId", parent: name, min: 1)
+            try self.validate(self.elementId, name: "elementId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.renderingRules?.forEach {
+                try $0.validate(name: "\(name).renderingRules[]")
+            }
+            try self.validate(self.renderingRules, name: "renderingRules", parent: name, max: 10000)
+            try self.selectedBorderStyle?.validate(name: "\(name).selectedBorderStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundStyle = "BackgroundStyle"
+            case borderStyle = "BorderStyle"
+            case elementId = "ElementId"
+            case elementType = "ElementType"
+            case height = "Height"
+            case loadingAnimation = "LoadingAnimation"
+            case renderingRules = "RenderingRules"
+            case selectedBorderStyle = "SelectedBorderStyle"
+            case visibility = "Visibility"
+            case width = "Width"
+            case xAxisLocation = "XAxisLocation"
+            case yAxisLocation = "YAxisLocation"
+        }
+    }
+
+    public struct FreeFormLayoutElementBackgroundStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The background color of a free-form layout element.
+        public let color: String?
+        /// The background visibility of a free-form layout element.
+        public let visibility: Visibility?
+
+        public init(color: String? = nil, visibility: Visibility? = nil) {
+            self.color = color
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct FreeFormLayoutElementBorderStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The border color of a free-form layout element.
+        public let color: String?
+        /// The border visibility of a free-form layout element.
+        public let visibility: Visibility?
+
+        public init(color: String? = nil, visibility: Visibility? = nil) {
+            self.color = color
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct FreeFormLayoutScreenCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The width that the view port will be optimized for when the layout renders.
+        public let optimizedViewPortWidth: String
+
+        public init(optimizedViewPortWidth: String) {
+            self.optimizedViewPortWidth = optimizedViewPortWidth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizedViewPortWidth = "OptimizedViewPortWidth"
+        }
+    }
+
+    public struct FreeFormSectionLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The elements that are included in the free-form layout.
+        public let elements: [FreeFormLayoutElement]
+
+        public init(elements: [FreeFormLayoutElement]) {
+            self.elements = elements
+        }
+
+        public func validate(name: String) throws {
+            try self.elements.forEach {
+                try $0.validate(name: "\(name).elements[]")
+            }
+            try self.validate(self.elements, name: "elements", parent: name, max: 430)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elements = "Elements"
+        }
+    }
+
+    public struct FunnelChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The category field wells of a funnel chart. Values are grouped by category fields.
+        public let category: [DimensionField]?
+        /// The value field wells of a funnel chart. Values are aggregated based on categories.
+        public let values: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.category = category
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case values = "Values"
+        }
+    }
+
+    public struct FunnelChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The label options of the categories that are displayed in a FunnelChartVisual.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The options that determine the presentation of the data labels.
+        public let dataLabelOptions: FunnelChartDataLabelOptions?
+        /// The field well configuration of a FunnelChartVisual.
+        public let fieldWells: FunnelChartFieldWells?
+        /// The sort configuration of a FunnelChartVisual.
+        public let sortConfiguration: FunnelChartSortConfiguration?
+        /// The tooltip configuration of a FunnelChartVisual.
+        public let tooltip: TooltipOptions?
+        /// The label options for the values that are displayed in a FunnelChartVisual.
+        public let valueLabelOptions: ChartAxisLabelOptions?
+        /// The visual palette configuration of a FunnelChartVisual.
+        public let visualPalette: VisualPalette?
+
+        public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, dataLabelOptions: FunnelChartDataLabelOptions? = nil, fieldWells: FunnelChartFieldWells? = nil, sortConfiguration: FunnelChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.categoryLabelOptions = categoryLabelOptions
+            self.dataLabelOptions = dataLabelOptions
+            self.fieldWells = fieldWells
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.valueLabelOptions = valueLabelOptions
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.dataLabelOptions?.validate(name: "\(name).dataLabelOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.valueLabelOptions?.validate(name: "\(name).valueLabelOptions")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case dataLabelOptions = "DataLabelOptions"
+            case fieldWells = "FieldWells"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case valueLabelOptions = "ValueLabelOptions"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct FunnelChartDataLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the category labels within the data labels.
+        public let categoryLabelVisibility: Visibility?
+        /// The color of the data label text.
+        public let labelColor: String?
+        /// The font configuration for the data labels. Only the FontSize attribute of the font configuration is used for data labels.
+        public let labelFontConfiguration: FontConfiguration?
+        /// Determines the style of the metric labels.
+        public let measureDataLabelStyle: FunnelChartMeasureDataLabelStyle?
+        /// The visibility of the measure labels within the data labels.
+        public let measureLabelVisibility: Visibility?
+        /// Determines the positioning of the data label relative to a section of the funnel.
+        public let position: DataLabelPosition?
+        /// The visibility option that determines if data labels are displayed.
+        public let visibility: Visibility?
+
+        public init(categoryLabelVisibility: Visibility? = nil, labelColor: String? = nil, labelFontConfiguration: FontConfiguration? = nil, measureDataLabelStyle: FunnelChartMeasureDataLabelStyle? = nil, measureLabelVisibility: Visibility? = nil, position: DataLabelPosition? = nil, visibility: Visibility? = nil) {
+            self.categoryLabelVisibility = categoryLabelVisibility
+            self.labelColor = labelColor
+            self.labelFontConfiguration = labelFontConfiguration
+            self.measureDataLabelStyle = measureDataLabelStyle
+            self.measureLabelVisibility = measureLabelVisibility
+            self.position = position
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labelColor, name: "labelColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.labelFontConfiguration?.validate(name: "\(name).labelFontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryLabelVisibility = "CategoryLabelVisibility"
+            case labelColor = "LabelColor"
+            case labelFontConfiguration = "LabelFontConfiguration"
+            case measureDataLabelStyle = "MeasureDataLabelStyle"
+            case measureLabelVisibility = "MeasureLabelVisibility"
+            case position = "Position"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct FunnelChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a FunnelChartVisual.
+        public let funnelChartAggregatedFieldWells: FunnelChartAggregatedFieldWells?
+
+        public init(funnelChartAggregatedFieldWells: FunnelChartAggregatedFieldWells? = nil) {
+            self.funnelChartAggregatedFieldWells = funnelChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.funnelChartAggregatedFieldWells?.validate(name: "\(name).funnelChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case funnelChartAggregatedFieldWells = "FunnelChartAggregatedFieldWells"
+        }
+    }
+
+    public struct FunnelChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of categories displayed.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the category fields.
+        public let categorySort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+        }
+    }
+
+    public struct FunnelChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a FunnelChartVisual.
+        public let chartConfiguration: FunnelChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FunnelChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct GaugeChartArcConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting of the arc foreground color.
+        public let foregroundColor: ConditionalFormattingColor?
+
+        public init(foregroundColor: ConditionalFormattingColor? = nil) {
+            self.foregroundColor = foregroundColor
+        }
+
+        public func validate(name: String) throws {
+            try self.foregroundColor?.validate(name: "\(name).foregroundColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case foregroundColor = "ForegroundColor"
+        }
+    }
+
+    public struct GaugeChartConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// Conditional formatting options of a GaugeChartVisual.
+        public let conditionalFormattingOptions: [GaugeChartConditionalFormattingOption]?
+
+        public init(conditionalFormattingOptions: [GaugeChartConditionalFormattingOption]? = nil) {
+            self.conditionalFormattingOptions = conditionalFormattingOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalFormattingOptions?.forEach {
+                try $0.validate(name: "\(name).conditionalFormattingOptions[]")
+            }
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalFormattingOptions = "ConditionalFormattingOptions"
+        }
+    }
+
+    public struct GaugeChartConditionalFormattingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the presentation of the arc of a GaugeChartVisual.
+        public let arc: GaugeChartArcConditionalFormatting?
+        /// The conditional formatting for the primary value of a GaugeChartVisual.
+        public let primaryValue: GaugeChartPrimaryValueConditionalFormatting?
+
+        public init(arc: GaugeChartArcConditionalFormatting? = nil, primaryValue: GaugeChartPrimaryValueConditionalFormatting? = nil) {
+            self.arc = arc
+            self.primaryValue = primaryValue
+        }
+
+        public func validate(name: String) throws {
+            try self.arc?.validate(name: "\(name).arc")
+            try self.primaryValue?.validate(name: "\(name).primaryValue")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arc = "Arc"
+            case primaryValue = "PrimaryValue"
+        }
+    }
+
+    public struct GaugeChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The data label configuration of a GaugeChartVisual.
+        public let dataLabels: DataLabelOptions?
+        /// The field well configuration of a GaugeChartVisual.
+        public let fieldWells: GaugeChartFieldWells?
+        /// The options that determine the presentation of the GaugeChartVisual.
+        public let gaugeChartOptions: GaugeChartOptions?
+        /// The tooltip configuration of a GaugeChartVisual.
+        public let tooltipOptions: TooltipOptions?
+        /// The visual palette configuration of a GaugeChartVisual.
+        public let visualPalette: VisualPalette?
+
+        public init(dataLabels: DataLabelOptions? = nil, fieldWells: GaugeChartFieldWells? = nil, gaugeChartOptions: GaugeChartOptions? = nil, tooltipOptions: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.gaugeChartOptions = gaugeChartOptions
+            self.tooltipOptions = tooltipOptions
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.gaugeChartOptions?.validate(name: "\(name).gaugeChartOptions")
+            try self.tooltipOptions?.validate(name: "\(name).tooltipOptions")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case gaugeChartOptions = "GaugeChartOptions"
+            case tooltipOptions = "TooltipOptions"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct GaugeChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The target value field wells of a GaugeChartVisual.
+        public let targetValues: [MeasureField]?
+        /// The value field wells of a GaugeChartVisual.
+        public let values: [MeasureField]?
+
+        public init(targetValues: [MeasureField]? = nil, values: [MeasureField]? = nil) {
+            self.targetValues = targetValues
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.targetValues?.forEach {
+                try $0.validate(name: "\(name).targetValues[]")
+            }
+            try self.validate(self.targetValues, name: "targetValues", parent: name, max: 200)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValues = "TargetValues"
+            case values = "Values"
+        }
+    }
+
+    public struct GaugeChartOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The arc configuration of a GaugeChartVisual.
+        public let arc: ArcConfiguration?
+        /// The arc axis configuration of a GaugeChartVisual.
+        public let arcAxis: ArcAxisConfiguration?
+        /// The comparison configuration of a GaugeChartVisual.
+        public let comparison: ComparisonConfiguration?
+        /// The options that determine the primary value display type.
+        public let primaryValueDisplayType: PrimaryValueDisplayType?
+        /// The options that determine the primary value font configuration.
+        public let primaryValueFontConfiguration: FontConfiguration?
+
+        public init(arc: ArcConfiguration? = nil, arcAxis: ArcAxisConfiguration? = nil, comparison: ComparisonConfiguration? = nil, primaryValueDisplayType: PrimaryValueDisplayType? = nil, primaryValueFontConfiguration: FontConfiguration? = nil) {
+            self.arc = arc
+            self.arcAxis = arcAxis
+            self.comparison = comparison
+            self.primaryValueDisplayType = primaryValueDisplayType
+            self.primaryValueFontConfiguration = primaryValueFontConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.comparison?.validate(name: "\(name).comparison")
+            try self.primaryValueFontConfiguration?.validate(name: "\(name).primaryValueFontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arc = "Arc"
+            case arcAxis = "ArcAxis"
+            case comparison = "Comparison"
+            case primaryValueDisplayType = "PrimaryValueDisplayType"
+            case primaryValueFontConfiguration = "PrimaryValueFontConfiguration"
+        }
+    }
+
+    public struct GaugeChartPrimaryValueConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting of the primary value icon.
+        public let icon: ConditionalFormattingIcon?
+        /// The conditional formatting of the primary value text color.
+        public let textColor: ConditionalFormattingColor?
+
+        public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
+            self.icon = icon
+            self.textColor = textColor
+        }
+
+        public func validate(name: String) throws {
+            try self.icon?.validate(name: "\(name).icon")
+            try self.textColor?.validate(name: "\(name).textColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icon = "Icon"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct GaugeChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a GaugeChartVisual.
+        public let chartConfiguration: GaugeChartConfiguration?
+        /// The conditional formatting of a GaugeChartVisual.
+        public let conditionalFormatting: GaugeChartConditionalFormatting?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GaugeChartConfiguration? = nil, conditionalFormatting: GaugeChartConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.conditionalFormatting = conditionalFormatting
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case conditionalFormatting = "ConditionalFormatting"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 
@@ -7036,6 +13133,245 @@ extension QuickSight {
         }
     }
 
+    public struct GeospatialCoordinateBounds: AWSEncodableShape & AWSDecodableShape {
+        /// The longitude of the east bound of the geospatial coordinate bounds.
+        public let east: Double
+        /// The latitude of the north bound of the geospatial coordinate bounds.
+        public let north: Double
+        /// The latitude of the south bound of the geospatial coordinate bounds.
+        public let south: Double
+        /// The longitude of the west bound of the geospatial coordinate bounds.
+        public let west: Double
+
+        public init(east: Double, north: Double, south: Double, west: Double) {
+            self.east = east
+            self.north = north
+            self.south = south
+            self.west = west
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.east, name: "east", parent: name, max: 1800.0)
+            try self.validate(self.east, name: "east", parent: name, min: -1800.0)
+            try self.validate(self.north, name: "north", parent: name, max: 90.0)
+            try self.validate(self.north, name: "north", parent: name, min: -90.0)
+            try self.validate(self.south, name: "south", parent: name, max: 90.0)
+            try self.validate(self.south, name: "south", parent: name, min: -90.0)
+            try self.validate(self.west, name: "west", parent: name, max: 1800.0)
+            try self.validate(self.west, name: "west", parent: name, min: -1800.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case east = "East"
+            case north = "North"
+            case south = "South"
+            case west = "West"
+        }
+    }
+
+    public struct GeospatialMapAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The color field wells of a geospatial map.
+        public let colors: [DimensionField]?
+        /// The geospatial field wells of a geospatial map. Values are grouped by geospatial fields.
+        public let geospatial: [DimensionField]?
+        /// The size field wells of a geospatial map. Values are aggregated based on geospatial fields.
+        public let values: [MeasureField]?
+
+        public init(colors: [DimensionField]? = nil, geospatial: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.colors = colors
+            self.geospatial = geospatial
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.colors?.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 200)
+            try self.geospatial?.forEach {
+                try $0.validate(name: "\(name).geospatial[]")
+            }
+            try self.validate(self.geospatial, name: "geospatial", parent: name, max: 200)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colors = "Colors"
+            case geospatial = "Geospatial"
+            case values = "Values"
+        }
+    }
+
+    public struct GeospatialMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field wells of the visual.
+        public let fieldWells: GeospatialMapFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The map style options of the geospatial map.
+        public let mapStyleOptions: GeospatialMapStyleOptions?
+        /// The point style options of the geospatial map.
+        public let pointStyleOptions: GeospatialPointStyleOptions?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+        public let visualPalette: VisualPalette?
+        /// The window options of the geospatial map.
+        public let windowOptions: GeospatialWindowOptions?
+
+        public init(fieldWells: GeospatialMapFieldWells? = nil, legend: LegendOptions? = nil, mapStyleOptions: GeospatialMapStyleOptions? = nil, pointStyleOptions: GeospatialPointStyleOptions? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, windowOptions: GeospatialWindowOptions? = nil) {
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.mapStyleOptions = mapStyleOptions
+            self.pointStyleOptions = pointStyleOptions
+            self.tooltip = tooltip
+            self.visualPalette = visualPalette
+            self.windowOptions = windowOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.pointStyleOptions?.validate(name: "\(name).pointStyleOptions")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+            try self.windowOptions?.validate(name: "\(name).windowOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case mapStyleOptions = "MapStyleOptions"
+            case pointStyleOptions = "PointStyleOptions"
+            case tooltip = "Tooltip"
+            case visualPalette = "VisualPalette"
+            case windowOptions = "WindowOptions"
+        }
+    }
+
+    public struct GeospatialMapFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field well for a geospatial map.
+        public let geospatialMapAggregatedFieldWells: GeospatialMapAggregatedFieldWells?
+
+        public init(geospatialMapAggregatedFieldWells: GeospatialMapAggregatedFieldWells? = nil) {
+            self.geospatialMapAggregatedFieldWells = geospatialMapAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.geospatialMapAggregatedFieldWells?.validate(name: "\(name).geospatialMapAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geospatialMapAggregatedFieldWells = "GeospatialMapAggregatedFieldWells"
+        }
+    }
+
+    public struct GeospatialMapStyleOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The base map style of the geospatial map.
+        public let baseMapStyle: BaseMapStyleType?
+
+        public init(baseMapStyle: BaseMapStyleType? = nil) {
+            self.baseMapStyle = baseMapStyle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseMapStyle = "BaseMapStyle"
+        }
+    }
+
+    public struct GeospatialMapVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: GeospatialMapConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GeospatialMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct GeospatialPointStyleOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The cluster marker configuration of the geospatial point style.
+        public let clusterMarkerConfiguration: ClusterMarkerConfiguration?
+        /// The selected point styles (point, cluster) of the geospatial map.
+        public let selectedPointStyle: GeospatialSelectedPointStyle?
+
+        public init(clusterMarkerConfiguration: ClusterMarkerConfiguration? = nil, selectedPointStyle: GeospatialSelectedPointStyle? = nil) {
+            self.clusterMarkerConfiguration = clusterMarkerConfiguration
+            self.selectedPointStyle = selectedPointStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterMarkerConfiguration?.validate(name: "\(name).clusterMarkerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterMarkerConfiguration = "ClusterMarkerConfiguration"
+            case selectedPointStyle = "SelectedPointStyle"
+        }
+    }
+
+    public struct GeospatialWindowOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The bounds options (north, south, west, east) of the geospatial window options.
+        public let bounds: GeospatialCoordinateBounds?
+        /// The map zoom modes (manual, auto) of the geospatial window options.
+        public let mapZoomMode: MapZoomMode?
+
+        public init(bounds: GeospatialCoordinateBounds? = nil, mapZoomMode: MapZoomMode? = nil) {
+            self.bounds = bounds
+            self.mapZoomMode = mapZoomMode
+        }
+
+        public func validate(name: String) throws {
+            try self.bounds?.validate(name: "\(name).bounds")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bounds = "Bounds"
+            case mapZoomMode = "MapZoomMode"
+        }
+    }
+
     public struct GetDashboardEmbedUrlRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "additionalDashboardIds", location: .querystring("additional-dashboard-ids")),
@@ -7072,15 +13408,8 @@ extension QuickSight {
         public let undoRedoDisabled: Bool?
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
         /// 			You can use this for any Amazon QuickSight users in your account (readers, authors, or
-        /// 			admins) authenticated as one of the following:
-        ///
-        /// 				           Active Directory (AD) users or group members
-        ///
-        /// 				           Invited nonfederated users
-        ///
-        /// 				           IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using
-        /// 					SAML, OpenID Connect, or IAM federation.
-        /// 			           Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+        /// 			admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using
+        /// 					SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
@@ -7098,7 +13427,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.additionalDashboardIds?.forEach {
-                try validate($0, name: "additionalDashboardIds[]", parent: name, max: 2048)
+                try validate($0, name: "additionalDashboardIds[]", parent: name, max: 512)
                 try validate($0, name: "additionalDashboardIds[]", parent: name, min: 1)
                 try validate($0, name: "additionalDashboardIds[]", parent: name, pattern: "^[\\w\\-]+$")
             }
@@ -7107,7 +13436,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
@@ -7163,14 +13492,7 @@ extension QuickSight {
         public let sessionLifetimeInMinutes: Int64?
         /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type.
         /// 			You can use this for any type of Amazon QuickSight users in your account (readers, authors, or
-        /// 			admins). They need to be authenticated as one of the following:
-        ///
-        /// 				           Active Directory (AD) users or group members
-        ///
-        /// 				           Invited nonfederated users
-        ///
-        /// 				           Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation
-        /// 			           Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+        /// 			admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   Identity and Access Management (IAM) users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
@@ -7218,6 +13540,173 @@ extension QuickSight {
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
             case status = "Status"
+        }
+    }
+
+    public struct GlobalTableBorderOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the options for side specific border.
+        public let sideSpecificBorder: TableSideBorderOptions?
+        /// Determines the options for uniform border.
+        public let uniformBorder: TableBorderOptions?
+
+        public init(sideSpecificBorder: TableSideBorderOptions? = nil, uniformBorder: TableBorderOptions? = nil) {
+            self.sideSpecificBorder = sideSpecificBorder
+            self.uniformBorder = uniformBorder
+        }
+
+        public func validate(name: String) throws {
+            try self.sideSpecificBorder?.validate(name: "\(name).sideSpecificBorder")
+            try self.uniformBorder?.validate(name: "\(name).uniformBorder")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sideSpecificBorder = "SideSpecificBorder"
+            case uniformBorder = "UniformBorder"
+        }
+    }
+
+    public struct GradientColor: AWSEncodableShape & AWSDecodableShape {
+        /// The list of gradient color stops.
+        public let stops: [GradientStop]?
+
+        public init(stops: [GradientStop]? = nil) {
+            self.stops = stops
+        }
+
+        public func validate(name: String) throws {
+            try self.stops?.forEach {
+                try $0.validate(name: "\(name).stops[]")
+            }
+            try self.validate(self.stops, name: "stops", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stops = "Stops"
+        }
+    }
+
+    public struct GradientStop: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the color.
+        public let color: String?
+        /// Determines the data value.
+        public let dataValue: Double?
+        /// Determines gradient offset value.
+        public let gradientOffset: Double
+
+        public init(color: String? = nil, dataValue: Double? = nil, gradientOffset: Double) {
+            self.color = color
+            self.dataValue = dataValue
+            self.gradientOffset = gradientOffset
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case dataValue = "DataValue"
+            case gradientOffset = "GradientOffset"
+        }
+    }
+
+    public struct GridLayoutCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the sizing of the canvas used in a grid layout.
+        public let screenCanvasSizeOptions: GridLayoutScreenCanvasSizeOptions?
+
+        public init(screenCanvasSizeOptions: GridLayoutScreenCanvasSizeOptions? = nil) {
+            self.screenCanvasSizeOptions = screenCanvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case screenCanvasSizeOptions = "ScreenCanvasSizeOptions"
+        }
+    }
+
+    public struct GridLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let canvasSizeOptions: GridLayoutCanvasSizeOptions?
+        /// The elements that are included in a grid layout.
+        public let elements: [GridLayoutElement]
+
+        public init(canvasSizeOptions: GridLayoutCanvasSizeOptions? = nil, elements: [GridLayoutElement]) {
+            self.canvasSizeOptions = canvasSizeOptions
+            self.elements = elements
+        }
+
+        public func validate(name: String) throws {
+            try self.elements.forEach {
+                try $0.validate(name: "\(name).elements[]")
+            }
+            try self.validate(self.elements, name: "elements", parent: name, max: 430)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvasSizeOptions = "CanvasSizeOptions"
+            case elements = "Elements"
+        }
+    }
+
+    public struct GridLayoutElement: AWSEncodableShape & AWSDecodableShape {
+        /// The column index for the upper left corner of an element.
+        public let columnIndex: Int?
+        /// The width of a grid element expressed as a number of grid columns.
+        public let columnSpan: Int
+        /// A unique identifier for an element within a grid layout.
+        public let elementId: String
+        /// The type of element.
+        public let elementType: LayoutElementType
+        /// The row index for the upper left corner of an element.
+        public let rowIndex: Int?
+        /// The height of a grid element expressed as a number of grid rows.
+        public let rowSpan: Int
+
+        public init(columnIndex: Int? = nil, columnSpan: Int, elementId: String, elementType: LayoutElementType, rowIndex: Int? = nil, rowSpan: Int) {
+            self.columnIndex = columnIndex
+            self.columnSpan = columnSpan
+            self.elementId = elementId
+            self.elementType = elementType
+            self.rowIndex = rowIndex
+            self.rowSpan = rowSpan
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnIndex, name: "columnIndex", parent: name, max: 35)
+            try self.validate(self.columnIndex, name: "columnIndex", parent: name, min: 0)
+            try self.validate(self.columnSpan, name: "columnSpan", parent: name, max: 36)
+            try self.validate(self.columnSpan, name: "columnSpan", parent: name, min: 1)
+            try self.validate(self.elementId, name: "elementId", parent: name, max: 512)
+            try self.validate(self.elementId, name: "elementId", parent: name, min: 1)
+            try self.validate(self.elementId, name: "elementId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.rowIndex, name: "rowIndex", parent: name, max: 9009)
+            try self.validate(self.rowIndex, name: "rowIndex", parent: name, min: 0)
+            try self.validate(self.rowSpan, name: "rowSpan", parent: name, max: 21)
+            try self.validate(self.rowSpan, name: "rowSpan", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnIndex = "ColumnIndex"
+            case columnSpan = "ColumnSpan"
+            case elementId = "ElementId"
+            case elementType = "ElementType"
+            case rowIndex = "RowIndex"
+            case rowSpan = "RowSpan"
+        }
+    }
+
+    public struct GridLayoutScreenCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The width that the view port will be optimized for when the layout renders.
+        public let optimizedViewPortWidth: String?
+        /// This value determines the layout behavior when the viewport is resized.    FIXED: A fixed width will be used when optimizing the layout. In the Amazon QuickSight console, this option is called Classic.    RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Amazon QuickSight console, this option is called Tiled.
+        public let resizeOption: ResizeOption
+
+        public init(optimizedViewPortWidth: String? = nil, resizeOption: ResizeOption) {
+            self.optimizedViewPortWidth = optimizedViewPortWidth
+            self.resizeOption = resizeOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizedViewPortWidth = "OptimizedViewPortWidth"
+            case resizeOption = "ResizeOption"
         }
     }
 
@@ -7284,6 +13773,45 @@ extension QuickSight {
         }
     }
 
+    public struct GrowthRateComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The period size setup of a growth rate computation.
+        public let periodSize: Int?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(computationId: String, name: String? = nil, periodSize: Int? = nil, time: DimensionField, value: MeasureField? = nil) {
+            self.computationId = computationId
+            self.name = name
+            self.periodSize = periodSize
+            self.time = time
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.periodSize, name: "periodSize", parent: name, max: 52)
+            try self.validate(self.periodSize, name: "periodSize", parent: name, min: 2)
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case name = "Name"
+            case periodSize = "PeriodSize"
+            case time = "Time"
+            case value = "Value"
+        }
+    }
+
     public struct GutterStyle: AWSEncodableShape & AWSDecodableShape {
         /// This Boolean value controls whether to display a gutter space between sheet tiles.
         public let show: Bool?
@@ -7294,6 +13822,386 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case show = "Show"
+        }
+    }
+
+    public struct HeaderFooterSectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The layout configuration of the header or footer section.
+        public let layout: SectionLayoutConfiguration
+        /// The unique identifier of the header or footer section.
+        public let sectionId: String
+        /// The style options of a header or footer section.
+        public let style: SectionStyle?
+
+        public init(layout: SectionLayoutConfiguration, sectionId: String, style: SectionStyle? = nil) {
+            self.layout = layout
+            self.sectionId = sectionId
+            self.style = style
+        }
+
+        public func validate(name: String) throws {
+            try self.layout.validate(name: "\(name).layout")
+            try self.validate(self.sectionId, name: "sectionId", parent: name, max: 512)
+            try self.validate(self.sectionId, name: "sectionId", parent: name, min: 1)
+            try self.validate(self.sectionId, name: "sectionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case layout = "Layout"
+            case sectionId = "SectionId"
+            case style = "Style"
+        }
+    }
+
+    public struct HeatMapAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The columns field well of a heat map.
+        public let columns: [DimensionField]?
+        /// The rows field well of a heat map.
+        public let rows: [DimensionField]?
+        /// The values field well of a heat map.
+        public let values: [MeasureField]?
+
+        public init(columns: [DimensionField]? = nil, rows: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.columns = columns
+            self.rows = rows
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 1)
+            try self.rows?.forEach {
+                try $0.validate(name: "\(name).rows[]")
+            }
+            try self.validate(self.rows, name: "rows", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case rows = "Rows"
+            case values = "Values"
+        }
+    }
+
+    public struct HeatMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The color options (gradient color, point of divergence) in a heat map.
+        public let colorScale: ColorScale?
+        /// The label options of the column that is displayed in a heat map.
+        public let columnLabelOptions: ChartAxisLabelOptions?
+        /// The options that determine if visual data labels are displayed.
+        public let dataLabels: DataLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: HeatMapFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The label options of the row that is displayed in a heat map.
+        public let rowLabelOptions: ChartAxisLabelOptions?
+        /// The sort configuration of a heat map.
+        public let sortConfiguration: HeatMapSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+
+        public init(colorScale: ColorScale? = nil, columnLabelOptions: ChartAxisLabelOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HeatMapFieldWells? = nil, legend: LegendOptions? = nil, rowLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: HeatMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
+            self.colorScale = colorScale
+            self.columnLabelOptions = columnLabelOptions
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.rowLabelOptions = rowLabelOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+        }
+
+        public func validate(name: String) throws {
+            try self.colorScale?.validate(name: "\(name).colorScale")
+            try self.columnLabelOptions?.validate(name: "\(name).columnLabelOptions")
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.rowLabelOptions?.validate(name: "\(name).rowLabelOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorScale = "ColorScale"
+            case columnLabelOptions = "ColumnLabelOptions"
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case rowLabelOptions = "RowLabelOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+        }
+    }
+
+    public struct HeatMapFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a heat map.
+        public let heatMapAggregatedFieldWells: HeatMapAggregatedFieldWells?
+
+        public init(heatMapAggregatedFieldWells: HeatMapAggregatedFieldWells? = nil) {
+            self.heatMapAggregatedFieldWells = heatMapAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.heatMapAggregatedFieldWells?.validate(name: "\(name).heatMapAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case heatMapAggregatedFieldWells = "HeatMapAggregatedFieldWells"
+        }
+    }
+
+    public struct HeatMapSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of columns that are displayed in a heat map.
+        public let heatMapColumnItemsLimitConfiguration: ItemsLimitConfiguration?
+        /// The column sort configuration for heat map for columns that aren't a part of a field well.
+        public let heatMapColumnSort: [FieldSortOptions]?
+        /// The limit on the number of rows that are displayed in a heat map.
+        public let heatMapRowItemsLimitConfiguration: ItemsLimitConfiguration?
+        /// The field sort configuration of the rows fields.
+        public let heatMapRowSort: [FieldSortOptions]?
+
+        public init(heatMapColumnItemsLimitConfiguration: ItemsLimitConfiguration? = nil, heatMapColumnSort: [FieldSortOptions]? = nil, heatMapRowItemsLimitConfiguration: ItemsLimitConfiguration? = nil, heatMapRowSort: [FieldSortOptions]? = nil) {
+            self.heatMapColumnItemsLimitConfiguration = heatMapColumnItemsLimitConfiguration
+            self.heatMapColumnSort = heatMapColumnSort
+            self.heatMapRowItemsLimitConfiguration = heatMapRowItemsLimitConfiguration
+            self.heatMapRowSort = heatMapRowSort
+        }
+
+        public func validate(name: String) throws {
+            try self.heatMapColumnSort?.forEach {
+                try $0.validate(name: "\(name).heatMapColumnSort[]")
+            }
+            try self.validate(self.heatMapColumnSort, name: "heatMapColumnSort", parent: name, max: 100)
+            try self.heatMapRowSort?.forEach {
+                try $0.validate(name: "\(name).heatMapRowSort[]")
+            }
+            try self.validate(self.heatMapRowSort, name: "heatMapRowSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case heatMapColumnItemsLimitConfiguration = "HeatMapColumnItemsLimitConfiguration"
+            case heatMapColumnSort = "HeatMapColumnSort"
+            case heatMapRowItemsLimitConfiguration = "HeatMapRowItemsLimitConfiguration"
+            case heatMapRowSort = "HeatMapRowSort"
+        }
+    }
+
+    public struct HeatMapVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a heat map.
+        public let chartConfiguration: HeatMapConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HeatMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct HistogramAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The value field wells of a histogram. Values are aggregated by COUNT or DISTINCT_COUNT.
+        public let values: [MeasureField]?
+
+        public init(values: [MeasureField]? = nil) {
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct HistogramBinOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the bin count of a histogram.
+        public let binCount: BinCountOptions?
+        /// The options that determine the bin width of a histogram.
+        public let binWidth: BinWidthOptions?
+        /// The options that determine the selected bin type.
+        public let selectedBinType: HistogramBinType?
+        /// The options that determine the bin start value.
+        public let startValue: Double?
+
+        public init(binCount: BinCountOptions? = nil, binWidth: BinWidthOptions? = nil, selectedBinType: HistogramBinType? = nil, startValue: Double? = nil) {
+            self.binCount = binCount
+            self.binWidth = binWidth
+            self.selectedBinType = selectedBinType
+            self.startValue = startValue
+        }
+
+        public func validate(name: String) throws {
+            try self.binCount?.validate(name: "\(name).binCount")
+            try self.binWidth?.validate(name: "\(name).binWidth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binCount = "BinCount"
+            case binWidth = "BinWidth"
+            case selectedBinType = "SelectedBinType"
+            case startValue = "StartValue"
+        }
+    }
+
+    public struct HistogramConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the presentation of histogram bins.
+        public let binOptions: HistogramBinOptions?
+        /// The data label configuration of a histogram.
+        public let dataLabels: DataLabelOptions?
+        /// The field well configuration of a histogram.
+        public let fieldWells: HistogramFieldWells?
+        /// The tooltip configuration of a histogram.
+        public let tooltip: TooltipOptions?
+        /// The visual palette configuration of a histogram.
+        public let visualPalette: VisualPalette?
+        /// The options that determine the presentation of the x-axis.
+        public let xAxisDisplayOptions: AxisDisplayOptions?
+        /// The options that determine the presentation of the x-axis label.
+        public let xAxisLabelOptions: ChartAxisLabelOptions?
+        /// The options that determine the presentation of the y-axis.
+        public let yAxisDisplayOptions: AxisDisplayOptions?
+
+        public init(binOptions: HistogramBinOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HistogramFieldWells? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil, yAxisDisplayOptions: AxisDisplayOptions? = nil) {
+            self.binOptions = binOptions
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.tooltip = tooltip
+            self.visualPalette = visualPalette
+            self.xAxisDisplayOptions = xAxisDisplayOptions
+            self.xAxisLabelOptions = xAxisLabelOptions
+            self.yAxisDisplayOptions = yAxisDisplayOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.binOptions?.validate(name: "\(name).binOptions")
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+            try self.xAxisDisplayOptions?.validate(name: "\(name).xAxisDisplayOptions")
+            try self.xAxisLabelOptions?.validate(name: "\(name).xAxisLabelOptions")
+            try self.yAxisDisplayOptions?.validate(name: "\(name).yAxisDisplayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binOptions = "BinOptions"
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case tooltip = "Tooltip"
+            case visualPalette = "VisualPalette"
+            case xAxisDisplayOptions = "XAxisDisplayOptions"
+            case xAxisLabelOptions = "XAxisLabelOptions"
+            case yAxisDisplayOptions = "YAxisDisplayOptions"
+        }
+    }
+
+    public struct HistogramFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a histogram.
+        public let histogramAggregatedFieldWells: HistogramAggregatedFieldWells?
+
+        public init(histogramAggregatedFieldWells: HistogramAggregatedFieldWells? = nil) {
+            self.histogramAggregatedFieldWells = histogramAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.histogramAggregatedFieldWells?.validate(name: "\(name).histogramAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case histogramAggregatedFieldWells = "HistogramAggregatedFieldWells"
+        }
+    }
+
+    public struct HistogramVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration for a HistogramVisual.
+        public let chartConfiguration: HistogramConfiguration?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HistogramConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 
@@ -7420,6 +14328,101 @@ extension QuickSight {
         }
     }
 
+    public struct InsightConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The computations configurations of the insight visual
+        public let computations: [Computation]?
+        /// The custom narrative of the insight visual.
+        public let customNarrative: CustomNarrativeOptions?
+
+        public init(computations: [Computation]? = nil, customNarrative: CustomNarrativeOptions? = nil) {
+            self.computations = computations
+            self.customNarrative = customNarrative
+        }
+
+        public func validate(name: String) throws {
+            try self.computations?.forEach {
+                try $0.validate(name: "\(name).computations[]")
+            }
+            try self.validate(self.computations, name: "computations", parent: name, max: 100)
+            try self.customNarrative?.validate(name: "\(name).customNarrative")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computations = "Computations"
+            case customNarrative = "CustomNarrative"
+        }
+    }
+
+    public struct InsightVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The dataset that is used in the insight visual.
+        public let dataSetIdentifier: String
+        /// The configuration of an insight visual.
+        public let insightConfiguration: InsightConfiguration?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, insightConfiguration: InsightConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.dataSetIdentifier = dataSetIdentifier
+            self.insightConfiguration = insightConfiguration
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.insightConfiguration?.validate(name: "\(name).insightConfiguration")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case dataSetIdentifier = "DataSetIdentifier"
+            case insightConfiguration = "InsightConfiguration"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct IntegerDefaultValues: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic value of the IntegerDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
+        public let dynamicValue: DynamicDefaultValue?
+        /// The static values of the IntegerDefaultValues.
+        public let staticValues: [Int64]?
+
+        public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [Int64]? = nil) {
+            self.dynamicValue = dynamicValue
+            self.staticValues = staticValues
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicValue?.validate(name: "\(name).dynamicValue")
+            try self.validate(self.staticValues, name: "staticValues", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicValue = "DynamicValue"
+            case staticValues = "StaticValues"
+        }
+    }
+
     public struct IntegerParameter: AWSEncodableShape {
         /// The name of the integer parameter.
         public let name: String
@@ -7438,6 +14441,72 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct IntegerParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
+        public let defaultValues: IntegerDefaultValues?
+        /// The name of the parameter that is being declared.
+        public let name: String
+        /// The value type determines whether the parameter is a single-value or multi-value parameter.
+        public let parameterValueType: ParameterValueType
+        /// A parameter declaration for the Integer data type.
+        public let valueWhenUnset: IntegerValueWhenUnsetConfiguration?
+
+        public init(defaultValues: IntegerDefaultValues? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: IntegerValueWhenUnsetConfiguration? = nil) {
+            self.defaultValues = defaultValues
+            self.name = name
+            self.parameterValueType = parameterValueType
+            self.valueWhenUnset = valueWhenUnset
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValues?.validate(name: "\(name).defaultValues")
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValues = "DefaultValues"
+            case name = "Name"
+            case parameterValueType = "ParameterValueType"
+            case valueWhenUnset = "ValueWhenUnset"
+        }
+    }
+
+    public struct IntegerValueWhenUnsetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A custom value that's used when the value of a parameter isn't set.
+        public let customValue: Int64?
+        /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
+        public let valueWhenUnsetOption: ValueWhenUnsetOption?
+
+        public init(customValue: Int64? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
+            self.customValue = customValue
+            self.valueWhenUnsetOption = valueWhenUnsetOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValue = "CustomValue"
+            case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct ItemsLimitConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on how many items of a field are showed in the chart. For example, the number of slices that are displayed in a pie chart.
+        public let itemsLimit: Int64?
+        /// The Show other of an axis in the chart. Choose one of the following options:    INCLUDE     EXCLUDE
+        public let otherCategories: OtherCategories?
+
+        public init(itemsLimit: Int64? = nil, otherCategories: OtherCategories? = nil) {
+            self.itemsLimit = itemsLimit
+            self.otherCategories = otherCategories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemsLimit = "ItemsLimit"
+            case otherCategories = "OtherCategories"
         }
     }
 
@@ -7516,6 +14585,762 @@ extension QuickSight {
         }
     }
 
+    public struct KPIConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting options of a KPI visual.
+        public let conditionalFormattingOptions: [KPIConditionalFormattingOption]?
+
+        public init(conditionalFormattingOptions: [KPIConditionalFormattingOption]? = nil) {
+            self.conditionalFormattingOptions = conditionalFormattingOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalFormattingOptions?.forEach {
+                try $0.validate(name: "\(name).conditionalFormattingOptions[]")
+            }
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalFormattingOptions = "ConditionalFormattingOptions"
+        }
+    }
+
+    public struct KPIConditionalFormattingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting for the primary value of a KPI visual.
+        public let primaryValue: KPIPrimaryValueConditionalFormatting?
+        /// The conditional formatting for the progress bar of a KPI visual.
+        public let progressBar: KPIProgressBarConditionalFormatting?
+
+        public init(primaryValue: KPIPrimaryValueConditionalFormatting? = nil, progressBar: KPIProgressBarConditionalFormatting? = nil) {
+            self.primaryValue = primaryValue
+            self.progressBar = progressBar
+        }
+
+        public func validate(name: String) throws {
+            try self.primaryValue?.validate(name: "\(name).primaryValue")
+            try self.progressBar?.validate(name: "\(name).progressBar")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryValue = "PrimaryValue"
+            case progressBar = "ProgressBar"
+        }
+    }
+
+    public struct KPIConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a KPI visual.
+        public let fieldWells: KPIFieldWells?
+        /// The options that determine the presentation of a KPI visual.
+        public let kpiOptions: KPIOptions?
+        /// The sort configuration of a KPI visual.
+        public let sortConfiguration: KPISortConfiguration?
+
+        public init(fieldWells: KPIFieldWells? = nil, kpiOptions: KPIOptions? = nil, sortConfiguration: KPISortConfiguration? = nil) {
+            self.fieldWells = fieldWells
+            self.kpiOptions = kpiOptions
+            self.sortConfiguration = sortConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.kpiOptions?.validate(name: "\(name).kpiOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldWells = "FieldWells"
+            case kpiOptions = "KPIOptions"
+            case sortConfiguration = "SortConfiguration"
+        }
+    }
+
+    public struct KPIFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The target value field wells of a KPI visual.
+        public let targetValues: [MeasureField]?
+        /// The trend group field wells of a KPI visual.
+        public let trendGroups: [DimensionField]?
+        /// The value field wells of a KPI visual.
+        public let values: [MeasureField]?
+
+        public init(targetValues: [MeasureField]? = nil, trendGroups: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.targetValues = targetValues
+            self.trendGroups = trendGroups
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.targetValues?.forEach {
+                try $0.validate(name: "\(name).targetValues[]")
+            }
+            try self.validate(self.targetValues, name: "targetValues", parent: name, max: 200)
+            try self.trendGroups?.forEach {
+                try $0.validate(name: "\(name).trendGroups[]")
+            }
+            try self.validate(self.trendGroups, name: "trendGroups", parent: name, max: 200)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetValues = "TargetValues"
+            case trendGroups = "TrendGroups"
+            case values = "Values"
+        }
+    }
+
+    public struct KPIOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The comparison configuration of a KPI visual.
+        public let comparison: ComparisonConfiguration?
+        /// The options that determine the primary value display type.
+        public let primaryValueDisplayType: PrimaryValueDisplayType?
+        /// The options that determine the primary value font configuration.
+        public let primaryValueFontConfiguration: FontConfiguration?
+        /// The options that determine the presentation of the progress bar of a KPI visual.
+        public let progressBar: ProgressBarOptions?
+        /// The options that determine the presentation of the secondary value of a KPI visual.
+        public let secondaryValue: SecondaryValueOptions?
+        /// The options that determine the secondary value font configuration.
+        public let secondaryValueFontConfiguration: FontConfiguration?
+        /// The options that determine the presentation of trend arrows in a KPI visual.
+        public let trendArrows: TrendArrowOptions?
+
+        public init(comparison: ComparisonConfiguration? = nil, primaryValueDisplayType: PrimaryValueDisplayType? = nil, primaryValueFontConfiguration: FontConfiguration? = nil, progressBar: ProgressBarOptions? = nil, secondaryValue: SecondaryValueOptions? = nil, secondaryValueFontConfiguration: FontConfiguration? = nil, trendArrows: TrendArrowOptions? = nil) {
+            self.comparison = comparison
+            self.primaryValueDisplayType = primaryValueDisplayType
+            self.primaryValueFontConfiguration = primaryValueFontConfiguration
+            self.progressBar = progressBar
+            self.secondaryValue = secondaryValue
+            self.secondaryValueFontConfiguration = secondaryValueFontConfiguration
+            self.trendArrows = trendArrows
+        }
+
+        public func validate(name: String) throws {
+            try self.comparison?.validate(name: "\(name).comparison")
+            try self.primaryValueFontConfiguration?.validate(name: "\(name).primaryValueFontConfiguration")
+            try self.secondaryValueFontConfiguration?.validate(name: "\(name).secondaryValueFontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "Comparison"
+            case primaryValueDisplayType = "PrimaryValueDisplayType"
+            case primaryValueFontConfiguration = "PrimaryValueFontConfiguration"
+            case progressBar = "ProgressBar"
+            case secondaryValue = "SecondaryValue"
+            case secondaryValueFontConfiguration = "SecondaryValueFontConfiguration"
+            case trendArrows = "TrendArrows"
+        }
+    }
+
+    public struct KPIPrimaryValueConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting of the primary value's icon.
+        public let icon: ConditionalFormattingIcon?
+        /// The conditional formatting of the  primary value's text color.
+        public let textColor: ConditionalFormattingColor?
+
+        public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
+            self.icon = icon
+            self.textColor = textColor
+        }
+
+        public func validate(name: String) throws {
+            try self.icon?.validate(name: "\(name).icon")
+            try self.textColor?.validate(name: "\(name).textColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icon = "Icon"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct KPIProgressBarConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting of the progress bar's foreground color.
+        public let foregroundColor: ConditionalFormattingColor?
+
+        public init(foregroundColor: ConditionalFormattingColor? = nil) {
+            self.foregroundColor = foregroundColor
+        }
+
+        public func validate(name: String) throws {
+            try self.foregroundColor?.validate(name: "\(name).foregroundColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case foregroundColor = "ForegroundColor"
+        }
+    }
+
+    public struct KPISortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration of the trend group fields.
+        public let trendGroupSort: [FieldSortOptions]?
+
+        public init(trendGroupSort: [FieldSortOptions]? = nil) {
+            self.trendGroupSort = trendGroupSort
+        }
+
+        public func validate(name: String) throws {
+            try self.trendGroupSort?.forEach {
+                try $0.validate(name: "\(name).trendGroupSort[]")
+            }
+            try self.validate(self.trendGroupSort, name: "trendGroupSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trendGroupSort = "TrendGroupSort"
+        }
+    }
+
+    public struct KPIVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a KPI visual.
+        public let chartConfiguration: KPIConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The conditional formatting of a KPI visual.
+        public let conditionalFormatting: KPIConditionalFormatting?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: KPIConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: KPIConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.conditionalFormatting = conditionalFormatting
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case conditionalFormatting = "ConditionalFormatting"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct LabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The text for the label.
+        public let customLabel: String?
+        /// The font configuration of the label.
+        public let fontConfiguration: FontConfiguration?
+        /// Determines whether or not the label is visible.
+        public let visibility: Visibility?
+
+        public init(customLabel: String? = nil, fontConfiguration: FontConfiguration? = nil, visibility: Visibility? = nil) {
+            self.customLabel = customLabel
+            self.fontConfiguration = fontConfiguration
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case fontConfiguration = "FontConfiguration"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct Layout: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that determines what the type of layout for a sheet.
+        public let configuration: LayoutConfiguration
+
+        public init(configuration: LayoutConfiguration) {
+            self.configuration = configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct LayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A free-form is optimized for a fixed width and has more control over the exact placement of layout elements.
+        public let freeFormLayout: FreeFormLayoutConfiguration?
+        /// A type of layout that can be used on a sheet. In a grid layout, visuals snap to a grid with standard spacing and alignment. Dashboards are displayed as designed, with options to fit to screen or view at actual size. A grid layout can be configured to behave in one of two ways when the viewport is resized: FIXED or RESPONSIVE.
+        public let gridLayout: GridLayoutConfiguration?
+        /// A section based layout organizes visuals into multiple sections and has customized header, footer and page break.
+        public let sectionBasedLayout: SectionBasedLayoutConfiguration?
+
+        public init(freeFormLayout: FreeFormLayoutConfiguration? = nil, gridLayout: GridLayoutConfiguration? = nil, sectionBasedLayout: SectionBasedLayoutConfiguration? = nil) {
+            self.freeFormLayout = freeFormLayout
+            self.gridLayout = gridLayout
+            self.sectionBasedLayout = sectionBasedLayout
+        }
+
+        public func validate(name: String) throws {
+            try self.freeFormLayout?.validate(name: "\(name).freeFormLayout")
+            try self.gridLayout?.validate(name: "\(name).gridLayout")
+            try self.sectionBasedLayout?.validate(name: "\(name).sectionBasedLayout")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeFormLayout = "FreeFormLayout"
+            case gridLayout = "GridLayout"
+            case sectionBasedLayout = "SectionBasedLayout"
+        }
+    }
+
+    public struct LegendOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The height of the legend. If this value is omitted, a default height is used when rendering.
+        public let height: String?
+        /// The positions for the legend. Choose one of the following options:    AUTO     RIGHT     BOTTOM     LEFT
+        public let position: LegendPosition?
+        /// The custom title for the legend.
+        public let title: LabelOptions?
+        /// Determines whether or not the legend is visible.
+        public let visibility: Visibility?
+        /// The width of the legend. If this value is omitted, a default width is used when rendering.
+        public let width: String?
+
+        public init(height: String? = nil, position: LegendPosition? = nil, title: LabelOptions? = nil, visibility: Visibility? = nil, width: String? = nil) {
+            self.height = height
+            self.position = position
+            self.title = title
+            self.visibility = visibility
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.title?.validate(name: "\(name).title")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case position = "Position"
+            case title = "Title"
+            case visibility = "Visibility"
+            case width = "Width"
+        }
+    }
+
+    public struct LineChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The category field wells of a line chart. Values are grouped by category fields.
+        public let category: [DimensionField]?
+        /// The color field wells of a line chart. Values are grouped by category fields.
+        public let colors: [DimensionField]?
+        /// The small multiples field well of a line chart.
+        public let smallMultiples: [DimensionField]?
+        /// The value field wells of a line chart. Values are aggregated based on categories.
+        public let values: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, colors: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.category = category
+            self.colors = colors
+            self.smallMultiples = smallMultiples
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 200)
+            try self.colors?.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 200)
+            try self.smallMultiples?.forEach {
+                try $0.validate(name: "\(name).smallMultiples[]")
+            }
+            try self.validate(self.smallMultiples, name: "smallMultiples", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case colors = "Colors"
+            case smallMultiples = "SmallMultiples"
+            case values = "Values"
+        }
+    }
+
+    public struct LineChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The default configuration of a line chart's contribution analysis.
+        public let contributionAnalysisDefaults: [ContributionAnalysisDefault]?
+        /// The data label configuration of a line chart.
+        public let dataLabels: DataLabelOptions?
+        /// The options that determine the default presentation of all line series in LineChartVisual.
+        public let defaultSeriesSettings: LineChartDefaultSeriesSettings?
+        /// The field well configuration of a line chart.
+        public let fieldWells: LineChartFieldWells?
+        /// The forecast configuration of a line chart.
+        public let forecastConfigurations: [ForecastConfiguration]?
+        /// The legend configuration of a line chart.
+        public let legend: LegendOptions?
+        /// The series axis configuration of a line chart.
+        public let primaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions?
+        /// The options that determine the presentation of the y-axis label.
+        public let primaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The reference lines configuration of a line chart.
+        public let referenceLines: [ReferenceLine]?
+        /// The series axis configuration of a line chart.
+        public let secondaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions?
+        /// The options that determine the presentation of the secondary y-axis label.
+        public let secondaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The series item configuration of a line chart.
+        public let series: [SeriesItem]?
+        /// The small multiples setup for the visual.
+        public let smallMultiplesOptions: SmallMultiplesOptions?
+        /// The sort configuration of a line chart.
+        public let sortConfiguration: LineChartSortConfiguration?
+        /// The tooltip configuration of a line chart.
+        public let tooltip: TooltipOptions?
+        /// Determines the type of the line chart.
+        public let type: LineChartType?
+        /// The visual palette configuration of a line chart.
+        public let visualPalette: VisualPalette?
+        /// The options that determine the presentation of the x-axis.
+        public let xAxisDisplayOptions: AxisDisplayOptions?
+        /// The options that determine the presentation of the x-axis label.
+        public let xAxisLabelOptions: ChartAxisLabelOptions?
+
+        public init(contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, defaultSeriesSettings: LineChartDefaultSeriesSettings? = nil, fieldWells: LineChartFieldWells? = nil, forecastConfigurations: [ForecastConfiguration]? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, secondaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions? = nil, secondaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, series: [SeriesItem]? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: LineChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, type: LineChartType? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil) {
+            self.contributionAnalysisDefaults = contributionAnalysisDefaults
+            self.dataLabels = dataLabels
+            self.defaultSeriesSettings = defaultSeriesSettings
+            self.fieldWells = fieldWells
+            self.forecastConfigurations = forecastConfigurations
+            self.legend = legend
+            self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
+            self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
+            self.referenceLines = referenceLines
+            self.secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptions
+            self.secondaryYAxisLabelOptions = secondaryYAxisLabelOptions
+            self.series = series
+            self.smallMultiplesOptions = smallMultiplesOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.type = type
+            self.visualPalette = visualPalette
+            self.xAxisDisplayOptions = xAxisDisplayOptions
+            self.xAxisLabelOptions = xAxisLabelOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.contributionAnalysisDefaults?.forEach {
+                try $0.validate(name: "\(name).contributionAnalysisDefaults[]")
+            }
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, max: 200)
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, min: 1)
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.defaultSeriesSettings?.validate(name: "\(name).defaultSeriesSettings")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.forecastConfigurations?.forEach {
+                try $0.validate(name: "\(name).forecastConfigurations[]")
+            }
+            try self.validate(self.forecastConfigurations, name: "forecastConfigurations", parent: name, max: 10)
+            try self.legend?.validate(name: "\(name).legend")
+            try self.primaryYAxisDisplayOptions?.validate(name: "\(name).primaryYAxisDisplayOptions")
+            try self.primaryYAxisLabelOptions?.validate(name: "\(name).primaryYAxisLabelOptions")
+            try self.referenceLines?.forEach {
+                try $0.validate(name: "\(name).referenceLines[]")
+            }
+            try self.validate(self.referenceLines, name: "referenceLines", parent: name, max: 20)
+            try self.secondaryYAxisDisplayOptions?.validate(name: "\(name).secondaryYAxisDisplayOptions")
+            try self.secondaryYAxisLabelOptions?.validate(name: "\(name).secondaryYAxisLabelOptions")
+            try self.series?.forEach {
+                try $0.validate(name: "\(name).series[]")
+            }
+            try self.validate(self.series, name: "series", parent: name, max: 10)
+            try self.smallMultiplesOptions?.validate(name: "\(name).smallMultiplesOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+            try self.xAxisDisplayOptions?.validate(name: "\(name).xAxisDisplayOptions")
+            try self.xAxisLabelOptions?.validate(name: "\(name).xAxisLabelOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributionAnalysisDefaults = "ContributionAnalysisDefaults"
+            case dataLabels = "DataLabels"
+            case defaultSeriesSettings = "DefaultSeriesSettings"
+            case fieldWells = "FieldWells"
+            case forecastConfigurations = "ForecastConfigurations"
+            case legend = "Legend"
+            case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
+            case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
+            case referenceLines = "ReferenceLines"
+            case secondaryYAxisDisplayOptions = "SecondaryYAxisDisplayOptions"
+            case secondaryYAxisLabelOptions = "SecondaryYAxisLabelOptions"
+            case series = "Series"
+            case smallMultiplesOptions = "SmallMultiplesOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case type = "Type"
+            case visualPalette = "VisualPalette"
+            case xAxisDisplayOptions = "XAxisDisplayOptions"
+            case xAxisLabelOptions = "XAxisLabelOptions"
+        }
+    }
+
+    public struct LineChartDefaultSeriesSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The axis to which you are binding all line series to.
+        public let axisBinding: AxisBinding?
+        /// Line styles options for all line series in the visual.
+        public let lineStyleSettings: LineChartLineStyleSettings?
+        /// Marker styles options for all line series in the visual.
+        public let markerStyleSettings: LineChartMarkerStyleSettings?
+
+        public init(axisBinding: AxisBinding? = nil, lineStyleSettings: LineChartLineStyleSettings? = nil, markerStyleSettings: LineChartMarkerStyleSettings? = nil) {
+            self.axisBinding = axisBinding
+            self.lineStyleSettings = lineStyleSettings
+            self.markerStyleSettings = markerStyleSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.markerStyleSettings?.validate(name: "\(name).markerStyleSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisBinding = "AxisBinding"
+            case lineStyleSettings = "LineStyleSettings"
+            case markerStyleSettings = "MarkerStyleSettings"
+        }
+    }
+
+    public struct LineChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a line chart.
+        public let lineChartAggregatedFieldWells: LineChartAggregatedFieldWells?
+
+        public init(lineChartAggregatedFieldWells: LineChartAggregatedFieldWells? = nil) {
+            self.lineChartAggregatedFieldWells = lineChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.lineChartAggregatedFieldWells?.validate(name: "\(name).lineChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineChartAggregatedFieldWells = "LineChartAggregatedFieldWells"
+        }
+    }
+
+    public struct LineChartLineStyleSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Interpolation style for line series.    LINEAR: Show as default, linear style.    SMOOTH: Show as a smooth curve.    STEPPED: Show steps in line.
+        public let lineInterpolation: LineInterpolation?
+        /// Line style for line series.    SOLID: Show as a solid line.    DOTTED: Show as a dotted line.    DASHED: Show as a dashed line.
+        public let lineStyle: LineChartLineStyle?
+        /// Configuration option that determines whether to show the line for the series.
+        public let lineVisibility: Visibility?
+        /// Width that determines the line thickness.
+        public let lineWidth: String?
+
+        public init(lineInterpolation: LineInterpolation? = nil, lineStyle: LineChartLineStyle? = nil, lineVisibility: Visibility? = nil, lineWidth: String? = nil) {
+            self.lineInterpolation = lineInterpolation
+            self.lineStyle = lineStyle
+            self.lineVisibility = lineVisibility
+            self.lineWidth = lineWidth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineInterpolation = "LineInterpolation"
+            case lineStyle = "LineStyle"
+            case lineVisibility = "LineVisibility"
+            case lineWidth = "LineWidth"
+        }
+    }
+
+    public struct LineChartMarkerStyleSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Color of marker in the series.
+        public let markerColor: String?
+        /// Shape option for markers in the series.    CIRCLE: Show marker as a circle.    TRIANGLE: Show marker as a triangle.    SQUARE: Show marker as a square.    DIAMOND: Show marker as a diamond.    ROUNDED_SQUARE: Show marker as a rounded square.
+        public let markerShape: LineChartMarkerShape?
+        /// Size of marker in the series.
+        public let markerSize: String?
+        /// Configuration option that determines whether to show the markers in the series.
+        public let markerVisibility: Visibility?
+
+        public init(markerColor: String? = nil, markerShape: LineChartMarkerShape? = nil, markerSize: String? = nil, markerVisibility: Visibility? = nil) {
+            self.markerColor = markerColor
+            self.markerShape = markerShape
+            self.markerSize = markerSize
+            self.markerVisibility = markerVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.markerColor, name: "markerColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case markerColor = "MarkerColor"
+            case markerShape = "MarkerShape"
+            case markerSize = "MarkerSize"
+            case markerVisibility = "MarkerVisibility"
+        }
+    }
+
+    public struct LineChartSeriesSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Line styles options for a line series in LineChartVisual.
+        public let lineStyleSettings: LineChartLineStyleSettings?
+        /// Marker styles options for a line series in LineChartVisual.
+        public let markerStyleSettings: LineChartMarkerStyleSettings?
+
+        public init(lineStyleSettings: LineChartLineStyleSettings? = nil, markerStyleSettings: LineChartMarkerStyleSettings? = nil) {
+            self.lineStyleSettings = lineStyleSettings
+            self.markerStyleSettings = markerStyleSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.markerStyleSettings?.validate(name: "\(name).markerStyleSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineStyleSettings = "LineStyleSettings"
+            case markerStyleSettings = "MarkerStyleSettings"
+        }
+    }
+
+    public struct LineChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of categories that are displayed in a line chart.
+        public let categoryItemsLimitConfiguration: ItemsLimitConfiguration?
+        /// The sort configuration of the category fields.
+        public let categorySort: [FieldSortOptions]?
+        /// The limit on the number of lines that are displayed in a line chart.
+        public let colorItemsLimitConfiguration: ItemsLimitConfiguration?
+        /// The limit on the number of small multiples panels that are displayed.
+        public let smallMultiplesLimitConfiguration: ItemsLimitConfiguration?
+        /// The sort configuration of the small multiples field.
+        public let smallMultiplesSort: [FieldSortOptions]?
+
+        public init(categoryItemsLimitConfiguration: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimitConfiguration = categoryItemsLimitConfiguration
+            self.categorySort = categorySort
+            self.colorItemsLimitConfiguration = colorItemsLimitConfiguration
+            self.smallMultiplesLimitConfiguration = smallMultiplesLimitConfiguration
+            self.smallMultiplesSort = smallMultiplesSort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.smallMultiplesSort?.forEach {
+                try $0.validate(name: "\(name).smallMultiplesSort[]")
+            }
+            try self.validate(self.smallMultiplesSort, name: "smallMultiplesSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimitConfiguration = "CategoryItemsLimitConfiguration"
+            case categorySort = "CategorySort"
+            case colorItemsLimitConfiguration = "ColorItemsLimitConfiguration"
+            case smallMultiplesLimitConfiguration = "SmallMultiplesLimitConfiguration"
+            case smallMultiplesSort = "SmallMultiplesSort"
+        }
+    }
+
+    public struct LineChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a line chart.
+        public let chartConfiguration: LineChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: LineChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct LineSeriesAxisDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the presentation of the line series axis.
+        public let axisOptions: AxisDisplayOptions?
+        /// The configuration options that determine how missing data is treated during the rendering of a line chart.
+        public let missingDataConfigurations: [MissingDataConfiguration]?
+
+        public init(axisOptions: AxisDisplayOptions? = nil, missingDataConfigurations: [MissingDataConfiguration]? = nil) {
+            self.axisOptions = axisOptions
+            self.missingDataConfigurations = missingDataConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.axisOptions?.validate(name: "\(name).axisOptions")
+            try self.validate(self.missingDataConfigurations, name: "missingDataConfigurations", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisOptions = "AxisOptions"
+            case missingDataConfigurations = "MissingDataConfigurations"
+        }
+    }
+
     public struct LinkSharingConfiguration: AWSDecodableShape {
         /// A structure that contains the permissions of a shareable link.
         public let permissions: [ResourcePermission]?
@@ -7589,6 +15414,57 @@ extension QuickSight {
         }
     }
 
+    public struct ListControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the search options in a list control.
+        public let searchOptions: ListControlSearchOptions?
+        /// The configuration of the Select all options in a list control.
+        public let selectAllOptions: ListControlSelectAllOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(searchOptions: ListControlSearchOptions? = nil, selectAllOptions: ListControlSelectAllOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.searchOptions = searchOptions
+            self.selectAllOptions = selectAllOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchOptions = "SearchOptions"
+            case selectAllOptions = "SelectAllOptions"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct ListControlSearchOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the search options in a list control.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ListControlSelectAllOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Select all options in a list control.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
     public struct ListDashboardVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -7617,7 +15493,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
@@ -8441,7 +16317,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -8508,7 +16384,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -8635,7 +16511,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -8702,7 +16578,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -8753,7 +16629,7 @@ extension QuickSight {
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The type of themes that you want to list. Valid options include the following: 	       ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
+        /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
         public let type: ThemeType?
 
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ThemeType? = nil) {
@@ -8943,6 +16819,38 @@ extension QuickSight {
         }
     }
 
+    public struct LoadingAnimation: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of LoadingAnimation.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct LocalNavigationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sheet that is targeted for navigation in the same analysis.
+        public let targetSheetId: String
+
+        public init(targetSheetId: String) {
+            self.targetSheetId = targetSheetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetSheetId, name: "targetSheetId", parent: name, max: 512)
+            try self.validate(self.targetSheetId, name: "targetSheetId", parent: name, min: 1)
+            try self.validate(self.targetSheetId, name: "targetSheetId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetSheetId = "TargetSheetId"
+        }
+    }
+
     public struct LogicalTable: AWSEncodableShape & AWSDecodableShape {
         /// A display name for the logical table.
         public let alias: String
@@ -9000,6 +16908,30 @@ extension QuickSight {
             case dataSetArn = "DataSetArn"
             case joinInstruction = "JoinInstruction"
             case physicalTableId = "PhysicalTableId"
+        }
+    }
+
+    public struct LongFormatText: AWSEncodableShape & AWSDecodableShape {
+        /// Plain text format.
+        public let plainText: String?
+        /// Rich text. Examples of rich text include bold, underline, and italics.
+        public let richText: String?
+
+        public init(plainText: String? = nil, richText: String? = nil) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.plainText, name: "plainText", parent: name, max: 1024)
+            try self.validate(self.plainText, name: "plainText", parent: name, min: 1)
+            try self.validate(self.richText, name: "richText", parent: name, max: 2048)
+            try self.validate(self.richText, name: "richText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case plainText = "PlainText"
+            case richText = "RichText"
         }
     }
 
@@ -9070,6 +17002,88 @@ extension QuickSight {
         }
     }
 
+    public struct MaximumLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the maximum label.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct MaximumMinimumComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The type of computation. Choose one of the following options:   MAXIMUM: A maximum computation.   MINIMUM: A minimum computation.
+        public let type: MaximumMinimumComputationType
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(computationId: String, name: String? = nil, time: DimensionField, type: MaximumMinimumComputationType, value: MeasureField? = nil) {
+            self.computationId = computationId
+            self.name = name
+            self.time = time
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case name = "Name"
+            case time = "Time"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct MeasureField: AWSEncodableShape & AWSDecodableShape {
+        /// The calculated measure field only used in pivot tables.
+        public let calculatedMeasureField: CalculatedMeasureField?
+        /// The measure type field with categorical type columns.
+        public let categoricalMeasureField: CategoricalMeasureField?
+        /// The measure type field with date type columns.
+        public let dateMeasureField: DateMeasureField?
+        /// The measure type field with numerical type columns.
+        public let numericalMeasureField: NumericalMeasureField?
+
+        public init(calculatedMeasureField: CalculatedMeasureField? = nil, categoricalMeasureField: CategoricalMeasureField? = nil, dateMeasureField: DateMeasureField? = nil, numericalMeasureField: NumericalMeasureField? = nil) {
+            self.calculatedMeasureField = calculatedMeasureField
+            self.categoricalMeasureField = categoricalMeasureField
+            self.dateMeasureField = dateMeasureField
+            self.numericalMeasureField = numericalMeasureField
+        }
+
+        public func validate(name: String) throws {
+            try self.calculatedMeasureField?.validate(name: "\(name).calculatedMeasureField")
+            try self.categoricalMeasureField?.validate(name: "\(name).categoricalMeasureField")
+            try self.dateMeasureField?.validate(name: "\(name).dateMeasureField")
+            try self.numericalMeasureField?.validate(name: "\(name).numericalMeasureField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedMeasureField = "CalculatedMeasureField"
+            case categoricalMeasureField = "CategoricalMeasureField"
+            case dateMeasureField = "DateMeasureField"
+            case numericalMeasureField = "NumericalMeasureField"
+        }
+    }
+
     public struct MemberIdArnPair: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the member.
         public let memberArn: String?
@@ -9084,6 +17098,70 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case memberArn = "MemberArn"
             case memberId = "MemberId"
+        }
+    }
+
+    public struct MetricComparisonComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The field that is used in a metric comparison from value setup.
+        public let fromValue: MeasureField
+        /// The name of a computation.
+        public let name: String?
+        /// The field that is used in a metric comparison to value setup.
+        public let targetValue: MeasureField
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+
+        public init(computationId: String, fromValue: MeasureField, name: String? = nil, targetValue: MeasureField, time: DimensionField) {
+            self.computationId = computationId
+            self.fromValue = fromValue
+            self.name = name
+            self.targetValue = targetValue
+            self.time = time
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.fromValue.validate(name: "\(name).fromValue")
+            try self.targetValue.validate(name: "\(name).targetValue")
+            try self.time.validate(name: "\(name).time")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case fromValue = "FromValue"
+            case name = "Name"
+            case targetValue = "TargetValue"
+            case time = "Time"
+        }
+    }
+
+    public struct MinimumLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the minimum label.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct MissingDataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The treatment option that determines how missing data should be rendered. Choose from the following options:    INTERPOLATE: Interpolate missing values between the prior and the next known value.    SHOW_AS_ZERO: Show missing values as the value 0.    SHOW_AS_BLANK: Display a blank space when rendering missing data.
+        public let treatmentOption: MissingDataTreatmentOption?
+
+        public init(treatmentOption: MissingDataTreatmentOption? = nil) {
+            self.treatmentOption = treatmentOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case treatmentOption = "TreatmentOption"
         }
     }
 
@@ -9167,6 +17245,400 @@ extension QuickSight {
         }
     }
 
+    public struct NegativeValueConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the display mode of the negative value configuration.
+        public let displayMode: NegativeValueDisplayMode
+
+        public init(displayMode: NegativeValueDisplayMode) {
+            self.displayMode = displayMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayMode = "DisplayMode"
+        }
+    }
+
+    public struct NullValueFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the null string of null values.
+        public let nullString: String
+
+        public init(nullString: String) {
+            self.nullString = nullString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nullString, name: "nullString", parent: name, max: 128)
+            try self.validate(self.nullString, name: "nullString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nullString = "NullString"
+        }
+    }
+
+    public struct NumberDisplayFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the decimal places configuration.
+        public let decimalPlacesConfiguration: DecimalPlacesConfiguration?
+        /// The options that determine the negative value configuration.
+        public let negativeValueConfiguration: NegativeValueConfiguration?
+        /// The options that determine the null value format configuration.
+        public let nullValueFormatConfiguration: NullValueFormatConfiguration?
+        /// Determines the number scale value of the number format.
+        public let numberScale: NumberScale?
+        /// Determines the prefix value of the number format.
+        public let prefix: String?
+        /// The options that determine the numeric separator configuration.
+        public let separatorConfiguration: NumericSeparatorConfiguration?
+        /// Determines the suffix value of the number format.
+        public let suffix: String?
+
+        public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numberScale: NumberScale? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil) {
+            self.decimalPlacesConfiguration = decimalPlacesConfiguration
+            self.negativeValueConfiguration = negativeValueConfiguration
+            self.nullValueFormatConfiguration = nullValueFormatConfiguration
+            self.numberScale = numberScale
+            self.prefix = prefix
+            self.separatorConfiguration = separatorConfiguration
+            self.suffix = suffix
+        }
+
+        public func validate(name: String) throws {
+            try self.decimalPlacesConfiguration?.validate(name: "\(name).decimalPlacesConfiguration")
+            try self.nullValueFormatConfiguration?.validate(name: "\(name).nullValueFormatConfiguration")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.suffix, name: "suffix", parent: name, max: 128)
+            try self.validate(self.suffix, name: "suffix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalPlacesConfiguration = "DecimalPlacesConfiguration"
+            case negativeValueConfiguration = "NegativeValueConfiguration"
+            case nullValueFormatConfiguration = "NullValueFormatConfiguration"
+            case numberScale = "NumberScale"
+            case prefix = "Prefix"
+            case separatorConfiguration = "SeparatorConfiguration"
+            case suffix = "Suffix"
+        }
+    }
+
+    public struct NumberFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the numeric format configuration.
+        public let formatConfiguration: NumericFormatConfiguration?
+
+        public init(formatConfiguration: NumericFormatConfiguration? = nil) {
+            self.formatConfiguration = formatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatConfiguration = "FormatConfiguration"
+        }
+    }
+
+    public struct NumericAxisOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The range setup of a numeric axis.
+        public let range: AxisDisplayRange?
+        /// The scale setup of a numeric axis.
+        public let scale: AxisScale?
+
+        public init(range: AxisDisplayRange? = nil, scale: AxisScale? = nil) {
+            self.range = range
+            self.scale = scale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
+            case scale = "Scale"
+        }
+    }
+
+    public struct NumericEqualityDrillDownFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// The value of the double input numeric drill down filter.
+        public let value: Double
+
+        public init(column: ColumnIdentifier, value: Double) {
+            self.column = column
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case value = "Value"
+        }
+    }
+
+    public struct NumericEqualityFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the filter.
+        public let aggregationFunction: AggregationFunction?
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// The match operator that is used to determine if a filter should be applied.
+        public let matchOperator: NumericEqualityMatchOperator
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// The parameter whose value should be used for the filter value.
+        public let parameterName: String?
+        /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
+        public let selectAllOptions: NumericFilterSelectAllOptions?
+        /// The input value.
+        public let value: Double?
+
+        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, filterId: String, matchOperator: NumericEqualityMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil, value: Double? = nil) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.filterId = filterId
+            self.matchOperator = matchOperator
+            self.nullOption = nullOption
+            self.parameterName = parameterName
+            self.selectAllOptions = selectAllOptions
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case filterId = "FilterId"
+            case matchOperator = "MatchOperator"
+            case nullOption = "NullOption"
+            case parameterName = "ParameterName"
+            case selectAllOptions = "SelectAllOptions"
+            case value = "Value"
+        }
+    }
+
+    public struct NumericFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the currency display format configuration.
+        public let currencyDisplayFormatConfiguration: CurrencyDisplayFormatConfiguration?
+        /// The options that determine the number display format configuration.
+        public let numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration?
+        /// The options that determine the percentage display format configuration.
+        public let percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration?
+
+        public init(currencyDisplayFormatConfiguration: CurrencyDisplayFormatConfiguration? = nil, numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration? = nil, percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration? = nil) {
+            self.currencyDisplayFormatConfiguration = currencyDisplayFormatConfiguration
+            self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
+            self.percentageDisplayFormatConfiguration = percentageDisplayFormatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.currencyDisplayFormatConfiguration?.validate(name: "\(name).currencyDisplayFormatConfiguration")
+            try self.numberDisplayFormatConfiguration?.validate(name: "\(name).numberDisplayFormatConfiguration")
+            try self.percentageDisplayFormatConfiguration?.validate(name: "\(name).percentageDisplayFormatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyDisplayFormatConfiguration = "CurrencyDisplayFormatConfiguration"
+            case numberDisplayFormatConfiguration = "NumberDisplayFormatConfiguration"
+            case percentageDisplayFormatConfiguration = "PercentageDisplayFormatConfiguration"
+        }
+    }
+
+    public struct NumericRangeFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the filter.
+        public let aggregationFunction: AggregationFunction?
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// Determines whether the maximum value in the filter value range should be included in the filtered results.
+        public let includeMaximum: Bool?
+        /// Determines whether the minimum value in the filter value range should be included in the filtered results.
+        public let includeMinimum: Bool?
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// The maximum value for the filter value range.
+        public let rangeMaximum: NumericRangeFilterValue?
+        /// The minimum value for the filter value range.
+        public let rangeMinimum: NumericRangeFilterValue?
+        /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
+        public let selectAllOptions: NumericFilterSelectAllOptions?
+
+        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximum: NumericRangeFilterValue? = nil, rangeMinimum: NumericRangeFilterValue? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.filterId = filterId
+            self.includeMaximum = includeMaximum
+            self.includeMinimum = includeMinimum
+            self.nullOption = nullOption
+            self.rangeMaximum = rangeMaximum
+            self.rangeMinimum = rangeMinimum
+            self.selectAllOptions = selectAllOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.rangeMaximum?.validate(name: "\(name).rangeMaximum")
+            try self.rangeMinimum?.validate(name: "\(name).rangeMinimum")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case filterId = "FilterId"
+            case includeMaximum = "IncludeMaximum"
+            case includeMinimum = "IncludeMinimum"
+            case nullOption = "NullOption"
+            case rangeMaximum = "RangeMaximum"
+            case rangeMinimum = "RangeMinimum"
+            case selectAllOptions = "SelectAllOptions"
+        }
+    }
+
+    public struct NumericRangeFilterValue: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter that is used in the numeric range.
+        public let parameter: String?
+        /// The static value of the numeric range filter.
+        public let staticValue: Double?
+
+        public init(parameter: String? = nil, staticValue: Double? = nil) {
+            self.parameter = parameter
+            self.staticValue = staticValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parameter, name: "parameter", parent: name, max: 2048)
+            try self.validate(self.parameter, name: "parameter", parent: name, min: 1)
+            try self.validate(self.parameter, name: "parameter", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
+            case staticValue = "StaticValue"
+        }
+    }
+
+    public struct NumericSeparatorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the decimal separator.
+        public let decimalSeparator: NumericSeparatorSymbol?
+        /// The options that determine the thousands separator configuration.
+        public let thousandsSeparator: ThousandSeparatorOptions?
+
+        public init(decimalSeparator: NumericSeparatorSymbol? = nil, thousandsSeparator: ThousandSeparatorOptions? = nil) {
+            self.decimalSeparator = decimalSeparator
+            self.thousandsSeparator = thousandsSeparator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalSeparator = "DecimalSeparator"
+            case thousandsSeparator = "ThousandsSeparator"
+        }
+    }
+
+    public struct NumericalAggregationFunction: AWSEncodableShape & AWSDecodableShape {
+        /// An aggregation based on the percentile of values in a dimension or measure.
+        public let percentileAggregation: PercentileAggregation?
+        /// Built-in aggregation functions for numerical values.    SUM: The sum of a dimension or measure.     AVERAGE: The average of a dimension or measure.    MIN: The minimum value of a dimension or measure.    MAX: The maximum value of a dimension or measure.    COUNT: The count of a dimension or measure.    DISTINCT_COUNT: The count of distinct values in a dimension or measure.    VAR: The variance of a dimension or measure.    VARP: The partitioned variance of a dimension or measure.    STDEV: The standard deviation of a dimension or measure.    STDEVP: The partitioned standard deviation of a dimension or measure.    MEDIAN: The median value of a dimension or measure.
+        public let simpleNumericalAggregation: SimpleNumericalAggregationFunction?
+
+        public init(percentileAggregation: PercentileAggregation? = nil, simpleNumericalAggregation: SimpleNumericalAggregationFunction? = nil) {
+            self.percentileAggregation = percentileAggregation
+            self.simpleNumericalAggregation = simpleNumericalAggregation
+        }
+
+        public func validate(name: String) throws {
+            try self.percentileAggregation?.validate(name: "\(name).percentileAggregation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentileAggregation = "PercentileAggregation"
+            case simpleNumericalAggregation = "SimpleNumericalAggregation"
+        }
+    }
+
+    public struct NumericalDimensionField: AWSEncodableShape & AWSDecodableShape {
+        /// The column that is used in the NumericalDimensionField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: NumberFormatConfiguration?
+        /// The custom hierarchy ID.
+        public let hierarchyId: String?
+
+        public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: NumberFormatConfiguration? = nil, hierarchyId: String? = nil) {
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
+    public struct NumericalMeasureField: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation function of the measure field.
+        public let aggregationFunction: NumericalAggregationFunction?
+        /// The column that is used in the NumericalMeasureField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: NumberFormatConfiguration?
+
+        public init(aggregationFunction: NumericalAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: NumberFormatConfiguration? = nil) {
+            self.aggregationFunction = aggregationFunction
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationFunction = "AggregationFunction"
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+        }
+    }
+
     public struct OracleParameters: AWSEncodableShape & AWSDecodableShape {
         /// Database.
         public let database: String
@@ -9218,6 +17690,466 @@ extension QuickSight {
         }
     }
 
+    public struct PaginationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the page number.
+        public let pageNumber: Int64
+        /// Indicates how many items render in one page.
+        public let pageSize: Int64
+
+        public init(pageNumber: Int64, pageSize: Int64) {
+            self.pageNumber = pageNumber
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pageNumber, name: "pageNumber", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageNumber = "PageNumber"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct PanelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the background color for each panel.
+        public let backgroundColor: String?
+        /// Determines whether or not a background for each small multiples panel is rendered.
+        public let backgroundVisibility: Visibility?
+        /// Sets the line color of panel borders.
+        public let borderColor: String?
+        /// Sets the line style of panel borders.
+        public let borderStyle: PanelBorderStyle?
+        /// Sets the line thickness of panel borders.
+        public let borderThickness: String?
+        /// Determines whether or not each panel displays a border.
+        public let borderVisibility: Visibility?
+        /// Sets the total amount of negative space to display between sibling panels.
+        public let gutterSpacing: String?
+        /// Determines whether or not negative space between sibling panels is rendered.
+        public let gutterVisibility: Visibility?
+        /// Configures the title display within each small multiples panel.
+        public let title: PanelTitleOptions?
+
+        public init(backgroundColor: String? = nil, backgroundVisibility: Visibility? = nil, borderColor: String? = nil, borderStyle: PanelBorderStyle? = nil, borderThickness: String? = nil, borderVisibility: Visibility? = nil, gutterSpacing: String? = nil, gutterVisibility: Visibility? = nil, title: PanelTitleOptions? = nil) {
+            self.backgroundColor = backgroundColor
+            self.backgroundVisibility = backgroundVisibility
+            self.borderColor = borderColor
+            self.borderStyle = borderStyle
+            self.borderThickness = borderThickness
+            self.borderVisibility = borderVisibility
+            self.gutterSpacing = gutterSpacing
+            self.gutterVisibility = gutterVisibility
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+            try self.validate(self.borderColor, name: "borderColor", parent: name, pattern: "^#[A-F0-9]{6}(?:[A-F0-9]{2})?$")
+            try self.title?.validate(name: "\(name).title")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case backgroundVisibility = "BackgroundVisibility"
+            case borderColor = "BorderColor"
+            case borderStyle = "BorderStyle"
+            case borderThickness = "BorderThickness"
+            case borderVisibility = "BorderVisibility"
+            case gutterSpacing = "GutterSpacing"
+            case gutterVisibility = "GutterVisibility"
+            case title = "Title"
+        }
+    }
+
+    public struct PanelTitleOptions: AWSEncodableShape & AWSDecodableShape {
+        public let fontConfiguration: FontConfiguration?
+        /// Sets the horizontal text alignment of the title within each panel.
+        public let horizontalTextAlignment: HorizontalTextAlignment?
+        /// Determines whether or not panel titles are displayed.
+        public let visibility: Visibility?
+
+        public init(fontConfiguration: FontConfiguration? = nil, horizontalTextAlignment: HorizontalTextAlignment? = nil, visibility: Visibility? = nil) {
+            self.fontConfiguration = fontConfiguration
+            self.horizontalTextAlignment = horizontalTextAlignment
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontConfiguration = "FontConfiguration"
+            case horizontalTextAlignment = "HorizontalTextAlignment"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct ParameterControl: AWSEncodableShape & AWSDecodableShape {
+        /// A control from a date parameter that specifies date and time.
+        public let dateTimePicker: ParameterDateTimePickerControl?
+        /// A control to display a dropdown list with buttons that are used to select a single value.
+        public let dropdown: ParameterDropDownControl?
+        /// A control to display a list with buttons or boxes that are used to select either a single value or multiple values.
+        public let list: ParameterListControl?
+        /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
+        public let slider: ParameterSliderControl?
+        /// A control to display a text box that is used to enter multiple entries.
+        public let textArea: ParameterTextAreaControl?
+        /// A control to display a text box that is used to enter a single entry.
+        public let textField: ParameterTextFieldControl?
+
+        public init(dateTimePicker: ParameterDateTimePickerControl? = nil, dropdown: ParameterDropDownControl? = nil, list: ParameterListControl? = nil, slider: ParameterSliderControl? = nil, textArea: ParameterTextAreaControl? = nil, textField: ParameterTextFieldControl? = nil) {
+            self.dateTimePicker = dateTimePicker
+            self.dropdown = dropdown
+            self.list = list
+            self.slider = slider
+            self.textArea = textArea
+            self.textField = textField
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimePicker?.validate(name: "\(name).dateTimePicker")
+            try self.dropdown?.validate(name: "\(name).dropdown")
+            try self.list?.validate(name: "\(name).list")
+            try self.slider?.validate(name: "\(name).slider")
+            try self.textArea?.validate(name: "\(name).textArea")
+            try self.textField?.validate(name: "\(name).textField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimePicker = "DateTimePicker"
+            case dropdown = "Dropdown"
+            case list = "List"
+            case slider = "Slider"
+            case textArea = "TextArea"
+            case textField = "TextField"
+        }
+    }
+
+    public struct ParameterDateTimePickerControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: DateTimePickerControlDisplayOptions?
+        /// The ID of the ParameterDateTimePickerControl.
+        public let parameterControlId: String
+        /// The name of the ParameterDateTimePickerControl.
+        public let sourceParameterName: String
+        /// The title of the ParameterDateTimePickerControl.
+        public let title: String
+
+        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+            self.displayOptions = displayOptions
+            self.parameterControlId = parameterControlId
+            self.sourceParameterName = sourceParameterName
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case parameterControlId = "ParameterControlId"
+            case sourceParameterName = "SourceParameterName"
+            case title = "Title"
+        }
+    }
+
+    public struct ParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// A parameter declaration for the DateTime data type.
+        public let dateTimeParameterDeclaration: DateTimeParameterDeclaration?
+        /// A parameter declaration for the Decimal data type.
+        public let decimalParameterDeclaration: DecimalParameterDeclaration?
+        /// A parameter declaration for the Integer data type.
+        public let integerParameterDeclaration: IntegerParameterDeclaration?
+        /// A parameter declaration for the String data type.
+        public let stringParameterDeclaration: StringParameterDeclaration?
+
+        public init(dateTimeParameterDeclaration: DateTimeParameterDeclaration? = nil, decimalParameterDeclaration: DecimalParameterDeclaration? = nil, integerParameterDeclaration: IntegerParameterDeclaration? = nil, stringParameterDeclaration: StringParameterDeclaration? = nil) {
+            self.dateTimeParameterDeclaration = dateTimeParameterDeclaration
+            self.decimalParameterDeclaration = decimalParameterDeclaration
+            self.integerParameterDeclaration = integerParameterDeclaration
+            self.stringParameterDeclaration = stringParameterDeclaration
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimeParameterDeclaration?.validate(name: "\(name).dateTimeParameterDeclaration")
+            try self.decimalParameterDeclaration?.validate(name: "\(name).decimalParameterDeclaration")
+            try self.integerParameterDeclaration?.validate(name: "\(name).integerParameterDeclaration")
+            try self.stringParameterDeclaration?.validate(name: "\(name).stringParameterDeclaration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeParameterDeclaration = "DateTimeParameterDeclaration"
+            case decimalParameterDeclaration = "DecimalParameterDeclaration"
+            case integerParameterDeclaration = "IntegerParameterDeclaration"
+            case stringParameterDeclaration = "StringParameterDeclaration"
+        }
+    }
+
+    public struct ParameterDropDownControl: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The display options of a control.
+        public let displayOptions: DropDownControlDisplayOptions?
+        /// The ID of the ParameterDropDownControl.
+        public let parameterControlId: String
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: ParameterSelectableValues?
+        /// The source parameter name of the ParameterDropDownControl.
+        public let sourceParameterName: String
+        /// The title of the ParameterDropDownControl.
+        public let title: String
+        /// The type parameter name of the ParameterDropDownControl.
+        public let type: SheetControlListType?
+
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.displayOptions = displayOptions
+            self.parameterControlId = parameterControlId
+            self.selectableValues = selectableValues
+            self.sourceParameterName = sourceParameterName
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case displayOptions = "DisplayOptions"
+            case parameterControlId = "ParameterControlId"
+            case selectableValues = "SelectableValues"
+            case sourceParameterName = "SourceParameterName"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct ParameterListControl: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The display options of a control.
+        public let displayOptions: ListControlDisplayOptions?
+        /// The ID of the ParameterListControl.
+        public let parameterControlId: String
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: ParameterSelectableValues?
+        /// The source parameter name of the ParameterListControl.
+        public let sourceParameterName: String
+        /// The title of the ParameterListControl.
+        public let title: String
+        /// The type of ParameterListControl.
+        public let type: SheetControlListType?
+
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.displayOptions = displayOptions
+            self.parameterControlId = parameterControlId
+            self.selectableValues = selectableValues
+            self.sourceParameterName = sourceParameterName
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case displayOptions = "DisplayOptions"
+            case parameterControlId = "ParameterControlId"
+            case selectableValues = "SelectableValues"
+            case sourceParameterName = "SourceParameterName"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct ParameterSelectableValues: AWSEncodableShape & AWSDecodableShape {
+        /// The column identifier that fetches values from the data set.
+        public let linkToDataSetColumn: ColumnIdentifier?
+        /// The values that are used in ParameterSelectableValues.
+        public let values: [String]?
+
+        public init(linkToDataSetColumn: ColumnIdentifier? = nil, values: [String]? = nil) {
+            self.linkToDataSetColumn = linkToDataSetColumn
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.linkToDataSetColumn?.validate(name: "\(name).linkToDataSetColumn")
+            try self.validate(self.values, name: "values", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkToDataSetColumn = "LinkToDataSetColumn"
+            case values = "Values"
+        }
+    }
+
+    public struct ParameterSliderControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: SliderControlDisplayOptions?
+        /// The smaller value that is displayed at the left of the slider.
+        public let maximumValue: Double
+        /// The larger value that is displayed at the right of the slider.
+        public let minimumValue: Double
+        /// The ID of the ParameterSliderControl.
+        public let parameterControlId: String
+        /// The source parameter name of the ParameterSliderControl.
+        public let sourceParameterName: String
+        /// The number of increments that the slider bar is divided into.
+        public let stepSize: Double
+        /// The title of the ParameterSliderControl.
+        public let title: String
+
+        public init(displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, parameterControlId: String, sourceParameterName: String, stepSize: Double, title: String) {
+            self.displayOptions = displayOptions
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.parameterControlId = parameterControlId
+            self.sourceParameterName = sourceParameterName
+            self.stepSize = stepSize
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case parameterControlId = "ParameterControlId"
+            case sourceParameterName = "SourceParameterName"
+            case stepSize = "StepSize"
+            case title = "Title"
+        }
+    }
+
+    public struct ParameterTextAreaControl: AWSEncodableShape & AWSDecodableShape {
+        /// The delimiter that is used to separate the lines in text.
+        public let delimiter: String?
+        /// The display options of a control.
+        public let displayOptions: TextAreaControlDisplayOptions?
+        /// The ID of the ParameterTextAreaControl.
+        public let parameterControlId: String
+        /// The source parameter name of the ParameterTextAreaControl.
+        public let sourceParameterName: String
+        /// The title of the ParameterTextAreaControl.
+        public let title: String
+
+        public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+            self.delimiter = delimiter
+            self.displayOptions = displayOptions
+            self.parameterControlId = parameterControlId
+            self.sourceParameterName = sourceParameterName
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2048)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+            case displayOptions = "DisplayOptions"
+            case parameterControlId = "ParameterControlId"
+            case sourceParameterName = "SourceParameterName"
+            case title = "Title"
+        }
+    }
+
+    public struct ParameterTextFieldControl: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: TextFieldControlDisplayOptions?
+        /// The ID of the ParameterTextFieldControl.
+        public let parameterControlId: String
+        /// The source parameter name of the ParameterTextFieldControl.
+        public let sourceParameterName: String
+        /// The title of the ParameterTextFieldControl.
+        public let title: String
+
+        public init(displayOptions: TextFieldControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+            self.displayOptions = displayOptions
+            self.parameterControlId = parameterControlId
+            self.sourceParameterName = sourceParameterName
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
+            try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, max: 2048)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
+            try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case parameterControlId = "ParameterControlId"
+            case sourceParameterName = "SourceParameterName"
+            case title = "Title"
+        }
+    }
+
     public struct Parameters: AWSEncodableShape {
         /// The parameters that have a data type of date-time.
         public let dateTimeParameters: [DateTimeParameter]?
@@ -9262,6 +18194,900 @@ extension QuickSight {
         }
     }
 
+    public struct PercentVisibleRange: AWSEncodableShape & AWSDecodableShape {
+        /// The lower bound of the range.
+        public let from: Double?
+        /// The top bound of the range.
+        public let to: Double?
+
+        public init(from: Double? = nil, to: Double? = nil) {
+            self.from = from
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.from, name: "from", parent: name, max: 100.0)
+            try self.validate(self.from, name: "from", parent: name, min: 0.0)
+            try self.validate(self.to, name: "to", parent: name, max: 100.0)
+            try self.validate(self.to, name: "to", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
+        }
+    }
+
+    public struct PercentageDisplayFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The option that determines the decimal places configuration.
+        public let decimalPlacesConfiguration: DecimalPlacesConfiguration?
+        /// The options that determine the negative value configuration.
+        public let negativeValueConfiguration: NegativeValueConfiguration?
+        /// The options that determine the null value format configuration.
+        public let nullValueFormatConfiguration: NullValueFormatConfiguration?
+        /// Determines the prefix value of the percentage format.
+        public let prefix: String?
+        /// The options that determine the numeric separator configuration.
+        public let separatorConfiguration: NumericSeparatorConfiguration?
+        /// Determines the suffix value of the percentage format.
+        public let suffix: String?
+
+        public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil) {
+            self.decimalPlacesConfiguration = decimalPlacesConfiguration
+            self.negativeValueConfiguration = negativeValueConfiguration
+            self.nullValueFormatConfiguration = nullValueFormatConfiguration
+            self.prefix = prefix
+            self.separatorConfiguration = separatorConfiguration
+            self.suffix = suffix
+        }
+
+        public func validate(name: String) throws {
+            try self.decimalPlacesConfiguration?.validate(name: "\(name).decimalPlacesConfiguration")
+            try self.nullValueFormatConfiguration?.validate(name: "\(name).nullValueFormatConfiguration")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.suffix, name: "suffix", parent: name, max: 128)
+            try self.validate(self.suffix, name: "suffix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalPlacesConfiguration = "DecimalPlacesConfiguration"
+            case negativeValueConfiguration = "NegativeValueConfiguration"
+            case nullValueFormatConfiguration = "NullValueFormatConfiguration"
+            case prefix = "Prefix"
+            case separatorConfiguration = "SeparatorConfiguration"
+            case suffix = "Suffix"
+        }
+    }
+
+    public struct PercentileAggregation: AWSEncodableShape & AWSDecodableShape {
+        /// The percentile value. This value can be any numeric constant 0–100. A percentile value of 50 computes the median value of the measure.
+        public let percentileValue: Double?
+
+        public init(percentileValue: Double? = nil) {
+            self.percentileValue = percentileValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.percentileValue, name: "percentileValue", parent: name, max: 100.0)
+            try self.validate(self.percentileValue, name: "percentileValue", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentileValue = "PercentileValue"
+        }
+    }
+
+    public struct PeriodOverPeriodComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(computationId: String, name: String? = nil, time: DimensionField, value: MeasureField? = nil) {
+            self.computationId = computationId
+            self.name = name
+            self.time = time
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case name = "Name"
+            case time = "Time"
+            case value = "Value"
+        }
+    }
+
+    public struct PeriodToDateComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The time granularity setup of period to date computation. Choose from the following options:   YEAR: Year to date.   MONTH: Month to date.
+        public let periodTimeGranularity: TimeGranularity?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(computationId: String, name: String? = nil, periodTimeGranularity: TimeGranularity? = nil, time: DimensionField, value: MeasureField? = nil) {
+            self.computationId = computationId
+            self.name = name
+            self.periodTimeGranularity = periodTimeGranularity
+            self.time = time
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case name = "Name"
+            case periodTimeGranularity = "PeriodTimeGranularity"
+            case time = "Time"
+            case value = "Value"
+        }
+    }
+
+    public struct PieChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The category (group/color) field wells of a pie chart.
+        public let category: [DimensionField]?
+        /// The small multiples field well of a pie chart.
+        public let smallMultiples: [DimensionField]?
+        /// The value field wells of a pie chart. Values are aggregated based on categories.
+        public let values: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.category = category
+            self.smallMultiples = smallMultiples
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 200)
+            try self.smallMultiples?.forEach {
+                try $0.validate(name: "\(name).smallMultiples[]")
+            }
+            try self.validate(self.smallMultiples, name: "smallMultiples", parent: name, max: 1)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case smallMultiples = "SmallMultiples"
+            case values = "Values"
+        }
+    }
+
+    public struct PieChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The label options of the group/color that is displayed in a pie chart.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The contribution analysis (anomaly configuration) setup of the visual.
+        public let contributionAnalysisDefaults: [ContributionAnalysisDefault]?
+        /// The options that determine if visual data labels are displayed.
+        public let dataLabels: DataLabelOptions?
+        /// The options that determine the shape of the chart. This option determines whether the chart is a pie chart or a donut chart.
+        public let donutOptions: DonutOptions?
+        /// The field wells of the visual.
+        public let fieldWells: PieChartFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The small multiples setup for the visual.
+        public let smallMultiplesOptions: SmallMultiplesOptions?
+        /// The sort configuration of a pie chart.
+        public let sortConfiguration: PieChartSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The label options for the value that is displayed in a pie chart.
+        public let valueLabelOptions: ChartAxisLabelOptions?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+
+        public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, donutOptions: DonutOptions? = nil, fieldWells: PieChartFieldWells? = nil, legend: LegendOptions? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: PieChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.categoryLabelOptions = categoryLabelOptions
+            self.contributionAnalysisDefaults = contributionAnalysisDefaults
+            self.dataLabels = dataLabels
+            self.donutOptions = donutOptions
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.smallMultiplesOptions = smallMultiplesOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+            self.valueLabelOptions = valueLabelOptions
+            self.visualPalette = visualPalette
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.contributionAnalysisDefaults?.forEach {
+                try $0.validate(name: "\(name).contributionAnalysisDefaults[]")
+            }
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, max: 200)
+            try self.validate(self.contributionAnalysisDefaults, name: "contributionAnalysisDefaults", parent: name, min: 1)
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.smallMultiplesOptions?.validate(name: "\(name).smallMultiplesOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.valueLabelOptions?.validate(name: "\(name).valueLabelOptions")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case contributionAnalysisDefaults = "ContributionAnalysisDefaults"
+            case dataLabels = "DataLabels"
+            case donutOptions = "DonutOptions"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case smallMultiplesOptions = "SmallMultiplesOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+            case valueLabelOptions = "ValueLabelOptions"
+            case visualPalette = "VisualPalette"
+        }
+    }
+
+    public struct PieChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a pie chart.
+        public let pieChartAggregatedFieldWells: PieChartAggregatedFieldWells?
+
+        public init(pieChartAggregatedFieldWells: PieChartAggregatedFieldWells? = nil) {
+            self.pieChartAggregatedFieldWells = pieChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.pieChartAggregatedFieldWells?.validate(name: "\(name).pieChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pieChartAggregatedFieldWells = "PieChartAggregatedFieldWells"
+        }
+    }
+
+    public struct PieChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of categories that are displayed in a pie chart.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the category fields.
+        public let categorySort: [FieldSortOptions]?
+        /// The limit on the number of small multiples panels that are displayed.
+        public let smallMultiplesLimitConfiguration: ItemsLimitConfiguration?
+        /// The sort configuration of the small multiples field.
+        public let smallMultiplesSort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+            self.smallMultiplesLimitConfiguration = smallMultiplesLimitConfiguration
+            self.smallMultiplesSort = smallMultiplesSort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+            try self.smallMultiplesSort?.forEach {
+                try $0.validate(name: "\(name).smallMultiplesSort[]")
+            }
+            try self.validate(self.smallMultiplesSort, name: "smallMultiplesSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+            case smallMultiplesLimitConfiguration = "SmallMultiplesLimitConfiguration"
+            case smallMultiplesSort = "SmallMultiplesSort"
+        }
+    }
+
+    public struct PieChartVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a pie chart.
+        public let chartConfiguration: PieChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PieChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct PivotFieldSortOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID for the field sort options.
+        public let fieldId: String
+        /// The sort by field for the field sort options.
+        public let sortBy: PivotTableSortBy
+
+        public init(fieldId: String, sortBy: PivotTableSortBy) {
+            self.fieldId = fieldId
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.sortBy.validate(name: "\(name).sortBy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case sortBy = "SortBy"
+        }
+    }
+
+    public struct PivotTableAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The columns field well for a pivot table. Values are grouped by columns fields.
+        public let columns: [DimensionField]?
+        /// The rows field well for a pivot table. Values are grouped by rows fields.
+        public let rows: [DimensionField]?
+        /// The values field well for a pivot table. Values are aggregated based on rows and columns fields.
+        public let values: [MeasureField]?
+
+        public init(columns: [DimensionField]? = nil, rows: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.columns = columns
+            self.rows = rows
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 20)
+            try self.rows?.forEach {
+                try $0.validate(name: "\(name).rows[]")
+            }
+            try self.validate(self.rows, name: "rows", parent: name, max: 20)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case rows = "Rows"
+            case values = "Values"
+        }
+    }
+
+    public struct PivotTableCellConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the cell for conditional formatting.
+        public let fieldId: String
+        /// The scope of the cell for conditional formatting.
+        public let scope: PivotTableConditionalFormattingScope?
+        /// The text format of the cell for conditional formatting.
+        public let textFormat: TextConditionalFormat?
+
+        public init(fieldId: String, scope: PivotTableConditionalFormattingScope? = nil, textFormat: TextConditionalFormat? = nil) {
+            self.fieldId = fieldId
+            self.scope = scope
+            self.textFormat = textFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.textFormat?.validate(name: "\(name).textFormat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case scope = "Scope"
+            case textFormat = "TextFormat"
+        }
+    }
+
+    public struct PivotTableConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// Conditional formatting options for a PivotTableVisual.
+        public let conditionalFormattingOptions: [PivotTableConditionalFormattingOption]?
+
+        public init(conditionalFormattingOptions: [PivotTableConditionalFormattingOption]? = nil) {
+            self.conditionalFormattingOptions = conditionalFormattingOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalFormattingOptions?.forEach {
+                try $0.validate(name: "\(name).conditionalFormattingOptions[]")
+            }
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalFormattingOptions = "ConditionalFormattingOptions"
+        }
+    }
+
+    public struct PivotTableConditionalFormattingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The cell conditional formatting option for a pivot table.
+        public let cell: PivotTableCellConditionalFormatting?
+
+        public init(cell: PivotTableCellConditionalFormatting? = nil) {
+            self.cell = cell
+        }
+
+        public func validate(name: String) throws {
+            try self.cell?.validate(name: "\(name).cell")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cell = "Cell"
+        }
+    }
+
+    public struct PivotTableConditionalFormattingScope: AWSEncodableShape & AWSDecodableShape {
+        /// The role (field, field total, grand total) of the cell for conditional formatting.
+        public let role: PivotTableConditionalFormattingScopeRole?
+
+        public init(role: PivotTableConditionalFormattingScopeRole? = nil) {
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
+        }
+    }
+
+    public struct PivotTableConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field options for a pivot table visual.
+        public let fieldOptions: PivotTableFieldOptions?
+        /// The field wells of the visual.
+        public let fieldWells: PivotTableFieldWells?
+        /// The paginated report options for a pivot table visual.
+        public let paginatedReportOptions: PivotTablePaginatedReportOptions?
+        /// The sort configuration for a PivotTableVisual.
+        public let sortConfiguration: PivotTableSortConfiguration?
+        /// The table options for a pivot table visual.
+        public let tableOptions: PivotTableOptions?
+        /// The total options for a pivot table visual.
+        public let totalOptions: PivotTableTotalOptions?
+
+        public init(fieldOptions: PivotTableFieldOptions? = nil, fieldWells: PivotTableFieldWells? = nil, paginatedReportOptions: PivotTablePaginatedReportOptions? = nil, sortConfiguration: PivotTableSortConfiguration? = nil, tableOptions: PivotTableOptions? = nil, totalOptions: PivotTableTotalOptions? = nil) {
+            self.fieldOptions = fieldOptions
+            self.fieldWells = fieldWells
+            self.paginatedReportOptions = paginatedReportOptions
+            self.sortConfiguration = sortConfiguration
+            self.tableOptions = tableOptions
+            self.totalOptions = totalOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldOptions?.validate(name: "\(name).fieldOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tableOptions?.validate(name: "\(name).tableOptions")
+            try self.totalOptions?.validate(name: "\(name).totalOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldOptions = "FieldOptions"
+            case fieldWells = "FieldWells"
+            case paginatedReportOptions = "PaginatedReportOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tableOptions = "TableOptions"
+            case totalOptions = "TotalOptions"
+        }
+    }
+
+    public struct PivotTableDataPathOption: AWSEncodableShape & AWSDecodableShape {
+        /// The list of data path values for the data path options.
+        public let dataPathList: [DataPathValue]
+        /// The width of the data path option.
+        public let width: String?
+
+        public init(dataPathList: [DataPathValue], width: String? = nil) {
+            self.dataPathList = dataPathList
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.dataPathList.forEach {
+                try $0.validate(name: "\(name).dataPathList[]")
+            }
+            try self.validate(self.dataPathList, name: "dataPathList", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPathList = "DataPathList"
+            case width = "Width"
+        }
+    }
+
+    public struct PivotTableFieldOption: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label of the pivot table field.
+        public let customLabel: String?
+        /// The field ID of the pivot table field.
+        public let fieldId: String
+        /// The visibility of the pivot table field.
+        public let visibility: Visibility?
+
+        public init(customLabel: String? = nil, fieldId: String, visibility: Visibility? = nil) {
+            self.customLabel = customLabel
+            self.fieldId = fieldId
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customLabel, name: "customLabel", parent: name, max: 2048)
+            try self.validate(self.customLabel, name: "customLabel", parent: name, min: 1)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case fieldId = "FieldId"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct PivotTableFieldOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The data path options for the pivot table field options.
+        public let dataPathOptions: [PivotTableDataPathOption]?
+        /// The selected field options for the pivot table field options.
+        public let selectedFieldOptions: [PivotTableFieldOption]?
+
+        public init(dataPathOptions: [PivotTableDataPathOption]? = nil, selectedFieldOptions: [PivotTableFieldOption]? = nil) {
+            self.dataPathOptions = dataPathOptions
+            self.selectedFieldOptions = selectedFieldOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.dataPathOptions?.forEach {
+                try $0.validate(name: "\(name).dataPathOptions[]")
+            }
+            try self.validate(self.dataPathOptions, name: "dataPathOptions", parent: name, max: 100)
+            try self.selectedFieldOptions?.forEach {
+                try $0.validate(name: "\(name).selectedFieldOptions[]")
+            }
+            try self.validate(self.selectedFieldOptions, name: "selectedFieldOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPathOptions = "DataPathOptions"
+            case selectedFieldOptions = "SelectedFieldOptions"
+        }
+    }
+
+    public struct PivotTableFieldSubtotalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the subtotal options.
+        public let fieldId: String?
+
+        public init(fieldId: String? = nil) {
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+        }
+    }
+
+    public struct PivotTableFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field well for the pivot table.
+        public let pivotTableAggregatedFieldWells: PivotTableAggregatedFieldWells?
+
+        public init(pivotTableAggregatedFieldWells: PivotTableAggregatedFieldWells? = nil) {
+            self.pivotTableAggregatedFieldWells = pivotTableAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.pivotTableAggregatedFieldWells?.validate(name: "\(name).pivotTableAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pivotTableAggregatedFieldWells = "PivotTableAggregatedFieldWells"
+        }
+    }
+
+    public struct PivotTableOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The table cell style of cells.
+        public let cellStyle: TableCellStyle?
+        /// The table cell style of the column header.
+        public let columnHeaderStyle: TableCellStyle?
+        /// The visibility of the column names.
+        public let columnNamesVisibility: Visibility?
+        /// The metric placement (row, column) options.
+        public let metricPlacement: PivotTableMetricPlacement?
+        /// The row alternate color options (widget status, row alternate colors).
+        public let rowAlternateColorOptions: RowAlternateColorOptions?
+        /// The table cell style of row field names.
+        public let rowFieldNamesStyle: TableCellStyle?
+        /// The table cell style of the row headers.
+        public let rowHeaderStyle: TableCellStyle?
+        /// The visibility of the single metric options.
+        public let singleMetricVisibility: Visibility?
+        /// Determines the visibility of the pivot table.
+        public let toggleButtonsVisibility: Visibility?
+
+        public init(cellStyle: TableCellStyle? = nil, columnHeaderStyle: TableCellStyle? = nil, columnNamesVisibility: Visibility? = nil, metricPlacement: PivotTableMetricPlacement? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil, rowFieldNamesStyle: TableCellStyle? = nil, rowHeaderStyle: TableCellStyle? = nil, singleMetricVisibility: Visibility? = nil, toggleButtonsVisibility: Visibility? = nil) {
+            self.cellStyle = cellStyle
+            self.columnHeaderStyle = columnHeaderStyle
+            self.columnNamesVisibility = columnNamesVisibility
+            self.metricPlacement = metricPlacement
+            self.rowAlternateColorOptions = rowAlternateColorOptions
+            self.rowFieldNamesStyle = rowFieldNamesStyle
+            self.rowHeaderStyle = rowHeaderStyle
+            self.singleMetricVisibility = singleMetricVisibility
+            self.toggleButtonsVisibility = toggleButtonsVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.cellStyle?.validate(name: "\(name).cellStyle")
+            try self.columnHeaderStyle?.validate(name: "\(name).columnHeaderStyle")
+            try self.rowAlternateColorOptions?.validate(name: "\(name).rowAlternateColorOptions")
+            try self.rowFieldNamesStyle?.validate(name: "\(name).rowFieldNamesStyle")
+            try self.rowHeaderStyle?.validate(name: "\(name).rowHeaderStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellStyle = "CellStyle"
+            case columnHeaderStyle = "ColumnHeaderStyle"
+            case columnNamesVisibility = "ColumnNamesVisibility"
+            case metricPlacement = "MetricPlacement"
+            case rowAlternateColorOptions = "RowAlternateColorOptions"
+            case rowFieldNamesStyle = "RowFieldNamesStyle"
+            case rowHeaderStyle = "RowHeaderStyle"
+            case singleMetricVisibility = "SingleMetricVisibility"
+            case toggleButtonsVisibility = "ToggleButtonsVisibility"
+        }
+    }
+
+    public struct PivotTablePaginatedReportOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the repeating header rows on each page.
+        public let overflowColumnHeaderVisibility: Visibility?
+        /// The visibility of the printing table overflow across pages.
+        public let verticalOverflowVisibility: Visibility?
+
+        public init(overflowColumnHeaderVisibility: Visibility? = nil, verticalOverflowVisibility: Visibility? = nil) {
+            self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
+            self.verticalOverflowVisibility = verticalOverflowVisibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overflowColumnHeaderVisibility = "OverflowColumnHeaderVisibility"
+            case verticalOverflowVisibility = "VerticalOverflowVisibility"
+        }
+    }
+
+    public struct PivotTableSortBy: AWSEncodableShape & AWSDecodableShape {
+        /// The column sort (field id, direction) for the pivot table sort by options.
+        public let column: ColumnSort?
+        /// The data path sort (data path value, direction) for the pivot table sort by options.
+        public let dataPath: DataPathSort?
+        /// The field sort (field id, direction) for the pivot table sort by options.
+        public let field: FieldSort?
+
+        public init(column: ColumnSort? = nil, dataPath: DataPathSort? = nil, field: FieldSort? = nil) {
+            self.column = column
+            self.dataPath = dataPath
+            self.field = field
+        }
+
+        public func validate(name: String) throws {
+            try self.column?.validate(name: "\(name).column")
+            try self.dataPath?.validate(name: "\(name).dataPath")
+            try self.field?.validate(name: "\(name).field")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case dataPath = "DataPath"
+            case field = "Field"
+        }
+    }
+
+    public struct PivotTableSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field sort options for a pivot table sort configuration.
+        public let fieldSortOptions: [PivotFieldSortOptions]?
+
+        public init(fieldSortOptions: [PivotFieldSortOptions]? = nil) {
+            self.fieldSortOptions = fieldSortOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldSortOptions?.forEach {
+                try $0.validate(name: "\(name).fieldSortOptions[]")
+            }
+            try self.validate(self.fieldSortOptions, name: "fieldSortOptions", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldSortOptions = "FieldSortOptions"
+        }
+    }
+
+    public struct PivotTableTotalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The column subtotal options.
+        public let columnSubtotalOptions: SubtotalOptions?
+        /// The column total options.
+        public let columnTotalOptions: PivotTotalOptions?
+        /// The row subtotal options.
+        public let rowSubtotalOptions: SubtotalOptions?
+        /// The row total options.
+        public let rowTotalOptions: PivotTotalOptions?
+
+        public init(columnSubtotalOptions: SubtotalOptions? = nil, columnTotalOptions: PivotTotalOptions? = nil, rowSubtotalOptions: SubtotalOptions? = nil, rowTotalOptions: PivotTotalOptions? = nil) {
+            self.columnSubtotalOptions = columnSubtotalOptions
+            self.columnTotalOptions = columnTotalOptions
+            self.rowSubtotalOptions = rowSubtotalOptions
+            self.rowTotalOptions = rowTotalOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.columnSubtotalOptions?.validate(name: "\(name).columnSubtotalOptions")
+            try self.columnTotalOptions?.validate(name: "\(name).columnTotalOptions")
+            try self.rowSubtotalOptions?.validate(name: "\(name).rowSubtotalOptions")
+            try self.rowTotalOptions?.validate(name: "\(name).rowTotalOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnSubtotalOptions = "ColumnSubtotalOptions"
+            case columnTotalOptions = "ColumnTotalOptions"
+            case rowSubtotalOptions = "RowSubtotalOptions"
+            case rowTotalOptions = "RowTotalOptions"
+        }
+    }
+
+    public struct PivotTableVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: PivotTableConfiguration?
+        /// The conditional formatting for a PivotTableVisual.
+        public let conditionalFormatting: PivotTableConditionalFormatting?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PivotTableConfiguration? = nil, conditionalFormatting: PivotTableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.conditionalFormatting = conditionalFormatting
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case conditionalFormatting = "ConditionalFormatting"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct PivotTotalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label string for the total cells.
+        public let customLabel: String?
+        /// The cell styling options for the total of header cells.
+        public let metricHeaderCellStyle: TableCellStyle?
+        /// The placement (start, end) for the total cells.
+        public let placement: TableTotalsPlacement?
+        /// The scroll status (pinned, scrolled) for the total cells.
+        public let scrollStatus: TableTotalsScrollStatus?
+        /// The cell styling options for the total cells.
+        public let totalCellStyle: TableCellStyle?
+        /// The visibility configuration for the total cells.
+        public let totalsVisibility: Visibility?
+        /// The cell styling options for the totals of value cells.
+        public let valueCellStyle: TableCellStyle?
+
+        public init(customLabel: String? = nil, metricHeaderCellStyle: TableCellStyle? = nil, placement: TableTotalsPlacement? = nil, scrollStatus: TableTotalsScrollStatus? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil, valueCellStyle: TableCellStyle? = nil) {
+            self.customLabel = customLabel
+            self.metricHeaderCellStyle = metricHeaderCellStyle
+            self.placement = placement
+            self.scrollStatus = scrollStatus
+            self.totalCellStyle = totalCellStyle
+            self.totalsVisibility = totalsVisibility
+            self.valueCellStyle = valueCellStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.metricHeaderCellStyle?.validate(name: "\(name).metricHeaderCellStyle")
+            try self.totalCellStyle?.validate(name: "\(name).totalCellStyle")
+            try self.valueCellStyle?.validate(name: "\(name).valueCellStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case metricHeaderCellStyle = "MetricHeaderCellStyle"
+            case placement = "Placement"
+            case scrollStatus = "ScrollStatus"
+            case totalCellStyle = "TotalCellStyle"
+            case totalsVisibility = "TotalsVisibility"
+            case valueCellStyle = "ValueCellStyle"
+        }
+    }
+
     public struct PostgreSqlParameters: AWSEncodableShape & AWSDecodableShape {
         /// Database.
         public let database: String
@@ -9292,6 +19118,41 @@ extension QuickSight {
         }
     }
 
+    public struct PredefinedHierarchy: AWSEncodableShape & AWSDecodableShape {
+        /// The list of columns that define the predefined hierarchy.
+        public let columns: [ColumnIdentifier]
+        /// The option that determines the drill down filters for the predefined hierarchy.
+        public let drillDownFilters: [DrillDownFilter]?
+        /// The hierarchy ID of the predefined hierarchy.
+        public let hierarchyId: String
+
+        public init(columns: [ColumnIdentifier], drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
+            self.columns = columns
+            self.drillDownFilters = drillDownFilters
+            self.hierarchyId = hierarchyId
+        }
+
+        public func validate(name: String) throws {
+            try self.columns.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 10)
+            try self.validate(self.columns, name: "columns", parent: name, min: 1)
+            try self.drillDownFilters?.forEach {
+                try $0.validate(name: "\(name).drillDownFilters[]")
+            }
+            try self.validate(self.drillDownFilters, name: "drillDownFilters", parent: name, max: 10)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 512)
+            try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case drillDownFilters = "DrillDownFilters"
+            case hierarchyId = "HierarchyId"
+        }
+    }
+
     public struct PrestoParameters: AWSEncodableShape & AWSDecodableShape {
         /// Catalog.
         public let catalog: String
@@ -9318,6 +19179,19 @@ extension QuickSight {
             case catalog = "Catalog"
             case host = "Host"
             case port = "Port"
+        }
+    }
+
+    public struct ProgressBarOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the progress bar.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
         }
     }
 
@@ -9353,6 +19227,19 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case queuedIngestion = "QueuedIngestion"
             case waitingOnIngestion = "WaitingOnIngestion"
+        }
+    }
+
+    public struct RangeEndsLabelType: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the range ends label.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
         }
     }
 
@@ -9416,6 +19303,201 @@ extension QuickSight {
         }
     }
 
+    public struct ReferenceLine: AWSEncodableShape & AWSDecodableShape {
+        /// The data configuration of the reference line.
+        public let dataConfiguration: ReferenceLineDataConfiguration
+        /// The label configuration of the reference line.
+        public let labelConfiguration: ReferenceLineLabelConfiguration?
+        /// The status of the reference line. Choose one of the following options:    ENABLE     DISABLE
+        public let status: WidgetStatus?
+        /// The style configuration of the reference line.
+        public let styleConfiguration: ReferenceLineStyleConfiguration?
+
+        public init(dataConfiguration: ReferenceLineDataConfiguration, labelConfiguration: ReferenceLineLabelConfiguration? = nil, status: WidgetStatus? = nil, styleConfiguration: ReferenceLineStyleConfiguration? = nil) {
+            self.dataConfiguration = dataConfiguration
+            self.labelConfiguration = labelConfiguration
+            self.status = status
+            self.styleConfiguration = styleConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataConfiguration.validate(name: "\(name).dataConfiguration")
+            try self.labelConfiguration?.validate(name: "\(name).labelConfiguration")
+            try self.styleConfiguration?.validate(name: "\(name).styleConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataConfiguration = "DataConfiguration"
+            case labelConfiguration = "LabelConfiguration"
+            case status = "Status"
+            case styleConfiguration = "StyleConfiguration"
+        }
+    }
+
+    public struct ReferenceLineCustomLabelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The string text of the custom label.
+        public let customLabel: String
+
+        public init(customLabel: String) {
+            self.customLabel = customLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customLabel, name: "customLabel", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+        }
+    }
+
+    public struct ReferenceLineDataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The axis binding type of the reference line. Choose one of the following options:   PrimaryY   SecondaryY
+        public let axisBinding: AxisBinding?
+        /// The dynamic configuration of the reference line data configuration.
+        public let dynamicConfiguration: ReferenceLineDynamicDataConfiguration?
+        /// The static data configuration of the reference line data configuration.
+        public let staticConfiguration: ReferenceLineStaticDataConfiguration?
+
+        public init(axisBinding: AxisBinding? = nil, dynamicConfiguration: ReferenceLineDynamicDataConfiguration? = nil, staticConfiguration: ReferenceLineStaticDataConfiguration? = nil) {
+            self.axisBinding = axisBinding
+            self.dynamicConfiguration = dynamicConfiguration
+            self.staticConfiguration = staticConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicConfiguration?.validate(name: "\(name).dynamicConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case axisBinding = "AxisBinding"
+            case dynamicConfiguration = "DynamicConfiguration"
+            case staticConfiguration = "StaticConfiguration"
+        }
+    }
+
+    public struct ReferenceLineDynamicDataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The calculation that is used in the dynamic data.
+        public let calculation: NumericalAggregationFunction
+        /// The column that the dynamic data targets.
+        public let column: ColumnIdentifier
+        /// The aggregation function that is used in the dynamic data.
+        public let measureAggregationFunction: AggregationFunction
+
+        public init(calculation: NumericalAggregationFunction, column: ColumnIdentifier, measureAggregationFunction: AggregationFunction) {
+            self.calculation = calculation
+            self.column = column
+            self.measureAggregationFunction = measureAggregationFunction
+        }
+
+        public func validate(name: String) throws {
+            try self.calculation.validate(name: "\(name).calculation")
+            try self.column.validate(name: "\(name).column")
+            try self.measureAggregationFunction.validate(name: "\(name).measureAggregationFunction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculation = "Calculation"
+            case column = "Column"
+            case measureAggregationFunction = "MeasureAggregationFunction"
+        }
+    }
+
+    public struct ReferenceLineLabelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label configuration of the label in a reference line.
+        public let customLabelConfiguration: ReferenceLineCustomLabelConfiguration?
+        /// The font color configuration of the label in a reference line.
+        public let fontColor: String?
+        /// The font configuration of the label in a reference line.
+        public let fontConfiguration: FontConfiguration?
+        /// The horizontal position configuration of the label in a reference line. Choose one of the following options:    LEFT     CENTER     RIGHT
+        public let horizontalPosition: ReferenceLineLabelHorizontalPosition?
+        /// The value label configuration of the label in a reference line.
+        public let valueLabelConfiguration: ReferenceLineValueLabelConfiguration?
+        /// The vertical position configuration of the label in a reference line. Choose one of the following options:    ABOVE     BELOW
+        public let verticalPosition: ReferenceLineLabelVerticalPosition?
+
+        public init(customLabelConfiguration: ReferenceLineCustomLabelConfiguration? = nil, fontColor: String? = nil, fontConfiguration: FontConfiguration? = nil, horizontalPosition: ReferenceLineLabelHorizontalPosition? = nil, valueLabelConfiguration: ReferenceLineValueLabelConfiguration? = nil, verticalPosition: ReferenceLineLabelVerticalPosition? = nil) {
+            self.customLabelConfiguration = customLabelConfiguration
+            self.fontColor = fontColor
+            self.fontConfiguration = fontConfiguration
+            self.horizontalPosition = horizontalPosition
+            self.valueLabelConfiguration = valueLabelConfiguration
+            self.verticalPosition = verticalPosition
+        }
+
+        public func validate(name: String) throws {
+            try self.customLabelConfiguration?.validate(name: "\(name).customLabelConfiguration")
+            try self.validate(self.fontColor, name: "fontColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+            try self.valueLabelConfiguration?.validate(name: "\(name).valueLabelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabelConfiguration = "CustomLabelConfiguration"
+            case fontColor = "FontColor"
+            case fontConfiguration = "FontConfiguration"
+            case horizontalPosition = "HorizontalPosition"
+            case valueLabelConfiguration = "ValueLabelConfiguration"
+            case verticalPosition = "VerticalPosition"
+        }
+    }
+
+    public struct ReferenceLineStaticDataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The double input of the static data.
+        public let value: Double
+
+        public init(value: Double) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct ReferenceLineStyleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The hex color of the reference line.
+        public let color: String?
+        /// The pattern type of the line style. Choose one of the following options:    SOLID     DASHED     DOTTED
+        public let pattern: ReferenceLinePatternType?
+
+        public init(color: String? = nil, pattern: ReferenceLinePatternType? = nil) {
+            self.color = color
+            self.pattern = pattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case pattern = "Pattern"
+        }
+    }
+
+    public struct ReferenceLineValueLabelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The format configuration of the value label.
+        public let formatConfiguration: NumericFormatConfiguration?
+        /// The relative position of the value label. Choose one of the following options:    BEFORE_CUSTOM_LABEL     AFTER_CUSTOM_LABEL
+        public let relativePosition: ReferenceLineValueLabelRelativePosition?
+
+        public init(formatConfiguration: NumericFormatConfiguration? = nil, relativePosition: ReferenceLineValueLabelRelativePosition? = nil) {
+            self.formatConfiguration = formatConfiguration
+            self.relativePosition = relativePosition
+        }
+
+        public func validate(name: String) throws {
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatConfiguration = "FormatConfiguration"
+            case relativePosition = "RelativePosition"
+        }
+    }
+
     public struct RegisterUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -9438,14 +19520,9 @@ extension QuickSight {
         /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
         public let iamArn: String?
         /// Amazon QuickSight supports several ways of managing the identity of users. This
-        /// 			parameter accepts two values:
-        ///
-        /// 				            IAM: A user whose identity maps to an existing IAM user or role.
-        ///
-        ///
-        /// 				            QUICKSIGHT: A user whose identity is owned and managed internally by
+        /// 			parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.
+        /// 				    QUICKSIGHT: A user whose identity is owned and managed internally by
         /// 					Amazon QuickSight.
-        ///
         public let identityType: IdentityType
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -9459,22 +19536,11 @@ extension QuickSight {
         /// 			registering.
         public let userName: String?
         /// The Amazon QuickSight role for the user. The user role can be one of the
-        /// 			following:
-        ///
-        /// 				            READER: A user who has read-only access to dashboards.
-        ///
-        /// 				            AUTHOR: A user who can create data sources, datasets, analyses, and
-        /// 					dashboards.
-        ///
-        /// 				            ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.
-        ///
-        /// 				             RESTRICTED_READER: This role isn't currently available for
+        /// 			following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
+        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
+        /// 					settings.    RESTRICTED_READER: This role isn't currently available for
+        /// 					use.    RESTRICTED_AUTHOR: This role isn't currently available for
         /// 					use.
-        ///
-        /// 				             RESTRICTED_AUTHOR: This role isn't currently available for
-        /// 					use.
-        ///
         public let userRole: UserRole
 
         public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
@@ -9561,7 +19627,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 2048)
+            try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, max: 512)
             try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, min: 1)
             try self.validate(self.initialDashboardId, name: "initialDashboardId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -9698,6 +19764,89 @@ extension QuickSight {
         }
     }
 
+    public struct RelativeDateTimeControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Customize how dates are formatted in controls.
+        public let dateTimeFormat: String?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(dateTimeFormat: String? = nil, titleOptions: LabelOptions? = nil) {
+            self.dateTimeFormat = dateTimeFormat
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, max: 128)
+            try self.validate(self.dateTimeFormat, name: "dateTimeFormat", parent: name, min: 1)
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeFormat = "DateTimeFormat"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct RelativeDatesFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The date configuration of the filter.
+        public let anchorDateConfiguration: AnchorDateConfiguration
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// The configuration for the exclude period of the filter.
+        public let excludePeriodConfiguration: ExcludePeriodConfiguration?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// The minimum granularity (period granularity) of the relative dates filter.
+        public let minimumGranularity: TimeGranularity?
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// The parameter whose value should be used for the filter value.
+        public let parameterName: String?
+        /// The range date type of the filter. Choose one of the options below:    PREVIOUS     THIS     LAST     NOW     NEXT
+        public let relativeDateType: RelativeDateType
+        /// The date value of the filter.
+        public let relativeDateValue: Int?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity
+
+        public init(anchorDateConfiguration: AnchorDateConfiguration, column: ColumnIdentifier, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, minimumGranularity: TimeGranularity? = nil, nullOption: FilterNullOption, parameterName: String? = nil, relativeDateType: RelativeDateType, relativeDateValue: Int? = nil, timeGranularity: TimeGranularity) {
+            self.anchorDateConfiguration = anchorDateConfiguration
+            self.column = column
+            self.excludePeriodConfiguration = excludePeriodConfiguration
+            self.filterId = filterId
+            self.minimumGranularity = minimumGranularity
+            self.nullOption = nullOption
+            self.parameterName = parameterName
+            self.relativeDateType = relativeDateType
+            self.relativeDateValue = relativeDateValue
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.anchorDateConfiguration.validate(name: "\(name).anchorDateConfiguration")
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anchorDateConfiguration = "AnchorDateConfiguration"
+            case column = "Column"
+            case excludePeriodConfiguration = "ExcludePeriodConfiguration"
+            case filterId = "FilterId"
+            case minimumGranularity = "MinimumGranularity"
+            case nullOption = "NullOption"
+            case parameterName = "ParameterName"
+            case relativeDateType = "RelativeDateType"
+            case relativeDateValue = "RelativeDateValue"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
     public struct RenameColumnOperation: AWSEncodableShape & AWSDecodableShape {
         /// The name of the column to be renamed.
         public let columnName: String
@@ -9763,7 +19912,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
@@ -9799,6 +19948,54 @@ extension QuickSight {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct RollingDateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The data set that is used in the rolling date configuration.
+        public let dataSetIdentifier: String?
+        /// The expression of the rolling date configuration.
+        public let expression: String
+
+        public init(dataSetIdentifier: String? = nil, expression: String) {
+            self.dataSetIdentifier = dataSetIdentifier
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, max: 2048)
+            try self.validate(self.dataSetIdentifier, name: "dataSetIdentifier", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetIdentifier = "DataSetIdentifier"
+            case expression = "Expression"
+        }
+    }
+
+    public struct RowAlternateColorOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the list of row alternate colors.
+        public let rowAlternateColors: [String]?
+        /// Determines the widget status.
+        public let status: WidgetStatus?
+
+        public init(rowAlternateColors: [String]? = nil, status: WidgetStatus? = nil) {
+            self.rowAlternateColors = rowAlternateColors
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.rowAlternateColors?.forEach {
+                try validate($0, name: "rowAlternateColors[]", parent: name, pattern: "^#[A-F0-9]{6}$")
+            }
+            try self.validate(self.rowAlternateColors, name: "rowAlternateColors", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rowAlternateColors = "RowAlternateColors"
             case status = "Status"
         }
     }
@@ -9960,6 +20157,413 @@ extension QuickSight {
             case dataSourceArn = "DataSourceArn"
             case inputColumns = "InputColumns"
             case uploadSettings = "UploadSettings"
+        }
+    }
+
+    public struct SameSheetTargetVisualConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that choose the target visual in the same sheet. Valid values are defined as follows:    ALL_VISUALS: Applies the filter operation to all visuals in the same sheet.
+        public let targetVisualOptions: TargetVisualOptions?
+        /// A list of the target visual IDs that are located in the same sheet of the analysis.
+        public let targetVisuals: [String]?
+
+        public init(targetVisualOptions: TargetVisualOptions? = nil, targetVisuals: [String]? = nil) {
+            self.targetVisualOptions = targetVisualOptions
+            self.targetVisuals = targetVisuals
+        }
+
+        public func validate(name: String) throws {
+            try self.targetVisuals?.forEach {
+                try validate($0, name: "targetVisuals[]", parent: name, max: 512)
+                try validate($0, name: "targetVisuals[]", parent: name, min: 1)
+                try validate($0, name: "targetVisuals[]", parent: name, pattern: "^[\\w\\-]+$")
+            }
+            try self.validate(self.targetVisuals, name: "targetVisuals", parent: name, max: 30)
+            try self.validate(self.targetVisuals, name: "targetVisuals", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetVisualOptions = "TargetVisualOptions"
+            case targetVisuals = "TargetVisuals"
+        }
+    }
+
+    public struct SankeyDiagramAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The destination field wells of a sankey diagram.
+        public let destination: [DimensionField]?
+        /// The source field wells of a sankey diagram.
+        public let source: [DimensionField]?
+        /// The weight field wells of a sankey diagram.
+        public let weight: [MeasureField]?
+
+        public init(destination: [DimensionField]? = nil, source: [DimensionField]? = nil, weight: [MeasureField]? = nil) {
+            self.destination = destination
+            self.source = source
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.destination?.forEach {
+                try $0.validate(name: "\(name).destination[]")
+            }
+            try self.validate(self.destination, name: "destination", parent: name, max: 200)
+            try self.source?.forEach {
+                try $0.validate(name: "\(name).source[]")
+            }
+            try self.validate(self.source, name: "source", parent: name, max: 200)
+            try self.weight?.forEach {
+                try $0.validate(name: "\(name).weight[]")
+            }
+            try self.validate(self.weight, name: "weight", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case source = "Source"
+            case weight = "Weight"
+        }
+    }
+
+    public struct SankeyDiagramChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The data label configuration of a sankey diagram.
+        public let dataLabels: DataLabelOptions?
+        /// The field well configuration of a sankey diagram.
+        public let fieldWells: SankeyDiagramFieldWells?
+        /// The sort configuration of a sankey diagram.
+        public let sortConfiguration: SankeyDiagramSortConfiguration?
+
+        public init(dataLabels: DataLabelOptions? = nil, fieldWells: SankeyDiagramFieldWells? = nil, sortConfiguration: SankeyDiagramSortConfiguration? = nil) {
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.sortConfiguration = sortConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case sortConfiguration = "SortConfiguration"
+        }
+    }
+
+    public struct SankeyDiagramFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a sankey diagram.
+        public let sankeyDiagramAggregatedFieldWells: SankeyDiagramAggregatedFieldWells?
+
+        public init(sankeyDiagramAggregatedFieldWells: SankeyDiagramAggregatedFieldWells? = nil) {
+            self.sankeyDiagramAggregatedFieldWells = sankeyDiagramAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.sankeyDiagramAggregatedFieldWells?.validate(name: "\(name).sankeyDiagramAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sankeyDiagramAggregatedFieldWells = "SankeyDiagramAggregatedFieldWells"
+        }
+    }
+
+    public struct SankeyDiagramSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of destination nodes that are displayed in a sankey diagram.
+        public let destinationItemsLimit: ItemsLimitConfiguration?
+        /// The limit on the number of source nodes that are displayed in a sankey diagram.
+        public let sourceItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the weight fields.
+        public let weightSort: [FieldSortOptions]?
+
+        public init(destinationItemsLimit: ItemsLimitConfiguration? = nil, sourceItemsLimit: ItemsLimitConfiguration? = nil, weightSort: [FieldSortOptions]? = nil) {
+            self.destinationItemsLimit = destinationItemsLimit
+            self.sourceItemsLimit = sourceItemsLimit
+            self.weightSort = weightSort
+        }
+
+        public func validate(name: String) throws {
+            try self.weightSort?.forEach {
+                try $0.validate(name: "\(name).weightSort[]")
+            }
+            try self.validate(self.weightSort, name: "weightSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationItemsLimit = "DestinationItemsLimit"
+            case sourceItemsLimit = "SourceItemsLimit"
+            case weightSort = "WeightSort"
+        }
+    }
+
+    public struct SankeyDiagramVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration of a sankey diagram.
+        public let chartConfiguration: SankeyDiagramChartConfiguration?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: SankeyDiagramChartConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct ScatterPlotCategoricallyAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The category field well of a scatter plot.
+        public let category: [DimensionField]?
+        /// The size field well of a scatter plot.
+        public let size: [MeasureField]?
+        /// The x-axis field well of a scatter plot. The x-axis is aggregated by category.
+        public let xAxis: [MeasureField]?
+        /// The y-axis field well of a scatter plot. The y-axis is aggregated by category.
+        public let yAxis: [MeasureField]?
+
+        public init(category: [DimensionField]? = nil, size: [MeasureField]? = nil, xAxis: [MeasureField]? = nil, yAxis: [MeasureField]? = nil) {
+            self.category = category
+            self.size = size
+            self.xAxis = xAxis
+            self.yAxis = yAxis
+        }
+
+        public func validate(name: String) throws {
+            try self.category?.forEach {
+                try $0.validate(name: "\(name).category[]")
+            }
+            try self.validate(self.category, name: "category", parent: name, max: 200)
+            try self.size?.forEach {
+                try $0.validate(name: "\(name).size[]")
+            }
+            try self.validate(self.size, name: "size", parent: name, max: 200)
+            try self.xAxis?.forEach {
+                try $0.validate(name: "\(name).xAxis[]")
+            }
+            try self.validate(self.xAxis, name: "xAxis", parent: name, max: 200)
+            try self.yAxis?.forEach {
+                try $0.validate(name: "\(name).yAxis[]")
+            }
+            try self.validate(self.yAxis, name: "yAxis", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case size = "Size"
+            case xAxis = "XAxis"
+            case yAxis = "YAxis"
+        }
+    }
+
+    public struct ScatterPlotConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine if visual data labels are displayed.
+        public let dataLabels: DataLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: ScatterPlotFieldWells?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The legend display setup of the visual.
+        public let tooltip: TooltipOptions?
+        /// The palette (chart color) display setup of the visual.
+        public let visualPalette: VisualPalette?
+        /// The label display options (grid line, range, scale, and axis step) of the scatter plot's x-axis.
+        public let xAxisDisplayOptions: AxisDisplayOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of the scatter plot's x-axis.
+        public let xAxisLabelOptions: ChartAxisLabelOptions?
+        /// The label display options (grid line, range, scale, and axis step) of the scatter plot's y-axis.
+        public let yAxisDisplayOptions: AxisDisplayOptions?
+        /// The label options (label text, label visibility, and sort icon visibility) of the scatter plot's y-axis.
+        public let yAxisLabelOptions: ChartAxisLabelOptions?
+
+        public init(dataLabels: DataLabelOptions? = nil, fieldWells: ScatterPlotFieldWells? = nil, legend: LegendOptions? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil, yAxisDisplayOptions: AxisDisplayOptions? = nil, yAxisLabelOptions: ChartAxisLabelOptions? = nil) {
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.tooltip = tooltip
+            self.visualPalette = visualPalette
+            self.xAxisDisplayOptions = xAxisDisplayOptions
+            self.xAxisLabelOptions = xAxisLabelOptions
+            self.yAxisDisplayOptions = yAxisDisplayOptions
+            self.yAxisLabelOptions = yAxisLabelOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+            try self.xAxisDisplayOptions?.validate(name: "\(name).xAxisDisplayOptions")
+            try self.xAxisLabelOptions?.validate(name: "\(name).xAxisLabelOptions")
+            try self.yAxisDisplayOptions?.validate(name: "\(name).yAxisDisplayOptions")
+            try self.yAxisLabelOptions?.validate(name: "\(name).yAxisLabelOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case tooltip = "Tooltip"
+            case visualPalette = "VisualPalette"
+            case xAxisDisplayOptions = "XAxisDisplayOptions"
+            case xAxisLabelOptions = "XAxisLabelOptions"
+            case yAxisDisplayOptions = "YAxisDisplayOptions"
+            case yAxisLabelOptions = "YAxisLabelOptions"
+        }
+    }
+
+    public struct ScatterPlotFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a scatter plot. Scatter plots that have a field in the category (group/color) field will have aggregated field wells. The x and y-axes of these scatter plots are aggregated by category.
+        public let scatterPlotCategoricallyAggregatedFieldWells: ScatterPlotCategoricallyAggregatedFieldWells?
+        /// The unaggregated field wells of a scatter plot. Scatter plots without a category field well have unaggregated field wells. The x and y-axes of these scatter plots are unaggregated.
+        public let scatterPlotUnaggregatedFieldWells: ScatterPlotUnaggregatedFieldWells?
+
+        public init(scatterPlotCategoricallyAggregatedFieldWells: ScatterPlotCategoricallyAggregatedFieldWells? = nil, scatterPlotUnaggregatedFieldWells: ScatterPlotUnaggregatedFieldWells? = nil) {
+            self.scatterPlotCategoricallyAggregatedFieldWells = scatterPlotCategoricallyAggregatedFieldWells
+            self.scatterPlotUnaggregatedFieldWells = scatterPlotUnaggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.scatterPlotCategoricallyAggregatedFieldWells?.validate(name: "\(name).scatterPlotCategoricallyAggregatedFieldWells")
+            try self.scatterPlotUnaggregatedFieldWells?.validate(name: "\(name).scatterPlotUnaggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scatterPlotCategoricallyAggregatedFieldWells = "ScatterPlotCategoricallyAggregatedFieldWells"
+            case scatterPlotUnaggregatedFieldWells = "ScatterPlotUnaggregatedFieldWells"
+        }
+    }
+
+    public struct ScatterPlotUnaggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The size field well of a scatter plot.
+        public let size: [MeasureField]?
+        /// The x-axis field well of a scatter plot. The x-axis is a dimension field and cannot be aggregated.
+        public let xAxis: [DimensionField]?
+        /// The y-axis field well of a scatter plot. The y-axis is a dimension field and cannot be aggregated.
+        public let yAxis: [DimensionField]?
+
+        public init(size: [MeasureField]? = nil, xAxis: [DimensionField]? = nil, yAxis: [DimensionField]? = nil) {
+            self.size = size
+            self.xAxis = xAxis
+            self.yAxis = yAxis
+        }
+
+        public func validate(name: String) throws {
+            try self.size?.forEach {
+                try $0.validate(name: "\(name).size[]")
+            }
+            try self.validate(self.size, name: "size", parent: name, max: 200)
+            try self.xAxis?.forEach {
+                try $0.validate(name: "\(name).xAxis[]")
+            }
+            try self.validate(self.xAxis, name: "xAxis", parent: name, max: 200)
+            try self.yAxis?.forEach {
+                try $0.validate(name: "\(name).yAxis[]")
+            }
+            try self.validate(self.yAxis, name: "yAxis", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case size = "Size"
+            case xAxis = "XAxis"
+            case yAxis = "YAxis"
+        }
+    }
+
+    public struct ScatterPlotVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: ScatterPlotConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ScatterPlotConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct ScrollBarOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the data zoom scroll bar.
+        public let visibility: Visibility?
+        /// The visibility range for the data zoom scroll bar.
+        public let visibleRange: VisibleRangeOptions?
+
+        public init(visibility: Visibility? = nil, visibleRange: VisibleRangeOptions? = nil) {
+            self.visibility = visibility
+            self.visibleRange = visibleRange
+        }
+
+        public func validate(name: String) throws {
+            try self.visibleRange?.validate(name: "\(name).visibleRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+            case visibleRange = "VisibleRange"
         }
     }
 
@@ -10370,6 +20974,196 @@ extension QuickSight {
         }
     }
 
+    public struct SecondaryValueOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the visibility of the secondary value.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct SectionAfterPageBreak: AWSEncodableShape & AWSDecodableShape {
+        /// The option that enables or disables a page break at the end of a section.
+        public let status: SectionPageBreakStatus?
+
+        public init(status: SectionPageBreakStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct SectionBasedLayoutCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options for a paper canvas of a section-based layout.
+        public let paperCanvasSizeOptions: SectionBasedLayoutPaperCanvasSizeOptions?
+
+        public init(paperCanvasSizeOptions: SectionBasedLayoutPaperCanvasSizeOptions? = nil) {
+            self.paperCanvasSizeOptions = paperCanvasSizeOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paperCanvasSizeOptions = "PaperCanvasSizeOptions"
+        }
+    }
+
+    public struct SectionBasedLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of body section configurations.
+        public let bodySections: [BodySectionConfiguration]
+        /// The options for the canvas of a section-based layout.
+        public let canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions
+        /// A list of footer section configurations.
+        public let footerSections: [HeaderFooterSectionConfiguration]
+        /// A list of header section configurations.
+        public let headerSections: [HeaderFooterSectionConfiguration]
+
+        public init(bodySections: [BodySectionConfiguration], canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions, footerSections: [HeaderFooterSectionConfiguration], headerSections: [HeaderFooterSectionConfiguration]) {
+            self.bodySections = bodySections
+            self.canvasSizeOptions = canvasSizeOptions
+            self.footerSections = footerSections
+            self.headerSections = headerSections
+        }
+
+        public func validate(name: String) throws {
+            try self.bodySections.forEach {
+                try $0.validate(name: "\(name).bodySections[]")
+            }
+            try self.validate(self.bodySections, name: "bodySections", parent: name, max: 28)
+            try self.footerSections.forEach {
+                try $0.validate(name: "\(name).footerSections[]")
+            }
+            try self.validate(self.footerSections, name: "footerSections", parent: name, max: 1)
+            try self.headerSections.forEach {
+                try $0.validate(name: "\(name).headerSections[]")
+            }
+            try self.validate(self.headerSections, name: "headerSections", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bodySections = "BodySections"
+            case canvasSizeOptions = "CanvasSizeOptions"
+            case footerSections = "FooterSections"
+            case headerSections = "HeaderSections"
+        }
+    }
+
+    public struct SectionBasedLayoutPaperCanvasSizeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the spacing between the canvas content and the top, bottom, left, and right edges.
+        public let paperMargin: Spacing?
+        /// The paper orientation that is used to define canvas dimensions. Choose one of the following options:   PORTRAIT   LANDSCAPE
+        public let paperOrientation: PaperOrientation?
+        /// The paper size that is used to define canvas dimensions.
+        public let paperSize: PaperSize?
+
+        public init(paperMargin: Spacing? = nil, paperOrientation: PaperOrientation? = nil, paperSize: PaperSize? = nil) {
+            self.paperMargin = paperMargin
+            self.paperOrientation = paperOrientation
+            self.paperSize = paperSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paperMargin = "PaperMargin"
+            case paperOrientation = "PaperOrientation"
+            case paperSize = "PaperSize"
+        }
+    }
+
+    public struct SectionLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The free-form layout configuration of a section.
+        public let freeFormLayout: FreeFormSectionLayoutConfiguration
+
+        public init(freeFormLayout: FreeFormSectionLayoutConfiguration) {
+            self.freeFormLayout = freeFormLayout
+        }
+
+        public func validate(name: String) throws {
+            try self.freeFormLayout.validate(name: "\(name).freeFormLayout")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeFormLayout = "FreeFormLayout"
+        }
+    }
+
+    public struct SectionPageBreakConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of a page break after a section.
+        public let after: SectionAfterPageBreak?
+
+        public init(after: SectionAfterPageBreak? = nil) {
+            self.after = after
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case after = "After"
+        }
+    }
+
+    public struct SectionStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The height of a section. Heights can only be defined for header and footer sections. The default height margin is 0.5 inches.
+        public let height: String?
+        /// The spacing between section content and its top, bottom, left, and right edges. There is no padding by default.
+        public let padding: Spacing?
+
+        public init(height: String? = nil, padding: Spacing? = nil) {
+            self.height = height
+            self.padding = padding
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case padding = "Padding"
+        }
+    }
+
+    public struct SelectedSheetsFilterScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sheet ID and visual IDs of the sheet and visuals that the filter is applied to.
+        public let sheetVisualScopingConfigurations: [SheetVisualScopingConfiguration]?
+
+        public init(sheetVisualScopingConfigurations: [SheetVisualScopingConfiguration]? = nil) {
+            self.sheetVisualScopingConfigurations = sheetVisualScopingConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.sheetVisualScopingConfigurations?.forEach {
+                try $0.validate(name: "\(name).sheetVisualScopingConfigurations[]")
+            }
+            try self.validate(self.sheetVisualScopingConfigurations, name: "sheetVisualScopingConfigurations", parent: name, max: 50)
+            try self.validate(self.sheetVisualScopingConfigurations, name: "sheetVisualScopingConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sheetVisualScopingConfigurations = "SheetVisualScopingConfigurations"
+        }
+    }
+
+    public struct SeriesItem: AWSEncodableShape & AWSDecodableShape {
+        /// The data field series item configuration of a line chart.
+        public let dataFieldSeriesItem: DataFieldSeriesItem?
+        /// The field series item configuration of a line chart.
+        public let fieldSeriesItem: FieldSeriesItem?
+
+        public init(dataFieldSeriesItem: DataFieldSeriesItem? = nil, fieldSeriesItem: FieldSeriesItem? = nil) {
+            self.dataFieldSeriesItem = dataFieldSeriesItem
+            self.fieldSeriesItem = fieldSeriesItem
+        }
+
+        public func validate(name: String) throws {
+            try self.dataFieldSeriesItem?.validate(name: "\(name).dataFieldSeriesItem")
+            try self.fieldSeriesItem?.validate(name: "\(name).fieldSeriesItem")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFieldSeriesItem = "DataFieldSeriesItem"
+            case fieldSeriesItem = "FieldSeriesItem"
+        }
+    }
+
     public struct ServiceNowParameters: AWSEncodableShape & AWSDecodableShape {
         /// URL of the base site.
         public let siteBaseUrl: String
@@ -10412,6 +21206,46 @@ extension QuickSight {
         }
     }
 
+    public struct SetParameterValueConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The destination parameter name of the SetParameterValueConfiguration.
+        public let destinationParameterName: String
+        public let value: DestinationParameterValueConfiguration
+
+        public init(destinationParameterName: String, value: DestinationParameterValueConfiguration) {
+            self.destinationParameterName = destinationParameterName
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationParameterName, name: "destinationParameterName", parent: name, max: 2048)
+            try self.validate(self.destinationParameterName, name: "destinationParameterName", parent: name, min: 1)
+            try self.validate(self.destinationParameterName, name: "destinationParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationParameterName = "DestinationParameterName"
+            case value = "Value"
+        }
+    }
+
+    public struct ShapeConditionalFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting for the shape background color of a filled map visual.
+        public let backgroundColor: ConditionalFormattingColor
+
+        public init(backgroundColor: ConditionalFormattingColor) {
+            self.backgroundColor = backgroundColor
+        }
+
+        public func validate(name: String) throws {
+            try self.backgroundColor.validate(name: "\(name).backgroundColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+        }
+    }
+
     public struct Sheet: AWSDecodableShape {
         /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
         public let name: String?
@@ -10429,6 +21263,40 @@ extension QuickSight {
         }
     }
 
+    public struct SheetControlLayout: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that determines the elements and canvas size options of sheet control.
+        public let configuration: SheetControlLayoutConfiguration
+
+        public init(configuration: SheetControlLayoutConfiguration) {
+            self.configuration = configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct SheetControlLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that determines the elements and canvas size options of sheet control.
+        public let gridLayout: GridLayoutConfiguration?
+
+        public init(gridLayout: GridLayoutConfiguration? = nil) {
+            self.gridLayout = gridLayout
+        }
+
+        public func validate(name: String) throws {
+            try self.gridLayout?.validate(name: "\(name).gridLayout")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gridLayout = "GridLayout"
+        }
+    }
+
     public struct SheetControlsOption: AWSEncodableShape {
         /// Visibility state.
         public let visibilityState: DashboardUIState?
@@ -10439,6 +21307,131 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case visibilityState = "VisibilityState"
+        }
+    }
+
+    public struct SheetDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The layout content type of the sheet. Choose one of the following options:    PAGINATED: Creates a sheet for a paginated report.    INTERACTIVE: Creates a sheet for an interactive dashboard.
+        public let contentType: SheetContentType?
+        /// A description of the sheet.
+        public let description: String?
+        /// The list of filter controls that are on a sheet. For more information, see Adding filter controls to analysis sheets in the Amazon QuickSight User Guide.
+        public let filterControls: [FilterControl]?
+        /// Layouts define how the components of a sheet are arranged. For more information, see Types of layout in the Amazon QuickSight User Guide.
+        public let layouts: [Layout]?
+        /// The name of the sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
+        public let name: String?
+        /// The list of parameter controls that are on a sheet. For more information, see Using a Control with a Parameter in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let parameterControls: [ParameterControl]?
+        /// The control layouts of the sheet.
+        public let sheetControlLayouts: [SheetControlLayout]?
+        /// The unique identifier of a sheet.
+        public let sheetId: String
+        /// The text boxes that are on a sheet.
+        public let textBoxes: [SheetTextBox]?
+        /// The title of the sheet.
+        public let title: String?
+        /// A list of the visuals that are on a sheet. Visual placement is determined by the layout of the sheet.
+        public let visuals: [Visual]?
+
+        public init(contentType: SheetContentType? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
+            self.contentType = contentType
+            self.description = description
+            self.filterControls = filterControls
+            self.layouts = layouts
+            self.name = name
+            self.parameterControls = parameterControls
+            self.sheetControlLayouts = sheetControlLayouts
+            self.sheetId = sheetId
+            self.textBoxes = textBoxes
+            self.title = title
+            self.visuals = visuals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.filterControls?.forEach {
+                try $0.validate(name: "\(name).filterControls[]")
+            }
+            try self.validate(self.filterControls, name: "filterControls", parent: name, max: 200)
+            try self.layouts?.forEach {
+                try $0.validate(name: "\(name).layouts[]")
+            }
+            try self.validate(self.layouts, name: "layouts", parent: name, max: 1)
+            try self.validate(self.layouts, name: "layouts", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.parameterControls?.forEach {
+                try $0.validate(name: "\(name).parameterControls[]")
+            }
+            try self.validate(self.parameterControls, name: "parameterControls", parent: name, max: 200)
+            try self.sheetControlLayouts?.forEach {
+                try $0.validate(name: "\(name).sheetControlLayouts[]")
+            }
+            try self.validate(self.sheetControlLayouts, name: "sheetControlLayouts", parent: name, max: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 512)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.textBoxes?.forEach {
+                try $0.validate(name: "\(name).textBoxes[]")
+            }
+            try self.validate(self.textBoxes, name: "textBoxes", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, max: 1024)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.visuals?.forEach {
+                try $0.validate(name: "\(name).visuals[]")
+            }
+            try self.validate(self.visuals, name: "visuals", parent: name, max: 30)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case description = "Description"
+            case filterControls = "FilterControls"
+            case layouts = "Layouts"
+            case name = "Name"
+            case parameterControls = "ParameterControls"
+            case sheetControlLayouts = "SheetControlLayouts"
+            case sheetId = "SheetId"
+            case textBoxes = "TextBoxes"
+            case title = "Title"
+            case visuals = "Visuals"
+        }
+    }
+
+    public struct SheetElementConfigurationOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether or not the overrides are visible. Choose one of the following options:    VISIBLE     HIDDEN
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct SheetElementRenderingRule: AWSEncodableShape & AWSDecodableShape {
+        /// The override configuration of the rendering rules of a sheet.
+        public let configurationOverrides: SheetElementConfigurationOverrides
+        /// The expression of the rendering rules of a sheet.
+        public let expression: String
+
+        public init(configurationOverrides: SheetElementConfigurationOverrides, expression: String) {
+            self.configurationOverrides = configurationOverrides
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationOverrides = "ConfigurationOverrides"
+            case expression = "Expression"
         }
     }
 
@@ -10456,6 +21449,87 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case tile = "Tile"
             case tileLayout = "TileLayout"
+        }
+    }
+
+    public struct SheetTextBox: AWSEncodableShape & AWSDecodableShape {
+        /// The content that is displayed in the text box.
+        public let content: String?
+        /// The unique identifier for a text box. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have text boxes that share identifiers.
+        public let sheetTextBoxId: String
+
+        public init(content: String? = nil, sheetTextBoxId: String) {
+            self.content = content
+            self.sheetTextBoxId = sheetTextBoxId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.content, name: "content", parent: name, max: 150_000)
+            try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, max: 512)
+            try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, min: 1)
+            try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case sheetTextBoxId = "SheetTextBoxId"
+        }
+    }
+
+    public struct SheetVisualScopingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The scope of the applied entities. Choose one of the following options:    ALL_VISUALS     SELECTED_VISUALS
+        public let scope: FilterVisualScope
+        /// The selected sheet that the filter is applied to.
+        public let sheetId: String
+        /// The selected visuals that the filter is applied to.
+        public let visualIds: [String]?
+
+        public init(scope: FilterVisualScope, sheetId: String, visualIds: [String]? = nil) {
+            self.scope = scope
+            self.sheetId = sheetId
+            self.visualIds = visualIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 512)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.visualIds?.forEach {
+                try validate($0, name: "visualIds[]", parent: name, max: 512)
+                try validate($0, name: "visualIds[]", parent: name, min: 1)
+                try validate($0, name: "visualIds[]", parent: name, pattern: "^[\\w\\-]+$")
+            }
+            try self.validate(self.visualIds, name: "visualIds", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scope = "Scope"
+            case sheetId = "SheetId"
+            case visualIds = "VisualIds"
+        }
+    }
+
+    public struct ShortFormatText: AWSEncodableShape & AWSDecodableShape {
+        /// Plain text format.
+        public let plainText: String?
+        /// Rich text. Examples of rich text include bold, underline, and italics.
+        public let richText: String?
+
+        public init(plainText: String? = nil, richText: String? = nil) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.plainText, name: "plainText", parent: name, max: 512)
+            try self.validate(self.plainText, name: "plainText", parent: name, min: 1)
+            try self.validate(self.richText, name: "richText", parent: name, max: 1024)
+            try self.validate(self.richText, name: "richText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case plainText = "PlainText"
+            case richText = "RichText"
         }
     }
 
@@ -10481,6 +21555,69 @@ extension QuickSight {
             case directoryType
             case iamUser = "IAMUser"
             case userLoginName
+        }
+    }
+
+    public struct SimpleClusterMarker: AWSEncodableShape & AWSDecodableShape {
+        /// The color of the simple cluster marker.
+        public let color: String?
+
+        public init(color: String? = nil) {
+            self.color = color
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+        }
+    }
+
+    public struct SliderControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(titleOptions: LabelOptions? = nil) {
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct SmallMultiplesOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the maximum number of visible columns to display in the grid of small multiples panels. The default is Auto, which automatically adjusts the columns in the grid to fit the overall layout and size of the given chart.
+        public let maxVisibleColumns: Int64?
+        /// Sets the maximum number of visible rows to display in the grid of small multiples panels. The default value is Auto, which automatically adjusts the rows in the grid to fit the overall layout and size of the given chart.
+        public let maxVisibleRows: Int64?
+        /// Configures the display options for each small multiples panel.
+        public let panelConfiguration: PanelConfiguration?
+
+        public init(maxVisibleColumns: Int64? = nil, maxVisibleRows: Int64? = nil, panelConfiguration: PanelConfiguration? = nil) {
+            self.maxVisibleColumns = maxVisibleColumns
+            self.maxVisibleRows = maxVisibleRows
+            self.panelConfiguration = panelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxVisibleColumns, name: "maxVisibleColumns", parent: name, max: 10)
+            try self.validate(self.maxVisibleColumns, name: "maxVisibleColumns", parent: name, min: 1)
+            try self.validate(self.maxVisibleRows, name: "maxVisibleRows", parent: name, max: 10)
+            try self.validate(self.maxVisibleRows, name: "maxVisibleRows", parent: name, min: 1)
+            try self.panelConfiguration?.validate(name: "\(name).panelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxVisibleColumns = "MaxVisibleColumns"
+            case maxVisibleRows = "MaxVisibleRows"
+            case panelConfiguration = "PanelConfiguration"
         }
     }
 
@@ -10510,6 +21647,31 @@ extension QuickSight {
             case database = "Database"
             case host = "Host"
             case warehouse = "Warehouse"
+        }
+    }
+
+    public struct Spacing: AWSEncodableShape & AWSDecodableShape {
+        /// Define the bottom spacing.
+        public let bottom: String?
+        /// Define the left spacing.
+        public let left: String?
+        /// Define the right spacing.
+        public let right: String?
+        /// Define the top spacing.
+        public let top: String?
+
+        public init(bottom: String? = nil, left: String? = nil, right: String? = nil, top: String? = nil) {
+            self.bottom = bottom
+            self.left = left
+            self.right = right
+            self.top = top
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bottom = "Bottom"
+            case left = "Left"
+            case right = "Right"
+            case top = "Top"
         }
     }
 
@@ -10580,6 +21742,50 @@ extension QuickSight {
         }
     }
 
+    public struct StringDefaultValues: AWSEncodableShape & AWSDecodableShape {
+        /// The dynamic value of the StringDefaultValues. Different defaults displayed according to users, groups, and values mapping.
+        public let dynamicValue: DynamicDefaultValue?
+        /// The static values of the DecimalDefaultValues.
+        public let staticValues: [String]?
+
+        public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [String]? = nil) {
+            self.dynamicValue = dynamicValue
+            self.staticValues = staticValues
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicValue?.validate(name: "\(name).dynamicValue")
+            try self.validate(self.staticValues, name: "staticValues", parent: name, max: 50000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicValue = "DynamicValue"
+            case staticValues = "StaticValues"
+        }
+    }
+
+    public struct StringFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the null value format configuration.
+        public let nullValueFormatConfiguration: NullValueFormatConfiguration?
+        /// The formatting configuration for numeric strings.
+        public let numericFormatConfiguration: NumericFormatConfiguration?
+
+        public init(nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numericFormatConfiguration: NumericFormatConfiguration? = nil) {
+            self.nullValueFormatConfiguration = nullValueFormatConfiguration
+            self.numericFormatConfiguration = numericFormatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.nullValueFormatConfiguration?.validate(name: "\(name).nullValueFormatConfiguration")
+            try self.numericFormatConfiguration?.validate(name: "\(name).numericFormatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nullValueFormatConfiguration = "NullValueFormatConfiguration"
+            case numericFormatConfiguration = "NumericFormatConfiguration"
+        }
+    }
+
     public struct StringParameter: AWSEncodableShape {
         /// A display name for a string parameter.
         public let name: String
@@ -10598,6 +21804,727 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct StringParameterDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
+        public let defaultValues: StringDefaultValues?
+        /// The name of the parameter that is being declared.
+        public let name: String
+        /// The value type determines whether the parameter is a single-value or multi-value parameter.
+        public let parameterValueType: ParameterValueType
+        /// The configuration that defines the default value of a String parameter when a value has not been set.
+        public let valueWhenUnset: StringValueWhenUnsetConfiguration?
+
+        public init(defaultValues: StringDefaultValues? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: StringValueWhenUnsetConfiguration? = nil) {
+            self.defaultValues = defaultValues
+            self.name = name
+            self.parameterValueType = parameterValueType
+            self.valueWhenUnset = valueWhenUnset
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultValues?.validate(name: "\(name).defaultValues")
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValues = "DefaultValues"
+            case name = "Name"
+            case parameterValueType = "ParameterValueType"
+            case valueWhenUnset = "ValueWhenUnset"
+        }
+    }
+
+    public struct StringValueWhenUnsetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A custom value that's used when the value of a parameter isn't set.
+        public let customValue: String?
+        /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
+        public let valueWhenUnsetOption: ValueWhenUnsetOption?
+
+        public init(customValue: String? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
+            self.customValue = customValue
+            self.valueWhenUnsetOption = valueWhenUnsetOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customValue = "CustomValue"
+            case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct SubtotalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label string for the subtotal cells.
+        public let customLabel: String?
+        /// The field level (all, custom, last) for the subtotal cells.
+        public let fieldLevel: PivotTableSubtotalLevel?
+        /// The optional configuration of subtotal cells.
+        public let fieldLevelOptions: [PivotTableFieldSubtotalOptions]?
+        /// The cell styling options for the subtotals of header cells.
+        public let metricHeaderCellStyle: TableCellStyle?
+        /// The cell styling options for the subtotal cells.
+        public let totalCellStyle: TableCellStyle?
+        /// The visibility configuration for the subtotal cells.
+        public let totalsVisibility: Visibility?
+        /// The cell styling options for the subtotals of value cells.
+        public let valueCellStyle: TableCellStyle?
+
+        public init(customLabel: String? = nil, fieldLevel: PivotTableSubtotalLevel? = nil, fieldLevelOptions: [PivotTableFieldSubtotalOptions]? = nil, metricHeaderCellStyle: TableCellStyle? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil, valueCellStyle: TableCellStyle? = nil) {
+            self.customLabel = customLabel
+            self.fieldLevel = fieldLevel
+            self.fieldLevelOptions = fieldLevelOptions
+            self.metricHeaderCellStyle = metricHeaderCellStyle
+            self.totalCellStyle = totalCellStyle
+            self.totalsVisibility = totalsVisibility
+            self.valueCellStyle = valueCellStyle
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldLevelOptions?.forEach {
+                try $0.validate(name: "\(name).fieldLevelOptions[]")
+            }
+            try self.validate(self.fieldLevelOptions, name: "fieldLevelOptions", parent: name, max: 100)
+            try self.metricHeaderCellStyle?.validate(name: "\(name).metricHeaderCellStyle")
+            try self.totalCellStyle?.validate(name: "\(name).totalCellStyle")
+            try self.valueCellStyle?.validate(name: "\(name).valueCellStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case fieldLevel = "FieldLevel"
+            case fieldLevelOptions = "FieldLevelOptions"
+            case metricHeaderCellStyle = "MetricHeaderCellStyle"
+            case totalCellStyle = "TotalCellStyle"
+            case totalsVisibility = "TotalsVisibility"
+            case valueCellStyle = "ValueCellStyle"
+        }
+    }
+
+    public struct TableAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The group by field well for a pivot table. Values are grouped by group by fields.
+        public let groupBy: [DimensionField]?
+        /// The values field well for a pivot table. Values are aggregated based on group by fields.
+        public let values: [MeasureField]?
+
+        public init(groupBy: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.groupBy = groupBy
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 200)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupBy = "GroupBy"
+            case values = "Values"
+        }
+    }
+
+    public struct TableBorderOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The color of a table border.
+        public let color: String?
+        /// The style (none, solid) of a table border.
+        public let style: TableBorderStyle?
+        /// The thickness of a table border.
+        public let thickness: Int?
+
+        public init(color: String? = nil, style: TableBorderStyle? = nil, thickness: Int? = nil) {
+            self.color = color
+            self.style = style
+            self.thickness = thickness
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.color, name: "color", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.thickness, name: "thickness", parent: name, max: 4)
+            try self.validate(self.thickness, name: "thickness", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case color = "Color"
+            case style = "Style"
+            case thickness = "Thickness"
+        }
+    }
+
+    public struct TableCellConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID of the cell for conditional formatting.
+        public let fieldId: String
+        /// The text format of the cell for conditional formatting.
+        public let textFormat: TextConditionalFormat?
+
+        public init(fieldId: String, textFormat: TextConditionalFormat? = nil) {
+            self.fieldId = fieldId
+            self.textFormat = textFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.textFormat?.validate(name: "\(name).textFormat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "FieldId"
+            case textFormat = "TextFormat"
+        }
+    }
+
+    public struct TableCellImageSizingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cell scaling configuration of the sizing options for the table image configuration.
+        public let tableCellImageScalingConfiguration: TableCellImageScalingConfiguration?
+
+        public init(tableCellImageScalingConfiguration: TableCellImageScalingConfiguration? = nil) {
+            self.tableCellImageScalingConfiguration = tableCellImageScalingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableCellImageScalingConfiguration = "TableCellImageScalingConfiguration"
+        }
+    }
+
+    public struct TableCellStyle: AWSEncodableShape & AWSDecodableShape {
+        /// The background color for the table cells.
+        public let backgroundColor: String?
+        /// The borders for the table cells.
+        public let border: GlobalTableBorderOptions?
+        /// The font configuration of the table cells.
+        public let fontConfiguration: FontConfiguration?
+        /// The height color for the table cells.
+        public let height: Int?
+        /// The horizontal text alignment (left, center, right, auto) for the table cells.
+        public let horizontalTextAlignment: HorizontalTextAlignment?
+        /// The text wrap (none, wrap) for the table cells.
+        public let textWrap: TextWrap?
+        /// The vertical text alignment (top, middle, bottom) for the table cells.
+        public let verticalTextAlignment: VerticalTextAlignment?
+        /// The visibility of the table cells.
+        public let visibility: Visibility?
+
+        public init(backgroundColor: String? = nil, border: GlobalTableBorderOptions? = nil, fontConfiguration: FontConfiguration? = nil, height: Int? = nil, horizontalTextAlignment: HorizontalTextAlignment? = nil, textWrap: TextWrap? = nil, verticalTextAlignment: VerticalTextAlignment? = nil, visibility: Visibility? = nil) {
+            self.backgroundColor = backgroundColor
+            self.border = border
+            self.fontConfiguration = fontConfiguration
+            self.height = height
+            self.horizontalTextAlignment = horizontalTextAlignment
+            self.textWrap = textWrap
+            self.verticalTextAlignment = verticalTextAlignment
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.border?.validate(name: "\(name).border")
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+            try self.validate(self.height, name: "height", parent: name, max: 500)
+            try self.validate(self.height, name: "height", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case border = "Border"
+            case fontConfiguration = "FontConfiguration"
+            case height = "Height"
+            case horizontalTextAlignment = "HorizontalTextAlignment"
+            case textWrap = "TextWrap"
+            case verticalTextAlignment = "VerticalTextAlignment"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct TableConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// Conditional formatting options for a PivotTableVisual.
+        public let conditionalFormattingOptions: [TableConditionalFormattingOption]?
+
+        public init(conditionalFormattingOptions: [TableConditionalFormattingOption]? = nil) {
+            self.conditionalFormattingOptions = conditionalFormattingOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditionalFormattingOptions?.forEach {
+                try $0.validate(name: "\(name).conditionalFormattingOptions[]")
+            }
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalFormattingOptions = "ConditionalFormattingOptions"
+        }
+    }
+
+    public struct TableConditionalFormattingOption: AWSEncodableShape & AWSDecodableShape {
+        /// The cell conditional formatting option for a table.
+        public let cell: TableCellConditionalFormatting?
+        /// The row conditional formatting option for a table.
+        public let row: TableRowConditionalFormatting?
+
+        public init(cell: TableCellConditionalFormatting? = nil, row: TableRowConditionalFormatting? = nil) {
+            self.cell = cell
+            self.row = row
+        }
+
+        public func validate(name: String) throws {
+            try self.cell?.validate(name: "\(name).cell")
+            try self.row?.validate(name: "\(name).row")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cell = "Cell"
+            case row = "Row"
+        }
+    }
+
+    public struct TableConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The field options for a table visual.
+        public let fieldOptions: TableFieldOptions?
+        /// The field wells of the visual.
+        public let fieldWells: TableFieldWells?
+        /// The paginated report options for a table visual.
+        public let paginatedReportOptions: TablePaginatedReportOptions?
+        /// The sort configuration for a TableVisual.
+        public let sortConfiguration: TableSortConfiguration?
+        /// The table options for a table visual.
+        public let tableOptions: TableOptions?
+        /// The total options for a table visual.
+        public let totalOptions: TotalOptions?
+
+        public init(fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableOptions: TableOptions? = nil, totalOptions: TotalOptions? = nil) {
+            self.fieldOptions = fieldOptions
+            self.fieldWells = fieldWells
+            self.paginatedReportOptions = paginatedReportOptions
+            self.sortConfiguration = sortConfiguration
+            self.tableOptions = tableOptions
+            self.totalOptions = totalOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldOptions?.validate(name: "\(name).fieldOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tableOptions?.validate(name: "\(name).tableOptions")
+            try self.totalOptions?.validate(name: "\(name).totalOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldOptions = "FieldOptions"
+            case fieldWells = "FieldWells"
+            case paginatedReportOptions = "PaginatedReportOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tableOptions = "TableOptions"
+            case totalOptions = "TotalOptions"
+        }
+    }
+
+    public struct TableFieldCustomIconContent: AWSEncodableShape & AWSDecodableShape {
+        /// The icon set type (link) of the custom icon content for table URL link content.
+        public let icon: TableFieldIconSetType?
+
+        public init(icon: TableFieldIconSetType? = nil) {
+            self.icon = icon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icon = "Icon"
+        }
+    }
+
+    public struct TableFieldCustomTextContent: AWSEncodableShape & AWSDecodableShape {
+        /// The font configuration of the custom text content for the table URL link content.
+        public let fontConfiguration: FontConfiguration
+        /// The string value of the custom text content for the table URL link content.
+        public let value: String?
+
+        public init(fontConfiguration: FontConfiguration, value: String? = nil) {
+            self.fontConfiguration = fontConfiguration
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.fontConfiguration.validate(name: "\(name).fontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontConfiguration = "FontConfiguration"
+            case value = "Value"
+        }
+    }
+
+    public struct TableFieldImageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sizing options for the table image configuration.
+        public let sizingOptions: TableCellImageSizingConfiguration?
+
+        public init(sizingOptions: TableCellImageSizingConfiguration? = nil) {
+            self.sizingOptions = sizingOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sizingOptions = "SizingOptions"
+        }
+    }
+
+    public struct TableFieldLinkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The URL content (text, icon) for the table link configuration.
+        public let content: TableFieldLinkContentConfiguration
+        /// The URL target (new tab, new window, same tab) for the table link configuration.
+        public let target: URLTargetConfiguration
+
+        public init(content: TableFieldLinkContentConfiguration, target: URLTargetConfiguration) {
+            self.content = content
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case target = "Target"
+        }
+    }
+
+    public struct TableFieldLinkContentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The custom icon content for the table link content configuration.
+        public let customIconContent: TableFieldCustomIconContent?
+        /// The custom text content (value, font configuration) for the table link content configuration.
+        public let customTextContent: TableFieldCustomTextContent?
+
+        public init(customIconContent: TableFieldCustomIconContent? = nil, customTextContent: TableFieldCustomTextContent? = nil) {
+            self.customIconContent = customIconContent
+            self.customTextContent = customTextContent
+        }
+
+        public func validate(name: String) throws {
+            try self.customTextContent?.validate(name: "\(name).customTextContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customIconContent = "CustomIconContent"
+            case customTextContent = "CustomTextContent"
+        }
+    }
+
+    public struct TableFieldOption: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label for a table field.
+        public let customLabel: String?
+        /// The field ID for a table field.
+        public let fieldId: String
+        /// The URL configuration for a table field.
+        public let urlStyling: TableFieldURLConfiguration?
+        /// The visibility of a table field.
+        public let visibility: Visibility?
+        /// The width for a table field.
+        public let width: String?
+
+        public init(customLabel: String? = nil, fieldId: String, urlStyling: TableFieldURLConfiguration? = nil, visibility: Visibility? = nil, width: String? = nil) {
+            self.customLabel = customLabel
+            self.fieldId = fieldId
+            self.urlStyling = urlStyling
+            self.visibility = visibility
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customLabel, name: "customLabel", parent: name, max: 2048)
+            try self.validate(self.customLabel, name: "customLabel", parent: name, min: 1)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.urlStyling?.validate(name: "\(name).urlStyling")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case fieldId = "FieldId"
+            case urlStyling = "URLStyling"
+            case visibility = "Visibility"
+            case width = "Width"
+        }
+    }
+
+    public struct TableFieldOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The order of field IDs of the field options for a table visual.
+        public let order: [String]?
+        /// The selected field options for the table field options.
+        public let selectedFieldOptions: [TableFieldOption]?
+
+        public init(order: [String]? = nil, selectedFieldOptions: [TableFieldOption]? = nil) {
+            self.order = order
+            self.selectedFieldOptions = selectedFieldOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.order?.forEach {
+                try validate($0, name: "order[]", parent: name, max: 512)
+                try validate($0, name: "order[]", parent: name, min: 1)
+            }
+            try self.validate(self.order, name: "order", parent: name, max: 100)
+            try self.selectedFieldOptions?.forEach {
+                try $0.validate(name: "\(name).selectedFieldOptions[]")
+            }
+            try self.validate(self.selectedFieldOptions, name: "selectedFieldOptions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case order = "Order"
+            case selectedFieldOptions = "SelectedFieldOptions"
+        }
+    }
+
+    public struct TableFieldURLConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The image configuration of a table field URL.
+        public let imageConfiguration: TableFieldImageConfiguration?
+        /// The link configuration of a table field URL.
+        public let linkConfiguration: TableFieldLinkConfiguration?
+
+        public init(imageConfiguration: TableFieldImageConfiguration? = nil, linkConfiguration: TableFieldLinkConfiguration? = nil) {
+            self.imageConfiguration = imageConfiguration
+            self.linkConfiguration = linkConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.linkConfiguration?.validate(name: "\(name).linkConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageConfiguration = "ImageConfiguration"
+            case linkConfiguration = "LinkConfiguration"
+        }
+    }
+
+    public struct TableFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field well for the table.
+        public let tableAggregatedFieldWells: TableAggregatedFieldWells?
+        /// The unaggregated field well for the table.
+        public let tableUnaggregatedFieldWells: TableUnaggregatedFieldWells?
+
+        public init(tableAggregatedFieldWells: TableAggregatedFieldWells? = nil, tableUnaggregatedFieldWells: TableUnaggregatedFieldWells? = nil) {
+            self.tableAggregatedFieldWells = tableAggregatedFieldWells
+            self.tableUnaggregatedFieldWells = tableUnaggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.tableAggregatedFieldWells?.validate(name: "\(name).tableAggregatedFieldWells")
+            try self.tableUnaggregatedFieldWells?.validate(name: "\(name).tableUnaggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableAggregatedFieldWells = "TableAggregatedFieldWells"
+            case tableUnaggregatedFieldWells = "TableUnaggregatedFieldWells"
+        }
+    }
+
+    public struct TableOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The table cell style of table cells.
+        public let cellStyle: TableCellStyle?
+        /// The table cell style of a table header.
+        public let headerStyle: TableCellStyle?
+        /// The orientation (vertical, horizontal) for a table.
+        public let orientation: TableOrientation?
+        /// The row alternate color options (widget status, row alternate colors) for a table.
+        public let rowAlternateColorOptions: RowAlternateColorOptions?
+
+        public init(cellStyle: TableCellStyle? = nil, headerStyle: TableCellStyle? = nil, orientation: TableOrientation? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil) {
+            self.cellStyle = cellStyle
+            self.headerStyle = headerStyle
+            self.orientation = orientation
+            self.rowAlternateColorOptions = rowAlternateColorOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.cellStyle?.validate(name: "\(name).cellStyle")
+            try self.headerStyle?.validate(name: "\(name).headerStyle")
+            try self.rowAlternateColorOptions?.validate(name: "\(name).rowAlternateColorOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellStyle = "CellStyle"
+            case headerStyle = "HeaderStyle"
+            case orientation = "Orientation"
+            case rowAlternateColorOptions = "RowAlternateColorOptions"
+        }
+    }
+
+    public struct TablePaginatedReportOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of repeating header rows on each page.
+        public let overflowColumnHeaderVisibility: Visibility?
+        /// The visibility of printing table overflow across pages.
+        public let verticalOverflowVisibility: Visibility?
+
+        public init(overflowColumnHeaderVisibility: Visibility? = nil, verticalOverflowVisibility: Visibility? = nil) {
+            self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
+            self.verticalOverflowVisibility = verticalOverflowVisibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overflowColumnHeaderVisibility = "OverflowColumnHeaderVisibility"
+            case verticalOverflowVisibility = "VerticalOverflowVisibility"
+        }
+    }
+
+    public struct TableRowConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting color (solid, gradient) of the background for a table row.
+        public let backgroundColor: ConditionalFormattingColor?
+        /// The conditional formatting color (solid, gradient) of the text for a table row.
+        public let textColor: ConditionalFormattingColor?
+
+        public init(backgroundColor: ConditionalFormattingColor? = nil, textColor: ConditionalFormattingColor? = nil) {
+            self.backgroundColor = backgroundColor
+            self.textColor = textColor
+        }
+
+        public func validate(name: String) throws {
+            try self.backgroundColor?.validate(name: "\(name).backgroundColor")
+            try self.textColor?.validate(name: "\(name).textColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct TableSideBorderOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The table border options of the bottom border.
+        public let bottom: TableBorderOptions?
+        /// The table border options of the inner horizontal border.
+        public let innerHorizontal: TableBorderOptions?
+        /// The table border options of the inner vertical border.
+        public let innerVertical: TableBorderOptions?
+        /// The table border options of the left border.
+        public let left: TableBorderOptions?
+        /// The table border options of the right border.
+        public let right: TableBorderOptions?
+        /// The table border options of the top border.
+        public let top: TableBorderOptions?
+
+        public init(bottom: TableBorderOptions? = nil, innerHorizontal: TableBorderOptions? = nil, innerVertical: TableBorderOptions? = nil, left: TableBorderOptions? = nil, right: TableBorderOptions? = nil, top: TableBorderOptions? = nil) {
+            self.bottom = bottom
+            self.innerHorizontal = innerHorizontal
+            self.innerVertical = innerVertical
+            self.left = left
+            self.right = right
+            self.top = top
+        }
+
+        public func validate(name: String) throws {
+            try self.bottom?.validate(name: "\(name).bottom")
+            try self.innerHorizontal?.validate(name: "\(name).innerHorizontal")
+            try self.innerVertical?.validate(name: "\(name).innerVertical")
+            try self.left?.validate(name: "\(name).left")
+            try self.right?.validate(name: "\(name).right")
+            try self.top?.validate(name: "\(name).top")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bottom = "Bottom"
+            case innerHorizontal = "InnerHorizontal"
+            case innerVertical = "InnerVertical"
+            case left = "Left"
+            case right = "Right"
+            case top = "Top"
+        }
+    }
+
+    public struct TableSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The pagination configuration (page size, page number) for the table.
+        public let paginationConfiguration: PaginationConfiguration?
+        /// The field sort options for rows in the table.
+        public let rowSort: [FieldSortOptions]?
+
+        public init(paginationConfiguration: PaginationConfiguration? = nil, rowSort: [FieldSortOptions]? = nil) {
+            self.paginationConfiguration = paginationConfiguration
+            self.rowSort = rowSort
+        }
+
+        public func validate(name: String) throws {
+            try self.paginationConfiguration?.validate(name: "\(name).paginationConfiguration")
+            try self.rowSort?.forEach {
+                try $0.validate(name: "\(name).rowSort[]")
+            }
+            try self.validate(self.rowSort, name: "rowSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationConfiguration = "PaginationConfiguration"
+            case rowSort = "RowSort"
+        }
+    }
+
+    public struct TableUnaggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The values field well for a pivot table. Values are unaggregated for an unaggregated table.
+        public let values: [UnaggregatedField]?
+
+        public init(values: [UnaggregatedField]? = nil) {
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct TableVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: TableConfiguration?
+        /// The conditional formatting for a PivotTableVisual.
+        public let conditionalFormatting: TableConditionalFormatting?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TableConfiguration? = nil, conditionalFormatting: TableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.conditionalFormatting = conditionalFormatting
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.conditionalFormatting?.validate(name: "\(name).conditionalFormatting")
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case conditionalFormatting = "ConditionalFormatting"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 
@@ -10760,15 +22687,18 @@ extension QuickSight {
         public let message: String?
         /// Type of error.
         public let type: TemplateErrorType?
+        public let violatedEntities: [Entity]?
 
-        public init(message: String? = nil, type: TemplateErrorType? = nil) {
+        public init(message: String? = nil, type: TemplateErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
+            self.violatedEntities = violatedEntities
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case type = "Type"
+            case violatedEntities = "ViolatedEntities"
         }
     }
 
@@ -10908,6 +22838,69 @@ extension QuickSight {
         }
     }
 
+    public struct TemplateVersionDefinition: AWSEncodableShape & AWSDecodableShape {
+        public let analysisDefaults: AnalysisDefaults?
+        /// An array of calculated field definitions for the template.
+        public let calculatedFields: [CalculatedField]?
+        ///  An array of template-level column configurations. Column configurations are used to set default formatting for a column that's used throughout a template.
+        public let columnConfigurations: [ColumnConfiguration]?
+        /// An array of dataset configurations. These configurations define the required columns for each dataset used within a template.
+        public let dataSetConfigurations: [DataSetConfiguration]
+        /// Filter definitions for a template. For more information, see Filtering Data in the Amazon QuickSight User Guide.
+        public let filterGroups: [FilterGroup]?
+        /// An array of parameter declarations for a template.  Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
+        public let parameterDeclarations: [ParameterDeclaration]?
+        /// An array of sheet definitions for a template.
+        public let sheets: [SheetDefinition]?
+
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetConfigurations = dataSetConfigurations
+            self.filterGroups = filterGroups
+            self.parameterDeclarations = parameterDeclarations
+            self.sheets = sheets
+        }
+
+        public func validate(name: String) throws {
+            try self.calculatedFields?.forEach {
+                try $0.validate(name: "\(name).calculatedFields[]")
+            }
+            try self.validate(self.calculatedFields, name: "calculatedFields", parent: name, max: 100)
+            try self.columnConfigurations?.forEach {
+                try $0.validate(name: "\(name).columnConfigurations[]")
+            }
+            try self.validate(self.columnConfigurations, name: "columnConfigurations", parent: name, max: 200)
+            try self.dataSetConfigurations.forEach {
+                try $0.validate(name: "\(name).dataSetConfigurations[]")
+            }
+            try self.validate(self.dataSetConfigurations, name: "dataSetConfigurations", parent: name, max: 30)
+            try self.filterGroups?.forEach {
+                try $0.validate(name: "\(name).filterGroups[]")
+            }
+            try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.parameterDeclarations?.forEach {
+                try $0.validate(name: "\(name).parameterDeclarations[]")
+            }
+            try self.validate(self.parameterDeclarations, name: "parameterDeclarations", parent: name, max: 200)
+            try self.sheets?.forEach {
+                try $0.validate(name: "\(name).sheets[]")
+            }
+            try self.validate(self.sheets, name: "sheets", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisDefaults = "AnalysisDefaults"
+            case calculatedFields = "CalculatedFields"
+            case columnConfigurations = "ColumnConfigurations"
+            case dataSetConfigurations = "DataSetConfigurations"
+            case filterGroups = "FilterGroups"
+            case parameterDeclarations = "ParameterDeclarations"
+            case sheets = "Sheets"
+        }
+    }
+
     public struct TemplateVersionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the template version.
         public let arn: String?
@@ -10964,6 +22957,88 @@ extension QuickSight {
             case database = "Database"
             case host = "Host"
             case port = "Port"
+        }
+    }
+
+    public struct TextAreaControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the placeholder options in a text area control.
+        public let placeholderOptions: TextControlPlaceholderOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(placeholderOptions: TextControlPlaceholderOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.placeholderOptions = placeholderOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placeholderOptions = "PlaceholderOptions"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct TextConditionalFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The conditional formatting for the text background color.
+        public let backgroundColor: ConditionalFormattingColor?
+        /// The conditional formatting for the icon.
+        public let icon: ConditionalFormattingIcon?
+        /// The conditional formatting for the text color.
+        public let textColor: ConditionalFormattingColor?
+
+        public init(backgroundColor: ConditionalFormattingColor? = nil, icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
+            self.backgroundColor = backgroundColor
+            self.icon = icon
+            self.textColor = textColor
+        }
+
+        public func validate(name: String) throws {
+            try self.backgroundColor?.validate(name: "\(name).backgroundColor")
+            try self.icon?.validate(name: "\(name).icon")
+            try self.textColor?.validate(name: "\(name).textColor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case icon = "Icon"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct TextControlPlaceholderOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the placeholder options in a text control.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct TextFieldControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the placeholder options in a text field control.
+        public let placeholderOptions: TextControlPlaceholderOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        public init(placeholderOptions: TextControlPlaceholderOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.placeholderOptions = placeholderOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case placeholderOptions = "PlaceholderOptions"
+            case titleOptions = "TitleOptions"
         }
     }
 
@@ -11029,23 +23104,27 @@ extension QuickSight {
         public let dataColorPalette: DataColorPalette?
         /// Display options related to sheets.
         public let sheet: SheetStyle?
+        public let typography: Typography?
         /// Color properties that apply to the UI and to charts, excluding the colors that apply to data.
         public let uiColorPalette: UIColorPalette?
 
-        public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, uiColorPalette: UIColorPalette? = nil) {
+        public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, typography: Typography? = nil, uiColorPalette: UIColorPalette? = nil) {
             self.dataColorPalette = dataColorPalette
             self.sheet = sheet
+            self.typography = typography
             self.uiColorPalette = uiColorPalette
         }
 
         public func validate(name: String) throws {
             try self.dataColorPalette?.validate(name: "\(name).dataColorPalette")
+            try self.typography?.validate(name: "\(name).typography")
             try self.uiColorPalette?.validate(name: "\(name).uiColorPalette")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataColorPalette = "DataColorPalette"
             case sheet = "Sheet"
+            case typography = "Typography"
             case uiColorPalette = "UIColorPalette"
         }
     }
@@ -11170,6 +23249,23 @@ extension QuickSight {
         }
     }
 
+    public struct ThousandSeparatorOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the thousands separator symbol.
+        public let symbol: NumericSeparatorSymbol?
+        /// Determines the visibility of the thousands separator.
+        public let visibility: Visibility?
+
+        public init(symbol: NumericSeparatorSymbol? = nil, visibility: Visibility? = nil) {
+            self.symbol = symbol
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case symbol = "Symbol"
+            case visibility = "Visibility"
+        }
+    }
+
     public struct TileLayoutStyle: AWSEncodableShape & AWSDecodableShape {
         /// The gutter settings that apply between tiles.
         public let gutter: GutterStyle?
@@ -11200,6 +23296,647 @@ extension QuickSight {
         }
     }
 
+    public struct TimeBasedForecastProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The lower boundary setup of a forecast computation.
+        public let lowerBoundary: Double?
+        /// The periods backward setup of a forecast computation.
+        public let periodsBackward: Int?
+        /// The periods forward setup of a forecast computation.
+        public let periodsForward: Int?
+        /// The prediction interval setup of a forecast computation.
+        public let predictionInterval: Int?
+        /// The seasonality setup of a forecast computation. Choose one of the following options:    NULL: The input is set to NULL.    NON_NULL: The input is set to a custom value.
+        public let seasonality: Int?
+        /// The upper boundary setup of a forecast computation.
+        public let upperBoundary: Double?
+
+        public init(lowerBoundary: Double? = nil, periodsBackward: Int? = nil, periodsForward: Int? = nil, predictionInterval: Int? = nil, seasonality: Int? = nil, upperBoundary: Double? = nil) {
+            self.lowerBoundary = lowerBoundary
+            self.periodsBackward = periodsBackward
+            self.periodsForward = periodsForward
+            self.predictionInterval = predictionInterval
+            self.seasonality = seasonality
+            self.upperBoundary = upperBoundary
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.periodsBackward, name: "periodsBackward", parent: name, max: 1000)
+            try self.validate(self.periodsBackward, name: "periodsBackward", parent: name, min: 0)
+            try self.validate(self.periodsForward, name: "periodsForward", parent: name, max: 1000)
+            try self.validate(self.periodsForward, name: "periodsForward", parent: name, min: 1)
+            try self.validate(self.predictionInterval, name: "predictionInterval", parent: name, max: 95)
+            try self.validate(self.predictionInterval, name: "predictionInterval", parent: name, min: 50)
+            try self.validate(self.seasonality, name: "seasonality", parent: name, max: 180)
+            try self.validate(self.seasonality, name: "seasonality", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lowerBoundary = "LowerBoundary"
+            case periodsBackward = "PeriodsBackward"
+            case periodsForward = "PeriodsForward"
+            case predictionInterval = "PredictionInterval"
+            case seasonality = "Seasonality"
+            case upperBoundary = "UpperBoundary"
+        }
+    }
+
+    public struct TimeEqualityFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// The parameter whose value should be used for the filter value. This field is mutually exclusive to Value.
+        public let parameterName: String?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity?
+        /// The value of a TimeEquality filter. This field is mutually exclusive to ParameterName.
+        public let value: Date?
+
+        public init(column: ColumnIdentifier, filterId: String, parameterName: String? = nil, timeGranularity: TimeGranularity? = nil, value: Date? = nil) {
+            self.column = column
+            self.filterId = filterId
+            self.parameterName = parameterName
+            self.timeGranularity = timeGranularity
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case filterId = "FilterId"
+            case parameterName = "ParameterName"
+            case timeGranularity = "TimeGranularity"
+            case value = "Value"
+        }
+    }
+
+    public struct TimeRangeDrillDownFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// The maximum value for the filter value range.
+        public let rangeMaximum: Date
+        /// The minimum value for the filter value range.
+        public let rangeMinimum: Date
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity
+
+        public init(column: ColumnIdentifier, rangeMaximum: Date, rangeMinimum: Date, timeGranularity: TimeGranularity) {
+            self.column = column
+            self.rangeMaximum = rangeMaximum
+            self.rangeMinimum = rangeMinimum
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case rangeMaximum = "RangeMaximum"
+            case rangeMinimum = "RangeMinimum"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
+    public struct TimeRangeFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// The exclude period of the time range filter.
+        public let excludePeriodConfiguration: ExcludePeriodConfiguration?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// Determines whether the maximum value in the filter value range should be included in the filtered results.
+        public let includeMaximum: Bool?
+        /// Determines whether the minimum value in the filter value range should be included in the filtered results.
+        public let includeMinimum: Bool?
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+        /// The maximum value for the filter value range.
+        public let rangeMaximumValue: TimeRangeFilterValue?
+        /// The minimum value for the filter value range.
+        public let rangeMinimumValue: TimeRangeFilterValue?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity?
+
+        public init(column: ColumnIdentifier, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximumValue: TimeRangeFilterValue? = nil, rangeMinimumValue: TimeRangeFilterValue? = nil, timeGranularity: TimeGranularity? = nil) {
+            self.column = column
+            self.excludePeriodConfiguration = excludePeriodConfiguration
+            self.filterId = filterId
+            self.includeMaximum = includeMaximum
+            self.includeMinimum = includeMinimum
+            self.nullOption = nullOption
+            self.rangeMaximumValue = rangeMaximumValue
+            self.rangeMinimumValue = rangeMinimumValue
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.rangeMaximumValue?.validate(name: "\(name).rangeMaximumValue")
+            try self.rangeMinimumValue?.validate(name: "\(name).rangeMinimumValue")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case excludePeriodConfiguration = "ExcludePeriodConfiguration"
+            case filterId = "FilterId"
+            case includeMaximum = "IncludeMaximum"
+            case includeMinimum = "IncludeMinimum"
+            case nullOption = "NullOption"
+            case rangeMaximumValue = "RangeMaximumValue"
+            case rangeMinimumValue = "RangeMinimumValue"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
+    public struct TimeRangeFilterValue: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter type input value.
+        public let parameter: String?
+        /// The rolling date input value.
+        public let rollingDate: RollingDateConfiguration?
+        /// The static input value.
+        public let staticValue: Date?
+
+        public init(parameter: String? = nil, rollingDate: RollingDateConfiguration? = nil, staticValue: Date? = nil) {
+            self.parameter = parameter
+            self.rollingDate = rollingDate
+            self.staticValue = staticValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parameter, name: "parameter", parent: name, max: 2048)
+            try self.validate(self.parameter, name: "parameter", parent: name, min: 1)
+            try self.validate(self.parameter, name: "parameter", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.rollingDate?.validate(name: "\(name).rollingDate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
+            case rollingDate = "RollingDate"
+            case staticValue = "StaticValue"
+        }
+    }
+
+    public struct TooltipItem: AWSEncodableShape & AWSDecodableShape {
+        /// The tooltip item for the columns that are not part of a field well.
+        public let columnTooltipItem: ColumnTooltipItem?
+        /// The tooltip item for the fields.
+        public let fieldTooltipItem: FieldTooltipItem?
+
+        public init(columnTooltipItem: ColumnTooltipItem? = nil, fieldTooltipItem: FieldTooltipItem? = nil) {
+            self.columnTooltipItem = columnTooltipItem
+            self.fieldTooltipItem = fieldTooltipItem
+        }
+
+        public func validate(name: String) throws {
+            try self.columnTooltipItem?.validate(name: "\(name).columnTooltipItem")
+            try self.fieldTooltipItem?.validate(name: "\(name).fieldTooltipItem")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnTooltipItem = "ColumnTooltipItem"
+            case fieldTooltipItem = "FieldTooltipItem"
+        }
+    }
+
+    public struct TooltipOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The setup for the detailed tooltip. The tooltip setup is always saved. The display type is decided based on the tooltip type.
+        public let fieldBasedTooltip: FieldBasedTooltip?
+        /// The selected type for the tooltip. Choose one of the following options:    BASIC: A basic tooltip.    DETAILED: A detailed tooltip.
+        public let selectedTooltipType: SelectedTooltipType?
+        /// Determines whether or not the tooltip is visible.
+        public let tooltipVisibility: Visibility?
+
+        public init(fieldBasedTooltip: FieldBasedTooltip? = nil, selectedTooltipType: SelectedTooltipType? = nil, tooltipVisibility: Visibility? = nil) {
+            self.fieldBasedTooltip = fieldBasedTooltip
+            self.selectedTooltipType = selectedTooltipType
+            self.tooltipVisibility = tooltipVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldBasedTooltip?.validate(name: "\(name).fieldBasedTooltip")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldBasedTooltip = "FieldBasedTooltip"
+            case selectedTooltipType = "SelectedTooltipType"
+            case tooltipVisibility = "TooltipVisibility"
+        }
+    }
+
+    public struct TopBottomFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation and sort configuration of the top bottom filter.
+        public let aggregationSortConfigurations: [AggregationSortConfiguration]
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// The number of items to include in the top bottom filter results.
+        public let limit: Int?
+        /// The parameter whose value should be used for the filter value.
+        public let parameterName: String?
+        /// The level of time precision that is used to aggregate DateTime values.
+        public let timeGranularity: TimeGranularity?
+
+        public init(aggregationSortConfigurations: [AggregationSortConfiguration], column: ColumnIdentifier, filterId: String, limit: Int? = nil, parameterName: String? = nil, timeGranularity: TimeGranularity? = nil) {
+            self.aggregationSortConfigurations = aggregationSortConfigurations
+            self.column = column
+            self.filterId = filterId
+            self.limit = limit
+            self.parameterName = parameterName
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationSortConfigurations.forEach {
+                try $0.validate(name: "\(name).aggregationSortConfigurations[]")
+            }
+            try self.validate(self.aggregationSortConfigurations, name: "aggregationSortConfigurations", parent: name, max: 100)
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.parameterName, name: "parameterName", parent: name, max: 2048)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, min: 1)
+            try self.validate(self.parameterName, name: "parameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationSortConfigurations = "AggregationSortConfigurations"
+            case column = "Column"
+            case filterId = "FilterId"
+            case limit = "Limit"
+            case parameterName = "ParameterName"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
+    public struct TopBottomMoversComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The category field that is used in a computation.
+        public let category: DimensionField
+        /// The ID for a computation.
+        public let computationId: String
+        /// The mover size setup of the top and bottom movers computation.
+        public let moverSize: Int?
+        /// The name of a computation.
+        public let name: String?
+        /// The sort order setup of the top and bottom movers computation.
+        public let sortOrder: TopBottomSortOrder?
+        /// The time field that is used in a computation.
+        public let time: DimensionField
+        /// The computation type. Choose from the following options:   TOP: Top movers computation.   BOTTOM: Bottom movers computation.
+        public let type: TopBottomComputationType
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(category: DimensionField, computationId: String, moverSize: Int? = nil, name: String? = nil, sortOrder: TopBottomSortOrder? = nil, time: DimensionField, type: TopBottomComputationType, value: MeasureField? = nil) {
+            self.category = category
+            self.computationId = computationId
+            self.moverSize = moverSize
+            self.name = name
+            self.sortOrder = sortOrder
+            self.time = time
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.category.validate(name: "\(name).category")
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.moverSize, name: "moverSize", parent: name, max: 20)
+            try self.validate(self.moverSize, name: "moverSize", parent: name, min: 1)
+            try self.time.validate(name: "\(name).time")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case computationId = "ComputationId"
+            case moverSize = "MoverSize"
+            case name = "Name"
+            case sortOrder = "SortOrder"
+            case time = "Time"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct TopBottomRankedComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The category field that is used in a computation.
+        public let category: DimensionField
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The result size of a top and bottom ranked computation.
+        public let resultSize: Int?
+        /// The computation type. Choose one of the following options:   TOP: A top ranked computation.   BOTTOM: A bottom ranked computation.
+        public let type: TopBottomComputationType
+        /// The value field that is used in a computation.
+        public let value: MeasureField?
+
+        public init(category: DimensionField, computationId: String, name: String? = nil, resultSize: Int? = nil, type: TopBottomComputationType, value: MeasureField? = nil) {
+            self.category = category
+            self.computationId = computationId
+            self.name = name
+            self.resultSize = resultSize
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.category.validate(name: "\(name).category")
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.resultSize, name: "resultSize", parent: name, max: 20)
+            try self.validate(self.resultSize, name: "resultSize", parent: name, min: 1)
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case computationId = "ComputationId"
+            case name = "Name"
+            case resultSize = "ResultSize"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct TotalAggregationComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+        /// The value field that is used in a computation.
+        public let value: MeasureField
+
+        public init(computationId: String, name: String? = nil, value: MeasureField) {
+            self.computationId = computationId
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computationId = "ComputationId"
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct TotalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The custom label string for the total cells.
+        public let customLabel: String?
+        /// The placement (start, end) for the total cells.
+        public let placement: TableTotalsPlacement?
+        /// The scroll status (pinned, scrolled) for the total cells.
+        public let scrollStatus: TableTotalsScrollStatus?
+        /// Cell styling options for the total cells.
+        public let totalCellStyle: TableCellStyle?
+        /// The visibility configuration for the total cells.
+        public let totalsVisibility: Visibility?
+
+        public init(customLabel: String? = nil, placement: TableTotalsPlacement? = nil, scrollStatus: TableTotalsScrollStatus? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil) {
+            self.customLabel = customLabel
+            self.placement = placement
+            self.scrollStatus = scrollStatus
+            self.totalCellStyle = totalCellStyle
+            self.totalsVisibility = totalsVisibility
+        }
+
+        public func validate(name: String) throws {
+            try self.totalCellStyle?.validate(name: "\(name).totalCellStyle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabel = "CustomLabel"
+            case placement = "Placement"
+            case scrollStatus = "ScrollStatus"
+            case totalCellStyle = "TotalCellStyle"
+            case totalsVisibility = "TotalsVisibility"
+        }
+    }
+
+    public struct TreeMapAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The color field well of a tree map. Values are grouped by aggregations based on group by fields.
+        public let colors: [MeasureField]?
+        /// The group by field well of a tree map. Values are grouped based on group by fields.
+        public let groups: [DimensionField]?
+        /// The size field well of a tree map. Values are aggregated based on group by fields.
+        public let sizes: [MeasureField]?
+
+        public init(colors: [MeasureField]? = nil, groups: [DimensionField]? = nil, sizes: [MeasureField]? = nil) {
+            self.colors = colors
+            self.groups = groups
+            self.sizes = sizes
+        }
+
+        public func validate(name: String) throws {
+            try self.colors?.forEach {
+                try $0.validate(name: "\(name).colors[]")
+            }
+            try self.validate(self.colors, name: "colors", parent: name, max: 1)
+            try self.groups?.forEach {
+                try $0.validate(name: "\(name).groups[]")
+            }
+            try self.validate(self.groups, name: "groups", parent: name, max: 1)
+            try self.sizes?.forEach {
+                try $0.validate(name: "\(name).sizes[]")
+            }
+            try self.validate(self.sizes, name: "sizes", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colors = "Colors"
+            case groups = "Groups"
+            case sizes = "Sizes"
+        }
+    }
+
+    public struct TreeMapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The label options (label text, label visibility) for the colors displayed in a tree map.
+        public let colorLabelOptions: ChartAxisLabelOptions?
+        /// The color options (gradient color, point of divergence) of a tree map.
+        public let colorScale: ColorScale?
+        /// The options that determine if visual data labels are displayed.
+        public let dataLabels: DataLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: TreeMapFieldWells?
+        /// The label options (label text, label visibility) of the groups that are displayed in a tree map.
+        public let groupLabelOptions: ChartAxisLabelOptions?
+        /// The legend display setup of the visual.
+        public let legend: LegendOptions?
+        /// The label options (label text, label visibility) of the sizes that are displayed in a tree map.
+        public let sizeLabelOptions: ChartAxisLabelOptions?
+        /// The sort configuration of a tree map.
+        public let sortConfiguration: TreeMapSortConfiguration?
+        /// The tooltip display setup of the visual.
+        public let tooltip: TooltipOptions?
+
+        public init(colorLabelOptions: ChartAxisLabelOptions? = nil, colorScale: ColorScale? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: TreeMapFieldWells? = nil, groupLabelOptions: ChartAxisLabelOptions? = nil, legend: LegendOptions? = nil, sizeLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: TreeMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
+            self.colorLabelOptions = colorLabelOptions
+            self.colorScale = colorScale
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.groupLabelOptions = groupLabelOptions
+            self.legend = legend
+            self.sizeLabelOptions = sizeLabelOptions
+            self.sortConfiguration = sortConfiguration
+            self.tooltip = tooltip
+        }
+
+        public func validate(name: String) throws {
+            try self.colorLabelOptions?.validate(name: "\(name).colorLabelOptions")
+            try self.colorScale?.validate(name: "\(name).colorScale")
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.groupLabelOptions?.validate(name: "\(name).groupLabelOptions")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.sizeLabelOptions?.validate(name: "\(name).sizeLabelOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.tooltip?.validate(name: "\(name).tooltip")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorLabelOptions = "ColorLabelOptions"
+            case colorScale = "ColorScale"
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case groupLabelOptions = "GroupLabelOptions"
+            case legend = "Legend"
+            case sizeLabelOptions = "SizeLabelOptions"
+            case sortConfiguration = "SortConfiguration"
+            case tooltip = "Tooltip"
+        }
+    }
+
+    public struct TreeMapFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a tree map.
+        public let treeMapAggregatedFieldWells: TreeMapAggregatedFieldWells?
+
+        public init(treeMapAggregatedFieldWells: TreeMapAggregatedFieldWells? = nil) {
+            self.treeMapAggregatedFieldWells = treeMapAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.treeMapAggregatedFieldWells?.validate(name: "\(name).treeMapAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case treeMapAggregatedFieldWells = "TreeMapAggregatedFieldWells"
+        }
+    }
+
+    public struct TreeMapSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of groups that are displayed.
+        public let treeMapGroupItemsLimitConfiguration: ItemsLimitConfiguration?
+        /// The sort configuration of group by fields.
+        public let treeMapSort: [FieldSortOptions]?
+
+        public init(treeMapGroupItemsLimitConfiguration: ItemsLimitConfiguration? = nil, treeMapSort: [FieldSortOptions]? = nil) {
+            self.treeMapGroupItemsLimitConfiguration = treeMapGroupItemsLimitConfiguration
+            self.treeMapSort = treeMapSort
+        }
+
+        public func validate(name: String) throws {
+            try self.treeMapSort?.forEach {
+                try $0.validate(name: "\(name).treeMapSort[]")
+            }
+            try self.validate(self.treeMapSort, name: "treeMapSort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case treeMapGroupItemsLimitConfiguration = "TreeMapGroupItemsLimitConfiguration"
+            case treeMapSort = "TreeMapSort"
+        }
+    }
+
+    public struct TreeMapVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: TreeMapConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TreeMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct TrendArrowOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility of the trend arrows.
+        public let visibility: Visibility?
+
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
     public struct TwitterParameters: AWSEncodableShape & AWSDecodableShape {
         /// Maximum number of rows to query Twitter.
         public let maxRows: Int
@@ -11220,6 +23957,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case maxRows = "MaxRows"
             case query = "Query"
+        }
+    }
+
+    public struct Typography: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the list of font families.
+        public let fontFamilies: [Font]?
+
+        public init(fontFamilies: [Font]? = nil) {
+            self.fontFamilies = fontFamilies
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fontFamilies, name: "fontFamilies", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontFamilies = "FontFamilies"
         }
     }
 
@@ -11312,6 +24066,62 @@ extension QuickSight {
             case successForeground = "SuccessForeground"
             case warning = "Warning"
             case warningForeground = "WarningForeground"
+        }
+    }
+
+    public struct UnaggregatedField: AWSEncodableShape & AWSDecodableShape {
+        /// The column that is used in the UnaggregatedField.
+        public let column: ColumnIdentifier
+        /// The custom field ID.
+        public let fieldId: String
+        /// The format configuration of the field.
+        public let formatConfiguration: FormatConfiguration?
+
+        public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: FormatConfiguration? = nil) {
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.formatConfiguration?.validate(name: "\(name).formatConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case fieldId = "FieldId"
+            case formatConfiguration = "FormatConfiguration"
+        }
+    }
+
+    public struct UniqueValuesComputation: AWSEncodableShape & AWSDecodableShape {
+        /// The category field that is used in a computation.
+        public let category: DimensionField
+        /// The ID for a computation.
+        public let computationId: String
+        /// The name of a computation.
+        public let name: String?
+
+        public init(category: DimensionField, computationId: String, name: String? = nil) {
+            self.category = category
+            self.computationId = computationId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.category.validate(name: "\(name).category")
+            try self.validate(self.computationId, name: "computationId", parent: name, max: 512)
+            try self.validate(self.computationId, name: "computationId", parent: name, min: 1)
+            try self.validate(self.computationId, name: "computationId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case computationId = "ComputationId"
+            case name = "Name"
         }
     }
 
@@ -11535,7 +24345,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
@@ -11600,18 +24410,21 @@ extension QuickSight {
         public let analysisId: String
         /// The ID of the Amazon Web Services account that contains the analysis that you're updating.
         public let awsAccountId: String
+        /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: AnalysisDefinition?
         /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon QuickSight console.
         public let name: String
         /// The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
         public let parameters: Parameters?
         /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
-        public let sourceEntity: AnalysisSourceEntity
+        public let sourceEntity: AnalysisSourceEntity?
         /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
         public let themeArn: String?
 
-        public init(analysisId: String, awsAccountId: String, name: String, parameters: Parameters? = nil, sourceEntity: AnalysisSourceEntity, themeArn: String? = nil) {
+        public init(analysisId: String, awsAccountId: String, definition: AnalysisDefinition? = nil, name: String, parameters: Parameters? = nil, sourceEntity: AnalysisSourceEntity? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
+            self.definition = definition
             self.name = name
             self.parameters = parameters
             self.sourceEntity = sourceEntity
@@ -11619,19 +24432,21 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 512)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
             case name = "Name"
             case parameters = "Parameters"
             case sourceEntity = "SourceEntity"
@@ -11704,7 +24519,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.grantLinkPermissions?.forEach {
@@ -11794,7 +24609,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
@@ -11844,21 +24659,24 @@ extension QuickSight {
         public let dashboardId: String
         /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
+        /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: DashboardVersionDefinition?
         /// The display name of the dashboard.
         public let name: String
         /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
         /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
-        public let sourceEntity: DashboardSourceEntity
+        public let sourceEntity: DashboardSourceEntity?
         /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
         public let themeArn: String?
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity, themeArn: String? = nil, versionDescription: String? = nil) {
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity? = nil, themeArn: String? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.dashboardPublishOptions = dashboardPublishOptions
+            self.definition = definition
             self.name = name
             self.parameters = parameters
             self.sourceEntity = sourceEntity
@@ -11870,19 +24688,21 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
+            try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 512)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboardPublishOptions = "DashboardPublishOptions"
+            case definition = "Definition"
             case name = "Name"
             case parameters = "Parameters"
             case sourceEntity = "SourceEntity"
@@ -12511,8 +25331,7 @@ extension QuickSight {
 
         /// The name of the assignment, also called a rule. This name must be unique within an Amazon Web Services account.
         public let assignmentName: String
-        /// The status of the assignment. Possible values are as follows:
-        /// 		          ENABLED - Anything specified in this assignment is used when creating the data
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
@@ -12561,8 +25380,7 @@ extension QuickSight {
         public let assignmentId: String?
         /// The name of the assignment or rule.
         public let assignmentName: String?
-        /// The status of the assignment. Possible values are as follows:
-        /// 		          ENABLED - Anything specified in this assignment is used when creating the data
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
@@ -12736,7 +25554,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.templateVersionNumber, name: "templateVersionNumber", parent: name, min: 1)
@@ -12806,7 +25624,7 @@ extension QuickSight {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -12858,6 +25676,8 @@ extension QuickSight {
 
         /// The ID of the Amazon Web Services account that contains the template that you're updating.
         public let awsAccountId: String
+        /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+        public let definition: TemplateVersionDefinition?
         /// The name for the template.
         public let name: String?
         /// The entity that you are using as a source when you update the template. In
@@ -12866,11 +25686,10 @@ extension QuickSight {
         /// 			analysis. Both of these require an Amazon Resource Name (ARN). For
         /// 			SourceTemplate, specify the ARN of the source template. For
         /// 			SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate
-        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region;.
-        /// 		       Use the DataSetReferences entity within SourceTemplate or
+        /// 			ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region;.  Use the DataSetReferences entity within SourceTemplate or
         /// 			SourceAnalysis to list the replacement datasets for the placeholders listed
         /// 			in the original. The schema in each dataset must match its placeholder.
-        public let sourceEntity: TemplateSourceEntity
+        public let sourceEntity: TemplateSourceEntity?
         /// The ID for the template.
         public let templateId: String
         /// A description of the current template version that is being updated. Every time you call
@@ -12879,8 +25698,9 @@ extension QuickSight {
         /// 				VersionDescription field.
         public let versionDescription: String?
 
-        public init(awsAccountId: String, name: String? = nil, sourceEntity: TemplateSourceEntity, templateId: String, versionDescription: String? = nil) {
+        public init(awsAccountId: String, definition: TemplateVersionDefinition? = nil, name: String? = nil, sourceEntity: TemplateSourceEntity? = nil, templateId: String, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
+            self.definition = definition
             self.name = name
             self.sourceEntity = sourceEntity
             self.templateId = templateId
@@ -12891,10 +25711,11 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
+            try self.sourceEntity?.validate(name: "\(name).sourceEntity")
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 512)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
@@ -12902,6 +25723,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
             case name = "Name"
             case sourceEntity = "SourceEntity"
             case versionDescription = "VersionDescription"
@@ -12975,7 +25797,7 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
@@ -13045,7 +25867,7 @@ extension QuickSight {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
         }
@@ -13124,13 +25946,13 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
+            try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 512)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
+            try self.validate(self.themeId, name: "themeId", parent: name, max: 512)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
@@ -13205,17 +26027,9 @@ extension QuickSight {
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// The Amazon QuickSight role of the user. The role can be one of the
-        /// 			following default security cohorts:
-        ///
-        /// 				            READER: A user who has read-only access to dashboards.
-        ///
-        /// 				            AUTHOR: A user who can create data sources, datasets, analyses, and
-        /// 					dashboards.
-        ///
-        /// 				            ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.
-        ///
-        /// 	        The name of the Amazon QuickSight role is invisible to the user except for the console
+        /// 			following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
+        /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
+        /// 					settings.   The name of the Amazon QuickSight role is invisible to the user except for the console
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
@@ -13373,6 +26187,286 @@ extension QuickSight {
         }
     }
 
+    public struct VisibleRangeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The percent range in the visible range.
+        public let percentRange: PercentVisibleRange?
+
+        public init(percentRange: PercentVisibleRange? = nil) {
+            self.percentRange = percentRange
+        }
+
+        public func validate(name: String) throws {
+            try self.percentRange?.validate(name: "\(name).percentRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentRange = "PercentRange"
+        }
+    }
+
+    public struct Visual: AWSEncodableShape & AWSDecodableShape {
+        /// A bar chart. For more information, see Using bar charts in the Amazon QuickSight User Guide.
+        public let barChartVisual: BarChartVisual?
+        /// A box plot. For more information, see Using box plots in the Amazon QuickSight User Guide.
+        public let boxPlotVisual: BoxPlotVisual?
+        /// A combo chart. For more information, see Using combo charts in the Amazon QuickSight User Guide.
+        public let comboChartVisual: ComboChartVisual?
+        /// A visual that contains custom content. For more information, see Using custom visual content in the Amazon QuickSight User Guide.
+        public let customContentVisual: CustomContentVisual?
+        /// An empty visual.
+        public let emptyVisual: EmptyVisual?
+        /// A filled map. For more information, see Creating filled maps in the Amazon QuickSight User Guide.
+        public let filledMapVisual: FilledMapVisual?
+        /// A funnel chart. For more information, see Using funnel charts in the Amazon QuickSight User Guide.
+        public let funnelChartVisual: FunnelChartVisual?
+        /// A gauge chart. For more information, see Using gauge charts in the Amazon QuickSight User Guide.
+        public let gaugeChartVisual: GaugeChartVisual?
+        /// A geospatial map or a points on map visual. For more information, see Creating point maps in the Amazon QuickSight User Guide.
+        public let geospatialMapVisual: GeospatialMapVisual?
+        /// A heat map. For more information, see Using heat maps in the Amazon QuickSight User Guide.
+        public let heatMapVisual: HeatMapVisual?
+        /// A histogram. For more information, see Using histograms in the Amazon QuickSight User Guide.
+        public let histogramVisual: HistogramVisual?
+        /// An insight visual. For more information, see Working with insights in the Amazon QuickSight User Guide.
+        public let insightVisual: InsightVisual?
+        /// A key performance indicator (KPI). For more information, see Using KPIs in the Amazon QuickSight User Guide.
+        public let kpiVisual: KPIVisual?
+        /// A line chart. For more information, see Using line charts in the Amazon QuickSight User Guide.
+        public let lineChartVisual: LineChartVisual?
+        /// A pie or donut chart. For more information, see Using pie charts in the Amazon QuickSight User Guide.
+        public let pieChartVisual: PieChartVisual?
+        /// A pivot table. For more information, see Using pivot tables in the Amazon QuickSight User Guide.
+        public let pivotTableVisual: PivotTableVisual?
+        /// A sankey diagram. For more information, see Using Sankey diagrams in the Amazon QuickSight User Guide.
+        public let sankeyDiagramVisual: SankeyDiagramVisual?
+        /// A scatter plot. For more information, see Using scatter plots in the Amazon QuickSight User Guide.
+        public let scatterPlotVisual: ScatterPlotVisual?
+        /// A table visual. For more information, see Using tables as visuals in the Amazon QuickSight User Guide.
+        public let tableVisual: TableVisual?
+        /// A tree map. For more information, see Using tree maps in the Amazon QuickSight User Guide.
+        public let treeMapVisual: TreeMapVisual?
+        /// A waterfall chart. For more information, see Using waterfall charts in the Amazon QuickSight User Guide.
+        public let waterfallVisual: WaterfallVisual?
+        /// A word cloud. For more information, see Using word clouds in the Amazon QuickSight User Guide.
+        public let wordCloudVisual: WordCloudVisual?
+
+        public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
+            self.barChartVisual = barChartVisual
+            self.boxPlotVisual = boxPlotVisual
+            self.comboChartVisual = comboChartVisual
+            self.customContentVisual = customContentVisual
+            self.emptyVisual = emptyVisual
+            self.filledMapVisual = filledMapVisual
+            self.funnelChartVisual = funnelChartVisual
+            self.gaugeChartVisual = gaugeChartVisual
+            self.geospatialMapVisual = geospatialMapVisual
+            self.heatMapVisual = heatMapVisual
+            self.histogramVisual = histogramVisual
+            self.insightVisual = insightVisual
+            self.kpiVisual = kpiVisual
+            self.lineChartVisual = lineChartVisual
+            self.pieChartVisual = pieChartVisual
+            self.pivotTableVisual = pivotTableVisual
+            self.sankeyDiagramVisual = sankeyDiagramVisual
+            self.scatterPlotVisual = scatterPlotVisual
+            self.tableVisual = tableVisual
+            self.treeMapVisual = treeMapVisual
+            self.waterfallVisual = waterfallVisual
+            self.wordCloudVisual = wordCloudVisual
+        }
+
+        public func validate(name: String) throws {
+            try self.barChartVisual?.validate(name: "\(name).barChartVisual")
+            try self.boxPlotVisual?.validate(name: "\(name).boxPlotVisual")
+            try self.comboChartVisual?.validate(name: "\(name).comboChartVisual")
+            try self.customContentVisual?.validate(name: "\(name).customContentVisual")
+            try self.emptyVisual?.validate(name: "\(name).emptyVisual")
+            try self.filledMapVisual?.validate(name: "\(name).filledMapVisual")
+            try self.funnelChartVisual?.validate(name: "\(name).funnelChartVisual")
+            try self.gaugeChartVisual?.validate(name: "\(name).gaugeChartVisual")
+            try self.geospatialMapVisual?.validate(name: "\(name).geospatialMapVisual")
+            try self.heatMapVisual?.validate(name: "\(name).heatMapVisual")
+            try self.histogramVisual?.validate(name: "\(name).histogramVisual")
+            try self.insightVisual?.validate(name: "\(name).insightVisual")
+            try self.kpiVisual?.validate(name: "\(name).kpiVisual")
+            try self.lineChartVisual?.validate(name: "\(name).lineChartVisual")
+            try self.pieChartVisual?.validate(name: "\(name).pieChartVisual")
+            try self.pivotTableVisual?.validate(name: "\(name).pivotTableVisual")
+            try self.sankeyDiagramVisual?.validate(name: "\(name).sankeyDiagramVisual")
+            try self.scatterPlotVisual?.validate(name: "\(name).scatterPlotVisual")
+            try self.tableVisual?.validate(name: "\(name).tableVisual")
+            try self.treeMapVisual?.validate(name: "\(name).treeMapVisual")
+            try self.waterfallVisual?.validate(name: "\(name).waterfallVisual")
+            try self.wordCloudVisual?.validate(name: "\(name).wordCloudVisual")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case barChartVisual = "BarChartVisual"
+            case boxPlotVisual = "BoxPlotVisual"
+            case comboChartVisual = "ComboChartVisual"
+            case customContentVisual = "CustomContentVisual"
+            case emptyVisual = "EmptyVisual"
+            case filledMapVisual = "FilledMapVisual"
+            case funnelChartVisual = "FunnelChartVisual"
+            case gaugeChartVisual = "GaugeChartVisual"
+            case geospatialMapVisual = "GeospatialMapVisual"
+            case heatMapVisual = "HeatMapVisual"
+            case histogramVisual = "HistogramVisual"
+            case insightVisual = "InsightVisual"
+            case kpiVisual = "KPIVisual"
+            case lineChartVisual = "LineChartVisual"
+            case pieChartVisual = "PieChartVisual"
+            case pivotTableVisual = "PivotTableVisual"
+            case sankeyDiagramVisual = "SankeyDiagramVisual"
+            case scatterPlotVisual = "ScatterPlotVisual"
+            case tableVisual = "TableVisual"
+            case treeMapVisual = "TreeMapVisual"
+            case waterfallVisual = "WaterfallVisual"
+            case wordCloudVisual = "WordCloudVisual"
+        }
+    }
+
+    public struct VisualCustomAction: AWSEncodableShape & AWSDecodableShape {
+        /// A list of VisualCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public let actionOperations: [VisualCustomActionOperation]
+        /// The ID of the VisualCustomAction.
+        public let customActionId: String
+        /// The name of the VisualCustomAction.
+        public let name: String
+        /// The status of the VisualCustomAction.
+        public let status: WidgetStatus?
+        /// The trigger of the VisualCustomAction. Valid values are defined as follows:    DATA_POINT_CLICK: Initiates a custom action by a left pointer click on a data point.    DATA_POINT_MENU: Initiates a custom action by right pointer click from the menu.
+        public let trigger: VisualCustomActionTrigger
+
+        public init(actionOperations: [VisualCustomActionOperation], customActionId: String, name: String, status: WidgetStatus? = nil, trigger: VisualCustomActionTrigger) {
+            self.actionOperations = actionOperations
+            self.customActionId = customActionId
+            self.name = name
+            self.status = status
+            self.trigger = trigger
+        }
+
+        public func validate(name: String) throws {
+            try self.actionOperations.forEach {
+                try $0.validate(name: "\(name).actionOperations[]")
+            }
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, max: 2)
+            try self.validate(self.actionOperations, name: "actionOperations", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, max: 512)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, min: 1)
+            try self.validate(self.customActionId, name: "customActionId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionOperations = "ActionOperations"
+            case customActionId = "CustomActionId"
+            case name = "Name"
+            case status = "Status"
+            case trigger = "Trigger"
+        }
+    }
+
+    public struct VisualCustomActionOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The filter operation that filters data included in a visual or in an entire sheet.
+        public let filterOperation: CustomActionFilterOperation?
+        /// The navigation operation that navigates between different sheets in the same analysis.
+        public let navigationOperation: CustomActionNavigationOperation?
+        /// The set parameter operation that sets parameters in custom action.
+        public let setParametersOperation: CustomActionSetParametersOperation?
+        /// The URL operation that opens a link to another webpage.
+        public let urlOperation: CustomActionURLOperation?
+
+        public init(filterOperation: CustomActionFilterOperation? = nil, navigationOperation: CustomActionNavigationOperation? = nil, setParametersOperation: CustomActionSetParametersOperation? = nil, urlOperation: CustomActionURLOperation? = nil) {
+            self.filterOperation = filterOperation
+            self.navigationOperation = navigationOperation
+            self.setParametersOperation = setParametersOperation
+            self.urlOperation = urlOperation
+        }
+
+        public func validate(name: String) throws {
+            try self.filterOperation?.validate(name: "\(name).filterOperation")
+            try self.navigationOperation?.validate(name: "\(name).navigationOperation")
+            try self.setParametersOperation?.validate(name: "\(name).setParametersOperation")
+            try self.urlOperation?.validate(name: "\(name).urlOperation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterOperation = "FilterOperation"
+            case navigationOperation = "NavigationOperation"
+            case setParametersOperation = "SetParametersOperation"
+            case urlOperation = "URLOperation"
+        }
+    }
+
+    public struct VisualPalette: AWSEncodableShape & AWSDecodableShape {
+        /// The chart color options for the visual palette.
+        public let chartColor: String?
+        /// The color map options for the visual palette.
+        public let colorMap: [DataPathColor]?
+
+        public init(chartColor: String? = nil, colorMap: [DataPathColor]? = nil) {
+            self.chartColor = chartColor
+            self.colorMap = colorMap
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.chartColor, name: "chartColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.colorMap?.forEach {
+                try $0.validate(name: "\(name).colorMap[]")
+            }
+            try self.validate(self.colorMap, name: "colorMap", parent: name, max: 5000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chartColor = "ChartColor"
+            case colorMap = "ColorMap"
+        }
+    }
+
+    public struct VisualSubtitleLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The long text format of the subtitle label, such as plain text or rich text.
+        public let formatText: LongFormatText?
+        /// The visibility of the subtitle label.
+        public let visibility: Visibility?
+
+        public init(formatText: LongFormatText? = nil, visibility: Visibility? = nil) {
+            self.formatText = formatText
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.formatText?.validate(name: "\(name).formatText")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatText = "FormatText"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct VisualTitleLabelOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The short text format of the title label, such as plain text or rich text.
+        public let formatText: ShortFormatText?
+        /// The visibility of the title label.
+        public let visibility: Visibility?
+
+        public init(formatText: ShortFormatText? = nil, visibility: Visibility? = nil) {
+            self.formatText = formatText
+            self.visibility = visibility
+        }
+
+        public func validate(name: String) throws {
+            try self.formatText?.validate(name: "\(name).formatText")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatText = "FormatText"
+            case visibility = "Visibility"
+        }
+    }
+
     public struct VpcConnectionProperties: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the VPC connection.
         public let vpcConnectionArn: String
@@ -13383,6 +26477,434 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case vpcConnectionArn = "VpcConnectionArn"
+        }
+    }
+
+    public struct WaterfallChartAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The breakdown field wells of a waterfall visual.
+        public let breakdowns: [DimensionField]?
+        /// The category field wells of a waterfall visual.
+        public let categories: [DimensionField]?
+        /// The value field wells of a waterfall visual.
+        public let values: [MeasureField]?
+
+        public init(breakdowns: [DimensionField]? = nil, categories: [DimensionField]? = nil, values: [MeasureField]? = nil) {
+            self.breakdowns = breakdowns
+            self.categories = categories
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.breakdowns?.forEach {
+                try $0.validate(name: "\(name).breakdowns[]")
+            }
+            try self.validate(self.breakdowns, name: "breakdowns", parent: name, max: 200)
+            try self.categories?.forEach {
+                try $0.validate(name: "\(name).categories[]")
+            }
+            try self.validate(self.categories, name: "categories", parent: name, max: 200)
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdowns = "Breakdowns"
+            case categories = "Categories"
+            case values = "Values"
+        }
+    }
+
+    public struct WaterfallChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The options that determine the presentation of the category axis.
+        public let categoryAxisDisplayOptions: AxisDisplayOptions?
+        /// The options that determine the presentation of the category axis label.
+        public let categoryAxisLabelOptions: ChartAxisLabelOptions?
+        /// The data label configuration of a waterfall visual.
+        public let dataLabels: DataLabelOptions?
+        /// The field well configuration of a waterfall visual.
+        public let fieldWells: WaterfallChartFieldWells?
+        /// The legend configuration of a waterfall visual.
+        public let legend: LegendOptions?
+        /// The options that determine the presentation of the y-axis.
+        public let primaryYAxisDisplayOptions: AxisDisplayOptions?
+        /// The options that determine the presentation of the y-axis label.
+        public let primaryYAxisLabelOptions: ChartAxisLabelOptions?
+        /// The sort configuration of a waterfall visual.
+        public let sortConfiguration: WaterfallChartSortConfiguration?
+        /// The visual palette configuration of a waterfall visual.
+        public let visualPalette: VisualPalette?
+        /// The options that determine the presentation of a waterfall visual.
+        public let waterfallChartOptions: WaterfallChartOptions?
+
+        public init(categoryAxisDisplayOptions: AxisDisplayOptions? = nil, categoryAxisLabelOptions: ChartAxisLabelOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: WaterfallChartFieldWells? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: WaterfallChartSortConfiguration? = nil, visualPalette: VisualPalette? = nil, waterfallChartOptions: WaterfallChartOptions? = nil) {
+            self.categoryAxisDisplayOptions = categoryAxisDisplayOptions
+            self.categoryAxisLabelOptions = categoryAxisLabelOptions
+            self.dataLabels = dataLabels
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
+            self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
+            self.sortConfiguration = sortConfiguration
+            self.visualPalette = visualPalette
+            self.waterfallChartOptions = waterfallChartOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryAxisDisplayOptions?.validate(name: "\(name).categoryAxisDisplayOptions")
+            try self.categoryAxisLabelOptions?.validate(name: "\(name).categoryAxisLabelOptions")
+            try self.dataLabels?.validate(name: "\(name).dataLabels")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.legend?.validate(name: "\(name).legend")
+            try self.primaryYAxisDisplayOptions?.validate(name: "\(name).primaryYAxisDisplayOptions")
+            try self.primaryYAxisLabelOptions?.validate(name: "\(name).primaryYAxisLabelOptions")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.visualPalette?.validate(name: "\(name).visualPalette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryAxisDisplayOptions = "CategoryAxisDisplayOptions"
+            case categoryAxisLabelOptions = "CategoryAxisLabelOptions"
+            case dataLabels = "DataLabels"
+            case fieldWells = "FieldWells"
+            case legend = "Legend"
+            case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
+            case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
+            case sortConfiguration = "SortConfiguration"
+            case visualPalette = "VisualPalette"
+            case waterfallChartOptions = "WaterfallChartOptions"
+        }
+    }
+
+    public struct WaterfallChartFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The field well configuration of a waterfall visual.
+        public let waterfallChartAggregatedFieldWells: WaterfallChartAggregatedFieldWells?
+
+        public init(waterfallChartAggregatedFieldWells: WaterfallChartAggregatedFieldWells? = nil) {
+            self.waterfallChartAggregatedFieldWells = waterfallChartAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.waterfallChartAggregatedFieldWells?.validate(name: "\(name).waterfallChartAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waterfallChartAggregatedFieldWells = "WaterfallChartAggregatedFieldWells"
+        }
+    }
+
+    public struct WaterfallChartOptions: AWSEncodableShape & AWSDecodableShape {
+        /// This option determines the total bar label of a waterfall visual.
+        public let totalBarLabel: String?
+
+        public init(totalBarLabel: String? = nil) {
+            self.totalBarLabel = totalBarLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalBarLabel = "TotalBarLabel"
+        }
+    }
+
+    public struct WaterfallChartSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of bar groups that are displayed.
+        public let breakdownItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of the category fields.
+        public let categorySort: [FieldSortOptions]?
+
+        public init(breakdownItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
+            self.breakdownItemsLimit = breakdownItemsLimit
+            self.categorySort = categorySort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdownItemsLimit = "BreakdownItemsLimit"
+            case categorySort = "CategorySort"
+        }
+    }
+
+    public struct WaterfallVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration for a waterfall visual.
+        public let chartConfiguration: WaterfallChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WaterfallChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
+        }
+    }
+
+    public struct WhatIfPointScenario: AWSEncodableShape & AWSDecodableShape {
+        /// The date that you need the forecast results for.
+        public let date: Date
+        /// The target value that you want to meet for the provided date.
+        public let value: Double
+
+        public init(date: Date, value: Double) {
+            self.date = date
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case value = "Value"
+        }
+    }
+
+    public struct WhatIfRangeScenario: AWSEncodableShape & AWSDecodableShape {
+        /// The end date in the date range that you need the forecast results for.
+        public let endDate: Date
+        /// The start date in the date range that you need the forecast results for.
+        public let startDate: Date
+        /// The target value that you want to meet for the provided date range.
+        public let value: Double
+
+        public init(endDate: Date, startDate: Date, value: Double) {
+            self.endDate = endDate
+            self.startDate = startDate
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+            case value = "Value"
+        }
+    }
+
+    public struct WordCloudAggregatedFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The group by field well of a word cloud. Values are grouped by group by fields.
+        public let groupBy: [DimensionField]?
+        /// The size field well of a word cloud. Values are aggregated based on group by fields.
+        public let size: [MeasureField]?
+
+        public init(groupBy: [DimensionField]? = nil, size: [MeasureField]? = nil) {
+            self.groupBy = groupBy
+            self.size = size
+        }
+
+        public func validate(name: String) throws {
+            try self.groupBy?.forEach {
+                try $0.validate(name: "\(name).groupBy[]")
+            }
+            try self.validate(self.groupBy, name: "groupBy", parent: name, max: 10)
+            try self.size?.forEach {
+                try $0.validate(name: "\(name).size[]")
+            }
+            try self.validate(self.size, name: "size", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupBy = "GroupBy"
+            case size = "Size"
+        }
+    }
+
+    public struct WordCloudChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The label options (label text, label visibility, and sort icon visibility) for the word cloud category.
+        public let categoryLabelOptions: ChartAxisLabelOptions?
+        /// The field wells of the visual.
+        public let fieldWells: WordCloudFieldWells?
+        /// The sort configuration of a word cloud visual.
+        public let sortConfiguration: WordCloudSortConfiguration?
+        /// The options for a word cloud visual.
+        public let wordCloudOptions: WordCloudOptions?
+
+        public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: WordCloudFieldWells? = nil, sortConfiguration: WordCloudSortConfiguration? = nil, wordCloudOptions: WordCloudOptions? = nil) {
+            self.categoryLabelOptions = categoryLabelOptions
+            self.fieldWells = fieldWells
+            self.sortConfiguration = sortConfiguration
+            self.wordCloudOptions = wordCloudOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryLabelOptions?.validate(name: "\(name).categoryLabelOptions")
+            try self.fieldWells?.validate(name: "\(name).fieldWells")
+            try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
+            try self.wordCloudOptions?.validate(name: "\(name).wordCloudOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryLabelOptions = "CategoryLabelOptions"
+            case fieldWells = "FieldWells"
+            case sortConfiguration = "SortConfiguration"
+            case wordCloudOptions = "WordCloudOptions"
+        }
+    }
+
+    public struct WordCloudFieldWells: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregated field wells of a word cloud.
+        public let wordCloudAggregatedFieldWells: WordCloudAggregatedFieldWells?
+
+        public init(wordCloudAggregatedFieldWells: WordCloudAggregatedFieldWells? = nil) {
+            self.wordCloudAggregatedFieldWells = wordCloudAggregatedFieldWells
+        }
+
+        public func validate(name: String) throws {
+            try self.wordCloudAggregatedFieldWells?.validate(name: "\(name).wordCloudAggregatedFieldWells")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wordCloudAggregatedFieldWells = "WordCloudAggregatedFieldWells"
+        }
+    }
+
+    public struct WordCloudOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The cloud layout options (fluid, normal) of a word cloud.
+        public let cloudLayout: WordCloudCloudLayout?
+        /// The length limit of each word from 1-100.
+        public let maximumStringLength: Int?
+        /// The word casing options (lower_case, existing_case) for the words in a word cloud.
+        public let wordCasing: WordCloudWordCasing?
+        /// The word orientation options (horizontal, horizontal_and_vertical) for the words in a word cloud.
+        public let wordOrientation: WordCloudWordOrientation?
+        /// The word padding options (none, small, medium, large) for the words in a word cloud.
+        public let wordPadding: WordCloudWordPadding?
+        /// The word scaling options (emphasize, normal) for the words in a word cloud.
+        public let wordScaling: WordCloudWordScaling?
+
+        public init(cloudLayout: WordCloudCloudLayout? = nil, maximumStringLength: Int? = nil, wordCasing: WordCloudWordCasing? = nil, wordOrientation: WordCloudWordOrientation? = nil, wordPadding: WordCloudWordPadding? = nil, wordScaling: WordCloudWordScaling? = nil) {
+            self.cloudLayout = cloudLayout
+            self.maximumStringLength = maximumStringLength
+            self.wordCasing = wordCasing
+            self.wordOrientation = wordOrientation
+            self.wordPadding = wordPadding
+            self.wordScaling = wordScaling
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumStringLength, name: "maximumStringLength", parent: name, max: 100)
+            try self.validate(self.maximumStringLength, name: "maximumStringLength", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudLayout = "CloudLayout"
+            case maximumStringLength = "MaximumStringLength"
+            case wordCasing = "WordCasing"
+            case wordOrientation = "WordOrientation"
+            case wordPadding = "WordPadding"
+            case wordScaling = "WordScaling"
+        }
+    }
+
+    public struct WordCloudSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The limit on the number of groups that are displayed in a word cloud.
+        public let categoryItemsLimit: ItemsLimitConfiguration?
+        /// The sort configuration of group by fields.
+        public let categorySort: [FieldSortOptions]?
+
+        public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+        }
+
+        public func validate(name: String) throws {
+            try self.categorySort?.forEach {
+                try $0.validate(name: "\(name).categorySort[]")
+            }
+            try self.validate(self.categorySort, name: "categorySort", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryItemsLimit = "CategoryItemsLimit"
+            case categorySort = "CategorySort"
+        }
+    }
+
+    public struct WordCloudVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The list of custom actions that are configured for a visual.
+        public let actions: [VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public let chartConfiguration: WordCloudChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public let columnHierarchies: [ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public let subtitle: VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public let title: VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
+        public let visualId: String
+
+        public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WordCloudChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
+            try self.validate(self.actions, name: "actions", parent: name, max: 10)
+            try self.chartConfiguration?.validate(name: "\(name).chartConfiguration")
+            try self.columnHierarchies?.forEach {
+                try $0.validate(name: "\(name).columnHierarchies[]")
+            }
+            try self.validate(self.columnHierarchies, name: "columnHierarchies", parent: name, max: 2)
+            try self.subtitle?.validate(name: "\(name).subtitle")
+            try self.title?.validate(name: "\(name).title")
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 512)
+            try self.validate(self.visualId, name: "visualId", parent: name, min: 1)
+            try self.validate(self.visualId, name: "visualId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case chartConfiguration = "ChartConfiguration"
+            case columnHierarchies = "ColumnHierarchies"
+            case subtitle = "Subtitle"
+            case title = "Title"
+            case visualId = "VisualId"
         }
     }
 }

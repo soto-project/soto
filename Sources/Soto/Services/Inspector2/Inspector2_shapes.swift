@@ -37,6 +37,7 @@ extension Inspector2 {
     public enum AggregationResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
+        case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         public var description: String { return self.rawValue }
     }
 
@@ -45,8 +46,10 @@ extension Inspector2 {
         case ami = "AMI"
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainer = "AWS_ECR_CONTAINER"
+        case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         case findingType = "FINDING_TYPE"
         case imageLayer = "IMAGE_LAYER"
+        case lambdaLayer = "LAMBDA_LAYER"
         case package = "PACKAGE"
         case repository = "REPOSITORY"
         case title = "TITLE"
@@ -58,6 +61,12 @@ extension Inspector2 {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
+        case arm64 = "ARM64"
+        case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
@@ -77,6 +86,7 @@ extension Inspector2 {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
+        case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         public var description: String { return self.rawValue }
     }
 
@@ -151,6 +161,12 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExploitAvailable: String, CustomStringConvertible, Codable, _SotoSendable {
+        case no = "NO"
+        case yes = "YES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExternalReportStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
@@ -207,6 +223,7 @@ extension Inspector2 {
     public enum FreeTrialType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ec2 = "EC2"
         case ecr = "ECR"
+        case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
@@ -220,6 +237,20 @@ extension Inspector2 {
     }
 
     public enum ImageLayerSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LambdaFunctionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LambdaLayerSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
@@ -272,6 +303,12 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PackageType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case image = "IMAGE"
+        case zip = "ZIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelationshipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case accountSuspended = "ACCOUNT_SUSPENDED"
         case cannotCreateDetectorInOrgMaster = "CANNOT_CREATE_DETECTOR_IN_ORG_MASTER"
@@ -315,6 +352,7 @@ extension Inspector2 {
     public enum ResourceScanType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ec2 = "EC2"
         case ecr = "ECR"
+        case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
@@ -322,6 +360,24 @@ extension Inspector2 {
         case awsEc2Instance = "AWS_EC2_INSTANCE"
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
+        case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
+        case go1X = "GO_1_X"
+        case java11 = "JAVA_11"
+        case java8 = "JAVA_8"
+        case java8Al2 = "JAVA_8_AL2"
+        case nodejs = "NODEJS"
+        case nodejs12X = "NODEJS_12_X"
+        case nodejs14X = "NODEJS_14_X"
+        case nodejs16X = "NODEJS_16_X"
+        case nodejs18X = "NODEJS_18_X"
+        case python37 = "PYTHON_3_7"
+        case python38 = "PYTHON_3_8"
+        case python39 = "PYTHON_3_9"
+        case unsupported = "UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -334,6 +390,7 @@ extension Inspector2 {
     public enum ScanStatusReason: String, CustomStringConvertible, Codable, _SotoSendable {
         case accessDenied = "ACCESS_DENIED"
         case ec2InstanceStopped = "EC2_INSTANCE_STOPPED"
+        case excludedByTag = "EXCLUDED_BY_TAG"
         case imageSizeExceeded = "IMAGE_SIZE_EXCEEDED"
         case internalError = "INTERNAL_ERROR"
         case noInventory = "NO_INVENTORY"
@@ -348,6 +405,7 @@ extension Inspector2 {
         case successful = "SUCCESSFUL"
         case unmanagedEc2Instance = "UNMANAGED_EC2_INSTANCE"
         case unsupportedOs = "UNSUPPORTED_OS"
+        case unsupportedRuntime = "UNSUPPORTED_RUNTIME"
         public var description: String { return self.rawValue }
     }
 
@@ -360,6 +418,7 @@ extension Inspector2 {
     public enum Service: String, CustomStringConvertible, Codable, _SotoSendable {
         case ec2 = "EC2"
         case ecr = "ECR"
+        case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
@@ -427,6 +486,7 @@ extension Inspector2 {
         case ec2InstanceHours = "EC2_INSTANCE_HOURS"
         case ecrInitialScan = "ECR_INITIAL_SCAN"
         case ecrRescan = "ECR_RESCAN"
+        case lambdaFunctionHours = "LAMBDA_FUNCTION_HOURS"
         public var description: String { return self.rawValue }
     }
 
@@ -443,6 +503,10 @@ extension Inspector2 {
         case findingTypeAggregation(FindingTypeAggregation)
         /// An object that contains details about an aggregation request based on container image layers.
         case imageLayerAggregation(ImageLayerAggregation)
+        /// Returns an object with findings aggregated by AWS Lambda function.
+        case lambdaFunctionAggregation(LambdaFunctionAggregation)
+        /// Returns an object with findings aggregated by AWS Lambda layer.
+        case lambdaLayerAggregation(LambdaLayerAggregation)
         /// An object that contains details about an aggregation request based on operating system package type.
         case packageAggregation(PackageAggregation)
         /// An object that contains details about an aggregation request based on Amazon ECR repositories.
@@ -465,6 +529,10 @@ extension Inspector2 {
                 try container.encode(value, forKey: .findingTypeAggregation)
             case .imageLayerAggregation(let value):
                 try container.encode(value, forKey: .imageLayerAggregation)
+            case .lambdaFunctionAggregation(let value):
+                try container.encode(value, forKey: .lambdaFunctionAggregation)
+            case .lambdaLayerAggregation(let value):
+                try container.encode(value, forKey: .lambdaLayerAggregation)
             case .packageAggregation(let value):
                 try container.encode(value, forKey: .packageAggregation)
             case .repositoryAggregation(let value):
@@ -484,6 +552,10 @@ extension Inspector2 {
                 try value.validate(name: "\(name).ec2InstanceAggregation")
             case .imageLayerAggregation(let value):
                 try value.validate(name: "\(name).imageLayerAggregation")
+            case .lambdaFunctionAggregation(let value):
+                try value.validate(name: "\(name).lambdaFunctionAggregation")
+            case .lambdaLayerAggregation(let value):
+                try value.validate(name: "\(name).lambdaLayerAggregation")
             case .packageAggregation(let value):
                 try value.validate(name: "\(name).packageAggregation")
             case .repositoryAggregation(let value):
@@ -502,6 +574,8 @@ extension Inspector2 {
             case ec2InstanceAggregation
             case findingTypeAggregation
             case imageLayerAggregation
+            case lambdaFunctionAggregation
+            case lambdaLayerAggregation
             case packageAggregation
             case repositoryAggregation
             case titleAggregation
@@ -521,6 +595,10 @@ extension Inspector2 {
         case findingTypeAggregation(FindingTypeAggregationResponse)
         /// An object that contains details about an aggregation response based on container image layers.
         case imageLayerAggregation(ImageLayerAggregationResponse)
+        /// An aggregation of findings by AWS Lambda function.
+        case lambdaFunctionAggregation(LambdaFunctionAggregationResponse)
+        /// An aggregation of findings by AWS Lambda layer.
+        case lambdaLayerAggregation(LambdaLayerAggregationResponse)
         /// An object that contains details about an aggregation response based on operating system package type.
         case packageAggregation(PackageAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon ECR repositories.
@@ -556,6 +634,12 @@ extension Inspector2 {
             case .imageLayerAggregation:
                 let value = try container.decode(ImageLayerAggregationResponse.self, forKey: .imageLayerAggregation)
                 self = .imageLayerAggregation(value)
+            case .lambdaFunctionAggregation:
+                let value = try container.decode(LambdaFunctionAggregationResponse.self, forKey: .lambdaFunctionAggregation)
+                self = .lambdaFunctionAggregation(value)
+            case .lambdaLayerAggregation:
+                let value = try container.decode(LambdaLayerAggregationResponse.self, forKey: .lambdaLayerAggregation)
+                self = .lambdaLayerAggregation(value)
             case .packageAggregation:
                 let value = try container.decode(PackageAggregationResponse.self, forKey: .packageAggregation)
                 self = .packageAggregation(value)
@@ -575,6 +659,8 @@ extension Inspector2 {
             case ec2InstanceAggregation
             case findingTypeAggregation
             case imageLayerAggregation
+            case lambdaFunctionAggregation
+            case lambdaLayerAggregation
             case packageAggregation
             case repositoryAggregation
             case titleAggregation
@@ -697,7 +783,7 @@ extension Inspector2 {
     }
 
     public struct AmiAggregationResponse: AWSDecodableShape {
-        /// The Amazon Web Services account ID that the AMI belongs.
+        /// The Amazon Web Services account ID for the AMI.
         public let accountId: String?
         /// The IDs of Amazon EC2 instances using this AMI.
         public let affectedInstances: Int64?
@@ -758,15 +844,19 @@ extension Inspector2 {
         public let ec2: Bool
         /// Represents whether Amazon ECR scans are automatically enabled for new members of your Amazon Inspector organization.
         public let ecr: Bool
+        /// Represents whether AWS Lambda scans are automatically enabled for new members of your Amazon Inspector organization.
+        public let lambda: Bool?
 
-        public init(ec2: Bool, ecr: Bool) {
+        public init(ec2: Bool, ecr: Bool, lambda: Bool? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2
             case ecr
+            case lambda
         }
     }
 
@@ -934,7 +1024,7 @@ extension Inspector2 {
         public let platform: String?
         /// The date and time the Amazon ECR container image was pushed.
         public let pushedAt: Date?
-        /// The registry the Amazon ECR container image belongs to.
+        /// The registry for the Amazon ECR container image.
         public let registry: String
         /// The name of the repository the Amazon ECR container image resides in.
         public let repositoryName: String
@@ -959,6 +1049,55 @@ extension Inspector2 {
             case pushedAt
             case registry
             case repositoryName
+        }
+    }
+
+    public struct AwsLambdaFunctionDetails: AWSDecodableShape {
+        /// The instruction set architecture that the AWS Lambda function supports. Architecture is a string array with one of the  valid values. The default architecture value is x86_64.
+        public let architectures: [Architecture]?
+        /// The SHA256 hash of the AWS Lambda function's deployment package.
+        public let codeSha256: String
+        /// The AWS Lambda function's execution role.
+        public let executionRoleArn: String
+        /// The name of the AWS Lambda function.
+        public let functionName: String
+        /// The date and time that a user last updated the configuration, in ISO 8601 format
+        public let lastModifiedAt: Date?
+        /// The AWS Lambda function's  layers. A Lambda function can have up to five layers.
+        public let layers: [String]?
+        /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
+        public let packageType: PackageType?
+        /// The runtime environment for the AWS Lambda function.
+        public let runtime: Runtime
+        /// The version of the AWS Lambda function.
+        public let version: String
+        /// The AWS Lambda function's networking configuration.
+        public let vpcConfig: LambdaVpcConfig?
+
+        public init(architectures: [Architecture]? = nil, codeSha256: String, executionRoleArn: String, functionName: String, lastModifiedAt: Date? = nil, layers: [String]? = nil, packageType: PackageType? = nil, runtime: Runtime, version: String, vpcConfig: LambdaVpcConfig? = nil) {
+            self.architectures = architectures
+            self.codeSha256 = codeSha256
+            self.executionRoleArn = executionRoleArn
+            self.functionName = functionName
+            self.lastModifiedAt = lastModifiedAt
+            self.layers = layers
+            self.packageType = packageType
+            self.runtime = runtime
+            self.version = version
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectures
+            case codeSha256
+            case executionRoleArn
+            case functionName
+            case lastModifiedAt
+            case layers
+            case packageType
+            case runtime
+            case version
+            case vpcConfig
         }
     }
 
@@ -1093,6 +1232,12 @@ extension Inspector2 {
         public let ecrImageTags: [CoverageStringFilter]?
         /// The Amazon ECR repository name to filter on.
         public let ecrRepositoryName: [CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by function names.
+        public let lambdaFunctionName: [CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by runtime.
+        public let lambdaFunctionRuntime: [CoverageStringFilter]?
+        /// Returns coverage statistics for AWS Lambda functions filtered by tag.
+        public let lambdaFunctionTags: [CoverageMapFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public let resourceId: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE or AWS_ECR_REPOSITORY.
@@ -1104,11 +1249,14 @@ extension Inspector2 {
         /// An array of Amazon Inspector scan types to return coverage statistics for.
         public let scanType: [CoverageStringFilter]?
 
-        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionRuntime = lambdaFunctionRuntime
+            self.lambdaFunctionTags = lambdaFunctionTags
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanStatusCode = scanStatusCode
@@ -1137,6 +1285,21 @@ extension Inspector2 {
             }
             try self.validate(self.ecrRepositoryName, name: "ecrRepositoryName", parent: name, max: 10)
             try self.validate(self.ecrRepositoryName, name: "ecrRepositoryName", parent: name, min: 1)
+            try self.lambdaFunctionName?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionName[]")
+            }
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, min: 1)
+            try self.lambdaFunctionRuntime?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionRuntime[]")
+            }
+            try self.validate(self.lambdaFunctionRuntime, name: "lambdaFunctionRuntime", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionRuntime, name: "lambdaFunctionRuntime", parent: name, min: 1)
+            try self.lambdaFunctionTags?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionTags[]")
+            }
+            try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionTags, name: "lambdaFunctionTags", parent: name, min: 1)
             try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
@@ -1169,6 +1332,9 @@ extension Inspector2 {
             case ec2InstanceTags
             case ecrImageTags
             case ecrRepositoryName
+            case lambdaFunctionName
+            case lambdaFunctionRuntime
+            case lambdaFunctionTags
             case resourceId
             case resourceType
             case scanStatusCode
@@ -1606,7 +1772,7 @@ extension Inspector2 {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
-            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 2)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1721,7 +1887,7 @@ extension Inspector2 {
     }
 
     public struct Ec2InstanceAggregationResponse: AWSDecodableShape {
-        /// The Amazon Web Services account the Amazon EC2 instance belongs to.
+        /// The Amazon Web Services account for the Amazon EC2 instance.
         public let accountId: String?
         /// The Amazon Machine Image (AMI) of the Amazon EC2 instance.
         public let ami: String?
@@ -1916,7 +2082,7 @@ extension Inspector2 {
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 2)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 3)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
         }
 
@@ -1941,6 +2107,19 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accounts
             case failedAccounts
+        }
+    }
+
+    public struct ExploitabilityDetails: AWSDecodableShape {
+        /// The date and time of the last exploit associated with a finding discovered in your environment.
+        public let lastKnownExploitAt: Date?
+
+        public init(lastKnownExploitAt: Date? = nil) {
+            self.lastKnownExploitAt = lastKnownExploitAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastKnownExploitAt
         }
     }
 
@@ -2047,6 +2226,8 @@ extension Inspector2 {
         public let ecrImageRepositoryName: [StringFilter]?
         /// The tags attached to the Amazon ECR container image.
         public let ecrImageTags: [StringFilter]?
+        /// Filters the list of AWS Lambda findings by the availability of exploits.
+        public let exploitAvailable: [StringFilter]?
         /// Details on the finding ARNs used to filter findings.
         public let findingArn: [StringFilter]?
         /// Details on the finding status types used to filter findings.
@@ -2059,6 +2240,16 @@ extension Inspector2 {
         public let fixAvailable: [StringFilter]?
         /// The Amazon Inspector score to filter on.
         public let inspectorScore: [NumberFilter]?
+        /// Filters the list of AWS Lambda functions by execution role.
+        public let lambdaFunctionExecutionRoleArn: [StringFilter]?
+        /// Filters the list of AWS Lambda functions by the date and time that a user last updated the configuration, in ISO 8601 format
+        public let lambdaFunctionLastModifiedAt: [DateFilter]?
+        /// Filters the list of AWS Lambda functions by the function's  layers. A Lambda function can have up to five layers.
+        public let lambdaFunctionLayers: [StringFilter]?
+        /// Filters the list of AWS Lambda functions by the name of the function.
+        public let lambdaFunctionName: [StringFilter]?
+        /// Filters the list of AWS Lambda functions by the runtime environment for the Lambda function.
+        public let lambdaFunctionRuntime: [StringFilter]?
         /// Details on the date and time a finding was last seen used to filter findings.
         public let lastObservedAt: [DateFilter]?
         /// Details on the ingress source addresses used to filter findings.
@@ -2088,7 +2279,7 @@ extension Inspector2 {
         /// Details on the vulnerable packages used to filter findings.
         public let vulnerablePackages: [PackageFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.componentId = componentId
             self.componentType = componentType
@@ -2101,12 +2292,18 @@ extension Inspector2 {
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
             self.ecrImageTags = ecrImageTags
+            self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.findingStatus = findingStatus
             self.findingType = findingType
             self.firstObservedAt = firstObservedAt
             self.fixAvailable = fixAvailable
             self.inspectorScore = inspectorScore
+            self.lambdaFunctionExecutionRoleArn = lambdaFunctionExecutionRoleArn
+            self.lambdaFunctionLastModifiedAt = lambdaFunctionLastModifiedAt
+            self.lambdaFunctionLayers = lambdaFunctionLayers
+            self.lambdaFunctionName = lambdaFunctionName
+            self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lastObservedAt = lastObservedAt
             self.networkProtocol = networkProtocol
             self.portRange = portRange
@@ -2181,6 +2378,11 @@ extension Inspector2 {
             }
             try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, max: 10)
             try self.validate(self.ecrImageTags, name: "ecrImageTags", parent: name, min: 1)
+            try self.exploitAvailable?.forEach {
+                try $0.validate(name: "\(name).exploitAvailable[]")
+            }
+            try self.validate(self.exploitAvailable, name: "exploitAvailable", parent: name, max: 10)
+            try self.validate(self.exploitAvailable, name: "exploitAvailable", parent: name, min: 1)
             try self.findingArn?.forEach {
                 try $0.validate(name: "\(name).findingArn[]")
             }
@@ -2205,6 +2407,28 @@ extension Inspector2 {
             try self.validate(self.fixAvailable, name: "fixAvailable", parent: name, min: 1)
             try self.validate(self.inspectorScore, name: "inspectorScore", parent: name, max: 10)
             try self.validate(self.inspectorScore, name: "inspectorScore", parent: name, min: 1)
+            try self.lambdaFunctionExecutionRoleArn?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionExecutionRoleArn[]")
+            }
+            try self.validate(self.lambdaFunctionExecutionRoleArn, name: "lambdaFunctionExecutionRoleArn", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionExecutionRoleArn, name: "lambdaFunctionExecutionRoleArn", parent: name, min: 1)
+            try self.validate(self.lambdaFunctionLastModifiedAt, name: "lambdaFunctionLastModifiedAt", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionLastModifiedAt, name: "lambdaFunctionLastModifiedAt", parent: name, min: 1)
+            try self.lambdaFunctionLayers?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionLayers[]")
+            }
+            try self.validate(self.lambdaFunctionLayers, name: "lambdaFunctionLayers", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionLayers, name: "lambdaFunctionLayers", parent: name, min: 1)
+            try self.lambdaFunctionName?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionName[]")
+            }
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionName, name: "lambdaFunctionName", parent: name, min: 1)
+            try self.lambdaFunctionRuntime?.forEach {
+                try $0.validate(name: "\(name).lambdaFunctionRuntime[]")
+            }
+            try self.validate(self.lambdaFunctionRuntime, name: "lambdaFunctionRuntime", parent: name, max: 10)
+            try self.validate(self.lambdaFunctionRuntime, name: "lambdaFunctionRuntime", parent: name, min: 1)
             try self.validate(self.lastObservedAt, name: "lastObservedAt", parent: name, max: 10)
             try self.validate(self.lastObservedAt, name: "lastObservedAt", parent: name, min: 1)
             try self.networkProtocol?.forEach {
@@ -2284,12 +2508,18 @@ extension Inspector2 {
             case ecrImageRegistry
             case ecrImageRepositoryName
             case ecrImageTags
+            case exploitAvailable
             case findingArn
             case findingStatus
             case findingType
             case firstObservedAt
             case fixAvailable
             case inspectorScore
+            case lambdaFunctionExecutionRoleArn
+            case lambdaFunctionLastModifiedAt
+            case lambdaFunctionLayers
+            case lambdaFunctionName
+            case lambdaFunctionRuntime
             case lastObservedAt
             case networkProtocol
             case portRange
@@ -2312,6 +2542,10 @@ extension Inspector2 {
         public let awsAccountId: String
         /// The description of the finding.
         public let description: String
+        /// The details of an exploit available for a finding discovered in your environment.
+        public let exploitabilityDetails: ExploitabilityDetails?
+        /// If a finding discovered in your environment has an exploit available.
+        public let exploitAvailable: ExploitAvailable?
         /// The Amazon Resource Number (ARN) of the finding.
         public let findingArn: String
         /// The date and time that the finding was first observed.
@@ -2343,9 +2577,11 @@ extension Inspector2 {
         /// The date and time the finding was last updated at.
         public let updatedAt: Date?
 
-        public init(awsAccountId: String, description: String, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
+        public init(awsAccountId: String, description: String, exploitabilityDetails: ExploitabilityDetails? = nil, exploitAvailable: ExploitAvailable? = nil, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.description = description
+            self.exploitabilityDetails = exploitabilityDetails
+            self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.firstObservedAt = firstObservedAt
             self.fixAvailable = fixAvailable
@@ -2366,6 +2602,8 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId
             case description
+            case exploitabilityDetails
+            case exploitAvailable
             case findingArn
             case firstObservedAt
             case fixAvailable
@@ -2691,6 +2929,219 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case adjustedCvss
+        }
+    }
+
+    public struct LambdaFunctionAggregation: AWSEncodableShape {
+        /// The AWS Lambda function names to include in the aggregation results.
+        public let functionNames: [StringFilter]?
+        /// The tags to include in the aggregation results.
+        public let functionTags: [MapFilter]?
+        /// The resource IDs to include in the aggregation results.
+        public let resourceIds: [StringFilter]?
+        /// Returns findings aggregated by AWS Lambda function runtime environments.
+        public let runtimes: [StringFilter]?
+        /// The finding severity to use for sorting the results.
+        public let sortBy: LambdaFunctionSortBy?
+        /// The order to use for sorting the results.
+        public let sortOrder: SortOrder?
+
+        public init(functionNames: [StringFilter]? = nil, functionTags: [MapFilter]? = nil, resourceIds: [StringFilter]? = nil, runtimes: [StringFilter]? = nil, sortBy: LambdaFunctionSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.functionNames = functionNames
+            self.functionTags = functionTags
+            self.resourceIds = resourceIds
+            self.runtimes = runtimes
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.functionNames?.forEach {
+                try $0.validate(name: "\(name).functionNames[]")
+            }
+            try self.validate(self.functionNames, name: "functionNames", parent: name, max: 10)
+            try self.validate(self.functionNames, name: "functionNames", parent: name, min: 1)
+            try self.functionTags?.forEach {
+                try $0.validate(name: "\(name).functionTags[]")
+            }
+            try self.validate(self.functionTags, name: "functionTags", parent: name, max: 10)
+            try self.validate(self.functionTags, name: "functionTags", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+            try self.runtimes?.forEach {
+                try $0.validate(name: "\(name).runtimes[]")
+            }
+            try self.validate(self.runtimes, name: "runtimes", parent: name, max: 10)
+            try self.validate(self.runtimes, name: "runtimes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionNames
+            case functionTags
+            case resourceIds
+            case runtimes
+            case sortBy
+            case sortOrder
+        }
+    }
+
+    public struct LambdaFunctionAggregationResponse: AWSDecodableShape {
+        /// The ID of the AWS account that owns the AWS Lambda function.
+        public let accountId: String?
+        /// The AWS Lambda function names included in the aggregation results.
+        public let functionName: String?
+        /// The tags included in the aggregation results.
+        public let lambdaTags: [String: String]?
+        /// The date that the AWS Lambda function included in the aggregation results was last changed.
+        public let lastModifiedAt: Date?
+        /// The resource IDs included in the aggregation results.
+        public let resourceId: String
+        /// The runtimes included in the aggregation results.
+        public let runtime: String?
+        public let severityCounts: SeverityCounts?
+
+        public init(accountId: String? = nil, functionName: String? = nil, lambdaTags: [String: String]? = nil, lastModifiedAt: Date? = nil, resourceId: String, runtime: String? = nil, severityCounts: SeverityCounts? = nil) {
+            self.accountId = accountId
+            self.functionName = functionName
+            self.lambdaTags = lambdaTags
+            self.lastModifiedAt = lastModifiedAt
+            self.resourceId = resourceId
+            self.runtime = runtime
+            self.severityCounts = severityCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case functionName
+            case lambdaTags
+            case lastModifiedAt
+            case resourceId
+            case runtime
+            case severityCounts
+        }
+    }
+
+    public struct LambdaFunctionMetadata: AWSDecodableShape {
+        /// The name of a function.
+        public let functionName: String?
+        /// The resource tags on an AWS Lambda function.
+        public let functionTags: [String: String]?
+        /// The layers for an AWS Lambda function. A Lambda function can have up to five layers.
+        public let layers: [String]?
+        /// An AWS Lambda function's runtime.
+        public let runtime: Runtime?
+
+        public init(functionName: String? = nil, functionTags: [String: String]? = nil, layers: [String]? = nil, runtime: Runtime? = nil) {
+            self.functionName = functionName
+            self.functionTags = functionTags
+            self.layers = layers
+            self.runtime = runtime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionName
+            case functionTags
+            case layers
+            case runtime
+        }
+    }
+
+    public struct LambdaLayerAggregation: AWSEncodableShape {
+        /// The names of the AWS Lambda functions associated with the layers.
+        public let functionNames: [StringFilter]?
+        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        public let layerArns: [StringFilter]?
+        /// The resource IDs for the AWS Lambda function layers.
+        public let resourceIds: [StringFilter]?
+        /// The finding severity to use for sorting the results.
+        public let sortBy: LambdaLayerSortBy?
+        /// The order to use for sorting the results.
+        public let sortOrder: SortOrder?
+
+        public init(functionNames: [StringFilter]? = nil, layerArns: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: LambdaLayerSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.functionNames = functionNames
+            self.layerArns = layerArns
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.functionNames?.forEach {
+                try $0.validate(name: "\(name).functionNames[]")
+            }
+            try self.validate(self.functionNames, name: "functionNames", parent: name, max: 10)
+            try self.validate(self.functionNames, name: "functionNames", parent: name, min: 1)
+            try self.layerArns?.forEach {
+                try $0.validate(name: "\(name).layerArns[]")
+            }
+            try self.validate(self.layerArns, name: "layerArns", parent: name, max: 10)
+            try self.validate(self.layerArns, name: "layerArns", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionNames
+            case layerArns
+            case resourceIds
+            case sortBy
+            case sortOrder
+        }
+    }
+
+    public struct LambdaLayerAggregationResponse: AWSDecodableShape {
+        /// The account ID of the AWS Lambda function layer.
+        public let accountId: String
+        /// The names of the AWS Lambda functions associated with the layers.
+        public let functionName: String
+        /// The Amazon Resource Name (ARN) of the AWS Lambda function layer.
+        public let layerArn: String
+        /// The Resource ID of the AWS Lambda function layer.
+        public let resourceId: String
+        public let severityCounts: SeverityCounts?
+
+        public init(accountId: String, functionName: String, layerArn: String, resourceId: String, severityCounts: SeverityCounts? = nil) {
+            self.accountId = accountId
+            self.functionName = functionName
+            self.layerArn = layerArn
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case functionName
+            case layerArn
+            case resourceId
+            case severityCounts
+        }
+    }
+
+    public struct LambdaVpcConfig: AWSDecodableShape {
+        /// The VPC security groups and subnets that are attached to an AWS Lambda function. For more information, see VPC Settings.
+        public let securityGroupIds: [String]?
+        /// A list of VPC subnet IDs.
+        public let subnetIds: [String]?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds
+            case subnetIds
+            case vpcId
         }
     }
 
@@ -3128,7 +3579,7 @@ extension Inspector2 {
             try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "[0-9]{12}")
             }
-            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5000)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 7000)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -3321,16 +3772,18 @@ extension Inspector2 {
         public let name: StringFilter?
         /// An object that contains details on the package release to filter on.
         public let release: StringFilter?
+        public let sourceLambdaLayerArn: StringFilter?
         /// An object that contains details on the source layer hash to filter on.
         public let sourceLayerHash: StringFilter?
         /// The package version to filter on.
         public let version: StringFilter?
 
-        public init(architecture: StringFilter? = nil, epoch: NumberFilter? = nil, name: StringFilter? = nil, release: StringFilter? = nil, sourceLayerHash: StringFilter? = nil, version: StringFilter? = nil) {
+        public init(architecture: StringFilter? = nil, epoch: NumberFilter? = nil, name: StringFilter? = nil, release: StringFilter? = nil, sourceLambdaLayerArn: StringFilter? = nil, sourceLayerHash: StringFilter? = nil, version: StringFilter? = nil) {
             self.architecture = architecture
             self.epoch = epoch
             self.name = name
             self.release = release
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
@@ -3339,6 +3792,7 @@ extension Inspector2 {
             try self.architecture?.validate(name: "\(name).architecture")
             try self.name?.validate(name: "\(name).name")
             try self.release?.validate(name: "\(name).release")
+            try self.sourceLambdaLayerArn?.validate(name: "\(name).sourceLambdaLayerArn")
             try self.sourceLayerHash?.validate(name: "\(name).sourceLayerHash")
             try self.version?.validate(name: "\(name).version")
         }
@@ -3348,6 +3802,7 @@ extension Inspector2 {
             case epoch
             case name
             case release
+            case sourceLambdaLayerArn
             case sourceLayerHash
             case version
         }
@@ -3582,15 +4037,19 @@ extension Inspector2 {
         public let awsEc2Instance: AwsEc2InstanceDetails?
         /// An object that contains details about the Amazon ECR container image involved in the finding.
         public let awsEcrContainerImage: AwsEcrContainerImageDetails?
+        /// A summary of the information about an AWS Lambda function affected by a finding.
+        public let awsLambdaFunction: AwsLambdaFunctionDetails?
 
-        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil) {
+        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
+            self.awsLambdaFunction = awsLambdaFunction
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsEc2Instance
             case awsEcrContainerImage
+            case awsLambdaFunction
         }
     }
 
@@ -3601,17 +4060,21 @@ extension Inspector2 {
         public let ecrImage: EcrContainerImageMetadata?
         /// An object that contains details about the repository an Amazon ECR image resides in.
         public let ecrRepository: EcrRepositoryMetadata?
+        /// An object that contains metadata details for an AWS Lambda function.
+        public let lambdaFunction: LambdaFunctionMetadata?
 
-        public init(ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil) {
+        public init(ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil) {
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
+            self.lambdaFunction = lambdaFunction
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2
             case ecrImage
             case ecrRepository
+            case lambdaFunction
         }
     }
 
@@ -3620,15 +4083,18 @@ extension Inspector2 {
         public let ec2: State
         /// An object detailing the state of Amazon Inspector scanning for Amazon ECR resources.
         public let ecr: State
+        public let lambda: State?
 
-        public init(ec2: State, ecr: State) {
+        public init(ec2: State, ecr: State, lambda: State? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2
             case ecr
+            case lambda
         }
     }
 
@@ -3637,15 +4103,19 @@ extension Inspector2 {
         public let ec2: Status
         /// The status of Amazon Inspector scanning for Amazon ECR resources.
         public let ecr: Status
+        /// The status of Amazon Inspector scanning for AWS Lambda function resources.
+        public let lambda: Status?
 
-        public init(ec2: Status, ecr: Status) {
+        public init(ec2: Status, ecr: Status, lambda: Status? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
+            self.lambda = lambda
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2
             case ecr
+            case lambda
         }
     }
 
@@ -3747,7 +4217,7 @@ extension Inspector2 {
     }
 
     public struct StringFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The operator to use when comparing values in the filter
+        /// The operator to use when comparing values in the filter.
         public let comparison: StringComparison
         /// The value to filter on.
         public let value: String
@@ -4063,12 +4533,14 @@ extension Inspector2 {
         public let release: String?
         /// The code to run in your environment to update packages with a fix available.
         public let remediation: String?
+        /// The Amazon Resource Number (ARN) of the AWS Lambda function affected by a finding.
+        public let sourceLambdaLayerArn: String?
         /// The source layer hash of the vulnerable package.
         public let sourceLayerHash: String?
         /// The version of the vulnerable package.
         public let version: String
 
-        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String, packageManager: PackageManager? = nil, release: String? = nil, remediation: String? = nil, sourceLayerHash: String? = nil, version: String) {
+        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String, packageManager: PackageManager? = nil, release: String? = nil, remediation: String? = nil, sourceLambdaLayerArn: String? = nil, sourceLayerHash: String? = nil, version: String) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
@@ -4077,6 +4549,7 @@ extension Inspector2 {
             self.packageManager = packageManager
             self.release = release
             self.remediation = remediation
+            self.sourceLambdaLayerArn = sourceLambdaLayerArn
             self.sourceLayerHash = sourceLayerHash
             self.version = version
         }
@@ -4090,6 +4563,7 @@ extension Inspector2 {
             case packageManager
             case release
             case remediation
+            case sourceLambdaLayerArn
             case sourceLayerHash
             case version
         }

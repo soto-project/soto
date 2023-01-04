@@ -62,8 +62,8 @@ extension KinesisAnalyticsV2 {
     }
 
     public enum ConfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case custom = "CUSTOM"
         case `default` = "DEFAULT"
+        case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
@@ -83,8 +83,8 @@ extension KinesisAnalyticsV2 {
     }
 
     public enum MetricsLevel: String, CustomStringConvertible, Codable, _SotoSendable {
-        case application = "APPLICATION"
         case `operator` = "OPERATOR"
+        case application = "APPLICATION"
         case parallelism = "PARALLELISM"
         case task = "TASK"
         public var description: String { return self.rawValue }
@@ -99,6 +99,7 @@ extension KinesisAnalyticsV2 {
     public enum RuntimeEnvironment: String, CustomStringConvertible, Codable, _SotoSendable {
         case flink111 = "FLINK-1_11"
         case flink113 = "FLINK-1_13"
+        case flink115 = "FLINK-1_15"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"
@@ -681,7 +682,7 @@ extension KinesisAnalyticsV2 {
         public let createTimestamp: Date?
         /// The current timestamp when the application was last updated.
         public let lastUpdateTimestamp: Date?
-        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
+        /// The runtime environment for the application.
         public let runtimeEnvironment: RuntimeEnvironment
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
@@ -1223,13 +1224,13 @@ extension KinesisAnalyticsV2 {
         public let applicationConfiguration: ApplicationConfiguration?
         /// A summary description of the application.
         public let applicationDescription: String?
-        /// Use the STREAMING mode to create a Kinesis Data Analytics Studio notebook. To create a Kinesis Data Analytics Studio notebook, use the  INTERACTIVE mode.
+        /// Use the STREAMING mode to create a Kinesis Data Analytics For Flink application. To create a Kinesis Data Analytics Studio notebook, use the  INTERACTIVE mode.
         public let applicationMode: ApplicationMode?
         /// The name of your application (for example, sample-app).
         public let applicationName: String
         /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors.
         public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
-        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
+        /// The runtime environment for the application.
         public let runtimeEnvironment: RuntimeEnvironment
         /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
         public let serviceExecutionRole: String
