@@ -62,7 +62,6 @@ build_files()
     echo "Run the code generator"
     rm -rf Sources/Soto/Services/*
     SotoCodeGenerator \
-        --format \
         --input-folder models \
         --output-folder Sources/Soto/Services \
         --endpoints models/endpoints/endpoints.json
