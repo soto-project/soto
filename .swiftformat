@@ -6,6 +6,7 @@
 
 # file options
 --exclude .build
+--exclude Sources/Soto/Services
 
 # rules
 --disable redundantReturn, redundantBackticks, trailingCommas, extensionAccessControl
