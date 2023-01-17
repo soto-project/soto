@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -182,7 +182,7 @@ extension Schemas {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Schemas {
-    ///  List the discoverers.
+    /// List the discoverers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -204,7 +204,7 @@ extension Schemas {
         )
     }
 
-    ///  List the registries.
+    /// List the registries.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -226,7 +226,7 @@ extension Schemas {
         )
     }
 
-    ///  Provides a list of the schema versions and related information.
+    /// Provides a list of the schema versions and related information.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -248,7 +248,7 @@ extension Schemas {
         )
     }
 
-    ///  List the schemas.
+    /// List the schemas.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -270,7 +270,7 @@ extension Schemas {
         )
     }
 
-    ///  Search the schemas
+    /// Search the schemas
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

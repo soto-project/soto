@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -163,7 +163,7 @@ extension ApplicationInsights {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ApplicationInsights {
-    ///  Lists the IDs of the applications that you are monitoring.
+    /// Lists the IDs of the applications that you are monitoring.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -185,7 +185,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the auto-grouped, standalone, and custom components of the application.
+    /// Lists the auto-grouped, standalone, and custom components of the application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -207,7 +207,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///   Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
+    ///  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -229,7 +229,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the log pattern sets in the specific application.
+    /// Lists the log pattern sets in the specific application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -251,7 +251,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the log patterns in the specific log LogPatternSet.
+    /// Lists the log patterns in the specific log LogPatternSet.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -273,7 +273,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the problems with your application.
+    /// Lists the problems with your application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

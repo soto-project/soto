@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -311,7 +311,7 @@ extension SecurityHub {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecurityHub {
-    ///  Returns a list of the custom action targets in Security Hub in your account.
+    /// Returns a list of the custom action targets in Security Hub in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -333,7 +333,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -355,7 +355,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
+    /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -377,7 +377,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -399,7 +399,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of the standards that are currently enabled.
+    /// Returns a list of the standards that are currently enabled.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -421,7 +421,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
+    /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -443,7 +443,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists and describes insights for the specified insight ARNs.
+    /// Lists and describes insights for the specified insight ARNs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -465,7 +465,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -487,7 +487,7 @@ extension SecurityHub {
         )
     }
 
-    ///  If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
+    /// If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -509,7 +509,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
+    /// Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -531,7 +531,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+    /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -553,7 +553,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+    /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

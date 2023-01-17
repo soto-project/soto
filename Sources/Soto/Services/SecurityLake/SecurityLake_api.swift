@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -226,7 +226,7 @@ extension SecurityLake {
 // MARK: Paginators
 
 extension SecurityLake {
-    ///  Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
+    /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -279,7 +279,7 @@ extension SecurityLake {
         )
     }
 
-    ///  Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
+    /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -332,7 +332,7 @@ extension SecurityLake {
         )
     }
 
-    ///  Retrieves the log sources in the current Amazon Web Services Region.
+    /// Retrieves the log sources in the current Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -385,7 +385,7 @@ extension SecurityLake {
         )
     }
 
-    ///  List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
+    /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

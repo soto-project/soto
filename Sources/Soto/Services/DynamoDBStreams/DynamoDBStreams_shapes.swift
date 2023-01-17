@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -376,13 +376,13 @@ extension DynamoDBStreams {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case dynamodb
-            case eventID
-            case eventName
-            case eventSource
-            case eventVersion
-            case userIdentity
+            case awsRegion = "awsRegion"
+            case dynamodb = "dynamodb"
+            case eventID = "eventID"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case eventVersion = "eventVersion"
+            case userIdentity = "userIdentity"
         }
     }
 

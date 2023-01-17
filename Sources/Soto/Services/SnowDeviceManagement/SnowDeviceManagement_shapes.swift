@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -96,8 +96,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reboot
-            case unlock
+            case reboot = "reboot"
+            case unlock = "unlock"
         }
     }
 
@@ -132,7 +132,7 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId
+            case taskId = "taskId"
         }
     }
 
@@ -157,11 +157,11 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case available
-            case name
-            case total
-            case unit
-            case used
+            case available = "available"
+            case name = "name"
+            case total = "total"
+            case unit = "unit"
+            case used = "used"
         }
     }
 
@@ -177,8 +177,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreCount
-            case threadsPerCore
+            case coreCount = "coreCount"
+            case threadsPerCore = "threadsPerCore"
         }
     }
 
@@ -214,11 +214,11 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case command
-            case description
-            case tags
-            case targets
+            case clientToken = "clientToken"
+            case command = "command"
+            case description = "description"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -234,8 +234,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskArn
-            case taskId
+            case taskArn = "taskArn"
+            case taskId = "taskId"
         }
     }
 
@@ -260,7 +260,7 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceIds
+            case instanceIds = "instanceIds"
         }
     }
 
@@ -273,7 +273,7 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
+            case instances = "instances"
         }
     }
 
@@ -336,17 +336,17 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedWithJob
-            case deviceCapacities
-            case deviceState
-            case deviceType
-            case lastReachedOutAt
-            case lastUpdatedAt
-            case managedDeviceArn
-            case managedDeviceId
-            case physicalNetworkInterfaces
-            case software
-            case tags
+            case associatedWithJob = "associatedWithJob"
+            case deviceCapacities = "deviceCapacities"
+            case deviceState = "deviceState"
+            case deviceType = "deviceType"
+            case lastReachedOutAt = "lastReachedOutAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case managedDeviceArn = "managedDeviceArn"
+            case managedDeviceId = "managedDeviceId"
+            case physicalNetworkInterfaces = "physicalNetworkInterfaces"
+            case software = "software"
+            case tags = "tags"
         }
     }
 
@@ -400,12 +400,12 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionId
-            case lastUpdatedAt
-            case managedDeviceId
-            case startedAt
-            case state
-            case taskId
+            case executionId = "executionId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case managedDeviceId = "managedDeviceId"
+            case startedAt = "startedAt"
+            case state = "state"
+            case taskId = "taskId"
         }
     }
 
@@ -462,15 +462,15 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completedAt
-            case createdAt
-            case description
-            case lastUpdatedAt
-            case state
-            case tags
-            case targets
-            case taskArn
-            case taskId
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case state = "state"
+            case tags = "tags"
+            case targets = "targets"
+            case taskArn = "taskArn"
+            case taskId = "taskId"
         }
     }
 
@@ -492,10 +492,10 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedWithJob
-            case managedDeviceArn
-            case managedDeviceId
-            case tags
+            case associatedWithJob = "associatedWithJob"
+            case managedDeviceArn = "managedDeviceArn"
+            case managedDeviceId = "managedDeviceId"
+            case tags = "tags"
         }
     }
 
@@ -517,10 +517,10 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachTime
-            case deleteOnTermination
-            case status
-            case volumeId
+            case attachTime = "attachTime"
+            case deleteOnTermination = "deleteOnTermination"
+            case status = "status"
+            case volumeId = "volumeId"
         }
     }
 
@@ -542,10 +542,10 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionId
-            case managedDeviceId
-            case state
-            case taskId
+            case executionId = "executionId"
+            case managedDeviceId = "managedDeviceId"
+            case state = "state"
+            case taskId = "taskId"
         }
     }
 
@@ -593,19 +593,19 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiLaunchIndex
-            case blockDeviceMappings
-            case cpuOptions
-            case createdAt
-            case imageId
-            case instanceId
-            case instanceType
-            case privateIpAddress
-            case publicIpAddress
-            case rootDeviceName
-            case securityGroups
-            case state
-            case updatedAt
+            case amiLaunchIndex = "amiLaunchIndex"
+            case blockDeviceMappings = "blockDeviceMappings"
+            case cpuOptions = "cpuOptions"
+            case createdAt = "createdAt"
+            case imageId = "imageId"
+            case instanceId = "instanceId"
+            case instanceType = "instanceType"
+            case privateIpAddress = "privateIpAddress"
+            case publicIpAddress = "publicIpAddress"
+            case rootDeviceName = "rootDeviceName"
+            case securityGroups = "securityGroups"
+            case state = "state"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -621,8 +621,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case ebs
+            case deviceName = "deviceName"
+            case ebs = "ebs"
         }
     }
 
@@ -638,8 +638,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -655,8 +655,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instance
-            case lastUpdatedAt
+            case instance = "instance"
+            case lastUpdatedAt = "lastUpdatedAt"
         }
     }
 
@@ -709,8 +709,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resources
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -759,8 +759,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case nextToken
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -813,8 +813,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executions
-            case nextToken
+            case executions = "executions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -842,7 +842,7 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -889,8 +889,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tasks
+            case nextToken = "nextToken"
+            case tasks = "tasks"
         }
     }
 
@@ -921,13 +921,13 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultGateway
-            case ipAddress
-            case ipAddressAssignment
-            case macAddress
-            case netmask
-            case physicalConnectorType
-            case physicalNetworkInterfaceId
+            case defaultGateway = "defaultGateway"
+            case ipAddress = "ipAddress"
+            case ipAddressAssignment = "ipAddressAssignment"
+            case macAddress = "macAddress"
+            case netmask = "netmask"
+            case physicalConnectorType = "physicalConnectorType"
+            case physicalNetworkInterfaceId = "physicalNetworkInterfaceId"
         }
     }
 
@@ -950,9 +950,9 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case resourceType
+            case arn = "arn"
+            case id = "id"
+            case resourceType = "resourceType"
         }
     }
 
@@ -968,8 +968,8 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId
-            case groupName
+            case groupId = "groupId"
+            case groupName = "groupName"
         }
     }
 
@@ -988,9 +988,9 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case installedVersion
-            case installingVersion
-            case installState
+            case installedVersion = "installedVersion"
+            case installingVersion = "installingVersion"
+            case installState = "installState"
         }
     }
 
@@ -1010,7 +1010,7 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1032,10 +1032,10 @@ extension SnowDeviceManagement {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case tags
-            case taskArn
-            case taskId
+            case state = "state"
+            case tags = "tags"
+            case taskArn = "taskArn"
+            case taskId = "taskId"
         }
     }
 
@@ -1094,11 +1094,11 @@ public struct SnowDeviceManagementErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient access to perform this action.
+    /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An unexpected error occurred while processing the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The request references a resource that doesn&#39;t exist.
+    /// The request references a resource that doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

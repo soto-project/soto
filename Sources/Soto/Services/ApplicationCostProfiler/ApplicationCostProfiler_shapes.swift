@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,7 +74,7 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -126,13 +126,13 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case destinationS3Location
-            case format
-            case lastUpdated
-            case reportDescription
-            case reportFrequency
-            case reportId
+            case createdAt = "createdAt"
+            case destinationS3Location = "destinationS3Location"
+            case format = "format"
+            case lastUpdated = "lastUpdated"
+            case reportDescription = "reportDescription"
+            case reportFrequency = "reportFrequency"
+            case reportId = "reportId"
         }
     }
 
@@ -149,7 +149,7 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceS3Location
+            case sourceS3Location = "sourceS3Location"
         }
     }
 
@@ -162,7 +162,7 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importId
+            case importId = "importId"
         }
     }
 
@@ -185,7 +185,7 @@ extension ApplicationCostProfiler {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 102_400)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 102400)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
         }
@@ -205,8 +205,8 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportDefinitions
+            case nextToken = "nextToken"
+            case reportDefinitions = "reportDefinitions"
         }
     }
 
@@ -241,11 +241,11 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationS3Location
-            case format
-            case reportDescription
-            case reportFrequency
-            case reportId
+            case destinationS3Location = "destinationS3Location"
+            case format = "format"
+            case reportDescription = "reportDescription"
+            case reportFrequency = "reportFrequency"
+            case reportId = "reportId"
         }
     }
 
@@ -258,7 +258,7 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -289,13 +289,13 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case destinationS3Location
-            case format
-            case lastUpdatedAt
-            case reportDescription
-            case reportFrequency
-            case reportId
+            case createdAt = "createdAt"
+            case destinationS3Location = "destinationS3Location"
+            case format = "format"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case reportDescription = "reportDescription"
+            case reportFrequency = "reportFrequency"
+            case reportId = "reportId"
         }
     }
 
@@ -320,8 +320,8 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case prefix
+            case bucket = "bucket"
+            case prefix = "prefix"
         }
     }
 
@@ -349,9 +349,9 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case region
+            case bucket = "bucket"
+            case key = "key"
+            case region = "region"
         }
     }
 
@@ -390,10 +390,10 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationS3Location
-            case format
-            case reportDescription
-            case reportFrequency
+            case destinationS3Location = "destinationS3Location"
+            case format = "format"
+            case reportDescription = "reportDescription"
+            case reportFrequency = "reportFrequency"
         }
     }
 
@@ -406,7 +406,7 @@ extension ApplicationCostProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 }

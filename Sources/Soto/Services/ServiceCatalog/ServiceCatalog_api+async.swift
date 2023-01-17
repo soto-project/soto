@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -463,7 +463,7 @@ extension ServiceCatalog {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ServiceCatalog {
-    ///  Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
+    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -485,7 +485,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
+    /// This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -507,7 +507,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
+    /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -529,7 +529,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all the budgets associated to the specified resource.
+    /// Lists all the budgets associated to the specified resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -551,7 +551,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the constraints for the specified portfolio and product.
+    /// Lists the constraints for the specified portfolio and product.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -573,7 +573,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
+    /// Lists the paths to the specified product. A path is how the user has access to a specified product, and is necessary when provisioning a product. A path also determines the constraints put on the product.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -595,7 +595,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
+    /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -617,7 +617,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
+    /// Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -639,7 +639,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all portfolios in the catalog.
+    /// Lists all portfolios in the catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -661,7 +661,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all portfolios that the specified product is associated with.
+    /// Lists all portfolios that the specified product is associated with.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -683,7 +683,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
+    /// Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -705,7 +705,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all provisioning artifacts (also known as versions) for the specified self-service action.
+    /// Lists all provisioning artifacts (also known as versions) for the specified self-service action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -727,7 +727,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the resources associated with the specified TagOption.
+    /// Lists the resources associated with the specified TagOption.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -749,7 +749,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all self-service actions.
+    /// Lists all self-service actions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -771,7 +771,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
+    /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -793,7 +793,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists the specified TagOptions or all TagOptions.
+    /// Lists the specified TagOptions or all TagOptions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -815,7 +815,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Gets information about the products to which the caller has access.
+    /// Gets information about the products to which the caller has access.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -837,7 +837,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Gets information about the products for the specified portfolio or all products.
+    /// Gets information about the products for the specified portfolio or all products.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -859,7 +859,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
+    /// Gets information about the provisioned products that meet the specified criteria.   To ensure a complete list of provisioned products and remove duplicate products, use sort-by createdTime.  Here is a CLI example:     aws servicecatalog search-provisioned-products --sort-by createdTime
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

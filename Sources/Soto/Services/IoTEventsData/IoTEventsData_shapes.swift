@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -80,7 +80,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case note
+            case note = "note"
         }
     }
 
@@ -116,10 +116,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case keyValue
-            case note
-            case requestId
+            case alarmModelName = "alarmModelName"
+            case keyValue = "keyValue"
+            case note = "note"
+            case requestId = "requestId"
         }
     }
 
@@ -151,13 +151,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case alarmModelVersion
-            case alarmState
-            case creationTime
-            case keyValue
-            case lastUpdateTime
-            case severity
+            case alarmModelName = "alarmModelName"
+            case alarmModelVersion = "alarmModelVersion"
+            case alarmState = "alarmState"
+            case creationTime = "creationTime"
+            case keyValue = "keyValue"
+            case lastUpdateTime = "lastUpdateTime"
+            case severity = "severity"
         }
     }
 
@@ -200,10 +200,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerAction
-            case ruleEvaluation
-            case stateName
-            case systemEvent
+            case customerAction = "customerAction"
+            case ruleEvaluation = "ruleEvaluation"
+            case stateName = "stateName"
+            case systemEvent = "systemEvent"
         }
     }
 
@@ -253,12 +253,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case alarmModelVersion
-            case creationTime
-            case keyValue
-            case lastUpdateTime
-            case stateName
+            case alarmModelName = "alarmModelName"
+            case alarmModelVersion = "alarmModelVersion"
+            case creationTime = "creationTime"
+            case keyValue = "keyValue"
+            case lastUpdateTime = "lastUpdateTime"
+            case stateName = "stateName"
         }
     }
 
@@ -278,7 +278,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgeActionRequests
+            case acknowledgeActionRequests = "acknowledgeActionRequests"
         }
     }
 
@@ -292,7 +292,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -311,9 +311,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case requestId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -332,9 +332,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case messageId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case messageId = "messageId"
         }
     }
 
@@ -354,7 +354,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectors
+            case detectors = "detectors"
         }
     }
 
@@ -367,7 +367,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchDeleteDetectorErrorEntries
+            case batchDeleteDetectorErrorEntries = "batchDeleteDetectorErrorEntries"
         }
     }
 
@@ -387,7 +387,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disableActionRequests
+            case disableActionRequests = "disableActionRequests"
         }
     }
 
@@ -401,7 +401,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -421,7 +421,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableActionRequests
+            case enableActionRequests = "enableActionRequests"
         }
     }
 
@@ -435,7 +435,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -454,9 +454,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case messageId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case messageId = "messageId"
         }
     }
 
@@ -476,7 +476,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
+            case messages = "messages"
         }
     }
 
@@ -509,7 +509,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resetActionRequests
+            case resetActionRequests = "resetActionRequests"
         }
     }
 
@@ -523,7 +523,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -543,7 +543,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snoozeActionRequests
+            case snoozeActionRequests = "snoozeActionRequests"
         }
     }
 
@@ -557,7 +557,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -576,9 +576,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case messageId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case messageId = "messageId"
         }
     }
 
@@ -598,7 +598,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectors
+            case detectors = "detectors"
         }
     }
 
@@ -611,7 +611,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchUpdateDetectorErrorEntries
+            case batchUpdateDetectorErrorEntries = "batchUpdateDetectorErrorEntries"
         }
     }
 
@@ -649,12 +649,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgeActionConfiguration
-            case actionName
-            case disableActionConfiguration
-            case enableActionConfiguration
-            case resetActionConfiguration
-            case snoozeActionConfiguration
+            case acknowledgeActionConfiguration = "acknowledgeActionConfiguration"
+            case actionName = "actionName"
+            case disableActionConfiguration = "disableActionConfiguration"
+            case enableActionConfiguration = "enableActionConfiguration"
+            case resetActionConfiguration = "resetActionConfiguration"
+            case snoozeActionConfiguration = "snoozeActionConfiguration"
         }
     }
 
@@ -685,9 +685,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorModelName
-            case keyValue
-            case messageId
+            case detectorModelName = "detectorModelName"
+            case keyValue = "keyValue"
+            case messageId = "messageId"
         }
     }
 
@@ -729,7 +729,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarm
+            case alarm = "alarm"
         }
     }
 
@@ -770,7 +770,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detector
+            case detector = "detector"
         }
     }
 
@@ -798,12 +798,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case detectorModelName
-            case detectorModelVersion
-            case keyValue
-            case lastUpdateTime
-            case state
+            case creationTime = "creationTime"
+            case detectorModelName = "detectorModelName"
+            case detectorModelVersion = "detectorModelVersion"
+            case keyValue = "keyValue"
+            case lastUpdateTime = "lastUpdateTime"
+            case state = "state"
         }
     }
 
@@ -822,9 +822,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName
-            case timers
-            case variables
+            case stateName = "stateName"
+            case timers = "timers"
+            case variables = "variables"
         }
     }
 
@@ -854,9 +854,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName
-            case timers
-            case variables
+            case stateName = "stateName"
+            case timers = "timers"
+            case variables = "variables"
         }
     }
 
@@ -869,7 +869,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName
+            case stateName = "stateName"
         }
     }
 
@@ -897,12 +897,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case detectorModelName
-            case detectorModelVersion
-            case keyValue
-            case lastUpdateTime
-            case state
+            case creationTime = "creationTime"
+            case detectorModelName = "detectorModelName"
+            case detectorModelVersion = "detectorModelVersion"
+            case keyValue = "keyValue"
+            case lastUpdateTime = "lastUpdateTime"
+            case state = "state"
         }
     }
 
@@ -915,7 +915,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case note
+            case note = "note"
         }
     }
 
@@ -951,10 +951,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case keyValue
-            case note
-            case requestId
+            case alarmModelName = "alarmModelName"
+            case keyValue = "keyValue"
+            case note = "note"
+            case requestId = "requestId"
         }
     }
 
@@ -967,7 +967,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case note
+            case note = "note"
         }
     }
 
@@ -1003,10 +1003,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case keyValue
-            case note
-            case requestId
+            case alarmModelName = "alarmModelName"
+            case keyValue = "keyValue"
+            case note = "note"
+            case requestId = "requestId"
         }
     }
 
@@ -1054,8 +1054,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmSummaries
-            case nextToken
+            case alarmSummaries = "alarmSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1109,8 +1109,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorSummaries
-            case nextToken
+            case detectorSummaries = "detectorSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1142,10 +1142,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputName
-            case messageId
-            case payload
-            case timestamp
+            case inputName = "inputName"
+            case messageId = "messageId"
+            case payload = "payload"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1158,7 +1158,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case note
+            case note = "note"
         }
     }
 
@@ -1194,10 +1194,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case keyValue
-            case note
-            case requestId
+            case alarmModelName = "alarmModelName"
+            case keyValue = "keyValue"
+            case note = "note"
+            case requestId = "requestId"
         }
     }
 
@@ -1210,7 +1210,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simpleRuleEvaluation
+            case simpleRuleEvaluation = "simpleRuleEvaluation"
         }
     }
 
@@ -1229,9 +1229,9 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputPropertyValue
-            case `operator`
-            case thresholdValue
+            case inputPropertyValue = "inputPropertyValue"
+            case `operator` = "operator"
+            case thresholdValue = "thresholdValue"
         }
     }
 
@@ -1247,8 +1247,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case note
-            case snoozeDuration
+            case note = "note"
+            case snoozeDuration = "snoozeDuration"
         }
     }
 
@@ -1287,11 +1287,11 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmModelName
-            case keyValue
-            case note
-            case requestId
-            case snoozeDuration
+            case alarmModelName = "alarmModelName"
+            case keyValue = "keyValue"
+            case note = "note"
+            case requestId = "requestId"
+            case snoozeDuration = "snoozeDuration"
         }
     }
 
@@ -1304,7 +1304,7 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerType
+            case triggerType = "triggerType"
         }
     }
 
@@ -1320,8 +1320,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventType
-            case stateChangeConfiguration
+            case eventType = "eventType"
+            case stateChangeConfiguration = "stateChangeConfiguration"
         }
     }
 
@@ -1337,8 +1337,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case timestamp
+            case name = "name"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1359,8 +1359,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case seconds
+            case name = "name"
+            case seconds = "seconds"
         }
     }
 
@@ -1373,12 +1373,12 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, max: -9_223_372_036_854_775_808)
+            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, max: -9223372036854775808)
             try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeInMillis
+            case timeInMillis = "timeInMillis"
         }
     }
 
@@ -1413,10 +1413,10 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorModelName
-            case keyValue
-            case messageId
-            case state
+            case detectorModelName = "detectorModelName"
+            case keyValue = "keyValue"
+            case messageId = "messageId"
+            case state = "state"
         }
     }
 
@@ -1432,8 +1432,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1457,8 +1457,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -97,16 +97,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
-            case algorithmImage
-            case creationDateTime
-            case defaultHyperParameterRanges
-            case defaultHyperParameters
-            case defaultResourceConfig
-            case lastUpdatedDateTime
-            case name
-            case roleArn
-            case trainingInputMode
+            case algorithmArn = "algorithmArn"
+            case algorithmImage = "algorithmImage"
+            case creationDateTime = "creationDateTime"
+            case defaultHyperParameterRanges = "defaultHyperParameterRanges"
+            case defaultHyperParameters = "defaultHyperParameters"
+            case defaultResourceConfig = "defaultResourceConfig"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case roleArn = "roleArn"
+            case trainingInputMode = "trainingInputMode"
         }
     }
 
@@ -122,8 +122,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dockerURI
-            case name
+            case dockerURI = "dockerURI"
+            case name = "name"
         }
     }
 
@@ -148,8 +148,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName
-            case recipeList
+            case metricName = "metricName"
+            case recipeList = "recipeList"
         }
     }
 
@@ -162,7 +162,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bestRecipeArn
+            case bestRecipeArn = "bestRecipeArn"
         }
     }
 
@@ -211,19 +211,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
-            case batchInferenceJobConfig
-            case creationDateTime
-            case failureReason
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case lastUpdatedDateTime
-            case numResults
-            case roleArn
-            case solutionVersionArn
-            case status
+            case batchInferenceJobArn = "batchInferenceJobArn"
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -244,7 +244,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemExplorationConfig
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -261,7 +261,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataSource
+            case s3DataSource = "s3DataSource"
         }
     }
 
@@ -278,7 +278,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataDestination
+            case s3DataDestination = "s3DataDestination"
         }
     }
 
@@ -309,13 +309,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
-            case creationDateTime
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case solutionVersionArn
-            case status
+            case batchInferenceJobArn = "batchInferenceJobArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -361,18 +361,18 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJobArn
-            case creationDateTime
-            case failureReason
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case lastUpdatedDateTime
-            case numResults
-            case roleArn
-            case solutionVersionArn
-            case status
+            case batchSegmentJobArn = "batchSegmentJobArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -388,7 +388,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataSource
+            case s3DataSource = "s3DataSource"
         }
     }
 
@@ -404,7 +404,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataDestination
+            case s3DataDestination = "s3DataDestination"
         }
     }
 
@@ -435,13 +435,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJobArn
-            case creationDateTime
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case solutionVersionArn
-            case status
+            case batchSegmentJobArn = "batchSegmentJobArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -480,16 +480,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case campaignConfig
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case latestCampaignUpdate
-            case minProvisionedTPS
-            case name
-            case solutionVersionArn
-            case status
+            case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestCampaignUpdate = "latestCampaignUpdate"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case name = "name"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -510,7 +510,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemExplorationConfig
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
@@ -538,12 +538,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case name
-            case status
+            case campaignArn = "campaignArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -573,13 +573,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignConfig
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case minProvisionedTPS
-            case solutionVersionArn
-            case status
+            case campaignConfig = "campaignConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -603,8 +603,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -623,15 +623,15 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxValue, name: "maxValue", parent: name, min: -1_000_000.0)
-            try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000.0)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, min: -1000000.0)
+            try self.validate(self.minValue, name: "minValue", parent: name, min: -1000000.0)
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxValue
-            case minValue
-            case name
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
@@ -687,15 +687,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobConfig
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case numResults
-            case roleArn
-            case solutionVersionArn
-            case tags
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
+            case tags = "tags"
         }
     }
 
@@ -708,7 +708,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
+            case batchInferenceJobArn = "batchInferenceJobArn"
         }
     }
 
@@ -760,14 +760,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case numResults
-            case roleArn
-            case solutionVersionArn
-            case tags
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
+            case tags = "tags"
         }
     }
 
@@ -780,7 +780,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJobArn
+            case batchSegmentJobArn = "batchSegmentJobArn"
         }
     }
 
@@ -819,11 +819,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignConfig
-            case minProvisionedTPS
-            case name
-            case solutionVersionArn
-            case tags
+            case campaignConfig = "campaignConfig"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case name = "name"
+            case solutionVersionArn = "solutionVersionArn"
+            case tags = "tags"
         }
     }
 
@@ -836,7 +836,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
@@ -879,12 +879,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case ingestionMode
-            case jobName
-            case jobOutput
-            case roleArn
-            case tags
+            case datasetArn = "datasetArn"
+            case ingestionMode = "ingestionMode"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -897,7 +897,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetExportJobArn
+            case datasetExportJobArn = "datasetExportJobArn"
         }
     }
 
@@ -936,11 +936,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case kmsKeyArn
-            case name
-            case roleArn
-            case tags
+            case domain = "domain"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -956,8 +956,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case domain
+            case datasetGroupArn = "datasetGroupArn"
+            case domain = "domain"
         }
     }
 
@@ -1003,13 +1003,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case dataSource
-            case importMode
-            case jobName
-            case publishAttributionMetricsToS3
-            case roleArn
-            case tags
+            case datasetArn = "datasetArn"
+            case dataSource = "dataSource"
+            case importMode = "importMode"
+            case jobName = "jobName"
+            case publishAttributionMetricsToS3 = "publishAttributionMetricsToS3"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -1022,7 +1022,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobArn
+            case datasetImportJobArn = "datasetImportJobArn"
         }
     }
 
@@ -1062,11 +1062,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case datasetType
-            case name
-            case schemaArn
-            case tags
+            case datasetGroupArn = "datasetGroupArn"
+            case datasetType = "datasetType"
+            case name = "name"
+            case schemaArn = "schemaArn"
+            case tags = "tags"
         }
     }
 
@@ -1079,7 +1079,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
@@ -1110,9 +1110,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case name
-            case tags
+            case datasetGroupArn = "datasetGroupArn"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1128,8 +1128,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
-            case trackingId
+            case eventTrackerArn = "eventTrackerArn"
+            case trackingId = "trackingId"
         }
     }
 
@@ -1165,10 +1165,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case filterExpression
-            case name
-            case tags
+            case datasetGroupArn = "datasetGroupArn"
+            case filterExpression = "filterExpression"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1181,7 +1181,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
@@ -1216,10 +1216,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case metrics
-            case metricsOutputConfig
-            case name
+            case datasetGroupArn = "datasetGroupArn"
+            case metrics = "metrics"
+            case metricsOutputConfig = "metricsOutputConfig"
+            case name = "name"
         }
     }
 
@@ -1232,7 +1232,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttributionArn
+            case metricAttributionArn = "metricAttributionArn"
         }
     }
 
@@ -1272,11 +1272,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case name
-            case recipeArn
-            case recommenderConfig
-            case tags
+            case datasetGroupArn = "datasetGroupArn"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case recommenderConfig = "recommenderConfig"
+            case tags = "tags"
         }
     }
 
@@ -1289,7 +1289,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -1315,9 +1315,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case name
-            case schema
+            case domain = "domain"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -1330,7 +1330,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
@@ -1380,14 +1380,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case eventType
-            case name
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionConfig
-            case tags
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case name = "name"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionConfig = "solutionConfig"
+            case tags = "tags"
         }
     }
 
@@ -1400,7 +1400,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
@@ -1434,10 +1434,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case solutionArn
-            case tags
-            case trainingMode
+            case name = "name"
+            case solutionArn = "solutionArn"
+            case tags = "tags"
+            case trainingMode = "trainingMode"
         }
     }
 
@@ -1450,7 +1450,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -1468,7 +1468,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataLocation
+            case dataLocation = "dataLocation"
         }
     }
 
@@ -1502,14 +1502,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetGroupArn
-            case datasetType
-            case lastUpdatedDateTime
-            case name
-            case schemaArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetGroupArn = "datasetGroupArn"
+            case datasetType = "datasetType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schemaArn = "schemaArn"
+            case status = "status"
         }
     }
 
@@ -1549,16 +1549,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetExportJobArn
-            case failureReason
-            case ingestionMode
-            case jobName
-            case jobOutput
-            case lastUpdatedDateTime
-            case roleArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetExportJobArn = "datasetExportJobArn"
+            case failureReason = "failureReason"
+            case ingestionMode = "ingestionMode"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1574,7 +1574,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataDestination
+            case s3DataDestination = "s3DataDestination"
         }
     }
 
@@ -1602,12 +1602,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetExportJobArn
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetExportJobArn = "datasetExportJobArn"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case status = "status"
         }
     }
 
@@ -1644,15 +1644,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case domain
-            case failureReason
-            case kmsKeyArn
-            case lastUpdatedDateTime
-            case name
-            case roleArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case domain = "domain"
+            case failureReason = "failureReason"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1683,13 +1683,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case domain
-            case failureReason
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case domain = "domain"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1732,17 +1732,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetImportJobArn
-            case dataSource
-            case failureReason
-            case importMode
-            case jobName
-            case lastUpdatedDateTime
-            case publishAttributionMetricsToS3
-            case roleArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetImportJobArn = "datasetImportJobArn"
+            case dataSource = "dataSource"
+            case failureReason = "failureReason"
+            case importMode = "importMode"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case publishAttributionMetricsToS3 = "publishAttributionMetricsToS3"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1773,13 +1773,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetImportJobArn
-            case failureReason
-            case importMode
-            case jobName
-            case lastUpdatedDateTime
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetImportJobArn = "datasetImportJobArn"
+            case failureReason = "failureReason"
+            case importMode = "importMode"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case status = "status"
         }
     }
 
@@ -1807,12 +1807,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case domain
-            case lastUpdatedDateTime
-            case name
-            case schema
-            case schemaArn
+            case creationDateTime = "creationDateTime"
+            case domain = "domain"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schema = "schema"
+            case schemaArn = "schemaArn"
         }
     }
 
@@ -1837,11 +1837,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case domain
-            case lastUpdatedDateTime
-            case name
-            case schemaArn
+            case creationDateTime = "creationDateTime"
+            case domain = "domain"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schemaArn = "schemaArn"
         }
     }
 
@@ -1869,12 +1869,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetType
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetType = "datasetType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1893,9 +1893,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case name
-            case values
+            case isTunable = "isTunable"
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1917,10 +1917,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case maxValue
-            case minValue
-            case name
+            case isTunable = "isTunable"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
@@ -1939,9 +1939,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categoricalHyperParameterRanges
-            case continuousHyperParameterRanges
-            case integerHyperParameterRanges
+            case categoricalHyperParameterRanges = "categoricalHyperParameterRanges"
+            case continuousHyperParameterRanges = "continuousHyperParameterRanges"
+            case integerHyperParameterRanges = "integerHyperParameterRanges"
         }
     }
 
@@ -1963,10 +1963,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case maxValue
-            case minValue
-            case name
+            case isTunable = "isTunable"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
@@ -1984,7 +1984,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
@@ -2002,7 +2002,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
+            case datasetGroupArn = "datasetGroupArn"
         }
     }
 
@@ -2020,7 +2020,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
@@ -2038,7 +2038,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
+            case eventTrackerArn = "eventTrackerArn"
         }
     }
 
@@ -2056,7 +2056,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
@@ -2074,7 +2074,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttributionArn
+            case metricAttributionArn = "metricAttributionArn"
         }
     }
 
@@ -2092,7 +2092,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -2110,7 +2110,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
@@ -2128,7 +2128,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
@@ -2146,7 +2146,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
+            case algorithmArn = "algorithmArn"
         }
     }
 
@@ -2159,7 +2159,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
+            case algorithm = "algorithm"
         }
     }
 
@@ -2177,7 +2177,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
+            case batchInferenceJobArn = "batchInferenceJobArn"
         }
     }
 
@@ -2190,7 +2190,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJob
+            case batchInferenceJob = "batchInferenceJob"
         }
     }
 
@@ -2208,7 +2208,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJobArn
+            case batchSegmentJobArn = "batchSegmentJobArn"
         }
     }
 
@@ -2221,7 +2221,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJob
+            case batchSegmentJob = "batchSegmentJob"
         }
     }
 
@@ -2239,7 +2239,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
@@ -2252,7 +2252,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaign
+            case campaign = "campaign"
         }
     }
 
@@ -2270,7 +2270,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetExportJobArn
+            case datasetExportJobArn = "datasetExportJobArn"
         }
     }
 
@@ -2283,7 +2283,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetExportJob
+            case datasetExportJob = "datasetExportJob"
         }
     }
 
@@ -2301,7 +2301,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
+            case datasetGroupArn = "datasetGroupArn"
         }
     }
 
@@ -2314,7 +2314,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroup
+            case datasetGroup = "datasetGroup"
         }
     }
 
@@ -2332,7 +2332,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobArn
+            case datasetImportJobArn = "datasetImportJobArn"
         }
     }
 
@@ -2345,7 +2345,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJob
+            case datasetImportJob = "datasetImportJob"
         }
     }
 
@@ -2363,7 +2363,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
@@ -2376,7 +2376,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataset
+            case dataset = "dataset"
         }
     }
 
@@ -2394,7 +2394,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
+            case eventTrackerArn = "eventTrackerArn"
         }
     }
 
@@ -2407,7 +2407,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTracker
+            case eventTracker = "eventTracker"
         }
     }
 
@@ -2425,7 +2425,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case featureTransformationArn
+            case featureTransformationArn = "featureTransformationArn"
         }
     }
 
@@ -2438,7 +2438,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case featureTransformation
+            case featureTransformation = "featureTransformation"
         }
     }
 
@@ -2456,7 +2456,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
@@ -2469,7 +2469,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -2487,7 +2487,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttributionArn
+            case metricAttributionArn = "metricAttributionArn"
         }
     }
 
@@ -2500,7 +2500,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttribution
+            case metricAttribution = "metricAttribution"
         }
     }
 
@@ -2518,7 +2518,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recipeArn
+            case recipeArn = "recipeArn"
         }
     }
 
@@ -2531,7 +2531,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recipe
+            case recipe = "recipe"
         }
     }
 
@@ -2549,7 +2549,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -2562,7 +2562,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommender
+            case recommender = "recommender"
         }
     }
 
@@ -2580,7 +2580,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
@@ -2593,7 +2593,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schema
+            case schema = "schema"
         }
     }
 
@@ -2611,7 +2611,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
@@ -2624,7 +2624,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solution
+            case solution = "solution"
         }
     }
 
@@ -2642,7 +2642,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -2655,7 +2655,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersion
+            case solutionVersion = "solutionVersion"
         }
     }
 
@@ -2689,14 +2689,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case creationDateTime
-            case datasetGroupArn
-            case eventTrackerArn
-            case lastUpdatedDateTime
-            case name
-            case status
-            case trackingId
+            case accountId = "accountId"
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventTrackerArn = "eventTrackerArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+            case trackingId = "trackingId"
         }
     }
 
@@ -2721,11 +2721,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case eventTrackerArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case eventTrackerArn = "eventTrackerArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -2753,12 +2753,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case defaultParameters
-            case featureTransformationArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case defaultParameters = "defaultParameters"
+            case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -2792,14 +2792,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case filterArn
-            case filterExpression
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case filterExpression = "filterExpression"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -2830,13 +2830,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case filterArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -2854,7 +2854,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -2870,8 +2870,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metrics
-            case solutionVersionArn
+            case metrics = "metrics"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -2896,9 +2896,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameterRanges
-            case hpoObjective
-            case hpoResourceConfig
+            case algorithmHyperParameterRanges = "algorithmHyperParameterRanges"
+            case hpoObjective = "hpoObjective"
+            case hpoResourceConfig = "hpoResourceConfig"
         }
     }
 
@@ -2923,9 +2923,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName
-            case metricRegex
-            case type
+            case metricName = "metricName"
+            case metricRegex = "metricRegex"
+            case type = "type"
         }
     }
 
@@ -2946,8 +2946,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxNumberOfTrainingJobs
-            case maxParallelTrainingJobs
+            case maxNumberOfTrainingJobs = "maxNumberOfTrainingJobs"
+            case maxParallelTrainingJobs = "maxParallelTrainingJobs"
         }
     }
 
@@ -2981,9 +2981,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categoricalHyperParameterRanges
-            case continuousHyperParameterRanges
-            case integerHyperParameterRanges
+            case categoricalHyperParameterRanges = "categoricalHyperParameterRanges"
+            case continuousHyperParameterRanges = "continuousHyperParameterRanges"
+            case integerHyperParameterRanges = "integerHyperParameterRanges"
         }
     }
 
@@ -3002,15 +3002,15 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxValue, name: "maxValue", parent: name, max: 1_000_000)
-            try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, max: 1000000)
+            try self.validate(self.minValue, name: "minValue", parent: name, min: -1000000)
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxValue
-            case minValue
-            case name
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
@@ -3037,9 +3037,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionVersionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -3055,8 +3055,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobs
-            case nextToken
+            case batchInferenceJobs = "batchInferenceJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3083,9 +3083,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionVersionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -3101,8 +3101,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSegmentJobs
-            case nextToken
+            case batchSegmentJobs = "batchSegmentJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3129,9 +3129,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionArn = "solutionArn"
         }
     }
 
@@ -3147,8 +3147,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaigns
-            case nextToken
+            case campaigns = "campaigns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3175,9 +3175,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case maxResults
-            case nextToken
+            case datasetArn = "datasetArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3193,8 +3193,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetExportJobs
-            case nextToken
+            case datasetExportJobs = "datasetExportJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3216,8 +3216,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3233,8 +3233,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroups
-            case nextToken
+            case datasetGroups = "datasetGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3261,9 +3261,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case maxResults
-            case nextToken
+            case datasetArn = "datasetArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3279,8 +3279,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobs
-            case nextToken
+            case datasetImportJobs = "datasetImportJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3307,9 +3307,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3325,8 +3325,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasets
-            case nextToken
+            case datasets = "datasets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3353,9 +3353,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3371,8 +3371,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackers
-            case nextToken
+            case eventTrackers = "eventTrackers"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3399,9 +3399,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3418,7 +3418,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -3445,9 +3445,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case metricAttributionArn
-            case nextToken
+            case maxResults = "maxResults"
+            case metricAttributionArn = "metricAttributionArn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3463,8 +3463,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metrics
-            case nextToken
+            case metrics = "metrics"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3491,9 +3491,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3509,8 +3509,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttributions
-            case nextToken
+            case metricAttributions = "metricAttributions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3538,10 +3538,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case maxResults
-            case nextToken
-            case recipeProvider
+            case domain = "domain"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recipeProvider = "recipeProvider"
         }
     }
 
@@ -3557,8 +3557,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recipes
+            case nextToken = "nextToken"
+            case recipes = "recipes"
         }
     }
 
@@ -3585,9 +3585,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3603,8 +3603,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommenders
+            case nextToken = "nextToken"
+            case recommenders = "recommenders"
         }
     }
 
@@ -3626,8 +3626,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3643,8 +3643,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case schemas
+            case nextToken = "nextToken"
+            case schemas = "schemas"
         }
     }
 
@@ -3671,9 +3671,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionArn = "solutionArn"
         }
     }
 
@@ -3689,8 +3689,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case solutionVersions
+            case nextToken = "nextToken"
+            case solutionVersions = "solutionVersions"
         }
     }
 
@@ -3717,9 +3717,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3735,8 +3735,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case solutions
+            case nextToken = "nextToken"
+            case solutions = "solutions"
         }
     }
 
@@ -3754,7 +3754,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -3767,7 +3767,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3792,9 +3792,9 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventType
-            case expression
-            case metricName
+            case eventType = "eventType"
+            case expression = "expression"
+            case metricName = "metricName"
         }
     }
 
@@ -3828,14 +3828,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case lastUpdatedDateTime
-            case metricAttributionArn
-            case metricsOutputConfig
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case metricAttributionArn = "metricAttributionArn"
+            case metricsOutputConfig = "metricsOutputConfig"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3856,8 +3856,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case s3DataDestination
+            case roleArn = "roleArn"
+            case s3DataDestination = "s3DataDestination"
         }
     }
 
@@ -3885,12 +3885,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case metricAttributionArn
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case metricAttributionArn = "metricAttributionArn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3911,8 +3911,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemAttribute
-            case objectiveSensitivity
+            case itemAttribute = "itemAttribute"
+            case objectiveSensitivity = "objectiveSensitivity"
         }
     }
 
@@ -3949,15 +3949,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
-            case creationDateTime
-            case description
-            case featureTransformationArn
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case recipeType
-            case status
+            case algorithmArn = "algorithmArn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case recipeType = "recipeType"
+            case status = "status"
         }
     }
 
@@ -3985,12 +3985,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case domain
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case domain = "domain"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case status = "status"
         }
     }
 
@@ -4033,17 +4033,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case lastUpdatedDateTime
-            case latestRecommenderUpdate
-            case modelMetrics
-            case name
-            case recipeArn
-            case recommenderArn
-            case recommenderConfig
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestRecommenderUpdate = "latestRecommenderUpdate"
+            case modelMetrics = "modelMetrics"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case recommenderArn = "recommenderArn"
+            case recommenderConfig = "recommenderConfig"
+            case status = "status"
         }
     }
 
@@ -4068,8 +4068,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemExplorationConfig
-            case minRecommendationRequestsPerSecond
+            case itemExplorationConfig = "itemExplorationConfig"
+            case minRecommendationRequestsPerSecond = "minRecommendationRequestsPerSecond"
         }
     }
 
@@ -4103,14 +4103,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case recommenderArn
-            case recommenderConfig
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case recommenderArn = "recommenderArn"
+            case recommenderConfig = "recommenderConfig"
+            case status = "status"
         }
     }
 
@@ -4135,11 +4135,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case recommenderConfig
-            case status
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case recommenderConfig = "recommenderConfig"
+            case status = "status"
         }
     }
 
@@ -4162,8 +4162,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case path
+            case kmsKeyArn = "kmsKeyArn"
+            case path = "path"
         }
     }
 
@@ -4212,19 +4212,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoMLResult
-            case creationDateTime
-            case datasetGroupArn
-            case eventType
-            case lastUpdatedDateTime
-            case latestSolutionVersion
-            case name
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionArn
-            case solutionConfig
-            case status
+            case autoMLResult = "autoMLResult"
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestSolutionVersion = "latestSolutionVersion"
+            case name = "name"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionArn = "solutionArn"
+            case solutionConfig = "solutionConfig"
+            case status = "status"
         }
     }
 
@@ -4269,12 +4269,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameters
-            case autoMLConfig
-            case eventValueThreshold
-            case featureTransformationParameters
-            case hpoConfig
-            case optimizationObjective
+            case algorithmHyperParameters = "algorithmHyperParameters"
+            case autoMLConfig = "autoMLConfig"
+            case eventValueThreshold = "eventValueThreshold"
+            case featureTransformationParameters = "featureTransformationParameters"
+            case hpoConfig = "hpoConfig"
+            case optimizationObjective = "optimizationObjective"
         }
     }
 
@@ -4302,12 +4302,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case solutionArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case solutionArn = "solutionArn"
+            case status = "status"
         }
     }
 
@@ -4365,22 +4365,22 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case eventType
-            case failureReason
-            case lastUpdatedDateTime
-            case name
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionArn
-            case solutionConfig
-            case solutionVersionArn
-            case status
-            case trainingHours
-            case trainingMode
-            case tunedHPOParams
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionArn = "solutionArn"
+            case solutionConfig = "solutionConfig"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
+            case trainingHours = "trainingHours"
+            case trainingMode = "trainingMode"
+            case tunedHPOParams = "tunedHPOParams"
         }
     }
 
@@ -4405,11 +4405,11 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case solutionVersionArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
@@ -4427,7 +4427,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -4440,7 +4440,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -4458,7 +4458,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -4471,7 +4471,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 
@@ -4489,7 +4489,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -4513,8 +4513,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKey
-            case tagValue
+            case tagKey = "tagKey"
+            case tagValue = "tagValue"
         }
     }
 
@@ -4539,8 +4539,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -4557,7 +4557,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameters
+            case algorithmHyperParameters = "algorithmHyperParameters"
         }
     }
 
@@ -4584,8 +4584,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4620,10 +4620,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case campaignConfig
-            case minProvisionedTPS
-            case solutionVersionArn
+            case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
@@ -4636,7 +4636,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
@@ -4672,10 +4672,10 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addMetrics
-            case metricAttributionArn
-            case metricsOutputConfig
-            case removeMetrics
+            case addMetrics = "addMetrics"
+            case metricAttributionArn = "metricAttributionArn"
+            case metricsOutputConfig = "metricsOutputConfig"
+            case removeMetrics = "removeMetrics"
         }
     }
 
@@ -4688,7 +4688,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricAttributionArn
+            case metricAttributionArn = "metricAttributionArn"
         }
     }
 
@@ -4710,8 +4710,8 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
-            case recommenderConfig
+            case recommenderArn = "recommenderArn"
+            case recommenderConfig = "recommenderConfig"
         }
     }
 
@@ -4724,7 +4724,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommenderArn
+            case recommenderArn = "recommenderArn"
         }
     }
 }

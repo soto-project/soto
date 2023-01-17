@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -168,8 +168,8 @@ extension MigrationHubStrategy {
     }
 
     public enum InclusionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case excludeFromAssessment
-        case includeInAssessment
+        case excludeFromAssessment = "excludeFromAssessment"
+        case includeInAssessment = "includeInAssessment"
         public var description: String { return self.rawValue }
     }
 
@@ -215,13 +215,13 @@ extension MigrationHubStrategy {
     }
 
     public enum RunTimeAssessmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dataCollectionTaskFailed
-        case dataCollectionTaskPartialSuccess
-        case dataCollectionTaskScheduled
-        case dataCollectionTaskStarted
-        case dataCollectionTaskStopped
-        case dataCollectionTaskSuccess
-        case dataCollectionTaskToBeScheduled
+        case dataCollectionTaskFailed = "dataCollectionTaskFailed"
+        case dataCollectionTaskPartialSuccess = "dataCollectionTaskPartialSuccess"
+        case dataCollectionTaskScheduled = "dataCollectionTaskScheduled"
+        case dataCollectionTaskStarted = "dataCollectionTaskStarted"
+        case dataCollectionTaskStopped = "dataCollectionTaskStopped"
+        case dataCollectionTaskSuccess = "dataCollectionTaskSuccess"
+        case dataCollectionTaskToBeScheduled = "dataCollectionTaskToBeScheduled"
         public var description: String { return self.rawValue }
     }
 
@@ -306,10 +306,10 @@ extension MigrationHubStrategy {
     }
 
     public enum StrategyRecommendation: String, CustomStringConvertible, Codable, _SotoSendable {
-        case notRecommended
-        case potential
-        case recommended
-        case viableOption
+        case notRecommended = "notRecommended"
+        case potential = "potential"
+        case recommended = "recommended"
+        case viableOption = "viableOption"
         public var description: String { return self.rawValue }
     }
 
@@ -427,9 +427,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heterogeneous
-            case homogeneous
-            case noPreference
+            case heterogeneous = "heterogeneous"
+            case homogeneous = "homogeneous"
+            case noPreference = "noPreference"
         }
     }
 
@@ -487,9 +487,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsManagedResources
-            case noPreference
-            case selfManageResources
+            case awsManagedResources = "awsManagedResources"
+            case noPreference = "noPreference"
+            case selfManageResources = "selfManageResources"
         }
     }
 
@@ -507,8 +507,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case severity
+            case count = "count"
+            case severity = "severity"
         }
     }
 
@@ -521,7 +521,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appUnitErrorCategory
+            case appUnitErrorCategory = "appUnitErrorCategory"
         }
     }
 
@@ -597,28 +597,28 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analysisStatus
-            case antipatternReportS3Object
-            case antipatternReportStatus
-            case antipatternReportStatusMessage
-            case appType
-            case appUnitError
-            case associatedServerId
-            case databaseConfigDetail
-            case id
-            case inclusionStatus
-            case lastAnalyzedTimestamp
-            case listAntipatternSeveritySummary
-            case moreServerAssociationExists
-            case name
-            case osDriver
-            case osVersion
-            case recommendationSet
-            case resourceSubType
-            case runtimeStatus
-            case runtimeStatusMessage
-            case sourceCodeRepositories
-            case statusMessage
+            case analysisStatus = "analysisStatus"
+            case antipatternReportS3Object = "antipatternReportS3Object"
+            case antipatternReportStatus = "antipatternReportStatus"
+            case antipatternReportStatusMessage = "antipatternReportStatusMessage"
+            case appType = "appType"
+            case appUnitError = "appUnitError"
+            case associatedServerId = "associatedServerId"
+            case databaseConfigDetail = "databaseConfigDetail"
+            case id = "id"
+            case inclusionStatus = "inclusionStatus"
+            case lastAnalyzedTimestamp = "lastAnalyzedTimestamp"
+            case listAntipatternSeveritySummary = "listAntipatternSeveritySummary"
+            case moreServerAssociationExists = "moreServerAssociationExists"
+            case name = "name"
+            case osDriver = "osDriver"
+            case osVersion = "osVersion"
+            case recommendationSet = "recommendationSet"
+            case resourceSubType = "resourceSubType"
+            case runtimeStatus = "runtimeStatus"
+            case runtimeStatusMessage = "runtimeStatusMessage"
+            case sourceCodeRepositories = "sourceCodeRepositories"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -634,8 +634,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case srcCodeOrDbAnalysisStatus
+            case count = "count"
+            case srcCodeOrDbAnalysisStatus = "srcCodeOrDbAnalysisStatus"
         }
     }
 
@@ -654,9 +654,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isPreferred
-            case recommendation
-            case status
+            case isPreferred = "isPreferred"
+            case recommendation = "recommendation"
+            case status = "status"
         }
     }
 
@@ -672,8 +672,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appType
-            case count
+            case appType = "appType"
+            case count = "count"
         }
     }
 
@@ -690,7 +690,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case managementPreference
+            case managementPreference = "managementPreference"
         }
     }
 
@@ -733,17 +733,17 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case antipatternReportS3Object
-            case antipatternReportStatus
-            case antipatternReportStatusMessage
-            case lastAnalyzedTimestamp
-            case listAntipatternSeveritySummary
-            case listApplicationComponentStatusSummary
-            case listApplicationComponentStrategySummary
-            case listApplicationComponentSummary
-            case listServerStatusSummary
-            case listServerStrategySummary
-            case listServerSummary
+            case antipatternReportS3Object = "antipatternReportS3Object"
+            case antipatternReportStatus = "antipatternReportStatus"
+            case antipatternReportStatusMessage = "antipatternReportStatusMessage"
+            case lastAnalyzedTimestamp = "lastAnalyzedTimestamp"
+            case listAntipatternSeveritySummary = "listAntipatternSeveritySummary"
+            case listApplicationComponentStatusSummary = "listApplicationComponentStatusSummary"
+            case listApplicationComponentStrategySummary = "listApplicationComponentStrategySummary"
+            case listApplicationComponentSummary = "listApplicationComponentSummary"
+            case listServerStatusSummary = "listServerStatusSummary"
+            case listServerStrategySummary = "listServerStrategySummary"
+            case listServerSummary = "listServerSummary"
         }
     }
 
@@ -771,9 +771,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case values
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -789,8 +789,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -808,7 +808,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDestination
+            case targetDestination = "targetDestination"
         }
     }
 
@@ -841,10 +841,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case licenseCostReduction
-            case modernizeInfrastructureWithCloudNativeTechnologies
-            case reduceOperationalOverheadWithManagedServices
-            case speedOfMigration
+            case licenseCostReduction = "licenseCostReduction"
+            case modernizeInfrastructureWithCloudNativeTechnologies = "modernizeInfrastructureWithCloudNativeTechnologies"
+            case reduceOperationalOverheadWithManagedServices = "reduceOperationalOverheadWithManagedServices"
+            case speedOfMigration = "speedOfMigration"
         }
     }
 
@@ -878,14 +878,14 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectorHealth
-            case collectorId
-            case collectorVersion
-            case configurationSummary
-            case hostName
-            case ipAddress
-            case lastActivityTimeStamp
-            case registeredTimeStamp
+            case collectorHealth = "collectorHealth"
+            case collectorId = "collectorId"
+            case collectorVersion = "collectorVersion"
+            case configurationSummary = "configurationSummary"
+            case hostName = "hostName"
+            case ipAddress = "ipAddress"
+            case lastActivityTimeStamp = "lastActivityTimeStamp"
+            case registeredTimeStamp = "registeredTimeStamp"
         }
     }
 
@@ -910,11 +910,11 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressBasedRemoteInfoList
-            case pipelineInfoList
-            case remoteSourceCodeAnalysisServerInfo
-            case vcenterBasedRemoteInfoList
-            case versionControlInfoList
+            case ipAddressBasedRemoteInfoList = "ipAddressBasedRemoteInfoList"
+            case pipelineInfoList = "pipelineInfoList"
+            case remoteSourceCodeAnalysisServerInfo = "remoteSourceCodeAnalysisServerInfo"
+            case vcenterBasedRemoteInfoList = "vcenterBasedRemoteInfoList"
+            case versionControlInfoList = "versionControlInfoList"
         }
     }
 
@@ -948,14 +948,14 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case failed
-            case inProgress
-            case servers
-            case startTime
-            case status
-            case statusMessage
-            case success
+            case completionTime = "completionTime"
+            case failed = "failed"
+            case inProgress = "inProgress"
+            case servers = "servers"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case success = "success"
         }
     }
 
@@ -968,7 +968,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretName
+            case secretName = "secretName"
         }
     }
 
@@ -988,8 +988,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseManagementPreference
-            case databaseMigrationPreference
+            case databaseManagementPreference = "databaseManagementPreference"
+            case databaseMigrationPreference = "databaseMigrationPreference"
         }
     }
 
@@ -1031,10 +1031,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationComponentDetail
-            case associatedApplications
-            case associatedServerIds
-            case moreApplicationResource
+            case applicationComponentDetail = "applicationComponentDetail"
+            case associatedApplications = "associatedApplications"
+            case associatedServerIds = "associatedServerIds"
+            case moreApplicationResource = "moreApplicationResource"
         }
     }
 
@@ -1067,7 +1067,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationComponentStrategies
+            case applicationComponentStrategies = "applicationComponentStrategies"
         }
     }
 
@@ -1106,9 +1106,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentTargets
-            case dataCollectionDetails
-            case id
+            case assessmentTargets = "assessmentTargets"
+            case dataCollectionDetails = "dataCollectionDetails"
+            case id = "id"
         }
     }
 
@@ -1171,17 +1171,17 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case id
-            case importName
-            case inputS3Bucket
-            case inputS3Key
-            case numberOfRecordsFailed
-            case numberOfRecordsSuccess
-            case startTime
-            case status
-            case statusReportS3Bucket
-            case statusReportS3Key
+            case completionTime = "completionTime"
+            case id = "id"
+            case importName = "importName"
+            case inputS3Bucket = "inputS3Bucket"
+            case inputS3Key = "inputS3Key"
+            case numberOfRecordsFailed = "numberOfRecordsFailed"
+            case numberOfRecordsSuccess = "numberOfRecordsSuccess"
+            case startTime = "startTime"
+            case status = "status"
+            case statusReportS3Bucket = "statusReportS3Bucket"
+            case statusReportS3Key = "statusReportS3Key"
         }
     }
 
@@ -1198,7 +1198,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1224,10 +1224,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationMode
-            case applicationPreferences
-            case databasePreferences
-            case prioritizeBusinessGoals
+            case applicationMode = "applicationMode"
+            case applicationPreferences = "applicationPreferences"
+            case databasePreferences = "databasePreferences"
+            case prioritizeBusinessGoals = "prioritizeBusinessGoals"
         }
     }
 
@@ -1244,7 +1244,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentSummary
+            case assessmentSummary = "assessmentSummary"
         }
     }
 
@@ -1280,8 +1280,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case recommendationReportDetails
+            case id = "id"
+            case recommendationReportDetails = "recommendationReportDetails"
         }
     }
 
@@ -1332,9 +1332,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedApplications
-            case nextToken
-            case serverDetail
+            case associatedApplications = "associatedApplications"
+            case nextToken = "nextToken"
+            case serverDetail = "serverDetail"
         }
     }
 
@@ -1368,7 +1368,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverStrategies
+            case serverStrategies = "serverStrategies"
         }
     }
 
@@ -1389,8 +1389,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1408,7 +1408,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDatabaseEngine
+            case targetDatabaseEngine = "targetDatabaseEngine"
         }
     }
 
@@ -1425,7 +1425,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDatabaseEngine
+            case targetDatabaseEngine = "targetDatabaseEngine"
         }
     }
 
@@ -1444,9 +1444,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authType
-            case ipAddressConfigurationTimeStamp
-            case osType
+            case authType = "authType"
+            case ipAddressConfigurationTimeStamp = "ipAddressConfigurationTimeStamp"
+            case osType = "osType"
         }
     }
 
@@ -1489,17 +1489,17 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case id
-            case importName
-            case inputS3Bucket
-            case inputS3Key
-            case numberOfRecordsFailed
-            case numberOfRecordsSuccess
-            case startTime
-            case status
-            case statusReportS3Bucket
-            case statusReportS3Key
+            case completionTime = "completionTime"
+            case id = "id"
+            case importName = "importName"
+            case inputS3Bucket = "inputS3Bucket"
+            case inputS3Key = "inputS3Key"
+            case numberOfRecordsFailed = "numberOfRecordsFailed"
+            case numberOfRecordsSuccess = "numberOfRecordsSuccess"
+            case startTime = "startTime"
+            case status = "status"
+            case statusReportS3Bucket = "statusReportS3Bucket"
+            case statusReportS3Key = "statusReportS3Key"
         }
     }
 
@@ -1538,12 +1538,12 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationComponentCriteria
-            case filterValue
-            case groupIdFilter
-            case maxResults
-            case nextToken
-            case sort
+            case applicationComponentCriteria = "applicationComponentCriteria"
+            case filterValue = "filterValue"
+            case groupIdFilter = "groupIdFilter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
         }
     }
 
@@ -1559,8 +1559,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationComponentInfos
-            case nextToken
+            case applicationComponentInfos = "applicationComponentInfos"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1602,7 +1602,7 @@ extension MigrationHubStrategy {
 
         private enum CodingKeys: String, CodingKey {
             case collectors = "Collectors"
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -1643,8 +1643,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case taskInfos
+            case nextToken = "nextToken"
+            case taskInfos = "taskInfos"
         }
     }
 
@@ -1683,12 +1683,12 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterValue
-            case groupIdFilter
-            case maxResults
-            case nextToken
-            case serverCriteria
-            case sort
+            case filterValue = "filterValue"
+            case groupIdFilter = "groupIdFilter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serverCriteria = "serverCriteria"
+            case sort = "sort"
         }
     }
 
@@ -1704,8 +1704,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serverInfos
+            case nextToken = "nextToken"
+            case serverInfos = "serverInfos"
         }
     }
 
@@ -1727,10 +1727,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interfaceName
-            case ipAddress
-            case macAddress
-            case netMask
+            case interfaceName = "interfaceName"
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
+            case netMask = "netMask"
         }
     }
 
@@ -1748,7 +1748,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDatabaseEngine
+            case targetDatabaseEngine = "targetDatabaseEngine"
         }
     }
 
@@ -1766,7 +1766,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDestination
+            case targetDestination = "targetDestination"
         }
     }
 
@@ -1782,8 +1782,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case version
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -1799,8 +1799,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineConfigurationTimeStamp
-            case pipelineType
+            case pipelineConfigurationTimeStamp = "pipelineConfigurationTimeStamp"
+            case pipelineType = "pipelineType"
         }
     }
 
@@ -1817,7 +1817,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case businessGoals
+            case businessGoals = "businessGoals"
         }
     }
 
@@ -1845,10 +1845,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationMode
-            case applicationPreferences
-            case databasePreferences
-            case prioritizeBusinessGoals
+            case applicationMode = "applicationMode"
+            case applicationPreferences = "applicationPreferences"
+            case databasePreferences = "databasePreferences"
+            case prioritizeBusinessGoals = "prioritizeBusinessGoals"
         }
     }
 
@@ -1880,12 +1880,12 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case s3Bucket
-            case s3Keys
-            case startTime
-            case status
-            case statusMessage
+            case completionTime = "completionTime"
+            case s3Bucket = "s3Bucket"
+            case s3Keys = "s3Keys"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1904,9 +1904,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case strategy
-            case targetDestination
-            case transformationTool
+            case strategy = "strategy"
+            case targetDestination = "targetDestination"
+            case transformationTool = "transformationTool"
         }
     }
 
@@ -1919,7 +1919,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteSourceCodeAnalysisServerConfigurationTimestamp
+            case remoteSourceCodeAnalysisServerConfigurationTimestamp = "remoteSourceCodeAnalysisServerConfigurationTimestamp"
         }
     }
 
@@ -1935,8 +1935,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3key
+            case s3Bucket = "s3Bucket"
+            case s3key = "s3key"
         }
     }
 
@@ -1954,7 +1954,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetDestination
+            case targetDestination = "targetDestination"
         }
     }
 
@@ -2006,20 +2006,20 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case antipatternReportS3Object
-            case antipatternReportStatus
-            case antipatternReportStatusMessage
-            case applicationComponentStrategySummary
-            case dataCollectionStatus
-            case id
-            case lastAnalyzedTimestamp
-            case listAntipatternSeveritySummary
-            case name
-            case recommendationSet
-            case serverError
-            case serverType
-            case statusMessage
-            case systemInfo
+            case antipatternReportS3Object = "antipatternReportS3Object"
+            case antipatternReportStatus = "antipatternReportStatus"
+            case antipatternReportStatusMessage = "antipatternReportStatusMessage"
+            case applicationComponentStrategySummary = "applicationComponentStrategySummary"
+            case dataCollectionStatus = "dataCollectionStatus"
+            case id = "id"
+            case lastAnalyzedTimestamp = "lastAnalyzedTimestamp"
+            case listAntipatternSeveritySummary = "listAntipatternSeveritySummary"
+            case name = "name"
+            case recommendationSet = "recommendationSet"
+            case serverError = "serverError"
+            case serverType = "serverType"
+            case statusMessage = "statusMessage"
+            case systemInfo = "systemInfo"
         }
     }
 
@@ -2032,7 +2032,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverErrorCategory
+            case serverErrorCategory = "serverErrorCategory"
         }
     }
 
@@ -2048,8 +2048,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case runTimeAssessmentStatus
+            case count = "count"
+            case runTimeAssessmentStatus = "runTimeAssessmentStatus"
         }
     }
 
@@ -2071,10 +2071,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isPreferred
-            case numberOfApplicationComponents
-            case recommendation
-            case status
+            case isPreferred = "isPreferred"
+            case numberOfApplicationComponents = "numberOfApplicationComponents"
+            case recommendation = "recommendation"
+            case status = "status"
         }
     }
 
@@ -2090,7 +2090,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
+            case count = "count"
             case serverOsType = "ServerOsType"
         }
     }
@@ -2125,10 +2125,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case projectName
-            case sourceVersion
-            case versionControl
+            case location = "location"
+            case projectName = "projectName"
+            case sourceVersion = "sourceVersion"
+            case versionControl = "versionControl"
         }
     }
 
@@ -2150,10 +2150,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case projectName
-            case repository
-            case versionControlType
+            case branch = "branch"
+            case projectName = "projectName"
+            case repository = "repository"
+            case versionControlType = "versionControlType"
         }
     }
 
@@ -2183,9 +2183,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentTargets
-            case s3bucketForAnalysisData
-            case s3bucketForReportData
+            case assessmentTargets = "assessmentTargets"
+            case s3bucketForAnalysisData = "s3bucketForAnalysisData"
+            case s3bucketForReportData = "s3bucketForReportData"
         }
     }
 
@@ -2198,7 +2198,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
+            case assessmentId = "assessmentId"
         }
     }
 
@@ -2240,12 +2240,12 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceType
-            case groupId
-            case name
+            case dataSourceType = "dataSourceType"
+            case groupId = "groupId"
+            case name = "name"
             case s3Bucket = "S3Bucket"
-            case s3bucketForReportData
-            case s3key
+            case s3bucketForReportData = "s3bucketForReportData"
+            case s3key = "s3key"
         }
     }
 
@@ -2258,7 +2258,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -2280,8 +2280,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupIdFilter
-            case outputFormat
+            case groupIdFilter = "groupIdFilter"
+            case outputFormat = "outputFormat"
         }
     }
 
@@ -2294,7 +2294,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -2312,7 +2312,7 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
+            case assessmentId = "assessmentId"
         }
     }
 
@@ -2338,10 +2338,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isPreferred
-            case strategy
-            case targetDestination
-            case toolName
+            case isPreferred = "isPreferred"
+            case strategy = "strategy"
+            case targetDestination = "targetDestination"
+            case toolName = "toolName"
         }
     }
 
@@ -2357,8 +2357,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case strategy
+            case count = "count"
+            case strategy = "strategy"
         }
     }
 
@@ -2380,10 +2380,10 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuArchitecture
-            case fileSystemType
-            case networkInfoList
-            case osInfo
+            case cpuArchitecture = "cpuArchitecture"
+            case fileSystemType = "fileSystemType"
+            case networkInfoList = "networkInfoList"
+            case osInfo = "osInfo"
         }
     }
 
@@ -2402,9 +2402,9 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tranformationToolInstallationLink
+            case description = "description"
+            case name = "name"
+            case tranformationToolInstallationLink = "tranformationToolInstallationLink"
         }
     }
 
@@ -2446,13 +2446,13 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationComponentId
-            case appType
-            case configureOnly
-            case inclusionStatus
-            case secretsManagerKey
-            case sourceCodeList
-            case strategyOption
+            case applicationComponentId = "applicationComponentId"
+            case appType = "appType"
+            case configureOnly = "configureOnly"
+            case inclusionStatus = "inclusionStatus"
+            case secretsManagerKey = "secretsManagerKey"
+            case sourceCodeList = "sourceCodeList"
+            case strategyOption = "strategyOption"
         }
     }
 
@@ -2478,8 +2478,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverId
-            case strategyOption
+            case serverId = "serverId"
+            case strategyOption = "strategyOption"
         }
     }
 
@@ -2499,8 +2499,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case osType
-            case vcenterConfigurationTimeStamp
+            case osType = "osType"
+            case vcenterConfigurationTimeStamp = "vcenterConfigurationTimeStamp"
         }
     }
 
@@ -2516,8 +2516,8 @@ extension MigrationHubStrategy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versionControlConfigurationTimeStamp
-            case versionControlType
+            case versionControlConfigurationTimeStamp = "versionControlConfigurationTimeStamp"
+            case versionControlType = "versionControlType"
         }
     }
 }
@@ -2572,7 +2572,7 @@ public struct MigrationHubStrategyErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     ///  The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    ///  The request body isn&#39;t valid.
+    ///  The request body isn't valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

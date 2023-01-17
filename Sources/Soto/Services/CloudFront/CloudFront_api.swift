@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -951,7 +951,7 @@ extension CloudFront {
 // MARK: Paginators
 
 extension CloudFront {
-    ///  Lists origin access identities.
+    /// Lists origin access identities.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1004,7 +1004,7 @@ extension CloudFront {
         )
     }
 
-    ///  List CloudFront distributions.
+    /// List CloudFront distributions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1057,7 +1057,7 @@ extension CloudFront {
         )
     }
 
-    ///  Lists invalidation batches.
+    /// Lists invalidation batches.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1110,7 +1110,7 @@ extension CloudFront {
         )
     }
 
-    ///  List streaming distributions.
+    /// List streaming distributions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

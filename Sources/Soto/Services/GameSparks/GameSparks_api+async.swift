@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -193,7 +193,7 @@ extension GameSparks {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GameSparks {
-    ///  Gets a paginated list of available versions for the extension.  Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
+    /// Gets a paginated list of available versions for the extension.  Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -215,7 +215,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of available extensions.  Extensions provide features that games can use from scripts.
+    /// Gets a paginated list of available extensions.  Extensions provide features that games can use from scripts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -237,7 +237,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of games.
+    /// Gets a paginated list of games.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -259,7 +259,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of code generation jobs for a snapshot.
+    /// Gets a paginated list of code generation jobs for a snapshot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -281,7 +281,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of snapshot summaries from the game.
+    /// Gets a paginated list of snapshot summaries from the game.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -303,7 +303,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of stage deployment summaries from the game.
+    /// Gets a paginated list of stage deployment summaries from the game.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -325,7 +325,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of stage summaries from the game.
+    /// Gets a paginated list of stage summaries from the game.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -88,7 +88,9 @@ extension Location {
     }
 
     public enum TravelMode: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bicycle = "Bicycle"
         case car = "Car"
+        case motorcycle = "Motorcycle"
         case truck = "Truck"
         case walking = "Walking"
         public var description: String { return self.rawValue }
@@ -612,7 +614,7 @@ extension Location {
         public let destinationPositions: [[Double]]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.     Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more information about using Grab as a data provider, see GrabMaps in the Amazon Location Service Developer Guide.  Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
@@ -681,7 +683,7 @@ extension Location {
     }
 
     public struct CalculateRouteMatrixSummary: AWSDecodableShape {
-        /// The data provider of traffic and road network data used to calculate the routes. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of traffic and road network data used to calculate the routes. Indicates one of the available providers:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The unit of measurement for route distances.
         public let distanceUnit: DistanceUnit
@@ -727,7 +729,7 @@ extension Location {
         public let distanceUnit: DistanceUnit?
         /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false  Valid Values: false | true
         public let includeLegGeometry: Bool?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck,  or Walking as options for the TravelMode. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck,  Walking, Bicycle or Motorcycle as options for  the TravelMode.   Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Developer Guide.  The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
@@ -794,7 +796,7 @@ extension Location {
     }
 
     public struct CalculateRouteSummary: AWSDecodableShape {
-        /// The data provider of traffic and road network data used to calculate the route. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of traffic and road network data used to calculate the route. Indicates one of the available providers:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The total distance covered by the route. The sum of the distance travelled between every stop on the route.  If Esri is the data source for the route calculator, the route distance can’t be greater than 400 km. If the route exceeds 400 km, the response is a 400 RoutesValidationException error.
         public let distance: Double
@@ -1029,7 +1031,7 @@ extension Location {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the AWS Service Terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
@@ -1111,7 +1113,7 @@ extension Location {
     public struct CreateRouteCalculatorRequest: AWSEncodableShape {
         /// The name of the route calculator resource.  Requirements:   Can use alphanumeric characters (A–Z, a–z, 0–9) , hyphens (-), periods (.), and underscores (_).   Must be a unique Route calculator resource name.   No spaces allowed. For example, ExampleRouteCalculator.
         public let calculatorName: String
-        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage. Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.    Grab – Grab provides routing functionality for Southeast Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// The optional description for the route calculator resource.
         public let description: String?
@@ -1595,7 +1597,7 @@ extension Location {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data. Values can be one of the following:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of geospatial data. Values can be one of the following:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The specified data storage option for requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -1680,7 +1682,7 @@ extension Location {
         /// The timestamp when the route calculator resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.    For example, 2020–07-2T12:15:20.000Z+01:00
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of traffic and road network data. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of traffic and road network data. Indicates one of the available providers:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The optional description of the route calculator resource.
         public let description: String
@@ -2138,7 +2140,7 @@ extension Location {
             AWSMemberEncoding(label: "mapName", location: .uri("MapName"))
         ]
 
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for Open Data (Preview) styles:   VectorOpenDataStandardLight –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data (Preview) styles:   VectorOpenDataStandardLight –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts used by VectorOpenDataStandardLight are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2799,7 +2801,7 @@ extension Location {
         /// The timestamp for when the place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data. Values can be one of the following:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of geospatial data. Values can be one of the following:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The optional description for the place index resource.
         public let description: String
@@ -2885,7 +2887,7 @@ extension Location {
         /// The timestamp when the route calculator resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.    For example, 2020–07-2T12:15:20.000Z+01:00
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of traffic and road network data. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
+        /// The data provider of traffic and road network data. Indicates one of the available providers:    Esri     Grab     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The optional description of the route calculator resource.
         public let description: String
@@ -2929,8 +2931,7 @@ extension Location {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
-        /// 	          Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2946,8 +2947,7 @@ extension Location {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// Tags that have been applied to the specified resource. Tags are mapped from the tag key to the tag value: "TagKey" : "TagValue".
-        /// 	          Format example: {"tag1" : "value1", "tag2" : "value2"}
+        /// Tags that have been applied to the specified resource. Tags are mapped from the tag key to the tag value: "TagKey" : "TagValue".   Format example: {"tag1" : "value1", "tag2" : "value2"}
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -3093,7 +3093,7 @@ extension Location {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid Open Data (Preview) map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  (preview) map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.  Open Data maps is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Open Data is in preview release.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri World Streets map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri World Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data (Preview) map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  (preview) map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.  Open Data maps is in preview. We may add, change, or remove  features before announcing general availability. For more information, see Open Data is in preview release.
         public let style: String
 
         public init(style: String) {
@@ -3131,7 +3131,7 @@ extension Location {
         public let region: String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public let street: String?
-        /// A country, or an area that's part of a larger region. For example, Metro Vancouver.
+        /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
         /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
         public let timeZone: TimeZone?
@@ -3301,7 +3301,7 @@ extension Location {
         public let distance: Double
         /// Details about the search result, such as its address and position.
         public let place: Place
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE or Grab as a data provider.
         public let placeId: String?
 
         public init(distance: Double, place: Place, placeId: String? = nil) {
@@ -3318,7 +3318,7 @@ extension Location {
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use HERE or Esri as data providers.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
         /// The text of the place suggestion, typically formatted as an address string.
         public let text: String
@@ -3339,9 +3339,9 @@ extension Location {
         public let distance: Double?
         /// Details about the search result, such as its address and position.
         public let place: Place
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForText operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForText operations, the PlaceId is returned only by place indexes that use HERE or Grab as a data provider.
         public let placeId: String?
-        /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri.
+        /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri or Grab.
         public let relevance: Double?
 
         public init(distance: Double? = nil, place: Place, placeId: String? = nil, relevance: Double? = nil) {
@@ -3417,7 +3417,7 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForPositionSummary: AWSDecodableShape {
-        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
+        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Grab   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
         public let language: String?
@@ -3518,7 +3518,7 @@ extension Location {
     public struct SearchPlaceIndexForSuggestionsSummary: AWSDecodableShape {
         /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let biasPosition: [Double]?
-        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
+        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Grab   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
@@ -3631,7 +3631,7 @@ extension Location {
     public struct SearchPlaceIndexForTextSummary: AWSDecodableShape {
         /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let biasPosition: [Double]?
-        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
+        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Grab   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box specified in the request.
         public let filterBBox: [Double]?
@@ -3703,8 +3703,7 @@ extension Location {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.
-        /// 	          Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
         /// Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]
@@ -3801,8 +3800,7 @@ extension Location {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
-        /// 	          Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
+        /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
         /// The list of tag keys to remove from the specified resource.
         public let tagKeys: [String]
@@ -4185,7 +4183,7 @@ public struct LocationErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The request has failed to process because of an unknown server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource that you&#39;ve entered was not found in your AWS account.
+    /// The resource that you've entered was not found in your AWS account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The operation was denied because the request would exceed the maximum quota set for Amazon Location Service.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

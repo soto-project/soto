@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -725,10 +725,10 @@ extension DataSync {
             }
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
-            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1_073_741_824)
-            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1_048_576)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
             try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
-            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131_072)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")
@@ -2015,7 +2015,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 102_400)
+            try self.validate(self.value, name: "value", parent: name, max: 102400)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[^\\x00]+$")
         }
 
@@ -2932,10 +2932,10 @@ extension DataSync {
             }
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
-            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1_073_741_824)
-            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1_048_576)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
+            try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
             try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
-            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131_072)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")

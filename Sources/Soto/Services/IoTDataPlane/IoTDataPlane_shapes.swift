@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -61,7 +61,6 @@ extension IoTDataPlane {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
-
         /// The state information, in JSON format.
         public let payload: AWSPayload
 
@@ -70,7 +69,7 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload
+            case payload = "payload"
         }
     }
 
@@ -107,10 +106,10 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime
-            case payload
-            case qos
-            case topic
+            case lastModifiedTime = "lastModifiedTime"
+            case payload = "payload"
+            case qos = "qos"
+            case topic = "topic"
         }
     }
 
@@ -146,7 +145,6 @@ extension IoTDataPlane {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
-
         /// The state information, in JSON format.
         public let payload: AWSPayload?
 
@@ -155,7 +153,7 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload
+            case payload = "payload"
         }
     }
 
@@ -205,9 +203,9 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case results
-            case timestamp
+            case nextToken = "nextToken"
+            case results = "results"
+            case timestamp = "timestamp"
         }
     }
 
@@ -247,8 +245,8 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case retainedTopics
+            case nextToken = "nextToken"
+            case retainedTopics = "retainedTopics"
         }
     }
 
@@ -328,10 +326,10 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedTime
-            case payloadSize
-            case qos
-            case topic
+            case lastModifiedTime = "lastModifiedTime"
+            case payloadSize = "payloadSize"
+            case qos = "qos"
+            case topic = "topic"
         }
     }
 
@@ -373,7 +371,6 @@ extension IoTDataPlane {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload]
-
         /// The state information, in JSON format.
         public let payload: AWSPayload?
 
@@ -382,7 +379,7 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload
+            case payload = "payload"
         }
     }
 }

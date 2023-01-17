@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -163,7 +163,7 @@ extension SSMContacts {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSMContacts {
-    ///  Lists all contact channels for the specified contact.
+    /// Lists all contact channels for the specified contact.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -185,7 +185,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all contacts and escalation plans in Incident Manager.
+    /// Lists all contacts and escalation plans in Incident Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -207,7 +207,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all engagements that have happened in an incident.
+    /// Lists all engagements that have happened in an incident.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -229,7 +229,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all of the engagements to contact channels that have been acknowledged.
+    /// Lists all of the engagements to contact channels that have been acknowledged.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -251,7 +251,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists the engagements to a contact's contact channels.
+    /// Lists the engagements to a contact's contact channels.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -273,7 +273,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists the engagements to contact channels that occurred by engaging a contact.
+    /// Lists the engagements to contact channels that occurred by engaging a contact.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

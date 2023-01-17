@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -140,10 +140,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adr
-            case atodr
-            case cr
-            case threshold
+            case adr = "adr"
+            case atodr = "atodr"
+            case cr = "cr"
+            case threshold = "threshold"
         }
     }
 
@@ -156,7 +156,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asi
+            case asi = "asi"
         }
     }
 
@@ -172,8 +172,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricDataPoints
-            case modelPerformance
+            case metricDataPoints = "metricDataPoints"
+            case modelPerformance = "modelPerformance"
         }
     }
 
@@ -189,8 +189,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedVariablesImportance
-            case variableNames
+            case aggregatedVariablesImportance = "aggregatedVariablesImportance"
+            case variableNames = "variableNames"
         }
     }
 
@@ -209,9 +209,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventVariableNames
-            case logOddsImpact
-            case relativeImpact
+            case eventVariableNames = "eventVariableNames"
+            case logOddsImpact = "logOddsImpact"
+            case relativeImpact = "relativeImpact"
         }
     }
 
@@ -224,7 +224,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logOddsMetrics
+            case logOddsMetrics = "logOddsMetrics"
         }
     }
 
@@ -243,9 +243,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case name
+            case code = "code"
+            case message = "message"
+            case name = "name"
         }
     }
 
@@ -270,8 +270,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case variableEntries
+            case tags = "tags"
+            case variableEntries = "variableEntries"
         }
     }
 
@@ -284,7 +284,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -303,9 +303,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case name
+            case code = "code"
+            case message = "message"
+            case name = "name"
         }
     }
 
@@ -323,7 +323,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case names
+            case names = "names"
         }
     }
 
@@ -339,8 +339,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case variables
+            case errors = "errors"
+            case variables = "variables"
         }
     }
 
@@ -389,19 +389,19 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case completionTime
-            case eventTypeName
-            case failedRecordsCount
-            case failureReason
-            case iamRoleArn
-            case inputPath
-            case jobId
-            case outputPath
-            case processedRecordsCount
-            case startTime
-            case status
-            case totalRecordsCount
+            case arn = "arn"
+            case completionTime = "completionTime"
+            case eventTypeName = "eventTypeName"
+            case failedRecordsCount = "failedRecordsCount"
+            case failureReason = "failureReason"
+            case iamRoleArn = "iamRoleArn"
+            case inputPath = "inputPath"
+            case jobId = "jobId"
+            case outputPath = "outputPath"
+            case processedRecordsCount = "processedRecordsCount"
+            case startTime = "startTime"
+            case status = "status"
+            case totalRecordsCount = "totalRecordsCount"
         }
     }
 
@@ -456,21 +456,21 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case completionTime
-            case detectorName
-            case detectorVersion
-            case eventTypeName
-            case failureReason
-            case iamRoleArn
-            case inputPath
-            case jobId
-            case lastHeartbeatTime
-            case outputPath
-            case processedRecordsCount
-            case startTime
-            case status
-            case totalRecordsCount
+            case arn = "arn"
+            case completionTime = "completionTime"
+            case detectorName = "detectorName"
+            case detectorVersion = "detectorVersion"
+            case eventTypeName = "eventTypeName"
+            case failureReason = "failureReason"
+            case iamRoleArn = "iamRoleArn"
+            case inputPath = "inputPath"
+            case jobId = "jobId"
+            case lastHeartbeatTime = "lastHeartbeatTime"
+            case outputPath = "outputPath"
+            case processedRecordsCount = "processedRecordsCount"
+            case startTime = "startTime"
+            case status = "status"
+            case totalRecordsCount = "totalRecordsCount"
         }
     }
 
@@ -489,7 +489,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -512,7 +512,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -566,12 +566,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeName
-            case iamRoleArn
-            case inputPath
-            case jobId
-            case outputPath
-            case tags
+            case eventTypeName = "eventTypeName"
+            case iamRoleArn = "iamRoleArn"
+            case inputPath = "inputPath"
+            case jobId = "jobId"
+            case outputPath = "outputPath"
+            case tags = "tags"
         }
     }
 
@@ -637,14 +637,14 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorName
-            case detectorVersion
-            case eventTypeName
-            case iamRoleArn
-            case inputPath
-            case jobId
-            case outputPath
-            case tags
+            case detectorName = "detectorName"
+            case detectorVersion = "detectorVersion"
+            case eventTypeName = "eventTypeName"
+            case iamRoleArn = "iamRoleArn"
+            case inputPath = "inputPath"
+            case jobId = "jobId"
+            case outputPath = "outputPath"
+            case tags = "tags"
         }
     }
 
@@ -700,13 +700,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorId
-            case externalModelEndpoints
-            case modelVersions
-            case ruleExecutionMode
-            case rules
-            case tags
+            case description = "description"
+            case detectorId = "detectorId"
+            case externalModelEndpoints = "externalModelEndpoints"
+            case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
+            case rules = "rules"
+            case tags = "tags"
         }
     }
 
@@ -725,9 +725,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case status
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case status = "status"
         }
     }
 
@@ -764,11 +764,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case eventTypeName
-            case modelId
-            case modelType
-            case tags
+            case description = "description"
+            case eventTypeName = "eventTypeName"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case tags = "tags"
         }
     }
 
@@ -815,13 +815,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalEventsDetail
-            case ingestedEventsDetail
-            case modelId
-            case modelType
-            case tags
-            case trainingDataSchema
-            case trainingDataSource
+            case externalEventsDetail = "externalEventsDetail"
+            case ingestedEventsDetail = "ingestedEventsDetail"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case tags = "tags"
+            case trainingDataSchema = "trainingDataSchema"
+            case trainingDataSource = "trainingDataSource"
         }
     }
 
@@ -843,10 +843,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case status
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
         }
     }
 
@@ -895,13 +895,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorId
-            case expression
-            case language
-            case outcomes
-            case ruleId
-            case tags
+            case description = "description"
+            case detectorId = "detectorId"
+            case expression = "expression"
+            case language = "language"
+            case outcomes = "outcomes"
+            case ruleId = "ruleId"
+            case tags = "tags"
         }
     }
 
@@ -914,7 +914,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rule
+            case rule = "rule"
         }
     }
 
@@ -953,13 +953,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case dataType
-            case defaultValue
-            case description
-            case name
-            case tags
-            case variableType
+            case dataSource = "dataSource"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case variableType = "variableType"
         }
     }
 
@@ -979,8 +979,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldLevelMessages
-            case fileLevelMessages
+            case fieldLevelMessages = "fieldLevelMessages"
+            case fileLevelMessages = "fileLevelMessages"
         }
     }
 
@@ -999,7 +999,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -1022,7 +1022,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -1045,7 +1045,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
+            case detectorId = "detectorId"
         }
     }
 
@@ -1074,8 +1074,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
         }
     }
 
@@ -1098,7 +1098,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1130,9 +1130,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteAuditHistory
-            case eventId
-            case eventTypeName
+            case deleteAuditHistory = "deleteAuditHistory"
+            case eventId = "eventId"
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -1155,7 +1155,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1178,7 +1178,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeName
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -1194,8 +1194,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventsDeletionStatus
-            case eventTypeName
+            case eventsDeletionStatus = "eventsDeletionStatus"
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -1214,7 +1214,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelEndpoint
+            case modelEndpoint = "modelEndpoint"
         }
     }
 
@@ -1237,7 +1237,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1263,8 +1263,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
+            case modelId = "modelId"
+            case modelType = "modelType"
         }
     }
 
@@ -1296,9 +1296,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
-            case modelVersionNumber
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
         }
     }
 
@@ -1321,7 +1321,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1341,7 +1341,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rule
+            case rule = "rule"
         }
     }
 
@@ -1358,7 +1358,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1389,9 +1389,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case maxResults
-            case nextToken
+            case detectorId = "detectorId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1413,10 +1413,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case detectorId
-            case detectorVersionSummaries
-            case nextToken
+            case arn = "arn"
+            case detectorId = "detectorId"
+            case detectorVersionSummaries = "detectorVersionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1452,11 +1452,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case nextToken
+            case maxResults = "maxResults"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1472,8 +1472,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelVersionDetails
-            case nextToken
+            case modelVersionDetails = "modelVersionDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1501,12 +1501,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case detectorId
-            case eventTypeName
-            case lastUpdatedTime
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case detectorId = "detectorId"
+            case eventTypeName = "eventTypeName"
+            case lastUpdatedTime = "lastUpdatedTime"
         }
     }
 
@@ -1528,10 +1528,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorVersionId
-            case lastUpdatedTime
-            case status
+            case description = "description"
+            case detectorVersionId = "detectorVersionId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case status = "status"
         }
     }
 
@@ -1553,8 +1553,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case entityType
+            case entityId = "entityId"
+            case entityType = "entityType"
         }
     }
 
@@ -1579,11 +1579,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case lastUpdatedTime
-            case name
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
         }
     }
 
@@ -1605,10 +1605,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputVariables
-            case modelEndpoint
-            case outputVariables
-            case useEventVariables
+            case inputVariables = "inputVariables"
+            case modelEndpoint = "modelEndpoint"
+            case outputVariables = "outputVariables"
+            case useEventVariables = "useEventVariables"
         }
     }
 
@@ -1630,10 +1630,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluations
-            case modelId
-            case modelType
-            case modelVersion
+            case evaluations = "evaluations"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersion = "modelVersion"
         }
     }
 
@@ -1664,13 +1664,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluated
-            case expression
-            case expressionWithValues
-            case matched
-            case outcomes
-            case ruleId
-            case ruleVersion
+            case evaluated = "evaluated"
+            case expression = "expression"
+            case expressionWithValues = "expressionWithValues"
+            case matched = "matched"
+            case outcomes = "outcomes"
+            case ruleId = "ruleId"
+            case ruleVersion = "ruleVersion"
         }
     }
 
@@ -1701,13 +1701,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentLabel
-            case entities
-            case eventId
-            case eventTimestamp
-            case eventTypeName
-            case eventVariables
-            case labelTimestamp
+            case currentLabel = "currentLabel"
+            case entities = "entities"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case eventVariables = "eventVariables"
+            case labelTimestamp = "labelTimestamp"
         }
     }
 
@@ -1735,12 +1735,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case eventId
-            case eventTimestamp
-            case eventTypeName
-            case predictionTimestamp
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case predictionTimestamp = "predictionTimestamp"
         }
     }
 
@@ -1780,16 +1780,16 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case entityTypes
-            case eventIngestion
-            case eventVariables
-            case ingestedEventStatistics
-            case labels
-            case lastUpdatedTime
-            case name
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case entityTypes = "entityTypes"
+            case eventIngestion = "eventIngestion"
+            case eventVariables = "eventVariables"
+            case ingestedEventStatistics = "ingestedEventStatistics"
+            case labels = "labels"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
         }
     }
 
@@ -1808,9 +1808,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case source
-            case value
+            case name = "name"
+            case source = "source"
+            case value = "value"
         }
     }
 
@@ -1835,8 +1835,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataAccessRoleArn
-            case dataLocation
+            case dataAccessRoleArn = "dataAccessRoleArn"
+            case dataLocation = "dataLocation"
         }
     }
 
@@ -1873,15 +1873,15 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case inputConfiguration
-            case invokeModelEndpointRoleArn
-            case lastUpdatedTime
-            case modelEndpoint
-            case modelEndpointStatus
-            case modelSource
-            case outputConfiguration
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case inputConfiguration = "inputConfiguration"
+            case invokeModelEndpointRoleArn = "invokeModelEndpointRoleArn"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case modelEndpoint = "modelEndpoint"
+            case modelEndpointStatus = "modelEndpointStatus"
+            case modelSource = "modelSource"
+            case outputConfiguration = "outputConfiguration"
         }
     }
 
@@ -1897,8 +1897,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalModel
-            case outputs
+            case externalModel = "externalModel"
+            case outputs = "outputs"
         }
     }
 
@@ -1914,8 +1914,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelEndpoint
-            case modelSource
+            case modelEndpoint = "modelEndpoint"
+            case modelSource = "modelSource"
         }
     }
 
@@ -1940,11 +1940,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case fieldName
-            case identifier
-            case title
-            case type
+            case content = "content"
+            case fieldName = "fieldName"
+            case identifier = "identifier"
+            case title = "title"
+            case type = "type"
         }
     }
 
@@ -1963,9 +1963,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case title
-            case type
+            case content = "content"
+            case title = "title"
+            case type = "type"
         }
     }
 
@@ -1984,7 +1984,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -2011,9 +2011,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case maxResults
-            case nextToken
+            case jobId = "jobId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2029,8 +2029,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchImports
-            case nextToken
+            case batchImports = "batchImports"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2057,9 +2057,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case maxResults
-            case nextToken
+            case jobId = "jobId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2075,8 +2075,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchPredictions
-            case nextToken
+            case batchPredictions = "batchPredictions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2095,7 +2095,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeName
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -2111,8 +2111,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventsDeletionStatus
-            case eventTypeName
+            case eventsDeletionStatus = "eventsDeletionStatus"
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -2137,8 +2137,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
         }
     }
 
@@ -2183,17 +2183,17 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case detectorId
-            case detectorVersionId
-            case externalModelEndpoints
-            case lastUpdatedTime
-            case modelVersions
-            case ruleExecutionMode
-            case rules
-            case status
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case externalModelEndpoints = "externalModelEndpoints"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
+            case rules = "rules"
+            case status = "status"
         }
     }
 
@@ -2220,9 +2220,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case maxResults
-            case nextToken
+            case detectorId = "detectorId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2238,8 +2238,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectors
-            case nextToken
+            case detectors = "detectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2266,9 +2266,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2284,8 +2284,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityTypes
-            case nextToken
+            case entityTypes = "entityTypes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2327,11 +2327,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case eventId
-            case eventTypeName
-            case predictionTimestamp
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case eventId = "eventId"
+            case eventTypeName = "eventTypeName"
+            case predictionTimestamp = "predictionTimestamp"
         }
     }
 
@@ -2386,21 +2386,21 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case detectorVersionStatus
-            case entityId
-            case entityType
-            case evaluatedExternalModels
-            case evaluatedModelVersions
-            case eventId
-            case eventTimestamp
-            case eventTypeName
-            case eventVariables
-            case outcomes
-            case predictionTimestamp
-            case ruleExecutionMode
-            case rules
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case detectorVersionStatus = "detectorVersionStatus"
+            case entityId = "entityId"
+            case entityType = "entityType"
+            case evaluatedExternalModels = "evaluatedExternalModels"
+            case evaluatedModelVersions = "evaluatedModelVersions"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case eventVariables = "eventVariables"
+            case outcomes = "outcomes"
+            case predictionTimestamp = "predictionTimestamp"
+            case ruleExecutionMode = "ruleExecutionMode"
+            case rules = "rules"
         }
     }
 
@@ -2458,14 +2458,14 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case entities
-            case eventId
-            case eventTimestamp
-            case eventTypeName
-            case eventVariables
-            case externalModelEndpointDataBlobs
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case entities = "entities"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case eventVariables = "eventVariables"
+            case externalModelEndpointDataBlobs = "externalModelEndpointDataBlobs"
         }
     }
 
@@ -2484,9 +2484,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalModelOutputs
-            case modelScores
-            case ruleResults
+            case externalModelOutputs = "externalModelOutputs"
+            case modelScores = "modelScores"
+            case ruleResults = "ruleResults"
         }
     }
 
@@ -2502,8 +2502,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case eventTypeName
+            case eventId = "eventId"
+            case eventTypeName = "eventTypeName"
         }
     }
 
@@ -2516,7 +2516,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
+            case event = "event"
         }
     }
 
@@ -2543,9 +2543,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2561,8 +2561,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypes
-            case nextToken
+            case eventTypes = "eventTypes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2586,9 +2586,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case modelEndpoint
-            case nextToken
+            case maxResults = "maxResults"
+            case modelEndpoint = "modelEndpoint"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2604,8 +2604,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalModels
-            case nextToken
+            case externalModels = "externalModels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2618,7 +2618,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKey
+            case kmsKey = "kmsKey"
         }
     }
 
@@ -2645,9 +2645,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2663,8 +2663,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case labels
-            case nextToken
+            case labels = "labels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2692,9 +2692,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
-            case modelVersionNumber
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
         }
     }
 
@@ -2733,15 +2733,15 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case externalEventsDetail
-            case ingestedEventsDetail
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case status
-            case trainingDataSchema
-            case trainingDataSource
+            case arn = "arn"
+            case externalEventsDetail = "externalEventsDetail"
+            case ingestedEventsDetail = "ingestedEventsDetail"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
+            case trainingDataSchema = "trainingDataSchema"
+            case trainingDataSource = "trainingDataSource"
         }
     }
 
@@ -2771,10 +2771,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case modelId
-            case modelType
-            case nextToken
+            case maxResults = "maxResults"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2790,8 +2790,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case models
-            case nextToken
+            case models = "models"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2818,9 +2818,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2836,8 +2836,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case outcomes
+            case nextToken = "nextToken"
+            case outcomes = "outcomes"
         }
     }
 
@@ -2876,11 +2876,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case maxResults
-            case nextToken
-            case ruleId
-            case ruleVersion
+            case detectorId = "detectorId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case ruleId = "ruleId"
+            case ruleVersion = "ruleVersion"
         }
     }
 
@@ -2896,8 +2896,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case ruleDetails
+            case nextToken = "nextToken"
+            case ruleDetails = "ruleDetails"
         }
     }
 
@@ -2921,9 +2921,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2939,8 +2939,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case variables
+            case nextToken = "nextToken"
+            case variables = "variables"
         }
     }
 
@@ -2965,11 +2965,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventDataSizeInBytes
-            case lastUpdatedTime
-            case leastRecentEvent
-            case mostRecentEvent
-            case numberOfEvents
+            case eventDataSizeInBytes = "eventDataSizeInBytes"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case leastRecentEvent = "leastRecentEvent"
+            case mostRecentEvent = "mostRecentEvent"
+            case numberOfEvents = "numberOfEvents"
         }
     }
 
@@ -2986,7 +2986,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ingestedEventsTimeWindow
+            case ingestedEventsTimeWindow = "ingestedEventsTimeWindow"
         }
     }
 
@@ -3009,8 +3009,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case startTime
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -3023,7 +3023,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsEncryptionKeyArn
+            case kmsEncryptionKeyArn = "kmsEncryptionKeyArn"
         }
     }
 
@@ -3048,11 +3048,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case lastUpdatedTime
-            case name
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
         }
     }
 
@@ -3068,8 +3068,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case labelMapper
-            case unlabeledEventsTreatment
+            case labelMapper = "labelMapper"
+            case unlabeledEventsTreatment = "unlabeledEventsTreatment"
         }
     }
 
@@ -3110,13 +3110,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case eventId
-            case eventType
-            case maxResults
-            case nextToken
-            case predictionTimeRange
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case eventId = "eventId"
+            case eventType = "eventType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case predictionTimeRange = "predictionTimeRange"
         }
     }
 
@@ -3132,8 +3132,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventPredictionSummaries
-            case nextToken
+            case eventPredictionSummaries = "eventPredictionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3160,9 +3160,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceARN
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceARN = "resourceARN"
         }
     }
 
@@ -3178,8 +3178,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -3198,9 +3198,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case variableImportance
-            case variableName
-            case variableType
+            case variableImportance = "variableImportance"
+            case variableName = "variableName"
+            case variableType = "variableType"
         }
     }
 
@@ -3222,10 +3222,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fpr
-            case precision
-            case threshold
-            case tpr
+            case fpr = "fpr"
+            case precision = "precision"
+            case threshold = "threshold"
+            case tpr = "tpr"
         }
     }
 
@@ -3256,13 +3256,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case eventTypeName
-            case lastUpdatedTime
-            case modelId
-            case modelType
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case eventTypeName = "eventTypeName"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case modelId = "modelId"
+            case modelType = "modelType"
         }
     }
 
@@ -3283,8 +3283,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case byteBuffer
-            case contentType
+            case byteBuffer = "byteBuffer"
+            case contentType = "contentType"
         }
     }
 
@@ -3319,11 +3319,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csvInputTemplate
-            case eventTypeName
-            case format
-            case jsonInputTemplate
-            case useEventVariables
+            case csvInputTemplate = "csvInputTemplate"
+            case eventTypeName = "eventTypeName"
+            case format = "format"
+            case jsonInputTemplate = "jsonInputTemplate"
+            case useEventVariables = "useEventVariables"
         }
     }
 
@@ -3342,9 +3342,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csvIndexToVariableMap
-            case format
-            case jsonKeyToVariableMap
+            case csvIndexToVariableMap = "csvIndexToVariableMap"
+            case format = "format"
+            case jsonKeyToVariableMap = "jsonKeyToVariableMap"
         }
     }
 
@@ -3360,8 +3360,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelVersion
-            case scores
+            case modelVersion = "modelVersion"
+            case scores = "scores"
         }
     }
 
@@ -3395,10 +3395,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case modelId
-            case modelType
-            case modelVersionNumber
+            case arn = "arn"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
         }
     }
 
@@ -3447,19 +3447,19 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case externalEventsDetail
-            case ingestedEventsDetail
-            case lastUpdatedTime
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case status
-            case trainingDataSchema
-            case trainingDataSource
-            case trainingResult
-            case trainingResultV2
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case externalEventsDetail = "externalEventsDetail"
+            case ingestedEventsDetail = "ingestedEventsDetail"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
+            case trainingDataSchema = "trainingDataSchema"
+            case trainingDataSource = "trainingDataSource"
+            case trainingResult = "trainingResult"
+            case trainingResultV2 = "trainingResultV2"
         }
     }
 
@@ -3478,9 +3478,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluationScore
-            case outputVariableName
-            case predictionExplanations
+            case evaluationScore = "evaluationScore"
+            case outputVariableName = "outputVariableName"
+            case predictionExplanations = "predictionExplanations"
         }
     }
 
@@ -3502,10 +3502,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fpr
-            case precision
-            case threshold
-            case tpr
+            case fpr = "fpr"
+            case precision = "precision"
+            case threshold = "threshold"
+            case tpr = "tpr"
         }
     }
 
@@ -3518,7 +3518,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auc
+            case auc = "auc"
         }
     }
 
@@ -3534,8 +3534,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricDataPoints
-            case modelPerformance
+            case metricDataPoints = "metricDataPoints"
+            case modelPerformance = "modelPerformance"
         }
     }
 
@@ -3560,11 +3560,11 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case lastUpdatedTime
-            case name
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
         }
     }
 
@@ -3580,8 +3580,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedVariablesImpactExplanations
-            case variableImpactExplanations
+            case aggregatedVariablesImpactExplanations = "aggregatedVariablesImpactExplanations"
+            case variableImpactExplanations = "variableImpactExplanations"
         }
     }
 
@@ -3604,8 +3604,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case startTime
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -3642,10 +3642,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorId
-            case eventTypeName
-            case tags
+            case description = "description"
+            case detectorId = "detectorId"
+            case eventTypeName = "eventTypeName"
+            case tags = "tags"
         }
     }
 
@@ -3680,9 +3680,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -3731,13 +3731,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case entityTypes
-            case eventIngestion
-            case eventVariables
-            case labels
-            case name
-            case tags
+            case description = "description"
+            case entityTypes = "entityTypes"
+            case eventIngestion = "eventIngestion"
+            case eventVariables = "eventVariables"
+            case labels = "labels"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -3783,13 +3783,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputConfiguration
-            case invokeModelEndpointRoleArn
-            case modelEndpoint
-            case modelEndpointStatus
-            case modelSource
-            case outputConfiguration
-            case tags
+            case inputConfiguration = "inputConfiguration"
+            case invokeModelEndpointRoleArn = "invokeModelEndpointRoleArn"
+            case modelEndpoint = "modelEndpoint"
+            case modelEndpointStatus = "modelEndpointStatus"
+            case modelSource = "modelSource"
+            case outputConfiguration = "outputConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -3812,7 +3812,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsEncryptionKeyArn
+            case kmsEncryptionKeyArn = "kmsEncryptionKeyArn"
         }
     }
 
@@ -3846,9 +3846,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -3883,9 +3883,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -3920,9 +3920,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case ruleId
-            case ruleVersion
+            case detectorId = "detectorId"
+            case ruleId = "ruleId"
+            case ruleVersion = "ruleVersion"
         }
     }
 
@@ -3962,16 +3962,16 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case detectorId
-            case expression
-            case language
-            case lastUpdatedTime
-            case outcomes
-            case ruleId
-            case ruleVersion
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case detectorId = "detectorId"
+            case expression = "expression"
+            case language = "language"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case outcomes = "outcomes"
+            case ruleId = "ruleId"
+            case ruleVersion = "ruleVersion"
         }
     }
 
@@ -3987,8 +3987,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outcomes
-            case ruleId
+            case outcomes = "outcomes"
+            case ruleId = "ruleId"
         }
     }
 
@@ -4045,13 +4045,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignedLabel
-            case entities
-            case eventId
-            case eventTimestamp
-            case eventTypeName
-            case eventVariables
-            case labelTimestamp
+            case assignedLabel = "assignedLabel"
+            case entities = "entities"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventTypeName = "eventTypeName"
+            case eventVariables = "eventVariables"
+            case labelTimestamp = "labelTimestamp"
         }
     }
 
@@ -4077,10 +4077,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fpr
-            case precision
-            case threshold
-            case tpr
+            case fpr = "fpr"
+            case precision = "precision"
+            case threshold = "threshold"
+            case tpr = "tpr"
         }
     }
 
@@ -4093,7 +4093,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auc
+            case auc = "auc"
         }
     }
 
@@ -4109,8 +4109,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricDataPoints
-            case modelPerformance
+            case metricDataPoints = "metricDataPoints"
+            case modelPerformance = "modelPerformance"
         }
     }
 
@@ -4133,8 +4133,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4160,8 +4160,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceARN
-            case tags
+            case resourceARN = "resourceARN"
+            case tags = "tags"
         }
     }
 
@@ -4180,8 +4180,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case labelSchema
-            case modelVariables
+            case labelSchema = "labelSchema"
+            case modelVariables = "modelVariables"
         }
     }
 
@@ -4197,8 +4197,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auc
-            case metricDataPoints
+            case auc = "auc"
+            case metricDataPoints = "metricDataPoints"
         }
     }
 
@@ -4217,9 +4217,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ati
-            case ofi
-            case tfi
+            case ati = "ati"
+            case ofi = "ofi"
+            case tfi = "tfi"
         }
     }
 
@@ -4238,9 +4238,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataValidationMetrics
-            case trainingMetrics
-            case variableImportanceMetrics
+            case dataValidationMetrics = "dataValidationMetrics"
+            case trainingMetrics = "trainingMetrics"
+            case variableImportanceMetrics = "variableImportanceMetrics"
         }
     }
 
@@ -4260,10 +4260,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedVariablesImportanceMetrics
-            case dataValidationMetrics
-            case trainingMetricsV2
-            case variableImportanceMetrics
+            case aggregatedVariablesImportanceMetrics = "aggregatedVariablesImportanceMetrics"
+            case dataValidationMetrics = "dataValidationMetrics"
+            case trainingMetricsV2 = "trainingMetricsV2"
+            case variableImportanceMetrics = "variableImportanceMetrics"
         }
     }
 
@@ -4291,8 +4291,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceARN
-            case tagKeys
+            case resourceARN = "resourceARN"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4326,9 +4326,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorId
-            case detectorVersionId
+            case description = "description"
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
         }
     }
 
@@ -4382,13 +4382,13 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case detectorId
-            case detectorVersionId
-            case externalModelEndpoints
-            case modelVersions
-            case ruleExecutionMode
-            case rules
+            case description = "description"
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case externalModelEndpoints = "externalModelEndpoints"
+            case modelVersions = "modelVersions"
+            case ruleExecutionMode = "ruleExecutionMode"
+            case rules = "rules"
         }
     }
 
@@ -4420,9 +4420,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case detectorVersionId
-            case status
+            case detectorId = "detectorId"
+            case detectorVersionId = "detectorVersionId"
+            case status = "status"
         }
     }
 
@@ -4462,10 +4462,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignedLabel
-            case eventId
-            case eventTypeName
-            case labelTimestamp
+            case assignedLabel = "assignedLabel"
+            case eventId = "eventId"
+            case eventTypeName = "eventTypeName"
+            case labelTimestamp = "labelTimestamp"
         }
     }
 
@@ -4496,9 +4496,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case modelId
-            case modelType
+            case description = "description"
+            case modelId = "modelId"
+            case modelType = "modelType"
         }
     }
 
@@ -4545,12 +4545,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalEventsDetail
-            case ingestedEventsDetail
-            case majorVersionNumber
-            case modelId
-            case modelType
-            case tags
+            case externalEventsDetail = "externalEventsDetail"
+            case ingestedEventsDetail = "ingestedEventsDetail"
+            case majorVersionNumber = "majorVersionNumber"
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case tags = "tags"
         }
     }
 
@@ -4572,10 +4572,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case status
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
         }
     }
 
@@ -4606,10 +4606,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelId
-            case modelType
-            case modelVersionNumber
-            case status
+            case modelId = "modelId"
+            case modelType = "modelType"
+            case modelVersionNumber = "modelVersionNumber"
+            case status = "status"
         }
     }
 
@@ -4635,8 +4635,8 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case rule
+            case description = "description"
+            case rule = "rule"
         }
     }
 
@@ -4681,12 +4681,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case expression
-            case language
-            case outcomes
-            case rule
-            case tags
+            case description = "description"
+            case expression = "expression"
+            case language = "language"
+            case outcomes = "outcomes"
+            case rule = "rule"
+            case tags = "tags"
         }
     }
 
@@ -4699,7 +4699,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rule
+            case rule = "rule"
         }
     }
 
@@ -4721,10 +4721,10 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
-            case description
-            case name
-            case variableType
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
+            case variableType = "variableType"
         }
     }
 
@@ -4765,15 +4765,15 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case dataSource
-            case dataType
-            case defaultValue
-            case description
-            case lastUpdatedTime
-            case name
-            case variableType
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case dataSource = "dataSource"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case variableType = "variableType"
         }
     }
 
@@ -4801,12 +4801,12 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case dataType
-            case defaultValue
-            case description
-            case name
-            case variableType
+            case dataSource = "dataSource"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
+            case variableType = "variableType"
         }
     }
 
@@ -4825,9 +4825,9 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventVariableName
-            case logOddsImpact
-            case relativeImpact
+            case eventVariableName = "eventVariableName"
+            case logOddsImpact = "logOddsImpact"
+            case relativeImpact = "relativeImpact"
         }
     }
 
@@ -4840,7 +4840,7 @@ extension FraudDetector {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logOddsMetrics
+            case logOddsMetrics = "logOddsMetrics"
         }
     }
 }

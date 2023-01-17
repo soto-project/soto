@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1427,7 +1427,7 @@ public struct ChimeSDKIdentityErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The input parameters don&#39;t match the service&#39;s restrictions.
+    /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }

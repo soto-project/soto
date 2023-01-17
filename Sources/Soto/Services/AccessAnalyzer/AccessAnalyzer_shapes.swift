@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -224,8 +224,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case uri
+            case id = "id"
+            case uri = "uri"
         }
     }
 
@@ -339,17 +339,17 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsSnapshot
-            case ecrRepository
-            case efsFileSystem
-            case iamRole
-            case kmsKey
-            case rdsDbClusterSnapshot
-            case rdsDbSnapshot
-            case s3Bucket
-            case secretsManagerSecret
-            case snsTopic
-            case sqsQueue
+            case ebsSnapshot = "ebsSnapshot"
+            case ecrRepository = "ecrRepository"
+            case efsFileSystem = "efsFileSystem"
+            case iamRole = "iamRole"
+            case kmsKey = "kmsKey"
+            case rdsDbClusterSnapshot = "rdsDbClusterSnapshot"
+            case rdsDbSnapshot = "rdsDbSnapshot"
+            case s3Bucket = "s3Bucket"
+            case secretsManagerSecret = "secretsManagerSecret"
+            case snsTopic = "snsTopic"
+            case sqsQueue = "sqsQueue"
         }
     }
 
@@ -397,8 +397,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case internetConfiguration
-            case vpcConfiguration
+            case internetConfiguration = "internetConfiguration"
+            case vpcConfiguration = "vpcConfiguration"
         }
     }
 
@@ -438,10 +438,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case key
-            case substring
-            case value
+            case index = "index"
+            case key = "key"
+            case substring = "substring"
+            case value = "value"
         }
     }
 
@@ -472,12 +472,12 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case configurations
-            case createdAt
-            case id
-            case status
-            case statusReason
+            case analyzerArn = "analyzerArn"
+            case configurations = "configurations"
+            case createdAt = "createdAt"
+            case id = "id"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -533,21 +533,21 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case changeType
-            case condition
-            case createdAt
-            case error
-            case existingFindingId
-            case existingFindingStatus
-            case id
-            case isPublic
-            case principal
-            case resource
-            case resourceOwnerAccount
-            case resourceType
-            case sources
-            case status
+            case action = "action"
+            case changeType = "changeType"
+            case condition = "condition"
+            case createdAt = "createdAt"
+            case error = "error"
+            case existingFindingId = "existingFindingId"
+            case existingFindingStatus = "existingFindingStatus"
+            case id = "id"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sources = "sources"
+            case status = "status"
         }
     }
 
@@ -560,7 +560,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
+            case code = "code"
         }
     }
 
@@ -585,11 +585,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case createdAt
-            case id
-            case status
-            case statusReason
+            case analyzerArn = "analyzerArn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -635,17 +635,17 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case analyzedAt
-            case createdAt
-            case error
-            case isPublic
-            case resourceArn
-            case resourceOwnerAccount
-            case resourceType
-            case sharedVia
-            case status
-            case updatedAt
+            case actions = "actions"
+            case analyzedAt = "analyzedAt"
+            case createdAt = "createdAt"
+            case error = "error"
+            case isPublic = "isPublic"
+            case resourceArn = "resourceArn"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sharedVia = "sharedVia"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -664,9 +664,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceOwnerAccount
-            case resourceType
+            case resourceArn = "resourceArn"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
         }
     }
 
@@ -705,15 +705,15 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastResourceAnalyzed
-            case lastResourceAnalyzedAt
-            case name
-            case status
-            case statusReason
-            case tags
-            case type
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastResourceAnalyzed = "lastResourceAnalyzed"
+            case lastResourceAnalyzedAt = "lastResourceAnalyzedAt"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -739,9 +739,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case clientToken
-            case ruleName
+            case analyzerArn = "analyzerArn"
+            case clientToken = "clientToken"
+            case ruleName = "ruleName"
         }
     }
 
@@ -765,10 +765,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case filter
-            case ruleName
-            case updatedAt
+            case createdAt = "createdAt"
+            case filter = "filter"
+            case ruleName = "ruleName"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -818,10 +818,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessRole
-            case endTime
-            case startTime
-            case trails
+            case accessRole = "accessRole"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case trails = "trails"
         }
     }
 
@@ -842,9 +842,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case startTime
-            case trailProperties
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case trailProperties = "trailProperties"
         }
     }
 
@@ -870,9 +870,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case clientToken
-            case configurations
+            case analyzerArn = "analyzerArn"
+            case clientToken = "clientToken"
+            case configurations = "configurations"
         }
     }
 
@@ -885,7 +885,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -919,11 +919,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName
-            case archiveRules
-            case clientToken
-            case tags
-            case type
+            case analyzerName = "analyzerName"
+            case archiveRules = "archiveRules"
+            case clientToken = "clientToken"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -936,7 +936,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -974,9 +974,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case filter
-            case ruleName
+            case clientToken = "clientToken"
+            case filter = "filter"
+            case ruleName = "ruleName"
         }
     }
 
@@ -1007,10 +1007,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contains
-            case eq
-            case exists
-            case neq
+            case contains = "contains"
+            case eq = "eq"
+            case exists = "exists"
+            case neq = "neq"
         }
     }
 
@@ -1086,9 +1086,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups
-            case kmsKeyId
-            case userIds
+            case groups = "groups"
+            case kmsKeyId = "kmsKeyId"
+            case userIds = "userIds"
         }
     }
 
@@ -1101,7 +1101,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryPolicy
+            case repositoryPolicy = "repositoryPolicy"
         }
     }
 
@@ -1114,7 +1114,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileSystemPolicy
+            case fileSystemPolicy = "fileSystemPolicy"
         }
     }
 
@@ -1169,20 +1169,20 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case analyzedAt
-            case condition
-            case createdAt
-            case error
-            case id
-            case isPublic
-            case principal
-            case resource
-            case resourceOwnerAccount
-            case resourceType
-            case sources
-            case status
-            case updatedAt
+            case action = "action"
+            case analyzedAt = "analyzedAt"
+            case condition = "condition"
+            case createdAt = "createdAt"
+            case error = "error"
+            case id = "id"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sources = "sources"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1198,8 +1198,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detail
-            case type
+            case detail = "detail"
+            case type = "type"
         }
     }
 
@@ -1215,8 +1215,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointAccount
-            case accessPointArn
+            case accessPointAccount = "accessPointAccount"
+            case accessPointArn = "accessPointArn"
         }
     }
 
@@ -1271,20 +1271,20 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case analyzedAt
-            case condition
-            case createdAt
-            case error
-            case id
-            case isPublic
-            case principal
-            case resource
-            case resourceOwnerAccount
-            case resourceType
-            case sources
-            case status
-            case updatedAt
+            case action = "action"
+            case analyzedAt = "analyzedAt"
+            case condition = "condition"
+            case createdAt = "createdAt"
+            case error = "error"
+            case id = "id"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sources = "sources"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1297,7 +1297,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1316,9 +1316,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudTrailProperties
-            case isComplete
-            case principalArn
+            case cloudTrailProperties = "cloudTrailProperties"
+            case isComplete = "isComplete"
+            case principalArn = "principalArn"
         }
     }
 
@@ -1334,8 +1334,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generatedPolicies
-            case properties
+            case generatedPolicies = "generatedPolicies"
+            case properties = "properties"
         }
     }
 
@@ -1372,7 +1372,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPreview
+            case accessPreview = "accessPreview"
         }
     }
 
@@ -1409,7 +1409,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
+            case resource = "resource"
         }
     }
 
@@ -1443,7 +1443,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzer
+            case analyzer = "analyzer"
         }
     }
 
@@ -1483,7 +1483,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveRule
+            case archiveRule = "archiveRule"
         }
     }
 
@@ -1519,7 +1519,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finding
+            case finding = "finding"
         }
     }
 
@@ -1558,8 +1558,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generatedPolicyResult
-            case jobDetails
+            case generatedPolicyResult = "generatedPolicyResult"
+            case jobDetails = "jobDetails"
         }
     }
 
@@ -1572,7 +1572,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustPolicy
+            case trustPolicy = "trustPolicy"
         }
     }
 
@@ -1597,8 +1597,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ruleName
+            case filter = "filter"
+            case ruleName = "ruleName"
         }
     }
 
@@ -1629,11 +1629,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completedOn
-            case jobError
-            case jobId
-            case startedOn
-            case status
+            case completedOn = "completedOn"
+            case jobError = "jobError"
+            case jobId = "jobId"
+            case startedOn = "startedOn"
+            case status = "status"
         }
     }
 
@@ -1649,8 +1649,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1675,11 +1675,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constraints
-            case granteePrincipal
-            case issuingAccount
-            case operations
-            case retiringPrincipal
+            case constraints = "constraints"
+            case granteePrincipal = "granteePrincipal"
+            case issuingAccount = "issuingAccount"
+            case operations = "operations"
+            case retiringPrincipal = "retiringPrincipal"
         }
     }
 
@@ -1695,8 +1695,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionContextEquals
-            case encryptionContextSubset
+            case encryptionContextEquals = "encryptionContextEquals"
+            case encryptionContextSubset = "encryptionContextSubset"
         }
     }
 
@@ -1712,8 +1712,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grants
-            case keyPolicies
+            case grants = "grants"
+            case keyPolicies = "keyPolicies"
         }
     }
 
@@ -1750,10 +1750,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case filter
-            case maxResults
-            case nextToken
+            case analyzerArn = "analyzerArn"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1769,8 +1769,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
-            case nextToken
+            case findings = "findings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1813,8 +1813,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPreviews
-            case nextToken
+            case accessPreviews = "accessPreviews"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1840,10 +1840,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case maxResults
-            case nextToken
-            case resourceType
+            case analyzerArn = "analyzerArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1859,8 +1859,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzedResources
-            case nextToken
+            case analyzedResources = "analyzedResources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1899,8 +1899,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzers
-            case nextToken
+            case analyzers = "analyzers"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1945,8 +1945,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveRules
-            case nextToken
+            case archiveRules = "archiveRules"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1978,11 +1978,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case filter
-            case maxResults
-            case nextToken
-            case sort
+            case analyzerArn = "analyzerArn"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
         }
     }
 
@@ -1998,8 +1998,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
-            case nextToken
+            case findings = "findings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2042,8 +2042,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case policyGenerations
+            case nextToken = "nextToken"
+            case policyGenerations = "policyGenerations"
         }
     }
 
@@ -2071,7 +2071,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2087,8 +2087,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case span
+            case path = "path"
+            case span = "span"
         }
     }
 
@@ -2115,11 +2115,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completedOn
-            case jobId
-            case principalArn
-            case startedOn
-            case status
+            case completedOn = "completedOn"
+            case jobId = "jobId"
+            case principalArn = "principalArn"
+            case startedOn = "startedOn"
+            case status = "status"
         }
     }
 
@@ -2136,7 +2136,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case principalArn
+            case principalArn = "principalArn"
         }
     }
 
@@ -2155,9 +2155,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case column
-            case line
-            case offset
+            case column = "column"
+            case line = "line"
+            case offset = "offset"
         }
     }
 
@@ -2173,8 +2173,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case kmsKeyId
+            case attributes = "attributes"
+            case kmsKeyId = "kmsKeyId"
         }
     }
 
@@ -2190,8 +2190,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case kmsKeyId
+            case attributes = "attributes"
+            case kmsKeyId = "kmsKeyId"
         }
     }
 
@@ -2214,9 +2214,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointPolicy
-            case networkOrigin
-            case publicAccessBlock
+            case accessPointPolicy = "accessPointPolicy"
+            case networkOrigin = "networkOrigin"
+            case publicAccessBlock = "publicAccessBlock"
         }
     }
 
@@ -2232,8 +2232,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grantee
-            case permission
+            case grantee = "grantee"
+            case permission = "permission"
         }
     }
 
@@ -2262,10 +2262,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPoints
-            case bucketAclGrants
-            case bucketPolicy
-            case bucketPublicAccessBlock
+            case accessPoints = "accessPoints"
+            case bucketAclGrants = "bucketAclGrants"
+            case bucketPolicy = "bucketPolicy"
+            case bucketPublicAccessBlock = "bucketPublicAccessBlock"
         }
     }
 
@@ -2281,8 +2281,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ignorePublicAcls
-            case restrictPublicBuckets
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
         }
     }
 
@@ -2298,8 +2298,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case secretPolicy
+            case kmsKeyId = "kmsKeyId"
+            case secretPolicy = "secretPolicy"
         }
     }
 
@@ -2316,7 +2316,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topicPolicy
+            case topicPolicy = "topicPolicy"
         }
     }
 
@@ -2332,8 +2332,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -2349,8 +2349,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
+            case end = "end"
+            case start = "start"
         }
     }
 
@@ -2363,7 +2363,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queuePolicy
+            case queuePolicy = "queuePolicy"
         }
     }
 
@@ -2387,9 +2387,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case cloudTrailDetails
-            case policyGenerationDetails
+            case clientToken = "clientToken"
+            case cloudTrailDetails = "cloudTrailDetails"
+            case policyGenerationDetails = "policyGenerationDetails"
         }
     }
 
@@ -2402,7 +2402,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -2426,9 +2426,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case resourceArn
-            case resourceOwnerAccount
+            case analyzerArn = "analyzerArn"
+            case resourceArn = "resourceArn"
+            case resourceOwnerAccount = "resourceOwnerAccount"
         }
     }
 
@@ -2441,7 +2441,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
+            case code = "code"
         }
     }
 
@@ -2457,8 +2457,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case length
-            case start
+            case length = "length"
+            case start = "start"
         }
     }
 
@@ -2478,7 +2478,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2505,9 +2505,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allRegions
-            case cloudTrailArn
-            case regions
+            case allRegions = "allRegions"
+            case cloudTrailArn = "cloudTrailArn"
+            case regions = "regions"
         }
     }
 
@@ -2526,9 +2526,9 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allRegions
-            case cloudTrailArn
-            case regions
+            case allRegions = "allRegions"
+            case cloudTrailArn = "cloudTrailArn"
+            case regions = "regions"
         }
     }
 
@@ -2590,8 +2590,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case filter
+            case clientToken = "clientToken"
+            case filter = "filter"
         }
     }
 
@@ -2621,11 +2621,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case clientToken
-            case ids
-            case resourceArn
-            case status
+            case analyzerArn = "analyzerArn"
+            case clientToken = "clientToken"
+            case ids = "ids"
+            case resourceArn = "resourceArn"
+            case status = "status"
         }
     }
 
@@ -2650,11 +2650,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingDetails
-            case findingType
-            case issueCode
-            case learnMoreLink
-            case locations
+            case findingDetails = "findingDetails"
+            case findingType = "findingType"
+            case issueCode = "issueCode"
+            case learnMoreLink = "learnMoreLink"
+            case locations = "locations"
         }
     }
 
@@ -2687,10 +2687,10 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale
-            case policyDocument
-            case policyType
-            case validatePolicyResourceType
+            case locale = "locale"
+            case policyDocument = "policyDocument"
+            case policyType = "policyType"
+            case validatePolicyResourceType = "validatePolicyResourceType"
         }
     }
 
@@ -2706,8 +2706,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
-            case nextToken
+            case findings = "findings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2724,7 +2724,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcId
+            case vpcId = "vpcId"
         }
     }
 
@@ -2737,7 +2737,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -2750,7 +2750,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 }

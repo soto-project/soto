@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -754,7 +754,7 @@ public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
 
     /// Kinesis Video Streams has throttled the request because you have exceeded a limit. Try making the call later. For information about limits, see Kinesis Video Streams Limits.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
-    /// A specified parameter exceeds its restrictions, is not supported, or can&#39;t be used.
+    /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
     /// The codec private data in at least one of the tracks of the video stream is not valid for this operation.
     public static var invalidCodecPrivateDataException: Self { .init(.invalidCodecPrivateDataException) }
@@ -766,7 +766,7 @@ public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
     public static var noDataRetentionException: Self { .init(.noDataRetentionException) }
     /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
-    ///  GetMedia throws this error when Kinesis Video Streams can&#39;t find the stream that you specified.  GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
+    ///  GetMedia throws this error when Kinesis Video Streams can't find the stream that you specified.  GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     public static var unsupportedStreamMediaTypeException: Self { .init(.unsupportedStreamMediaTypeException) }

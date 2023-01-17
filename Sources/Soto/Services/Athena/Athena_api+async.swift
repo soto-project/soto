@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -328,7 +328,7 @@ extension Athena {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Athena {
-    ///  Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
+    /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -350,7 +350,7 @@ extension Athena {
         )
     }
 
-    ///  Returns the supported DPU sizes for the supported application runtimes (for example, Jupyter 1.0).
+    /// Returns the supported DPU sizes for the supported application runtimes (for example, Jupyter 1.0).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -372,7 +372,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
+    /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -394,7 +394,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the data catalogs in the current Amazon Web Services account.
+    /// Lists the data catalogs in the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -416,7 +416,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the databases in the specified data catalog.
+    /// Lists the databases in the specified data catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -438,7 +438,7 @@ extension Athena {
         )
     }
 
-    ///  Returns a list of engine versions that are available to choose from, including the Auto option.
+    /// Returns a list of engine versions that are available to choose from, including the Auto option.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -460,7 +460,7 @@ extension Athena {
         )
     }
 
-    ///  Lists, in descending order, the executors that have been submitted to a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
+    /// Lists, in descending order, the executors that have been submitted to a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -482,7 +482,7 @@ extension Athena {
         )
     }
 
-    ///  Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -504,7 +504,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the prepared statements in the specified workgroup.
+    /// Lists the prepared statements in the specified workgroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -526,7 +526,7 @@ extension Athena {
         )
     }
 
-    ///  Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+    /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -548,7 +548,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
+    /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -570,7 +570,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the metadata for the tables in the specified data catalog database.
+    /// Lists the metadata for the tables in the specified data catalog database.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -592,7 +592,7 @@ extension Athena {
         )
     }
 
-    ///  Lists the tags associated with an Athena workgroup or data catalog resource.
+    /// Lists the tags associated with an Athena workgroup or data catalog resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -614,7 +614,7 @@ extension Athena {
         )
     }
 
-    ///  Lists available workgroups for the account.
+    /// Lists available workgroups for the account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

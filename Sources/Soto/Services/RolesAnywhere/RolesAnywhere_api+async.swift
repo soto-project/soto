@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -158,7 +158,7 @@ extension RolesAnywhere {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RolesAnywhere {
-    ///  Lists all Crls in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListCrls.
+    /// Lists all Crls in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListCrls.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -180,7 +180,7 @@ extension RolesAnywhere {
         )
     }
 
-    ///  Lists all profiles in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListProfiles.
+    /// Lists all profiles in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListProfiles.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -202,7 +202,7 @@ extension RolesAnywhere {
         )
     }
 
-    ///  Lists the subjects in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListSubjects.
+    /// Lists the subjects in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListSubjects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -224,7 +224,7 @@ extension RolesAnywhere {
         )
     }
 
-    ///  Lists the trust anchors in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListTrustAnchors.
+    /// Lists the trust anchors in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListTrustAnchors.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

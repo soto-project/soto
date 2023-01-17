@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -140,36 +140,36 @@ extension Rekognition {
     }
 
     public enum LandmarkType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case chinBottom
-        case eyeLeft
-        case eyeRight
-        case leftEyeBrowLeft
-        case leftEyeBrowRight
-        case leftEyeBrowUp
-        case leftEyeDown
-        case leftEyeLeft
-        case leftEyeRight
-        case leftEyeUp
-        case leftPupil
-        case midJawlineLeft
-        case midJawlineRight
-        case mouthDown
-        case mouthLeft
-        case mouthRight
-        case mouthUp
-        case nose
-        case noseLeft
-        case noseRight
-        case rightEyeBrowLeft
-        case rightEyeBrowRight
-        case rightEyeBrowUp
-        case rightEyeDown
-        case rightEyeLeft
-        case rightEyeRight
-        case rightEyeUp
-        case rightPupil
-        case upperJawlineLeft
-        case upperJawlineRight
+        case chinBottom = "chinBottom"
+        case eyeLeft = "eyeLeft"
+        case eyeRight = "eyeRight"
+        case leftEyeBrowLeft = "leftEyeBrowLeft"
+        case leftEyeBrowRight = "leftEyeBrowRight"
+        case leftEyeBrowUp = "leftEyeBrowUp"
+        case leftEyeDown = "leftEyeDown"
+        case leftEyeLeft = "leftEyeLeft"
+        case leftEyeRight = "leftEyeRight"
+        case leftEyeUp = "leftEyeUp"
+        case leftPupil = "leftPupil"
+        case midJawlineLeft = "midJawlineLeft"
+        case midJawlineRight = "midJawlineRight"
+        case mouthDown = "mouthDown"
+        case mouthLeft = "mouthLeft"
+        case mouthRight = "mouthRight"
+        case mouthUp = "mouthUp"
+        case nose = "nose"
+        case noseLeft = "noseLeft"
+        case noseRight = "noseRight"
+        case rightEyeBrowLeft = "rightEyeBrowLeft"
+        case rightEyeBrowRight = "rightEyeBrowRight"
+        case rightEyeBrowUp = "rightEyeBrowUp"
+        case rightEyeDown = "rightEyeDown"
+        case rightEyeLeft = "rightEyeLeft"
+        case rightEyeRight = "rightEyeRight"
+        case rightEyeUp = "rightEyeUp"
+        case rightPupil = "rightPupil"
+        case upperJawlineLeft = "upperJawlineLeft"
+        case upperJawlineRight = "upperJawlineRight"
         public var description: String { return self.rawValue }
     }
 
@@ -1106,7 +1106,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groundTruth, name: "groundTruth", parent: name, max: 5_242_880)
+            try self.validate(self.groundTruth, name: "groundTruth", parent: name, max: 5242880)
             try self.validate(self.groundTruth, name: "groundTruth", parent: name, min: 1)
         }
 
@@ -3274,7 +3274,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bytes, name: "bytes", parent: name, max: 5_242_880)
+            try self.validate(self.bytes, name: "bytes", parent: name, max: 5242880)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
         }
@@ -6042,7 +6042,7 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The resource specified in the request cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The requested resource isn&#39;t ready. For example,   this exception occurs when you call DetectCustomLabels with a model version that isn&#39;t deployed.
+    /// The requested resource isn't ready. For example,   this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     ///  The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

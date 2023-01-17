@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -48,7 +48,7 @@ extension LicenseManagerLinuxSubscriptions {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LicenseManagerLinuxSubscriptions {
-    ///  Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
+    /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -70,7 +70,7 @@ extension LicenseManagerLinuxSubscriptions {
         )
     }
 
-    ///  Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
+    /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

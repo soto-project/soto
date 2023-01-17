@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,7 +93,7 @@ extension CodeStarNotifications {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeStarNotifications {
-    ///  Returns information about the event types available for configuring notifications.
+    /// Returns information about the event types available for configuring notifications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -115,7 +115,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rules for an Amazon Web Services account.
+    /// Returns a list of the notification rules for an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -137,7 +137,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rule targets for an Amazon Web Services account.
+    /// Returns a list of the notification rule targets for an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

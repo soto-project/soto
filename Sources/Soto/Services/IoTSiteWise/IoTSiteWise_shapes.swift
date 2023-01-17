@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -332,12 +332,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case id
-            case identity
-            case lastUpdateDate
-            case permission
-            case resource
+            case creationDate = "creationDate"
+            case id = "id"
+            case identity = "identity"
+            case lastUpdateDate = "lastUpdateDate"
+            case permission = "permission"
+            case resource = "resource"
         }
     }
 
@@ -356,9 +356,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quality
-            case timestamp
-            case value
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
@@ -386,12 +386,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case count
-            case maximum
-            case minimum
-            case standardDeviation
-            case sum
+            case average = "average"
+            case count = "count"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case standardDeviation = "standardDeviation"
+            case sum = "sum"
         }
     }
 
@@ -416,8 +416,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmRoleArn
-            case notificationLambdaArn
+            case alarmRoleArn = "alarmRoleArn"
+            case notificationLambdaArn = "notificationLambdaArn"
         }
     }
 
@@ -442,11 +442,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case name
-            case properties
-            case type
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case properties = "properties"
+            case type = "type"
         }
     }
 
@@ -465,9 +465,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case code
-            case message
+            case assetId = "assetId"
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -483,8 +483,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -500,8 +500,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetId
-            case parentAssetId
+            case childAssetId = "childAssetId"
+            case parentAssetId = "parentAssetId"
         }
     }
 
@@ -544,11 +544,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case name
-            case properties
-            case type
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case properties = "properties"
+            case type = "type"
         }
     }
 
@@ -585,10 +585,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case properties
-            case type
+            case description = "description"
+            case name = "name"
+            case properties = "properties"
+            case type = "type"
         }
     }
 
@@ -619,9 +619,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetModelId
-            case id
-            case name
+            case childAssetModelId = "childAssetModelId"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -646,8 +646,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetModelId
-            case name
+            case childAssetModelId = "childAssetModelId"
+            case name = "name"
         }
     }
 
@@ -691,12 +691,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case dataTypeSpec
-            case id
-            case name
-            case type
-            case unit
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case id = "id"
+            case name = "name"
+            case type = "type"
+            case unit = "unit"
         }
     }
 
@@ -734,11 +734,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case dataTypeSpec
-            case name
-            case type
-            case unit
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case name = "name"
+            case type = "type"
+            case unit = "unit"
         }
     }
 
@@ -768,13 +768,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelCompositeModelId
-            case dataType
-            case dataTypeSpec
-            case id
-            case name
-            case type
-            case unit
+            case assetModelCompositeModelId = "assetModelCompositeModelId"
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case id = "id"
+            case name = "name"
+            case type = "type"
+            case unit = "unit"
         }
     }
 
@@ -790,8 +790,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -822,13 +822,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -859,13 +859,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case dataType
-            case dataTypeSpec
-            case id
-            case name
-            case notification
-            case unit
+            case alias = "alias"
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case id = "id"
+            case name = "name"
+            case notification = "notification"
+            case unit = "unit"
         }
     }
 
@@ -889,11 +889,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case assetCompositeModelId
-            case id
-            case notification
-            case unit
+            case alias = "alias"
+            case assetCompositeModelId = "assetCompositeModelId"
+            case id = "id"
+            case notification = "notification"
+            case unit = "unit"
         }
     }
 
@@ -916,9 +916,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quality
-            case timestamp
-            case value
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
@@ -934,8 +934,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hierarchyInfo
-            case relationshipType
+            case hierarchyInfo = "hierarchyInfo"
+            case relationshipType = "relationshipType"
         }
     }
 
@@ -951,8 +951,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -989,15 +989,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetModelId
-            case creationDate
-            case description
-            case hierarchies
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case assetModelId = "assetModelId"
+            case creationDate = "creationDate"
+            case description = "description"
+            case hierarchies = "hierarchies"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1038,9 +1038,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetId
-            case clientToken
-            case hierarchyId
+            case childAssetId = "childAssetId"
+            case clientToken = "clientToken"
+            case hierarchyId = "hierarchyId"
         }
     }
 
@@ -1082,7 +1082,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -1119,15 +1119,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetModelId
-            case creationDate
-            case description
-            case hierarchies
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case assetModelId = "assetModelId"
+            case creationDate = "creationDate"
+            case description = "description"
+            case hierarchies = "hierarchies"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1146,7 +1146,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -1185,8 +1185,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case clientToken
+            case assetIds = "assetIds"
+            case clientToken = "clientToken"
         }
     }
 
@@ -1199,7 +1199,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1238,8 +1238,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case clientToken
+            case assetIds = "assetIds"
+            case clientToken = "clientToken"
         }
     }
 
@@ -1252,7 +1252,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1313,16 +1313,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregateTypes
-            case assetId
-            case endDate
-            case entryId
-            case propertyAlias
-            case propertyId
-            case qualities
-            case resolution
-            case startDate
-            case timeOrdering
+            case aggregateTypes = "aggregateTypes"
+            case assetId = "assetId"
+            case endDate = "endDate"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case qualities = "qualities"
+            case resolution = "resolution"
+            case startDate = "startDate"
+            case timeOrdering = "timeOrdering"
         }
     }
 
@@ -1341,9 +1341,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryId
-            case errorCode
-            case errorMessage
+            case entryId = "entryId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -1359,8 +1359,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorTimestamp
+            case errorCode = "errorCode"
+            case errorTimestamp = "errorTimestamp"
         }
     }
 
@@ -1389,9 +1389,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
-            case maxResults
-            case nextToken
+            case entries = "entries"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1413,10 +1413,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
-            case nextToken
-            case skippedEntries
-            case successEntries
+            case errorEntries = "errorEntries"
+            case nextToken = "nextToken"
+            case skippedEntries = "skippedEntries"
+            case successEntries = "successEntries"
         }
     }
 
@@ -1435,9 +1435,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionStatus
-            case entryId
-            case errorInfo
+            case completionStatus = "completionStatus"
+            case entryId = "entryId"
+            case errorInfo = "errorInfo"
         }
     }
 
@@ -1453,8 +1453,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedValues
-            case entryId
+            case aggregatedValues = "aggregatedValues"
+            case entryId = "entryId"
         }
     }
 
@@ -1491,10 +1491,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case entryId
-            case propertyAlias
-            case propertyId
+            case assetId = "assetId"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
         }
     }
 
@@ -1513,9 +1513,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryId
-            case errorCode
-            case errorMessage
+            case entryId = "entryId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -1531,8 +1531,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorTimestamp
+            case errorCode = "errorCode"
+            case errorTimestamp = "errorTimestamp"
         }
     }
 
@@ -1583,14 +1583,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case endDate
-            case entryId
-            case propertyAlias
-            case propertyId
-            case qualities
-            case startDate
-            case timeOrdering
+            case assetId = "assetId"
+            case endDate = "endDate"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case qualities = "qualities"
+            case startDate = "startDate"
+            case timeOrdering = "timeOrdering"
         }
     }
 
@@ -1609,9 +1609,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryId
-            case errorCode
-            case errorMessage
+            case entryId = "entryId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -1627,8 +1627,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorTimestamp
+            case errorCode = "errorCode"
+            case errorTimestamp = "errorTimestamp"
         }
     }
 
@@ -1657,9 +1657,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
-            case maxResults
-            case nextToken
+            case entries = "entries"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1681,10 +1681,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
-            case nextToken
-            case skippedEntries
-            case successEntries
+            case errorEntries = "errorEntries"
+            case nextToken = "nextToken"
+            case skippedEntries = "skippedEntries"
+            case successEntries = "successEntries"
         }
     }
 
@@ -1703,9 +1703,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionStatus
-            case entryId
-            case errorInfo
+            case completionStatus = "completionStatus"
+            case entryId = "entryId"
+            case errorInfo = "errorInfo"
         }
     }
 
@@ -1721,8 +1721,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetPropertyValueHistory
-            case entryId
+            case assetPropertyValueHistory = "assetPropertyValueHistory"
+            case entryId = "entryId"
         }
     }
 
@@ -1747,8 +1747,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
-            case nextToken
+            case entries = "entries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1770,10 +1770,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
-            case nextToken
-            case skippedEntries
-            case successEntries
+            case errorEntries = "errorEntries"
+            case nextToken = "nextToken"
+            case skippedEntries = "skippedEntries"
+            case successEntries = "successEntries"
         }
     }
 
@@ -1792,9 +1792,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionStatus
-            case entryId
-            case errorInfo
+            case completionStatus = "completionStatus"
+            case entryId = "entryId"
+            case errorInfo = "errorInfo"
         }
     }
 
@@ -1809,8 +1809,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetPropertyValue
-            case entryId
+            case assetPropertyValue = "assetPropertyValue"
+            case entryId = "entryId"
         }
     }
 
@@ -1829,9 +1829,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case timestamps
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case timestamps = "timestamps"
         }
     }
 
@@ -1847,8 +1847,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryId
-            case errors
+            case entryId = "entryId"
+            case errors = "errors"
         }
     }
 
@@ -1867,7 +1867,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
+            case entries = "entries"
         }
     }
 
@@ -1880,7 +1880,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -1901,10 +1901,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetProperty
-            case id
-            case name
-            case type
+            case assetProperty = "assetProperty"
+            case id = "id"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1920,8 +1920,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1937,8 +1937,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -1978,11 +1978,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyIdentity
-            case accessPolicyPermission
-            case accessPolicyResource
-            case clientToken
-            case tags
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -1998,8 +1998,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyArn
-            case accessPolicyId
+            case accessPolicyArn = "accessPolicyArn"
+            case accessPolicyId = "accessPolicyId"
         }
     }
 
@@ -2058,13 +2058,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelCompositeModels
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelName
-            case assetModelProperties
-            case clientToken
-            case tags
+            case assetModelCompositeModels = "assetModelCompositeModels"
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -2083,9 +2083,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelArn
-            case assetModelId
-            case assetModelStatus
+            case assetModelArn = "assetModelArn"
+            case assetModelId = "assetModelId"
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
@@ -2132,11 +2132,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetDescription
-            case assetModelId
-            case assetName
-            case clientToken
-            case tags
+            case assetDescription = "assetDescription"
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -2155,9 +2155,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetArn
-            case assetId
-            case assetStatus
+            case assetArn = "assetArn"
+            case assetId = "assetId"
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -2195,11 +2195,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorReportLocation
-            case files
-            case jobConfiguration
-            case jobName
-            case jobRoleArn
+            case errorReportLocation = "errorReportLocation"
+            case files = "files"
+            case jobConfiguration = "jobConfiguration"
+            case jobName = "jobName"
+            case jobRoleArn = "jobRoleArn"
         }
     }
 
@@ -2218,9 +2218,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case jobName
-            case jobStatus
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case jobStatus = "jobStatus"
         }
     }
 
@@ -2251,7 +2251,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
-            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
+            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: "^.+$")
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, min: 1)
@@ -2272,12 +2272,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardName
-            case projectId
-            case tags
+            case clientToken = "clientToken"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardName = "dashboardName"
+            case projectId = "projectId"
+            case tags = "tags"
         }
     }
 
@@ -2293,8 +2293,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardArn
-            case dashboardId
+            case dashboardArn = "dashboardArn"
+            case dashboardId = "dashboardId"
         }
     }
 
@@ -2327,9 +2327,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayName
-            case gatewayPlatform
-            case tags
+            case gatewayName = "gatewayName"
+            case gatewayPlatform = "gatewayPlatform"
+            case tags = "tags"
         }
     }
 
@@ -2345,8 +2345,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayArn
-            case gatewayId
+            case gatewayArn = "gatewayArn"
+            case gatewayId = "gatewayId"
         }
     }
 
@@ -2416,16 +2416,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case clientToken
-            case notificationSenderEmail
-            case portalAuthMode
-            case portalContactEmail
-            case portalDescription
-            case portalLogoImageFile
-            case portalName
-            case roleArn
-            case tags
+            case alarms = "alarms"
+            case clientToken = "clientToken"
+            case notificationSenderEmail = "notificationSenderEmail"
+            case portalAuthMode = "portalAuthMode"
+            case portalContactEmail = "portalContactEmail"
+            case portalDescription = "portalDescription"
+            case portalLogoImageFile = "portalLogoImageFile"
+            case portalName = "portalName"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -2450,11 +2450,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case portalId
-            case portalStartUrl
-            case portalStatus
-            case ssoApplicationId
+            case portalArn = "portalArn"
+            case portalId = "portalId"
+            case portalStartUrl = "portalStartUrl"
+            case portalStatus = "portalStatus"
+            case ssoApplicationId = "ssoApplicationId"
         }
     }
 
@@ -2501,11 +2501,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case portalId
-            case projectDescription
-            case projectName
-            case tags
+            case clientToken = "clientToken"
+            case portalId = "portalId"
+            case projectDescription = "projectDescription"
+            case projectName = "projectName"
+            case tags = "tags"
         }
     }
 
@@ -2521,8 +2521,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case projectId
+            case projectArn = "projectArn"
+            case projectId = "projectId"
         }
     }
 
@@ -2535,7 +2535,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnNames
+            case columnNames = "columnNames"
         }
     }
 
@@ -2560,8 +2560,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case s3ResourceArn
+            case roleArn = "roleArn"
+            case s3ResourceArn = "s3ResourceArn"
         }
     }
 
@@ -2586,11 +2586,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
         }
     }
 
@@ -2663,7 +2663,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelStatus
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
@@ -2704,7 +2704,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetStatus
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -2798,7 +2798,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalStatus
+            case portalStatus = "portalStatus"
         }
     }
 
@@ -2872,7 +2872,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -2924,13 +2924,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyArn
-            case accessPolicyCreationDate
-            case accessPolicyId
-            case accessPolicyIdentity
-            case accessPolicyLastUpdateDate
-            case accessPolicyPermission
-            case accessPolicyResource
+            case accessPolicyArn = "accessPolicyArn"
+            case accessPolicyCreationDate = "accessPolicyCreationDate"
+            case accessPolicyId = "accessPolicyId"
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyLastUpdateDate = "accessPolicyLastUpdateDate"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
         }
     }
 
@@ -2995,16 +2995,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelArn
-            case assetModelCompositeModels
-            case assetModelCreationDate
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelId
-            case assetModelLastUpdateDate
-            case assetModelName
-            case assetModelProperties
-            case assetModelStatus
+            case assetModelArn = "assetModelArn"
+            case assetModelCompositeModels = "assetModelCompositeModels"
+            case assetModelCreationDate = "assetModelCreationDate"
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelId = "assetModelId"
+            case assetModelLastUpdateDate = "assetModelLastUpdateDate"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
@@ -3057,11 +3057,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case assetModelId
-            case assetName
-            case assetProperty
-            case compositeModel
+            case assetId = "assetId"
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case assetProperty = "assetProperty"
+            case compositeModel = "compositeModel"
         }
     }
 
@@ -3129,17 +3129,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetArn
-            case assetCompositeModels
-            case assetCreationDate
-            case assetDescription
-            case assetHierarchies
-            case assetId
-            case assetLastUpdateDate
-            case assetModelId
-            case assetName
-            case assetProperties
-            case assetStatus
+            case assetArn = "assetArn"
+            case assetCompositeModels = "assetCompositeModels"
+            case assetCreationDate = "assetCreationDate"
+            case assetDescription = "assetDescription"
+            case assetHierarchies = "assetHierarchies"
+            case assetId = "assetId"
+            case assetLastUpdateDate = "assetLastUpdateDate"
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case assetProperties = "assetProperties"
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -3197,15 +3197,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorReportLocation
-            case files
-            case jobConfiguration
-            case jobCreationDate
-            case jobId
-            case jobLastUpdateDate
-            case jobName
-            case jobRoleArn
-            case jobStatus
+            case errorReportLocation = "errorReportLocation"
+            case files = "files"
+            case jobConfiguration = "jobConfiguration"
+            case jobCreationDate = "jobCreationDate"
+            case jobId = "jobId"
+            case jobLastUpdateDate = "jobLastUpdateDate"
+            case jobName = "jobName"
+            case jobRoleArn = "jobRoleArn"
+            case jobStatus = "jobStatus"
         }
     }
 
@@ -3260,14 +3260,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardArn
-            case dashboardCreationDate
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardId
-            case dashboardLastUpdateDate
-            case dashboardName
-            case projectId
+            case dashboardArn = "dashboardArn"
+            case dashboardCreationDate = "dashboardCreationDate"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardId = "dashboardId"
+            case dashboardLastUpdateDate = "dashboardLastUpdateDate"
+            case dashboardName = "dashboardName"
+            case projectId = "projectId"
         }
     }
 
@@ -3290,9 +3290,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationStatus
-            case encryptionType
-            case kmsKeyArn
+            case configurationStatus = "configurationStatus"
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -3342,10 +3342,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityConfiguration
-            case capabilityNamespace
-            case capabilitySyncStatus
-            case gatewayId
+            case capabilityConfiguration = "capabilityConfiguration"
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
+            case gatewayId = "gatewayId"
         }
     }
 
@@ -3397,13 +3397,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case gatewayArn
-            case gatewayCapabilitySummaries
-            case gatewayId
-            case gatewayName
-            case gatewayPlatform
-            case lastUpdateDate
+            case creationDate = "creationDate"
+            case gatewayArn = "gatewayArn"
+            case gatewayCapabilitySummaries = "gatewayCapabilitySummaries"
+            case gatewayId = "gatewayId"
+            case gatewayName = "gatewayName"
+            case gatewayPlatform = "gatewayPlatform"
+            case lastUpdateDate = "lastUpdateDate"
         }
     }
 
@@ -3420,7 +3420,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
@@ -3496,21 +3496,21 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case notificationSenderEmail
-            case portalArn
-            case portalAuthMode
-            case portalClientId
-            case portalContactEmail
-            case portalCreationDate
-            case portalDescription
-            case portalId
-            case portalLastUpdateDate
-            case portalLogoImageLocation
-            case portalName
-            case portalStartUrl
-            case portalStatus
-            case roleArn
+            case alarms = "alarms"
+            case notificationSenderEmail = "notificationSenderEmail"
+            case portalArn = "portalArn"
+            case portalAuthMode = "portalAuthMode"
+            case portalClientId = "portalClientId"
+            case portalContactEmail = "portalContactEmail"
+            case portalCreationDate = "portalCreationDate"
+            case portalDescription = "portalDescription"
+            case portalId = "portalId"
+            case portalLastUpdateDate = "portalLastUpdateDate"
+            case portalLogoImageLocation = "portalLogoImageLocation"
+            case portalName = "portalName"
+            case portalStartUrl = "portalStartUrl"
+            case portalStatus = "portalStatus"
+            case roleArn = "roleArn"
         }
     }
 
@@ -3562,13 +3562,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalId
-            case projectArn
-            case projectCreationDate
-            case projectDescription
-            case projectId
-            case projectLastUpdateDate
-            case projectName
+            case portalId = "portalId"
+            case projectArn = "projectArn"
+            case projectCreationDate = "projectCreationDate"
+            case projectDescription = "projectDescription"
+            case projectId = "projectId"
+            case projectLastUpdateDate = "projectLastUpdateDate"
+            case projectName = "projectName"
         }
     }
 
@@ -3599,12 +3599,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationStatus
-            case disassociatedDataStorage
-            case lastUpdateDate
-            case multiLayerStorage
-            case retentionPeriod
-            case storageType
+            case configurationStatus = "configurationStatus"
+            case disassociatedDataStorage = "disassociatedDataStorage"
+            case lastUpdateDate = "lastUpdateDate"
+            case multiLayerStorage = "multiLayerStorage"
+            case retentionPeriod = "retentionPeriod"
+            case storageType = "storageType"
         }
     }
 
@@ -3672,14 +3672,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case assetId
-            case dataType
-            case dataTypeSpec
-            case propertyId
-            case timeSeriesCreationDate
-            case timeSeriesId
-            case timeSeriesLastUpdateDate
+            case alias = "alias"
+            case assetId = "assetId"
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case propertyId = "propertyId"
+            case timeSeriesCreationDate = "timeSeriesCreationDate"
+            case timeSeriesId = "timeSeriesId"
+            case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
         }
     }
 
@@ -3695,8 +3695,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -3737,9 +3737,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetId
-            case clientToken
-            case hierarchyId
+            case childAssetId = "childAssetId"
+            case clientToken = "clientToken"
+            case hierarchyId = "hierarchyId"
         }
     }
 
@@ -3781,7 +3781,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -3800,9 +3800,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case details
-            case message
+            case code = "code"
+            case details = "details"
+            case message = "message"
         }
     }
 
@@ -3823,8 +3823,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case prefix
+            case bucket = "bucket"
+            case prefix = "prefix"
         }
     }
 
@@ -3847,8 +3847,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -3872,9 +3872,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case versionId
+            case bucket = "bucket"
+            case key = "key"
+            case versionId = "versionId"
         }
     }
 
@@ -3887,7 +3887,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv
+            case csv = "csv"
         }
     }
 
@@ -3900,7 +3900,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -3916,8 +3916,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityNamespace
-            case capabilitySyncStatus
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
         }
     }
 
@@ -3938,8 +3938,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case greengrass
-            case greengrassV2
+            case greengrass = "greengrass"
+            case greengrassV2 = "greengrassV2"
         }
     }
 
@@ -3966,12 +3966,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case gatewayCapabilitySummaries
-            case gatewayId
-            case gatewayName
-            case gatewayPlatform
-            case lastUpdateDate
+            case creationDate = "creationDate"
+            case gatewayCapabilitySummaries = "gatewayCapabilitySummaries"
+            case gatewayId = "gatewayId"
+            case gatewayName = "gatewayName"
+            case gatewayPlatform = "gatewayPlatform"
+            case lastUpdateDate = "lastUpdateDate"
         }
     }
 
@@ -4065,8 +4065,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedValues
-            case nextToken
+            case aggregatedValues = "aggregatedValues"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4148,8 +4148,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetPropertyValueHistory
-            case nextToken
+            case assetPropertyValueHistory = "assetPropertyValueHistory"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4197,7 +4197,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case propertyValue
+            case propertyValue = "propertyValue"
         }
     }
 
@@ -4265,13 +4265,13 @@ extension IoTSiteWise {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 9_223_372_036_854_774)
+            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 9223372036854774)
             try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, min: 1)
-            try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, max: 999999999)
             try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, min: 0)
-            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 320_000_000)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 320000000)
             try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 1)
-            try self.validate(self.intervalWindowInSeconds, name: "intervalWindowInSeconds", parent: name, max: 320_000_000)
+            try self.validate(self.intervalWindowInSeconds, name: "intervalWindowInSeconds", parent: name, max: 320000000)
             try self.validate(self.intervalWindowInSeconds, name: "intervalWindowInSeconds", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -4283,9 +4283,9 @@ extension IoTSiteWise {
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 9_223_372_036_854_774)
+            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 9223372036854774)
             try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, min: 1)
-            try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, max: 999999999)
             try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, min: 0)
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 1)
@@ -4306,8 +4306,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpolatedAssetPropertyValues
-            case nextToken
+            case interpolatedAssetPropertyValues = "interpolatedAssetPropertyValues"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4326,7 +4326,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupArn
+            case groupArn = "groupArn"
         }
     }
 
@@ -4344,7 +4344,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDeviceThingName
+            case coreDeviceThingName = "coreDeviceThingName"
         }
     }
 
@@ -4363,7 +4363,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -4382,7 +4382,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4401,7 +4401,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4430,10 +4430,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case group
-            case iamRole
-            case iamUser
-            case user
+            case group = "group"
+            case iamRole = "iamRole"
+            case iamUser = "iamUser"
+            case user = "user"
         }
     }
 
@@ -4455,8 +4455,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case id
+            case file = "file"
+            case id = "id"
         }
     }
 
@@ -4472,13 +4472,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1_500_000)
+            try self.validate(self.data, name: "data", parent: name, max: 1500000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case type
+            case data = "data"
+            case type = "type"
         }
     }
 
@@ -4494,8 +4494,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case url
+            case id = "id"
+            case url = "url"
         }
     }
 
@@ -4509,8 +4509,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timestamp
-            case value
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
@@ -4523,7 +4523,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileFormat
+            case fileFormat = "fileFormat"
         }
     }
 
@@ -4542,9 +4542,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case status
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -4616,8 +4616,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicySummaries
-            case nextToken
+            case accessPolicySummaries = "accessPolicySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4671,8 +4671,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelPropertySummaries
-            case nextToken
+            case assetModelPropertySummaries = "assetModelPropertySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4715,8 +4715,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelSummaries
-            case nextToken
+            case assetModelSummaries = "assetModelSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4770,8 +4770,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetPropertySummaries
-            case nextToken
+            case assetPropertySummaries = "assetPropertySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4825,8 +4825,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetRelationshipSummaries
-            case nextToken
+            case assetRelationshipSummaries = "assetRelationshipSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4880,8 +4880,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetSummaries
-            case nextToken
+            case assetSummaries = "assetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4942,8 +4942,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetSummaries
-            case nextToken
+            case assetSummaries = "assetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4990,8 +4990,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummaries
-            case nextToken
+            case jobSummaries = "jobSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5041,8 +5041,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardSummaries
-            case nextToken
+            case dashboardSummaries = "dashboardSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5085,8 +5085,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewaySummaries
-            case nextToken
+            case gatewaySummaries = "gatewaySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5129,8 +5129,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case portalSummaries
+            case nextToken = "nextToken"
+            case portalSummaries = "portalSummaries"
         }
     }
 
@@ -5180,8 +5180,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case nextToken
+            case assetIds = "assetIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5231,8 +5231,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projectSummaries
+            case nextToken = "nextToken"
+            case projectSummaries = "projectSummaries"
         }
     }
 
@@ -5265,7 +5265,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -5325,7 +5325,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
             case timeSeriesSummaries = "TimeSeriesSummaries"
         }
     }
@@ -5339,7 +5339,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case level
+            case level = "level"
         }
     }
 
@@ -5352,7 +5352,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case processingConfig
+            case processingConfig = "processingConfig"
         }
     }
 
@@ -5365,7 +5365,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forwardingConfig
+            case forwardingConfig = "forwardingConfig"
         }
     }
 
@@ -5396,10 +5396,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case processingConfig
-            case variables
-            case window
+            case expression = "expression"
+            case processingConfig = "processingConfig"
+            case variables = "variables"
+            case window = "window"
         }
     }
 
@@ -5412,7 +5412,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeLocation
+            case computeLocation = "computeLocation"
         }
     }
 
@@ -5429,7 +5429,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tumbling
+            case tumbling = "tumbling"
         }
     }
 
@@ -5445,8 +5445,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -5463,7 +5463,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManagedS3Storage
+            case customerManagedS3Storage = "customerManagedS3Storage"
         }
     }
 
@@ -5482,7 +5482,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -5498,8 +5498,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -5532,14 +5532,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
-            case roleArn
-            case startUrl
-            case status
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case roleArn = "roleArn"
+            case startUrl = "startUrl"
+            case status = "status"
         }
     }
 
@@ -5558,7 +5558,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -5583,11 +5583,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
         }
     }
 
@@ -5618,13 +5618,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case dataType
-            case id
-            case name
-            case notification
-            case type
-            case unit
+            case alias = "alias"
+            case dataType = "dataType"
+            case id = "id"
+            case name = "name"
+            case notification = "notification"
+            case type = "type"
+            case unit = "unit"
         }
     }
 
@@ -5640,8 +5640,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case topic
+            case state = "state"
+            case topic = "topic"
         }
     }
 
@@ -5669,10 +5669,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case measurement
-            case metric
-            case transform
+            case attribute = "attribute"
+            case measurement = "measurement"
+            case metric = "metric"
+            case transform = "transform"
         }
     }
 
@@ -5715,11 +5715,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case entryId
-            case propertyAlias
-            case propertyId
-            case propertyValues
+            case assetId = "assetId"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case propertyValues = "propertyValues"
         }
     }
 
@@ -5740,8 +5740,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsKeyId
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
         }
     }
 
@@ -5760,9 +5760,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationStatus
-            case encryptionType
-            case kmsKeyArn
+            case configurationStatus = "configurationStatus"
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -5775,7 +5775,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
@@ -5805,10 +5805,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disassociatedDataStorage
-            case multiLayerStorage
-            case retentionPeriod
-            case storageType
+            case disassociatedDataStorage = "disassociatedDataStorage"
+            case multiLayerStorage = "multiLayerStorage"
+            case retentionPeriod = "retentionPeriod"
+            case storageType = "storageType"
         }
     }
 
@@ -5831,11 +5831,11 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationStatus
-            case disassociatedDataStorage
-            case multiLayerStorage
-            case retentionPeriod
-            case storageType
+            case configurationStatus = "configurationStatus"
+            case disassociatedDataStorage = "disassociatedDataStorage"
+            case multiLayerStorage = "multiLayerStorage"
+            case retentionPeriod = "retentionPeriod"
+            case storageType = "storageType"
         }
     }
 
@@ -5856,8 +5856,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portal
-            case project
+            case portal = "portal"
+            case project = "project"
         }
     }
 
@@ -5877,8 +5877,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfDays
-            case unlimited
+            case numberOfDays = "numberOfDays"
+            case unlimited = "unlimited"
         }
     }
 
@@ -5910,7 +5910,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -5930,15 +5930,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999999999)
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, min: 0)
-            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 9_223_372_036_854_774)
+            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 9223372036854774)
             try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offsetInNanos
-            case timeInSeconds
+            case offsetInNanos = "offsetInNanos"
+            case timeInSeconds = "timeInSeconds"
         }
     }
 
@@ -5972,14 +5972,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case assetId
-            case dataType
-            case dataTypeSpec
-            case propertyId
-            case timeSeriesCreationDate
-            case timeSeriesId
-            case timeSeriesLastUpdateDate
+            case alias = "alias"
+            case assetId = "assetId"
+            case dataType = "dataType"
+            case dataTypeSpec = "dataTypeSpec"
+            case propertyId = "propertyId"
+            case timeSeriesCreationDate = "timeSeriesCreationDate"
+            case timeSeriesId = "timeSeriesId"
+            case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
         }
     }
 
@@ -6006,9 +6006,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case processingConfig
-            case variables
+            case expression = "expression"
+            case processingConfig = "processingConfig"
+            case variables = "variables"
         }
     }
 
@@ -6023,8 +6023,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeLocation
-            case forwardingConfig
+            case computeLocation = "computeLocation"
+            case forwardingConfig = "forwardingConfig"
         }
     }
 
@@ -6047,8 +6047,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interval
-            case offset
+            case interval = "interval"
+            case offset = "offset"
         }
     }
 
@@ -6121,10 +6121,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyIdentity
-            case accessPolicyPermission
-            case accessPolicyResource
-            case clientToken
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
+            case clientToken = "clientToken"
         }
     }
 
@@ -6187,12 +6187,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelCompositeModels
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelName
-            case assetModelProperties
-            case clientToken
+            case assetModelCompositeModels = "assetModelCompositeModels"
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case clientToken = "clientToken"
         }
     }
 
@@ -6205,7 +6205,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelStatus
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
@@ -6255,10 +6255,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case propertyAlias
-            case propertyNotificationState
-            case propertyUnit
+            case clientToken = "clientToken"
+            case propertyAlias = "propertyAlias"
+            case propertyNotificationState = "propertyNotificationState"
+            case propertyUnit = "propertyUnit"
         }
     }
 
@@ -6299,9 +6299,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetDescription
-            case assetName
-            case clientToken
+            case assetDescription = "assetDescription"
+            case assetName = "assetName"
+            case clientToken = "clientToken"
         }
     }
 
@@ -6314,7 +6314,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetStatus
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -6346,7 +6346,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
-            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
+            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: "^.+$")
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, min: 1)
@@ -6360,10 +6360,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardName
+            case clientToken = "clientToken"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardName = "dashboardName"
         }
     }
 
@@ -6390,7 +6390,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104_857_600)
+            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104857600)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
@@ -6401,8 +6401,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityConfiguration
-            case capabilityNamespace
+            case capabilityConfiguration = "capabilityConfiguration"
+            case capabilityNamespace = "capabilityNamespace"
         }
     }
 
@@ -6418,8 +6418,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityNamespace
-            case capabilitySyncStatus
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
         }
     }
 
@@ -6448,7 +6448,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayName
+            case gatewayName = "gatewayName"
         }
     }
 
@@ -6514,14 +6514,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case clientToken
-            case notificationSenderEmail
-            case portalContactEmail
-            case portalDescription
-            case portalLogoImage
-            case portalName
-            case roleArn
+            case alarms = "alarms"
+            case clientToken = "clientToken"
+            case notificationSenderEmail = "notificationSenderEmail"
+            case portalContactEmail = "portalContactEmail"
+            case portalDescription = "portalDescription"
+            case portalLogoImage = "portalLogoImage"
+            case portalName = "portalName"
+            case roleArn = "roleArn"
         }
     }
 
@@ -6534,7 +6534,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalStatus
+            case portalStatus = "portalStatus"
         }
     }
 
@@ -6575,9 +6575,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case projectDescription
-            case projectName
+            case clientToken = "clientToken"
+            case projectDescription = "projectDescription"
+            case projectName = "projectName"
         }
     }
 
@@ -6600,7 +6600,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -6625,8 +6625,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hierarchyId
-            case propertyId
+            case hierarchyId = "hierarchyId"
+            case propertyId = "propertyId"
         }
     }
 
@@ -6648,10 +6648,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case booleanValue
-            case doubleValue
-            case integerValue
-            case stringValue
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case stringValue = "stringValue"
         }
     }
 }
@@ -6691,23 +6691,23 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Your request has conflicting operations. This can occur if you&#39;re trying to perform more than one operation on the same resource at the same time.
+    /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     public static var conflictingOperationException: Self { .init(.conflictingOperationException) }
-    /// IoT SiteWise can&#39;t process your request right now. Try again later.
+    /// IoT SiteWise can't process your request right now. Try again later.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// The request isn&#39;t valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// You&#39;ve reached the limit for a resource. For example, this can occur if you&#39;re trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the IoT SiteWise User Guide.
+    /// You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the IoT SiteWise User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// The requested resource can&#39;t be found.
+    /// The requested resource can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The requested service is unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see Quotas in the IoT SiteWise User Guide.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// You&#39;ve reached the limit for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the Amazon Web Services General Reference.
+    /// You've reached the limit for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the Amazon Web Services General Reference.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// You are not authorized.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }

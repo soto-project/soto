@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -341,14 +341,14 @@ extension Imagebuilder {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Imagebuilder {
-    ///   Returns the list of component build versions for the specified semantic version.
+    ///  Returns the list of component build versions for the specified semantic version.
     ///
-    ///  			         The semantic version has four nodes: ../.
-    ///  	You can assign values for the first three, and can filter on all of them.
-    ///  			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    ///  	to specify the most recent versions or nodes when selecting the base image or components for your
-    ///  	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    ///  	wildcards.
+    /// 			         The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.
+    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
+    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+    /// 	wildcards.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -371,14 +371,14 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns the list of component build versions for the specified semantic version.
+    /// Returns the list of component build versions for the specified semantic version.
     ///
-    ///  			         The semantic version has four nodes: ../.
-    ///  	You can assign values for the first three, and can filter on all of them.
-    ///  			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    ///  	to specify the most recent versions or nodes when selecting the base image or components for your
-    ///  	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    ///  	wildcards.
+    /// 			         The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.
+    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
+    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+    /// 	wildcards.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -401,7 +401,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of container recipes.
+    /// Returns a list of container recipes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -423,7 +423,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of distribution configurations.
+    /// Returns a list of distribution configurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -445,7 +445,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image build versions.
+    ///  Returns a list of image build versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -467,7 +467,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
+    /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -489,7 +489,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of images created by the specified pipeline.
+    ///  Returns a list of images created by the specified pipeline.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -511,7 +511,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of image pipelines.
+    /// Returns a list of image pipelines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -533,7 +533,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image recipes.
+    ///  Returns a list of image recipes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -555,7 +555,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns the list of images that you have access to.
+    ///  Returns the list of images that you have access to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -577,7 +577,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of infrastructure configurations.
+    ///  Returns a list of infrastructure configurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

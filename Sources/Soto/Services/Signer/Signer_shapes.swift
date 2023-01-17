@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -106,11 +106,11 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case principal
-            case profileVersion
-            case revisionId
-            case statementId
+            case action = "action"
+            case principal = "principal"
+            case profileVersion = "profileVersion"
+            case revisionId = "revisionId"
+            case statementId = "statementId"
         }
     }
 
@@ -123,7 +123,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revisionId
+            case revisionId = "revisionId"
         }
     }
 
@@ -229,25 +229,25 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completedAt
-            case createdAt
-            case jobId
-            case jobInvoker
-            case jobOwner
-            case overrides
-            case platformDisplayName
-            case platformId
-            case profileName
-            case profileVersion
-            case requestedBy
-            case revocationRecord
-            case signatureExpiresAt
-            case signedObject
-            case signingMaterial
-            case signingParameters
-            case source
-            case status
-            case statusReason
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case jobId = "jobId"
+            case jobInvoker = "jobInvoker"
+            case jobOwner = "jobOwner"
+            case overrides = "overrides"
+            case platformDisplayName = "platformDisplayName"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case profileVersion = "profileVersion"
+            case requestedBy = "requestedBy"
+            case revocationRecord = "revocationRecord"
+            case signatureExpiresAt = "signatureExpiresAt"
+            case signedObject = "signedObject"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case source = "source"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -260,7 +260,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -276,8 +276,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case defaultValue
+            case allowedValues = "allowedValues"
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -331,15 +331,15 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case displayName
-            case maxSizeInMB
-            case partner
-            case platformId
-            case revocationSupported
-            case signingConfiguration
-            case signingImageFormat
-            case target
+            case category = "category"
+            case displayName = "displayName"
+            case maxSizeInMB = "maxSizeInMB"
+            case partner = "partner"
+            case platformId = "platformId"
+            case revocationSupported = "revocationSupported"
+            case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
+            case target = "target"
         }
     }
 
@@ -420,20 +420,20 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case overrides
-            case platformDisplayName
-            case platformId
-            case profileName
-            case profileVersion
-            case profileVersionArn
-            case revocationRecord
-            case signatureValidityPeriod
-            case signingMaterial
-            case signingParameters
-            case status
-            case statusReason
-            case tags
+            case arn = "arn"
+            case overrides = "overrides"
+            case platformDisplayName = "platformDisplayName"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case profileVersion = "profileVersion"
+            case profileVersionArn = "profileVersionArn"
+            case revocationRecord = "revocationRecord"
+            case signatureValidityPeriod = "signatureValidityPeriod"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
         }
     }
 
@@ -449,8 +449,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case defaultValue
+            case allowedValues = "allowedValues"
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -497,10 +497,10 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
-            case policySizeBytes
-            case revisionId
+            case nextToken = "nextToken"
+            case permissions = "permissions"
+            case policySizeBytes = "policySizeBytes"
+            case revisionId = "revisionId"
         }
     }
 
@@ -581,8 +581,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -636,8 +636,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case platforms
+            case nextToken = "nextToken"
+            case platforms = "platforms"
         }
     }
 
@@ -696,8 +696,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profiles
+            case nextToken = "nextToken"
+            case profiles = "profiles"
         }
     }
 
@@ -725,7 +725,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -747,10 +747,10 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case principal
-            case profileVersion
-            case statementId
+            case action = "action"
+            case principal = "principal"
+            case profileVersion = "profileVersion"
+            case statementId = "statementId"
         }
     }
 
@@ -804,12 +804,12 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overrides
-            case platformId
-            case signatureValidityPeriod
-            case signingMaterial
-            case signingParameters
-            case tags
+            case overrides = "overrides"
+            case platformId = "platformId"
+            case signatureValidityPeriod = "signatureValidityPeriod"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case tags = "tags"
         }
     }
 
@@ -828,9 +828,9 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case profileVersion
-            case profileVersionArn
+            case arn = "arn"
+            case profileVersion = "profileVersion"
+            case profileVersionArn = "profileVersionArn"
         }
     }
 
@@ -872,7 +872,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revisionId
+            case revisionId = "revisionId"
         }
     }
 
@@ -903,8 +903,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobOwner
-            case reason
+            case jobOwner = "jobOwner"
+            case reason = "reason"
         }
     }
 
@@ -943,9 +943,9 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveTime
-            case profileVersion
-            case reason
+            case effectiveTime = "effectiveTime"
+            case profileVersion = "profileVersion"
+            case reason = "reason"
         }
     }
 
@@ -962,8 +962,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case prefix
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
@@ -979,8 +979,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case key
+            case bucketName = "bucketName"
+            case key = "key"
         }
     }
 
@@ -999,9 +999,9 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case key
-            case version
+            case bucketName = "bucketName"
+            case key = "key"
+            case version = "version"
         }
     }
 
@@ -1018,8 +1018,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -1032,7 +1032,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -1048,8 +1048,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionAlgorithmOptions
-            case hashAlgorithmOptions
+            case encryptionAlgorithmOptions = "encryptionAlgorithmOptions"
+            case hashAlgorithmOptions = "hashAlgorithmOptions"
         }
     }
 
@@ -1067,8 +1067,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionAlgorithm
-            case hashAlgorithm
+            case encryptionAlgorithm = "encryptionAlgorithm"
+            case hashAlgorithm = "hashAlgorithm"
         }
     }
 
@@ -1084,8 +1084,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultFormat
-            case supportedFormats
+            case defaultFormat = "defaultFormat"
+            case supportedFormats = "supportedFormats"
         }
     }
 
@@ -1140,20 +1140,20 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case isRevoked
-            case jobId
-            case jobInvoker
-            case jobOwner
-            case platformDisplayName
-            case platformId
-            case profileName
-            case profileVersion
-            case signatureExpiresAt
-            case signedObject
-            case signingMaterial
-            case source
-            case status
+            case createdAt = "createdAt"
+            case isRevoked = "isRevoked"
+            case jobId = "jobId"
+            case jobInvoker = "jobInvoker"
+            case jobOwner = "jobOwner"
+            case platformDisplayName = "platformDisplayName"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case profileVersion = "profileVersion"
+            case signatureExpiresAt = "signatureExpiresAt"
+            case signedObject = "signedObject"
+            case signingMaterial = "signingMaterial"
+            case source = "source"
+            case status = "status"
         }
     }
 
@@ -1172,9 +1172,9 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case revokedAt
-            case revokedBy
+            case reason = "reason"
+            case revokedAt = "revokedAt"
+            case revokedBy = "revokedBy"
         }
     }
 
@@ -1188,7 +1188,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
+            case certificateArn = "certificateArn"
         }
     }
 
@@ -1225,15 +1225,15 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case displayName
-            case maxSizeInMB
-            case partner
-            case platformId
-            case revocationSupported
-            case signingConfiguration
-            case signingImageFormat
-            case target
+            case category = "category"
+            case displayName = "displayName"
+            case maxSizeInMB = "maxSizeInMB"
+            case partner = "partner"
+            case platformId = "platformId"
+            case revocationSupported = "revocationSupported"
+            case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
+            case target = "target"
         }
     }
 
@@ -1255,8 +1255,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case signingConfiguration
-            case signingImageFormat
+            case signingConfiguration = "signingConfiguration"
+            case signingImageFormat = "signingImageFormat"
         }
     }
 
@@ -1299,17 +1299,17 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case platformDisplayName
-            case platformId
-            case profileName
-            case profileVersion
-            case profileVersionArn
-            case signatureValidityPeriod
-            case signingMaterial
-            case signingParameters
-            case status
-            case tags
+            case arn = "arn"
+            case platformDisplayName = "platformDisplayName"
+            case platformId = "platformId"
+            case profileName = "profileName"
+            case profileVersion = "profileVersion"
+            case profileVersionArn = "profileVersionArn"
+            case signatureValidityPeriod = "signatureValidityPeriod"
+            case signingMaterial = "signingMaterial"
+            case signingParameters = "signingParameters"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1328,9 +1328,9 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revocationEffectiveFrom
-            case revokedAt
-            case revokedBy
+            case revocationEffectiveFrom = "revocationEffectiveFrom"
+            case revokedAt = "revokedAt"
+            case revokedBy = "revokedBy"
         }
     }
 
@@ -1343,7 +1343,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -1380,11 +1380,11 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case destination
-            case profileName
-            case profileOwner
-            case source
+            case clientRequestToken = "clientRequestToken"
+            case destination = "destination"
+            case profileName = "profileName"
+            case profileOwner = "profileOwner"
+            case source = "source"
         }
     }
 
@@ -1400,8 +1400,8 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case jobOwner
+            case jobId = "jobId"
+            case jobOwner = "jobOwner"
         }
     }
 
@@ -1432,7 +1432,7 @@ extension Signer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 

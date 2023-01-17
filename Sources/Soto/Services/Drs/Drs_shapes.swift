@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -331,7 +331,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountID
+            case accountID = "accountID"
         }
     }
 
@@ -347,8 +347,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cores
-            case modelName
+            case cores = "cores"
+            case modelName = "modelName"
         }
     }
 
@@ -373,11 +373,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTimestamp
-            case forceUefi
-            case rootVolumeName
-            case volumeToConversionMap
-            case volumeToVolumeSize
+            case dataTimestamp = "dataTimestamp"
+            case forceUefi = "forceUefi"
+            case rootVolumeName = "rootVolumeName"
+            case volumeToConversionMap = "volumeToConversionMap"
+            case volumeToVolumeSize = "volumeToVolumeSize"
         }
     }
 
@@ -403,8 +403,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerArn
-            case tags
+            case sourceServerArn = "sourceServerArn"
+            case tags = "tags"
         }
     }
 
@@ -417,7 +417,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServer
+            case sourceServer = "sourceServer"
         }
     }
 
@@ -497,20 +497,20 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case pitPolicy
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case tags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case pitPolicy = "pitPolicy"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case tags = "tags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -526,8 +526,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case rawError
+            case error = "error"
+            case rawError = "rawError"
         }
     }
 
@@ -555,12 +555,12 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataReplicationError
-            case dataReplicationInitiation
-            case dataReplicationState
-            case etaDateTime
-            case lagDuration
-            case replicatedDisks
+            case dataReplicationError = "dataReplicationError"
+            case dataReplicationInitiation = "dataReplicationInitiation"
+            case dataReplicationState = "dataReplicationState"
+            case etaDateTime = "etaDateTime"
+            case lagDuration = "lagDuration"
+            case replicatedDisks = "replicatedDisks"
         }
     }
 
@@ -585,11 +585,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backloggedStorageBytes
-            case deviceName
-            case replicatedStorageBytes
-            case rescannedStorageBytes
-            case totalStorageBytes
+            case backloggedStorageBytes = "backloggedStorageBytes"
+            case deviceName = "deviceName"
+            case replicatedStorageBytes = "replicatedStorageBytes"
+            case rescannedStorageBytes = "rescannedStorageBytes"
+            case totalStorageBytes = "totalStorageBytes"
         }
     }
 
@@ -608,9 +608,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextAttemptDateTime
-            case startDateTime
-            case steps
+            case nextAttemptDateTime = "nextAttemptDateTime"
+            case startDateTime = "startDateTime"
+            case steps = "steps"
         }
     }
 
@@ -626,8 +626,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case status
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -646,7 +646,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobID
+            case jobID = "jobID"
         }
     }
 
@@ -669,7 +669,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceID
+            case recoveryInstanceID = "recoveryInstanceID"
         }
     }
 
@@ -688,7 +688,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationConfigurationTemplateID
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
         }
     }
 
@@ -711,7 +711,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -742,9 +742,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobID
-            case maxResults
-            case nextToken
+            case jobID = "jobID"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -760,8 +760,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -786,9 +786,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -822,9 +822,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromDate
-            case jobIDs
-            case toDate
+            case fromDate = "fromDate"
+            case jobIDs = "jobIDs"
+            case toDate = "toDate"
         }
     }
 
@@ -840,8 +840,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -866,9 +866,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -898,8 +898,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceIDs
-            case sourceServerIDs
+            case recoveryInstanceIDs = "recoveryInstanceIDs"
+            case sourceServerIDs = "sourceServerIDs"
         }
     }
 
@@ -915,8 +915,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -950,11 +950,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case order
-            case sourceServerID
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case order = "order"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -979,8 +979,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromDateTime
-            case toDateTime
+            case fromDateTime = "fromDateTime"
+            case toDateTime = "toDateTime"
         }
     }
 
@@ -996,8 +996,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1027,9 +1027,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationConfigurationTemplateIDs
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationConfigurationTemplateIDs = "replicationConfigurationTemplateIDs"
         }
     }
 
@@ -1045,8 +1045,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1071,9 +1071,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1108,9 +1108,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hardwareId
-            case sourceServerIDs
-            case stagingAccountIDs
+            case hardwareId = "hardwareId"
+            case sourceServerIDs = "sourceServerIDs"
+            case stagingAccountIDs = "stagingAccountIDs"
         }
     }
 
@@ -1126,8 +1126,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1146,7 +1146,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceID
+            case recoveryInstanceID = "recoveryInstanceID"
         }
     }
 
@@ -1165,7 +1165,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1181,8 +1181,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytes
-            case deviceName
+            case bytes = "bytes"
+            case deviceName = "deviceName"
         }
     }
 
@@ -1201,7 +1201,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceID
+            case recoveryInstanceID = "recoveryInstanceID"
         }
     }
 
@@ -1223,10 +1223,10 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidthThrottling
-            case name
-            case recoveryInstanceID
-            case usePrivateIP
+            case bandwidthThrottling = "bandwidthThrottling"
+            case name = "name"
+            case recoveryInstanceID = "recoveryInstanceID"
+            case usePrivateIP = "usePrivateIP"
         }
     }
 
@@ -1245,7 +1245,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1264,7 +1264,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1286,10 +1286,10 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsInstanceID
-            case fqdn
-            case hostname
-            case vmWareUuid
+            case awsInstanceID = "awsInstanceID"
+            case fqdn = "fqdn"
+            case hostname = "hostname"
+            case vmWareUuid = "vmWareUuid"
         }
     }
 
@@ -1334,15 +1334,15 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case endDateTime
-            case initiatedBy
-            case jobID
-            case participatingServers
-            case status
-            case tags
-            case type
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case endDateTime = "endDateTime"
+            case initiatedBy = "initiatedBy"
+            case jobID = "jobID"
+            case participatingServers = "participatingServers"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -1361,9 +1361,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventData
-            case logDateTime
+            case event = "event"
+            case eventData = "eventData"
+            case logDateTime = "logDateTime"
         }
     }
 
@@ -1388,11 +1388,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conversionProperties
-            case conversionServerID
-            case rawError
-            case sourceServerID
-            case targetInstanceID
+            case conversionProperties = "conversionProperties"
+            case conversionServerID = "conversionServerID"
+            case rawError = "rawError"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceID = "targetInstanceID"
         }
     }
 
@@ -1426,14 +1426,14 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case copyPrivateIp
-            case copyTags
-            case ec2LaunchTemplateID
-            case launchDisposition
-            case licensing
-            case name
-            case sourceServerID
-            case targetInstanceTypeRightSizingMethod
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case ec2LaunchTemplateID = "ec2LaunchTemplateID"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case name = "name"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -1446,7 +1446,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case osByol
+            case osByol = "osByol"
         }
     }
 
@@ -1471,11 +1471,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addedToServiceDateTime
-            case elapsedReplicationDuration
-            case firstByteDateTime
-            case lastLaunch
-            case lastSeenByServiceDateTime
+            case addedToServiceDateTime = "addedToServiceDateTime"
+            case elapsedReplicationDuration = "elapsedReplicationDuration"
+            case firstByteDateTime = "firstByteDateTime"
+            case lastLaunch = "lastLaunch"
+            case lastSeenByServiceDateTime = "lastSeenByServiceDateTime"
         }
     }
 
@@ -1488,7 +1488,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiated
+            case initiated = "initiated"
         }
     }
 
@@ -1507,9 +1507,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
-            case jobID
-            case type
+            case apiCallDateTime = "apiCallDateTime"
+            case jobID = "jobID"
+            case type = "type"
         }
     }
 
@@ -1537,9 +1537,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case stagingAccountID
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case stagingAccountID = "stagingAccountID"
         }
     }
 
@@ -1555,8 +1555,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1595,8 +1595,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case nextToken
+            case accounts = "accounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1630,7 +1630,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1649,9 +1649,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ips
-            case isPrimary
-            case macAddress
+            case ips = "ips"
+            case isPrimary = "isPrimary"
+            case macAddress = "macAddress"
         }
     }
 
@@ -1664,7 +1664,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fullString
+            case fullString = "fullString"
         }
     }
 
@@ -1695,11 +1695,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case interval
-            case retentionDuration
-            case ruleID
-            case units
+            case enabled = "enabled"
+            case interval = "interval"
+            case retentionDuration = "retentionDuration"
+            case ruleID = "ruleID"
+            case units = "units"
         }
     }
 
@@ -1718,9 +1718,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchStatus
-            case recoveryInstanceID
-            case sourceServerID
+            case launchStatus = "launchStatus"
+            case recoveryInstanceID = "recoveryInstanceID"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1769,19 +1769,19 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dataReplicationInfo
-            case ec2InstanceID
-            case ec2InstanceState
-            case failback
-            case isDrill
-            case jobID
-            case originEnvironment
-            case pointInTimeSnapshotDateTime
-            case recoveryInstanceID
-            case recoveryInstanceProperties
-            case sourceServerID
-            case tags
+            case arn = "arn"
+            case dataReplicationInfo = "dataReplicationInfo"
+            case ec2InstanceID = "ec2InstanceID"
+            case ec2InstanceState = "ec2InstanceState"
+            case failback = "failback"
+            case isDrill = "isDrill"
+            case jobID = "jobID"
+            case originEnvironment = "originEnvironment"
+            case pointInTimeSnapshotDateTime = "pointInTimeSnapshotDateTime"
+            case recoveryInstanceID = "recoveryInstanceID"
+            case recoveryInstanceProperties = "recoveryInstanceProperties"
+            case sourceServerID = "sourceServerID"
+            case tags = "tags"
         }
     }
 
@@ -1797,8 +1797,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case rawError
+            case error = "error"
+            case rawError = "rawError"
         }
     }
 
@@ -1826,12 +1826,12 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataReplicationError
-            case dataReplicationInitiation
-            case dataReplicationState
-            case etaDateTime
-            case lagDuration
-            case replicatedDisks
+            case dataReplicationError = "dataReplicationError"
+            case dataReplicationInitiation = "dataReplicationInitiation"
+            case dataReplicationState = "dataReplicationState"
+            case etaDateTime = "etaDateTime"
+            case lagDuration = "lagDuration"
+            case replicatedDisks = "replicatedDisks"
         }
     }
 
@@ -1856,11 +1856,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backloggedStorageBytes
-            case deviceName
-            case replicatedStorageBytes
-            case rescannedStorageBytes
-            case totalStorageBytes
+            case backloggedStorageBytes = "backloggedStorageBytes"
+            case deviceName = "deviceName"
+            case replicatedStorageBytes = "replicatedStorageBytes"
+            case rescannedStorageBytes = "rescannedStorageBytes"
+            case totalStorageBytes = "totalStorageBytes"
         }
     }
 
@@ -1876,8 +1876,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startDateTime
-            case steps
+            case startDateTime = "startDateTime"
+            case steps = "steps"
         }
     }
 
@@ -1893,8 +1893,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case status
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1913,9 +1913,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytes
-            case ebsVolumeID
-            case internalDeviceName
+            case bytes = "bytes"
+            case ebsVolumeID = "ebsVolumeID"
+            case internalDeviceName = "internalDeviceName"
         }
     }
 
@@ -1955,16 +1955,16 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentLastSeenByServiceDateTime
-            case elapsedReplicationDuration
-            case failbackClientID
-            case failbackClientLastSeenByServiceDateTime
-            case failbackInitiationTime
-            case failbackJobID
-            case failbackLaunchType
-            case failbackToOriginalServer
-            case firstByteDateTime
-            case state
+            case agentLastSeenByServiceDateTime = "agentLastSeenByServiceDateTime"
+            case elapsedReplicationDuration = "elapsedReplicationDuration"
+            case failbackClientID = "failbackClientID"
+            case failbackClientLastSeenByServiceDateTime = "failbackClientLastSeenByServiceDateTime"
+            case failbackInitiationTime = "failbackInitiationTime"
+            case failbackJobID = "failbackJobID"
+            case failbackLaunchType = "failbackLaunchType"
+            case failbackToOriginalServer = "failbackToOriginalServer"
+            case firstByteDateTime = "firstByteDateTime"
+            case state = "state"
         }
     }
 
@@ -1995,13 +1995,13 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case disks
-            case identificationHints
-            case lastUpdatedDateTime
-            case networkInterfaces
-            case os
-            case ramBytes
+            case cpus = "cpus"
+            case disks = "disks"
+            case identificationHints = "identificationHints"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case networkInterfaces = "networkInterfaces"
+            case os = "os"
+            case ramBytes = "ramBytes"
         }
     }
 
@@ -2026,11 +2026,11 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsSnapshots
-            case expectedTimestamp
-            case snapshotID
-            case sourceServerID
-            case timestamp
+            case ebsSnapshots = "ebsSnapshots"
+            case expectedTimestamp = "expectedTimestamp"
+            case snapshotID = "snapshotID"
+            case sourceServerID = "sourceServerID"
+            case timestamp = "timestamp"
         }
     }
 
@@ -2088,22 +2088,22 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case name
-            case pitPolicy
-            case replicatedDisks
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case sourceServerID
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case name = "name"
+            case pitPolicy = "pitPolicy"
+            case replicatedDisks = "replicatedDisks"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case sourceServerID = "sourceServerID"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -2137,12 +2137,12 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case iops
-            case isBootDisk
-            case optimizedStagingDiskType
-            case stagingDiskType
-            case throughput
+            case deviceName = "deviceName"
+            case iops = "iops"
+            case isBootDisk = "isBootDisk"
+            case optimizedStagingDiskType = "optimizedStagingDiskType"
+            case stagingDiskType = "stagingDiskType"
+            case throughput = "throughput"
         }
     }
 
@@ -2200,22 +2200,22 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case pitPolicy
-            case replicationConfigurationTemplateID
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case tags
-            case useDedicatedReplicationServer
+            case arn = "arn"
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case pitPolicy = "pitPolicy"
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case tags = "tags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -2234,7 +2234,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2253,7 +2253,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceID
+            case recoveryInstanceID = "recoveryInstanceID"
         }
     }
 
@@ -2266,7 +2266,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reversedDirectionSourceServerArn
+            case reversedDirectionSourceServerArn = "reversedDirectionSourceServerArn"
         }
     }
 
@@ -2285,9 +2285,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case originAccountID
-            case originAvailabilityZone
-            case originRegion
+            case originAccountID = "originAccountID"
+            case originAvailabilityZone = "originAvailabilityZone"
+            case originRegion = "originRegion"
         }
     }
 
@@ -2321,14 +2321,14 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case disks
-            case identificationHints
-            case lastUpdatedDateTime
-            case networkInterfaces
-            case os
-            case ramBytes
-            case recommendedInstanceType
+            case cpus = "cpus"
+            case disks = "disks"
+            case identificationHints = "identificationHints"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case networkInterfaces = "networkInterfaces"
+            case os = "os"
+            case ramBytes = "ramBytes"
+            case recommendedInstanceType = "recommendedInstanceType"
         }
     }
 
@@ -2374,18 +2374,18 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dataReplicationInfo
-            case lastLaunchResult
-            case lifeCycle
-            case recoveryInstanceId
-            case replicationDirection
-            case reversedDirectionSourceServerArn
-            case sourceCloudProperties
-            case sourceProperties
-            case sourceServerID
-            case stagingArea
-            case tags
+            case arn = "arn"
+            case dataReplicationInfo = "dataReplicationInfo"
+            case lastLaunchResult = "lastLaunchResult"
+            case lifeCycle = "lifeCycle"
+            case recoveryInstanceId = "recoveryInstanceId"
+            case replicationDirection = "replicationDirection"
+            case reversedDirectionSourceServerArn = "reversedDirectionSourceServerArn"
+            case sourceCloudProperties = "sourceCloudProperties"
+            case sourceProperties = "sourceProperties"
+            case sourceServerID = "sourceServerID"
+            case stagingArea = "stagingArea"
+            case tags = "tags"
         }
     }
 
@@ -2407,10 +2407,10 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case stagingAccountID
-            case stagingSourceServerArn
-            case status
+            case errorMessage = "errorMessage"
+            case stagingAccountID = "stagingAccountID"
+            case stagingSourceServerArn = "stagingSourceServerArn"
+            case status = "status"
         }
     }
 
@@ -2429,9 +2429,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case hostname
-            case tags
+            case arn = "arn"
+            case hostname = "hostname"
+            case tags = "tags"
         }
     }
 
@@ -2461,8 +2461,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceIDs
-            case tags
+            case recoveryInstanceIDs = "recoveryInstanceIDs"
+            case tags = "tags"
         }
     }
 
@@ -2475,7 +2475,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2506,9 +2506,9 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isDrill
-            case sourceServers
-            case tags
+            case isDrill = "isDrill"
+            case sourceServers = "sourceServers"
+            case tags = "tags"
         }
     }
 
@@ -2533,8 +2533,8 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoverySnapshotID
-            case sourceServerID
+            case recoverySnapshotID = "recoverySnapshotID"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2547,7 +2547,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2566,7 +2566,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2579,7 +2579,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServer
+            case sourceServer = "sourceServer"
         }
     }
 
@@ -2598,7 +2598,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceID
+            case recoveryInstanceID = "recoveryInstanceID"
         }
     }
 
@@ -2617,7 +2617,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2630,7 +2630,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServer
+            case sourceServer = "sourceServer"
         }
     }
 
@@ -2660,7 +2660,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2683,7 +2683,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryInstanceIDs
+            case recoveryInstanceIDs = "recoveryInstanceIDs"
         }
     }
 
@@ -2696,7 +2696,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2754,10 +2754,10 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidthThrottling
-            case name
-            case recoveryInstanceID
-            case usePrivateIP
+            case bandwidthThrottling = "bandwidthThrottling"
+            case name = "name"
+            case recoveryInstanceID = "recoveryInstanceID"
+            case usePrivateIP = "usePrivateIP"
         }
     }
 
@@ -2795,13 +2795,13 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case copyPrivateIp
-            case copyTags
-            case launchDisposition
-            case licensing
-            case name
-            case sourceServerID
-            case targetInstanceTypeRightSizingMethod
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case name = "name"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -2891,22 +2891,22 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case name
-            case pitPolicy
-            case replicatedDisks
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case sourceServerID
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case name = "name"
+            case pitPolicy = "pitPolicy"
+            case replicatedDisks = "replicatedDisks"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case sourceServerID = "sourceServerID"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -2991,21 +2991,21 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case pitPolicy
-            case replicationConfigurationTemplateID
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case arn = "arn"
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case pitPolicy = "pitPolicy"
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 }

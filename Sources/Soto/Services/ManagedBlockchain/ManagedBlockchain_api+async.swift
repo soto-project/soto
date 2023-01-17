@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -163,7 +163,7 @@ extension ManagedBlockchain {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ManagedBlockchain {
-    ///   The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
+    ///  The token based access feature is in preview release for Ethereum on Amazon Managed Blockchain and is  subject to change. We recommend that you use this feature only with  test scenarios, and not in production environments.  Returns a list of the accessors and their properties. Accessor objects are containers that have the  information required for token based access to your Ethereum nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -185,7 +185,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
+    /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -207,7 +207,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
+    /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -229,7 +229,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
+    /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -251,7 +251,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
+    /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -273,7 +273,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
+    /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -295,7 +295,7 @@ extension ManagedBlockchain {
         )
     }
 
-    ///  Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
+    /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

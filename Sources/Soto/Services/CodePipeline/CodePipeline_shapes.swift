@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -172,9 +172,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case secretAccessKey
-            case sessionToken
+            case accessKeyId = "accessKeyId"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -196,8 +196,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case nonce
+            case jobId = "jobId"
+            case nonce = "nonce"
         }
     }
 
@@ -210,7 +210,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -238,9 +238,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case jobId
-            case nonce
+            case clientToken = "clientToken"
+            case jobId = "jobId"
+            case nonce = "nonce"
         }
     }
 
@@ -253,7 +253,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -266,7 +266,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -304,13 +304,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case key
-            case name
-            case queryable
-            case required
-            case secret
-            case type
+            case description = "description"
+            case key = "key"
+            case name = "name"
+            case queryable = "queryable"
+            case required = "required"
+            case secret = "secret"
+            case type = "type"
         }
     }
 
@@ -326,8 +326,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case name
+            case actionExecutionId = "actionExecutionId"
+            case name = "name"
         }
     }
 
@@ -392,15 +392,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case configuration
-            case inputArtifacts
-            case name
-            case namespace
-            case outputArtifacts
-            case region
-            case roleArn
-            case runOrder
+            case actionTypeId = "actionTypeId"
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case name = "name"
+            case namespace = "namespace"
+            case outputArtifacts = "outputArtifacts"
+            case region = "region"
+            case roleArn = "roleArn"
+            case runOrder = "runOrder"
         }
     }
 
@@ -440,16 +440,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case errorDetails
-            case externalExecutionId
-            case externalExecutionUrl
-            case lastStatusChange
-            case lastUpdatedBy
-            case percentComplete
-            case status
-            case summary
-            case token
+            case actionExecutionId = "actionExecutionId"
+            case errorDetails = "errorDetails"
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionUrl = "externalExecutionUrl"
+            case lastStatusChange = "lastStatusChange"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case percentComplete = "percentComplete"
+            case status = "status"
+            case summary = "summary"
+            case token = "token"
         }
     }
 
@@ -489,16 +489,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case actionName
-            case input
-            case lastUpdateTime
-            case output
-            case pipelineExecutionId
-            case pipelineVersion
-            case stageName
-            case startTime
-            case status
+            case actionExecutionId = "actionExecutionId"
+            case actionName = "actionName"
+            case input = "input"
+            case lastUpdateTime = "lastUpdateTime"
+            case output = "output"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineVersion = "pipelineVersion"
+            case stageName = "stageName"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
@@ -515,7 +515,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
@@ -545,13 +545,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case configuration
-            case inputArtifacts
-            case namespace
-            case region
-            case resolvedConfiguration
-            case roleArn
+            case actionTypeId = "actionTypeId"
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case namespace = "namespace"
+            case region = "region"
+            case resolvedConfiguration = "resolvedConfiguration"
+            case roleArn = "roleArn"
         }
     }
 
@@ -570,9 +570,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionResult
-            case outputArtifacts
-            case outputVariables
+            case executionResult = "executionResult"
+            case outputArtifacts = "outputArtifacts"
+            case outputVariables = "outputVariables"
         }
     }
 
@@ -591,9 +591,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case externalExecutionSummary
-            case externalExecutionUrl
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionSummary = "externalExecutionSummary"
+            case externalExecutionUrl = "externalExecutionUrl"
         }
     }
 
@@ -619,9 +619,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case revisionChangeId
-            case revisionId
+            case created = "created"
+            case revisionChangeId = "revisionChangeId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -646,11 +646,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case currentRevision
-            case entityUrl
-            case latestExecution
-            case revisionUrl
+            case actionName = "actionName"
+            case currentRevision = "currentRevision"
+            case entityUrl = "entityUrl"
+            case latestExecution = "latestExecution"
+            case revisionUrl = "revisionUrl"
         }
     }
 
@@ -675,11 +675,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfigurationProperties
-            case id
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case settings
+            case actionConfigurationProperties = "actionConfigurationProperties"
+            case id = "id"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case settings = "settings"
         }
     }
 
@@ -702,8 +702,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumCount
-            case minimumCount
+            case maximumCount = "maximumCount"
+            case minimumCount = "minimumCount"
         }
     }
 
@@ -752,14 +752,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case executor
-            case id
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case permissions
-            case properties
-            case urls
+            case description = "description"
+            case executor = "executor"
+            case id = "id"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case permissions = "permissions"
+            case properties = "properties"
+            case urls = "urls"
         }
     }
 
@@ -789,10 +789,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case jobTimeout
-            case policyStatementsTemplate
-            case type
+            case configuration = "configuration"
+            case jobTimeout = "jobTimeout"
+            case policyStatementsTemplate = "policyStatementsTemplate"
+            case type = "type"
         }
     }
 
@@ -823,10 +823,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
@@ -858,10 +858,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
@@ -882,7 +882,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedAccounts
+            case allowedAccounts = "allowedAccounts"
         }
     }
 
@@ -917,12 +917,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case key
-            case name
-            case noEcho
-            case optional
-            case queryable
+            case description = "description"
+            case key = "key"
+            case name = "name"
+            case noEcho = "noEcho"
+            case optional = "optional"
+            case queryable = "queryable"
         }
     }
 
@@ -955,10 +955,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityUrlTemplate
-            case executionUrlTemplate
-            case revisionUrlTemplate
-            case thirdPartyConfigurationUrl
+            case entityUrlTemplate = "entityUrlTemplate"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
+            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
         }
     }
 
@@ -991,10 +991,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationUrl
-            case entityUrlTemplate
-            case executionUrlTemplate
-            case revisionUrlTemplate
+            case configurationUrl = "configurationUrl"
+            case entityUrlTemplate = "entityUrlTemplate"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
         }
     }
 
@@ -1014,8 +1014,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case summary
+            case status = "status"
+            case summary = "summary"
         }
     }
 
@@ -1034,9 +1034,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case name
-            case revision
+            case location = "location"
+            case name = "name"
+            case revision = "revision"
         }
     }
 
@@ -1052,8 +1052,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case s3location
+            case name = "name"
+            case s3location = "s3location"
         }
     }
 
@@ -1076,8 +1076,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumCount
-            case minimumCount
+            case maximumCount = "maximumCount"
+            case minimumCount = "minimumCount"
         }
     }
 
@@ -1093,8 +1093,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
-            case type
+            case s3Location = "s3Location"
+            case type = "type"
         }
     }
 
@@ -1122,12 +1122,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case name
-            case revisionChangeIdentifier
-            case revisionId
-            case revisionSummary
-            case revisionUrl
+            case created = "created"
+            case name = "name"
+            case revisionChangeIdentifier = "revisionChangeIdentifier"
+            case revisionId = "revisionId"
+            case revisionSummary = "revisionSummary"
+            case revisionUrl = "revisionUrl"
         }
     }
 
@@ -1153,9 +1153,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
-            case location
-            case type
+            case encryptionKey = "encryptionKey"
+            case location = "location"
+            case type = "type"
         }
     }
 
@@ -1176,8 +1176,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1230,14 +1230,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case configurationProperties
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case provider
-            case settings
-            case tags
-            case version
+            case category = "category"
+            case configurationProperties = "configurationProperties"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case provider = "provider"
+            case settings = "settings"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -1253,8 +1253,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
-            case tags
+            case actionType = "actionType"
+            case tags = "tags"
         }
     }
 
@@ -1277,8 +1277,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
-            case tags
+            case pipeline = "pipeline"
+            case tags = "tags"
         }
     }
 
@@ -1294,8 +1294,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
-            case tags
+            case pipeline = "pipeline"
+            case tags = "tags"
         }
     }
 
@@ -1326,10 +1326,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeIdentifier
-            case created
-            case revision
-            case revisionSummary
+            case changeIdentifier = "changeIdentifier"
+            case created = "created"
+            case revision = "revision"
+            case revisionSummary = "revisionSummary"
         }
     }
 
@@ -1357,9 +1357,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case provider
-            case version
+            case category = "category"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
@@ -1378,7 +1378,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1397,7 +1397,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1420,7 +1420,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhookName
+            case webhookName = "webhookName"
         }
     }
 
@@ -1458,10 +1458,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineName
-            case reason
-            case stageName
-            case transitionType
+            case pipelineName = "pipelineName"
+            case reason = "reason"
+            case stageName = "stageName"
+            case transitionType = "transitionType"
         }
     }
 
@@ -1489,9 +1489,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineName
-            case stageName
-            case transitionType
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
+            case transitionType = "transitionType"
         }
     }
 
@@ -1512,8 +1512,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -1529,8 +1529,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1558,9 +1558,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case percentComplete
-            case summary
+            case externalExecutionId = "externalExecutionId"
+            case percentComplete = "percentComplete"
+            case summary = "summary"
         }
     }
 
@@ -1576,8 +1576,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerDetail
-            case triggerType
+            case triggerDetail = "triggerDetail"
+            case triggerType = "triggerType"
         }
     }
 
@@ -1598,8 +1598,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobWorkerExecutorConfiguration
-            case lambdaExecutorConfiguration
+            case jobWorkerExecutorConfiguration = "jobWorkerExecutorConfiguration"
+            case lambdaExecutorConfiguration = "lambdaExecutorConfiguration"
         }
     }
 
@@ -1625,9 +1625,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case message
-            case type
+            case externalExecutionId = "externalExecutionId"
+            case message = "message"
+            case type = "type"
         }
     }
 
@@ -1659,10 +1659,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
@@ -1675,7 +1675,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
+            case actionType = "actionType"
         }
     }
 
@@ -1692,7 +1692,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -1705,7 +1705,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDetails
+            case jobDetails = "jobDetails"
         }
     }
 
@@ -1728,8 +1728,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case pipelineName
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
         }
     }
 
@@ -1742,7 +1742,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecution
+            case pipelineExecution = "pipelineExecution"
         }
     }
 
@@ -1765,8 +1765,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -1782,8 +1782,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
-            case pipeline
+            case metadata = "metadata"
+            case pipeline = "pipeline"
         }
     }
 
@@ -1802,7 +1802,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1827,11 +1827,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case pipelineName
-            case pipelineVersion
-            case stageStates
-            case updated
+            case created = "created"
+            case pipelineName = "pipelineName"
+            case pipelineVersion = "pipelineVersion"
+            case stageStates = "stageStates"
+            case updated = "updated"
         }
     }
 
@@ -1854,8 +1854,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case jobId
+            case clientToken = "clientToken"
+            case jobId = "jobId"
         }
     }
 
@@ -1868,7 +1868,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDetails
+            case jobDetails = "jobDetails"
         }
     }
 
@@ -1887,7 +1887,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1909,10 +1909,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case data
-            case id
-            case nonce
+            case accountId = "accountId"
+            case data = "data"
+            case id = "id"
+            case nonce = "nonce"
         }
     }
 
@@ -1946,14 +1946,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfiguration
-            case actionTypeId
-            case artifactCredentials
-            case continuationToken
-            case encryptionKey
-            case inputArtifacts
-            case outputArtifacts
-            case pipelineContext
+            case actionConfiguration = "actionConfiguration"
+            case actionTypeId = "actionTypeId"
+            case artifactCredentials = "artifactCredentials"
+            case continuationToken = "continuationToken"
+            case encryptionKey = "encryptionKey"
+            case inputArtifacts = "inputArtifacts"
+            case outputArtifacts = "outputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
@@ -1972,9 +1972,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case data
-            case id
+            case accountId = "accountId"
+            case data = "data"
+            case id = "id"
         }
     }
 
@@ -2004,8 +2004,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pollingAccounts
-            case pollingServicePrincipals
+            case pollingAccounts = "pollingAccounts"
+            case pollingServicePrincipals = "pollingServicePrincipals"
         }
     }
 
@@ -2024,7 +2024,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionArn
+            case lambdaFunctionArn = "lambdaFunctionArn"
         }
     }
 
@@ -2057,10 +2057,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case pipelineName
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
         }
     }
 
@@ -2076,8 +2076,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionDetails
-            case nextToken
+            case actionExecutionDetails = "actionExecutionDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2103,9 +2103,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionOwnerFilter
-            case nextToken
-            case regionFilter
+            case actionOwnerFilter = "actionOwnerFilter"
+            case nextToken = "nextToken"
+            case regionFilter = "regionFilter"
         }
     }
 
@@ -2121,8 +2121,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypes
-            case nextToken
+            case actionTypes = "actionTypes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2151,9 +2151,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case pipelineName
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
         }
     }
 
@@ -2169,8 +2169,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pipelineExecutionSummaries
+            case nextToken = "nextToken"
+            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
         }
     }
 
@@ -2193,8 +2193,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2210,8 +2210,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pipelines
+            case nextToken = "nextToken"
+            case pipelines = "pipelines"
         }
     }
 
@@ -2238,9 +2238,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2256,8 +2256,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -2288,13 +2288,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case definition
-            case errorCode
-            case errorMessage
-            case lastTriggered
-            case tags
-            case url
+            case arn = "arn"
+            case definition = "definition"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case lastTriggered = "lastTriggered"
+            case tags = "tags"
+            case url = "url"
         }
     }
 
@@ -2335,7 +2335,7 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case webhooks
+            case webhooks = "webhooks"
         }
     }
 
@@ -2354,7 +2354,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2379,11 +2379,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case pipelineArn
-            case pipelineExecutionId
-            case pipelineName
-            case stage
+            case action = "action"
+            case pipelineArn = "pipelineArn"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case stage = "stage"
         }
     }
 
@@ -2429,12 +2429,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactStore
-            case artifactStores
-            case name
-            case roleArn
-            case stages
-            case version
+            case artifactStore = "artifactStore"
+            case artifactStores = "artifactStores"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stages = "stages"
+            case version = "version"
         }
     }
 
@@ -2462,12 +2462,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactRevisions
-            case pipelineExecutionId
-            case pipelineName
-            case pipelineVersion
-            case status
-            case statusSummary
+            case artifactRevisions = "artifactRevisions"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case pipelineVersion = "pipelineVersion"
+            case status = "status"
+            case statusSummary = "statusSummary"
         }
     }
 
@@ -2498,13 +2498,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdateTime
-            case pipelineExecutionId
-            case sourceRevisions
-            case startTime
-            case status
-            case stopTrigger
-            case trigger
+            case lastUpdateTime = "lastUpdateTime"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case sourceRevisions = "sourceRevisions"
+            case startTime = "startTime"
+            case status = "status"
+            case stopTrigger = "stopTrigger"
+            case trigger = "trigger"
         }
     }
 
@@ -2523,9 +2523,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case pipelineArn
-            case updated
+            case created = "created"
+            case pipelineArn = "pipelineArn"
+            case updated = "updated"
         }
     }
 
@@ -2547,10 +2547,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case name
-            case updated
-            case version
+            case created = "created"
+            case name = "name"
+            case updated = "updated"
+            case version = "version"
         }
     }
 
@@ -2582,9 +2582,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case maxBatchSize
-            case queryParam
+            case actionTypeId = "actionTypeId"
+            case maxBatchSize = "maxBatchSize"
+            case queryParam = "queryParam"
         }
     }
 
@@ -2597,7 +2597,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
@@ -2618,8 +2618,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case maxBatchSize
+            case actionTypeId = "actionTypeId"
+            case maxBatchSize = "maxBatchSize"
         }
     }
 
@@ -2632,7 +2632,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
@@ -2667,10 +2667,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case actionRevision
-            case pipelineName
-            case stageName
+            case actionName = "actionName"
+            case actionRevision = "actionRevision"
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
         }
     }
 
@@ -2686,8 +2686,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newRevision
-            case pipelineExecutionId
+            case newRevision = "newRevision"
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
@@ -2726,11 +2726,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case pipelineName
-            case result
-            case stageName
-            case token
+            case actionName = "actionName"
+            case pipelineName = "pipelineName"
+            case result = "result"
+            case stageName = "stageName"
+            case token = "token"
         }
     }
 
@@ -2743,7 +2743,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvedAt
+            case approvedAt = "approvedAt"
         }
     }
 
@@ -2764,8 +2764,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureDetails
-            case jobId
+            case failureDetails = "failureDetails"
+            case jobId = "jobId"
         }
     }
 
@@ -2801,11 +2801,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continuationToken
-            case currentRevision
-            case executionDetails
-            case jobId
-            case outputVariables
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case executionDetails = "executionDetails"
+            case jobId = "jobId"
+            case outputVariables = "outputVariables"
         }
     }
 
@@ -2832,9 +2832,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case failureDetails
-            case jobId
+            case clientToken = "clientToken"
+            case failureDetails = "failureDetails"
+            case jobId = "jobId"
         }
     }
 
@@ -2870,11 +2870,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case continuationToken
-            case currentRevision
-            case executionDetails
-            case jobId
+            case clientToken = "clientToken"
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case executionDetails = "executionDetails"
+            case jobId = "jobId"
         }
     }
 
@@ -2897,8 +2897,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case webhook
+            case tags = "tags"
+            case webhook = "webhook"
         }
     }
 
@@ -2911,7 +2911,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
@@ -2930,7 +2930,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhookName
+            case webhookName = "webhookName"
         }
     }
 
@@ -2966,10 +2966,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case pipelineName
-            case retryMode
-            case stageName
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case retryMode = "retryMode"
+            case stageName = "stageName"
         }
     }
 
@@ -2982,7 +2982,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
@@ -2998,8 +2998,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case objectKey
+            case bucketName = "bucketName"
+            case objectKey = "objectKey"
         }
     }
 
@@ -3015,8 +3015,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
@@ -3038,10 +3038,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case revisionId
-            case revisionSummary
-            case revisionUrl
+            case actionName = "actionName"
+            case revisionId = "revisionId"
+            case revisionSummary = "revisionSummary"
+            case revisionUrl = "revisionUrl"
         }
     }
 
@@ -3054,7 +3054,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -3085,9 +3085,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case blockers
-            case name
+            case actions = "actions"
+            case blockers = "blockers"
+            case name = "name"
         }
     }
 
@@ -3103,8 +3103,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case status
+            case pipelineExecutionId = "pipelineExecutionId"
+            case status = "status"
         }
     }
 
@@ -3128,11 +3128,11 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionStates
-            case inboundExecution
-            case inboundTransitionState
-            case latestExecution
-            case stageName
+            case actionStates = "actionStates"
+            case inboundExecution = "inboundExecution"
+            case inboundTransitionState = "inboundTransitionState"
+            case latestExecution = "latestExecution"
+            case stageName = "stageName"
         }
     }
 
@@ -3157,8 +3157,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case name
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
         }
     }
 
@@ -3171,7 +3171,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
@@ -3184,7 +3184,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
+            case reason = "reason"
         }
     }
 
@@ -3214,10 +3214,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case abandon
-            case pipelineExecutionId
-            case pipelineName
-            case reason
+            case abandon = "abandon"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case reason = "reason"
         }
     }
 
@@ -3230,7 +3230,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
@@ -3252,8 +3252,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3276,8 +3276,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -3297,8 +3297,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case jobId
+            case clientId = "clientId"
+            case jobId = "jobId"
         }
     }
 
@@ -3332,14 +3332,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfiguration
-            case actionTypeId
-            case artifactCredentials
-            case continuationToken
-            case encryptionKey
-            case inputArtifacts
-            case outputArtifacts
-            case pipelineContext
+            case actionConfiguration = "actionConfiguration"
+            case actionTypeId = "actionTypeId"
+            case artifactCredentials = "artifactCredentials"
+            case continuationToken = "continuationToken"
+            case encryptionKey = "encryptionKey"
+            case inputArtifacts = "inputArtifacts"
+            case outputArtifacts = "outputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
@@ -3358,9 +3358,9 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case id
-            case nonce
+            case data = "data"
+            case id = "id"
+            case nonce = "nonce"
         }
     }
 
@@ -3382,10 +3382,10 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disabledReason
-            case enabled
-            case lastChangedAt
-            case lastChangedBy
+            case disabledReason = "disabledReason"
+            case enabled = "enabled"
+            case lastChangedAt = "lastChangedAt"
+            case lastChangedBy = "lastChangedBy"
         }
     }
 
@@ -3409,8 +3409,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -3431,7 +3431,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
+            case actionType = "actionType"
         }
     }
 
@@ -3448,7 +3448,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
@@ -3461,7 +3461,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
@@ -3530,12 +3530,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication
-            case authenticationConfiguration
-            case filters
-            case name
-            case targetAction
-            case targetPipeline
+            case authentication = "authentication"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case filters = "filters"
+            case name = "name"
+            case targetAction = "targetAction"
+            case targetPipeline = "targetPipeline"
         }
     }
 
@@ -3558,8 +3558,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonPath
-            case matchEquals
+            case jsonPath = "jsonPath"
+            case matchEquals = "matchEquals"
         }
     }
 }

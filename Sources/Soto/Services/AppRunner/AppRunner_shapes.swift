@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -366,15 +366,18 @@ extension AppRunner {
         public let port: String?
         /// A runtime environment type for building and running an App Runner service. It represents a programming language runtime.
         public let runtime: Runtime
-        /// The environment variables that are available to your running App Runner service. An array of key-value pairs. Keys with a prefix of AWSAPPRUNNER are reserved for system use and aren't valid.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable.   The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.     If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching,  you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.     Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        public let runtimeEnvironmentSecrets: [String: String]?
+        /// The environment variables that are available to your running App Runner service. An array of key-value pairs.
         public let runtimeEnvironmentVariables: [String: String]?
         /// The command App Runner runs to start your application.
         public let startCommand: String?
 
-        public init(buildCommand: String? = nil, port: String? = nil, runtime: Runtime, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
+        public init(buildCommand: String? = nil, port: String? = nil, runtime: Runtime, runtimeEnvironmentSecrets: [String: String]? = nil, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
             self.buildCommand = buildCommand
             self.port = port
             self.runtime = runtime
+            self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
             self.runtimeEnvironmentVariables = runtimeEnvironmentVariables
             self.startCommand = startCommand
         }
@@ -383,6 +386,12 @@ extension AppRunner {
             try self.validate(self.buildCommand, name: "buildCommand", parent: name, pattern: "^[^\\x0a\\x0d]+$")
             try self.validate(self.port, name: "port", parent: name, max: 51200)
             try self.validate(self.port, name: "port", parent: name, pattern: ".*")
+            try self.runtimeEnvironmentSecrets?.forEach {
+                try validate($0.key, name: "runtimeEnvironmentSecrets.key", parent: name, max: 2048)
+                try validate($0.key, name: "runtimeEnvironmentSecrets.key", parent: name, min: 1)
+                try validate($0.value, name: "runtimeEnvironmentSecrets[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "runtimeEnvironmentSecrets[\"\($0.key)\"]", parent: name, min: 1)
+            }
             try self.runtimeEnvironmentVariables?.forEach {
                 try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, max: 51200)
                 try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, min: 1)
@@ -397,6 +406,7 @@ extension AppRunner {
             case buildCommand = "BuildCommand"
             case port = "Port"
             case runtime = "Runtime"
+            case runtimeEnvironmentSecrets = "RuntimeEnvironmentSecrets"
             case runtimeEnvironmentVariables = "RuntimeEnvironmentVariables"
             case startCommand = "StartCommand"
         }
@@ -1398,13 +1408,16 @@ extension AppRunner {
     public struct ImageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The port that your application listens to in the container. Default: 8080
         public let port: String?
-        /// Environment variables that are available to your running App Runner service. An array of key-value pairs. Keys with a prefix of AWSAPPRUNNER are reserved for system use and aren't valid.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable.   The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.     If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching,  you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.     Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        public let runtimeEnvironmentSecrets: [String: String]?
+        /// Environment variables that are available to your running App Runner service. An array of key-value pairs.
         public let runtimeEnvironmentVariables: [String: String]?
         /// An optional command that App Runner runs to start the application in the source image. If specified, this command overrides the Docker image’s default start command.
         public let startCommand: String?
 
-        public init(port: String? = nil, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
+        public init(port: String? = nil, runtimeEnvironmentSecrets: [String: String]? = nil, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
             self.port = port
+            self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
             self.runtimeEnvironmentVariables = runtimeEnvironmentVariables
             self.startCommand = startCommand
         }
@@ -1412,6 +1425,12 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.port, name: "port", parent: name, max: 51200)
             try self.validate(self.port, name: "port", parent: name, pattern: ".*")
+            try self.runtimeEnvironmentSecrets?.forEach {
+                try validate($0.key, name: "runtimeEnvironmentSecrets.key", parent: name, max: 2048)
+                try validate($0.key, name: "runtimeEnvironmentSecrets.key", parent: name, min: 1)
+                try validate($0.value, name: "runtimeEnvironmentSecrets[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "runtimeEnvironmentSecrets[\"\($0.key)\"]", parent: name, min: 1)
+            }
             try self.runtimeEnvironmentVariables?.forEach {
                 try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, max: 51200)
                 try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, min: 1)
@@ -1424,6 +1443,7 @@ extension AppRunner {
 
         private enum CodingKeys: String, CodingKey {
             case port = "Port"
+            case runtimeEnvironmentSecrets = "RuntimeEnvironmentSecrets"
             case runtimeEnvironmentVariables = "RuntimeEnvironmentVariables"
             case startCommand = "StartCommand"
         }
@@ -2685,13 +2705,13 @@ public struct AppRunnerErrorType: AWSErrorType {
 
     /// An unexpected service exception occurred.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
-    /// One or more input parameters aren&#39;t valid. Refer to the API action&#39;s document page, correct the input parameters, and try the action again.
+    /// One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// You can&#39;t perform this action when the resource is in its current state.
+    /// You can't perform this action when the resource is in its current state.
     public static var invalidStateException: Self { .init(.invalidStateException) }
-    /// A resource doesn&#39;t exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
+    /// A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// App Runner can&#39;t create this resource. You&#39;ve reached your account quota for this resource type. For App Runner per-resource quotas, see App Runner endpoints and quotas in the Amazon Web Services General Reference.
+    /// App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see App Runner endpoints and quotas in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -59,13 +59,13 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationCreationDate
-            case applicationDescription
-            case applicationId
-            case applicationLastUpdateDate
-            case applicationName
-            case applicationState
-            case applicationUrl
+            case applicationCreationDate = "applicationCreationDate"
+            case applicationDescription = "applicationDescription"
+            case applicationId = "applicationId"
+            case applicationLastUpdateDate = "applicationLastUpdateDate"
+            case applicationName = "applicationName"
+            case applicationState = "applicationState"
+            case applicationUrl = "applicationUrl"
         }
     }
 
@@ -114,11 +114,11 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationDescription
-            case applicationName
-            case clientToken
-            case roleArn
-            case tags
+            case applicationDescription = "applicationDescription"
+            case applicationName = "applicationName"
+            case clientToken = "clientToken"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -134,8 +134,8 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationId
+            case applicationArn = "applicationArn"
+            case applicationId = "applicationId"
         }
     }
 
@@ -234,18 +234,18 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationCreationDate
-            case applicationDescription
-            case applicationId
-            case applicationLastUpdateDate
-            case applicationName
-            case applicationState
-            case applicationUrl
-            case errorMessage
-            case roleArn
-            case ssoClientId
-            case tags
+            case applicationArn = "applicationArn"
+            case applicationCreationDate = "applicationCreationDate"
+            case applicationDescription = "applicationDescription"
+            case applicationId = "applicationId"
+            case applicationLastUpdateDate = "applicationLastUpdateDate"
+            case applicationName = "applicationName"
+            case applicationState = "applicationState"
+            case applicationUrl = "applicationUrl"
+            case errorMessage = "errorMessage"
+            case roleArn = "roleArn"
+            case ssoClientId = "ssoClientId"
+            case tags = "tags"
         }
     }
 
@@ -282,8 +282,8 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationSummaries
-            case nextToken
+            case applicationSummaries = "applicationSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -311,7 +311,7 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -343,7 +343,7 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -419,9 +419,9 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationDescription
-            case applicationName
-            case clientToken
+            case applicationDescription = "applicationDescription"
+            case applicationName = "applicationName"
+            case clientToken = "clientToken"
         }
     }
 

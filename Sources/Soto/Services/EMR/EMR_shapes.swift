@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -234,8 +234,8 @@ extension EMR {
     }
 
     public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable, _SotoSendable {
-        case none
-        case open
+        case none = "none"
+        case open = "open"
         public var description: String { return self.rawValue }
     }
 

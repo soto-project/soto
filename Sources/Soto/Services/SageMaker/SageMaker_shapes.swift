@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -110,7 +110,7 @@ extension SageMaker {
         case mlT3Micro = "ml.t3.micro"
         case mlT3Small = "ml.t3.small"
         case mlT3Xlarge = "ml.t3.xlarge"
-        case system
+        case system = "system"
         public var description: String { return self.rawValue }
     }
 
@@ -194,8 +194,8 @@ extension SageMaker {
     }
 
     public enum AutoMLChannelType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case training
-        case validation
+        case training = "training"
+        case validation = "validation"
         public var description: String { return self.rawValue }
     }
 
@@ -357,16 +357,16 @@ extension SageMaker {
     }
 
     public enum ClarifyFeatureType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case categorical
-        case numerical
-        case text
+        case categorical = "categorical"
+        case numerical = "numerical"
+        case text = "text"
         public var description: String { return self.rawValue }
     }
 
     public enum ClarifyTextGranularity: String, CustomStringConvertible, Codable, _SotoSendable {
-        case paragraph
-        case sentence
-        case token
+        case paragraph = "paragraph"
+        case sentence = "sentence"
+        case token = "token"
         public var description: String { return self.rawValue }
     }
 
@@ -650,8 +650,8 @@ extension SageMaker {
     }
 
     public enum FileSystemAccessMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ro
-        case rw
+        case ro = "ro"
+        case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
@@ -1918,20 +1918,20 @@ extension SageMaker {
     }
 
     public enum TargetDevice: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aisage
+        case aisage = "aisage"
         case ambaCv2 = "amba_cv2"
         case ambaCv22 = "amba_cv22"
         case ambaCv25 = "amba_cv25"
-        case coreml
-        case deeplens
-        case imx8mplus
-        case imx8qm
+        case coreml = "coreml"
+        case deeplens = "deeplens"
+        case imx8mplus = "imx8mplus"
+        case imx8qm = "imx8qm"
         case jacintoTda4Vm = "jacinto_tda4vm"
         case jetsonNano = "jetson_nano"
         case jetsonTx1 = "jetson_tx1"
         case jetsonTx2 = "jetson_tx2"
         case jetsonXavier = "jetson_xavier"
-        case lambda
+        case lambda = "lambda"
         case mlC4 = "ml_c4"
         case mlC5 = "ml_c5"
         case mlEia2 = "ml_eia2"
@@ -1941,11 +1941,11 @@ extension SageMaker {
         case mlM5 = "ml_m5"
         case mlP2 = "ml_p2"
         case mlP3 = "ml_p3"
-        case qcs603
-        case qcs605
-        case rasp3b
-        case rk3288
-        case rk3399
+        case qcs603 = "qcs603"
+        case qcs605 = "qcs605"
+        case rasp3b = "rasp3b"
+        case rk3288 = "rk3288"
+        case rk3399 = "rk3399"
         case sbeC = "sbe_c"
         case sitaraAm57X = "sitara_am57x"
         case x86Win32 = "x86_win32"
@@ -6791,7 +6791,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, max: 100000)
             try self.validate(self.content, name: "content", parent: name, pattern: ".*")
             try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
             try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
@@ -7486,7 +7486,7 @@ extension SageMaker {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
-            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1048576)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: "(?:[ \\r\\n\\t].*)*$")
             try self.pipelineDefinitionS3Location?.validate(name: "\(name).pipelineDefinitionS3Location")
@@ -16775,7 +16775,7 @@ extension SageMaker {
             try self.validate(self.humanTaskUiArn, name: "humanTaskUiArn", parent: name, max: 1024)
             try self.validate(self.humanTaskUiArn, name: "humanTaskUiArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:human-task-ui/")
             try self.publicWorkforceTaskPrice?.validate(name: "\(name).publicWorkforceTaskPrice")
-            try self.validate(self.taskAvailabilityLifetimeInSeconds, name: "taskAvailabilityLifetimeInSeconds", parent: name, max: 864_000)
+            try self.validate(self.taskAvailabilityLifetimeInSeconds, name: "taskAvailabilityLifetimeInSeconds", parent: name, max: 864000)
             try self.validate(self.taskAvailabilityLifetimeInSeconds, name: "taskAvailabilityLifetimeInSeconds", parent: name, min: 1)
             try self.validate(self.taskCount, name: "taskCount", parent: name, max: 3)
             try self.validate(self.taskCount, name: "taskCount", parent: name, min: 1)
@@ -27302,7 +27302,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxRuntimeInSeconds, name: "maxRuntimeInSeconds", parent: name, max: 604_800)
+            try self.validate(self.maxRuntimeInSeconds, name: "maxRuntimeInSeconds", parent: name, max: 604800)
             try self.validate(self.maxRuntimeInSeconds, name: "maxRuntimeInSeconds", parent: name, min: 1)
         }
 
@@ -28606,7 +28606,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.input, name: "input", parent: name, max: 128_000)
+            try self.validate(self.input, name: "input", parent: name, max: 128000)
             try self.validate(self.input, name: "input", parent: name, min: 2)
             try self.validate(self.input, name: "input", parent: name, pattern: "^[\\S\\s]+$")
         }
@@ -31444,7 +31444,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 128_000)
+            try self.validate(self.content, name: "content", parent: name, max: 128000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "^[\\S\\s]+$")
         }
@@ -32356,7 +32356,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, max: 100000)
             try self.validate(self.content, name: "content", parent: name, pattern: ".*")
             try self.validate(self.modelCardName, name: "modelCardName", parent: name, max: 63)
             try self.validate(self.modelCardName, name: "modelCardName", parent: name, min: 1)
@@ -32755,7 +32755,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
-            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
+            try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1048576)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: "(?:[ \\r\\n\\t].*)*$")
             try self.pipelineDefinitionS3Location?.validate(name: "\(name).pipelineDefinitionS3Location")

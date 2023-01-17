@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -283,7 +283,7 @@ extension WorkSpacesWeb {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkSpacesWeb {
-    ///  Retrieves a list of browser settings.
+    /// Retrieves a list of browser settings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -305,7 +305,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of identity providers for a specific web portal.
+    /// Retrieves a list of identity providers for a specific web portal.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -327,7 +327,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of network settings.
+    /// Retrieves a list of network settings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -349,7 +349,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list or web portals.
+    /// Retrieves a list or web portals.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -371,7 +371,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of trust store certificates.
+    /// Retrieves a list of trust store certificates.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -393,7 +393,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of trust stores.
+    /// Retrieves a list of trust stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -415,7 +415,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of user access logging settings.
+    /// Retrieves a list of user access logging settings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -437,7 +437,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of user settings.
+    /// Retrieves a list of user settings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

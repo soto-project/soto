@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2162,7 +2162,7 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2675,7 +2675,7 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3030,11 +3030,11 @@ public struct DataExchangeErrorType: AWSErrorType {
 
     /// Access to the resource is denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request couldn&#39;t be completed because it conflicted with the current state of the resource.
+    /// The request couldn't be completed because it conflicted with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource couldn&#39;t be found.
+    /// The resource couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request has exceeded the quotas imposed by the service.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }

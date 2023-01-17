@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -383,7 +383,7 @@ extension LexModelsV2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LexModelsV2 {
-    ///  Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:   The childDirected field was set to true when the bot was created.   You are using slot obfuscation with one or more slots.   You opted out of participating in improving Amazon Lex.
+    /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:   The childDirected field was set to true when the bot was created.   You are using slot obfuscation with one or more slots.   You opted out of participating in improving Amazon Lex.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -405,7 +405,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of aliases for the specified bot.
+    /// Gets a list of aliases for the specified bot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -427,7 +427,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of locales for the specified bot.
+    /// Gets a list of locales for the specified bot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -449,7 +449,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Get a list of bot recommendations that meet the specified criteria.
+    /// Get a list of bot recommendations that meet the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -471,7 +471,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
+    /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -493,7 +493,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of available bots.
+    /// Gets a list of available bots.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -515,7 +515,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of built-in intents provided by Amazon Lex that you can use in your bot.  To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see CreateIntent.
+    /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot.  To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see CreateIntent.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -537,7 +537,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of built-in slot types that meet the specified criteria.
+    /// Gets a list of built-in slot types that meet the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -559,7 +559,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  List custom vocabulary items for the specified locale in the  specified bot.
+    /// List custom vocabulary items for the specified locale in the  specified bot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -581,7 +581,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
+    /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -603,7 +603,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
+    /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -625,7 +625,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Get a list of intents that meet the specified criteria.
+    /// Get a list of intents that meet the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -647,7 +647,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the  response are ordered by relevance.
+    /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the  response are ordered by relevance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -669,7 +669,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of slot types that match the specified criteria.
+    /// Gets a list of slot types that match the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -691,7 +691,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Gets a list of slots that match the specified criteria.
+    /// Gets a list of slots that match the specified criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

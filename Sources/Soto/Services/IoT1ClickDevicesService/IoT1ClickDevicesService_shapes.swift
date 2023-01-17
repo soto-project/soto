@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -54,8 +54,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case claimCode
-            case total
+            case claimCode = "claimCode"
+            case total = "total"
         }
     }
 
@@ -83,7 +83,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDescription
+            case deviceDescription = "deviceDescription"
         }
     }
 
@@ -102,9 +102,9 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case deviceId
-            case type
+            case attributes = "attributes"
+            case deviceId = "deviceId"
+            case type = "type"
         }
     }
 
@@ -135,13 +135,13 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attributes
-            case deviceId
-            case enabled
-            case remainingLife
-            case tags
-            case type
+            case arn = "arn"
+            case attributes = "attributes"
+            case deviceId = "deviceId"
+            case enabled = "enabled"
+            case remainingLife = "remainingLife"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -157,8 +157,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
-            case stdEvent
+            case device = "device"
+            case stdEvent = "stdEvent"
         }
     }
 
@@ -174,8 +174,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceType
-            case methodName
+            case deviceType = "deviceType"
+            case methodName = "methodName"
         }
     }
 
@@ -195,7 +195,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -208,7 +208,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -236,7 +236,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethods
+            case deviceMethods = "deviceMethods"
         }
     }
 
@@ -264,7 +264,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -287,8 +287,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethod
-            case deviceMethodParameters
+            case deviceMethod = "deviceMethod"
+            case deviceMethodParameters = "deviceMethodParameters"
         }
     }
 
@@ -301,7 +301,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethodResponse
+            case deviceMethodResponse = "deviceMethodResponse"
         }
     }
 
@@ -355,8 +355,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
@@ -400,8 +400,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case nextToken
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -429,7 +429,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -449,7 +449,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -477,7 +477,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -516,7 +516,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,7 +218,7 @@ extension CloudTrail {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudTrail {
-    ///  Gets event data results of a query. You must specify the QueryID value returned by the StartQuery  operation, and an ARN for EventDataStore.
+    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery  operation, and an ARN for EventDataStore.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -240,7 +240,7 @@ extension CloudTrail {
         )
     }
 
-    ///   Lists the channels in the current account, and their source names. Amazon Web Services services create service-linked channels get information about CloudTrail events on your behalf. For more information about  service-linked channels, see Viewing service-linked channels for CloudTrail by using the CLI.
+    ///  Lists the channels in the current account, and their source names. Amazon Web Services services create service-linked channels get information about CloudTrail events on your behalf. For more information about  service-linked channels, see Viewing service-linked channels for CloudTrail by using the CLI.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -262,7 +262,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Returns information about all event data stores in the account, in the current region.
+    /// Returns information about all event data stores in the account, in the current region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -284,7 +284,7 @@ extension CloudTrail {
         )
     }
 
-    ///   Returns a list of failures for the specified import.
+    ///  Returns a list of failures for the specified import.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -306,7 +306,7 @@ extension CloudTrail {
         )
     }
 
-    ///   Returns information on all imports, or a select set of imports by ImportStatus or Destination.
+    ///  Returns information on all imports, or a select set of imports by ImportStatus or Destination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -328,7 +328,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private and public key pairs per region. Each digest file is signed with a private key  unique to its region. When you validate a digest file from a specific region, you must look in the same region for its  corresponding public key.
+    /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private and public key pairs per region. Each digest file is signed with a private key  unique to its region. When you validate a digest file from a specific region, you must look in the same region for its  corresponding public key.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -350,7 +350,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for  EventDataStore. Optionally, to shorten the list of results, you can specify a time range,  formatted as timestamps, by adding StartTime and EndTime parameters, and a  QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING,  FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+    /// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for  EventDataStore. Optionally, to shorten the list of results, you can specify a time range,  formatted as timestamps, by adding StartTime and EndTime parameters, and a  QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING,  FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -372,7 +372,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Lists the tags for the trail or event data store in the current region.
+    /// Lists the tags for the trail or event data store in the current region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -394,7 +394,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Lists trails that are in the current account.
+    /// Lists trails that are in the current account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -416,7 +416,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Looks up management events or  CloudTrail Insights events that are captured by CloudTrail.  You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per region. If this limit is exceeded, a throttling error occurs.
+    /// Looks up management events or  CloudTrail Insights events that are captured by CloudTrail.  You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per region. If this limit is exceeded, a throttling error occurs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -303,7 +303,7 @@ extension Mgn {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Mgn {
-    ///  Retrieves detailed job log items with paging.
+    /// Retrieves detailed job log items with paging.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -325,7 +325,7 @@ extension Mgn {
         )
     }
 
-    ///  Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -347,7 +347,7 @@ extension Mgn {
         )
     }
 
-    ///  Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
+    /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -369,7 +369,7 @@ extension Mgn {
         )
     }
 
-    ///  Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -391,7 +391,7 @@ extension Mgn {
         )
     }
 
-    ///  Retrieves all SourceServers or multiple SourceServers by ID.
+    /// Retrieves all SourceServers or multiple SourceServers by ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -413,7 +413,7 @@ extension Mgn {
         )
     }
 
-    ///  Returns a list of the installed vCenter clients.
+    /// Returns a list of the installed vCenter clients.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -435,7 +435,7 @@ extension Mgn {
         )
     }
 
-    ///  Retrieves all applications or multiple applications by ID.
+    /// Retrieves all applications or multiple applications by ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -457,7 +457,7 @@ extension Mgn {
         )
     }
 
-    ///  List source server post migration custom actions.
+    /// List source server post migration custom actions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -479,7 +479,7 @@ extension Mgn {
         )
     }
 
-    ///  List template post migration custom actions.
+    /// List template post migration custom actions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -501,7 +501,7 @@ extension Mgn {
         )
     }
 
-    ///  Retrieves all waves or multiple waves by ID.
+    /// Retrieves all waves or multiple waves by ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -233,7 +233,7 @@ extension GroundStation {
 // MARK: Paginators
 
 extension GroundStation {
-    ///  Returns a list of Config objects.
+    /// Returns a list of Config objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -286,7 +286,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -339,7 +339,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of DataflowEndpoint groups.
+    /// Returns a list of DataflowEndpoint groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -392,7 +392,7 @@ extension GroundStation {
         )
     }
 
-    ///  List existing ephemerides.
+    /// List existing ephemerides.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -445,7 +445,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of ground stations.
+    /// Returns a list of ground stations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -498,7 +498,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of mission profiles.
+    /// Returns a list of mission profiles.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -551,7 +551,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of satellites.
+    /// Returns a list of satellites.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -109,7 +109,7 @@ extension MarketplaceMetering {
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, max: 255)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, min: 1)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "^[\\s\\S]+$")
-            try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2147483647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
         }
 
@@ -259,7 +259,7 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2147483647)
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -301,7 +301,7 @@ extension MarketplaceMetering {
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^[\\s\\S]+$")
-            try self.validate(self.quantity, name: "quantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.quantity, name: "quantity", parent: name, max: 2147483647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
@@ -389,7 +389,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var disabledApiException: Self { .init(.disabledApiException) }
     /// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
     public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
-    /// The submitted registration token has expired. This can happen if the buyer&#39;s browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer&#39;s browser.
+    /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
     /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }

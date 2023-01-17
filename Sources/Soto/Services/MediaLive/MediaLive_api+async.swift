@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -330,7 +330,7 @@ extension MediaLive {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaLive {
-    ///  Get a channel schedule
+    /// Get a channel schedule
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -352,7 +352,7 @@ extension MediaLive {
         )
     }
 
-    ///  Produces list of channels that have been created
+    /// Produces list of channels that have been created
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -374,7 +374,7 @@ extension MediaLive {
         )
     }
 
-    ///  List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+    /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -396,7 +396,7 @@ extension MediaLive {
         )
     }
 
-    ///  List input devices
+    /// List input devices
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -418,7 +418,7 @@ extension MediaLive {
         )
     }
 
-    ///  Produces a list of Input Security Groups for an account
+    /// Produces a list of Input Security Groups for an account
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -440,7 +440,7 @@ extension MediaLive {
         )
     }
 
-    ///  Produces list of inputs that have been created
+    /// Produces list of inputs that have been created
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -462,7 +462,7 @@ extension MediaLive {
         )
     }
 
-    ///  List the programs that currently exist for a specific multiplex.
+    /// List the programs that currently exist for a specific multiplex.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -484,7 +484,7 @@ extension MediaLive {
         )
     }
 
-    ///  Retrieve a list of the existing multiplexes.
+    /// Retrieve a list of the existing multiplexes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -506,7 +506,7 @@ extension MediaLive {
         )
     }
 
-    ///  List offerings available for purchase.
+    /// List offerings available for purchase.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -528,7 +528,7 @@ extension MediaLive {
         )
     }
 
-    ///  List purchased reservations.
+    /// List purchased reservations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

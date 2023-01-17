@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,61 +22,61 @@ extension DirectConnect {
     // MARK: Enums
 
     public enum AddressFamily: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ipv4
-        case ipv6
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
     public enum BGPPeerState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case deleted
-        case deleting
-        case pending
-        case verifying
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case pending = "pending"
+        case verifying = "verifying"
         public var description: String { return self.rawValue }
     }
 
     public enum BGPStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case down
-        case unknown
-        case up
+        case down = "down"
+        case unknown = "unknown"
+        case up = "up"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case deleted
-        case deleting
-        case down
-        case ordering
-        case pending
-        case rejected
-        case requested
-        case unknown
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case down = "down"
+        case ordering = "ordering"
+        case pending = "pending"
+        case rejected = "rejected"
+        case requested = "requested"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case accepted
-        case deleted
-        case requested
+        case accepted = "accepted"
+        case deleted = "deleted"
+        case requested = "requested"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case associated
-        case associating
-        case disassociated
-        case disassociating
-        case updating
+        case associated = "associated"
+        case associating = "associating"
+        case disassociated = "disassociated"
+        case disassociating = "disassociating"
+        case updating = "updating"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case attached
-        case attaching
-        case detached
-        case detaching
+        case attached = "attached"
+        case attaching = "attaching"
+        case detached = "detached"
+        case detaching = "detaching"
         public var description: String { return self.rawValue }
     }
 
@@ -87,45 +87,45 @@ extension DirectConnect {
     }
 
     public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case deleted
-        case deleting
-        case pending
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
     public enum GatewayType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case transitGateway
-        case virtualPrivateGateway
+        case transitGateway = "transitGateway"
+        case virtualPrivateGateway = "virtualPrivateGateway"
         public var description: String { return self.rawValue }
     }
 
     public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case no
-        case unknown
-        case yes
+        case no = "no"
+        case unknown = "unknown"
+        case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
     public enum InterconnectState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case deleted
-        case deleting
-        case down
-        case pending
-        case requested
-        case unknown
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case down = "down"
+        case pending = "pending"
+        case requested = "requested"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum LagState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case deleted
-        case deleting
-        case down
-        case pending
-        case requested
-        case unknown
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case down = "down"
+        case pending = "pending"
+        case requested = "requested"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -135,22 +135,22 @@ extension DirectConnect {
     }
 
     public enum NniPartnerType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case nonPartner
-        case v1
-        case v2
+        case nonPartner = "nonPartner"
+        case v1 = "v1"
+        case v2 = "v2"
         public var description: String { return self.rawValue }
     }
 
     public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case confirming
-        case deleted
-        case deleting
-        case down
-        case pending
-        case rejected
-        case unknown
-        case verifying
+        case available = "available"
+        case confirming = "confirming"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case down = "down"
+        case pending = "pending"
+        case rejected = "rejected"
+        case unknown = "unknown"
+        case verifying = "verifying"
         public var description: String { return self.rawValue }
     }
 
@@ -174,10 +174,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayOwnerAccount
-            case directConnectGatewayId
-            case overrideAllowedPrefixesToDirectConnectGateway
-            case proposalId
+            case associatedGatewayOwnerAccount = "associatedGatewayOwnerAccount"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case overrideAllowedPrefixesToDirectConnectGateway = "overrideAllowedPrefixesToDirectConnectGateway"
+            case proposalId = "proposalId"
         }
     }
 
@@ -189,7 +189,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
         }
     }
 
@@ -214,11 +214,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case connectionName
-            case interconnectId
-            case ownerAccount
-            case vlan
+            case bandwidth = "bandwidth"
+            case connectionName = "connectionName"
+            case interconnectId = "interconnectId"
+            case ownerAccount = "ownerAccount"
+            case vlan = "vlan"
         }
     }
 
@@ -253,12 +253,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case connectionId
-            case connectionName
-            case ownerAccount
-            case tags
-            case vlan
+            case bandwidth = "bandwidth"
+            case connectionId = "connectionId"
+            case connectionName = "connectionName"
+            case ownerAccount = "ownerAccount"
+            case tags = "tags"
+            case vlan = "vlan"
         }
     }
 
@@ -281,9 +281,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newPrivateVirtualInterfaceAllocation
-            case ownerAccount
+            case connectionId = "connectionId"
+            case newPrivateVirtualInterfaceAllocation = "newPrivateVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
         }
     }
 
@@ -306,9 +306,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newPublicVirtualInterfaceAllocation
-            case ownerAccount
+            case connectionId = "connectionId"
+            case newPublicVirtualInterfaceAllocation = "newPublicVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
         }
     }
 
@@ -331,9 +331,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newTransitVirtualInterfaceAllocation
-            case ownerAccount
+            case connectionId = "connectionId"
+            case newTransitVirtualInterfaceAllocation = "newTransitVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
         }
     }
 
@@ -345,7 +345,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface
+            case virtualInterface = "virtualInterface"
         }
     }
 
@@ -361,8 +361,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case lagId
+            case connectionId = "connectionId"
+            case lagId = "lagId"
         }
     }
 
@@ -378,8 +378,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case parentConnectionId
+            case connectionId = "connectionId"
+            case parentConnectionId = "parentConnectionId"
         }
     }
 
@@ -401,10 +401,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cak
-            case ckn
-            case connectionId
-            case secretARN
+            case cak = "cak"
+            case ckn = "ckn"
+            case connectionId = "connectionId"
+            case secretARN = "secretARN"
         }
     }
 
@@ -420,8 +420,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case macSecKeys
+            case connectionId = "connectionId"
+            case macSecKeys = "macSecKeys"
         }
     }
 
@@ -437,8 +437,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case virtualInterfaceId
+            case connectionId = "connectionId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -460,10 +460,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case ownerAccount
-            case region
-            case type
+            case id = "id"
+            case ownerAccount = "ownerAccount"
+            case region = "region"
+            case type = "type"
         }
     }
 
@@ -503,16 +503,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case awsDeviceV2
-            case awsLogicalDeviceId
-            case bgpPeerId
-            case bgpPeerState
-            case bgpStatus
-            case customerAddress
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case bgpPeerId = "bgpPeerId"
+            case bgpPeerState = "bgpPeerState"
+            case bgpStatus = "bgpStatus"
+            case customerAddress = "customerAddress"
         }
     }
 
@@ -525,7 +525,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
+            case connectionId = "connectionId"
         }
     }
 
@@ -538,7 +538,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionState
+            case connectionState = "connectionState"
         }
     }
 
@@ -556,7 +556,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agreementName
+            case agreementName = "agreementName"
         }
     }
 
@@ -569,7 +569,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -588,9 +588,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
-            case virtualGatewayId
-            case virtualInterfaceId
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -603,7 +603,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
@@ -616,7 +616,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -629,7 +629,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
@@ -645,8 +645,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
-            case virtualInterfaceId
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -659,7 +659,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
@@ -735,28 +735,28 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsDevice
-            case awsDeviceV2
-            case awsLogicalDeviceId
-            case bandwidth
-            case connectionId
-            case connectionName
-            case connectionState
-            case encryptionMode
-            case hasLogicalRedundancy
-            case jumboFrameCapable
-            case lagId
-            case loaIssueTime
-            case location
-            case macSecCapable
-            case macSecKeys
-            case ownerAccount
-            case partnerName
-            case portEncryptionStatus
-            case providerName
-            case region
-            case tags
-            case vlan
+            case awsDevice = "awsDevice"
+            case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case bandwidth = "bandwidth"
+            case connectionId = "connectionId"
+            case connectionName = "connectionName"
+            case connectionState = "connectionState"
+            case encryptionMode = "encryptionMode"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case jumboFrameCapable = "jumboFrameCapable"
+            case lagId = "lagId"
+            case loaIssueTime = "loaIssueTime"
+            case location = "location"
+            case macSecCapable = "macSecCapable"
+            case macSecKeys = "macSecKeys"
+            case ownerAccount = "ownerAccount"
+            case partnerName = "partnerName"
+            case portEncryptionStatus = "portEncryptionStatus"
+            case providerName = "providerName"
+            case region = "region"
+            case tags = "tags"
+            case vlan = "vlan"
         }
     }
 
@@ -769,7 +769,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connections
+            case connections = "connections"
         }
     }
 
@@ -785,8 +785,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newBGPPeer
-            case virtualInterfaceId
+            case newBGPPeer = "newBGPPeer"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -799,7 +799,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface
+            case virtualInterface = "virtualInterface"
         }
     }
 
@@ -837,13 +837,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case connectionName
-            case lagId
-            case location
-            case providerName
-            case requestMACSec
-            case tags
+            case bandwidth = "bandwidth"
+            case connectionName = "connectionName"
+            case lagId = "lagId"
+            case location = "location"
+            case providerName = "providerName"
+            case requestMACSec = "requestMACSec"
+            case tags = "tags"
         }
     }
 
@@ -868,11 +868,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway
-            case directConnectGatewayId
-            case directConnectGatewayOwnerAccount
-            case gatewayId
-            case removeAllowedPrefixesToDirectConnectGateway
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
+            case gatewayId = "gatewayId"
+            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
         }
     }
 
@@ -885,7 +885,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposal
+            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
         }
     }
 
@@ -907,10 +907,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway
-            case directConnectGatewayId
-            case gatewayId
-            case virtualGatewayId
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case gatewayId = "gatewayId"
+            case virtualGatewayId = "virtualGatewayId"
         }
     }
 
@@ -923,7 +923,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
         }
     }
 
@@ -939,8 +939,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amazonSideAsn
-            case directConnectGatewayName
+            case amazonSideAsn = "amazonSideAsn"
+            case directConnectGatewayName = "directConnectGatewayName"
         }
     }
 
@@ -953,7 +953,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway
+            case directConnectGateway = "directConnectGateway"
         }
     }
 
@@ -988,12 +988,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case interconnectName
-            case lagId
-            case location
-            case providerName
-            case tags
+            case bandwidth = "bandwidth"
+            case interconnectName = "interconnectName"
+            case lagId = "lagId"
+            case location = "location"
+            case providerName = "providerName"
+            case tags = "tags"
         }
     }
 
@@ -1041,15 +1041,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childConnectionTags
-            case connectionId
-            case connectionsBandwidth
-            case lagName
-            case location
-            case numberOfConnections
-            case providerName
-            case requestMACSec
-            case tags
+            case childConnectionTags = "childConnectionTags"
+            case connectionId = "connectionId"
+            case connectionsBandwidth = "connectionsBandwidth"
+            case lagName = "lagName"
+            case location = "location"
+            case numberOfConnections = "numberOfConnections"
+            case providerName = "providerName"
+            case requestMACSec = "requestMACSec"
+            case tags = "tags"
         }
     }
 
@@ -1069,8 +1069,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newPrivateVirtualInterface
+            case connectionId = "connectionId"
+            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
         }
     }
 
@@ -1090,8 +1090,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newPublicVirtualInterface
+            case connectionId = "connectionId"
+            case newPublicVirtualInterface = "newPublicVirtualInterface"
         }
     }
 
@@ -1111,8 +1111,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case newTransitVirtualInterface
+            case connectionId = "connectionId"
+            case newTransitVirtualInterface = "newTransitVirtualInterface"
         }
     }
 
@@ -1124,7 +1124,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface
+            case virtualInterface = "virtualInterface"
         }
     }
 
@@ -1140,8 +1140,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agreementName
-            case status
+            case agreementName = "agreementName"
+            case status = "status"
         }
     }
 
@@ -1163,10 +1163,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn
-            case bgpPeerId
-            case customerAddress
-            case virtualInterfaceId
+            case asn = "asn"
+            case bgpPeerId = "bgpPeerId"
+            case customerAddress = "customerAddress"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -1179,7 +1179,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface
+            case virtualInterface = "virtualInterface"
         }
     }
 
@@ -1192,7 +1192,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
+            case connectionId = "connectionId"
         }
     }
 
@@ -1205,7 +1205,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case proposalId
+            case proposalId = "proposalId"
         }
     }
 
@@ -1218,7 +1218,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposal
+            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
         }
     }
 
@@ -1237,9 +1237,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationId
-            case directConnectGatewayId
-            case virtualGatewayId
+            case associationId = "associationId"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case virtualGatewayId = "virtualGatewayId"
         }
     }
 
@@ -1252,7 +1252,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
         }
     }
 
@@ -1265,7 +1265,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
+            case directConnectGatewayId = "directConnectGatewayId"
         }
     }
 
@@ -1278,7 +1278,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway
+            case directConnectGateway = "directConnectGateway"
         }
     }
 
@@ -1291,7 +1291,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId
+            case interconnectId = "interconnectId"
         }
     }
 
@@ -1304,7 +1304,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectState
+            case interconnectState = "interconnectState"
         }
     }
 
@@ -1317,7 +1317,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lagId
+            case lagId = "lagId"
         }
     }
 
@@ -1330,7 +1330,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -1343,7 +1343,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
@@ -1362,9 +1362,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case loaContentType
-            case providerName
+            case connectionId = "connectionId"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
         }
     }
 
@@ -1377,7 +1377,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loa
+            case loa = "loa"
         }
     }
 
@@ -1390,7 +1390,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId
+            case interconnectId = "interconnectId"
         }
     }
 
@@ -1403,7 +1403,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
+            case connectionId = "connectionId"
         }
     }
 
@@ -1419,8 +1419,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agreements
-            case nniPartnerType
+            case agreements = "agreements"
+            case nniPartnerType = "nniPartnerType"
         }
     }
 
@@ -1447,11 +1447,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayId
-            case directConnectGatewayId
-            case maxResults
-            case nextToken
-            case proposalId
+            case associatedGatewayId = "associatedGatewayId"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case proposalId = "proposalId"
         }
     }
 
@@ -1467,8 +1467,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposals
-            case nextToken
+            case directConnectGatewayAssociationProposals = "directConnectGatewayAssociationProposals"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1498,12 +1498,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayId
-            case associationId
-            case directConnectGatewayId
-            case maxResults
-            case nextToken
-            case virtualGatewayId
+            case associatedGatewayId = "associatedGatewayId"
+            case associationId = "associationId"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case virtualGatewayId = "virtualGatewayId"
         }
     }
 
@@ -1519,8 +1519,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociations
-            case nextToken
+            case directConnectGatewayAssociations = "directConnectGatewayAssociations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1544,10 +1544,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
-            case maxResults
-            case nextToken
-            case virtualInterfaceId
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -1563,8 +1563,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAttachments
-            case nextToken
+            case directConnectGatewayAttachments = "directConnectGatewayAttachments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1585,9 +1585,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
-            case maxResults
-            case nextToken
+            case directConnectGatewayId = "directConnectGatewayId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1603,8 +1603,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateways
-            case nextToken
+            case directConnectGateways = "directConnectGateways"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1617,7 +1617,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
+            case connectionId = "connectionId"
         }
     }
 
@@ -1636,9 +1636,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId
-            case loaContentType
-            case providerName
+            case interconnectId = "interconnectId"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
         }
     }
 
@@ -1651,7 +1651,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loa
+            case loa = "loa"
         }
     }
 
@@ -1664,7 +1664,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId
+            case interconnectId = "interconnectId"
         }
     }
 
@@ -1677,7 +1677,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lagId
+            case lagId = "lagId"
         }
     }
 
@@ -1696,9 +1696,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case loaContentType
-            case providerName
+            case connectionId = "connectionId"
+            case loaContentType = "loaContentType"
+            case providerName = "providerName"
         }
     }
 
@@ -1714,8 +1714,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case routerTypeIdentifier
-            case virtualInterfaceId
+            case routerTypeIdentifier = "routerTypeIdentifier"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -1737,10 +1737,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerRouterConfig
-            case router
-            case virtualInterfaceId
-            case virtualInterfaceName
+            case customerRouterConfig = "customerRouterConfig"
+            case router = "router"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceName = "virtualInterfaceName"
         }
     }
 
@@ -1753,7 +1753,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArns
+            case resourceArns = "resourceArns"
         }
     }
 
@@ -1766,7 +1766,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceTags
+            case resourceTags = "resourceTags"
         }
     }
 
@@ -1782,8 +1782,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case virtualInterfaceId
+            case connectionId = "connectionId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -1811,12 +1811,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amazonSideAsn
-            case directConnectGatewayId
-            case directConnectGatewayName
-            case directConnectGatewayState
-            case ownerAccount
-            case stateChangeError
+            case amazonSideAsn = "amazonSideAsn"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayName = "directConnectGatewayName"
+            case directConnectGatewayState = "directConnectGatewayState"
+            case ownerAccount = "ownerAccount"
+            case stateChangeError = "stateChangeError"
         }
     }
 
@@ -1856,16 +1856,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedPrefixesToDirectConnectGateway
-            case associatedGateway
-            case associationId
-            case associationState
-            case directConnectGatewayId
-            case directConnectGatewayOwnerAccount
-            case stateChangeError
-            case virtualGatewayId
-            case virtualGatewayOwnerAccount
-            case virtualGatewayRegion
+            case allowedPrefixesToDirectConnectGateway = "allowedPrefixesToDirectConnectGateway"
+            case associatedGateway = "associatedGateway"
+            case associationId = "associationId"
+            case associationState = "associationState"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
+            case stateChangeError = "stateChangeError"
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualGatewayOwnerAccount = "virtualGatewayOwnerAccount"
+            case virtualGatewayRegion = "virtualGatewayRegion"
         }
     }
 
@@ -1896,13 +1896,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGateway
-            case directConnectGatewayId
-            case directConnectGatewayOwnerAccount
-            case existingAllowedPrefixesToDirectConnectGateway
-            case proposalId
-            case proposalState
-            case requestedAllowedPrefixesToDirectConnectGateway
+            case associatedGateway = "associatedGateway"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
+            case existingAllowedPrefixesToDirectConnectGateway = "existingAllowedPrefixesToDirectConnectGateway"
+            case proposalId = "proposalId"
+            case proposalState = "proposalState"
+            case requestedAllowedPrefixesToDirectConnectGateway = "requestedAllowedPrefixesToDirectConnectGateway"
         }
     }
 
@@ -1933,13 +1933,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentState
-            case attachmentType
-            case directConnectGatewayId
-            case stateChangeError
-            case virtualInterfaceId
-            case virtualInterfaceOwnerAccount
-            case virtualInterfaceRegion
+            case attachmentState = "attachmentState"
+            case attachmentType = "attachmentType"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case stateChangeError = "stateChangeError"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceOwnerAccount = "virtualInterfaceOwnerAccount"
+            case virtualInterfaceRegion = "virtualInterfaceRegion"
         }
     }
 
@@ -1955,8 +1955,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case lagId
+            case connectionId = "connectionId"
+            case lagId = "lagId"
         }
     }
 
@@ -1972,8 +1972,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case secretARN
+            case connectionId = "connectionId"
+            case secretARN = "secretARN"
         }
     }
 
@@ -1989,8 +1989,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case macSecKeys
+            case connectionId = "connectionId"
+            case macSecKeys = "macSecKeys"
         }
     }
 
@@ -2045,21 +2045,21 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsDevice
-            case awsDeviceV2
-            case awsLogicalDeviceId
-            case bandwidth
-            case hasLogicalRedundancy
-            case interconnectId
-            case interconnectName
-            case interconnectState
-            case jumboFrameCapable
-            case lagId
-            case loaIssueTime
-            case location
-            case providerName
-            case region
-            case tags
+            case awsDevice = "awsDevice"
+            case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case bandwidth = "bandwidth"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case interconnectId = "interconnectId"
+            case interconnectName = "interconnectName"
+            case interconnectState = "interconnectState"
+            case jumboFrameCapable = "jumboFrameCapable"
+            case lagId = "lagId"
+            case loaIssueTime = "loaIssueTime"
+            case location = "location"
+            case providerName = "providerName"
+            case region = "region"
+            case tags = "tags"
         }
     }
 
@@ -2072,7 +2072,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnects
+            case interconnects = "interconnects"
         }
     }
 
@@ -2145,27 +2145,27 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsHostedConnections
-            case awsDevice
-            case awsDeviceV2
-            case awsLogicalDeviceId
-            case connections
-            case connectionsBandwidth
-            case encryptionMode
-            case hasLogicalRedundancy
-            case jumboFrameCapable
-            case lagId
-            case lagName
-            case lagState
-            case location
-            case macSecCapable
-            case macSecKeys
-            case minimumLinks
-            case numberOfConnections
-            case ownerAccount
-            case providerName
-            case region
-            case tags
+            case allowsHostedConnections = "allowsHostedConnections"
+            case awsDevice = "awsDevice"
+            case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case connections = "connections"
+            case connectionsBandwidth = "connectionsBandwidth"
+            case encryptionMode = "encryptionMode"
+            case hasLogicalRedundancy = "hasLogicalRedundancy"
+            case jumboFrameCapable = "jumboFrameCapable"
+            case lagId = "lagId"
+            case lagName = "lagName"
+            case lagState = "lagState"
+            case location = "location"
+            case macSecCapable = "macSecCapable"
+            case macSecKeys = "macSecKeys"
+            case minimumLinks = "minimumLinks"
+            case numberOfConnections = "numberOfConnections"
+            case ownerAccount = "ownerAccount"
+            case providerName = "providerName"
+            case region = "region"
+            case tags = "tags"
         }
     }
 
@@ -2178,7 +2178,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lags
+            case lags = "lags"
         }
     }
 
@@ -2208,12 +2208,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers
-            case maxResults
-            case nextToken
-            case status
-            case testId
-            case virtualInterfaceId
+            case bgpPeers = "bgpPeers"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
+            case testId = "testId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -2229,8 +2229,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualInterfaceTestHistory
+            case nextToken = "nextToken"
+            case virtualInterfaceTestHistory = "virtualInterfaceTestHistory"
         }
     }
 
@@ -2246,8 +2246,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loaContent
-            case loaContentType
+            case loaContent = "loaContent"
+            case loaContentType = "loaContentType"
         }
     }
 
@@ -2275,12 +2275,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availableMacSecPortSpeeds
-            case availablePortSpeeds
-            case availableProviders
-            case locationCode
-            case locationName
-            case region
+            case availableMacSecPortSpeeds = "availableMacSecPortSpeeds"
+            case availablePortSpeeds = "availablePortSpeeds"
+            case availableProviders = "availableProviders"
+            case locationCode = "locationCode"
+            case locationName = "locationName"
+            case region = "region"
         }
     }
 
@@ -2293,7 +2293,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locations
+            case locations = "locations"
         }
     }
 
@@ -2315,10 +2315,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ckn
-            case secretARN
-            case startOn
-            case state
+            case ckn = "ckn"
+            case secretARN = "secretARN"
+            case startOn = "startOn"
+            case state = "state"
         }
     }
 
@@ -2343,11 +2343,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
         }
     }
 
@@ -2400,18 +2400,18 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case directConnectGatewayId
-            case enableSiteLink
-            case mtu
-            case tags
-            case virtualGatewayId
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case enableSiteLink = "enableSiteLink"
+            case mtu = "mtu"
+            case tags = "tags"
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2455,15 +2455,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case mtu
-            case tags
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case mtu = "mtu"
+            case tags = "tags"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2507,15 +2507,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case routeFilterPrefixes
-            case tags
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case tags = "tags"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2559,15 +2559,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case routeFilterPrefixes
-            case tags
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case tags = "tags"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2617,17 +2617,17 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case directConnectGatewayId
-            case enableSiteLink
-            case mtu
-            case tags
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case enableSiteLink = "enableSiteLink"
+            case mtu = "mtu"
+            case tags = "tags"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2671,15 +2671,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case asn
-            case authKey
-            case customerAddress
-            case mtu
-            case tags
-            case virtualInterfaceName
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case authKey = "authKey"
+            case customerAddress = "customerAddress"
+            case mtu = "mtu"
+            case tags = "tags"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case vlan = "vlan"
         }
     }
 
@@ -2695,8 +2695,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -2709,7 +2709,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidr
+            case cidr = "cidr"
         }
     }
 
@@ -2737,12 +2737,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platform
-            case routerTypeIdentifier
-            case software
-            case vendor
-            case xsltTemplateName
-            case xsltTemplateNameForMacSec
+            case platform = "platform"
+            case routerTypeIdentifier = "routerTypeIdentifier"
+            case software = "software"
+            case vendor = "vendor"
+            case xsltTemplateName = "xsltTemplateName"
+            case xsltTemplateNameForMacSec = "xsltTemplateNameForMacSec"
         }
     }
 
@@ -2761,9 +2761,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers
-            case testDurationInMinutes
-            case virtualInterfaceId
+            case bgpPeers = "bgpPeers"
+            case testDurationInMinutes = "testDurationInMinutes"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -2776,7 +2776,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceTest
+            case virtualInterfaceTest = "virtualInterfaceTest"
         }
     }
 
@@ -2789,7 +2789,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -2802,7 +2802,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceTest
+            case virtualInterfaceTest = "virtualInterfaceTest"
         }
     }
 
@@ -2826,8 +2826,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2850,8 +2850,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -2879,8 +2879,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -2903,9 +2903,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case connectionName
-            case encryptionMode
+            case connectionId = "connectionId"
+            case connectionName = "connectionName"
+            case encryptionMode = "encryptionMode"
         }
     }
 
@@ -2924,9 +2924,9 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway
-            case associationId
-            case removeAllowedPrefixesToDirectConnectGateway
+            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
+            case associationId = "associationId"
+            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
         }
     }
 
@@ -2938,7 +2938,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation
+            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
         }
     }
 
@@ -2954,8 +2954,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId
-            case newDirectConnectGatewayName
+            case directConnectGatewayId = "directConnectGatewayId"
+            case newDirectConnectGatewayName = "newDirectConnectGatewayName"
         }
     }
 
@@ -2967,7 +2967,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway
+            case directConnectGateway = "directConnectGateway"
         }
     }
 
@@ -2989,10 +2989,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionMode
-            case lagId
-            case lagName
-            case minimumLinks
+            case encryptionMode = "encryptionMode"
+            case lagId = "lagId"
+            case lagName = "lagName"
+            case minimumLinks = "minimumLinks"
         }
     }
 
@@ -3014,10 +3014,10 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableSiteLink
-            case mtu
-            case virtualInterfaceId
-            case virtualInterfaceName
+            case enableSiteLink = "enableSiteLink"
+            case mtu = "mtu"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceName = "virtualInterfaceName"
         }
     }
 
@@ -3033,8 +3033,8 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGatewayId
-            case virtualGatewayState
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualGatewayState = "virtualGatewayState"
         }
     }
 
@@ -3047,7 +3047,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateways
+            case virtualGateways = "virtualGateways"
         }
     }
 
@@ -3135,32 +3135,32 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily
-            case amazonAddress
-            case amazonSideAsn
-            case asn
-            case authKey
-            case awsDeviceV2
-            case awsLogicalDeviceId
-            case bgpPeers
-            case connectionId
-            case customerAddress
-            case customerRouterConfig
-            case directConnectGatewayId
-            case jumboFrameCapable
-            case location
-            case mtu
-            case ownerAccount
-            case region
-            case routeFilterPrefixes
-            case siteLinkEnabled
-            case tags
-            case virtualGatewayId
-            case virtualInterfaceId
-            case virtualInterfaceName
-            case virtualInterfaceState
-            case virtualInterfaceType
-            case vlan
+            case addressFamily = "addressFamily"
+            case amazonAddress = "amazonAddress"
+            case amazonSideAsn = "amazonSideAsn"
+            case asn = "asn"
+            case authKey = "authKey"
+            case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case bgpPeers = "bgpPeers"
+            case connectionId = "connectionId"
+            case customerAddress = "customerAddress"
+            case customerRouterConfig = "customerRouterConfig"
+            case directConnectGatewayId = "directConnectGatewayId"
+            case jumboFrameCapable = "jumboFrameCapable"
+            case location = "location"
+            case mtu = "mtu"
+            case ownerAccount = "ownerAccount"
+            case region = "region"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case siteLinkEnabled = "siteLinkEnabled"
+            case tags = "tags"
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case virtualInterfaceState = "virtualInterfaceState"
+            case virtualInterfaceType = "virtualInterfaceType"
+            case vlan = "vlan"
         }
     }
 
@@ -3194,14 +3194,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers
-            case endTime
-            case ownerAccount
-            case startTime
-            case status
-            case testDurationInMinutes
-            case testId
-            case virtualInterfaceId
+            case bgpPeers = "bgpPeers"
+            case endTime = "endTime"
+            case ownerAccount = "ownerAccount"
+            case startTime = "startTime"
+            case status = "status"
+            case testDurationInMinutes = "testDurationInMinutes"
+            case testId = "testId"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -3214,7 +3214,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaces
+            case virtualInterfaces = "virtualInterfaces"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,14 +28,14 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceFamily
-        case region
+        case instanceFamily = "instanceFamily"
+        case region = "region"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceFamily
-        case region
+        case instanceFamily = "instanceFamily"
+        case region = "region"
         public var description: String { return self.rawValue }
     }
 
@@ -55,33 +55,33 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceFamily
-        case instanceType
-        case productDescription
-        case productId
-        case region
-        case tenancy
+        case instanceFamily = "instanceFamily"
+        case instanceType = "instanceType"
+        case productDescription = "productDescription"
+        case productId = "productId"
+        case region = "region"
+        case tenancy = "tenancy"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceType
-        case operation
-        case productDescription
-        case productType
-        case region
-        case serviceCode
-        case tenancy
-        case usageType
+        case instanceType = "instanceType"
+        case operation = "operation"
+        case productDescription = "productDescription"
+        case productType = "productType"
+        case region = "region"
+        case serviceCode = "serviceCode"
+        case tenancy = "tenancy"
+        case usageType = "usageType"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case instanceFamily
-        case instanceType
-        case productDescription
-        case region
-        case tenancy
+        case instanceFamily = "instanceFamily"
+        case instanceType = "instanceType"
+        case productDescription = "productDescription"
+        case region = "region"
+        case tenancy = "tenancy"
         public var description: String { return self.rawValue }
     }
 
@@ -102,12 +102,12 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case active
+        case active = "active"
         case paymentFailed = "payment-failed"
         case paymentPending = "payment-pending"
-        case queued
+        case queued = "queued"
         case queuedDeleted = "queued-deleted"
-        case retired
+        case retired = "retired"
         public var description: String { return self.rawValue }
     }
 
@@ -119,15 +119,15 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case commitment
+        case commitment = "commitment"
         case ec2InstanceFamily = "ec2-instance-family"
-        case end
+        case end = "end"
         case paymentOption = "payment-option"
-        case region
+        case region = "region"
         case savingsPlanType = "savings-plan-type"
-        case start
-        case term
-        case upfront
+        case start = "start"
+        case term = "term"
+        case upfront = "upfront"
         public var description: String { return self.rawValue }
     }
 
@@ -157,12 +157,12 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case commitment
-            case purchaseTime
-            case savingsPlanOfferingId
-            case tags
-            case upfrontPaymentAmount
+            case clientToken = "clientToken"
+            case commitment = "commitment"
+            case purchaseTime = "purchaseTime"
+            case savingsPlanOfferingId = "savingsPlanOfferingId"
+            case tags = "tags"
+            case upfrontPaymentAmount = "upfrontPaymentAmount"
         }
     }
 
@@ -175,7 +175,7 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case savingsPlanId
+            case savingsPlanId = "savingsPlanId"
         }
     }
 
@@ -188,7 +188,7 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case savingsPlanId
+            case savingsPlanId = "savingsPlanId"
         }
     }
 
@@ -221,10 +221,10 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case savingsPlanId
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case savingsPlanId = "savingsPlanId"
         }
     }
 
@@ -243,9 +243,9 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case savingsPlanId
-            case searchResults
+            case nextToken = "nextToken"
+            case savingsPlanId = "savingsPlanId"
+            case searchResults = "searchResults"
         }
     }
 
@@ -306,16 +306,16 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case operations
-            case products
-            case savingsPlanOfferingIds
-            case savingsPlanPaymentOptions
-            case savingsPlanTypes
-            case serviceCodes
-            case usageTypes
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case operations = "operations"
+            case products = "products"
+            case savingsPlanOfferingIds = "savingsPlanOfferingIds"
+            case savingsPlanPaymentOptions = "savingsPlanPaymentOptions"
+            case savingsPlanTypes = "savingsPlanTypes"
+            case serviceCodes = "serviceCodes"
+            case usageTypes = "usageTypes"
         }
     }
 
@@ -331,8 +331,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case searchResults
+            case nextToken = "nextToken"
+            case searchResults = "searchResults"
         }
     }
 
@@ -412,19 +412,19 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currencies
-            case descriptions
-            case durations
-            case filters
-            case maxResults
-            case nextToken
-            case offeringIds
-            case operations
-            case paymentOptions
-            case planTypes
-            case productType
-            case serviceCodes
-            case usageTypes
+            case currencies = "currencies"
+            case descriptions = "descriptions"
+            case durations = "durations"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case offeringIds = "offeringIds"
+            case operations = "operations"
+            case paymentOptions = "paymentOptions"
+            case planTypes = "planTypes"
+            case productType = "productType"
+            case serviceCodes = "serviceCodes"
+            case usageTypes = "usageTypes"
         }
     }
 
@@ -440,8 +440,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case searchResults
+            case nextToken = "nextToken"
+            case searchResults = "searchResults"
         }
     }
 
@@ -480,12 +480,12 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case savingsPlanArns
-            case savingsPlanIds
-            case states
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case savingsPlanArns = "savingsPlanArns"
+            case savingsPlanIds = "savingsPlanIds"
+            case states = "states"
         }
     }
 
@@ -501,8 +501,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case savingsPlans
+            case nextToken = "nextToken"
+            case savingsPlans = "savingsPlans"
         }
     }
 
@@ -519,7 +519,7 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -532,7 +532,7 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -560,12 +560,12 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case durationSeconds
-            case offeringId
-            case paymentOption
-            case planDescription
-            case planType
+            case currency = "currency"
+            case durationSeconds = "durationSeconds"
+            case offeringId = "offeringId"
+            case paymentOption = "paymentOption"
+            case planDescription = "planDescription"
+            case planType = "planType"
         }
     }
 
@@ -629,24 +629,24 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitment
-            case currency
-            case description
-            case ec2InstanceFamily
-            case end
-            case offeringId
-            case paymentOption
-            case productTypes
-            case recurringPaymentAmount
-            case region
-            case savingsPlanArn
-            case savingsPlanId
-            case savingsPlanType
-            case start
-            case state
-            case tags
-            case termDurationInSeconds
-            case upfrontPaymentAmount
+            case commitment = "commitment"
+            case currency = "currency"
+            case description = "description"
+            case ec2InstanceFamily = "ec2InstanceFamily"
+            case end = "end"
+            case offeringId = "offeringId"
+            case paymentOption = "paymentOption"
+            case productTypes = "productTypes"
+            case recurringPaymentAmount = "recurringPaymentAmount"
+            case region = "region"
+            case savingsPlanArn = "savingsPlanArn"
+            case savingsPlanId = "savingsPlanId"
+            case savingsPlanType = "savingsPlanType"
+            case start = "start"
+            case state = "state"
+            case tags = "tags"
+            case termDurationInSeconds = "termDurationInSeconds"
+            case upfrontPaymentAmount = "upfrontPaymentAmount"
         }
     }
 
@@ -662,8 +662,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -706,17 +706,17 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case description
-            case durationSeconds
-            case offeringId
-            case operation
-            case paymentOption
-            case planType
-            case productTypes
-            case properties
-            case serviceCode
-            case usageType
+            case currency = "currency"
+            case description = "description"
+            case durationSeconds = "durationSeconds"
+            case offeringId = "offeringId"
+            case operation = "operation"
+            case paymentOption = "paymentOption"
+            case planType = "planType"
+            case productTypes = "productTypes"
+            case properties = "properties"
+            case serviceCode = "serviceCode"
+            case usageType = "usageType"
         }
     }
 
@@ -738,8 +738,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -755,8 +755,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -790,14 +790,14 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
-            case productType
-            case properties
-            case rate
-            case savingsPlanOffering
-            case serviceCode
-            case unit
-            case usageType
+            case operation = "operation"
+            case productType = "productType"
+            case properties = "properties"
+            case rate = "rate"
+            case savingsPlanOffering = "savingsPlanOffering"
+            case serviceCode = "serviceCode"
+            case unit = "unit"
+            case usageType = "usageType"
         }
     }
 
@@ -819,8 +819,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -836,8 +836,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -871,14 +871,14 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case operation
-            case productType
-            case properties
-            case rate
-            case serviceCode
-            case unit
-            case usageType
+            case currency = "currency"
+            case operation = "operation"
+            case productType = "productType"
+            case properties = "properties"
+            case rate = "rate"
+            case serviceCode = "serviceCode"
+            case unit = "unit"
+            case usageType = "usageType"
         }
     }
 
@@ -894,8 +894,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -911,8 +911,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -932,8 +932,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -957,8 +957,8 @@ extension SavingsPlans {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 

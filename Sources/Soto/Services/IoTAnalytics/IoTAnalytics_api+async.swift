@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -198,7 +198,7 @@ extension IoTAnalytics {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTAnalytics {
-    ///  Retrieves a list of channels.
+    /// Retrieves a list of channels.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,7 +220,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Lists information about dataset contents that have been created.
+    /// Lists information about dataset contents that have been created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +242,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves information about datasets.
+    /// Retrieves information about datasets.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +264,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves a list of data stores.
+    /// Retrieves a list of data stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -286,7 +286,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves a list of pipelines.
+    /// Retrieves a list of pipelines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

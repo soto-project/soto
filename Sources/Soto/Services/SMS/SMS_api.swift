@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -263,7 +263,7 @@ extension SMS {
 // MARK: Paginators
 
 extension SMS {
-    ///  Describes the connectors registered with the Server Migration Service.
+    /// Describes the connectors registered with the Server Migration Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -316,7 +316,7 @@ extension SMS {
         )
     }
 
-    ///  Describes the specified replication job or all of your replication jobs.
+    /// Describes the specified replication job or all of your replication jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -369,7 +369,7 @@ extension SMS {
         )
     }
 
-    ///  Describes the replication runs for the specified replication job.
+    /// Describes the replication runs for the specified replication job.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -422,7 +422,7 @@ extension SMS {
         )
     }
 
-    ///  Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
+    /// Describes the servers in your server catalog. Before you can describe your servers, you must import them using ImportServerCatalog.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

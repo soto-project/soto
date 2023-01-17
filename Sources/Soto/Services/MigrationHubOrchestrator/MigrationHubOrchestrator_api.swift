@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -216,7 +216,7 @@ extension MigrationHubOrchestrator {
 // MARK: Paginators
 
 extension MigrationHubOrchestrator {
-    ///  List AWS Migration Hub Orchestrator plugins.
+    /// List AWS Migration Hub Orchestrator plugins.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -269,7 +269,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the step groups in a template.
+    /// List the step groups in a template.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -322,7 +322,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the steps in a template.
+    /// List the steps in a template.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -375,7 +375,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the templates available in Migration Hub Orchestrator to create a migration workflow.
+    /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -428,7 +428,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the step groups in a migration workflow.
+    /// List the step groups in a migration workflow.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -481,7 +481,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the steps in a workflow.
+    /// List the steps in a workflow.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -534,7 +534,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the migration workflows.
+    /// List the migration workflows.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

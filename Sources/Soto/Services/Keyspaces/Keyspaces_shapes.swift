@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -83,9 +83,9 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readCapacityUnits
-            case throughputMode
-            case writeCapacityUnits
+            case readCapacityUnits = "readCapacityUnits"
+            case throughputMode = "throughputMode"
+            case writeCapacityUnits = "writeCapacityUnits"
         }
     }
 
@@ -107,10 +107,10 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdateToPayPerRequestTimestamp
-            case readCapacityUnits
-            case throughputMode
-            case writeCapacityUnits
+            case lastUpdateToPayPerRequestTimestamp = "lastUpdateToPayPerRequestTimestamp"
+            case readCapacityUnits = "readCapacityUnits"
+            case throughputMode = "throughputMode"
+            case writeCapacityUnits = "writeCapacityUnits"
         }
     }
 
@@ -126,8 +126,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case orderBy
+            case name = "name"
+            case orderBy = "orderBy"
         }
     }
 
@@ -143,8 +143,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -157,7 +157,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -184,8 +184,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case tags
+            case keyspaceName = "keyspaceName"
+            case tags = "tags"
         }
     }
 
@@ -198,7 +198,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -239,7 +239,7 @@ extension Keyspaces {
 
         public func validate(name: String) throws {
             try self.capacitySpecification?.validate(name: "\(name).capacitySpecification")
-            try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630_720_000)
+            try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630720000)
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, min: 1)
             try self.encryptionSpecification?.validate(name: "\(name).encryptionSpecification")
             try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
@@ -257,16 +257,16 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacitySpecification
-            case comment
-            case defaultTimeToLive
-            case encryptionSpecification
-            case keyspaceName
-            case pointInTimeRecovery
-            case schemaDefinition
-            case tableName
-            case tags
-            case ttl
+            case capacitySpecification = "capacitySpecification"
+            case comment = "comment"
+            case defaultTimeToLive = "defaultTimeToLive"
+            case encryptionSpecification = "encryptionSpecification"
+            case keyspaceName = "keyspaceName"
+            case pointInTimeRecovery = "pointInTimeRecovery"
+            case schemaDefinition = "schemaDefinition"
+            case tableName = "tableName"
+            case tags = "tags"
+            case ttl = "ttl"
         }
     }
 
@@ -279,7 +279,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -298,7 +298,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
+            case keyspaceName = "keyspaceName"
         }
     }
 
@@ -327,8 +327,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case tableName
+            case keyspaceName = "keyspaceName"
+            case tableName = "tableName"
         }
     }
 
@@ -353,8 +353,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyIdentifier
-            case type
+            case kmsKeyIdentifier = "kmsKeyIdentifier"
+            case type = "type"
         }
     }
 
@@ -373,7 +373,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
+            case keyspaceName = "keyspaceName"
         }
     }
 
@@ -389,8 +389,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case resourceArn
+            case keyspaceName = "keyspaceName"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -415,8 +415,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case tableName
+            case keyspaceName = "keyspaceName"
+            case tableName = "tableName"
         }
     }
 
@@ -462,18 +462,18 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacitySpecification
-            case comment
-            case creationTimestamp
-            case defaultTimeToLive
-            case encryptionSpecification
-            case keyspaceName
-            case pointInTimeRecovery
-            case resourceArn
-            case schemaDefinition
-            case status
-            case tableName
-            case ttl
+            case capacitySpecification = "capacitySpecification"
+            case comment = "comment"
+            case creationTimestamp = "creationTimestamp"
+            case defaultTimeToLive = "defaultTimeToLive"
+            case encryptionSpecification = "encryptionSpecification"
+            case keyspaceName = "keyspaceName"
+            case pointInTimeRecovery = "pointInTimeRecovery"
+            case resourceArn = "resourceArn"
+            case schemaDefinition = "schemaDefinition"
+            case status = "status"
+            case tableName = "tableName"
+            case ttl = "ttl"
         }
     }
 
@@ -489,8 +489,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case resourceArn
+            case keyspaceName = "keyspaceName"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -513,8 +513,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -530,8 +530,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaces
-            case nextToken
+            case keyspaces = "keyspaces"
+            case nextToken = "nextToken"
         }
     }
 
@@ -560,9 +560,9 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case maxResults
-            case nextToken
+            case keyspaceName = "keyspaceName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -578,8 +578,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tables
+            case nextToken = "nextToken"
+            case tables = "tables"
         }
     }
 
@@ -608,9 +608,9 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -626,8 +626,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -640,7 +640,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -653,7 +653,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -669,8 +669,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case earliestRestorableTimestamp
-            case status
+            case earliestRestorableTimestamp = "earliestRestorableTimestamp"
+            case status = "status"
         }
     }
 
@@ -729,15 +729,15 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacitySpecificationOverride
-            case encryptionSpecificationOverride
-            case pointInTimeRecoveryOverride
-            case restoreTimestamp
-            case sourceKeyspaceName
-            case sourceTableName
-            case tagsOverride
-            case targetKeyspaceName
-            case targetTableName
+            case capacitySpecificationOverride = "capacitySpecificationOverride"
+            case encryptionSpecificationOverride = "encryptionSpecificationOverride"
+            case pointInTimeRecoveryOverride = "pointInTimeRecoveryOverride"
+            case restoreTimestamp = "restoreTimestamp"
+            case sourceKeyspaceName = "sourceKeyspaceName"
+            case sourceTableName = "sourceTableName"
+            case tagsOverride = "tagsOverride"
+            case targetKeyspaceName = "targetKeyspaceName"
+            case targetTableName = "targetTableName"
         }
     }
 
@@ -750,7 +750,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restoredTableARN
+            case restoredTableARN = "restoredTableARN"
         }
     }
 
@@ -777,10 +777,10 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allColumns
-            case clusteringKeys
-            case partitionKeys
-            case staticColumns
+            case allColumns = "allColumns"
+            case clusteringKeys = "clusteringKeys"
+            case partitionKeys = "partitionKeys"
+            case staticColumns = "staticColumns"
         }
     }
 
@@ -793,7 +793,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -812,9 +812,9 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyspaceName
-            case resourceArn
-            case tableName
+            case keyspaceName = "keyspaceName"
+            case resourceArn = "resourceArn"
+            case tableName = "tableName"
         }
     }
 
@@ -837,8 +837,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -865,8 +865,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -883,7 +883,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -910,8 +910,8 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -951,7 +951,7 @@ extension Keyspaces {
         public func validate(name: String) throws {
             try self.validate(self.addColumns, name: "addColumns", parent: name, min: 1)
             try self.capacitySpecification?.validate(name: "\(name).capacitySpecification")
-            try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630_720_000)
+            try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, max: 630720000)
             try self.validate(self.defaultTimeToLive, name: "defaultTimeToLive", parent: name, min: 1)
             try self.encryptionSpecification?.validate(name: "\(name).encryptionSpecification")
             try self.validate(self.keyspaceName, name: "keyspaceName", parent: name, max: 48)
@@ -963,14 +963,14 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addColumns
-            case capacitySpecification
-            case defaultTimeToLive
-            case encryptionSpecification
-            case keyspaceName
-            case pointInTimeRecovery
-            case tableName
-            case ttl
+            case addColumns = "addColumns"
+            case capacitySpecification = "capacitySpecification"
+            case defaultTimeToLive = "defaultTimeToLive"
+            case encryptionSpecification = "encryptionSpecification"
+            case keyspaceName = "keyspaceName"
+            case pointInTimeRecovery = "pointInTimeRecovery"
+            case tableName = "tableName"
+            case ttl = "ttl"
         }
     }
 
@@ -983,7 +983,7 @@ extension Keyspaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 }
@@ -1025,7 +1025,7 @@ public struct KeyspacesErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Amazon Keyspaces was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The operation tried to access a keyspace or table that doesn&#39;t exist. The resource might not be specified correctly, or its status might not be ACTIVE.
+    /// The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The operation exceeded the service quota for this resource.  For more information on service quotas, see Quotas in the Amazon Keyspaces Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

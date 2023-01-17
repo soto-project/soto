@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -553,10 +553,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case lastUpdatedTimestamp
-            case status
-            case statusReason
+            case accountId = "accountId"
+            case lastUpdatedTimestamp = "lastUpdatedTimestamp"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -578,10 +578,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCapacity
-            case instanceType
-            case maxSize
-            case minSize
+            case desiredCapacity = "desiredCapacity"
+            case instanceType = "instanceType"
+            case maxSize = "maxSize"
+            case minSize = "minSize"
         }
     }
 
@@ -627,18 +627,18 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case autoScalingGroupArn
-            case autoScalingGroupName
-            case currentConfiguration
-            case currentPerformanceRisk
-            case effectiveRecommendationPreferences
-            case finding
-            case inferredWorkloadTypes
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case recommendationOptions
-            case utilizationMetrics
+            case accountId = "accountId"
+            case autoScalingGroupArn = "autoScalingGroupArn"
+            case autoScalingGroupName = "autoScalingGroupName"
+            case currentConfiguration = "currentConfiguration"
+            case currentPerformanceRisk = "currentPerformanceRisk"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
+            case finding = "finding"
+            case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case recommendationOptions = "recommendationOptions"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
@@ -666,12 +666,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case migrationEffort
-            case performanceRisk
-            case projectedUtilizationMetrics
-            case rank
-            case savingsOpportunity
+            case configuration = "configuration"
+            case migrationEffort = "migrationEffort"
+            case performanceRisk = "performanceRisk"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
         }
     }
 
@@ -690,9 +690,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case cpu
-            case memorySizeConfiguration
+            case containerName = "containerName"
+            case cpu = "cpu"
+            case memorySizeConfiguration = "memorySizeConfiguration"
         }
     }
 
@@ -711,9 +711,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case cpu
-            case memorySizeConfiguration
+            case containerName = "containerName"
+            case cpu = "cpu"
+            case memorySizeConfiguration = "memorySizeConfiguration"
         }
     }
 
@@ -735,10 +735,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case high
-            case low
-            case medium
-            case veryLow
+            case high = "high"
+            case low = "low"
+            case medium = "medium"
+            case veryLow = "veryLow"
         }
     }
 
@@ -757,9 +757,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationPreferenceNames
-            case resourceType
-            case scope
+            case recommendationPreferenceNames = "recommendationPreferenceNames"
+            case resourceType = "resourceType"
+            case scope = "scope"
         }
     }
 
@@ -790,10 +790,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case jobIds
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case jobIds = "jobIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -809,8 +809,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationExportJobs
+            case nextToken = "nextToken"
+            case recommendationExportJobs = "recommendationExportJobs"
         }
     }
 
@@ -826,8 +826,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -846,9 +846,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -870,10 +870,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lowerBoundValues
-            case name
-            case timestamps
-            case upperBoundValues
+            case lowerBoundValues = "lowerBoundValues"
+            case name = "name"
+            case timestamps = "timestamps"
+            case upperBoundValues = "upperBoundValues"
         }
     }
 
@@ -895,10 +895,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lowerBoundValue
-            case name
-            case statistic
-            case upperBoundValue
+            case lowerBoundValue = "lowerBoundValue"
+            case name = "name"
+            case statistic = "statistic"
+            case upperBoundValue = "upperBoundValue"
         }
     }
 
@@ -941,17 +941,17 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentPerformanceRisk
-            case currentServiceConfiguration
-            case finding
-            case findingReasonCodes
-            case lastRefreshTimestamp
-            case launchType
-            case lookbackPeriodInDays
-            case serviceArn
-            case serviceRecommendationOptions
-            case utilizationMetrics
+            case accountId = "accountId"
+            case currentPerformanceRisk = "currentPerformanceRisk"
+            case currentServiceConfiguration = "currentServiceConfiguration"
+            case finding = "finding"
+            case findingReasonCodes = "findingReasonCodes"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case launchType = "launchType"
+            case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case serviceArn = "serviceArn"
+            case serviceRecommendationOptions = "serviceRecommendationOptions"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
@@ -967,8 +967,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -992,11 +992,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecommendations
-            case cpu
-            case memory
-            case projectedUtilizationMetrics
-            case savingsOpportunity
+            case containerRecommendations = "containerRecommendations"
+            case cpu = "cpu"
+            case memory = "memory"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case savingsOpportunity = "savingsOpportunity"
         }
     }
 
@@ -1015,9 +1015,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectedMetrics
-            case recommendedCpuUnits
-            case recommendedMemorySize
+            case projectedMetrics = "projectedMetrics"
+            case recommendedCpuUnits = "recommendedCpuUnits"
+            case recommendedMemorySize = "recommendedMemorySize"
         }
     }
 
@@ -1036,9 +1036,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -1060,10 +1060,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuVendorArchitectures
-            case enhancedInfrastructureMetrics
-            case externalMetricsPreference
-            case inferredWorkloadTypes
+            case cpuVendorArchitectures = "cpuVendorArchitectures"
+            case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
+            case externalMetricsPreference = "externalMetricsPreference"
+            case inferredWorkloadTypes = "inferredWorkloadTypes"
         }
     }
 
@@ -1079,8 +1079,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1096,8 +1096,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case value
+            case currency = "currency"
+            case value = "value"
         }
     }
 
@@ -1128,13 +1128,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case recommendationPreferences
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case recommendationPreferences = "recommendationPreferences"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
@@ -1150,8 +1150,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1164,7 +1164,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -1191,12 +1191,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
@@ -1211,8 +1211,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1243,13 +1243,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case recommendationPreferences
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case recommendationPreferences = "recommendationPreferences"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
@@ -1265,8 +1265,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1293,12 +1293,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
@@ -1313,8 +1313,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1341,12 +1341,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
@@ -1361,8 +1361,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1375,7 +1375,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
+            case source = "source"
         }
     }
 
@@ -1391,8 +1391,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1425,12 +1425,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case autoScalingGroupArns
-            case filters
-            case maxResults
-            case nextToken
-            case recommendationPreferences
+            case accountIds = "accountIds"
+            case autoScalingGroupArns = "autoScalingGroupArns"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recommendationPreferences = "recommendationPreferences"
         }
     }
 
@@ -1449,9 +1449,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupRecommendations
-            case errors
-            case nextToken
+            case autoScalingGroupRecommendations = "autoScalingGroupRecommendations"
+            case errors = "errors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1481,11 +1481,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case maxResults
-            case nextToken
-            case volumeArns
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case volumeArns = "volumeArns"
         }
     }
 
@@ -1504,9 +1504,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case nextToken
-            case volumeRecommendations
+            case errors = "errors"
+            case nextToken = "nextToken"
+            case volumeRecommendations = "volumeRecommendations"
         }
     }
 
@@ -1539,12 +1539,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case instanceArns
-            case maxResults
-            case nextToken
-            case recommendationPreferences
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case instanceArns = "instanceArns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recommendationPreferences = "recommendationPreferences"
         }
     }
 
@@ -1563,9 +1563,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case instanceRecommendations
-            case nextToken
+            case errors = "errors"
+            case instanceRecommendations = "instanceRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1593,12 +1593,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case instanceArn
-            case period
-            case recommendationPreferences
-            case startTime
-            case stat
+            case endTime = "endTime"
+            case instanceArn = "instanceArn"
+            case period = "period"
+            case recommendationPreferences = "recommendationPreferences"
+            case startTime = "startTime"
+            case stat = "stat"
         }
     }
 
@@ -1611,7 +1611,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendedOptionProjectedMetrics
+            case recommendedOptionProjectedMetrics = "recommendedOptionProjectedMetrics"
         }
     }
 
@@ -1636,11 +1636,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case period
-            case serviceArn
-            case startTime
-            case stat
+            case endTime = "endTime"
+            case period = "period"
+            case serviceArn = "serviceArn"
+            case startTime = "startTime"
+            case stat = "stat"
         }
     }
 
@@ -1653,7 +1653,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendedOptionProjectedMetrics
+            case recommendedOptionProjectedMetrics = "recommendedOptionProjectedMetrics"
         }
     }
 
@@ -1683,11 +1683,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case maxResults
-            case nextToken
-            case serviceArns
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceArns = "serviceArns"
         }
     }
 
@@ -1706,9 +1706,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecsServiceRecommendations
-            case errors
-            case nextToken
+            case ecsServiceRecommendations = "ecsServiceRecommendations"
+            case errors = "errors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1721,7 +1721,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1737,8 +1737,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enhancedInfrastructureMetrics
-            case externalMetricsPreference
+            case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
+            case externalMetricsPreference = "externalMetricsPreference"
         }
     }
 
@@ -1767,11 +1767,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTimestamp
-            case memberAccountsEnrolled
-            case numberOfMemberAccountsOptedIn
-            case status
-            case statusReason
+            case lastUpdatedTimestamp = "lastUpdatedTimestamp"
+            case memberAccountsEnrolled = "memberAccountsEnrolled"
+            case numberOfMemberAccountsOptedIn = "numberOfMemberAccountsOptedIn"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1795,9 +1795,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1813,8 +1813,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountEnrollmentStatuses
-            case nextToken
+            case accountEnrollmentStatuses = "accountEnrollmentStatuses"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1844,11 +1844,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case functionArns
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case functionArns = "functionArns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1864,8 +1864,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionRecommendations
-            case nextToken
+            case lambdaFunctionRecommendations = "lambdaFunctionRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1884,9 +1884,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case identifier
-            case message
+            case code = "code"
+            case identifier = "identifier"
+            case message = "message"
         }
     }
 
@@ -1913,10 +1913,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceType
-            case scope
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
+            case scope = "scope"
         }
     }
 
@@ -1932,8 +1932,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationPreferencesDetails
+            case nextToken = "nextToken"
+            case recommendationPreferencesDetails = "recommendationPreferencesDetails"
         }
     }
 
@@ -1957,9 +1957,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1975,8 +1975,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationSummaries
+            case nextToken = "nextToken"
+            case recommendationSummaries = "recommendationSummaries"
         }
     }
 
@@ -2028,20 +2028,20 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentInstanceType
-            case currentPerformanceRisk
-            case effectiveRecommendationPreferences
-            case finding
-            case findingReasonCodes
-            case inferredWorkloadTypes
-            case instanceArn
-            case instanceName
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case recommendationOptions
-            case recommendationSources
-            case utilizationMetrics
+            case accountId = "accountId"
+            case currentInstanceType = "currentInstanceType"
+            case currentPerformanceRisk = "currentPerformanceRisk"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
+            case finding = "finding"
+            case findingReasonCodes = "findingReasonCodes"
+            case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case instanceArn = "instanceArn"
+            case instanceName = "instanceName"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case recommendationOptions = "recommendationOptions"
+            case recommendationSources = "recommendationSources"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
@@ -2072,13 +2072,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceType
-            case migrationEffort
-            case performanceRisk
-            case platformDifferences
-            case projectedUtilizationMetrics
-            case rank
-            case savingsOpportunity
+            case instanceType = "instanceType"
+            case migrationEffort = "migrationEffort"
+            case performanceRisk = "performanceRisk"
+            case platformDifferences = "platformDifferences"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
         }
     }
 
@@ -2094,8 +2094,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -2114,9 +2114,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -2138,10 +2138,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memorySize
-            case projectedUtilizationMetrics
-            case rank
-            case savingsOpportunity
+            case memorySize = "memorySize"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
         }
     }
 
@@ -2187,18 +2187,18 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentMemorySize
-            case currentPerformanceRisk
-            case finding
-            case findingReasonCodes
-            case functionArn
-            case functionVersion
-            case lastRefreshTimestamp
-            case lookbackPeriodInDays
-            case memorySizeRecommendationOptions
-            case numberOfInvocations
-            case utilizationMetrics
+            case accountId = "accountId"
+            case currentMemorySize = "currentMemorySize"
+            case currentPerformanceRisk = "currentPerformanceRisk"
+            case finding = "finding"
+            case findingReasonCodes = "findingReasonCodes"
+            case functionArn = "functionArn"
+            case functionVersion = "functionVersion"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case memorySizeRecommendationOptions = "memorySizeRecommendationOptions"
+            case numberOfInvocations = "numberOfInvocations"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
@@ -2214,8 +2214,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -2234,9 +2234,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -2252,8 +2252,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memory
-            case memoryReservation
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
         }
     }
 
@@ -2272,9 +2272,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case timestamps
-            case values
+            case name = "name"
+            case timestamps = "timestamps"
+            case values = "values"
         }
     }
 
@@ -2299,11 +2299,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enhancedInfrastructureMetrics
-            case externalMetricsPreference
-            case inferredWorkloadTypes
-            case resourceType
-            case scope
+            case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
+            case externalMetricsPreference = "externalMetricsPreference"
+            case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case resourceType = "resourceType"
+            case scope = "scope"
         }
     }
 
@@ -2323,8 +2323,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -2355,13 +2355,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp
-            case destination
-            case failureReason
-            case jobId
-            case lastUpdatedTimestamp
-            case resourceType
-            case status
+            case creationTimestamp = "creationTimestamp"
+            case destination = "destination"
+            case failureReason = "failureReason"
+            case jobId = "jobId"
+            case lastUpdatedTimestamp = "lastUpdatedTimestamp"
+            case resourceType = "resourceType"
+            case status = "status"
         }
     }
 
@@ -2374,7 +2374,7 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuVendorArchitectures
+            case cpuVendorArchitectures = "cpuVendorArchitectures"
         }
     }
 
@@ -2399,11 +2399,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enhancedInfrastructureMetrics
-            case externalMetricsPreference
-            case inferredWorkloadTypes
-            case resourceType
-            case scope
+            case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
+            case externalMetricsPreference = "externalMetricsPreference"
+            case inferredWorkloadTypes = "inferredWorkloadTypes"
+            case resourceType = "resourceType"
+            case scope = "scope"
         }
     }
 
@@ -2419,8 +2419,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationSourceArn
-            case recommendationSourceType
+            case recommendationSourceArn = "recommendationSourceArn"
+            case recommendationSourceType = "recommendationSourceType"
         }
     }
 
@@ -2445,11 +2445,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentPerformanceRiskRatings
-            case recommendationResourceType
-            case savingsOpportunity
-            case summaries
+            case accountId = "accountId"
+            case currentPerformanceRiskRatings = "currentPerformanceRiskRatings"
+            case recommendationResourceType = "recommendationResourceType"
+            case savingsOpportunity = "savingsOpportunity"
+            case summaries = "summaries"
         }
     }
 
@@ -2468,9 +2468,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectedMetrics
-            case rank
-            case recommendedInstanceType
+            case projectedMetrics = "projectedMetrics"
+            case rank = "rank"
+            case recommendedInstanceType = "recommendedInstanceType"
         }
     }
 
@@ -2489,9 +2489,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case metadataKey
+            case bucket = "bucket"
+            case key = "key"
+            case metadataKey = "metadataKey"
         }
     }
 
@@ -2507,8 +2507,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
         }
     }
 
@@ -2524,8 +2524,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedMonthlySavings
-            case savingsOpportunityPercentage
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
         }
     }
 
@@ -2541,8 +2541,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -2567,11 +2567,11 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingConfiguration
-            case containerConfigurations
-            case cpu
-            case memory
-            case taskDefinitionArn
+            case autoScalingConfiguration = "autoScalingConfiguration"
+            case containerConfigurations = "containerConfigurations"
+            case cpu = "cpu"
+            case memory = "memory"
+            case taskDefinitionArn = "taskDefinitionArn"
         }
     }
 
@@ -2590,9 +2590,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case reasonCodeSummaries
-            case value
+            case name = "name"
+            case reasonCodeSummaries = "reasonCodeSummaries"
+            case value = "value"
         }
     }
 
@@ -2608,8 +2608,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeMemberAccounts
-            case status
+            case includeMemberAccounts = "includeMemberAccounts"
+            case status = "status"
         }
     }
 
@@ -2625,8 +2625,8 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusReason
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -2645,9 +2645,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
@@ -2675,12 +2675,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumeBaselineIOPS
-            case volumeBaselineThroughput
-            case volumeBurstIOPS
-            case volumeBurstThroughput
-            case volumeSize
-            case volumeType
+            case volumeBaselineIOPS = "volumeBaselineIOPS"
+            case volumeBaselineThroughput = "volumeBaselineThroughput"
+            case volumeBurstIOPS = "volumeBurstIOPS"
+            case volumeBurstThroughput = "volumeBurstThroughput"
+            case volumeSize = "volumeSize"
+            case volumeType = "volumeType"
         }
     }
 
@@ -2717,15 +2717,15 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentConfiguration
-            case currentPerformanceRisk
-            case finding
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case utilizationMetrics
-            case volumeArn
-            case volumeRecommendationOptions
+            case accountId = "accountId"
+            case currentConfiguration = "currentConfiguration"
+            case currentPerformanceRisk = "currentPerformanceRisk"
+            case finding = "finding"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case utilizationMetrics = "utilizationMetrics"
+            case volumeArn = "volumeArn"
+            case volumeRecommendationOptions = "volumeRecommendationOptions"
         }
     }
 
@@ -2747,10 +2747,10 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case performanceRisk
-            case rank
-            case savingsOpportunity
+            case configuration = "configuration"
+            case performanceRisk = "performanceRisk"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
         }
     }
 }
@@ -2801,7 +2801,7 @@ public struct ComputeOptimizerErrorType: AWSErrorType {
     public static var missingAuthenticationToken: Self { .init(.missingAuthenticationToken) }
     /// The account is not opted in to Compute Optimizer.
     public static var optInRequiredException: Self { .init(.optInRequiredException) }
-    /// A resource that is required for the action doesn&#39;t exist.
+    /// A resource that is required for the action doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request has failed due to a temporary failure of the server.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

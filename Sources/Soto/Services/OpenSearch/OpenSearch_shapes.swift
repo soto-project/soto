@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -307,10 +307,10 @@ extension OpenSearch {
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gp2
-        case gp3
-        case io1
-        case standard
+        case gp2 = "gp2"
+        case gp3 = "gp3"
+        case io1 = "io1"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -1145,7 +1145,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102_400)
+            try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102400)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, pattern: ".*")
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")
@@ -3761,7 +3761,7 @@ extension OpenSearch {
         public func validate(name: String) throws {
             try self.validate(self.entityId, name: "entityId", parent: name, max: 512)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 8)
-            try self.validate(self.metadataContent, name: "metadataContent", parent: name, max: 1_048_576)
+            try self.validate(self.metadataContent, name: "metadataContent", parent: name, max: 1048576)
             try self.validate(self.metadataContent, name: "metadataContent", parent: name, min: 1)
         }
 
@@ -4092,7 +4092,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102_400)
+            try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102400)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, pattern: ".*")
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")

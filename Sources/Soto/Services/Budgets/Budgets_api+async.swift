@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -165,7 +165,7 @@ extension Budgets {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Budgets {
-    ///   Describes a budget action history detail.
+    ///  Describes a budget action history detail.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -187,7 +187,7 @@ extension Budgets {
         )
     }
 
-    ///   Describes all of the budget actions for an account.
+    ///  Describes all of the budget actions for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -209,7 +209,7 @@ extension Budgets {
         )
     }
 
-    ///   Describes all of the budget actions for a budget.
+    ///  Describes all of the budget actions for a budget.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -231,7 +231,7 @@ extension Budgets {
         )
     }
 
-    ///  			Lists the budget names and notifications that are associated with an account.
+    /// 			Lists the budget names and notifications that are associated with an account.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -254,7 +254,7 @@ extension Budgets {
         )
     }
 
-    ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
+    /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -276,9 +276,9 @@ extension Budgets {
         )
     }
 
-    ///  Lists the budgets that are associated with an account.
+    /// Lists the budgets that are associated with an account.
     ///
-    ///  			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
+    /// 			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -301,7 +301,7 @@ extension Budgets {
         )
     }
 
-    ///  Lists the notifications that are associated with a budget.
+    /// Lists the notifications that are associated with a budget.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -323,7 +323,7 @@ extension Budgets {
         )
     }
 
-    ///  Lists the subscribers that are associated with a notification.
+    /// Lists the subscribers that are associated with a notification.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

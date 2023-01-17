@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -104,7 +104,7 @@ extension LicenseManagerLinuxSubscriptions {
 // MARK: Paginators
 
 extension LicenseManagerLinuxSubscriptions {
-    ///  Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
+    /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -157,7 +157,7 @@ extension LicenseManagerLinuxSubscriptions {
         )
     }
 
-    ///  Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
+    /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

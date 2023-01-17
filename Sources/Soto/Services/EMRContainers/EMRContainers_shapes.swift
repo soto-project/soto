@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -116,8 +116,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case virtualClusterId
+            case id = "id"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -133,8 +133,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case certificateData
+            case certificateArn = "certificateArn"
+            case certificateData = "certificateData"
         }
     }
 
@@ -159,8 +159,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logStreamNamePrefix
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
         }
     }
 
@@ -198,9 +198,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classification
-            case configurations
-            case properties
+            case classification = "classification"
+            case configurations = "configurations"
+            case properties = "properties"
         }
     }
 
@@ -224,8 +224,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfiguration
-            case monitoringConfiguration
+            case applicationConfiguration = "applicationConfiguration"
+            case monitoringConfiguration = "monitoringConfiguration"
         }
     }
 
@@ -251,9 +251,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case info
-            case type
+            case id = "id"
+            case info = "info"
+            case type = "type"
         }
     }
 
@@ -299,11 +299,11 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case jobTemplateData
-            case kmsKeyArn
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case jobTemplateData = "jobTemplateData"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -326,10 +326,10 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -416,14 +416,14 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case clientToken
-            case configurationOverrides
-            case executionRoleArn
-            case name
-            case releaseLabel
-            case tags
-            case type
+            case certificateArn = "certificateArn"
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -445,10 +445,10 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
-            case virtualClusterId
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -488,10 +488,10 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerProvider
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case containerProvider = "containerProvider"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -510,9 +510,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -546,7 +546,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -590,8 +590,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case virtualClusterId
+            case id = "id"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -625,7 +625,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -666,7 +666,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRun
+            case jobRun = "jobRun"
         }
     }
 
@@ -700,7 +700,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -741,7 +741,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -775,7 +775,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualCluster
+            case virtualCluster = "virtualCluster"
         }
     }
 
@@ -794,7 +794,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -881,24 +881,24 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case certificateArn
-            case certificateAuthority
-            case configurationOverrides
-            case createdAt
-            case executionRoleArn
-            case failureReason
-            case id
-            case name
-            case releaseLabel
-            case securityGroup
-            case serverUrl
-            case state
-            case stateDetails
-            case subnetIds
-            case tags
-            case type
-            case virtualClusterId
+            case arn = "arn"
+            case certificateArn = "certificateArn"
+            case certificateAuthority = "certificateAuthority"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case executionRoleArn = "executionRoleArn"
+            case failureReason = "failureReason"
+            case id = "id"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case securityGroup = "securityGroup"
+            case serverUrl = "serverUrl"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case type = "type"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -919,8 +919,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sparkSqlJobDriver
-            case sparkSubmitJobDriver
+            case sparkSqlJobDriver = "sparkSqlJobDriver"
+            case sparkSubmitJobDriver = "sparkSubmitJobDriver"
         }
     }
 
@@ -980,22 +980,22 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientToken
-            case configurationOverrides
-            case createdAt
-            case createdBy
-            case executionRoleArn
-            case failureReason
-            case finishedAt
-            case id
-            case jobDriver
-            case name
-            case releaseLabel
-            case state
-            case stateDetails
-            case tags
-            case virtualClusterId
+            case arn = "arn"
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRoleArn = "executionRoleArn"
+            case failureReason = "failureReason"
+            case finishedAt = "finishedAt"
+            case id = "id"
+            case jobDriver = "jobDriver"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case tags = "tags"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -1033,15 +1033,15 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case createdBy
-            case decryptionError
-            case id
-            case jobTemplateData
-            case kmsKeyArn
-            case name
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case decryptionError = "decryptionError"
+            case id = "id"
+            case jobTemplateData = "jobTemplateData"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1094,12 +1094,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationOverrides
-            case executionRoleArn
-            case jobDriver
-            case jobTags
-            case parameterConfiguration
-            case releaseLabel
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case jobDriver = "jobDriver"
+            case jobTags = "jobTags"
+            case parameterConfiguration = "parameterConfiguration"
+            case releaseLabel = "releaseLabel"
         }
     }
 
@@ -1169,8 +1169,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRuns
-            case nextToken
+            case jobRuns = "jobRuns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1221,8 +1221,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templates
+            case nextToken = "nextToken"
+            case templates = "templates"
         }
     }
 
@@ -1295,8 +1295,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoints
-            case nextToken
+            case endpoints = "endpoints"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1330,7 +1330,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1397,8 +1397,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualClusters
+            case nextToken = "nextToken"
+            case virtualClusters = "virtualClusters"
         }
     }
 
@@ -1422,9 +1422,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchMonitoringConfiguration
-            case persistentAppUI
-            case s3MonitoringConfiguration
+            case cloudWatchMonitoringConfiguration = "cloudWatchMonitoringConfiguration"
+            case persistentAppUI = "persistentAppUI"
+            case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
     }
 
@@ -1449,8 +1449,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logStreamNamePrefix
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
         }
     }
 
@@ -1474,8 +1474,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfiguration
-            case monitoringConfiguration
+            case applicationConfiguration = "applicationConfiguration"
+            case monitoringConfiguration = "monitoringConfiguration"
         }
     }
 
@@ -1502,9 +1502,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchMonitoringConfiguration
-            case persistentAppUI
-            case s3MonitoringConfiguration
+            case cloudWatchMonitoringConfiguration = "cloudWatchMonitoringConfiguration"
+            case persistentAppUI = "persistentAppUI"
+            case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
     }
 
@@ -1523,7 +1523,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logUri
+            case logUri = "logUri"
         }
     }
 
@@ -1542,7 +1542,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logUri
+            case logUri = "logUri"
         }
     }
 
@@ -1561,14 +1561,14 @@ extension EMRContainers {
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 256)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: "\\S")
-            try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, max: 102_400)
+            try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, max: 102400)
             try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, min: 1)
             try self.validate(self.sparkSqlParameters, name: "sparkSqlParameters", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryPoint
-            case sparkSqlParameters
+            case entryPoint = "entryPoint"
+            case sparkSqlParameters = "sparkSqlParameters"
         }
     }
 
@@ -1595,15 +1595,15 @@ extension EMRContainers {
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
                 try validate($0, name: "entryPointArguments[]", parent: name, pattern: "\\S")
             }
-            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102_400)
+            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryPoint
-            case entryPointArguments
-            case sparkSubmitParameters
+            case entryPoint = "entryPoint"
+            case entryPointArguments = "entryPointArguments"
+            case sparkSubmitParameters = "sparkSubmitParameters"
         }
     }
 
@@ -1687,15 +1687,15 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case configurationOverrides
-            case executionRoleArn
-            case jobDriver
-            case jobTemplateId
-            case jobTemplateParameters
-            case name
-            case releaseLabel
-            case tags
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case jobDriver = "jobDriver"
+            case jobTemplateId = "jobTemplateId"
+            case jobTemplateParameters = "jobTemplateParameters"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case tags = "tags"
         }
     }
 
@@ -1717,10 +1717,10 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
-            case virtualClusterId
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -1754,7 +1754,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1780,8 +1780,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
-            case type
+            case defaultValue = "defaultValue"
+            case type = "type"
         }
     }
 
@@ -1848,13 +1848,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerProvider
-            case createdAt
-            case id
-            case name
-            case state
-            case tags
+            case arn = "arn"
+            case containerProvider = "containerProvider"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -1871,7 +1871,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eksInfo
+            case eksInfo = "eksInfo"
         }
     }
 }

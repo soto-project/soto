@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS EC2 service.
 ///
-/// Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the Amazon Web Services Cloud.  Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications  faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the  Amazon Web Services Cloud where you can launch Amazon Web Services resources in a virtual network that you've defined. Amazon Elastic Block Store  (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available   and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: AmazonEC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    Amazon Web Services VPN: Amazon Web Services VPN product page, Amazon Web Services VPN documentation
+/// Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the Amazon Web Services Cloud.  Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications  faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the  Amazon Web Services Cloud where you can launch Amazon Web Services resources in a virtual network that you've defined. Amazon Elastic Block Store  (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available   and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: Amazon EC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    VPN: VPN product page, VPN documentation
 public struct EC2: AWSService {
     // MARK: Member variables
 
@@ -111,7 +111,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AcceptTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Accepts one or more interface VPC endpoint connection requests to your VPC endpoint service.
+    /// Accepts connection requests to your VPC endpoint service.
     public func acceptVpcEndpointConnections(_ input: AcceptVpcEndpointConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptVpcEndpointConnectionsResult> {
         return self.client.execute(operation: "AcceptVpcEndpointConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -673,7 +673,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateStoreImageTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet. After you create a subnet, you can't change its CIDR block. The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses). The CIDR block must not overlap with the CIDR block of an existing subnet in the VPC. If you've associated an IPv6 CIDR block with your VPC, you can create a subnet with an IPv6 CIDR block that uses a /64 prefix length.   Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for use.  If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information about subnets, see Your VPC and subnets in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and   a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and  the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block  with a subnet when you create it. The allowed block size for an IPv6 subnet is a /64 netmask. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see Subnets in the Amazon Virtual Private Cloud User Guide.
     public func createSubnet(_ input: CreateSubnetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubnetResult> {
         return self.client.execute(operation: "CreateSubnet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -788,12 +788,10 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create
-    /// 			uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
-    /// 			addresses). For more information about how large to make your VPC, see Your VPC and
-    /// 				subnets in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance you launch in the VPC has the default DHCP options, which
+    /// Creates a VPC with the specified CIDR blocks. For more information, see
+    /// 	      VPC CIDR blocks in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided  IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address  pool that you provisioned through bring your own IP addresses (BYOIP). By default, each instance that you launch in the VPC has the default DHCP options, which
     /// 			include only a default DNS server that we provide (AmazonProvidedDNS). For more
-    /// 			information, see DHCP options sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
+    /// 			information, see DHCP option sets in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
     public func createVpc(_ input: CreateVpcRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcResult> {
         return self.client.execute(operation: "CreateVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -808,7 +806,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateVpcEndpointConnectionNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, IAM users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:   A Network Load Balancer.  Service consumers connect to your service using an interface endpoint.   A Gateway Load Balancer.  Service consumers connect to your service using a Gateway Load Balancer endpoint.   If you set the private DNS name, you must prove that you own the private DNS domain name. For more information, see the Amazon Web Services PrivateLink
+    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:   A Network Load Balancer.  Service consumers connect to your service using an interface endpoint.   A Gateway Load Balancer.  Service consumers connect to your service using a Gateway Load Balancer endpoint.   If you set the private DNS name, you must prove that you own the private DNS domain name. For more information, see the Amazon Web Services PrivateLink
     /// 	        Guide.
     public func createVpcEndpointServiceConfiguration(_ input: CreateVpcEndpointServiceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcEndpointServiceConfigurationResult> {
         return self.client.execute(operation: "CreateVpcEndpointServiceConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1172,17 +1170,17 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes one or more VPC endpoint connection notifications.
+    /// Deletes the specified VPC endpoint connection notifications.
     public func deleteVpcEndpointConnectionNotifications(_ input: DeleteVpcEndpointConnectionNotificationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcEndpointConnectionNotificationsResult> {
         return self.client.execute(operation: "DeleteVpcEndpointConnectionNotifications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes one or more VPC endpoint service configurations in your account. Before you delete the endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
+    /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
     public func deleteVpcEndpointServiceConfigurations(_ input: DeleteVpcEndpointServiceConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcEndpointServiceConfigurationsResult> {
         return self.client.execute(operation: "DeleteVpcEndpointServiceConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes one or more specified VPC endpoints. You can delete any of the following types of VPC endpoints.     Gateway endpoint,   Gateway Load Balancer endpoint,   Interface endpoint   The following rules apply when you delete a VPC endpoint:   When you delete a gateway endpoint, we delete the endpoint routes in the route tables that are associated with the endpoint.   When you delete a Gateway Load Balancer endpoint, we delete the endpoint network interfaces.  You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted.   When you delete an interface endpoint, we delete the  endpoint network interfaces.
+    /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces.  You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces.
     public func deleteVpcEndpoints(_ input: DeleteVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVpcEndpointsResult> {
         return self.client.execute(operation: "DeleteVpcEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1950,7 +1948,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeVpcEndpointServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your VPC endpoints.
+    /// Describes your VPC endpoints.
     public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVpcEndpointsResult> {
         return self.client.execute(operation: "DescribeVpcEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2795,8 +2793,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyVpcEndpointServicePayerResponsibility", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers
-    /// 	        (IAM users, IAM roles, and Amazon Web Services accounts) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     public func modifyVpcEndpointServicePermissions(_ input: ModifyVpcEndpointServicePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyVpcEndpointServicePermissionsResult> {
@@ -2921,7 +2918,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RejectTransitGatewayVpcAttachment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Rejects one or more VPC endpoint connection requests to your VPC endpoint service.
+    /// Rejects VPC endpoint connection requests to your VPC endpoint service.
     public func rejectVpcEndpointConnections(_ input: RejectVpcEndpointConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectVpcEndpointConnectionsResult> {
         return self.client.execute(operation: "RejectVpcEndpointConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -3191,7 +3188,7 @@ extension EC2 {
 // MARK: Paginators
 
 extension EC2 {
-    ///  Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3244,7 +3241,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
+    /// Describes the attributes of the specified Elastic IP addresses. For requirements, see Using reverse DNS for email applications.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3297,7 +3294,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the current Infrastructure Performance metric subscriptions.
+    /// Describes the current Infrastructure Performance metric subscriptions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3350,7 +3347,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools or DescribeIpv6Pools.
+    /// Describes the IP address ranges that were specified in calls to ProvisionByoipCidr. To describe the address pools that were created when you provisioned the address ranges, use DescribePublicIpv4Pools or DescribeIpv6Pools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3403,7 +3400,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Capacity Reservation Fleets.
+    /// Describes one or more Capacity Reservation Fleets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3456,8 +3453,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the
-    ///  		    	Amazon Web Services Region that you're currently using.
+    /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the
+    /// 		    	Amazon Web Services Region that you're currently using.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3510,7 +3507,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your carrier gateways.
+    /// Describes one or more of your carrier gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3563,9 +3560,9 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your linked EC2-Classic instances. This request only returns
-    ///  			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
-    ///  			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes one or more of your linked EC2-Classic instances. This request only returns
+    /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
+    /// 			use this request to return information about other instances.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3618,7 +3615,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the authorization rules for a specified Client VPN endpoint.
+    /// Describes the authorization rules for a specified Client VPN endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3671,8 +3668,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes active client connections and connections that have been terminated within the last 60
-    ///  			minutes for the specified Client VPN endpoint.
+    /// Describes active client connections and connections that have been terminated within the last 60
+    /// 			minutes for the specified Client VPN endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3725,7 +3722,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Client VPN endpoints in the account.
+    /// Describes one or more Client VPN endpoints in the account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3778,7 +3775,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the routes for the specified Client VPN endpoint.
+    /// Describes the routes for the specified Client VPN endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3831,7 +3828,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the target networks associated with the specified Client VPN endpoint.
+    /// Describes the target networks associated with the specified Client VPN endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3884,7 +3881,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified customer-owned address pools or all of your customer-owned address pools.
+    /// Describes the specified customer-owned address pools or all of your customer-owned address pools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3937,8 +3934,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
+    /// 				Amazon Virtual Private Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3991,7 +3988,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your egress-only internet gateways.
+    /// Describes one or more of your egress-only internet gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4044,7 +4041,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified export image tasks or all of your export image tasks.
+    /// Describes the specified export image tasks or all of your export image tasks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4097,7 +4094,7 @@ extension EC2 {
         )
     }
 
-    ///  Describe details for Windows AMIs that are configured for faster launching.
+    /// Describe details for Windows AMIs that are configured for faster launching.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4150,7 +4147,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the state of fast snapshot restores for your snapshots.
+    /// Describes the state of fast snapshot restores for your snapshots.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4203,7 +4200,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4256,7 +4253,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
+    /// Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example,  the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4309,9 +4306,9 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs,
-    ///  			private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load
-    ///  			permissions.
+    /// Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs,
+    /// 			private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load
+    /// 			permissions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4364,7 +4361,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User Guide.
+    /// Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see Dedicated Hosts in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4417,7 +4414,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes reservations that are associated with Dedicated Hosts in your account.
+    /// Describes reservations that are associated with Dedicated Hosts in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4470,7 +4467,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
+    /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4523,7 +4520,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your IAM instance profile associations.
+    /// Describes your IAM instance profile associations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4576,7 +4573,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4629,7 +4626,7 @@ extension EC2 {
         )
     }
 
-    ///  Displays details about an import virtual machine or import snapshot tasks that are already created.
+    /// Displays details about an import virtual machine or import snapshot tasks that are already created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4682,7 +4679,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your import snapshot tasks.
+    /// Describes your import snapshot tasks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4735,7 +4732,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable performance instances in the Amazon EC2 User Guide.
+    /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see Burstable performance instances in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4788,7 +4785,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully.  For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully.  For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4841,7 +4838,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4894,7 +4891,7 @@ extension EC2 {
         )
     }
 
-    ///  Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    /// Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -4947,7 +4944,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
+    /// Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5000,7 +4997,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5053,7 +5050,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your internet gateways.
+    /// Describes one or more of your internet gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5106,7 +5103,7 @@ extension EC2 {
         )
     }
 
-    ///  Get information about your IPAM pools.
+    /// Get information about your IPAM pools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5159,7 +5156,7 @@ extension EC2 {
         )
     }
 
-    ///  Get information about your IPAM scopes.
+    /// Get information about your IPAM scopes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5212,7 +5209,7 @@ extension EC2 {
         )
     }
 
-    ///  Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+    /// Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5265,7 +5262,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your IPv6 address pools.
+    /// Describes your IPv6 address pools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5318,7 +5315,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account.
+    /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5371,7 +5368,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more launch templates.
+    /// Describes one or more launch templates.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5424,7 +5421,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the associations between virtual interface groups and local gateway route tables.
+    /// Describes the associations between virtual interface groups and local gateway route tables.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5477,7 +5474,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified associations between VPCs and local gateway route tables.
+    /// Describes the specified associations between VPCs and local gateway route tables.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5530,7 +5527,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
+    /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5583,7 +5580,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified local gateway virtual interface groups.
+    /// Describes the specified local gateway virtual interface groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5636,7 +5633,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified local gateway virtual interfaces.
+    /// Describes the specified local gateway virtual interfaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5689,7 +5686,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more local gateways. By default, all local gateways are described.  Alternatively, you can filter the results.
+    /// Describes one or more local gateways. By default, all local gateways are described.  Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5742,7 +5739,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
+    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5795,7 +5792,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
+    /// Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that are being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5848,7 +5845,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your NAT gateways.
+    /// Describes one or more of your NAT gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5901,8 +5898,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your network ACLs. For more information, see Network ACLs in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
+    /// 				Amazon Virtual Private Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -5955,7 +5952,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Network Access Scope analyses.
+    /// Describes the specified Network Access Scope analyses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6008,7 +6005,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Network Access Scopes.
+    /// Describes the specified Network Access Scopes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6061,7 +6058,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your network insights analyses.
+    /// Describes one or more of your network insights analyses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6114,7 +6111,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your paths.
+    /// Describes one or more of your paths.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6167,7 +6164,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the permissions for your network interfaces.
+    /// Describes the permissions for your network interfaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6220,7 +6217,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your network interfaces.
+    /// Describes one or more of your network interfaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6273,7 +6270,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
+    /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6326,7 +6323,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference.  By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
+    /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference.  By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6379,7 +6376,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified IPv4 address pools.
+    /// Describes the specified IPv4 address pools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6432,7 +6429,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6485,7 +6482,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6538,8 +6535,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    ///  				in the Amazon EC2 User Guide.
+    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
+    /// 				in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6592,8 +6589,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
+    /// 				Amazon Virtual Private Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6646,7 +6643,7 @@ extension EC2 {
         )
     }
 
-    ///  Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
+    /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call PurchaseScheduledInstances to purchase Scheduled Instances with that schedule.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6699,7 +6696,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Scheduled Instances or all your Scheduled Instances.
+    /// Describes the specified Scheduled Instances or all your Scheduled Instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6752,7 +6749,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your security group rules.
+    /// Describes one or more of your security group rules.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6805,12 +6802,12 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform
-    ///  				or in a specific VPC. For more information, see
-    ///  				Amazon EC2 security groups in
-    ///  				the Amazon Elastic Compute Cloud User Guide and
-    ///  				Security groups for your VPC in the
-    ///  				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform
+    /// 				or in a specific VPC. For more information, see
+    /// 				Amazon EC2 security groups in
+    /// 				the Amazon Elastic Compute Cloud User Guide and
+    /// 				Security groups for your VPC in the
+    /// 				Amazon Virtual Private Cloud User Guide.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6863,7 +6860,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the storage tier status of one or more Amazon EBS snapshots.
+    /// Describes the storage tier status of one or more Amazon EBS snapshots.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6916,7 +6913,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6969,7 +6966,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
+    /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7022,7 +7019,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of results returned. This paginates the output, which makes the list more manageable and returns the results faster. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining results. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
+    /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of results returned. This paginates the output, which makes the list more manageable and returns the results faster. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining results. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7075,7 +7072,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
+    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7128,7 +7125,7 @@ extension EC2 {
         )
     }
 
-    ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// [VPC only] Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7181,7 +7178,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
+    /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using Amazon S3 in the Amazon EC2 User Guide. For more information, see Store and restore an AMI using 	Amazon S3 in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7234,8 +7231,8 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your subnets. For more information, see Your VPC and subnets in the
-    ///  				Amazon Virtual Private Cloud User Guide.
+    /// Describes one or more of your subnets. For more information, see Your VPC and subnets in the
+    /// 				Amazon Virtual Private Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7288,7 +7285,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7341,7 +7338,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Traffic Mirror filters.
+    /// Describes one or more Traffic Mirror filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7394,7 +7391,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
+    /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7447,7 +7444,7 @@ extension EC2 {
         )
     }
 
-    ///  Information about one or more Traffic Mirror targets.
+    /// Information about one or more Traffic Mirror targets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7500,7 +7497,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
+    /// Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7553,7 +7550,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Connect peers.
+    /// Describes one or more Connect peers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7606,7 +7603,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more Connect attachments.
+    /// Describes one or more Connect attachments.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7659,7 +7656,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more transit gateway multicast domains.
+    /// Describes one or more transit gateway multicast domains.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7712,7 +7709,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your transit gateway peering attachments.
+    /// Describes your transit gateway peering attachments.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7765,7 +7762,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more transit gateway route policy tables.
+    /// Describes one or more transit gateway route policy tables.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7818,7 +7815,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more transit gateway route table advertisements.
+    /// Describes one or more transit gateway route table advertisements.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7871,7 +7868,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
+    /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7924,7 +7921,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results.
+    /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -7977,7 +7974,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results.
+    /// Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8030,7 +8027,7 @@ extension EC2 {
         )
     }
 
-    ///   This API action is currently in limited preview only.  If you are interested in using this feature, contact your account manager.  Describes one or more network interface trunk associations.
+    ///  This API action is currently in limited preview only.  If you are interested in using this feature, contact your account manager.  Describes one or more network interface trunk associations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8083,7 +8080,7 @@ extension EC2 {
         )
     }
 
-    ///  Describe Amazon Web Services Verified Access endpoints.
+    /// Describe Amazon Web Services Verified Access endpoints.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8136,7 +8133,7 @@ extension EC2 {
         )
     }
 
-    ///  Describe details of existing Verified Access groups.
+    /// Describe details of existing Verified Access groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8189,7 +8186,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the current logging configuration for the Amazon Web Services Verified Access instances.
+    /// Describes the current logging configuration for the Amazon Web Services Verified Access instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8242,7 +8239,7 @@ extension EC2 {
         )
     }
 
-    ///  Describe Verified Access instances.
+    /// Describe Verified Access instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8295,7 +8292,7 @@ extension EC2 {
         )
     }
 
-    ///  Describe details of existing Verified Access trust providers.
+    /// Describe details of existing Verified Access trust providers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8348,7 +8345,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8401,7 +8398,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8454,7 +8451,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8507,7 +8504,7 @@ extension EC2 {
         )
     }
 
-    ///   We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    ///  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.  Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8560,7 +8557,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the connection notifications for VPC endpoints and VPC endpoint services.
+    /// Describes the connection notifications for VPC endpoints and VPC endpoint services.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8613,7 +8610,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
+    /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8666,7 +8663,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the VPC endpoint service configurations in your account (your services).
+    /// Describes the VPC endpoint service configurations in your account (your services).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8719,7 +8716,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8772,7 +8769,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your VPC endpoints.
+    /// Describes your VPC endpoints.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8825,7 +8822,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your VPC peering connections.
+    /// Describes one or more of your VPC peering connections.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8878,7 +8875,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your VPCs.
+    /// Describes one or more of your VPCs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8931,7 +8928,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
+    /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -8984,7 +8981,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets network performance data.
+    /// Gets network performance data.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9037,7 +9034,7 @@ extension EC2 {
         )
     }
 
-    ///  Lists the resource groups to which a Capacity Reservation has been added.
+    /// Lists the resource groups to which a Capacity Reservation has been added.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9090,7 +9087,7 @@ extension EC2 {
         )
     }
 
-    ///  Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
+    /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9143,7 +9140,7 @@ extension EC2 {
         )
     }
 
-    ///  Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+    /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9196,7 +9193,7 @@ extension EC2 {
         )
     }
 
-    ///  Get a list of all the CIDR allocations in an IPAM pool.
+    /// Get a list of all the CIDR allocations in an IPAM pool.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9249,7 +9246,7 @@ extension EC2 {
         )
     }
 
-    ///  Get the CIDRs provisioned to an IPAM pool.
+    /// Get the CIDRs provisioned to an IPAM pool.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9302,7 +9299,7 @@ extension EC2 {
         )
     }
 
-    ///  Get information about the resources in a scope.
+    /// Get information about the resources in a scope.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9355,7 +9352,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the resources that are associated with the specified managed prefix list.
+    /// Gets information about the resources that are associated with the specified managed prefix list.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9408,7 +9405,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the entries for a specified managed prefix list.
+    /// Gets information about the entries for a specified managed prefix list.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9461,7 +9458,7 @@ extension EC2 {
         )
     }
 
-    ///  Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see Spot placement score in the Amazon EC2 User Guide.
+    /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see Spot placement score in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9514,7 +9511,7 @@ extension EC2 {
         )
     }
 
-    ///  Lists the route tables to which the specified resource attachment propagates routes.
+    /// Lists the route tables to which the specified resource attachment propagates routes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9567,7 +9564,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the associations for the transit gateway multicast domain.
+    /// Gets information about the associations for the transit gateway multicast domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9620,7 +9617,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets a list of the transit gateway policy table associations.
+    /// Gets a list of the transit gateway policy table associations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9673,7 +9670,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the prefix list references in a specified transit gateway route table.
+    /// Gets information about the prefix list references in a specified transit gateway route table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9726,7 +9723,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the associations for the specified transit gateway route table.
+    /// Gets information about the associations for the specified transit gateway route table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9779,7 +9776,7 @@ extension EC2 {
         )
     }
 
-    ///  Gets information about the route table propagations for the specified transit gateway route table.
+    /// Gets information about the route table propagations for the specified transit gateway route table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9832,7 +9829,7 @@ extension EC2 {
         )
     }
 
-    ///  Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide.
+    /// Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under Your customer gateway device in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9885,7 +9882,7 @@ extension EC2 {
         )
     }
 
-    ///  Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon EC2 User Guide.
+    /// Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9938,7 +9935,7 @@ extension EC2 {
         )
     }
 
-    ///  Lists one or more snapshots that are currently in the Recycle Bin.
+    /// Lists one or more snapshots that are currently in the Recycle Bin.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -9991,7 +9988,7 @@ extension EC2 {
         )
     }
 
-    ///  Searches for routes in the specified local gateway route table.
+    /// Searches for routes in the specified local gateway route table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -10044,7 +10041,7 @@ extension EC2 {
         )
     }
 
-    ///  Searches one or more  transit gateway multicast groups and returns the group membership information.
+    /// Searches one or more  transit gateway multicast groups and returns the group membership information.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

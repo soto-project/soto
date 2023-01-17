@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -5554,7 +5554,7 @@ public struct AlexaForBusinessErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The request failed because this device is no longer registered and therefore no longer managed by this account.
     public static var deviceNotRegisteredException: Self { .init(.deviceNotRegisteredException) }
-    /// The Certificate Authority can&#39;t issue or revoke a certificate.
+    /// The Certificate Authority can't issue or revoke a certificate.
     public static var invalidCertificateAuthorityException: Self { .init(.invalidCertificateAuthorityException) }
     /// The device is in an invalid state.
     public static var invalidDeviceException: Self { .init(.invalidDeviceException) }
@@ -5562,9 +5562,9 @@ public struct AlexaForBusinessErrorType: AWSErrorType {
     public static var invalidSecretsManagerResourceException: Self { .init(.invalidSecretsManagerResourceException) }
     /// The service linked role is locked for deletion.
     public static var invalidServiceLinkedRoleStateException: Self { .init(.invalidServiceLinkedRoleStateException) }
-    /// The attempt to update a user is invalid due to the user&#39;s current status.
+    /// The attempt to update a user is invalid due to the user's current status.
     public static var invalidUserStatusException: Self { .init(.invalidUserStatusException) }
-    /// You are performing an action that would put you beyond your account&#39;s limits.
+    /// You are performing an action that would put you beyond your account's limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The name sent in the request is already in use.
     public static var nameInUseException: Self { .init(.nameInUseException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -119,7 +119,7 @@ extension MediaStore {
                 try validate($0, name: "exposeHeaders[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
             try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
-            try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, max: 2147483647)
             try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, min: 0)
         }
 

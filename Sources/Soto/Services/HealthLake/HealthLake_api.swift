@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -142,7 +142,7 @@ extension HealthLake {
 // MARK: Paginators
 
 extension HealthLake {
-    ///  Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -195,7 +195,7 @@ extension HealthLake {
         )
     }
 
-    ///   Lists all FHIR export jobs associated with an account and their statuses.
+    ///  Lists all FHIR export jobs associated with an account and their statuses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -248,7 +248,7 @@ extension HealthLake {
         )
     }
 
-    ///   Lists all FHIR import jobs associated with an account and their statuses.
+    ///  Lists all FHIR import jobs associated with an account and their statuses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

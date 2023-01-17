@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -477,7 +477,7 @@ extension WorkMail {
 // MARK: Paginators
 
 extension WorkMail {
-    ///  Creates a paginated call to list the aliases associated with a given entity.
+    /// Creates a paginated call to list the aliases associated with a given entity.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -530,7 +530,7 @@ extension WorkMail {
         )
     }
 
-    ///  List all the AvailabilityConfiguration's for the given WorkMail organization.
+    /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -583,7 +583,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns an overview of the members of a group. Users and groups can be members of a group.
+    /// Returns an overview of the members of a group. Users and groups can be members of a group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -636,7 +636,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's groups.
+    /// Returns summaries of the organization's groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -689,7 +689,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists all the impersonation roles for the given WorkMail organization.
+    /// Lists all the impersonation roles for the given WorkMail organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -742,7 +742,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mail domains in a given WorkMail organization.
+    /// Lists the mail domains in a given WorkMail organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -795,7 +795,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
+    /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -848,7 +848,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
+    /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -901,7 +901,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -954,7 +954,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the customer's organizations.
+    /// Returns summaries of the customer's organizations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1007,7 +1007,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
+    /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1060,7 +1060,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's resources.
+    /// Returns summaries of the organization's resources.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1113,7 +1113,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's users.
+    /// Returns summaries of the organization's users.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

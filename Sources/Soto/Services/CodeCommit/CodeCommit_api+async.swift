@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -414,7 +414,7 @@ extension CodeCommit {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeCommit {
-    ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
+    /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -436,7 +436,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns information about one or more pull request events.
+    /// Returns information about one or more pull request events.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -458,7 +458,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
+    /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -480,7 +480,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
+    /// Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -502,7 +502,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
+    /// Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -524,7 +524,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
+    /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -546,7 +546,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
+    /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -568,7 +568,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
+    /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -590,7 +590,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Lists all approval rule templates that are associated with a specified repository.
+    /// Lists all approval rule templates that are associated with a specified repository.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -612,7 +612,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Gets information about one or more branches in a repository.
+    /// Gets information about one or more branches in a repository.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -634,7 +634,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request  status or pull request author ARN.
+    /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request  status or pull request author ARN.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -656,7 +656,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Gets information about one or more repositories.
+    /// Gets information about one or more repositories.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -678,7 +678,7 @@ extension CodeCommit {
         )
     }
 
-    ///  Lists all repositories associated with the specified approval rule template.
+    /// Lists all repositories associated with the specified approval rule template.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

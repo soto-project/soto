@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -109,15 +109,15 @@ extension WorkDocs {
     }
 
     public enum LocaleType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `default`
-        case de
-        case en
-        case es
-        case fr
-        case ja
-        case ko
+        case `default` = "default"
+        case de = "de"
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case ja = "ja"
+        case ko = "ko"
         case ptBr = "pt_BR"
-        case ru
+        case ru = "ru"
         case zhCn = "zh_CN"
         case zhTw = "zh_TW"
         public var description: String { return self.rawValue }
@@ -3192,7 +3192,7 @@ public struct WorkDocsErrorType: AWSErrorType {
     public static var storageLimitWillExceedException: Self { .init(.storageLimitWillExceedException) }
     /// The limit has been reached on the number of labels for the specified resource.
     public static var tooManyLabelsException: Self { .init(.tooManyLabelsException) }
-    /// You&#39;ve reached the limit on the number of subscriptions for the WorkDocs instance.
+    /// You've reached the limit on the number of subscriptions for the WorkDocs instance.
     public static var tooManySubscriptionsException: Self { .init(.tooManySubscriptionsException) }
     /// The operation is not permitted.
     public static var unauthorizedOperationException: Self { .init(.unauthorizedOperationException) }

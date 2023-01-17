@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -95,10 +95,10 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appliedWeights
-            case arn
-            case name
-            case zonalShifts
+            case appliedWeights = "appliedWeights"
+            case arn = "arn"
+            case name = "name"
+            case zonalShifts = "zonalShifts"
         }
     }
 
@@ -138,8 +138,8 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -183,8 +183,8 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -203,9 +203,9 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case name
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case name = "name"
         }
     }
 
@@ -237,10 +237,10 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awayFrom
-            case comment
-            case expiresIn
-            case resourceIdentifier
+            case awayFrom = "awayFrom"
+            case comment = "comment"
+            case expiresIn = "expiresIn"
+            case resourceIdentifier = "resourceIdentifier"
         }
     }
 
@@ -273,8 +273,8 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case expiresIn
+            case comment = "comment"
+            case expiresIn = "expiresIn"
         }
     }
 
@@ -312,13 +312,13 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awayFrom
-            case comment
-            case expiryTime
-            case resourceIdentifier
-            case startTime
-            case status
-            case zonalShiftId
+            case awayFrom = "awayFrom"
+            case comment = "comment"
+            case expiryTime = "expiryTime"
+            case resourceIdentifier = "resourceIdentifier"
+            case startTime = "startTime"
+            case status = "status"
+            case zonalShiftId = "zonalShiftId"
         }
     }
 
@@ -349,13 +349,13 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appliedStatus
-            case awayFrom
-            case comment
-            case expiryTime
-            case resourceIdentifier
-            case startTime
-            case zonalShiftId
+            case appliedStatus = "appliedStatus"
+            case awayFrom = "awayFrom"
+            case comment = "comment"
+            case expiryTime = "expiryTime"
+            case resourceIdentifier = "resourceIdentifier"
+            case startTime = "startTime"
+            case zonalShiftId = "zonalShiftId"
         }
     }
 
@@ -386,13 +386,13 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awayFrom
-            case comment
-            case expiryTime
-            case resourceIdentifier
-            case startTime
-            case status
-            case zonalShiftId
+            case awayFrom = "awayFrom"
+            case comment = "comment"
+            case expiryTime = "expiryTime"
+            case resourceIdentifier = "resourceIdentifier"
+            case startTime = "startTime"
+            case status = "status"
+            case zonalShiftId = "zonalShiftId"
         }
     }
 }

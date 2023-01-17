@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -643,8 +643,7 @@ extension SSM {
         return try await self.client.execute(operation: "UnlabelParameterVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation, the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before calling this API action, we recommend that you call the DescribeAssociation API operation and make a note of all optional parameters required for your UpdateAssociation call.
-    ///  In order to call this API operation, your Identity and Access Management (IAM) user account, group, or role must be configured with permission to call the DescribeAssociation API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:  isn't authorized to perform: ssm:DescribeAssociation on resource:    When you update an association, the association immediately runs against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
+    /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation, the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before calling this API action, we recommend that you call the DescribeAssociation API operation and make a note of all optional parameters required for your UpdateAssociation call. In order to call this API operation, your Identity and Access Management (IAM) user account, group, or role must be configured with permission to call the DescribeAssociation API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:  isn't authorized to perform: ssm:DescribeAssociation on resource:    When you update an association, the association immediately runs against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
     public func updateAssociation(_ input: UpdateAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAssociationResult {
         return try await self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -674,7 +673,7 @@ extension SSM {
         return try await self.client.execute(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the target of an existing maintenance window. You can change the following:    Name   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target.    If a parameter is null, then the corresponding field isn't modified.
+    /// Modifies the target of an existing maintenance window. You can change the following:   Name   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target.    If a parameter is null, then the corresponding field isn't modified.
     public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMaintenanceWindowTargetResult {
         return try await self.client.execute(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -719,7 +718,7 @@ extension SSM {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSM {
-    ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
+    /// Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -741,7 +740,7 @@ extension SSM {
         )
     }
 
-    ///  Views information about a specific execution of a specific association.
+    /// Views information about a specific execution of a specific association.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -763,7 +762,7 @@ extension SSM {
         )
     }
 
-    ///  Views all executions for a specific association ID.
+    /// Views all executions for a specific association ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -785,7 +784,7 @@ extension SSM {
         )
     }
 
-    ///  Provides details about all active and terminated Automation executions.
+    /// Provides details about all active and terminated Automation executions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -807,7 +806,7 @@ extension SSM {
         )
     }
 
-    ///  Information about all active and terminated step executions in an Automation workflow.
+    /// Information about all active and terminated step executions in an Automation workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -829,7 +828,7 @@ extension SSM {
         )
     }
 
-    ///  Lists all patches eligible to be included in a patch baseline.
+    /// Lists all patches eligible to be included in a patch baseline.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -851,7 +850,7 @@ extension SSM {
         )
     }
 
-    ///  All associations for the managed node(s).
+    /// All associations for the managed node(s).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -873,7 +872,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only.
+    /// Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -895,7 +894,7 @@ extension SSM {
         )
     }
 
-    ///  The status of the associations for the managed node(s).
+    /// The status of the associations for the managed node(s).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -917,7 +916,7 @@ extension SSM {
         )
     }
 
-    ///  Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
+    /// Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -939,7 +938,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the high-level patch state of one or more managed nodes.
+    /// Retrieves the high-level patch state of one or more managed nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -961,7 +960,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the high-level patch state for the managed nodes in the specified patch group.
+    /// Retrieves the high-level patch state for the managed nodes in the specified patch group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -983,7 +982,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
+    /// Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1005,7 +1004,7 @@ extension SSM {
         )
     }
 
-    ///  Describes a specific delete inventory operation.
+    /// Describes a specific delete inventory operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1027,7 +1026,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
+    /// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1049,7 +1048,7 @@ extension SSM {
         )
     }
 
-    ///  For a given maintenance window execution, lists the tasks that were run.
+    /// For a given maintenance window execution, lists the tasks that were run.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1071,7 +1070,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
+    /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1093,7 +1092,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves information about upcoming executions of a maintenance window.
+    /// Retrieves information about upcoming executions of a maintenance window.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1115,7 +1114,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the targets registered with the maintenance window.
+    /// Lists the targets registered with the maintenance window.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1137,7 +1136,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the tasks in a maintenance window.  For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored.
+    /// Lists the tasks in a maintenance window.  For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1159,7 +1158,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the maintenance windows in an Amazon Web Services account.
+    /// Retrieves the maintenance windows in an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1181,7 +1180,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
+    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1203,7 +1202,7 @@ extension SSM {
         )
     }
 
-    ///  Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1225,7 +1224,7 @@ extension SSM {
         )
     }
 
-    ///  Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
+    /// Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1247,7 +1246,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the patch baselines in your Amazon Web Services account.
+    /// Lists the patch baselines in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1269,7 +1268,7 @@ extension SSM {
         )
     }
 
-    ///  Lists all patch groups that have been registered with patch baselines.
+    /// Lists all patch groups that have been registered with patch baselines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1291,7 +1290,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   AMAZON_LINUX_2  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   CENTOS  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   DEBIAN  Valid properties: PRODUCT | PRIORITY   MACOS  Valid properties: PRODUCT | CLASSIFICATION   ORACLE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   SUSE  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   UBUNTU  Valid properties: PRODUCT | PRIORITY   WINDOWS  Valid properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION | MSRC_SEVERITY
+    /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   AMAZON_LINUX_2  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   CENTOS  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   DEBIAN  Valid properties: PRODUCT | PRIORITY   MACOS  Valid properties: PRODUCT | CLASSIFICATION   ORACLE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   SUSE  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   UBUNTU  Valid properties: PRODUCT | PRIORITY   WINDOWS  Valid properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION | MSRC_SEVERITY
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1313,7 +1312,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
+    /// Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1335,7 +1334,7 @@ extension SSM {
         )
     }
 
-    ///  Query inventory information. This includes managed node status, such as Stopped or Terminated.
+    /// Query inventory information. This includes managed node status, such as Stopped or Terminated.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1357,7 +1356,7 @@ extension SSM {
         )
     }
 
-    ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
+    /// Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1379,7 +1378,7 @@ extension SSM {
         )
     }
 
-    ///  View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer.
+    /// View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1401,7 +1400,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the history of all changes to a parameter.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
+    /// Retrieves the history of all changes to a parameter.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1423,7 +1422,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieve information about one or more parameters in a specific hierarchy.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
+    /// Retrieve information about one or more parameters in a specific hierarchy.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1445,7 +1444,7 @@ extension SSM {
         )
     }
 
-    ///  Returns an array of the Policy object.
+    /// Returns an array of the Policy object.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1467,7 +1466,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves all versions of an association for a specific association ID.
+    /// Retrieves all versions of an association for a specific association ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1489,7 +1488,7 @@ extension SSM {
         )
     }
 
-    ///  Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
+    /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1511,7 +1510,7 @@ extension SSM {
         )
     }
 
-    ///  An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
+    /// An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1533,7 +1532,7 @@ extension SSM {
         )
     }
 
-    ///  Lists the commands requested by users of the Amazon Web Services account.
+    /// Lists the commands requested by users of the Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1555,7 +1554,7 @@ extension SSM {
         )
     }
 
-    ///  For a specified resource ID, this API operation returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
+    /// For a specified resource ID, this API operation returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1577,7 +1576,7 @@ extension SSM {
         )
     }
 
-    ///  Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
+    /// Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1599,7 +1598,7 @@ extension SSM {
         )
     }
 
-    ///  List all versions for a document.
+    /// List all versions for a document.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1621,7 +1620,7 @@ extension SSM {
         )
     }
 
-    ///  Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
+    /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1643,7 +1642,7 @@ extension SSM {
         )
     }
 
-    ///  Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
+    /// Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1665,7 +1664,7 @@ extension SSM {
         )
     }
 
-    ///  Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a capability of Amazon Web Services Systems Manager.
+    /// Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a capability of Amazon Web Services Systems Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1687,7 +1686,7 @@ extension SSM {
         )
     }
 
-    ///  Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or blobs.
+    /// Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or blobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1709,7 +1708,7 @@ extension SSM {
         )
     }
 
-    ///  Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
+    /// Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1731,7 +1730,7 @@ extension SSM {
         )
     }
 
-    ///  Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call.
+    /// Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

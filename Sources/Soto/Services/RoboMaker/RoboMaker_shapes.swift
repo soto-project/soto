@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -275,7 +275,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case worlds
+            case worlds = "worlds"
         }
     }
 
@@ -288,7 +288,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedWorlds
+            case unprocessedWorlds = "unprocessedWorlds"
         }
     }
 
@@ -311,7 +311,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
@@ -327,8 +327,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case unprocessedJobs
+            case jobs = "jobs"
+            case unprocessedJobs = "unprocessedJobs"
         }
     }
 
@@ -344,8 +344,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxConcurrency
-            case timeoutInSeconds
+            case maxConcurrency = "maxConcurrency"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -364,7 +364,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -387,7 +387,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batch
+            case batch = "batch"
         }
     }
 
@@ -410,7 +410,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -433,7 +433,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -456,7 +456,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -486,9 +486,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeType
-            case gpuUnitLimit
-            case simulationUnitLimit
+            case computeType = "computeType"
+            case gpuUnitLimit = "gpuUnitLimit"
+            case simulationUnitLimit = "simulationUnitLimit"
         }
     }
 
@@ -507,9 +507,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeType
-            case gpuUnitLimit
-            case simulationUnitLimit
+            case computeType = "computeType"
+            case gpuUnitLimit = "gpuUnitLimit"
+            case simulationUnitLimit = "simulationUnitLimit"
         }
     }
 
@@ -557,11 +557,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case fleet
-            case tags
+            case clientRequestToken = "clientRequestToken"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case fleet = "fleet"
+            case tags = "tags"
         }
     }
 
@@ -598,15 +598,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -636,8 +636,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case tags
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -659,10 +659,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case name
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -705,11 +705,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
-            case name
-            case robotSoftwareSuite
-            case sources
-            case tags
+            case environment = "environment"
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
         }
     }
 
@@ -746,15 +746,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -787,10 +787,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case imageDigest
-            case s3Etags
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case imageDigest = "imageDigest"
+            case s3Etags = "s3Etags"
         }
     }
 
@@ -824,14 +824,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
@@ -870,10 +870,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case greengrassGroupId
-            case name
-            case tags
+            case architecture = "architecture"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -901,12 +901,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case greengrassGroupId
-            case name
-            case tags
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -957,13 +957,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
-            case name
-            case renderingEngine
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
+            case environment = "environment"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
         }
     }
 
@@ -1006,17 +1006,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -1049,10 +1049,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case imageDigest
-            case s3Etags
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case imageDigest = "imageDigest"
+            case s3Etags = "s3Etags"
         }
     }
 
@@ -1092,16 +1092,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
@@ -1182,18 +1182,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case iamRole
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case tags
-            case vpcConfig
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1257,24 +1257,24 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1323,11 +1323,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case iamRole
-            case outputLocation
-            case tags
-            case worlds
+            case clientRequestToken = "clientRequestToken"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case tags = "tags"
+            case worlds = "worlds"
         }
     }
 
@@ -1360,14 +1360,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case iamRole
-            case outputLocation
-            case status
-            case tags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1417,11 +1417,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case tags
-            case template
-            case worldCount
-            case worldTags
+            case clientRequestToken = "clientRequestToken"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+            case worldTags = "worldTags"
         }
     }
 
@@ -1458,15 +1458,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case status
-            case tags
-            case template
-            case worldCount
-            case worldTags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+            case worldTags = "worldTags"
         }
     }
 
@@ -1504,18 +1504,18 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9 _.\\-\\/+=:]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\S\\s]+$")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case name
-            case tags
-            case templateBody
-            case templateLocation
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+            case tags = "tags"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
         }
     }
 
@@ -1540,11 +1540,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case name
-            case tags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1569,11 +1569,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case name
-            case s3Bucket
-            case s3Keys
-            case type
+            case destination = "destination"
+            case name = "name"
+            case s3Bucket = "s3Bucket"
+            case s3Keys = "s3Keys"
+            case type = "type"
         }
     }
 
@@ -1616,11 +1616,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case name
-            case s3Bucket
-            case s3Keys
-            case type
+            case destination = "destination"
+            case name = "name"
+            case s3Bucket = "s3Bucket"
+            case s3Keys = "s3Keys"
+            case type = "type"
         }
     }
 
@@ -1639,7 +1639,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
+            case fleet = "fleet"
         }
     }
 
@@ -1668,8 +1668,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -1692,7 +1692,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot
+            case robot = "robot"
         }
     }
 
@@ -1721,8 +1721,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -1745,7 +1745,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case template
+            case template = "template"
         }
     }
 
@@ -1778,9 +1778,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
         }
     }
 
@@ -1810,10 +1810,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case concurrentDeploymentPercentage
-            case downloadConditionFile
-            case failureThresholdPercentage
-            case robotDeploymentTimeoutInSeconds
+            case concurrentDeploymentPercentage = "concurrentDeploymentPercentage"
+            case downloadConditionFile = "downloadConditionFile"
+            case failureThresholdPercentage = "failureThresholdPercentage"
+            case robotDeploymentTimeoutInSeconds = "robotDeploymentTimeoutInSeconds"
         }
     }
 
@@ -1847,14 +1847,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
         }
     }
 
@@ -1903,11 +1903,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentVariables
-            case launchFile
-            case packageName
-            case postLaunchFile
-            case preLaunchFile
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
+            case postLaunchFile = "postLaunchFile"
+            case preLaunchFile = "preLaunchFile"
         }
     }
 
@@ -1932,8 +1932,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
@@ -1949,8 +1949,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
@@ -1969,7 +1969,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2009,16 +2009,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case robotDeploymentSummary
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case robotDeploymentSummary = "robotDeploymentSummary"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2037,7 +2037,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
+            case fleet = "fleet"
         }
     }
 
@@ -2071,14 +2071,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastDeploymentJob
-            case lastDeploymentStatus
-            case lastDeploymentTime
-            case name
-            case robots
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case robots = "robots"
+            case tags = "tags"
         }
     }
 
@@ -2103,8 +2103,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -2144,16 +2144,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case imageDigest
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case imageDigest = "imageDigest"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -2172,7 +2172,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot
+            case robot = "robot"
         }
     }
 
@@ -2212,16 +2212,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case fleetArn
-            case greengrassGroupId
-            case lastDeploymentJob
-            case lastDeploymentTime
-            case name
-            case status
-            case tags
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleetArn = "fleetArn"
+            case greengrassGroupId = "greengrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2246,8 +2246,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -2293,18 +2293,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case imageDigest
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case imageDigest = "imageDigest"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -2323,7 +2323,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batch
+            case batch = "batch"
         }
     }
 
@@ -2369,18 +2369,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case batchPolicy
-            case clientRequestToken
-            case createdAt
-            case createdRequests
-            case failedRequests
-            case failureCode
-            case failureReason
-            case lastUpdatedAt
-            case pendingRequests
-            case status
-            case tags
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2399,7 +2399,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2472,27 +2472,27 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case failureReason
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case name
-            case networkInterface
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case networkInterface = "networkInterface"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -2511,7 +2511,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2550,16 +2550,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case failureReason
-            case iamRole
-            case outputLocation
-            case status
-            case tags
-            case worlds
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
+            case worlds = "worlds"
         }
     }
 
@@ -2578,7 +2578,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -2621,17 +2621,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case failureReason
-            case finishedWorldsSummary
-            case status
-            case tags
-            case template
-            case worldCount
-            case worldTags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case finishedWorldsSummary = "finishedWorldsSummary"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
+            case worldTags = "worldTags"
         }
     }
 
@@ -2650,7 +2650,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case world
+            case world = "world"
         }
     }
 
@@ -2678,12 +2678,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case generationJob
-            case tags
-            case template
-            case worldDescriptionBody
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case tags = "tags"
+            case template = "template"
+            case worldDescriptionBody = "worldDescriptionBody"
         }
     }
 
@@ -2702,7 +2702,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case template
+            case template = "template"
         }
     }
 
@@ -2733,13 +2733,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case lastUpdatedAt
-            case name
-            case tags
-            case version
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -2758,7 +2758,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uri
+            case uri = "uri"
         }
     }
 
@@ -2780,10 +2780,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedAt
-            case failureCode
-            case failureReason
-            case request
+            case failedAt = "failedAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case request = "request"
         }
     }
 
@@ -2799,8 +2799,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case totalFailureCount
+            case failures = "failures"
+            case totalFailureCount = "totalFailureCount"
         }
     }
 
@@ -2829,8 +2829,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -2849,9 +2849,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureSummary
-            case finishedCount
-            case succeededWorlds
+            case failureSummary = "failureSummary"
+            case finishedCount = "finishedCount"
+            case succeededWorlds = "succeededWorlds"
         }
     }
 
@@ -2879,12 +2879,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastDeploymentJob
-            case lastDeploymentStatus
-            case lastDeploymentTime
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
         }
     }
 
@@ -2909,8 +2909,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generationJob
-            case template
+            case generationJob = "generationJob"
+            case template = "template"
         }
     }
 
@@ -2923,7 +2923,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateBody
+            case templateBody = "templateBody"
         }
     }
 
@@ -2975,12 +2975,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case environmentVariables
-            case launchFile
-            case packageName
-            case portForwardingConfig
-            case streamUI
+            case command = "command"
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
+            case portForwardingConfig = "portForwardingConfig"
+            case streamUI = "streamUI"
         }
     }
 
@@ -3010,9 +3010,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3028,8 +3028,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentJobs
-            case nextToken
+            case deploymentJobs = "deploymentJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3059,9 +3059,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3077,8 +3077,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetDetails
-            case nextToken
+            case fleetDetails = "fleetDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3114,10 +3114,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case versionQualifier
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
         }
     }
 
@@ -3133,8 +3133,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case robotApplicationSummaries
+            case nextToken = "nextToken"
+            case robotApplicationSummaries = "robotApplicationSummaries"
         }
     }
 
@@ -3164,9 +3164,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3182,8 +3182,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case robots
+            case nextToken = "nextToken"
+            case robots = "robots"
         }
     }
 
@@ -3219,10 +3219,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case versionQualifier
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
         }
     }
 
@@ -3238,8 +3238,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationApplicationSummaries
+            case nextToken = "nextToken"
+            case simulationApplicationSummaries = "simulationApplicationSummaries"
         }
     }
 
@@ -3269,9 +3269,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3287,8 +3287,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationJobBatchSummaries
+            case nextToken = "nextToken"
+            case simulationJobBatchSummaries = "simulationJobBatchSummaries"
         }
     }
 
@@ -3318,9 +3318,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3336,8 +3336,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationJobSummaries
+            case nextToken = "nextToken"
+            case simulationJobSummaries = "simulationJobSummaries"
         }
     }
 
@@ -3371,7 +3371,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3401,9 +3401,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3419,8 +3419,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldExportJobSummaries
+            case nextToken = "nextToken"
+            case worldExportJobSummaries = "worldExportJobSummaries"
         }
     }
 
@@ -3450,9 +3450,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3468,8 +3468,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldGenerationJobSummaries
+            case nextToken = "nextToken"
+            case worldGenerationJobSummaries = "worldGenerationJobSummaries"
         }
     }
 
@@ -3491,8 +3491,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3508,8 +3508,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateSummaries
+            case nextToken = "nextToken"
+            case templateSummaries = "templateSummaries"
         }
     }
 
@@ -3539,9 +3539,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3557,8 +3557,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldSummaries
+            case nextToken = "nextToken"
+            case worldSummaries = "worldSummaries"
         }
     }
 
@@ -3576,7 +3576,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordAllRosTopics
+            case recordAllRosTopics = "recordAllRosTopics"
         }
     }
 
@@ -3595,9 +3595,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId
-            case privateIpAddress
-            case publicIpAddress
+            case networkInterfaceId = "networkInterfaceId"
+            case privateIpAddress = "privateIpAddress"
+            case publicIpAddress = "publicIpAddress"
         }
     }
 
@@ -3622,8 +3622,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Prefix
+            case s3Bucket = "s3Bucket"
+            case s3Prefix = "s3Prefix"
         }
     }
 
@@ -3643,7 +3643,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portMappings
+            case portMappings = "portMappings"
         }
     }
 
@@ -3669,9 +3669,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationPort
-            case enableOnPublicIp
-            case jobPort
+            case applicationPort = "applicationPort"
+            case enableOnPublicIp = "enableOnPublicIp"
+            case jobPort = "jobPort"
         }
     }
 
@@ -3693,10 +3693,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentProgress
-            case estimatedTimeRemainingSeconds
-            case percentDone
-            case targetResource
+            case currentProgress = "currentProgress"
+            case estimatedTimeRemainingSeconds = "estimatedTimeRemainingSeconds"
+            case percentDone = "percentDone"
+            case targetResource = "targetResource"
         }
     }
 
@@ -3721,8 +3721,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
@@ -3738,8 +3738,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
@@ -3761,8 +3761,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -3781,7 +3781,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -3822,15 +3822,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case fleetArn
-            case greenGrassGroupId
-            case lastDeploymentJob
-            case lastDeploymentTime
-            case name
-            case status
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleetArn = "fleetArn"
+            case greenGrassGroupId = "greenGrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3890,13 +3890,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
-            case tools
-            case uploadConfigurations
-            case useDefaultTools
-            case useDefaultUploadConfigurations
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
+            case tools = "tools"
+            case uploadConfigurations = "uploadConfigurations"
+            case useDefaultTools = "useDefaultTools"
+            case useDefaultUploadConfigurations = "useDefaultUploadConfigurations"
         }
     }
 
@@ -3921,11 +3921,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case robotSoftwareSuite
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case version = "version"
         }
     }
 
@@ -3956,13 +3956,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deploymentFinishTime
-            case deploymentStartTime
-            case failureCode
-            case failureReason
-            case progressDetail
-            case status
+            case arn = "arn"
+            case deploymentFinishTime = "deploymentFinishTime"
+            case deploymentStartTime = "deploymentStartTime"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case progressDetail = "progressDetail"
+            case status = "status"
         }
     }
 
@@ -3978,8 +3978,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -3995,8 +3995,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case etag
-            case s3Key
+            case etag = "etag"
+            case s3Key = "s3Key"
         }
     }
 
@@ -4024,9 +4024,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case etag
-            case key
+            case bucket = "bucket"
+            case etag = "etag"
+            case key = "key"
         }
     }
 
@@ -4094,14 +4094,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
-            case tools
-            case uploadConfigurations
-            case useDefaultTools
-            case useDefaultUploadConfigurations
-            case worldConfigs
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
+            case tools = "tools"
+            case uploadConfigurations = "uploadConfigurations"
+            case useDefaultTools = "useDefaultTools"
+            case useDefaultUploadConfigurations = "useDefaultUploadConfigurations"
+            case worldConfigs = "worldConfigs"
         }
     }
 
@@ -4129,12 +4129,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case version = "version"
         }
     }
 
@@ -4207,27 +4207,27 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case failureReason
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case name
-            case networkInterface
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case networkInterface = "networkInterface"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4258,13 +4258,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case createdRequestCount
-            case failedRequestCount
-            case lastUpdatedAt
-            case pendingRequestCount
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdRequestCount = "createdRequestCount"
+            case failedRequestCount = "failedRequestCount"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequestCount = "pendingRequestCount"
+            case status = "status"
         }
     }
 
@@ -4339,18 +4339,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compute
-            case dataSources
-            case failureBehavior
-            case iamRole
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case tags
-            case useDefaultApplications
-            case vpcConfig
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case tags = "tags"
+            case useDefaultApplications = "useDefaultApplications"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4384,14 +4384,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case computeType
-            case dataSourceNames
-            case lastUpdatedAt
-            case name
-            case robotApplicationNames
-            case simulationApplicationNames
-            case status
+            case arn = "arn"
+            case computeType = "computeType"
+            case dataSourceNames = "dataSourceNames"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotApplicationNames = "robotApplicationNames"
+            case simulationApplicationNames = "simulationApplicationNames"
+            case status = "status"
         }
     }
 
@@ -4412,8 +4412,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -4435,10 +4435,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case etag
-            case s3Bucket
-            case s3Key
+            case architecture = "architecture"
+            case etag = "etag"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
@@ -4466,9 +4466,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case s3Bucket
-            case s3Key
+            case architecture = "architecture"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
@@ -4509,10 +4509,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchPolicy
-            case clientRequestToken
-            case createSimulationJobRequests
-            case tags
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createSimulationJobRequests = "createSimulationJobRequests"
+            case tags = "tags"
         }
     }
 
@@ -4555,17 +4555,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case batchPolicy
-            case clientRequestToken
-            case createdAt
-            case createdRequests
-            case failedRequests
-            case failureCode
-            case failureReason
-            case pendingRequests
-            case status
-            case tags
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -4590,8 +4590,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case fleet
+            case clientRequestToken = "clientRequestToken"
+            case fleet = "fleet"
         }
     }
 
@@ -4625,14 +4625,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
         }
     }
 
@@ -4666,7 +4666,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4695,8 +4695,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Key
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
@@ -4721,11 +4721,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case name
-            case version
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -4759,11 +4759,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case exitBehavior
-            case name
-            case streamOutputToCloudWatch
-            case streamUI
+            case command = "command"
+            case exitBehavior = "exitBehavior"
+            case name = "name"
+            case streamOutputToCloudWatch = "streamOutputToCloudWatch"
+            case streamUI = "streamUI"
         }
     }
 
@@ -4835,11 +4835,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case environment
-            case robotSoftwareSuite
-            case sources
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case environment = "environment"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
         }
     }
 
@@ -4873,14 +4873,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
@@ -4926,13 +4926,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case environment
-            case renderingEngine
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case environment = "environment"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
         }
     }
 
@@ -4972,16 +4972,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case environment
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case environment = "environment"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
@@ -5008,17 +5008,17 @@ extension RoboMaker {
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "^arn:")
-            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\S\\s]+$")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case template
-            case templateBody
-            case templateLocation
+            case name = "name"
+            case template = "template"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
         }
     }
 
@@ -5040,10 +5040,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
         }
     }
 
@@ -5071,9 +5071,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case path
-            case uploadBehavior
+            case name = "name"
+            case path = "path"
+            case uploadBehavior = "uploadBehavior"
         }
     }
 
@@ -5109,9 +5109,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
@@ -5133,10 +5133,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
-            case vpcId
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 
@@ -5155,7 +5155,7 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case world
+            case world = "world"
         }
     }
 
@@ -5171,8 +5171,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case floorplanCount
-            case interiorCountPerFloorplan
+            case floorplanCount = "floorplanCount"
+            case interiorCountPerFloorplan = "interiorCountPerFloorplan"
         }
     }
 
@@ -5196,11 +5196,11 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case outputLocation
-            case status
-            case worlds
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case worlds = "worlds"
         }
     }
 
@@ -5219,9 +5219,9 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case failureCount
-            case sampleFailureReason
+            case failureCode = "failureCode"
+            case failureCount = "failureCount"
+            case sampleFailureReason = "sampleFailureReason"
         }
     }
 
@@ -5252,13 +5252,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case failedWorldCount
-            case status
-            case succeededWorldCount
-            case template
-            case worldCount
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case failedWorldCount = "failedWorldCount"
+            case status = "status"
+            case succeededWorldCount = "succeededWorldCount"
+            case template = "template"
+            case worldCount = "worldCount"
         }
     }
 
@@ -5280,10 +5280,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case generationJob
-            case template
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case template = "template"
         }
     }
 }

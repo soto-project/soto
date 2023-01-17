@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,7 +28,7 @@ extension APIGateway {
     }
 
     public enum ApiKeysFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case csv
+        case csv = "csv"
         public var description: String { return self.rawValue }
     }
 
@@ -145,18 +145,18 @@ extension APIGateway {
     }
 
     public enum Op: String, CustomStringConvertible, Codable, _SotoSendable {
-        case add
-        case copy
-        case move
-        case remove
-        case replace
-        case test
+        case add = "add"
+        case copy = "copy"
+        case move = "move"
+        case remove = "remove"
+        case replace = "replace"
+        case test = "test"
         public var description: String { return self.rawValue }
     }
 
     public enum PutMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case merge
-        case overwrite
+        case merge = "merge"
+        case overwrite = "overwrite"
         public var description: String { return self.rawValue }
     }
 
@@ -202,8 +202,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn
-            case format
+            case destinationArn = "destinationArn"
+            case format = "format"
         }
     }
 
@@ -225,10 +225,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyVersion
-            case cloudwatchRoleArn
-            case features
-            case throttleSettings
+            case apiKeyVersion = "apiKeyVersion"
+            case cloudwatchRoleArn = "cloudwatchRoleArn"
+            case features = "features"
+            case throttleSettings = "throttleSettings"
         }
     }
 
@@ -268,16 +268,16 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case customerId
-            case description
-            case enabled
-            case id
-            case lastUpdatedDate
-            case name
-            case stageKeys
-            case tags
-            case value
+            case createdDate = "createdDate"
+            case customerId = "customerId"
+            case description = "description"
+            case enabled = "enabled"
+            case id = "id"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
+            case stageKeys = "stageKeys"
+            case tags = "tags"
+            case value = "value"
         }
     }
 
@@ -293,8 +293,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case warnings
+            case ids = "ids"
+            case warnings = "warnings"
         }
     }
 
@@ -318,8 +318,8 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
-            case warnings
+            case position = "position"
+            case warnings = "warnings"
         }
     }
 
@@ -338,9 +338,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case stage
-            case throttle
+            case apiId = "apiId"
+            case stage = "stage"
+            case throttle = "throttle"
         }
     }
 
@@ -380,16 +380,16 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentials
-            case authorizerResultTtlInSeconds
-            case authorizerUri
-            case authType
-            case id
-            case identitySource
-            case identityValidationExpression
-            case name
-            case providerARNs
-            case type
+            case authorizerCredentials = "authorizerCredentials"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerUri = "authorizerUri"
+            case authType = "authType"
+            case id = "id"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case name = "name"
+            case providerARNs = "providerARNs"
+            case type = "type"
         }
     }
 
@@ -410,7 +410,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -429,9 +429,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basePath
-            case restApiId
-            case stage
+            case basePath = "basePath"
+            case restApiId = "restApiId"
+            case stage = "stage"
         }
     }
 
@@ -452,7 +452,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -474,10 +474,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case percentTraffic
-            case stageVariableOverrides
-            case useStageCache
+            case deploymentId = "deploymentId"
+            case percentTraffic = "percentTraffic"
+            case stageVariableOverrides = "stageVariableOverrides"
+            case useStageCache = "useStageCache"
         }
     }
 
@@ -505,12 +505,12 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientCertificateId
-            case createdDate
-            case description
-            case expirationDate
-            case pemEncodedCertificate
-            case tags
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case description = "description"
+            case expirationDate = "expirationDate"
+            case pemEncodedCertificate = "pemEncodedCertificate"
+            case tags = "tags"
         }
     }
 
@@ -531,7 +531,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -565,14 +565,14 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerId
-            case description
-            case enabled
-            case generateDistinctId
-            case name
-            case stageKeys
-            case tags
-            case value
+            case customerId = "customerId"
+            case description = "description"
+            case enabled = "enabled"
+            case generateDistinctId = "generateDistinctId"
+            case name = "name"
+            case stageKeys = "stageKeys"
+            case tags = "tags"
+            case value = "value"
         }
     }
 
@@ -616,15 +616,15 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentials
-            case authorizerResultTtlInSeconds
-            case authorizerUri
-            case authType
-            case identitySource
-            case identityValidationExpression
-            case name
-            case providerARNs
-            case type
+            case authorizerCredentials = "authorizerCredentials"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerUri = "authorizerUri"
+            case authType = "authType"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case name = "name"
+            case providerARNs = "providerARNs"
+            case type = "type"
         }
     }
 
@@ -650,9 +650,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basePath
-            case restApiId
-            case stage
+            case basePath = "basePath"
+            case restApiId = "restApiId"
+            case stage = "stage"
         }
     }
 
@@ -693,14 +693,14 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheClusterEnabled
-            case cacheClusterSize
-            case canarySettings
-            case description
-            case stageDescription
-            case stageName
-            case tracingEnabled
-            case variables
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case cacheClusterSize = "cacheClusterSize"
+            case canarySettings = "canarySettings"
+            case description = "description"
+            case stageDescription = "stageDescription"
+            case stageName = "stageName"
+            case tracingEnabled = "tracingEnabled"
+            case variables = "variables"
         }
     }
 
@@ -727,8 +727,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case properties
+            case location = "location"
+            case properties = "properties"
         }
     }
 
@@ -754,9 +754,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case documentationVersion
-            case stageName
+            case description = "description"
+            case documentationVersion = "documentationVersion"
+            case stageName = "stageName"
         }
     }
 
@@ -804,19 +804,19 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case certificateBody
-            case certificateChain
-            case certificateName
-            case certificatePrivateKey
-            case domainName
-            case endpointConfiguration
-            case mutualTlsAuthentication
-            case ownershipVerificationCertificateArn
-            case regionalCertificateArn
-            case regionalCertificateName
-            case securityPolicy
-            case tags
+            case certificateArn = "certificateArn"
+            case certificateBody = "certificateBody"
+            case certificateChain = "certificateChain"
+            case certificateName = "certificateName"
+            case certificatePrivateKey = "certificatePrivateKey"
+            case domainName = "domainName"
+            case endpointConfiguration = "endpointConfiguration"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
+            case regionalCertificateArn = "regionalCertificateArn"
+            case regionalCertificateName = "regionalCertificateName"
+            case securityPolicy = "securityPolicy"
+            case tags = "tags"
         }
     }
 
@@ -845,10 +845,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -874,9 +874,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case validateRequestBody
-            case validateRequestParameters
+            case name = "name"
+            case validateRequestBody = "validateRequestBody"
+            case validateRequestParameters = "validateRequestParameters"
         }
     }
 
@@ -900,7 +900,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pathPart
+            case pathPart = "pathPart"
         }
     }
 
@@ -943,17 +943,17 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySource
-            case binaryMediaTypes
-            case cloneFrom
-            case description
-            case disableExecuteApiEndpoint
-            case endpointConfiguration
-            case minimumCompressionSize
-            case name
-            case policy
-            case tags
-            case version
+            case apiKeySource = "apiKeySource"
+            case binaryMediaTypes = "binaryMediaTypes"
+            case cloneFrom = "cloneFrom"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case endpointConfiguration = "endpointConfiguration"
+            case minimumCompressionSize = "minimumCompressionSize"
+            case name = "name"
+            case policy = "policy"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -1000,16 +1000,16 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheClusterEnabled
-            case cacheClusterSize
-            case canarySettings
-            case deploymentId
-            case description
-            case documentationVersion
-            case stageName
-            case tags
-            case tracingEnabled
-            case variables
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case cacheClusterSize = "cacheClusterSize"
+            case canarySettings = "canarySettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case documentationVersion = "documentationVersion"
+            case stageName = "stageName"
+            case tags = "tags"
+            case tracingEnabled = "tracingEnabled"
+            case variables = "variables"
         }
     }
 
@@ -1032,8 +1032,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyId
-            case keyType
+            case keyId = "keyId"
+            case keyType = "keyType"
         }
     }
 
@@ -1061,12 +1061,12 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiStages
-            case description
-            case name
-            case quota
-            case tags
-            case throttle
+            case apiStages = "apiStages"
+            case description = "description"
+            case name = "name"
+            case quota = "quota"
+            case tags = "tags"
+            case throttle = "throttle"
         }
     }
 
@@ -1088,10 +1088,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
-            case targetArns
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case targetArns = "targetArns"
         }
     }
 
@@ -1520,10 +1520,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiSummary
-            case createdDate
-            case description
-            case id
+            case apiSummary = "apiSummary"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
         }
     }
 
@@ -1542,9 +1542,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case percentTraffic
-            case stageVariableOverrides
-            case useStageCache
+            case percentTraffic = "percentTraffic"
+            case stageVariableOverrides = "stageVariableOverrides"
+            case useStageCache = "useStageCache"
         }
     }
 
@@ -1565,7 +1565,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -1584,9 +1584,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case location
-            case properties
+            case id = "id"
+            case location = "location"
+            case properties = "properties"
         }
     }
 
@@ -1602,8 +1602,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case warnings
+            case ids = "ids"
+            case warnings = "warnings"
         }
     }
 
@@ -1632,11 +1632,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case method
-            case name
-            case path
-            case statusCode
-            case type
+            case method = "method"
+            case name = "name"
+            case path = "path"
+            case statusCode = "statusCode"
+            case type = "type"
         }
     }
 
@@ -1657,7 +1657,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -1676,9 +1676,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case description
-            case version
+            case createdDate = "createdDate"
+            case description = "description"
+            case version = "version"
         }
     }
 
@@ -1699,7 +1699,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -1760,23 +1760,23 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case certificateName
-            case certificateUploadDate
-            case distributionDomainName
-            case distributionHostedZoneId
-            case domainName
-            case domainNameStatus
-            case domainNameStatusMessage
-            case endpointConfiguration
-            case mutualTlsAuthentication
-            case ownershipVerificationCertificateArn
-            case regionalCertificateArn
-            case regionalCertificateName
-            case regionalDomainName
-            case regionalHostedZoneId
-            case securityPolicy
-            case tags
+            case certificateArn = "certificateArn"
+            case certificateName = "certificateName"
+            case certificateUploadDate = "certificateUploadDate"
+            case distributionDomainName = "distributionDomainName"
+            case distributionHostedZoneId = "distributionHostedZoneId"
+            case domainName = "domainName"
+            case domainNameStatus = "domainNameStatus"
+            case domainNameStatusMessage = "domainNameStatusMessage"
+            case endpointConfiguration = "endpointConfiguration"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
+            case regionalCertificateArn = "regionalCertificateArn"
+            case regionalCertificateName = "regionalCertificateName"
+            case regionalDomainName = "regionalDomainName"
+            case regionalHostedZoneId = "regionalHostedZoneId"
+            case securityPolicy = "securityPolicy"
+            case tags = "tags"
         }
     }
 
@@ -1797,7 +1797,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -1813,8 +1813,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case types
-            case vpcEndpointIds
+            case types = "types"
+            case vpcEndpointIds = "vpcEndpointIds"
         }
     }
 
@@ -1841,7 +1841,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
             case contentDisposition = "Content-Disposition"
             case contentType = "Content-Type"
         }
@@ -1906,11 +1906,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultResponse
-            case responseParameters
-            case responseTemplates
-            case responseType
-            case statusCode
+            case defaultResponse = "defaultResponse"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case responseType = "responseType"
+            case statusCode = "statusCode"
         }
     }
 
@@ -1931,7 +1931,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -1947,8 +1947,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case tags
+            case description = "description"
+            case tags = "tags"
         }
     }
 
@@ -2332,7 +2332,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
+            case parameters = "parameters"
         }
     }
 
@@ -2701,7 +2701,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
+            case parameters = "parameters"
         }
     }
 
@@ -3029,7 +3029,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
+            case parameters = "parameters"
         }
     }
 
@@ -3084,21 +3084,21 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheKeyParameters
-            case cacheNamespace
-            case connectionId
-            case connectionType
-            case contentHandling
-            case credentials
-            case httpMethod
-            case integrationResponses
-            case passthroughBehavior
-            case requestParameters
-            case requestTemplates
-            case timeoutInMillis
-            case tlsConfig
-            case type
-            case uri
+            case cacheKeyParameters = "cacheKeyParameters"
+            case cacheNamespace = "cacheNamespace"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandling = "contentHandling"
+            case credentials = "credentials"
+            case httpMethod = "httpMethod"
+            case integrationResponses = "integrationResponses"
+            case passthroughBehavior = "passthroughBehavior"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
+            case type = "type"
+            case uri = "uri"
         }
     }
 
@@ -3123,11 +3123,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandling
-            case responseParameters
-            case responseTemplates
-            case selectionPattern
-            case statusCode
+            case contentHandling = "contentHandling"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case selectionPattern = "selectionPattern"
+            case statusCode = "statusCode"
         }
     }
 
@@ -3170,17 +3170,17 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case httpMethod
-            case methodIntegration
-            case methodResponses
-            case operationName
-            case requestModels
-            case requestParameters
-            case requestValidatorId
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case httpMethod = "httpMethod"
+            case methodIntegration = "methodIntegration"
+            case methodResponses = "methodResponses"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case requestValidatorId = "requestValidatorId"
         }
     }
 
@@ -3199,9 +3199,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseModels
-            case responseParameters
-            case statusCode
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case statusCode = "statusCode"
         }
     }
 
@@ -3241,16 +3241,16 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheDataEncrypted
-            case cacheTtlInSeconds
-            case cachingEnabled
-            case dataTraceEnabled
-            case loggingLevel
-            case metricsEnabled
-            case requireAuthorizationForCacheControl
-            case throttlingBurstLimit
-            case throttlingRateLimit
-            case unauthorizedCacheControlHeaderStrategy
+            case cacheDataEncrypted = "cacheDataEncrypted"
+            case cacheTtlInSeconds = "cacheTtlInSeconds"
+            case cachingEnabled = "cachingEnabled"
+            case dataTraceEnabled = "dataTraceEnabled"
+            case loggingLevel = "loggingLevel"
+            case metricsEnabled = "metricsEnabled"
+            case requireAuthorizationForCacheControl = "requireAuthorizationForCacheControl"
+            case throttlingBurstLimit = "throttlingBurstLimit"
+            case throttlingRateLimit = "throttlingRateLimit"
+            case unauthorizedCacheControlHeaderStrategy = "unauthorizedCacheControlHeaderStrategy"
         }
     }
 
@@ -3266,8 +3266,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationType
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationType = "authorizationType"
         }
     }
 
@@ -3292,11 +3292,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case id
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -3317,7 +3317,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -3336,9 +3336,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
-            case truststoreWarnings
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+            case truststoreWarnings = "truststoreWarnings"
         }
     }
 
@@ -3354,8 +3354,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
         }
     }
 
@@ -3377,10 +3377,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case from
-            case op
-            case path
-            case value
+            case from = "from"
+            case op = "op"
+            case path = "path"
+            case value = "value"
         }
     }
 
@@ -3414,9 +3414,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseParameters
-            case responseTemplates
-            case statusCode
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case statusCode = "statusCode"
         }
     }
 
@@ -3482,20 +3482,20 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheKeyParameters
-            case cacheNamespace
-            case connectionId
-            case connectionType
-            case contentHandling
-            case credentials
+            case cacheKeyParameters = "cacheKeyParameters"
+            case cacheNamespace = "cacheNamespace"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandling = "contentHandling"
+            case credentials = "credentials"
             case integrationHttpMethod = "httpMethod"
-            case passthroughBehavior
-            case requestParameters
-            case requestTemplates
-            case timeoutInMillis
-            case tlsConfig
-            case type
-            case uri
+            case passthroughBehavior = "passthroughBehavior"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
+            case type = "type"
+            case uri = "uri"
         }
     }
 
@@ -3540,10 +3540,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandling
-            case responseParameters
-            case responseTemplates
-            case selectionPattern
+            case contentHandling = "contentHandling"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case selectionPattern = "selectionPattern"
         }
     }
 
@@ -3592,14 +3592,14 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case operationName
-            case requestModels
-            case requestParameters
-            case requestValidatorId
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case requestValidatorId = "requestValidatorId"
         }
     }
 
@@ -3638,8 +3638,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseModels
-            case responseParameters
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
         }
     }
 
@@ -3673,7 +3673,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
+            case parameters = "parameters"
         }
     }
 
@@ -3692,9 +3692,9 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case offset
-            case period
+            case limit = "limit"
+            case offset = "offset"
+            case period = "period"
         }
     }
 
@@ -3716,10 +3716,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case validateRequestBody
-            case validateRequestParameters
+            case id = "id"
+            case name = "name"
+            case validateRequestBody = "validateRequestBody"
+            case validateRequestParameters = "validateRequestParameters"
         }
     }
 
@@ -3740,7 +3740,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -3765,11 +3765,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case parentId
-            case path
-            case pathPart
-            case resourceMethods
+            case id = "id"
+            case parentId = "parentId"
+            case path = "path"
+            case pathPart = "pathPart"
+            case resourceMethods = "resourceMethods"
         }
     }
 
@@ -3790,7 +3790,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -3839,19 +3839,19 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySource
-            case binaryMediaTypes
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case endpointConfiguration
-            case id
-            case minimumCompressionSize
-            case name
-            case policy
-            case tags
-            case version
-            case warnings
+            case apiKeySource = "apiKeySource"
+            case binaryMediaTypes = "binaryMediaTypes"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case endpointConfiguration = "endpointConfiguration"
+            case id = "id"
+            case minimumCompressionSize = "minimumCompressionSize"
+            case name = "name"
+            case policy = "policy"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -3872,7 +3872,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -3897,11 +3897,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
-            case description
-            case friendlyName
-            case name
-            case required
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case friendlyName = "friendlyName"
+            case name = "name"
+            case required = "required"
         }
     }
 
@@ -3928,7 +3928,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
             case contentDisposition = "Content-Disposition"
             case contentType = "Content-Type"
         }
@@ -3952,10 +3952,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationProperties
-            case description
-            case friendlyName
-            case id
+            case configurationProperties = "configurationProperties"
+            case description = "description"
+            case friendlyName = "friendlyName"
+            case id = "id"
         }
     }
 
@@ -4029,23 +4029,23 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case cacheClusterEnabled
-            case cacheClusterSize
-            case cacheClusterStatus
-            case canarySettings
-            case clientCertificateId
-            case createdDate
-            case deploymentId
-            case description
-            case documentationVersion
-            case lastUpdatedDate
-            case methodSettings
-            case stageName
-            case tags
-            case tracingEnabled
-            case variables
-            case webAclArn
+            case accessLogSettings = "accessLogSettings"
+            case cacheClusterEnabled = "cacheClusterEnabled"
+            case cacheClusterSize = "cacheClusterSize"
+            case cacheClusterStatus = "cacheClusterStatus"
+            case canarySettings = "canarySettings"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case documentationVersion = "documentationVersion"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case methodSettings = "methodSettings"
+            case stageName = "stageName"
+            case tags = "tags"
+            case tracingEnabled = "tracingEnabled"
+            case variables = "variables"
+            case webAclArn = "webAclArn"
         }
     }
 
@@ -4061,8 +4061,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restApiId
-            case stageName
+            case restApiId = "restApiId"
+            case stageName = "stageName"
         }
     }
 
@@ -4075,7 +4075,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case item
+            case item = "item"
         }
     }
 
@@ -4095,7 +4095,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4108,7 +4108,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4121,7 +4121,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -4160,12 +4160,12 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalContext
-            case body
-            case headers
-            case multiValueHeaders
-            case pathWithQueryString
-            case stageVariables
+            case additionalContext = "additionalContext"
+            case body = "body"
+            case headers = "headers"
+            case multiValueHeaders = "multiValueHeaders"
+            case pathWithQueryString = "pathWithQueryString"
+            case stageVariables = "stageVariables"
         }
     }
 
@@ -4196,13 +4196,13 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorization
-            case claims
-            case clientStatus
-            case latency
-            case log
-            case policy
-            case principalId
+            case authorization = "authorization"
+            case claims = "claims"
+            case clientStatus = "clientStatus"
+            case latency = "latency"
+            case log = "log"
+            case policy = "policy"
+            case principalId = "principalId"
         }
     }
 
@@ -4245,12 +4245,12 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
-            case clientCertificateId
-            case headers
-            case multiValueHeaders
-            case pathWithQueryString
-            case stageVariables
+            case body = "body"
+            case clientCertificateId = "clientCertificateId"
+            case headers = "headers"
+            case multiValueHeaders = "multiValueHeaders"
+            case pathWithQueryString = "pathWithQueryString"
+            case stageVariables = "stageVariables"
         }
     }
 
@@ -4278,12 +4278,12 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
-            case headers
-            case latency
-            case log
-            case multiValueHeaders
-            case status
+            case body = "body"
+            case headers = "headers"
+            case latency = "latency"
+            case log = "log"
+            case multiValueHeaders = "multiValueHeaders"
+            case status = "status"
         }
     }
 
@@ -4299,8 +4299,8 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case burstLimit
-            case rateLimit
+            case burstLimit = "burstLimit"
+            case rateLimit = "rateLimit"
         }
     }
 
@@ -4313,7 +4313,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case insecureSkipVerification
+            case insecureSkipVerification = "insecureSkipVerification"
         }
     }
 
@@ -4345,7 +4345,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4365,7 +4365,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4389,7 +4389,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4413,7 +4413,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4433,7 +4433,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4457,7 +4457,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4481,7 +4481,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4505,7 +4505,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4525,7 +4525,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4549,7 +4549,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4577,7 +4577,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4613,7 +4613,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4641,7 +4641,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4677,7 +4677,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4701,7 +4701,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4725,7 +4725,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4749,7 +4749,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4769,7 +4769,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4793,7 +4793,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4813,7 +4813,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4837,7 +4837,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4857,7 +4857,7 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case patchOperations
+            case patchOperations = "patchOperations"
         }
     }
 
@@ -4886,11 +4886,11 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endDate
+            case endDate = "endDate"
             case items = "values"
-            case position
-            case startDate
-            case usagePlanId
+            case position = "position"
+            case startDate = "startDate"
+            case usagePlanId = "usagePlanId"
         }
     }
 
@@ -4924,14 +4924,14 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiStages
-            case description
-            case id
-            case name
-            case productCode
-            case quota
-            case tags
-            case throttle
+            case apiStages = "apiStages"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case productCode = "productCode"
+            case quota = "quota"
+            case tags = "tags"
+            case throttle = "throttle"
         }
     }
 
@@ -4953,10 +4953,10 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case type
-            case value
+            case id = "id"
+            case name = "name"
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -4977,7 +4977,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -4998,7 +4998,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 
@@ -5029,13 +5029,13 @@ extension APIGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case name
-            case status
-            case statusMessage
-            case tags
-            case targetArns
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
+            case targetArns = "targetArns"
         }
     }
 
@@ -5056,7 +5056,7 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case items = "item"
-            case position
+            case position = "position"
         }
     }
 }

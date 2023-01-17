@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -331,7 +331,7 @@ extension WorkSpacesWeb {
 // MARK: Paginators
 
 extension WorkSpacesWeb {
-    ///  Retrieves a list of browser settings.
+    /// Retrieves a list of browser settings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -384,7 +384,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of identity providers for a specific web portal.
+    /// Retrieves a list of identity providers for a specific web portal.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -437,7 +437,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of network settings.
+    /// Retrieves a list of network settings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -490,7 +490,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list or web portals.
+    /// Retrieves a list or web portals.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -543,7 +543,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of trust store certificates.
+    /// Retrieves a list of trust store certificates.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -596,7 +596,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of trust stores.
+    /// Retrieves a list of trust stores.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -649,7 +649,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of user access logging settings.
+    /// Retrieves a list of user access logging settings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -702,7 +702,7 @@ extension WorkSpacesWeb {
         )
     }
 
-    ///  Retrieves a list of user settings.
+    /// Retrieves a list of user settings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

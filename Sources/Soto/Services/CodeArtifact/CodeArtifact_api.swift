@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -264,7 +264,7 @@ extension CodeArtifact {
 // MARK: Paginators
 
 extension CodeArtifact {
-    ///   Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
+    ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -317,7 +317,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  AssetSummary  objects for assets in a package version.
+    ///  Returns a list of  AssetSummary  objects for assets in a package version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -370,7 +370,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -423,7 +423,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
+    ///  Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -476,7 +476,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
+    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -529,7 +529,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
+    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -113,17 +113,17 @@ public struct Location: AWSService {
         return self.client.execute(operation: "CreateGeofenceCollection", path: "/geofencing/v0/collections", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you may only use HERE as your geolocation  provider. See section 82 of the AWS service terms for more details.
+    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createMap(_ input: CreateMapRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMapResponse> {
         return self.client.execute(operation: "CreateMap", path: "/maps/v0/maps", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you may only use HERE as your geolocation provider. See section 82 of the AWS service terms for more details.
+    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createPlaceIndex(_ input: CreatePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlaceIndexResponse> {
         return self.client.execute(operation: "CreatePlaceIndex", path: "/places/v0/indexes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.  If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you may only use HERE as your geolocation provider. See section 82 of the AWS service terms for more details.
+    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you must not use Esri as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createRouteCalculator(_ input: CreateRouteCalculatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRouteCalculatorResponse> {
         return self.client.execute(operation: "CreateRouteCalculator", path: "/routes/v0/calculators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
@@ -293,10 +293,7 @@ public struct Location: AWSService {
         return self.client.execute(operation: "SearchPlaceIndexForText", path: "/places/v0/indexes/{IndexName}/search/text", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource.
-    ///  Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
-    ///  You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
-    ///  You can associate up to 50 tags with a resource.
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag.  You can associate up to 50 tags with a resource.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "metadata.", logger: logger, on: eventLoop)
     }
@@ -344,7 +341,7 @@ extension Location {
 // MARK: Paginators
 
 extension Location {
-    ///  Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 30 days.
+    /// Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 30 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -397,7 +394,7 @@ extension Location {
         )
     }
 
-    ///  A batch request to retrieve all device positions.
+    /// A batch request to retrieve all device positions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -450,7 +447,7 @@ extension Location {
         )
     }
 
-    ///  Lists geofence collections in your AWS account.
+    /// Lists geofence collections in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -503,7 +500,7 @@ extension Location {
         )
     }
 
-    ///  Lists geofences stored in a given geofence collection.
+    /// Lists geofences stored in a given geofence collection.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -556,7 +553,7 @@ extension Location {
         )
     }
 
-    ///  Lists map resources in your AWS account.
+    /// Lists map resources in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -609,7 +606,7 @@ extension Location {
         )
     }
 
-    ///  Lists place index resources in your AWS account.
+    /// Lists place index resources in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -662,7 +659,7 @@ extension Location {
         )
     }
 
-    ///  Lists route calculator resources in your AWS account.
+    /// Lists route calculator resources in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -715,7 +712,7 @@ extension Location {
         )
     }
 
-    ///  Lists geofence collections currently associated to the given tracker resource.
+    /// Lists geofence collections currently associated to the given tracker resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -768,7 +765,7 @@ extension Location {
         )
     }
 
-    ///  Lists tracker resources in your AWS account.
+    /// Lists tracker resources in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

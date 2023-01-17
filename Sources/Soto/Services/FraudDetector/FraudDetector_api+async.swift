@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -390,7 +390,7 @@ extension FraudDetector {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension FraudDetector {
-    ///  Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
+    /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -412,7 +412,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults,  this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50.  To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request.  A null pagination token fetches the records from the beginning.
+    /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults,  this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50.  To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request.  A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -434,7 +434,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -456,7 +456,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -478,7 +478,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -500,7 +500,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -522,7 +522,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -544,7 +544,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -566,7 +566,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.   This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.   This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -588,7 +588,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
+    /// Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -610,7 +610,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
+    /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -632,7 +632,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
+    /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -654,9 +654,9 @@ extension FraudDetector {
         )
     }
 
-    ///  Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period.  If filter is not specified, the most recent prediction is returned.
-    ///   For example, the following filter lists all past predictions for xyz event type - {  "eventType":{ "value": "xyz" }”  }
-    ///   This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page.  If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide  the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
+    /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period.  If filter is not specified, the most recent prediction is returned.
+    ///  For example, the following filter lists all past predictions for xyz event type - {  "eventType":{ "value": "xyz" }”  }
+    ///  This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page.  If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide  the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -678,7 +678,7 @@ extension FraudDetector {
         )
     }
 
-    ///  Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
+    /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

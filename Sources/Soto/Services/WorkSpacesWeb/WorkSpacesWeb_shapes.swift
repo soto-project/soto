@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -20,6 +20,12 @@ import SotoCore
 
 extension WorkSpacesWeb {
     // MARK: Enums
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case iamIdentityCenter = "IAM_Identity_Center"
+        case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
 
     public enum BrowserType: String, CustomStringConvertible, Codable, _SotoSendable {
         case chrome = "Chrome"
@@ -96,8 +102,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettingsArn
-            case portalArn
+            case browserSettingsArn = "browserSettingsArn"
+            case portalArn = "portalArn"
         }
     }
 
@@ -141,8 +147,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettingsArn
-            case portalArn
+            case networkSettingsArn = "networkSettingsArn"
+            case portalArn = "portalArn"
         }
     }
 
@@ -186,8 +192,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case trustStoreArn
+            case portalArn = "portalArn"
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -231,8 +237,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case userAccessLoggingSettingsArn
+            case portalArn = "portalArn"
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
         }
     }
 
@@ -276,8 +282,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case userSettingsArn
+            case portalArn = "portalArn"
+            case userSettingsArn = "userSettingsArn"
         }
     }
 
@@ -296,9 +302,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedPortalArns
-            case browserPolicy
-            case browserSettingsArn
+            case associatedPortalArns = "associatedPortalArns"
+            case browserPolicy = "browserPolicy"
+            case browserSettingsArn = "browserSettingsArn"
         }
     }
 
@@ -311,7 +317,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettingsArn
+            case browserSettingsArn = "browserSettingsArn"
         }
     }
 
@@ -339,12 +345,12 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
-            case issuer
-            case notValidAfter
-            case notValidBefore
-            case subject
-            case thumbprint
+            case body = "body"
+            case issuer = "issuer"
+            case notValidAfter = "notValidAfter"
+            case notValidBefore = "notValidBefore"
+            case subject = "subject"
+            case thumbprint = "thumbprint"
         }
     }
 
@@ -369,11 +375,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case issuer
-            case notValidAfter
-            case notValidBefore
-            case subject
-            case thumbprint
+            case issuer = "issuer"
+            case notValidAfter = "notValidAfter"
+            case notValidBefore = "notValidBefore"
+            case subject = "subject"
+            case thumbprint = "thumbprint"
         }
     }
 
@@ -399,12 +405,12 @@ extension WorkSpacesWeb {
 
         public func validate(name: String) throws {
             try self.additionalEncryptionContext?.forEach {
-                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131_072)
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131072)
                 try validate($0.key, name: "additionalEncryptionContext.key", parent: name, pattern: "^[\\s\\S]*$")
-                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131_072)
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131072)
                 try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
-            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131_072)
+            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131072)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, min: 2)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "\\{[\\S\\s]*\\}\\s*")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
@@ -419,11 +425,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalEncryptionContext
-            case browserPolicy
-            case clientToken
-            case customerManagedKey
-            case tags
+            case additionalEncryptionContext = "additionalEncryptionContext"
+            case browserPolicy = "browserPolicy"
+            case clientToken = "clientToken"
+            case customerManagedKey = "customerManagedKey"
+            case tags = "tags"
         }
     }
 
@@ -436,7 +442,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettingsArn
+            case browserSettingsArn = "browserSettingsArn"
         }
     }
 
@@ -464,9 +470,9 @@ extension WorkSpacesWeb {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.identityProviderDetails.forEach {
-                try validate($0.key, name: "identityProviderDetails.key", parent: name, max: 131_072)
+                try validate($0.key, name: "identityProviderDetails.key", parent: name, max: 131072)
                 try validate($0.key, name: "identityProviderDetails.key", parent: name, pattern: "^[\\s\\S]*$")
-                try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, max: 131_072)
+                try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, max: 131072)
                 try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, max: 32)
@@ -478,11 +484,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case identityProviderDetails
-            case identityProviderName
-            case identityProviderType
-            case portalArn
+            case clientToken = "clientToken"
+            case identityProviderDetails = "identityProviderDetails"
+            case identityProviderName = "identityProviderName"
+            case identityProviderType = "identityProviderType"
+            case portalArn = "portalArn"
         }
     }
 
@@ -495,7 +501,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderArn
+            case identityProviderArn = "identityProviderArn"
         }
     }
 
@@ -546,11 +552,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcId
+            case clientToken = "clientToken"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcId = "vpcId"
         }
     }
 
@@ -563,13 +569,15 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettingsArn
+            case networkSettingsArn = "networkSettingsArn"
         }
     }
 
     public struct CreatePortalRequest: AWSEncodableShape {
         /// The additional encryption context of the portal.
         public let additionalEncryptionContext: [String: String]?
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard.  Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider.  IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        public let authenticationType: AuthenticationType?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request.  If you do not specify a client token, one is automatically generated by the AWS SDK.
         public let clientToken: String?
         /// The customer managed key of the web portal.
@@ -579,8 +587,9 @@ extension WorkSpacesWeb {
         /// The tags to add to the web portal. A tag is a key-value pair.
         public let tags: [Tag]?
 
-        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, tags: [Tag]? = nil) {
+        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, tags: [Tag]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
+            self.authenticationType = authenticationType
             self.clientToken = clientToken
             self.customerManagedKey = customerManagedKey
             self.displayName = displayName
@@ -589,9 +598,9 @@ extension WorkSpacesWeb {
 
         public func validate(name: String) throws {
             try self.additionalEncryptionContext?.forEach {
-                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131_072)
+                try validate($0.key, name: "additionalEncryptionContext.key", parent: name, max: 131072)
                 try validate($0.key, name: "additionalEncryptionContext.key", parent: name, pattern: "^[\\s\\S]*$")
-                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131_072)
+                try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131072)
                 try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
@@ -609,11 +618,12 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalEncryptionContext
-            case clientToken
-            case customerManagedKey
-            case displayName
-            case tags
+            case additionalEncryptionContext = "additionalEncryptionContext"
+            case authenticationType = "authenticationType"
+            case clientToken = "clientToken"
+            case customerManagedKey = "customerManagedKey"
+            case displayName = "displayName"
+            case tags = "tags"
         }
     }
 
@@ -629,8 +639,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case portalEndpoint
+            case portalArn = "portalArn"
+            case portalEndpoint = "portalEndpoint"
         }
     }
 
@@ -658,9 +668,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateList
-            case clientToken
-            case tags
+            case certificateList = "certificateList"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -673,7 +683,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustStoreArn
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -704,9 +714,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case kinesisStreamArn
-            case tags
+            case clientToken = "clientToken"
+            case kinesisStreamArn = "kinesisStreamArn"
+            case tags = "tags"
         }
     }
 
@@ -719,7 +729,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userAccessLoggingSettingsArn
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
         }
     }
 
@@ -769,15 +779,15 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case copyAllowed
-            case disconnectTimeoutInMinutes
-            case downloadAllowed
-            case idleDisconnectTimeoutInMinutes
-            case pasteAllowed
-            case printAllowed
-            case tags
-            case uploadAllowed
+            case clientToken = "clientToken"
+            case copyAllowed = "copyAllowed"
+            case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
+            case downloadAllowed = "downloadAllowed"
+            case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
+            case pasteAllowed = "pasteAllowed"
+            case printAllowed = "printAllowed"
+            case tags = "tags"
+            case uploadAllowed = "uploadAllowed"
         }
     }
 
@@ -790,7 +800,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userSettingsArn
+            case userSettingsArn = "userSettingsArn"
         }
     }
 
@@ -1124,7 +1134,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettings
+            case browserSettings = "browserSettings"
         }
     }
 
@@ -1158,7 +1168,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProvider
+            case identityProvider = "identityProvider"
         }
     }
 
@@ -1192,7 +1202,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettings
+            case networkSettings = "networkSettings"
         }
     }
 
@@ -1226,7 +1236,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portal
+            case portal = "portal"
         }
     }
 
@@ -1263,8 +1273,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case serviceProviderSamlMetadata
+            case portalArn = "portalArn"
+            case serviceProviderSamlMetadata = "serviceProviderSamlMetadata"
         }
     }
 
@@ -1308,8 +1318,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case trustStoreArn
+            case certificate = "certificate"
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -1343,7 +1353,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustStore
+            case trustStore = "trustStore"
         }
     }
 
@@ -1377,7 +1387,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userAccessLoggingSettings
+            case userAccessLoggingSettings = "userAccessLoggingSettings"
         }
     }
 
@@ -1411,7 +1421,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userSettings
+            case userSettings = "userSettings"
         }
     }
 
@@ -1433,10 +1443,10 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderArn
-            case identityProviderDetails
-            case identityProviderName
-            case identityProviderType
+            case identityProviderArn = "identityProviderArn"
+            case identityProviderDetails = "identityProviderDetails"
+            case identityProviderName = "identityProviderName"
+            case identityProviderType = "identityProviderType"
         }
     }
 
@@ -1455,9 +1465,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderArn
-            case identityProviderName
-            case identityProviderType
+            case identityProviderArn = "identityProviderArn"
+            case identityProviderName = "identityProviderName"
+            case identityProviderType = "identityProviderType"
         }
     }
 
@@ -1499,8 +1509,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettings
-            case nextToken
+            case browserSettings = "browserSettings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1549,8 +1559,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviders
-            case nextToken
+            case identityProviders = "identityProviders"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1592,8 +1602,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettings
-            case nextToken
+            case networkSettings = "networkSettings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1635,8 +1645,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case portals
+            case nextToken = "nextToken"
+            case portals = "portals"
         }
     }
 
@@ -1670,7 +1680,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1722,9 +1732,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateList
-            case nextToken
-            case trustStoreArn
+            case certificateList = "certificateList"
+            case nextToken = "nextToken"
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -1766,8 +1776,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case trustStores
+            case nextToken = "nextToken"
+            case trustStores = "trustStores"
         }
     }
 
@@ -1809,8 +1819,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case userAccessLoggingSettings
+            case nextToken = "nextToken"
+            case userAccessLoggingSettings = "userAccessLoggingSettings"
         }
     }
 
@@ -1852,8 +1862,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case userSettings
+            case nextToken = "nextToken"
+            case userSettings = "userSettings"
         }
     }
 
@@ -1878,11 +1888,11 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedPortalArns
-            case networkSettingsArn
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case associatedPortalArns = "associatedPortalArns"
+            case networkSettingsArn = "networkSettingsArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -1898,12 +1908,14 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettingsArn
-            case vpcId
+            case networkSettingsArn = "networkSettingsArn"
+            case vpcId = "vpcId"
         }
     }
 
     public struct Portal: AWSDecodableShape {
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard.  Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider.  IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        public let authenticationType: AuthenticationType?
         /// The ARN of the browser settings that is associated with this web portal.
         public let browserSettingsArn: String?
         /// The browser that users see when using a streaming session.
@@ -1931,7 +1943,8 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
-        public init(browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+            self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
@@ -1948,23 +1961,26 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettingsArn
-            case browserType
-            case creationDate
-            case displayName
-            case networkSettingsArn
-            case portalArn
-            case portalEndpoint
-            case portalStatus
-            case rendererType
-            case statusReason
-            case trustStoreArn
-            case userAccessLoggingSettingsArn
-            case userSettingsArn
+            case authenticationType = "authenticationType"
+            case browserSettingsArn = "browserSettingsArn"
+            case browserType = "browserType"
+            case creationDate = "creationDate"
+            case displayName = "displayName"
+            case networkSettingsArn = "networkSettingsArn"
+            case portalArn = "portalArn"
+            case portalEndpoint = "portalEndpoint"
+            case portalStatus = "portalStatus"
+            case rendererType = "rendererType"
+            case statusReason = "statusReason"
+            case trustStoreArn = "trustStoreArn"
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
+            case userSettingsArn = "userSettingsArn"
         }
     }
 
     public struct PortalSummary: AWSDecodableShape {
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard.  Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider.  IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        public let authenticationType: AuthenticationType?
         /// The ARN of the browser settings that is associated with the web portal.
         public let browserSettingsArn: String?
         /// The browser type of the web portal.
@@ -1990,7 +2006,8 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings that is associated with the web portal.
         public let userSettingsArn: String?
 
-        public init(browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, displayName: String? = nil, networkSettingsArn: String? = nil, portalArn: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+            self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
@@ -2006,18 +2023,19 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettingsArn
-            case browserType
-            case creationDate
-            case displayName
-            case networkSettingsArn
-            case portalArn
-            case portalEndpoint
-            case portalStatus
-            case rendererType
-            case trustStoreArn
-            case userAccessLoggingSettingsArn
-            case userSettingsArn
+            case authenticationType = "authenticationType"
+            case browserSettingsArn = "browserSettingsArn"
+            case browserType = "browserType"
+            case creationDate = "creationDate"
+            case displayName = "displayName"
+            case networkSettingsArn = "networkSettingsArn"
+            case portalArn = "portalArn"
+            case portalEndpoint = "portalEndpoint"
+            case portalStatus = "portalStatus"
+            case rendererType = "rendererType"
+            case trustStoreArn = "trustStoreArn"
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
+            case userSettingsArn = "userSettingsArn"
         }
     }
 
@@ -2077,8 +2095,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case tags
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -2098,8 +2116,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedPortalArns
-            case trustStoreArn
+            case associatedPortalArns = "associatedPortalArns"
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -2112,7 +2130,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustStoreArn
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -2170,7 +2188,7 @@ extension WorkSpacesWeb {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131_072)
+            try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, max: 131072)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, min: 2)
             try self.validate(self.browserPolicy, name: "browserPolicy", parent: name, pattern: "\\{[\\S\\s]*\\}\\s*")
             try self.validate(self.browserSettingsArn, name: "browserSettingsArn", parent: name, max: 2048)
@@ -2181,8 +2199,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserPolicy
-            case clientToken
+            case browserPolicy = "browserPolicy"
+            case clientToken = "clientToken"
         }
     }
 
@@ -2195,7 +2213,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case browserSettings
+            case browserSettings = "browserSettings"
         }
     }
 
@@ -2230,9 +2248,9 @@ extension WorkSpacesWeb {
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, min: 20)
             try self.validate(self.identityProviderArn, name: "identityProviderArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
             try self.identityProviderDetails?.forEach {
-                try validate($0.key, name: "identityProviderDetails.key", parent: name, max: 131_072)
+                try validate($0.key, name: "identityProviderDetails.key", parent: name, max: 131072)
                 try validate($0.key, name: "identityProviderDetails.key", parent: name, pattern: "^[\\s\\S]*$")
-                try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, max: 131_072)
+                try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, max: 131072)
                 try validate($0.value, name: "identityProviderDetails[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.identityProviderName, name: "identityProviderName", parent: name, max: 32)
@@ -2241,10 +2259,10 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case identityProviderDetails
-            case identityProviderName
-            case identityProviderType
+            case clientToken = "clientToken"
+            case identityProviderDetails = "identityProviderDetails"
+            case identityProviderName = "identityProviderName"
+            case identityProviderType = "identityProviderType"
         }
     }
 
@@ -2257,7 +2275,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProvider
+            case identityProvider = "identityProvider"
         }
     }
 
@@ -2311,10 +2329,10 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case clientToken = "clientToken"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -2327,7 +2345,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSettings
+            case networkSettings = "networkSettings"
         }
     }
 
@@ -2336,12 +2354,15 @@ extension WorkSpacesWeb {
             AWSMemberEncoding(label: "portalArn", location: .uri("portalArn"))
         ]
 
+        /// The type of authentication integration points used when signing into the web portal. Defaults to Standard.  Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider.  IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
+        public let authenticationType: AuthenticationType?
         /// The name of the web portal. This is not visible to users who log into the web portal.
         public let displayName: String?
         /// The ARN of the web portal.
         public let portalArn: String
 
-        public init(displayName: String? = nil, portalArn: String) {
+        public init(authenticationType: AuthenticationType? = nil, displayName: String? = nil, portalArn: String) {
+            self.authenticationType = authenticationType
             self.displayName = displayName
             self.portalArn = portalArn
         }
@@ -2356,7 +2377,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
+            case authenticationType = "authenticationType"
+            case displayName = "displayName"
         }
     }
 
@@ -2369,7 +2391,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portal
+            case portal = "portal"
         }
     }
 
@@ -2408,9 +2430,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificatesToAdd
-            case certificatesToDelete
-            case clientToken
+            case certificatesToAdd = "certificatesToAdd"
+            case certificatesToDelete = "certificatesToDelete"
+            case clientToken = "clientToken"
         }
     }
 
@@ -2423,7 +2445,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustStoreArn
+            case trustStoreArn = "trustStoreArn"
         }
     }
 
@@ -2457,8 +2479,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case kinesisStreamArn
+            case clientToken = "clientToken"
+            case kinesisStreamArn = "kinesisStreamArn"
         }
     }
 
@@ -2471,7 +2493,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userAccessLoggingSettings
+            case userAccessLoggingSettings = "userAccessLoggingSettings"
         }
     }
 
@@ -2524,14 +2546,14 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case copyAllowed
-            case disconnectTimeoutInMinutes
-            case downloadAllowed
-            case idleDisconnectTimeoutInMinutes
-            case pasteAllowed
-            case printAllowed
-            case uploadAllowed
+            case clientToken = "clientToken"
+            case copyAllowed = "copyAllowed"
+            case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
+            case downloadAllowed = "downloadAllowed"
+            case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
+            case pasteAllowed = "pasteAllowed"
+            case printAllowed = "printAllowed"
+            case uploadAllowed = "uploadAllowed"
         }
     }
 
@@ -2544,7 +2566,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userSettings
+            case userSettings = "userSettings"
         }
     }
 
@@ -2563,9 +2585,9 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedPortalArns
-            case kinesisStreamArn
-            case userAccessLoggingSettingsArn
+            case associatedPortalArns = "associatedPortalArns"
+            case kinesisStreamArn = "kinesisStreamArn"
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
         }
     }
 
@@ -2581,8 +2603,8 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kinesisStreamArn
-            case userAccessLoggingSettingsArn
+            case kinesisStreamArn = "kinesisStreamArn"
+            case userAccessLoggingSettingsArn = "userAccessLoggingSettingsArn"
         }
     }
 
@@ -2619,15 +2641,15 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedPortalArns
-            case copyAllowed
-            case disconnectTimeoutInMinutes
-            case downloadAllowed
-            case idleDisconnectTimeoutInMinutes
-            case pasteAllowed
-            case printAllowed
-            case uploadAllowed
-            case userSettingsArn
+            case associatedPortalArns = "associatedPortalArns"
+            case copyAllowed = "copyAllowed"
+            case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
+            case downloadAllowed = "downloadAllowed"
+            case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
+            case pasteAllowed = "pasteAllowed"
+            case printAllowed = "printAllowed"
+            case uploadAllowed = "uploadAllowed"
+            case userSettingsArn = "userSettingsArn"
         }
     }
 
@@ -2661,14 +2683,14 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case copyAllowed
-            case disconnectTimeoutInMinutes
-            case downloadAllowed
-            case idleDisconnectTimeoutInMinutes
-            case pasteAllowed
-            case printAllowed
-            case uploadAllowed
-            case userSettingsArn
+            case copyAllowed = "copyAllowed"
+            case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
+            case downloadAllowed = "downloadAllowed"
+            case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
+            case pasteAllowed = "pasteAllowed"
+            case printAllowed = "printAllowed"
+            case uploadAllowed = "uploadAllowed"
+            case userSettingsArn = "userSettingsArn"
         }
     }
 }

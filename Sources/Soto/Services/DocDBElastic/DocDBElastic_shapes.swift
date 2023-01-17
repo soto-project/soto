@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -87,19 +87,19 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUserName
-            case authType
-            case clusterArn
-            case clusterEndpoint
-            case clusterName
-            case createTime
-            case kmsKeyId
-            case preferredMaintenanceWindow
-            case shardCapacity
-            case shardCount
-            case status
-            case subnetIds
-            case vpcSecurityGroupIds
+            case adminUserName = "adminUserName"
+            case authType = "authType"
+            case clusterArn = "clusterArn"
+            case clusterEndpoint = "clusterEndpoint"
+            case clusterName = "clusterName"
+            case createTime = "createTime"
+            case kmsKeyId = "kmsKeyId"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case shardCapacity = "shardCapacity"
+            case shardCount = "shardCount"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -118,9 +118,9 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterName
-            case status
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case status = "status"
         }
     }
 
@@ -160,16 +160,16 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUserName
-            case clusterArn
-            case clusterCreationTime
-            case kmsKeyId
-            case snapshotArn
-            case snapshotCreationTime
-            case snapshotName
-            case status
-            case subnetIds
-            case vpcSecurityGroupIds
+            case adminUserName = "adminUserName"
+            case clusterArn = "clusterArn"
+            case clusterCreationTime = "clusterCreationTime"
+            case kmsKeyId = "kmsKeyId"
+            case snapshotArn = "snapshotArn"
+            case snapshotCreationTime = "snapshotCreationTime"
+            case snapshotName = "snapshotName"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -194,11 +194,11 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case snapshotArn
-            case snapshotCreationTime
-            case snapshotName
-            case status
+            case clusterArn = "clusterArn"
+            case snapshotArn = "snapshotArn"
+            case snapshotCreationTime = "snapshotCreationTime"
+            case snapshotName = "snapshotName"
+            case status = "status"
         }
     }
 
@@ -253,18 +253,18 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUserName
-            case adminUserPassword
-            case authType
-            case clientToken
-            case clusterName
-            case kmsKeyId
-            case preferredMaintenanceWindow
-            case shardCapacity
-            case shardCount
-            case subnetIds
-            case tags
-            case vpcSecurityGroupIds
+            case adminUserName = "adminUserName"
+            case adminUserPassword = "adminUserPassword"
+            case authType = "authType"
+            case clientToken = "clientToken"
+            case clusterName = "clusterName"
+            case kmsKeyId = "kmsKeyId"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case shardCapacity = "shardCapacity"
+            case shardCount = "shardCount"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -277,7 +277,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -305,9 +305,9 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case snapshotName
-            case tags
+            case clusterArn = "clusterArn"
+            case snapshotName = "snapshotName"
+            case tags = "tags"
         }
     }
 
@@ -320,7 +320,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -348,7 +348,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -376,7 +376,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -404,7 +404,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -432,7 +432,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -471,8 +471,8 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case snapshots
+            case nextToken = "nextToken"
+            case snapshots = "snapshots"
         }
     }
 
@@ -507,8 +507,8 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case nextToken
+            case clusters = "clusters"
+            case nextToken = "nextToken"
         }
     }
 
@@ -541,7 +541,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -582,11 +582,11 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName
-            case kmsKeyId
-            case subnetIds
-            case tags
-            case vpcSecurityGroupIds
+            case clusterName = "clusterName"
+            case kmsKeyId = "kmsKeyId"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -599,7 +599,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -630,7 +630,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -709,14 +709,14 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUserPassword
-            case authType
-            case clientToken
-            case preferredMaintenanceWindow
-            case shardCapacity
-            case shardCount
-            case subnetIds
-            case vpcSecurityGroupIds
+            case adminUserPassword = "adminUserPassword"
+            case authType = "authType"
+            case clientToken = "clientToken"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case shardCapacity = "shardCapacity"
+            case shardCount = "shardCount"
+            case subnetIds = "subnetIds"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -729,7 +729,7 @@ extension DocDBElastic {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 }

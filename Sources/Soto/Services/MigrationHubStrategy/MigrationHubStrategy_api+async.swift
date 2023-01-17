@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -133,7 +133,7 @@ extension MigrationHubStrategy {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MigrationHubStrategy {
-    ///   Retrieves detailed information about a specified server.
+    ///  Retrieves detailed information about a specified server.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the application components (processes).
+    ///  Retrieves a list of all the application components (processes).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +177,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the installed collectors.
+    ///  Retrieves a list of all the installed collectors.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -199,7 +199,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the imports performed.
+    ///  Retrieves a list of all the imports performed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +221,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Returns a list of all the servers.
+    ///  Returns a list of all the servers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

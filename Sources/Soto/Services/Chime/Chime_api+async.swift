@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1106,7 +1106,7 @@ extension Chime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Chime {
-    ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
+    /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1128,7 +1128,7 @@ extension Chime {
         )
     }
 
-    ///  Returns a list of the administrators in the AppInstance.
+    /// Returns a list of the administrators in the AppInstance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1150,7 +1150,7 @@ extension Chime {
         )
     }
 
-    ///  List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1172,7 +1172,7 @@ extension Chime {
         )
     }
 
-    ///  Lists all Amazon Chime AppInstances created under a single AWS account.
+    /// Lists all Amazon Chime AppInstances created under a single AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1194,9 +1194,9 @@ extension Chime {
         )
     }
 
-    ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
-    ///  Using the Amazon Chime SDK
-    ///  in the Amazon Chime Developer Guide.
+    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
+    /// Using the Amazon Chime SDK
+    /// in the Amazon Chime Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1218,7 +1218,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
+    /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1240,9 +1240,9 @@ extension Chime {
         )
     }
 
-    ///  Lists all the users banned from a particular channel.
+    /// Lists all the users banned from a particular channel.
     ///
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1264,9 +1264,9 @@ extension Chime {
         )
     }
 
-    ///  Lists all channel memberships in a channel.
+    /// Lists all channel memberships in a channel.
     ///
-    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1288,8 +1288,8 @@ extension Chime {
         )
     }
 
-    ///   Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.
-    ///    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.
+    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1311,7 +1311,7 @@ extension Chime {
         )
     }
 
-    ///  List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1333,7 +1333,7 @@ extension Chime {
         )
     }
 
-    ///  Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1355,9 +1355,9 @@ extension Chime {
         )
     }
 
-    ///  Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.
-    ///    Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
-    ///    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.
+    ///   Functionality & restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.
+    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1379,8 +1379,8 @@ extension Chime {
         )
     }
 
-    ///  A list of the channels moderated by an AppInstanceUser.
-    ///    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// A list of the channels moderated by an AppInstanceUser.
+    ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1402,7 +1402,7 @@ extension Chime {
         )
     }
 
-    ///  Returns a list of media capture pipelines.
+    /// Returns a list of media capture pipelines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1424,9 +1424,9 @@ extension Chime {
         )
     }
 
-    ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see
-    ///  Using the Amazon Chime SDK
-    ///  in the Amazon Chime Developer Guide.
+    /// Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see
+    /// Using the Amazon Chime SDK
+    /// in the Amazon Chime Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1448,7 +1448,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the phone number orders for the administrator's Amazon Chime account.
+    /// Lists the phone number orders for the administrator's Amazon Chime account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1470,7 +1470,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
+    /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1492,7 +1492,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime Voice Connector.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1514,7 +1514,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
+    /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1536,7 +1536,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
+    /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1558,7 +1558,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the SIP media applications under the administrator's AWS account.
+    /// Lists the SIP media applications under the administrator's AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1580,7 +1580,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the SIP rules under the administrator's AWS account.
+    /// Lists the SIP rules under the administrator's AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1602,7 +1602,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
+    /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1624,7 +1624,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1646,7 +1646,7 @@ extension Chime {
         )
     }
 
-    ///  Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
+    /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1668,7 +1668,7 @@ extension Chime {
         )
     }
 
-    ///  Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
+    /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

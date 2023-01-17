@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -41,15 +41,15 @@ extension Scheduler {
     }
 
     public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case distinctInstance
-        case memberOf
+        case distinctInstance = "distinctInstance"
+        case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
     public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case binpack
-        case random
-        case spread
+        case binpack = "binpack"
+        case random = "random"
+        case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
@@ -123,7 +123,7 @@ extension Scheduler {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.base, name: "base", parent: name, max: 100_000)
+            try self.validate(self.base, name: "base", parent: name, max: 100000)
             try self.validate(self.base, name: "base", parent: name, min: 0)
             try self.validate(self.capacityProvider, name: "capacityProvider", parent: name, max: 255)
             try self.validate(self.capacityProvider, name: "capacityProvider", parent: name, min: 1)
@@ -132,9 +132,9 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case capacityProvider
-            case weight
+            case base = "base"
+            case capacityProvider = "capacityProvider"
+            case weight = "weight"
         }
     }
 
@@ -839,7 +839,7 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsvpcConfiguration
+            case awsvpcConfiguration = "awsvpcConfiguration"
         }
     }
 
@@ -859,8 +859,8 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case type
+            case expression = "expression"
+            case type = "type"
         }
     }
 
@@ -880,8 +880,8 @@ extension Scheduler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case type
+            case field = "field"
+            case type = "type"
         }
     }
 

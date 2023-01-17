@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,7 +23,7 @@ extension CodeGuruProfiler {
 
     public enum ActionGroup: String, CustomStringConvertible, Codable, _SotoSendable {
         /// Permission group type for Agent APIs - ConfigureAgent, PostAgentProfile
-        case agentPermissions
+        case agentPermissions = "agentPermissions"
         public var description: String { return self.rawValue }
     }
 
@@ -138,7 +138,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
+            case channels = "channels"
         }
     }
 
@@ -151,7 +151,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
@@ -170,9 +170,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentParameters
-            case periodInSeconds
-            case shouldProfile
+            case agentParameters = "agentParameters"
+            case periodInSeconds = "periodInSeconds"
+            case shouldProfile = "shouldProfile"
         }
     }
 
@@ -185,7 +185,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingEnabled
+            case profilingEnabled = "profilingEnabled"
         }
     }
 
@@ -202,8 +202,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case period
-            case start
+            case period = "period"
+            case start = "start"
         }
     }
 
@@ -222,9 +222,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
-            case metric
-            case reason
+            case instances = "instances"
+            case metric = "metric"
+            case reason = "reason"
         }
     }
 
@@ -248,10 +248,10 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case id
-            case startTime
-            case userFeedback
+            case endTime = "endTime"
+            case id = "id"
+            case startTime = "startTime"
+            case userFeedback = "userFeedback"
         }
     }
 
@@ -297,7 +297,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameMetrics
+            case frameMetrics = "frameMetrics"
         }
     }
 
@@ -327,12 +327,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case endTimes
-            case frameMetricData
-            case resolution
-            case startTime
-            case unprocessedEndTimes
+            case endTime = "endTime"
+            case endTimes = "endTimes"
+            case frameMetricData = "frameMetricData"
+            case resolution = "resolution"
+            case startTime = "startTime"
+            case unprocessedEndTimes = "unprocessedEndTimes"
         }
     }
 
@@ -357,9 +357,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventPublishers
-            case id
-            case uri
+            case eventPublishers = "eventPublishers"
+            case id = "id"
+            case uri = "uri"
         }
     }
 
@@ -390,15 +390,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetInstanceId
-            case metadata
+            case fleetInstanceId = "fleetInstanceId"
+            case metadata = "metadata"
         }
     }
 
     public struct ConfigureAgentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "configuration"
-
         ///  An  AgentConfiguration  object that specifies if an agent profiles or not and for how long to return profiling data.
         public let configuration: AgentConfiguration
 
@@ -407,7 +406,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -445,17 +444,16 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
-            case computePlatform
-            case profilingGroupName
-            case tags
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
+            case computePlatform = "computePlatform"
+            case profilingGroupName = "profilingGroupName"
+            case tags = "tags"
         }
     }
 
     public struct CreateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "profilingGroup"
-
         ///  The returned  ProfilingGroupDescription object that contains information about the created profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -464,7 +462,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
@@ -517,7 +515,6 @@ extension CodeGuruProfiler {
     public struct DescribeProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "profilingGroup"
-
         ///  The returned  ProfilingGroupDescription  object that contains information about the requested profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -526,7 +523,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
@@ -553,11 +550,11 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case profileEndTime
-            case profileStartTime
-            case profilingGroupName
-            case totalNumberOfFindings
+            case id = "id"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case totalNumberOfFindings = "totalNumberOfFindings"
         }
     }
 
@@ -576,9 +573,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameName
-            case threadStates
-            case type
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case type = "type"
         }
     }
 
@@ -593,8 +590,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameMetric
-            case values
+            case frameMetric = "frameMetric"
+            case values = "values"
         }
     }
 
@@ -641,8 +638,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportSummaries
+            case nextToken = "nextToken"
+            case reportSummaries = "reportSummaries"
         }
     }
 
@@ -676,7 +673,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
@@ -713,8 +710,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
@@ -790,7 +787,7 @@ extension CodeGuruProfiler {
         private enum CodingKeys: String, CodingKey {
             case contentEncoding = "Content-Encoding"
             case contentType = "Content-Type"
-            case profile
+            case profile = "profile"
         }
     }
 
@@ -852,11 +849,11 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case anomalies
-            case profileEndTime
-            case profileStartTime
-            case profilingGroupName
-            case recommendations
+            case anomalies = "anomalies"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case recommendations = "recommendations"
         }
     }
 
@@ -920,8 +917,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingsReportSummaries
-            case nextToken
+            case findingsReportSummaries = "findingsReportSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -989,8 +986,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profileTimes
+            case nextToken = "nextToken"
+            case profileTimes = "profileTimes"
         }
     }
 
@@ -1040,9 +1037,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profilingGroupNames
-            case profilingGroups
+            case nextToken = "nextToken"
+            case profilingGroupNames = "profilingGroupNames"
+            case profilingGroups = "profilingGroups"
         }
     }
 
@@ -1070,7 +1067,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1089,9 +1086,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameAddress
-            case targetFramesIndex
-            case thresholdBreachValue
+            case frameAddress = "frameAddress"
+            case targetFramesIndex = "targetFramesIndex"
+            case thresholdBreachValue = "thresholdBreachValue"
         }
     }
 
@@ -1110,9 +1107,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameName
-            case threadStates
-            case type
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case type = "type"
         }
     }
 
@@ -1125,7 +1122,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
+            case channels = "channels"
         }
     }
 
@@ -1156,13 +1153,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countersToAggregate
-            case description
-            case id
-            case name
-            case resolutionSteps
-            case targetFrames
-            case thresholdPercent
+            case countersToAggregate = "countersToAggregate"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case resolutionSteps = "resolutionSteps"
+            case targetFrames = "targetFrames"
+            case thresholdPercent = "thresholdPercent"
         }
     }
 
@@ -1218,7 +1215,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case start
+            case start = "start"
         }
     }
 
@@ -1254,14 +1251,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
-            case arn
-            case computePlatform
-            case createdAt
-            case name
-            case profilingStatus
-            case tags
-            case updatedAt
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
+            case arn = "arn"
+            case computePlatform = "computePlatform"
+            case createdAt = "createdAt"
+            case name = "name"
+            case profilingStatus = "profilingStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1282,9 +1279,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestAgentOrchestratedAt
-            case latestAgentProfileReportedAt
-            case latestAggregatedProfile
+            case latestAgentOrchestratedAt = "latestAgentOrchestratedAt"
+            case latestAgentProfileReportedAt = "latestAgentProfileReportedAt"
+            case latestAggregatedProfile = "latestAggregatedProfile"
         }
     }
 
@@ -1320,8 +1317,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case principals
-            case revisionId
+            case principals = "principals"
+            case revisionId = "revisionId"
         }
     }
 
@@ -1337,8 +1334,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
@@ -1368,12 +1365,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allMatchesCount
-            case allMatchesSum
-            case endTime
-            case pattern
-            case startTime
-            case topMatches
+            case allMatchesCount = "allMatchesCount"
+            case allMatchesSum = "allMatchesSum"
+            case endTime = "endTime"
+            case pattern = "pattern"
+            case startTime = "startTime"
+            case topMatches = "topMatches"
         }
     }
 
@@ -1412,7 +1409,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
@@ -1458,8 +1455,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
@@ -1493,8 +1490,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case type
+            case comment = "comment"
+            case type = "type"
         }
     }
 
@@ -1518,7 +1515,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1536,7 +1533,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -1585,14 +1582,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
         }
     }
 
     public struct UpdateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "profilingGroup"
-
         ///  A  ProfilingGroupDescription  that contains information about the returned updated profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -1601,7 +1597,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
@@ -1614,7 +1610,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 }

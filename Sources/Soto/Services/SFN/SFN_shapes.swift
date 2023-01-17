@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -142,8 +142,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -162,9 +162,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
-            case name
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
+            case name = "name"
         }
     }
 
@@ -180,8 +180,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -206,11 +206,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heartbeatInSeconds
-            case input
-            case inputDetails
-            case resource
-            case timeoutInSeconds
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case resource = "resource"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -223,7 +223,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerName
+            case workerName = "workerName"
         }
     }
 
@@ -239,8 +239,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -256,8 +256,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -273,8 +273,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billedDurationInMilliseconds
-            case billedMemoryUsedInMB
+            case billedDurationInMilliseconds = "billedDurationInMilliseconds"
+            case billedMemoryUsedInMB = "billedMemoryUsedInMB"
         }
     }
 
@@ -287,7 +287,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case included
+            case included = "included"
         }
     }
 
@@ -305,7 +305,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupArn
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -329,8 +329,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case tags
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -346,8 +346,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
         }
     }
 
@@ -378,7 +378,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
+            try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 80)
@@ -391,13 +391,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case loggingConfiguration
-            case name
-            case roleArn
-            case tags
-            case tracingConfiguration
-            case type
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case tracingConfiguration = "tracingConfiguration"
+            case type = "type"
         }
     }
 
@@ -413,8 +413,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case stateMachineArn
+            case creationDate = "creationDate"
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
@@ -432,7 +432,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
+            case activityArn = "activityArn"
         }
     }
 
@@ -454,7 +454,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateMachineArn
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
@@ -476,7 +476,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
+            case activityArn = "activityArn"
         }
     }
 
@@ -495,9 +495,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
-            case name
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
+            case name = "name"
         }
     }
 
@@ -515,7 +515,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
+            case executionArn = "executionArn"
         }
     }
 
@@ -565,20 +565,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case executionArn
-            case input
-            case inputDetails
-            case mapRunArn
-            case name
-            case output
-            case outputDetails
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
-            case traceHeader
+            case cause = "cause"
+            case error = "error"
+            case executionArn = "executionArn"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case mapRunArn = "mapRunArn"
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
+            case traceHeader = "traceHeader"
         }
     }
 
@@ -596,7 +596,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapRunArn
+            case mapRunArn = "mapRunArn"
         }
     }
 
@@ -636,16 +636,16 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case executionCounts
-            case itemCounts
-            case mapRunArn
-            case maxConcurrency
-            case startDate
-            case status
-            case stopDate
-            case toleratedFailureCount
-            case toleratedFailurePercentage
+            case executionArn = "executionArn"
+            case executionCounts = "executionCounts"
+            case itemCounts = "itemCounts"
+            case mapRunArn = "mapRunArn"
+            case maxConcurrency = "maxConcurrency"
+            case startDate = "startDate"
+            case status = "status"
+            case stopDate = "stopDate"
+            case toleratedFailureCount = "toleratedFailureCount"
+            case toleratedFailurePercentage = "toleratedFailurePercentage"
         }
     }
 
@@ -663,7 +663,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
+            case executionArn = "executionArn"
         }
     }
 
@@ -699,15 +699,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case label
-            case loggingConfiguration
-            case mapRunArn
-            case name
-            case roleArn
-            case stateMachineArn
-            case tracingConfiguration
-            case updateDate
+            case definition = "definition"
+            case label = "label"
+            case loggingConfiguration = "loggingConfiguration"
+            case mapRunArn = "mapRunArn"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case tracingConfiguration = "tracingConfiguration"
+            case updateDate = "updateDate"
         }
     }
 
@@ -725,7 +725,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateMachineArn
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
@@ -764,16 +764,16 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case definition
-            case label
-            case loggingConfiguration
-            case name
-            case roleArn
-            case stateMachineArn
-            case status
-            case tracingConfiguration
-            case type
+            case creationDate = "creationDate"
+            case definition = "definition"
+            case label = "label"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case tracingConfiguration = "tracingConfiguration"
+            case type = "type"
         }
     }
 
@@ -789,8 +789,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -806,8 +806,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -841,14 +841,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case itemCount
-            case mapRunArn
-            case name
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
+            case executionArn = "executionArn"
+            case itemCount = "itemCount"
+            case mapRunArn = "mapRunArn"
+            case name = "name"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
         }
     }
 
@@ -867,9 +867,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case roleArn
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case roleArn = "roleArn"
         }
     }
 
@@ -885,8 +885,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -902,8 +902,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -926,8 +926,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case workerName
+            case activityArn = "activityArn"
+            case workerName = "workerName"
         }
     }
 
@@ -943,8 +943,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case taskToken
+            case input = "input"
+            case taskToken = "taskToken"
         }
     }
 
@@ -978,11 +978,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case includeExecutionData
-            case maxResults
-            case nextToken
-            case reverseOrder
+            case executionArn = "executionArn"
+            case includeExecutionData = "includeExecutionData"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reverseOrder = "reverseOrder"
         }
     }
 
@@ -998,8 +998,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1107,44 +1107,44 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityFailedEventDetails
-            case activityScheduledEventDetails
-            case activityScheduleFailedEventDetails
-            case activityStartedEventDetails
-            case activitySucceededEventDetails
-            case activityTimedOutEventDetails
-            case executionAbortedEventDetails
-            case executionFailedEventDetails
-            case executionStartedEventDetails
-            case executionSucceededEventDetails
-            case executionTimedOutEventDetails
-            case id
-            case lambdaFunctionFailedEventDetails
-            case lambdaFunctionScheduledEventDetails
-            case lambdaFunctionScheduleFailedEventDetails
-            case lambdaFunctionStartFailedEventDetails
-            case lambdaFunctionSucceededEventDetails
-            case lambdaFunctionTimedOutEventDetails
-            case mapIterationAbortedEventDetails
-            case mapIterationFailedEventDetails
-            case mapIterationStartedEventDetails
-            case mapIterationSucceededEventDetails
-            case mapRunFailedEventDetails
-            case mapRunStartedEventDetails
-            case mapStateStartedEventDetails
-            case previousEventId
-            case stateEnteredEventDetails
-            case stateExitedEventDetails
-            case taskFailedEventDetails
-            case taskScheduledEventDetails
-            case taskStartedEventDetails
-            case taskStartFailedEventDetails
-            case taskSubmitFailedEventDetails
-            case taskSubmittedEventDetails
-            case taskSucceededEventDetails
-            case taskTimedOutEventDetails
-            case timestamp
-            case type
+            case activityFailedEventDetails = "activityFailedEventDetails"
+            case activityScheduledEventDetails = "activityScheduledEventDetails"
+            case activityScheduleFailedEventDetails = "activityScheduleFailedEventDetails"
+            case activityStartedEventDetails = "activityStartedEventDetails"
+            case activitySucceededEventDetails = "activitySucceededEventDetails"
+            case activityTimedOutEventDetails = "activityTimedOutEventDetails"
+            case executionAbortedEventDetails = "executionAbortedEventDetails"
+            case executionFailedEventDetails = "executionFailedEventDetails"
+            case executionStartedEventDetails = "executionStartedEventDetails"
+            case executionSucceededEventDetails = "executionSucceededEventDetails"
+            case executionTimedOutEventDetails = "executionTimedOutEventDetails"
+            case id = "id"
+            case lambdaFunctionFailedEventDetails = "lambdaFunctionFailedEventDetails"
+            case lambdaFunctionScheduledEventDetails = "lambdaFunctionScheduledEventDetails"
+            case lambdaFunctionScheduleFailedEventDetails = "lambdaFunctionScheduleFailedEventDetails"
+            case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
+            case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
+            case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
+            case mapIterationAbortedEventDetails = "mapIterationAbortedEventDetails"
+            case mapIterationFailedEventDetails = "mapIterationFailedEventDetails"
+            case mapIterationStartedEventDetails = "mapIterationStartedEventDetails"
+            case mapIterationSucceededEventDetails = "mapIterationSucceededEventDetails"
+            case mapRunFailedEventDetails = "mapRunFailedEventDetails"
+            case mapRunStartedEventDetails = "mapRunStartedEventDetails"
+            case mapStateStartedEventDetails = "mapStateStartedEventDetails"
+            case previousEventId = "previousEventId"
+            case stateEnteredEventDetails = "stateEnteredEventDetails"
+            case stateExitedEventDetails = "stateExitedEventDetails"
+            case taskFailedEventDetails = "taskFailedEventDetails"
+            case taskScheduledEventDetails = "taskScheduledEventDetails"
+            case taskStartedEventDetails = "taskStartedEventDetails"
+            case taskStartFailedEventDetails = "taskStartFailedEventDetails"
+            case taskSubmitFailedEventDetails = "taskSubmitFailedEventDetails"
+            case taskSubmittedEventDetails = "taskSubmittedEventDetails"
+            case taskSucceededEventDetails = "taskSucceededEventDetails"
+            case taskTimedOutEventDetails = "taskTimedOutEventDetails"
+            case timestamp = "timestamp"
+            case type = "type"
         }
     }
 
@@ -1157,7 +1157,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truncated
+            case truncated = "truncated"
         }
     }
 
@@ -1173,8 +1173,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -1190,8 +1190,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -1216,11 +1216,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case resource
-            case taskCredentials
-            case timeoutInSeconds
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case resource = "resource"
+            case taskCredentials = "taskCredentials"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -1236,8 +1236,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -1253,8 +1253,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -1270,8 +1270,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -1294,8 +1294,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1311,8 +1311,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activities
-            case nextToken
+            case activities = "activities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1348,11 +1348,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapRunArn
-            case maxResults
-            case nextToken
-            case stateMachineArn
-            case statusFilter
+            case mapRunArn = "mapRunArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case stateMachineArn = "stateMachineArn"
+            case statusFilter = "statusFilter"
         }
     }
 
@@ -1368,8 +1368,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executions
-            case nextToken
+            case executions = "executions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1397,9 +1397,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case maxResults
-            case nextToken
+            case executionArn = "executionArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1415,8 +1415,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapRuns
-            case nextToken
+            case mapRuns = "mapRuns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1439,8 +1439,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1455,8 +1455,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case stateMachines
+            case nextToken = "nextToken"
+            case stateMachines = "stateMachines"
         }
     }
 
@@ -1474,7 +1474,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1487,7 +1487,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1504,7 +1504,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsLogGroup
+            case cloudWatchLogsLogGroup = "cloudWatchLogsLogGroup"
         }
     }
 
@@ -1529,9 +1529,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case includeExecutionData
-            case level
+            case destinations = "destinations"
+            case includeExecutionData = "includeExecutionData"
+            case level = "level"
         }
     }
 
@@ -1547,8 +1547,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case name
+            case index = "index"
+            case name = "name"
         }
     }
 
@@ -1582,14 +1582,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aborted
-            case failed
-            case pending
-            case resultsWritten
-            case running
-            case succeeded
-            case timedOut
-            case total
+            case aborted = "aborted"
+            case failed = "failed"
+            case pending = "pending"
+            case resultsWritten = "resultsWritten"
+            case running = "running"
+            case succeeded = "succeeded"
+            case timedOut = "timedOut"
+            case total = "total"
         }
     }
 
@@ -1605,8 +1605,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
@@ -1640,14 +1640,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aborted
-            case failed
-            case pending
-            case resultsWritten
-            case running
-            case succeeded
-            case timedOut
-            case total
+            case aborted = "aborted"
+            case failed = "failed"
+            case pending = "pending"
+            case resultsWritten = "resultsWritten"
+            case running = "running"
+            case succeeded = "succeeded"
+            case timedOut = "timedOut"
+            case total = "total"
         }
     }
 
@@ -1672,11 +1672,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case mapRunArn
-            case startDate
-            case stateMachineArn
-            case stopDate
+            case executionArn = "executionArn"
+            case mapRunArn = "mapRunArn"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case stopDate = "stopDate"
         }
     }
 
@@ -1689,7 +1689,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapRunArn
+            case mapRunArn = "mapRunArn"
         }
     }
 
@@ -1702,7 +1702,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case length
+            case length = "length"
         }
     }
 
@@ -1728,9 +1728,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case taskToken
+            case cause = "cause"
+            case error = "error"
+            case taskToken = "taskToken"
         }
     }
 
@@ -1752,7 +1752,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskToken
+            case taskToken = "taskToken"
         }
     }
 
@@ -1772,14 +1772,14 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.output, name: "output", parent: name, max: 262_144)
+            try self.validate(self.output, name: "output", parent: name, max: 262144)
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case taskToken
+            case output = "output"
+            case taskToken = "taskToken"
         }
     }
 
@@ -1805,7 +1805,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.input, name: "input", parent: name, max: 262_144)
+            try self.validate(self.input, name: "input", parent: name, max: 262144)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
@@ -1815,10 +1815,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case name
-            case stateMachineArn
-            case traceHeader
+            case input = "input"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case traceHeader = "traceHeader"
         }
     }
 
@@ -1834,8 +1834,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case startDate
+            case executionArn = "executionArn"
+            case startDate = "startDate"
         }
     }
 
@@ -1857,7 +1857,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.input, name: "input", parent: name, max: 262_144)
+            try self.validate(self.input, name: "input", parent: name, max: 262144)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
@@ -1867,10 +1867,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case name
-            case stateMachineArn
-            case traceHeader
+            case input = "input"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case traceHeader = "traceHeader"
         }
     }
 
@@ -1920,20 +1920,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingDetails
-            case cause
-            case error
-            case executionArn
-            case input
-            case inputDetails
-            case name
-            case output
-            case outputDetails
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
-            case traceHeader
+            case billingDetails = "billingDetails"
+            case cause = "cause"
+            case error = "error"
+            case executionArn = "executionArn"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
+            case traceHeader = "traceHeader"
         }
     }
 
@@ -1952,9 +1952,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case name
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case name = "name"
         }
     }
 
@@ -1973,9 +1973,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case output
-            case outputDetails
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -1996,10 +1996,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case name
-            case stateMachineArn
-            case type
+            case creationDate = "creationDate"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case type = "type"
         }
     }
 
@@ -2025,9 +2025,9 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case executionArn
+            case cause = "cause"
+            case error = "error"
+            case executionArn = "executionArn"
         }
     }
 
@@ -2040,7 +2040,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stopDate
+            case stopDate = "stopDate"
         }
     }
 
@@ -2062,8 +2062,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2087,8 +2087,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -2105,7 +2105,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
+            case roleArn = "roleArn"
         }
     }
 
@@ -2127,10 +2127,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2161,13 +2161,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heartbeatInSeconds
-            case parameters
-            case region
-            case resource
-            case resourceType
-            case taskCredentials
-            case timeoutInSeconds
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case parameters = "parameters"
+            case region = "region"
+            case resource = "resource"
+            case resourceType = "resourceType"
+            case taskCredentials = "taskCredentials"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -2189,10 +2189,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2208,8 +2208,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
-            case resourceType
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2231,10 +2231,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2256,10 +2256,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
-            case resource
-            case resourceType
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2281,10 +2281,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
-            case resource
-            case resourceType
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2306,10 +2306,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2322,7 +2322,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -2347,8 +2347,8 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -2383,10 +2383,10 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapRunArn
-            case maxConcurrency
-            case toleratedFailureCount
-            case toleratedFailurePercentage
+            case mapRunArn = "mapRunArn"
+            case maxConcurrency = "maxConcurrency"
+            case toleratedFailureCount = "toleratedFailureCount"
+            case toleratedFailurePercentage = "toleratedFailurePercentage"
         }
     }
 
@@ -2415,7 +2415,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
+            try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
@@ -2425,11 +2425,11 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case loggingConfiguration
-            case roleArn
-            case stateMachineArn
-            case tracingConfiguration
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case tracingConfiguration = "tracingConfiguration"
         }
     }
 
@@ -2442,7 +2442,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateDate
+            case updateDate = "updateDate"
         }
     }
 }
@@ -2539,7 +2539,7 @@ public struct SFNErrorType: AWSErrorType {
     public static var stateMachineTypeNotSupported: Self { .init(.stateMachineTypeNotSupported) }
     public static var taskDoesNotExist: Self { .init(.taskDoesNotExist) }
     public static var taskTimedOut: Self { .init(.taskTimedOut) }
-    /// You&#39;ve exceeded the number of tags allowed for a resource. See the  Limits Topic in the Step Functions Developer Guide.
+    /// You've exceeded the number of tags allowed for a resource. See the  Limits Topic in the Step Functions Developer Guide.
     public static var tooManyTags: Self { .init(.tooManyTags) }
     /// The input does not satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -384,7 +384,7 @@ extension OpsWorksCM {
             try self.validate(self.backupId, name: "backupId", parent: name, max: 79)
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
             try self.validate(self.backupRetentionCount, name: "backupRetentionCount", parent: name, min: 1)
-            try self.validate(self.customCertificate, name: "customCertificate", parent: name, max: 2_097_152)
+            try self.validate(self.customCertificate, name: "customCertificate", parent: name, max: 2097152)
             try self.validate(self.customCertificate, name: "customCertificate", parent: name, pattern: "(?s)\\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\\s*")
             try self.validate(self.customDomain, name: "customDomain", parent: name, max: 253)
             try self.validate(self.customDomain, name: "customDomain", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")

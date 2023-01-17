@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,7 +218,7 @@ extension FMS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension FMS {
-    ///  Returns an array of AppsListDataSummary objects.
+    /// Returns an array of AppsListDataSummary objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -240,7 +240,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
+    /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -262,7 +262,7 @@ extension FMS {
         )
     }
 
-    ///  Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. The ListMemberAccounts must be submitted by the account that is set as the Firewall Manager administrator.
+    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. The ListMemberAccounts must be submitted by the account that is set as the Firewall Manager administrator.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -284,7 +284,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of PolicySummary objects.
+    /// Returns an array of PolicySummary objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -306,7 +306,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of ProtocolsListDataSummary objects.
+    /// Returns an array of ProtocolsListDataSummary objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -328,7 +328,7 @@ extension FMS {
         )
     }
 
-    ///  Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

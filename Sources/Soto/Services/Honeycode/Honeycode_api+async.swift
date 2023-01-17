@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,7 +103,7 @@ extension Honeycode {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Honeycode {
-    ///   The ListTableColumns API allows you to retrieve a list of all the columns in a table in a workbook.
+    ///  The ListTableColumns API allows you to retrieve a list of all the columns in a table in a workbook.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -125,7 +125,7 @@ extension Honeycode {
         )
     }
 
-    ///   The ListTableRows API allows you to retrieve a list of all the rows in a table in a workbook.
+    ///  The ListTableRows API allows you to retrieve a list of all the rows in a table in a workbook.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -147,7 +147,7 @@ extension Honeycode {
         )
     }
 
-    ///   The ListTables API allows you to retrieve a list of all the tables in a workbook.
+    ///  The ListTables API allows you to retrieve a list of all the tables in a workbook.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -169,7 +169,7 @@ extension Honeycode {
         )
     }
 
-    ///   The QueryTableRows API allows you to use a filter formula to query for specific rows in a table.
+    ///  The QueryTableRows API allows you to use a filter formula to query for specific rows in a table.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

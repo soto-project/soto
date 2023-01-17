@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -370,7 +370,7 @@ extension Omics {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Omics {
-    ///  Retrieves a list of annotation import jobs.
+    /// Retrieves a list of annotation import jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -392,7 +392,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of annotation stores.
+    /// Retrieves a list of annotation stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -414,7 +414,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of read set activation jobs.
+    /// Retrieves a list of read set activation jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -436,7 +436,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of read set export jobs.
+    /// Retrieves a list of read set export jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -458,7 +458,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of read set import jobs.
+    /// Retrieves a list of read set import jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -480,7 +480,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of read sets.
+    /// Retrieves a list of read sets.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -502,7 +502,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of reference import jobs.
+    /// Retrieves a list of reference import jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -524,7 +524,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of reference stores.
+    /// Retrieves a list of reference stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -546,7 +546,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of references.
+    /// Retrieves a list of references.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -568,7 +568,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of run groups.
+    /// Retrieves a list of run groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -590,7 +590,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of tasks for a run.
+    /// Retrieves a list of tasks for a run.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -612,7 +612,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of runs.
+    /// Retrieves a list of runs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -634,7 +634,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of sequence stores.
+    /// Retrieves a list of sequence stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -656,7 +656,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of variant import jobs.
+    /// Retrieves a list of variant import jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -678,7 +678,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of variant stores.
+    /// Retrieves a list of variant stores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -700,7 +700,7 @@ extension Omics {
         )
     }
 
-    ///  Retrieves a list of workflows.
+    /// Retrieves a list of workflows.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

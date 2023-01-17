@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,9 +22,9 @@ extension RedshiftServerless {
     // MARK: Enums
 
     public enum LogExport: String, CustomStringConvertible, Codable, _SotoSendable {
-        case connectionlog
-        case useractivitylog
-        case userlog
+        case connectionlog = "connectionlog"
+        case useractivitylog = "useractivitylog"
+        case userlog = "userlog"
         public var description: String { return self.rawValue }
     }
 
@@ -46,16 +46,16 @@ extension RedshiftServerless {
     }
 
     public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable, _SotoSendable {
-        case deactivate
+        case deactivate = "deactivate"
         case emitMetric = "emit-metric"
-        case log
+        case log = "log"
         public var description: String { return self.rawValue }
     }
 
     public enum UsageLimitPeriod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case daily
-        case monthly
-        case weekly
+        case daily = "daily"
+        case monthly = "monthly"
+        case weekly = "weekly"
         public var description: String { return self.rawValue }
     }
 
@@ -87,8 +87,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterKey
-            case parameterValue
+            case parameterKey = "parameterKey"
+            case parameterValue = "parameterValue"
         }
     }
 
@@ -117,10 +117,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryPointId
-            case retentionPeriod
-            case snapshotName
-            case tags
+            case recoveryPointId = "recoveryPointId"
+            case retentionPeriod = "retentionPeriod"
+            case snapshotName = "snapshotName"
+            case tags = "tags"
         }
     }
 
@@ -133,7 +133,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -155,10 +155,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName
-            case subnetIds
-            case vpcSecurityGroupIds
-            case workgroupName
+            case endpointName = "endpointName"
+            case subnetIds = "subnetIds"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -171,7 +171,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -219,15 +219,15 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUsername
-            case adminUserPassword
-            case dbName
-            case defaultIamRoleArn
-            case iamRoles
-            case kmsKeyId
-            case logExports
-            case namespaceName
-            case tags
+            case adminUsername = "adminUsername"
+            case adminUserPassword = "adminUserPassword"
+            case dbName = "dbName"
+            case defaultIamRoleArn = "defaultIamRoleArn"
+            case iamRoles = "iamRoles"
+            case kmsKeyId = "kmsKeyId"
+            case logExports = "logExports"
+            case namespaceName = "namespaceName"
+            case tags = "tags"
         }
     }
 
@@ -240,7 +240,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -269,10 +269,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
-            case retentionPeriod
-            case snapshotName
-            case tags
+            case namespaceName = "namespaceName"
+            case retentionPeriod = "retentionPeriod"
+            case snapshotName = "snapshotName"
+            case tags = "tags"
         }
     }
 
@@ -285,7 +285,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -310,11 +310,11 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case breachAction
-            case period
-            case resourceArn
-            case usageType
+            case amount = "amount"
+            case breachAction = "breachAction"
+            case period = "period"
+            case resourceArn = "resourceArn"
+            case usageType = "usageType"
         }
     }
 
@@ -327,7 +327,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimit
+            case usageLimit = "usageLimit"
         }
     }
 
@@ -380,16 +380,16 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCapacity
-            case configParameters
-            case enhancedVpcRouting
-            case namespaceName
-            case port
-            case publiclyAccessible
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case workgroupName
+            case baseCapacity = "baseCapacity"
+            case configParameters = "configParameters"
+            case enhancedVpcRouting = "enhancedVpcRouting"
+            case namespaceName = "namespaceName"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -402,7 +402,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroup
+            case workgroup = "workgroup"
         }
     }
 
@@ -415,7 +415,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName
+            case endpointName = "endpointName"
         }
     }
 
@@ -428,7 +428,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -453,9 +453,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalSnapshotName
-            case finalSnapshotRetentionPeriod
-            case namespaceName
+            case finalSnapshotName = "finalSnapshotName"
+            case finalSnapshotRetentionPeriod = "finalSnapshotRetentionPeriod"
+            case namespaceName = "namespaceName"
         }
     }
 
@@ -468,7 +468,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -481,7 +481,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -498,7 +498,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotName
+            case snapshotName = "snapshotName"
         }
     }
 
@@ -511,7 +511,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -524,7 +524,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimitId
+            case usageLimitId = "usageLimitId"
         }
     }
 
@@ -537,7 +537,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimit
+            case usageLimit = "usageLimit"
         }
     }
 
@@ -556,7 +556,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroupName
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -569,7 +569,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroup
+            case workgroup = "workgroup"
         }
     }
 
@@ -588,9 +588,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address
-            case port
-            case vpcEndpoints
+            case address = "address"
+            case port = "port"
+            case vpcEndpoints = "vpcEndpoints"
         }
     }
 
@@ -630,16 +630,16 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address
-            case endpointArn
-            case endpointCreateTime
-            case endpointName
-            case endpointStatus
-            case port
-            case subnetIds
-            case vpcEndpoint
-            case vpcSecurityGroups
-            case workgroupName
+            case address = "address"
+            case endpointArn = "endpointArn"
+            case endpointCreateTime = "endpointCreateTime"
+            case endpointName = "endpointName"
+            case endpointStatus = "endpointStatus"
+            case port = "port"
+            case subnetIds = "subnetIds"
+            case vpcEndpoint = "vpcEndpoint"
+            case vpcSecurityGroups = "vpcSecurityGroups"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -664,9 +664,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dbName
-            case durationSeconds
-            case workgroupName
+            case dbName = "dbName"
+            case durationSeconds = "durationSeconds"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -688,10 +688,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dbPassword
-            case dbUser
-            case expiration
-            case nextRefreshTime
+            case dbPassword = "dbPassword"
+            case dbUser = "dbUser"
+            case expiration = "expiration"
+            case nextRefreshTime = "nextRefreshTime"
         }
     }
 
@@ -704,7 +704,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName
+            case endpointName = "endpointName"
         }
     }
 
@@ -717,7 +717,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -736,7 +736,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
+            case namespaceName = "namespaceName"
         }
     }
 
@@ -749,7 +749,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -762,7 +762,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryPointId
+            case recoveryPointId = "recoveryPointId"
         }
     }
 
@@ -775,7 +775,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryPoint
+            case recoveryPoint = "recoveryPoint"
         }
     }
 
@@ -788,7 +788,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -801,7 +801,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcePolicy
+            case resourcePolicy = "resourcePolicy"
         }
     }
 
@@ -820,9 +820,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ownerAccount
-            case snapshotArn
-            case snapshotName
+            case ownerAccount = "ownerAccount"
+            case snapshotArn = "snapshotArn"
+            case snapshotName = "snapshotName"
         }
     }
 
@@ -835,7 +835,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -848,7 +848,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableRestoreRequestId
+            case tableRestoreRequestId = "tableRestoreRequestId"
         }
     }
 
@@ -861,7 +861,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableRestoreStatus
+            case tableRestoreStatus = "tableRestoreStatus"
         }
     }
 
@@ -874,7 +874,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimitId
+            case usageLimitId = "usageLimitId"
         }
     }
 
@@ -887,7 +887,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimit
+            case usageLimit = "usageLimit"
         }
     }
 
@@ -906,7 +906,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroupName
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -919,7 +919,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroup
+            case workgroup = "workgroup"
         }
     }
 
@@ -946,8 +946,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcId
-            case workgroupName
+            case vpcId = "vpcId"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -963,8 +963,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoints
-            case nextToken
+            case endpoints = "endpoints"
+            case nextToken = "nextToken"
         }
     }
 
@@ -999,8 +999,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaces
-            case nextToken
+            case namespaces = "namespaces"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1039,10 +1039,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case namespaceArn
-            case namespaceName
-            case startTime
+            case endTime = "endTime"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case startTime = "startTime"
         }
     }
 
@@ -1058,8 +1058,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recoveryPoints
+            case nextToken = "nextToken"
+            case recoveryPoints = "recoveryPoints"
         }
     }
 
@@ -1095,11 +1095,11 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case namespaceArn
-            case namespaceName
-            case ownerAccount
-            case startTime
+            case endTime = "endTime"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case ownerAccount = "ownerAccount"
+            case startTime = "startTime"
         }
     }
 
@@ -1115,8 +1115,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case snapshots
+            case nextToken = "nextToken"
+            case snapshots = "snapshots"
         }
     }
 
@@ -1148,8 +1148,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
-            case workgroupName
+            case namespaceName = "namespaceName"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1165,8 +1165,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tableRestoreStatuses
+            case nextToken = "nextToken"
+            case tableRestoreStatuses = "tableRestoreStatuses"
         }
     }
 
@@ -1184,7 +1184,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1197,7 +1197,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1229,8 +1229,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case usageType
+            case resourceArn = "resourceArn"
+            case usageType = "usageType"
         }
     }
 
@@ -1246,8 +1246,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case usageLimits
+            case nextToken = "nextToken"
+            case usageLimits = "usageLimits"
         }
     }
 
@@ -1282,8 +1282,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workgroups
+            case nextToken = "nextToken"
+            case workgroups = "workgroups"
         }
     }
 
@@ -1326,17 +1326,17 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUsername
-            case creationDate
-            case dbName
-            case defaultIamRoleArn
-            case iamRoles
-            case kmsKeyId
-            case logExports
-            case namespaceArn
-            case namespaceId
-            case namespaceName
-            case status
+            case adminUsername = "adminUsername"
+            case creationDate = "creationDate"
+            case dbName = "dbName"
+            case defaultIamRoleArn = "defaultIamRoleArn"
+            case iamRoles = "iamRoles"
+            case kmsKeyId = "kmsKeyId"
+            case logExports = "logExports"
+            case namespaceArn = "namespaceArn"
+            case namespaceId = "namespaceId"
+            case namespaceName = "namespaceName"
+            case status = "status"
         }
     }
 
@@ -1358,10 +1358,10 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case networkInterfaceId
-            case privateIpAddress
-            case subnetId
+            case availabilityZone = "availabilityZone"
+            case networkInterfaceId = "networkInterfaceId"
+            case privateIpAddress = "privateIpAddress"
+            case subnetId = "subnetId"
         }
     }
 
@@ -1377,8 +1377,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
+            case policy = "policy"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1391,7 +1391,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcePolicy
+            case resourcePolicy = "resourcePolicy"
         }
     }
 
@@ -1419,12 +1419,12 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceArn
-            case namespaceName
-            case recoveryPointCreateTime
-            case recoveryPointId
-            case totalSizeInMegaBytes
-            case workgroupName
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case recoveryPointCreateTime = "recoveryPointCreateTime"
+            case recoveryPointId = "recoveryPointId"
+            case totalSizeInMegaBytes = "totalSizeInMegaBytes"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1440,8 +1440,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
+            case policy = "policy"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1469,9 +1469,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
-            case recoveryPointId
-            case workgroupName
+            case namespaceName = "namespaceName"
+            case recoveryPointId = "recoveryPointId"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1487,8 +1487,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
-            case recoveryPointId
+            case namespace = "namespace"
+            case recoveryPointId = "recoveryPointId"
         }
     }
 
@@ -1522,11 +1522,11 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
-            case ownerAccount
-            case snapshotArn
-            case snapshotName
-            case workgroupName
+            case namespaceName = "namespaceName"
+            case ownerAccount = "ownerAccount"
+            case snapshotArn = "snapshotArn"
+            case snapshotName = "snapshotName"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1544,9 +1544,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
-            case ownerAccount
-            case snapshotName
+            case namespace = "namespace"
+            case ownerAccount = "ownerAccount"
+            case snapshotName = "snapshotName"
         }
     }
 
@@ -1586,16 +1586,16 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activateCaseSensitiveIdentifier
-            case namespaceName
-            case newTableName
-            case snapshotName
-            case sourceDatabaseName
-            case sourceSchemaName
-            case sourceTableName
-            case targetDatabaseName
-            case targetSchemaName
-            case workgroupName
+            case activateCaseSensitiveIdentifier = "activateCaseSensitiveIdentifier"
+            case namespaceName = "namespaceName"
+            case newTableName = "newTableName"
+            case snapshotName = "snapshotName"
+            case sourceDatabaseName = "sourceDatabaseName"
+            case sourceSchemaName = "sourceSchemaName"
+            case sourceTableName = "sourceTableName"
+            case targetDatabaseName = "targetDatabaseName"
+            case targetSchemaName = "targetSchemaName"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1608,7 +1608,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableRestoreStatus
+            case tableRestoreStatus = "tableRestoreStatus"
         }
     }
 
@@ -1678,26 +1678,26 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountsWithProvisionedRestoreAccess
-            case accountsWithRestoreAccess
-            case actualIncrementalBackupSizeInMegaBytes
-            case adminUsername
-            case backupProgressInMegaBytes
-            case currentBackupRateInMegaBytesPerSecond
-            case elapsedTimeInSeconds
-            case estimatedSecondsToCompletion
-            case kmsKeyId
-            case namespaceArn
-            case namespaceName
-            case ownerAccount
-            case snapshotArn
-            case snapshotCreateTime
-            case snapshotName
-            case snapshotRemainingDays
-            case snapshotRetentionPeriod
-            case snapshotRetentionStartTime
-            case status
-            case totalBackupSizeInMegaBytes
+            case accountsWithProvisionedRestoreAccess = "accountsWithProvisionedRestoreAccess"
+            case accountsWithRestoreAccess = "accountsWithRestoreAccess"
+            case actualIncrementalBackupSizeInMegaBytes = "actualIncrementalBackupSizeInMegaBytes"
+            case adminUsername = "adminUsername"
+            case backupProgressInMegaBytes = "backupProgressInMegaBytes"
+            case currentBackupRateInMegaBytesPerSecond = "currentBackupRateInMegaBytesPerSecond"
+            case elapsedTimeInSeconds = "elapsedTimeInSeconds"
+            case estimatedSecondsToCompletion = "estimatedSecondsToCompletion"
+            case kmsKeyId = "kmsKeyId"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case ownerAccount = "ownerAccount"
+            case snapshotArn = "snapshotArn"
+            case snapshotCreateTime = "snapshotCreateTime"
+            case snapshotName = "snapshotName"
+            case snapshotRemainingDays = "snapshotRemainingDays"
+            case snapshotRetentionPeriod = "snapshotRetentionPeriod"
+            case snapshotRetentionStartTime = "snapshotRetentionStartTime"
+            case status = "status"
+            case totalBackupSizeInMegaBytes = "totalBackupSizeInMegaBytes"
         }
     }
 
@@ -1752,21 +1752,21 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case namespaceName
-            case newTableName
-            case progressInMegaBytes
-            case requestTime
-            case snapshotName
-            case sourceDatabaseName
-            case sourceSchemaName
-            case sourceTableName
-            case status
-            case tableRestoreRequestId
-            case targetDatabaseName
-            case targetSchemaName
-            case totalDataInMegaBytes
-            case workgroupName
+            case message = "message"
+            case namespaceName = "namespaceName"
+            case newTableName = "newTableName"
+            case progressInMegaBytes = "progressInMegaBytes"
+            case requestTime = "requestTime"
+            case snapshotName = "snapshotName"
+            case sourceDatabaseName = "sourceDatabaseName"
+            case sourceSchemaName = "sourceSchemaName"
+            case sourceTableName = "sourceTableName"
+            case status = "status"
+            case tableRestoreRequestId = "tableRestoreRequestId"
+            case targetDatabaseName = "targetDatabaseName"
+            case targetSchemaName = "targetSchemaName"
+            case totalDataInMegaBytes = "totalDataInMegaBytes"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -1788,8 +1788,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1814,8 +1814,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -1845,8 +1845,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -1866,8 +1866,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointName
-            case vpcSecurityGroupIds
+            case endpointName = "endpointName"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
         }
     }
 
@@ -1880,7 +1880,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -1918,13 +1918,13 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminUsername
-            case adminUserPassword
-            case defaultIamRoleArn
-            case iamRoles
-            case kmsKeyId
-            case logExports
-            case namespaceName
+            case adminUsername = "adminUsername"
+            case adminUserPassword = "adminUserPassword"
+            case defaultIamRoleArn = "defaultIamRoleArn"
+            case iamRoles = "iamRoles"
+            case kmsKeyId = "kmsKeyId"
+            case logExports = "logExports"
+            case namespaceName = "namespaceName"
         }
     }
 
@@ -1937,7 +1937,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -1953,8 +1953,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case retentionPeriod
-            case snapshotName
+            case retentionPeriod = "retentionPeriod"
+            case snapshotName = "snapshotName"
         }
     }
 
@@ -1967,7 +1967,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshot
+            case snapshot = "snapshot"
         }
     }
 
@@ -1986,9 +1986,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case breachAction
-            case usageLimitId
+            case amount = "amount"
+            case breachAction = "breachAction"
+            case usageLimitId = "usageLimitId"
         }
     }
 
@@ -2001,7 +2001,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case usageLimit
+            case usageLimit = "usageLimit"
         }
     }
 
@@ -2041,14 +2041,14 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCapacity
-            case configParameters
-            case enhancedVpcRouting
-            case port
-            case publiclyAccessible
-            case securityGroupIds
-            case subnetIds
-            case workgroupName
+            case baseCapacity = "baseCapacity"
+            case configParameters = "configParameters"
+            case enhancedVpcRouting = "enhancedVpcRouting"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -2061,7 +2061,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workgroup
+            case workgroup = "workgroup"
         }
     }
 
@@ -2092,13 +2092,13 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case breachAction
-            case period
-            case resourceArn
-            case usageLimitArn
-            case usageLimitId
-            case usageType
+            case amount = "amount"
+            case breachAction = "breachAction"
+            case period = "period"
+            case resourceArn = "resourceArn"
+            case usageLimitArn = "usageLimitArn"
+            case usageLimitId = "usageLimitId"
+            case usageType = "usageType"
         }
     }
 
@@ -2117,9 +2117,9 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaces
-            case vpcEndpointId
-            case vpcId
+            case networkInterfaces = "networkInterfaces"
+            case vpcEndpointId = "vpcEndpointId"
+            case vpcId = "vpcId"
         }
     }
 
@@ -2135,8 +2135,8 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case vpcSecurityGroupId
+            case status = "status"
+            case vpcSecurityGroupId = "vpcSecurityGroupId"
         }
     }
 
@@ -2188,20 +2188,20 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCapacity
-            case configParameters
-            case creationDate
-            case endpoint
-            case enhancedVpcRouting
-            case namespaceName
-            case port
-            case publiclyAccessible
-            case securityGroupIds
-            case status
-            case subnetIds
-            case workgroupArn
-            case workgroupId
-            case workgroupName
+            case baseCapacity = "baseCapacity"
+            case configParameters = "configParameters"
+            case creationDate = "creationDate"
+            case endpoint = "endpoint"
+            case enhancedVpcRouting = "enhancedVpcRouting"
+            case namespaceName = "namespaceName"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case workgroupArn = "workgroupArn"
+            case workgroupId = "workgroupId"
+            case workgroupName = "workgroupName"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -3347,7 +3347,7 @@ extension QuickSight {
             try self.categoryValues.forEach {
                 try validate($0, name: "categoryValues[]", parent: name, max: 512)
             }
-            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100000)
             try self.column.validate(name: "\(name).column")
         }
 
@@ -6206,7 +6206,7 @@ extension QuickSight {
             try self.categoryValues?.forEach {
                 try validate($0, name: "categoryValues[]", parent: name, max: 512)
             }
-            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6226,7 +6226,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.narrative, name: "narrative", parent: name, max: 150_000)
+            try self.validate(self.narrative, name: "narrative", parent: name, max: 150000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11105,8 +11105,8 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columns
-            case description
+            case columns = "columns"
+            case description = "description"
         }
     }
 
@@ -11694,7 +11694,7 @@ extension QuickSight {
             try self.categoryValues?.forEach {
                 try validate($0, name: "categoryValues[]", parent: name, max: 512)
             }
-            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100_000)
+            try self.validate(self.categoryValues, name: "categoryValues", parent: name, max: 100000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21464,7 +21464,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 150_000)
+            try self.validate(self.content, name: "content", parent: name, max: 150000)
             try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, max: 512)
             try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, min: 1)
             try self.validate(self.sheetTextBoxId, name: "sheetTextBoxId", parent: name, pattern: "^[\\w\\-]+$")
@@ -21551,10 +21551,10 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountName
-            case directoryType
+            case accountName = "accountName"
+            case directoryType = "directoryType"
             case iamUser = "IAMUser"
-            case userLoginName
+            case userLoginName = "userLoginName"
         }
     }
 
@@ -26953,7 +26953,7 @@ public struct QuickSightErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have access to this item. The provided credentials couldn&#39;t be
+    /// You don't have access to this item. The provided credentials couldn't be
     /// 			validated. You might not be authorized to carry out the request. Make sure that your
     /// 			account is authorized to use the Amazon QuickSight service, that your policies have the
     /// 			correct permissions, and that you are using the correct access keys.
@@ -26963,35 +26963,35 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var concurrentUpdatingException: Self { .init(.concurrentUpdatingException) }
     /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The domain specified isn&#39;t on the allow list. All domains for embedded dashboards must be
+    /// The domain specified isn't on the allow list. All domains for embedded dashboards must be
     /// 			added to the approved list by an Amazon QuickSight admin.
     public static var domainNotWhitelistedException: Self { .init(.domainNotWhitelistedException) }
-    /// The identity type specified isn&#39;t supported. Supported identity types include
+    /// The identity type specified isn't supported. Supported identity types include
     /// 				IAM and QUICKSIGHT.
     public static var identityTypeNotSupportedException: Self { .init(.identityTypeNotSupportedException) }
     /// An internal failure occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// The NextToken value isn&#39;t valid.
+    /// The NextToken value isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
-    /// One or more parameters has a value that isn&#39;t valid.
+    /// One or more parameters has a value that isn't valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// You don&#39;t have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+    /// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// A limit is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// One or more preconditions aren&#39;t met.
+    /// One or more preconditions aren't met.
     public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
-    /// The user with the provided name isn&#39;t found. This error can happen in any operation
+    /// The user with the provided name isn't found. This error can happen in any operation
     /// 			that requires finding a user based on a provided user name, such as
     /// 				DeleteUser, DescribeUser, and so on.
     public static var quickSightUserNotFoundException: Self { .init(.quickSightUserNotFoundException) }
     /// The resource specified already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
-    /// One or more resources can&#39;t be found.
+    /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// This resource is currently unavailable.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
-    /// The number of minutes specified for the lifetime of a session isn&#39;t valid. The session
+    /// The number of minutes specified for the lifetime of a session isn't valid. The session
     /// 			lifetime must be 15-600 minutes.
     public static var sessionLifetimeInMinutesInvalidException: Self { .init(.sessionLifetimeInMinutesInvalidException) }
     /// Access is throttled.
@@ -27002,7 +27002,7 @@ public struct QuickSightErrorType: AWSErrorType {
     /// 		    can do this on the Manage Amazon QuickSight page.  After capacity pricing is added, you can use the   GetDashboardEmbedUrl API operation with the  --identity-type ANONYMOUS option.
     public static var unsupportedPricingPlanException: Self { .init(.unsupportedPricingPlanException) }
     /// This error indicates that you are calling an operation on an Amazon QuickSight
-    /// 			subscription where the edition doesn&#39;t include support for that operation. Amazon
+    /// 			subscription where the edition doesn't include support for that operation. Amazon
     /// 			Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and
     /// 			capability is available in every edition.
     public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }

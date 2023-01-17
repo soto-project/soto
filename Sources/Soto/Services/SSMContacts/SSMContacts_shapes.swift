@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1171,7 +1171,7 @@ extension SSMContacts {
             try self.validate(self.contactArn, name: "contactArn", parent: name, max: 2048)
             try self.validate(self.contactArn, name: "contactArn", parent: name, min: 1)
             try self.validate(self.contactArn, name: "contactArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*$")
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "\\S")
         }
@@ -1596,7 +1596,7 @@ public struct SSMContactsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient access to perform this operation.
+    /// You don't have sufficient access to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting a resource causes an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
@@ -1604,7 +1604,7 @@ public struct SSMContactsErrorType: AWSErrorType {
     public static var dataEncryptionException: Self { .init(.dataEncryptionException) }
     /// Unexpected error occurred while processing the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Request references a resource that doesn&#39;t exist.
+    /// Request references a resource that doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -123,7 +123,7 @@ extension QLDBSession {
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
-            try self.validate(self.statement, name: "statement", parent: name, max: 100_000)
+            try self.validate(self.statement, name: "statement", parent: name, max: 100000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 22)
@@ -409,9 +409,9 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ionBinary, name: "ionBinary", parent: name, max: 131_072)
+            try self.validate(self.ionBinary, name: "ionBinary", parent: name, max: 131072)
             try self.validate(self.ionBinary, name: "ionBinary", parent: name, min: 1)
-            try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
+            try self.validate(self.ionText, name: "ionText", parent: name, max: 1048576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }
 
@@ -457,7 +457,7 @@ public struct QLDBSessionErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Returned when the request exceeds the processing capacity of the ledger.
     public static var capacityExceededException: Self { .init(.capacityExceededException) }
-    /// Returned if the session doesn&#39;t exist anymore because it timed out or expired.
+    /// Returned if the session doesn't exist anymore because it timed out or expired.
     public static var invalidSessionException: Self { .init(.invalidSessionException) }
     /// Returned if a resource limit such as number of active sessions is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }

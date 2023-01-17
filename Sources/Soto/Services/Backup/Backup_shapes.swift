@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4509,21 +4509,21 @@ public struct BackupErrorType: AWSErrorType {
 
     /// The required resource already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
-    /// Backup can&#39;t perform the action that you requested until it finishes performing a previous action. Try again later.
+    /// Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
     public static var conflictException: Self { .init(.conflictException) }
     /// A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
     public static var dependencyFailureException: Self { .init(.dependencyFailureException) }
-    /// Indicates that something is wrong with a parameter&#39;s value. For example, the value is out of range.
+    /// Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// Backup is already performing an action on this recovery point. It can&#39;t perform the action you requested until the first action finishes. Try again later.
+    /// Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
     /// A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Indicates that a required parameter is missing.
     public static var missingParameterValueException: Self { .init(.missingParameterValueException) }
-    /// A resource that is required for the action doesn&#39;t exist.
+    /// A resource that is required for the action doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed due to a temporary failure of the server.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

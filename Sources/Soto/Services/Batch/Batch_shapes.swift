@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -112,8 +112,8 @@ extension Batch {
     }
 
     public enum JobDefinitionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case container
-        case multinode
+        case container = "container"
+        case multinode = "multinode"
         public var description: String { return self.rawValue }
     }
 
@@ -129,13 +129,13 @@ extension Batch {
     }
 
     public enum LogDriver: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awslogs
-        case fluentd
-        case gelf
-        case journald
+        case awslogs = "awslogs"
+        case fluentd = "fluentd"
+        case gelf = "gelf"
+        case journald = "journald"
         case jsonFile = "json-file"
-        case splunk
-        case syslog
+        case splunk = "splunk"
+        case syslog = "syslog"
         public var description: String { return self.rawValue }
     }
 
@@ -175,7 +175,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case size
+            case size = "size"
         }
     }
 
@@ -194,9 +194,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case size
-            case statusSummary
+            case index = "index"
+            case size = "size"
+            case statusSummary = "statusSummary"
         }
     }
 
@@ -212,8 +212,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case size
+            case index = "index"
+            case size = "size"
         }
     }
 
@@ -241,12 +241,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstanceArn
-            case exitCode
-            case logStreamName
-            case networkInterfaces
-            case reason
-            case taskArn
+            case containerInstanceArn = "containerInstanceArn"
+            case exitCode = "exitCode"
+            case logStreamName = "logStreamName"
+            case networkInterfaces = "networkInterfaces"
+            case reason = "reason"
+            case taskArn = "taskArn"
         }
     }
 
@@ -268,10 +268,10 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case container
-            case startedAt
-            case statusReason
-            case stoppedAt
+            case container = "container"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
         }
     }
 
@@ -287,8 +287,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case reason
+            case jobId = "jobId"
+            case reason = "reason"
         }
     }
 
@@ -347,21 +347,21 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentArn
-            case computeEnvironmentName
-            case computeResources
-            case containerOrchestrationType
-            case ecsClusterArn
-            case eksConfiguration
-            case serviceRole
-            case state
-            case status
-            case statusReason
-            case tags
-            case type
-            case unmanagedvCpus
-            case updatePolicy
-            case uuid
+            case computeEnvironmentArn = "computeEnvironmentArn"
+            case computeEnvironmentName = "computeEnvironmentName"
+            case computeResources = "computeResources"
+            case containerOrchestrationType = "containerOrchestrationType"
+            case ecsClusterArn = "ecsClusterArn"
+            case eksConfiguration = "eksConfiguration"
+            case serviceRole = "serviceRole"
+            case state = "state"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case type = "type"
+            case unmanagedvCpus = "unmanagedvCpus"
+            case updatePolicy = "updatePolicy"
+            case uuid = "uuid"
         }
     }
 
@@ -377,8 +377,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironment
-            case order
+            case computeEnvironment = "computeEnvironment"
+            case order = "order"
         }
     }
 
@@ -466,23 +466,23 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocationStrategy
-            case bidPercentage
-            case desiredvCpus
-            case ec2Configuration
-            case ec2KeyPair
-            case imageId
-            case instanceRole
-            case instanceTypes
-            case launchTemplate
-            case maxvCpus
-            case minvCpus
-            case placementGroup
-            case securityGroupIds
-            case spotIamFleetRole
-            case subnets
-            case tags
-            case type
+            case allocationStrategy = "allocationStrategy"
+            case bidPercentage = "bidPercentage"
+            case desiredvCpus = "desiredvCpus"
+            case ec2Configuration = "ec2Configuration"
+            case ec2KeyPair = "ec2KeyPair"
+            case imageId = "imageId"
+            case instanceRole = "instanceRole"
+            case instanceTypes = "instanceTypes"
+            case launchTemplate = "launchTemplate"
+            case maxvCpus = "maxvCpus"
+            case minvCpus = "minvCpus"
+            case placementGroup = "placementGroup"
+            case securityGroupIds = "securityGroupIds"
+            case spotIamFleetRole = "spotIamFleetRole"
+            case subnets = "subnets"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -549,23 +549,23 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allocationStrategy
-            case bidPercentage
-            case desiredvCpus
-            case ec2Configuration
-            case ec2KeyPair
-            case imageId
-            case instanceRole
-            case instanceTypes
-            case launchTemplate
-            case maxvCpus
-            case minvCpus
-            case placementGroup
-            case securityGroupIds
-            case subnets
-            case tags
-            case type
-            case updateToLatestImageVersion
+            case allocationStrategy = "allocationStrategy"
+            case bidPercentage = "bidPercentage"
+            case desiredvCpus = "desiredvCpus"
+            case ec2Configuration = "ec2Configuration"
+            case ec2KeyPair = "ec2KeyPair"
+            case imageId = "imageId"
+            case instanceRole = "instanceRole"
+            case instanceTypes = "instanceTypes"
+            case launchTemplate = "launchTemplate"
+            case maxvCpus = "maxvCpus"
+            case minvCpus = "minvCpus"
+            case placementGroup = "placementGroup"
+            case securityGroupIds = "securityGroupIds"
+            case subnets = "subnets"
+            case tags = "tags"
+            case type = "type"
+            case updateToLatestImageVersion = "updateToLatestImageVersion"
         }
     }
 
@@ -653,32 +653,32 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case containerInstanceArn
-            case environment
-            case executionRoleArn
-            case exitCode
-            case fargatePlatformConfiguration
-            case image
-            case instanceType
-            case jobRoleArn
-            case linuxParameters
-            case logConfiguration
-            case logStreamName
-            case memory
-            case mountPoints
-            case networkConfiguration
-            case networkInterfaces
-            case privileged
-            case readonlyRootFilesystem
-            case reason
-            case resourceRequirements
-            case secrets
-            case taskArn
-            case ulimits
-            case user
-            case vcpus
-            case volumes
+            case command = "command"
+            case containerInstanceArn = "containerInstanceArn"
+            case environment = "environment"
+            case executionRoleArn = "executionRoleArn"
+            case exitCode = "exitCode"
+            case fargatePlatformConfiguration = "fargatePlatformConfiguration"
+            case image = "image"
+            case instanceType = "instanceType"
+            case jobRoleArn = "jobRoleArn"
+            case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
+            case logStreamName = "logStreamName"
+            case memory = "memory"
+            case mountPoints = "mountPoints"
+            case networkConfiguration = "networkConfiguration"
+            case networkInterfaces = "networkInterfaces"
+            case privileged = "privileged"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case reason = "reason"
+            case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
+            case taskArn = "taskArn"
+            case ulimits = "ulimits"
+            case user = "user"
+            case vcpus = "vcpus"
+            case volumes = "volumes"
         }
     }
 
@@ -716,12 +716,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case environment
-            case instanceType
-            case memory
-            case resourceRequirements
-            case vcpus
+            case command = "command"
+            case environment = "environment"
+            case instanceType = "instanceType"
+            case memory = "memory"
+            case resourceRequirements = "resourceRequirements"
+            case vcpus = "vcpus"
         }
     }
 
@@ -815,26 +815,26 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case environment
-            case executionRoleArn
-            case fargatePlatformConfiguration
-            case image
-            case instanceType
-            case jobRoleArn
-            case linuxParameters
-            case logConfiguration
-            case memory
-            case mountPoints
-            case networkConfiguration
-            case privileged
-            case readonlyRootFilesystem
-            case resourceRequirements
-            case secrets
-            case ulimits
-            case user
-            case vcpus
-            case volumes
+            case command = "command"
+            case environment = "environment"
+            case executionRoleArn = "executionRoleArn"
+            case fargatePlatformConfiguration = "fargatePlatformConfiguration"
+            case image = "image"
+            case instanceType = "instanceType"
+            case jobRoleArn = "jobRoleArn"
+            case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
+            case memory = "memory"
+            case mountPoints = "mountPoints"
+            case networkConfiguration = "networkConfiguration"
+            case privileged = "privileged"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
+            case ulimits = "ulimits"
+            case user = "user"
+            case vcpus = "vcpus"
+            case volumes = "volumes"
         }
     }
 
@@ -850,8 +850,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exitCode
-            case reason
+            case exitCode = "exitCode"
+            case reason = "reason"
         }
     }
 
@@ -896,14 +896,14 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentName
-            case computeResources
-            case eksConfiguration
-            case serviceRole
-            case state
-            case tags
-            case type
-            case unmanagedvCpus
+            case computeEnvironmentName = "computeEnvironmentName"
+            case computeResources = "computeResources"
+            case eksConfiguration = "eksConfiguration"
+            case serviceRole = "serviceRole"
+            case state = "state"
+            case tags = "tags"
+            case type = "type"
+            case unmanagedvCpus = "unmanagedvCpus"
         }
     }
 
@@ -919,8 +919,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentArn
-            case computeEnvironmentName
+            case computeEnvironmentArn = "computeEnvironmentArn"
+            case computeEnvironmentName = "computeEnvironmentName"
         }
     }
 
@@ -958,12 +958,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentOrder
-            case jobQueueName
-            case priority
-            case schedulingPolicyArn
-            case state
-            case tags
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case jobQueueName = "jobQueueName"
+            case priority = "priority"
+            case schedulingPolicyArn = "schedulingPolicyArn"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -979,8 +979,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobQueueArn
-            case jobQueueName
+            case jobQueueArn = "jobQueueArn"
+            case jobQueueName = "jobQueueName"
         }
     }
 
@@ -1009,9 +1009,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fairsharePolicy
-            case name
-            case tags
+            case fairsharePolicy = "fairsharePolicy"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1027,8 +1027,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1041,7 +1041,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironment
+            case computeEnvironment = "computeEnvironment"
         }
     }
 
@@ -1058,7 +1058,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobQueue
+            case jobQueue = "jobQueue"
         }
     }
 
@@ -1075,7 +1075,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1092,7 +1092,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDefinition
+            case jobDefinition = "jobDefinition"
         }
     }
 
@@ -1115,9 +1115,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironments
-            case maxResults
-            case nextToken
+            case computeEnvironments = "computeEnvironments"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1133,8 +1133,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironments
-            case nextToken
+            case computeEnvironments = "computeEnvironments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1159,11 +1159,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDefinitionName
-            case jobDefinitions
-            case maxResults
-            case nextToken
-            case status
+            case jobDefinitionName = "jobDefinitionName"
+            case jobDefinitions = "jobDefinitions"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
@@ -1179,8 +1179,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDefinitions
-            case nextToken
+            case jobDefinitions = "jobDefinitions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1199,9 +1199,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobQueues
-            case maxResults
-            case nextToken
+            case jobQueues = "jobQueues"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1217,8 +1217,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobQueues
-            case nextToken
+            case jobQueues = "jobQueues"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1231,7 +1231,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
@@ -1244,7 +1244,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
@@ -1257,7 +1257,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arns
+            case arns = "arns"
         }
     }
 
@@ -1270,7 +1270,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schedulingPolicies
+            case schedulingPolicies = "schedulingPolicies"
         }
     }
 
@@ -1289,9 +1289,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case hostPath
-            case permissions
+            case containerPath = "containerPath"
+            case hostPath = "hostPath"
+            case permissions = "permissions"
         }
     }
 
@@ -1307,8 +1307,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointId
-            case iam
+            case accessPointId = "accessPointId"
+            case iam = "iam"
         }
     }
 
@@ -1333,11 +1333,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case fileSystemId
-            case rootDirectory
-            case transitEncryption
-            case transitEncryptionPort
+            case authorizationConfig = "authorizationConfig"
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
+            case transitEncryption = "transitEncryption"
+            case transitEncryptionPort = "transitEncryptionPort"
         }
     }
 
@@ -1365,9 +1365,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageIdOverride
-            case imageKubernetesVersion
-            case imageType
+            case imageIdOverride = "imageIdOverride"
+            case imageKubernetesVersion = "imageKubernetesVersion"
+            case imageType = "imageType"
         }
     }
 
@@ -1383,8 +1383,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exitCode
-            case reason
+            case exitCode = "exitCode"
+            case reason = "reason"
         }
     }
 
@@ -1412,12 +1412,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case nodeName
-            case podName
-            case startedAt
-            case statusReason
-            case stoppedAt
+            case containers = "containers"
+            case nodeName = "nodeName"
+            case podName = "podName"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
         }
     }
 
@@ -1433,8 +1433,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eksClusterArn
-            case kubernetesNamespace
+            case eksClusterArn = "eksClusterArn"
+            case kubernetesNamespace = "kubernetesNamespace"
         }
     }
 
@@ -1475,15 +1475,15 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case args
-            case command
-            case env
-            case image
-            case imagePullPolicy
-            case name
-            case resources
-            case securityContext
-            case volumeMounts
+            case args = "args"
+            case command = "command"
+            case env = "env"
+            case image = "image"
+            case imagePullPolicy = "imagePullPolicy"
+            case name = "name"
+            case resources = "resources"
+            case securityContext = "securityContext"
+            case volumeMounts = "volumeMounts"
         }
     }
 
@@ -1526,17 +1526,17 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case args
-            case command
-            case env
-            case exitCode
-            case image
-            case imagePullPolicy
-            case name
-            case reason
-            case resources
-            case securityContext
-            case volumeMounts
+            case args = "args"
+            case command = "command"
+            case env = "env"
+            case exitCode = "exitCode"
+            case image = "image"
+            case imagePullPolicy = "imagePullPolicy"
+            case name = "name"
+            case reason = "reason"
+            case resources = "resources"
+            case securityContext = "securityContext"
+            case volumeMounts = "volumeMounts"
         }
     }
 
@@ -1552,8 +1552,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1582,11 +1582,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case args
-            case command
-            case env
-            case image
-            case resources
+            case args = "args"
+            case command = "command"
+            case env = "env"
+            case image = "image"
+            case resources = "resources"
         }
     }
 
@@ -1613,8 +1613,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limits
-            case requests
+            case limits = "limits"
+            case requests = "requests"
         }
     }
 
@@ -1639,11 +1639,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case privileged
-            case readOnlyRootFilesystem
-            case runAsGroup
-            case runAsNonRoot
-            case runAsUser
+            case privileged = "privileged"
+            case readOnlyRootFilesystem = "readOnlyRootFilesystem"
+            case runAsGroup = "runAsGroup"
+            case runAsNonRoot = "runAsNonRoot"
+            case runAsUser = "runAsUser"
         }
     }
 
@@ -1662,9 +1662,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mountPath
-            case name
-            case readOnly
+            case mountPath = "mountPath"
+            case name = "name"
+            case readOnly = "readOnly"
         }
     }
 
@@ -1685,8 +1685,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case medium
-            case sizeLimit
+            case medium = "medium"
+            case sizeLimit = "sizeLimit"
         }
     }
 
@@ -1699,7 +1699,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
+            case path = "path"
         }
     }
 
@@ -1733,11 +1733,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case dnsPolicy
-            case hostNetwork
-            case serviceAccountName
-            case volumes
+            case containers = "containers"
+            case dnsPolicy = "dnsPolicy"
+            case hostNetwork = "hostNetwork"
+            case serviceAccountName = "serviceAccountName"
+            case volumes = "volumes"
         }
     }
 
@@ -1768,13 +1768,13 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case dnsPolicy
-            case hostNetwork
-            case nodeName
-            case podName
-            case serviceAccountName
-            case volumes
+            case containers = "containers"
+            case dnsPolicy = "dnsPolicy"
+            case hostNetwork = "hostNetwork"
+            case nodeName = "nodeName"
+            case podName = "podName"
+            case serviceAccountName = "serviceAccountName"
+            case volumes = "volumes"
         }
     }
 
@@ -1793,7 +1793,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
+            case containers = "containers"
         }
     }
 
@@ -1810,7 +1810,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case podProperties
+            case podProperties = "podProperties"
         }
     }
 
@@ -1823,7 +1823,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case podProperties
+            case podProperties = "podProperties"
         }
     }
 
@@ -1840,7 +1840,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case podProperties
+            case podProperties = "podProperties"
         }
     }
 
@@ -1856,8 +1856,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case optional
-            case secretName
+            case optional = "optional"
+            case secretName = "secretName"
         }
     }
 
@@ -1883,10 +1883,10 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emptyDir
-            case hostPath
-            case name
-            case secret
+            case emptyDir = "emptyDir"
+            case hostPath = "hostPath"
+            case name = "name"
+            case secret = "secret"
         }
     }
 
@@ -1908,10 +1908,10 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case onExitCode
-            case onReason
-            case onStatusReason
+            case action = "action"
+            case onExitCode = "onExitCode"
+            case onReason = "onReason"
+            case onStatusReason = "onStatusReason"
         }
     }
 
@@ -1930,9 +1930,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeReservation
-            case shareDecaySeconds
-            case shareDistribution
+            case computeReservation = "computeReservation"
+            case shareDecaySeconds = "shareDecaySeconds"
+            case shareDistribution = "shareDistribution"
         }
     }
 
@@ -1945,7 +1945,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platformVersion
+            case platformVersion = "platformVersion"
         }
     }
 
@@ -1958,7 +1958,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourcePath
+            case sourcePath = "sourcePath"
         }
     }
 
@@ -2016,22 +2016,22 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerOrchestrationType
-            case containerProperties
-            case eksProperties
-            case jobDefinitionArn
-            case jobDefinitionName
-            case nodeProperties
-            case parameters
-            case platformCapabilities
-            case propagateTags
-            case retryStrategy
-            case revision
-            case schedulingPriority
-            case status
-            case tags
-            case timeout
-            case type
+            case containerOrchestrationType = "containerOrchestrationType"
+            case containerProperties = "containerProperties"
+            case eksProperties = "eksProperties"
+            case jobDefinitionArn = "jobDefinitionArn"
+            case jobDefinitionName = "jobDefinitionName"
+            case nodeProperties = "nodeProperties"
+            case parameters = "parameters"
+            case platformCapabilities = "platformCapabilities"
+            case propagateTags = "propagateTags"
+            case retryStrategy = "retryStrategy"
+            case revision = "revision"
+            case schedulingPriority = "schedulingPriority"
+            case status = "status"
+            case tags = "tags"
+            case timeout = "timeout"
+            case type = "type"
         }
     }
 
@@ -2047,8 +2047,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case type
+            case jobId = "jobId"
+            case type = "type"
         }
     }
 
@@ -2142,34 +2142,34 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayProperties
-            case attempts
-            case container
-            case createdAt
-            case dependsOn
-            case eksAttempts
-            case eksProperties
-            case isCancelled
-            case isTerminated
-            case jobArn
-            case jobDefinition
-            case jobId
-            case jobName
-            case jobQueue
-            case nodeDetails
-            case nodeProperties
-            case parameters
-            case platformCapabilities
-            case propagateTags
-            case retryStrategy
-            case schedulingPriority
-            case shareIdentifier
-            case startedAt
-            case status
-            case statusReason
-            case stoppedAt
-            case tags
-            case timeout
+            case arrayProperties = "arrayProperties"
+            case attempts = "attempts"
+            case container = "container"
+            case createdAt = "createdAt"
+            case dependsOn = "dependsOn"
+            case eksAttempts = "eksAttempts"
+            case eksProperties = "eksProperties"
+            case isCancelled = "isCancelled"
+            case isTerminated = "isTerminated"
+            case jobArn = "jobArn"
+            case jobDefinition = "jobDefinition"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case jobQueue = "jobQueue"
+            case nodeDetails = "nodeDetails"
+            case nodeProperties = "nodeProperties"
+            case parameters = "parameters"
+            case platformCapabilities = "platformCapabilities"
+            case propagateTags = "propagateTags"
+            case retryStrategy = "retryStrategy"
+            case schedulingPriority = "schedulingPriority"
+            case shareIdentifier = "shareIdentifier"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+            case tags = "tags"
+            case timeout = "timeout"
         }
     }
 
@@ -2206,15 +2206,15 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentOrder
-            case jobQueueArn
-            case jobQueueName
-            case priority
-            case schedulingPolicyArn
-            case state
-            case status
-            case statusReason
-            case tags
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case jobQueueArn = "jobQueueArn"
+            case jobQueueName = "jobQueueName"
+            case priority = "priority"
+            case schedulingPolicyArn = "schedulingPolicyArn"
+            case state = "state"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
         }
     }
 
@@ -2260,18 +2260,18 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayProperties
-            case container
-            case createdAt
-            case jobArn
-            case jobDefinition
-            case jobId
-            case jobName
-            case nodeProperties
-            case startedAt
-            case status
-            case statusReason
-            case stoppedAt
+            case arrayProperties = "arrayProperties"
+            case container = "container"
+            case createdAt = "createdAt"
+            case jobArn = "jobArn"
+            case jobDefinition = "jobDefinition"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case nodeProperties = "nodeProperties"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
         }
     }
 
@@ -2284,7 +2284,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attemptDurationSeconds
+            case attemptDurationSeconds = "attemptDurationSeconds"
         }
     }
 
@@ -2300,8 +2300,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -2317,8 +2317,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -2337,9 +2337,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchTemplateId
-            case launchTemplateName
-            case version
+            case launchTemplateId = "launchTemplateId"
+            case launchTemplateName = "launchTemplateName"
+            case version = "version"
         }
     }
 
@@ -2367,12 +2367,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case initProcessEnabled
-            case maxSwap
-            case sharedMemorySize
-            case swappiness
-            case tmpfs
+            case devices = "devices"
+            case initProcessEnabled = "initProcessEnabled"
+            case maxSwap = "maxSwap"
+            case sharedMemorySize = "sharedMemorySize"
+            case swappiness = "swappiness"
+            case tmpfs = "tmpfs"
         }
     }
 
@@ -2403,13 +2403,13 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayJobId
-            case filters
-            case jobQueue
-            case jobStatus
-            case maxResults
-            case multiNodeJobId
-            case nextToken
+            case arrayJobId = "arrayJobId"
+            case filters = "filters"
+            case jobQueue = "jobQueue"
+            case jobStatus = "jobStatus"
+            case maxResults = "maxResults"
+            case multiNodeJobId = "multiNodeJobId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2425,8 +2425,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummaryList
-            case nextToken
+            case jobSummaryList = "jobSummaryList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2442,8 +2442,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2459,8 +2459,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case schedulingPolicies
+            case nextToken = "nextToken"
+            case schedulingPolicies = "schedulingPolicies"
         }
     }
 
@@ -2488,7 +2488,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2507,9 +2507,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logDriver
-            case options
-            case secretOptions
+            case logDriver = "logDriver"
+            case options = "options"
+            case secretOptions = "secretOptions"
         }
     }
 
@@ -2528,9 +2528,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case readOnly
-            case sourceVolume
+            case containerPath = "containerPath"
+            case readOnly = "readOnly"
+            case sourceVolume = "sourceVolume"
         }
     }
 
@@ -2543,7 +2543,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
+            case assignPublicIp = "assignPublicIp"
         }
     }
 
@@ -2562,9 +2562,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
-            case ipv6Address
-            case privateIpv4Address
+            case attachmentId = "attachmentId"
+            case ipv6Address = "ipv6Address"
+            case privateIpv4Address = "privateIpv4Address"
         }
     }
 
@@ -2580,8 +2580,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isMainNode
-            case nodeIndex
+            case isMainNode = "isMainNode"
+            case nodeIndex = "nodeIndex"
         }
     }
 
@@ -2597,8 +2597,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodePropertyOverrides
-            case numNodes
+            case nodePropertyOverrides = "nodePropertyOverrides"
+            case numNodes = "numNodes"
         }
     }
 
@@ -2617,9 +2617,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mainNode
-            case nodeRangeProperties
-            case numNodes
+            case mainNode = "mainNode"
+            case nodeRangeProperties = "nodeRangeProperties"
+            case numNodes = "numNodes"
         }
     }
 
@@ -2638,9 +2638,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isMainNode
-            case nodeIndex
-            case numNodes
+            case isMainNode = "isMainNode"
+            case nodeIndex = "nodeIndex"
+            case numNodes = "numNodes"
         }
     }
 
@@ -2656,8 +2656,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerOverrides
-            case targetNodes
+            case containerOverrides = "containerOverrides"
+            case targetNodes = "targetNodes"
         }
     }
 
@@ -2673,8 +2673,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case container
-            case targetNodes
+            case container = "container"
+            case targetNodes = "targetNodes"
         }
     }
 
@@ -2731,18 +2731,18 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerProperties
-            case eksProperties
-            case jobDefinitionName
-            case nodeProperties
-            case parameters
-            case platformCapabilities
-            case propagateTags
-            case retryStrategy
-            case schedulingPriority
-            case tags
-            case timeout
-            case type
+            case containerProperties = "containerProperties"
+            case eksProperties = "eksProperties"
+            case jobDefinitionName = "jobDefinitionName"
+            case nodeProperties = "nodeProperties"
+            case parameters = "parameters"
+            case platformCapabilities = "platformCapabilities"
+            case propagateTags = "propagateTags"
+            case retryStrategy = "retryStrategy"
+            case schedulingPriority = "schedulingPriority"
+            case tags = "tags"
+            case timeout = "timeout"
+            case type = "type"
         }
     }
 
@@ -2761,9 +2761,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDefinitionArn
-            case jobDefinitionName
-            case revision
+            case jobDefinitionArn = "jobDefinitionArn"
+            case jobDefinitionName = "jobDefinitionName"
+            case revision = "revision"
         }
     }
 
@@ -2781,8 +2781,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -2798,8 +2798,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attempts
-            case evaluateOnExit
+            case attempts = "attempts"
+            case evaluateOnExit = "evaluateOnExit"
         }
     }
 
@@ -2821,10 +2821,10 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case fairsharePolicy
-            case name
-            case tags
+            case arn = "arn"
+            case fairsharePolicy = "fairsharePolicy"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2837,7 +2837,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -2853,8 +2853,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case valueFrom
+            case name = "name"
+            case valueFrom = "valueFrom"
         }
     }
 
@@ -2870,8 +2870,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shareIdentifier
-            case weightFactor
+            case shareIdentifier = "shareIdentifier"
+            case weightFactor = "weightFactor"
         }
     }
 
@@ -2937,21 +2937,21 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayProperties
-            case containerOverrides
-            case dependsOn
-            case eksPropertiesOverride
-            case jobDefinition
-            case jobName
-            case jobQueue
-            case nodeOverrides
-            case parameters
-            case propagateTags
-            case retryStrategy
-            case schedulingPriorityOverride
-            case shareIdentifier
-            case tags
-            case timeout
+            case arrayProperties = "arrayProperties"
+            case containerOverrides = "containerOverrides"
+            case dependsOn = "dependsOn"
+            case eksPropertiesOverride = "eksPropertiesOverride"
+            case jobDefinition = "jobDefinition"
+            case jobName = "jobName"
+            case jobQueue = "jobQueue"
+            case nodeOverrides = "nodeOverrides"
+            case parameters = "parameters"
+            case propagateTags = "propagateTags"
+            case retryStrategy = "retryStrategy"
+            case schedulingPriorityOverride = "schedulingPriorityOverride"
+            case shareIdentifier = "shareIdentifier"
+            case tags = "tags"
+            case timeout = "timeout"
         }
     }
 
@@ -2970,9 +2970,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobArn
-            case jobId
-            case jobName
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobName = "jobName"
         }
     }
 
@@ -3002,7 +3002,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3022,8 +3022,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case reason
+            case jobId = "jobId"
+            case reason = "reason"
         }
     }
 
@@ -3046,9 +3046,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case mountOptions
-            case size
+            case containerPath = "containerPath"
+            case mountOptions = "mountOptions"
+            case size = "size"
         }
     }
 
@@ -3067,9 +3067,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hardLimit
-            case name
-            case softLimit
+            case hardLimit = "hardLimit"
+            case name = "name"
+            case softLimit = "softLimit"
         }
     }
 
@@ -3134,12 +3134,12 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironment
-            case computeResources
-            case serviceRole
-            case state
-            case unmanagedvCpus
-            case updatePolicy
+            case computeEnvironment = "computeEnvironment"
+            case computeResources = "computeResources"
+            case serviceRole = "serviceRole"
+            case state = "state"
+            case unmanagedvCpus = "unmanagedvCpus"
+            case updatePolicy = "updatePolicy"
         }
     }
 
@@ -3155,8 +3155,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentArn
-            case computeEnvironmentName
+            case computeEnvironmentArn = "computeEnvironmentArn"
+            case computeEnvironmentName = "computeEnvironmentName"
         }
     }
 
@@ -3181,11 +3181,11 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeEnvironmentOrder
-            case jobQueue
-            case priority
-            case schedulingPolicyArn
-            case state
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case jobQueue = "jobQueue"
+            case priority = "priority"
+            case schedulingPolicyArn = "schedulingPolicyArn"
+            case state = "state"
         }
     }
 
@@ -3201,8 +3201,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobQueueArn
-            case jobQueueName
+            case jobQueueArn = "jobQueueArn"
+            case jobQueueName = "jobQueueName"
         }
     }
 
@@ -3223,8 +3223,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobExecutionTimeoutMinutes
-            case terminateJobsOnUpdate
+            case jobExecutionTimeoutMinutes = "jobExecutionTimeoutMinutes"
+            case terminateJobsOnUpdate = "terminateJobsOnUpdate"
         }
     }
 
@@ -3240,8 +3240,8 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case fairsharePolicy
+            case arn = "arn"
+            case fairsharePolicy = "fairsharePolicy"
         }
     }
 
@@ -3264,9 +3264,9 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case efsVolumeConfiguration
-            case host
-            case name
+            case efsVolumeConfiguration = "efsVolumeConfiguration"
+            case host = "host"
+            case name = "name"
         }
     }
 }
@@ -3298,7 +3298,7 @@ public struct BatchErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn&#39;t have permissions to use the action or resource. Another cause is specifying an identifier that&#39;s not valid.
+    /// These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
     public static var clientException: Self { .init(.clientException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }

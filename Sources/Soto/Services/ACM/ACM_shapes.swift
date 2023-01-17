@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -607,9 +607,9 @@ extension ACM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case extendedKeyUsage
-            case keyTypes
-            case keyUsage
+            case extendedKeyUsage = "extendedKeyUsage"
+            case keyTypes = "keyTypes"
+            case keyUsage = "keyUsage"
         }
     }
 
@@ -688,7 +688,7 @@ extension ACM {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
@@ -1171,9 +1171,9 @@ public struct ACMErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The certificate request is in process and the certificate in your account has not yet been issued.
     public static var requestInProgressException: Self { .init(.requestInProgressException) }
-    /// The certificate is in use by another Amazon Web Services service in the caller&#39;s account. Remove the association and try again.
+    /// The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified certificate cannot be found in the caller&#39;s account or the caller&#39;s account cannot be found.
+    /// The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// A specified tag did not comply with an existing tag policy and was rejected.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }

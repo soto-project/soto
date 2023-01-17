@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -150,7 +150,7 @@ extension ServerlessApplicationRepository {
 // MARK: Paginators
 
 extension ServerlessApplicationRepository {
-    ///  Retrieves the list of applications nested in the containing application.
+    /// Retrieves the list of applications nested in the containing application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -203,7 +203,7 @@ extension ServerlessApplicationRepository {
         )
     }
 
-    ///  Lists versions for the specified application.
+    /// Lists versions for the specified application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -256,7 +256,7 @@ extension ServerlessApplicationRepository {
         )
     }
 
-    ///  Lists applications owned by the requester.
+    /// Lists applications owned by the requester.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

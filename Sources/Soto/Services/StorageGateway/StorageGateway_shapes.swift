@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ extension StorageGateway {
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case `private`
+        case `private` = "private"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -602,7 +602,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102_400)
+            try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102400)
             try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
             try self.daysOfWeek.forEach {
                 try validate($0, name: "daysOfWeek[]", parent: name, max: 6)
@@ -3832,9 +3832,9 @@ extension StorageGateway {
             try self.validate(self.fileMode, name: "fileMode", parent: name, max: 4)
             try self.validate(self.fileMode, name: "fileMode", parent: name, min: 1)
             try self.validate(self.fileMode, name: "fileMode", parent: name, pattern: "^[0-7]{4}$")
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 4_294_967_294)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 4294967294)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 0)
-            try self.validate(self.ownerId, name: "ownerId", parent: name, max: 4_294_967_294)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, max: 4294967294)
             try self.validate(self.ownerId, name: "ownerId", parent: name, min: 0)
         }
 
@@ -4882,7 +4882,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102_400)
+            try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102400)
             try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)

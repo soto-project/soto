@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -165,7 +165,7 @@ extension ChimeSDKMeetings {
 // MARK: Paginators
 
 extension ChimeSDKMeetings {
-    ///   Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+    ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

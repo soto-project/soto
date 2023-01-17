@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -388,7 +388,7 @@ extension Backup {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Backup {
-    ///  Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these monitoring tools.
+    /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these monitoring tools.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -410,7 +410,7 @@ extension Backup {
         )
     }
 
-    ///  Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
+    /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -432,7 +432,7 @@ extension Backup {
         )
     }
 
-    ///  Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
+    /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -454,7 +454,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -476,7 +476,7 @@ extension Backup {
         )
     }
 
-    ///  Returns an array containing metadata of the resources associated with the target backup plan.
+    /// Returns an array containing metadata of the resources associated with the target backup plan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -498,7 +498,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of recovery point storage containers along with information about them.
+    /// Returns a list of recovery point storage containers along with information about them.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -520,7 +520,7 @@ extension Backup {
         )
     }
 
-    ///  Returns metadata about your copy jobs.
+    /// Returns metadata about your copy jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -542,7 +542,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
+    /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -564,7 +564,7 @@ extension Backup {
         )
     }
 
-    ///  This action returns metadata about active and previous legal holds.
+    /// This action returns metadata about active and previous legal holds.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -586,7 +586,7 @@ extension Backup {
         )
     }
 
-    ///  Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -608,7 +608,7 @@ extension Backup {
         )
     }
 
-    ///  Returns detailed information about the recovery points stored in a backup vault.
+    /// Returns detailed information about the recovery points stored in a backup vault.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -630,7 +630,7 @@ extension Backup {
         )
     }
 
-    ///  This action returns recovery point ARNs (Amazon Resource Names) of the  specified legal hold.
+    /// This action returns recovery point ARNs (Amazon Resource Names) of the  specified legal hold.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -652,7 +652,7 @@ extension Backup {
         )
     }
 
-    ///  Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
+    /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -674,7 +674,7 @@ extension Backup {
         )
     }
 
-    ///  Returns details about your report jobs.
+    /// Returns details about your report jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -696,7 +696,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
+    /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -718,7 +718,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
+    /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -740,7 +740,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
+    /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

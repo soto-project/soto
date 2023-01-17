@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -148,7 +148,7 @@ extension Batch {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Batch {
-    ///  Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
+    /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -170,7 +170,7 @@ extension Batch {
         )
     }
 
-    ///  Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
+    /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -192,7 +192,7 @@ extension Batch {
         )
     }
 
-    ///  Describes one or more of your job queues.
+    /// Describes one or more of your job queues.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -214,7 +214,7 @@ extension Batch {
         )
     }
 
-    ///  Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
+    /// Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -236,7 +236,7 @@ extension Batch {
         )
     }
 
-    ///  Returns a list of Batch scheduling policies.
+    /// Returns a list of Batch scheduling policies.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

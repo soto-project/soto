@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -293,7 +293,7 @@ extension EMR {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EMR {
-    ///  Provides information about the bootstrap actions associated with a cluster.
+    /// Provides information about the bootstrap actions associated with a cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -315,7 +315,7 @@ extension EMR {
         )
     }
 
-    ///  Provides the status of all clusters visible to this Amazon Web Services account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters in unsorted order per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
+    /// Provides the status of all clusters visible to this Amazon Web Services account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters in unsorted order per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -337,7 +337,7 @@ extension EMR {
         )
     }
 
-    ///  Lists all available details about the instance fleets in a cluster.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
+    /// Lists all available details about the instance fleets in a cluster.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -359,7 +359,7 @@ extension EMR {
         )
     }
 
-    ///  Provides all available details about the instance groups in a cluster.
+    /// Provides all available details about the instance groups in a cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -381,7 +381,7 @@ extension EMR {
         )
     }
 
-    ///  Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
+    /// Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -403,7 +403,7 @@ extension EMR {
         )
     }
 
-    ///  Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecution calls.
+    /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecution calls.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -425,7 +425,7 @@ extension EMR {
         )
     }
 
-    ///  Retrieves release labels of EMR services in the region where the API is called.
+    /// Retrieves release labels of EMR services in the region where the API is called.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -447,7 +447,7 @@ extension EMR {
         )
     }
 
-    ///  Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
+    /// Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -469,7 +469,7 @@ extension EMR {
         )
     }
 
-    ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates. You can specify a maximum of 10 stepIDs. The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker, which is a pagination token that indicates the next set of steps to retrieve.
+    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates. You can specify a maximum of 10 stepIDs. The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker, which is a pagination token that indicates the next set of steps to retrieve.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -491,7 +491,7 @@ extension EMR {
         )
     }
 
-    ///  Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
+    /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -513,7 +513,7 @@ extension EMR {
         )
     }
 
-    ///  Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
+    /// Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

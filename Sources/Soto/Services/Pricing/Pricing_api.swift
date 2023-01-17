@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,7 +93,7 @@ extension Pricing {
 // MARK: Paginators
 
 extension Pricing {
-    ///  Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to  that service, such as the attribute  names available for that service. For example, some of the attribute names available for EC2 are  volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
+    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to  that service, such as the attribute  names available for that service. For example, some of the attribute names available for EC2 are  volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -146,7 +146,7 @@ extension Pricing {
         )
     }
 
-    ///  Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Billing and Cost Management User Guide.
+    /// Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Billing and Cost Management User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -199,7 +199,7 @@ extension Pricing {
         )
     }
 
-    ///  Returns a list of all products that match the filter criteria.
+    /// Returns a list of all products that match the filter criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

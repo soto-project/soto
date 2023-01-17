@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -208,7 +208,7 @@ extension Kafka {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kafka {
-    ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -230,7 +230,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK clusters in the current Region.
+    /// Returns a list of all the MSK clusters in the current Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -252,7 +252,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK clusters in the current Region.
+    /// Returns a list of all the MSK clusters in the current Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -274,7 +274,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK configurations in this Region.
+    /// Returns a list of all the MSK configurations in this Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -296,7 +296,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK configurations in this Region.
+    /// Returns a list of all the MSK configurations in this Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -318,7 +318,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of Apache Kafka versions.
+    /// Returns a list of Apache Kafka versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -340,7 +340,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of the broker nodes in the cluster.
+    /// Returns a list of the broker nodes in the cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -362,7 +362,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

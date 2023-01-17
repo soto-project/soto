@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -208,7 +208,7 @@ extension ServiceCatalogAppRegistry {
 // MARK: Paginators
 
 extension ServiceCatalogAppRegistry {
-    ///  Retrieves a list of all of your applications. Results are paginated.
+    /// Retrieves a list of all of your applications. Results are paginated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -261,7 +261,7 @@ extension ServiceCatalogAppRegistry {
         )
     }
 
-    ///  Lists all attribute groups that are associated with specified application.  Results are paginated.
+    /// Lists all attribute groups that are associated with specified application.  Results are paginated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -314,7 +314,7 @@ extension ServiceCatalogAppRegistry {
         )
     }
 
-    ///   Lists all  of the resources  that are associated  with the specified application. Results are paginated.    If you share an application,  and a consumer account associates a tag query  to the application,  all of the users  who can access the application  can also view the tag values  in all accounts  that are associated  with it  using this API.
+    ///  Lists all  of the resources  that are associated  with the specified application. Results are paginated.    If you share an application,  and a consumer account associates a tag query  to the application,  all of the users  who can access the application  can also view the tag values  in all accounts  that are associated  with it  using this API.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -367,7 +367,7 @@ extension ServiceCatalogAppRegistry {
         )
     }
 
-    ///  Lists all attribute groups which you have access to. Results are paginated.
+    /// Lists all attribute groups which you have access to. Results are paginated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -420,7 +420,7 @@ extension ServiceCatalogAppRegistry {
         )
     }
 
-    ///  Lists the details of all attribute groups associated with a specific application. The results display in pages.
+    /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

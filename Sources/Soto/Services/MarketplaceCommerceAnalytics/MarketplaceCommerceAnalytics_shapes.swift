@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -99,13 +99,13 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerDefinedValues
-            case dataSetPublicationDate
-            case dataSetType
-            case destinationS3BucketName
-            case destinationS3Prefix
-            case roleNameArn
-            case snsTopicArn
+            case customerDefinedValues = "customerDefinedValues"
+            case dataSetPublicationDate = "dataSetPublicationDate"
+            case dataSetType = "dataSetType"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case roleNameArn = "roleNameArn"
+            case snsTopicArn = "snsTopicArn"
         }
     }
 
@@ -118,7 +118,7 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetRequestId
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 
@@ -163,13 +163,13 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerDefinedValues
-            case dataSetType
-            case destinationS3BucketName
-            case destinationS3Prefix
-            case fromDate
-            case roleNameArn
-            case snsTopicArn
+            case customerDefinedValues = "customerDefinedValues"
+            case dataSetType = "dataSetType"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case fromDate = "fromDate"
+            case roleNameArn = "roleNameArn"
+            case snsTopicArn = "snsTopicArn"
         }
     }
 
@@ -182,7 +182,7 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetRequestId
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 }

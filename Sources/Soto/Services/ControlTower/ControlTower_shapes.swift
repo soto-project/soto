@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -59,11 +59,11 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case operationType
-            case startTime
-            case status
-            case statusMessage
+            case endTime = "endTime"
+            case operationType = "operationType"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -88,8 +88,8 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlIdentifier
-            case targetIdentifier
+            case controlIdentifier = "controlIdentifier"
+            case targetIdentifier = "targetIdentifier"
         }
     }
 
@@ -102,7 +102,7 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationIdentifier
+            case operationIdentifier = "operationIdentifier"
         }
     }
 
@@ -127,8 +127,8 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlIdentifier
-            case targetIdentifier
+            case controlIdentifier = "controlIdentifier"
+            case targetIdentifier = "targetIdentifier"
         }
     }
 
@@ -141,7 +141,7 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationIdentifier
+            case operationIdentifier = "operationIdentifier"
         }
     }
 
@@ -154,7 +154,7 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlIdentifier
+            case controlIdentifier = "controlIdentifier"
         }
     }
 
@@ -173,7 +173,7 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationIdentifier
+            case operationIdentifier = "operationIdentifier"
         }
     }
 
@@ -185,7 +185,7 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlOperation
+            case controlOperation = "controlOperation"
         }
     }
 
@@ -212,9 +212,9 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case targetIdentifier
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case targetIdentifier = "targetIdentifier"
         }
     }
 
@@ -230,8 +230,8 @@ extension ControlTower {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabledControls
-            case nextToken
+            case enabledControls = "enabledControls"
+            case nextToken = "nextToken"
         }
     }
 }

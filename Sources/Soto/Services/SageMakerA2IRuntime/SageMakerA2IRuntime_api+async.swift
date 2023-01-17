@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -53,7 +53,7 @@ extension SageMakerA2IRuntime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMakerA2IRuntime {
-    ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
+    /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

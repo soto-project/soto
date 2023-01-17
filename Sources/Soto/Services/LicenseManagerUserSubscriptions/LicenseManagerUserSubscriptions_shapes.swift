@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -722,13 +722,13 @@ public struct LicenseManagerUserSubscriptionsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient access to perform this action.
+    /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request couldn&#39;t be completed because it conflicted with the current state of the resource.
+    /// The request couldn't be completed because it conflicted with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource couldn&#39;t be found.
+    /// The resource couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed because a service quota is exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

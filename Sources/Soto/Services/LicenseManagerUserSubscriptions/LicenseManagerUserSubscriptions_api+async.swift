@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -83,7 +83,7 @@ extension LicenseManagerUserSubscriptions {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LicenseManagerUserSubscriptions {
-    ///  Lists the identity providers for user-based subscriptions.
+    /// Lists the identity providers for user-based subscriptions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -105,7 +105,7 @@ extension LicenseManagerUserSubscriptions {
         )
     }
 
-    ///  Lists the EC2 instances providing user-based subscriptions.
+    /// Lists the EC2 instances providing user-based subscriptions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -127,7 +127,7 @@ extension LicenseManagerUserSubscriptions {
         )
     }
 
-    ///  Lists the user-based subscription products available from an identity provider.
+    /// Lists the user-based subscription products available from an identity provider.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -149,7 +149,7 @@ extension LicenseManagerUserSubscriptions {
         )
     }
 
-    ///  Lists user associations for an identity provider.
+    /// Lists user associations for an identity provider.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

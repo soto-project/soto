@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,37 +22,37 @@ extension CloudFront {
     // MARK: Enums
 
     public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case allExcept
-        case none
-        case whitelist
+        case all = "all"
+        case allExcept = "allExcept"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum CachePolicyHeaderBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case none
-        case whitelist
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case allExcept
-        case none
-        case whitelist
+        case all = "all"
+        case allExcept = "allExcept"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum CachePolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case custom
-        case managed
+        case custom = "custom"
+        case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateSource: String, CustomStringConvertible, Codable, _SotoSendable {
-        case acm
-        case cloudfront
-        case iam
+        case acm = "acm"
+        case cloudfront = "cloudfront"
+        case iam = "iam"
         public var description: String { return self.rawValue }
     }
 
@@ -93,17 +93,17 @@ extension CloudFront {
     }
 
     public enum GeoRestrictionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case blacklist
-        case none
-        case whitelist
+        case blacklist = "blacklist"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum HttpVersion: String, CustomStringConvertible, Codable, _SotoSendable {
         case http11 = "http1.1"
-        case http2
-        case http2and3
-        case http3
+        case http2 = "http2"
+        case http2and3 = "http2and3"
+        case http3 = "http3"
         public var description: String { return self.rawValue }
     }
 
@@ -115,9 +115,9 @@ extension CloudFront {
     }
 
     public enum ItemSelection: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case none
-        case whitelist
+        case all = "all"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
@@ -144,19 +144,19 @@ extension CloudFront {
     }
 
     public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, _SotoSendable {
-        case s3
+        case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginAccessControlSigningBehaviors: String, CustomStringConvertible, Codable, _SotoSendable {
-        case always
-        case never
+        case always = "always"
+        case never = "never"
         case noOverride = "no-override"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, _SotoSendable {
-        case sigv4
+        case sigv4 = "sigv4"
         public var description: String { return self.rawValue }
     }
 
@@ -168,30 +168,30 @@ extension CloudFront {
     }
 
     public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case none
-        case whitelist
+        case all = "all"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case allViewer
-        case allViewerAndWhitelistCloudFront
-        case none
-        case whitelist
+        case allViewer = "allViewer"
+        case allViewerAndWhitelistCloudFront = "allViewerAndWhitelistCloudFront"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case none
-        case whitelist
+        case all = "all"
+        case none = "none"
+        case whitelist = "whitelist"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case custom
-        case managed
+        case custom = "custom"
+        case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
@@ -211,7 +211,7 @@ extension CloudFront {
     public enum ReferrerPolicyList: String, CustomStringConvertible, Codable, _SotoSendable {
         case noReferrer = "no-referrer"
         case noReferrerWhenDowngrade = "no-referrer-when-downgrade"
-        case origin
+        case origin = "origin"
         case originWhenCrossOrigin = "origin-when-cross-origin"
         case sameOrigin = "same-origin"
         case strictOrigin = "strict-origin"
@@ -233,15 +233,15 @@ extension CloudFront {
     }
 
     public enum ResponseHeadersPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case custom
-        case managed
+        case custom = "custom"
+        case managed = "managed"
         public var description: String { return self.rawValue }
     }
 
     public enum SSLSupportMethod: String, CustomStringConvertible, Codable, _SotoSendable {
         case sniOnly = "sni-only"
         case staticIp = "static-ip"
-        case vip
+        case vip = "vip"
         public var description: String { return self.rawValue }
     }
 
@@ -9826,7 +9826,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// Cannot delete the cache policy because it is attached to one or more cache
     /// 			behaviors.
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
-    /// You can&#39;t change the value of a public key.
+    /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
     /// If the CallerReference is a value you already sent in a previous request
     /// 			to create an identity but the content of the
@@ -9863,7 +9863,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// 			function, you must provide a unique name. To update an existing function, use
     /// 				UpdateFunction.
     public static var functionAlreadyExists: Self { .init(.functionAlreadyExists) }
-    /// Cannot delete the function because it&#39;s attached to one or more cache
+    /// Cannot delete the function because it's attached to one or more cache
     /// 			behaviors.
     public static var functionInUse: Self { .init(.functionInUse) }
     /// The function is too large. For more information, see Quotas (formerly known as limits) in the
@@ -9871,7 +9871,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var functionSizeLimitExceeded: Self { .init(.functionSizeLimitExceeded) }
     /// You cannot delete a managed policy.
     public static var illegalDelete: Self { .init(.illegalDelete) }
-    /// The specified configuration for field-level encryption can&#39;t be associated with the
+    /// The specified configuration for field-level encryption can't be associated with the
     /// 			specified cache behavior.
     public static var illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Self { .init(.illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior) }
     /// An origin cannot contain both an origin access control (OAC) and an origin access
@@ -9879,7 +9879,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var illegalOriginAccessConfiguration: Self { .init(.illegalOriginAccessConfiguration) }
     /// The update contains modifications that are not allowed.
     public static var illegalUpdate: Self { .init(.illegalUpdate) }
-    /// The value of Quantity and the size of Items don&#39;t
+    /// The value of Quantity and the size of Items don't
     /// 			match.
     public static var inconsistentQuantities: Self { .init(.inconsistentQuantities) }
     /// An argument is invalid.
@@ -9891,7 +9891,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidDomainNameForOriginAccessControl: Self { .init(.invalidDomainNameForOriginAccessControl) }
     /// An invalid error code was specified.
     public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
-    /// Your request contains forward cookies option which doesn&#39;t match with the expectation
+    /// Your request contains forward cookies option which doesn't match with the expectation
     /// 			for the whitelisted list of cookie names. Either list of cookie names has
     /// 			been specified when not allowed or list of cookie names is missing when expected.
     public static var invalidForwardCookies: Self { .init(.invalidForwardCookies) }
@@ -9913,7 +9913,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidOrigin: Self { .init(.invalidOrigin) }
     /// The origin access control is not valid.
     public static var invalidOriginAccessControl: Self { .init(.invalidOriginAccessControl) }
-    /// The origin access identity is not valid or doesn&#39;t exist.
+    /// The origin access identity is not valid or doesn't exist.
     public static var invalidOriginAccessIdentity: Self { .init(.invalidOriginAccessIdentity) }
     /// The keep alive timeout specified for the origin is not valid.
     public static var invalidOriginKeepaliveTimeout: Self { .init(.invalidOriginKeepaliveTimeout) }
@@ -9957,13 +9957,13 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchCachePolicy: Self { .init(.noSuchCachePolicy) }
     /// The specified origin access identity does not exist.
     public static var noSuchCloudFrontOriginAccessIdentity: Self { .init(.noSuchCloudFrontOriginAccessIdentity) }
-    /// The continuous deployment policy doesn&#39;t exist.
+    /// The continuous deployment policy doesn't exist.
     public static var noSuchContinuousDeploymentPolicy: Self { .init(.noSuchContinuousDeploymentPolicy) }
     /// The specified distribution does not exist.
     public static var noSuchDistribution: Self { .init(.noSuchDistribution) }
-    /// The specified configuration for field-level encryption doesn&#39;t exist.
+    /// The specified configuration for field-level encryption doesn't exist.
     public static var noSuchFieldLevelEncryptionConfig: Self { .init(.noSuchFieldLevelEncryptionConfig) }
-    /// The specified profile for field-level encryption doesn&#39;t exist.
+    /// The specified profile for field-level encryption doesn't exist.
     public static var noSuchFieldLevelEncryptionProfile: Self { .init(.noSuchFieldLevelEncryptionProfile) }
     /// The function does not exist.
     public static var noSuchFunctionExists: Self { .init(.noSuchFunctionExists) }
@@ -9977,7 +9977,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchOriginAccessControl: Self { .init(.noSuchOriginAccessControl) }
     /// The origin request policy does not exist.
     public static var noSuchOriginRequestPolicy: Self { .init(.noSuchOriginRequestPolicy) }
-    /// The specified public key doesn&#39;t exist.
+    /// The specified public key doesn't exist.
     public static var noSuchPublicKey: Self { .init(.noSuchPublicKey) }
     /// The real-time log configuration does not exist.
     public static var noSuchRealtimeLogConfig: Self { .init(.noSuchRealtimeLogConfig) }
@@ -9989,7 +9989,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
     /// An origin access control with the specified parameters already exists.
     public static var originAccessControlAlreadyExists: Self { .init(.originAccessControlAlreadyExists) }
-    /// Cannot delete the origin access control because it&#39;s in use by one or more
+    /// Cannot delete the origin access control because it's in use by one or more
     /// 			distributions.
     public static var originAccessControlInUse: Self { .init(.originAccessControlInUse) }
     /// An origin request policy with this name already exists. You must provide a unique
@@ -10209,7 +10209,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyTrustedSigners: Self { .init(.tooManyTrustedSigners) }
     /// The specified key group does not exist.
     public static var trustedKeyGroupDoesNotExist: Self { .init(.trustedKeyGroupDoesNotExist) }
-    /// One or more of your trusted signers don&#39;t exist.
+    /// One or more of your trusted signers don't exist.
     public static var trustedSignerDoesNotExist: Self { .init(.trustedSignerDoesNotExist) }
     /// This operation is not supported in this region.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -876,7 +876,7 @@ extension FSx {
             try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, max: 4096)
             try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, min: 1)
             try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,4096}$")
-            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
+            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
             try self.s3?.validate(name: "\(name).s3")
             try self.tags?.forEach {
@@ -935,7 +935,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capacityToRelease, name: "capacityToRelease", parent: name, max: 2_147_483_647)
+            try self.validate(self.capacityToRelease, name: "capacityToRelease", parent: name, max: 2147483647)
             try self.validate(self.capacityToRelease, name: "capacityToRelease", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
@@ -1070,7 +1070,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
@@ -1172,7 +1172,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
@@ -1271,7 +1271,7 @@ extension FSx {
             try self.validate(self.exportPath, name: "exportPath", parent: name, max: 4357)
             try self.validate(self.exportPath, name: "exportPath", parent: name, min: 3)
             try self.validate(self.exportPath, name: "exportPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
-            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
+            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
             try self.validate(self.importPath, name: "importPath", parent: name, max: 4357)
             try self.validate(self.importPath, name: "importPath", parent: name, min: 3)
@@ -1357,7 +1357,7 @@ extension FSx {
                 try validate($0, name: "routeTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.routeTableIds, name: "routeTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -1414,7 +1414,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
             try self.rootVolumeConfiguration?.validate(name: "\(name).rootVolumeConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -1494,7 +1494,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
@@ -1597,7 +1597,7 @@ extension FSx {
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -1654,7 +1654,7 @@ extension FSx {
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, max: 255)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, min: 1)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
-            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2_147_483_647)
+            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2147483647)
             try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, min: 0)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, max: 255)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, min: 1)
@@ -1745,9 +1745,9 @@ extension FSx {
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, pattern: "^(fsvol-[0-9a-f]{17,})$")
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
-            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)
-            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: -1)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
@@ -2828,7 +2828,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -2937,7 +2937,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 3)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -2993,7 +2993,7 @@ extension FSx {
                 try validate($0, name: "fileCacheIds[]", parent: name, pattern: "^(fc-[0-9a-f]{8,})$")
             }
             try self.validate(self.fileCacheIds, name: "fileCacheIds", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3046,7 +3046,7 @@ extension FSx {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 21)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3099,7 +3099,7 @@ extension FSx {
                 try validate($0, name: "fileSystemIds[]", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             }
             try self.validate(self.fileSystemIds, name: "fileSystemIds", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3150,7 +3150,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 2)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3207,7 +3207,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3264,7 +3264,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 2)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -3361,7 +3361,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.iops, name: "iops", parent: name, max: 1_000_000)
+            try self.validate(self.iops, name: "iops", parent: name, max: 1000000)
             try self.validate(self.iops, name: "iops", parent: name, min: 0)
         }
 
@@ -3607,7 +3607,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
         }
 
@@ -3832,7 +3832,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -4279,9 +4279,9 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 2_147_483_647)
+            try self.validate(self.id, name: "id", parent: name, max: 2147483647)
             try self.validate(self.id, name: "id", parent: name, min: 0)
-            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: 0)
         }
 
@@ -4940,7 +4940,7 @@ extension FSx {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
-            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
+            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
             try self.s3?.validate(name: "\(name).s3")
         }
@@ -5123,7 +5123,7 @@ extension FSx {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.removeRouteTableIds, name: "removeRouteTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -5171,7 +5171,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -5223,7 +5223,7 @@ extension FSx {
             try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
             try self.ontapConfiguration?.validate(name: "\(name).ontapConfiguration")
             try self.openZFSConfiguration?.validate(name: "\(name).openZFSConfiguration")
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.windowsConfiguration?.validate(name: "\(name).windowsConfiguration")
         }
@@ -5283,7 +5283,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100_000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -5330,7 +5330,7 @@ extension FSx {
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, max: 255)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, min: 1)
             try self.validate(self.junctionPath, name: "junctionPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
-            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2_147_483_647)
+            try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, max: 2147483647)
             try self.validate(self.sizeInMegabytes, name: "sizeInMegabytes", parent: name, min: 0)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, max: 255)
             try self.validate(self.snapshotPolicy, name: "snapshotPolicy", parent: name, min: 1)
@@ -5381,9 +5381,9 @@ extension FSx {
             try self.validate(self.nfsExports, name: "nfsExports", parent: name, max: 1)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
             try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
-            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)
-            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2147483647)
             try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: -1)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
@@ -5819,13 +5819,13 @@ public struct FSxErrorType: AWSErrorType {
 
     /// An Active Directory error.
     public static var activeDirectoryError: Self { .init(.activeDirectoryError) }
-    /// You can&#39;t delete a backup while it&#39;s being copied.
+    /// You can't delete a backup while it's being copied.
     public static var backupBeingCopied: Self { .init(.backupBeingCopied) }
     /// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
     public static var backupInProgress: Self { .init(.backupInProgress) }
     /// No Amazon FSx backups were found based upon the supplied parameters.
     public static var backupNotFound: Self { .init(.backupNotFound) }
-    /// You can&#39;t delete a backup while it&#39;s being used to restore a file system.
+    /// You can't delete a backup while it's being used to restore a file system.
     public static var backupRestoring: Self { .init(.backupRestoring) }
     /// A generic error indicating a failure with a client request.
     public static var badRequest: Self { .init(.badRequest) }
@@ -5843,7 +5843,7 @@ public struct FSxErrorType: AWSErrorType {
     public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
     /// The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     public static var incompatibleParameterError: Self { .init(.incompatibleParameterError) }
-    /// Amazon FSx doesn&#39;t support Multi-AZ Windows File Server copy backup in the destination Region, so the copied backup can&#39;t be restored.
+    /// Amazon FSx doesn't support Multi-AZ Windows File Server copy backup in the destination Region, so the copied backup can't be restored.
     public static var incompatibleRegionForMultiAZ: Self { .init(.incompatibleRegionForMultiAZ) }
     /// A generic error indicating a server-side failure.
     public static var internalServerError: Self { .init(.internalServerError) }
@@ -5851,9 +5851,9 @@ public struct FSxErrorType: AWSErrorType {
     public static var invalidDataRepositoryType: Self { .init(.invalidDataRepositoryType) }
     /// The Key Management Service (KMS) key of the destination backup is not valid.
     public static var invalidDestinationKmsKey: Self { .init(.invalidDestinationKmsKey) }
-    /// The path provided for data repository export isn&#39;t valid.
+    /// The path provided for data repository export isn't valid.
     public static var invalidExportPath: Self { .init(.invalidExportPath) }
-    /// The path provided for data repository import isn&#39;t valid.
+    /// The path provided for data repository import isn't valid.
     public static var invalidImportPath: Self { .init(.invalidImportPath) }
     /// One or more network settings specified in the request are invalid.
     public static var invalidNetworkSettings: Self { .init(.invalidNetworkSettings) }
@@ -5873,13 +5873,13 @@ public struct FSxErrorType: AWSErrorType {
     public static var notServiceResourceError: Self { .init(.notServiceResourceError) }
     /// The resource specified does not support tagging.
     public static var resourceDoesNotSupportTagging: Self { .init(.resourceDoesNotSupportTagging) }
-    /// The resource specified by the Amazon Resource Name (ARN) can&#39;t be found.
+    /// The resource specified by the Amazon Resource Name (ARN) can't be found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
     /// No Amazon FSx snapshots were found based on the supplied parameters.
     public static var snapshotNotFound: Self { .init(.snapshotNotFound) }
-    /// The request was rejected because the lifecycle status of the source backup isn&#39;t AVAILABLE.
+    /// The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
     /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public static var storageVirtualMachineNotFound: Self { .init(.storageVirtualMachineNotFound) }

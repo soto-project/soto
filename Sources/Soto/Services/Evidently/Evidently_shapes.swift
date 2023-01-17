@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -182,10 +182,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case boolValue
-            case doubleValue
-            case longValue
-            case stringValue
+            case boolValue = "boolValue"
+            case doubleValue = "doubleValue"
+            case longValue = "longValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -217,7 +217,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requests
+            case requests = "requests"
         }
     }
 
@@ -230,7 +230,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case results
+            case results = "results"
         }
     }
 
@@ -243,7 +243,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroup
+            case logGroup = "logGroup"
         }
     }
 
@@ -262,7 +262,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroup
+            case logGroup = "logGroup"
         }
     }
 
@@ -321,7 +321,7 @@ extension Evidently {
             try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
-            try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100_000)
+            try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100000)
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, min: 0)
             try self.validate(self.segment, name: "segment", parent: name, max: 2048)
             try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
@@ -338,15 +338,15 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case metricGoals
-            case name
-            case onlineAbConfig
-            case randomizationSalt
-            case samplingRate
-            case segment
-            case tags
-            case treatments
+            case description = "description"
+            case metricGoals = "metricGoals"
+            case name = "name"
+            case onlineAbConfig = "onlineAbConfig"
+            case randomizationSalt = "randomizationSalt"
+            case samplingRate = "samplingRate"
+            case segment = "segment"
+            case tags = "tags"
+            case treatments = "treatments"
         }
     }
 
@@ -359,7 +359,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -430,13 +430,13 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultVariation
-            case description
-            case entityOverrides
-            case evaluationStrategy
-            case name
-            case tags
-            case variations
+            case defaultVariation = "defaultVariation"
+            case description = "description"
+            case entityOverrides = "entityOverrides"
+            case evaluationStrategy = "evaluationStrategy"
+            case name = "name"
+            case tags = "tags"
+            case variations = "variations"
         }
     }
 
@@ -449,7 +449,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feature
+            case feature = "feature"
         }
     }
 
@@ -515,13 +515,13 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case groups
-            case metricMonitors
-            case name
-            case randomizationSalt
-            case scheduledSplitsConfig
-            case tags
+            case description = "description"
+            case groups = "groups"
+            case metricMonitors = "metricMonitors"
+            case name = "name"
+            case randomizationSalt = "randomizationSalt"
+            case scheduledSplitsConfig = "scheduledSplitsConfig"
+            case tags = "tags"
         }
     }
 
@@ -534,7 +534,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launch
+            case launch = "launch"
         }
     }
 
@@ -575,11 +575,11 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appConfigResource
-            case dataDelivery
-            case description
-            case name
-            case tags
+            case appConfigResource = "appConfigResource"
+            case dataDelivery = "dataDelivery"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -592,7 +592,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -630,10 +630,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case pattern
-            case tags
+            case description = "description"
+            case name = "name"
+            case pattern = "pattern"
+            case tags = "tags"
         }
     }
 
@@ -646,7 +646,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case segment
+            case segment = "segment"
         }
     }
 
@@ -825,8 +825,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case evaluationContext
+            case entityId = "entityId"
+            case evaluationContext = "evaluationContext"
         }
     }
 
@@ -848,10 +848,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reason
-            case value
-            case variation
+            case details = "details"
+            case reason = "reason"
+            case value = "value"
+            case variation = "variation"
         }
     }
 
@@ -879,9 +879,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case evaluationContext
-            case feature
+            case entityId = "entityId"
+            case evaluationContext = "evaluationContext"
+            case feature = "feature"
         }
     }
 
@@ -912,13 +912,13 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case entityId
-            case feature
-            case project
-            case reason
-            case value
-            case variation
+            case details = "details"
+            case entityId = "entityId"
+            case feature = "feature"
+            case project = "project"
+            case reason = "reason"
+            case value = "value"
+            case variation = "variation"
         }
     }
 
@@ -934,8 +934,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -954,9 +954,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case timestamp
-            case type
+            case data = "data"
+            case timestamp = "timestamp"
+            case type = "type"
         }
     }
 
@@ -1020,24 +1020,24 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case execution
-            case lastUpdatedTime
-            case metricGoals
-            case name
-            case onlineAbDefinition
-            case project
-            case randomizationSalt
-            case samplingRate
-            case schedule
-            case segment
-            case status
-            case statusReason
-            case tags
-            case treatments
-            case type
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case execution = "execution"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case metricGoals = "metricGoals"
+            case name = "name"
+            case onlineAbDefinition = "onlineAbDefinition"
+            case project = "project"
+            case randomizationSalt = "randomizationSalt"
+            case samplingRate = "samplingRate"
+            case schedule = "schedule"
+            case segment = "segment"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case treatments = "treatments"
+            case type = "type"
         }
     }
 
@@ -1053,8 +1053,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endedTime
-            case startedTime
+            case endedTime = "endedTime"
+            case startedTime = "startedTime"
         }
     }
 
@@ -1076,10 +1076,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case metricName
-            case reportName
-            case treatmentName
+            case content = "content"
+            case metricName = "metricName"
+            case reportName = "reportName"
+            case treatmentName = "treatmentName"
         }
     }
 
@@ -1101,10 +1101,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName
-            case resultStat
-            case treatmentName
-            case values
+            case metricName = "metricName"
+            case resultStat = "resultStat"
+            case treatmentName = "treatmentName"
+            case values = "values"
         }
     }
 
@@ -1117,7 +1117,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analysisCompleteTime
+            case analysisCompleteTime = "analysisCompleteTime"
         }
     }
 
@@ -1169,20 +1169,20 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case defaultVariation
-            case description
-            case entityOverrides
-            case evaluationRules
-            case evaluationStrategy
-            case lastUpdatedTime
-            case name
-            case project
-            case status
-            case tags
-            case valueType
-            case variations
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case defaultVariation = "defaultVariation"
+            case description = "description"
+            case entityOverrides = "entityOverrides"
+            case evaluationRules = "evaluationRules"
+            case evaluationStrategy = "evaluationStrategy"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case project = "project"
+            case status = "status"
+            case tags = "tags"
+            case valueType = "valueType"
+            case variations = "variations"
         }
     }
 
@@ -1222,16 +1222,16 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case defaultVariation
-            case evaluationRules
-            case evaluationStrategy
-            case lastUpdatedTime
-            case name
-            case project
-            case status
-            case tags
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case defaultVariation = "defaultVariation"
+            case evaluationRules = "evaluationRules"
+            case evaluationStrategy = "evaluationStrategy"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case project = "project"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1271,7 +1271,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1342,14 +1342,14 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseStat
-            case endTime
-            case metricNames
-            case period
-            case reportNames
-            case resultStats
-            case startTime
-            case treatmentNames
+            case baseStat = "baseStat"
+            case endTime = "endTime"
+            case metricNames = "metricNames"
+            case period = "period"
+            case reportNames = "reportNames"
+            case resultStats = "resultStats"
+            case startTime = "startTime"
+            case treatmentNames = "treatmentNames"
         }
     }
 
@@ -1371,10 +1371,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reports
-            case resultsData
-            case timestamps
+            case details = "details"
+            case reports = "reports"
+            case resultsData = "resultsData"
+            case timestamps = "timestamps"
         }
     }
 
@@ -1414,7 +1414,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feature
+            case feature = "feature"
         }
     }
 
@@ -1454,7 +1454,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launch
+            case launch = "launch"
         }
     }
 
@@ -1487,7 +1487,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -1520,7 +1520,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case segment
+            case segment = "segment"
         }
     }
 
@@ -1575,21 +1575,21 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case execution
-            case groups
-            case lastUpdatedTime
-            case metricMonitors
-            case name
-            case project
-            case randomizationSalt
-            case scheduledSplitsDefinition
-            case status
-            case statusReason
-            case tags
-            case type
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case execution = "execution"
+            case groups = "groups"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case metricMonitors = "metricMonitors"
+            case name = "name"
+            case project = "project"
+            case randomizationSalt = "randomizationSalt"
+            case scheduledSplitsDefinition = "scheduledSplitsDefinition"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -1605,8 +1605,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endedTime
-            case startedTime
+            case endedTime = "endedTime"
+            case startedTime = "startedTime"
         }
     }
 
@@ -1625,9 +1625,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case featureVariations
-            case name
+            case description = "description"
+            case featureVariations = "featureVariations"
+            case name = "name"
         }
     }
 
@@ -1663,10 +1663,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case feature
-            case name
-            case variation
+            case description = "description"
+            case feature = "feature"
+            case name = "name"
+            case variation = "variation"
         }
     }
 
@@ -1719,8 +1719,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiments
-            case nextToken
+            case experiments = "experiments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1769,8 +1769,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case features
-            case nextToken
+            case features = "features"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1823,8 +1823,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launches
-            case nextToken
+            case launches = "launches"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1867,8 +1867,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -1921,8 +1921,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case referencedBy
+            case nextToken = "nextToken"
+            case referencedBy = "referencedBy"
         }
     }
 
@@ -1965,8 +1965,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case segments
+            case nextToken = "nextToken"
+            case segments = "segments"
         }
     }
 
@@ -1999,7 +1999,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2024,11 +2024,11 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityIdKey
-            case eventPattern
-            case name
-            case unitLabel
-            case valueKey
+            case entityIdKey = "entityIdKey"
+            case eventPattern = "eventPattern"
+            case name = "name"
+            case unitLabel = "unitLabel"
+            case valueKey = "valueKey"
         }
     }
 
@@ -2068,11 +2068,11 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityIdKey
-            case eventPattern
-            case name
-            case unitLabel
-            case valueKey
+            case entityIdKey = "entityIdKey"
+            case eventPattern = "eventPattern"
+            case name = "name"
+            case unitLabel = "unitLabel"
+            case valueKey = "valueKey"
         }
     }
 
@@ -2088,8 +2088,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredChange
-            case metricDefinition
+            case desiredChange = "desiredChange"
+            case metricDefinition = "metricDefinition"
         }
     }
 
@@ -2109,8 +2109,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredChange
-            case metricDefinition
+            case desiredChange = "desiredChange"
+            case metricDefinition = "metricDefinition"
         }
     }
 
@@ -2123,7 +2123,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricDefinition
+            case metricDefinition = "metricDefinition"
         }
     }
 
@@ -2140,7 +2140,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricDefinition
+            case metricDefinition = "metricDefinition"
         }
     }
 
@@ -2163,14 +2163,14 @@ extension Evidently {
                 try validate($0.key, name: "treatmentWeights.key", parent: name, max: 127)
                 try validate($0.key, name: "treatmentWeights.key", parent: name, min: 1)
                 try validate($0.key, name: "treatmentWeights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
-                try validate($0.value, name: "treatmentWeights[\"\($0.key)\"]", parent: name, max: 100_000)
+                try validate($0.value, name: "treatmentWeights[\"\($0.key)\"]", parent: name, max: 100000)
                 try validate($0.value, name: "treatmentWeights[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlTreatmentName
-            case treatmentWeights
+            case controlTreatmentName = "controlTreatmentName"
+            case treatmentWeights = "treatmentWeights"
         }
     }
 
@@ -2186,8 +2186,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlTreatmentName
-            case treatmentWeights
+            case controlTreatmentName = "controlTreatmentName"
+            case treatmentWeights = "treatmentWeights"
         }
     }
 
@@ -2239,20 +2239,20 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeExperimentCount
-            case activeLaunchCount
-            case appConfigResource
-            case arn
-            case createdTime
-            case dataDelivery
-            case description
-            case experimentCount
-            case featureCount
-            case lastUpdatedTime
-            case launchCount
-            case name
-            case status
-            case tags
+            case activeExperimentCount = "activeExperimentCount"
+            case activeLaunchCount = "activeLaunchCount"
+            case appConfigResource = "appConfigResource"
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case dataDelivery = "dataDelivery"
+            case description = "description"
+            case experimentCount = "experimentCount"
+            case featureCount = "featureCount"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case launchCount = "launchCount"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2271,9 +2271,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case configurationProfileId
-            case environmentId
+            case applicationId = "applicationId"
+            case configurationProfileId = "configurationProfileId"
+            case environmentId = "environmentId"
         }
     }
 
@@ -2294,8 +2294,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case environmentId
+            case applicationId = "applicationId"
+            case environmentId = "environmentId"
         }
     }
 
@@ -2311,8 +2311,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case s3Destination
+            case cloudWatchLogs = "cloudWatchLogs"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -2333,8 +2333,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case s3Destination
+            case cloudWatchLogs = "cloudWatchLogs"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -2380,18 +2380,18 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeExperimentCount
-            case activeLaunchCount
-            case arn
-            case createdTime
-            case description
-            case experimentCount
-            case featureCount
-            case lastUpdatedTime
-            case launchCount
-            case name
-            case status
-            case tags
+            case activeExperimentCount = "activeExperimentCount"
+            case activeLaunchCount = "activeLaunchCount"
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case experimentCount = "experimentCount"
+            case featureCount = "featureCount"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case launchCount = "launchCount"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2417,7 +2417,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
+            case events = "events"
         }
     }
 
@@ -2433,8 +2433,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventResults
-            case failedEventCount
+            case eventResults = "eventResults"
+            case failedEventCount = "failedEventCount"
         }
     }
 
@@ -2453,9 +2453,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case eventId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case eventId = "eventId"
         }
     }
 
@@ -2486,13 +2486,13 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case endTime
-            case lastUpdatedOn
-            case name
-            case startTime
-            case status
-            case type
+            case arn = "arn"
+            case endTime = "endTime"
+            case lastUpdatedOn = "lastUpdatedOn"
+            case name = "name"
+            case startTime = "startTime"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -2508,8 +2508,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case prefix
+            case bucket = "bucket"
+            case prefix = "prefix"
         }
     }
 
@@ -2534,8 +2534,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case prefix
+            case bucket = "bucket"
+            case prefix = "prefix"
         }
     }
 
@@ -2554,9 +2554,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupWeights
-            case segmentOverrides
-            case startTime
+            case groupWeights = "groupWeights"
+            case segmentOverrides = "segmentOverrides"
+            case startTime = "startTime"
         }
     }
 
@@ -2579,7 +2579,7 @@ extension Evidently {
                 try validate($0.key, name: "groupWeights.key", parent: name, max: 127)
                 try validate($0.key, name: "groupWeights.key", parent: name, min: 1)
                 try validate($0.key, name: "groupWeights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
-                try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, max: 100_000)
+                try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, max: 100000)
                 try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.validate(self.groupWeights, name: "groupWeights", parent: name, max: 5)
@@ -2590,9 +2590,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupWeights
-            case segmentOverrides
-            case startTime
+            case groupWeights = "groupWeights"
+            case segmentOverrides = "segmentOverrides"
+            case startTime = "startTime"
         }
     }
 
@@ -2613,7 +2613,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case steps
+            case steps = "steps"
         }
     }
 
@@ -2626,7 +2626,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case steps
+            case steps = "steps"
         }
     }
 
@@ -2663,15 +2663,15 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case description
-            case experimentCount
-            case lastUpdatedTime
-            case launchCount
-            case name
-            case pattern
-            case tags
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case description = "description"
+            case experimentCount = "experimentCount"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case launchCount = "launchCount"
+            case name = "name"
+            case pattern = "pattern"
+            case tags = "tags"
         }
     }
 
@@ -2696,16 +2696,16 @@ extension Evidently {
                 try validate($0.key, name: "weights.key", parent: name, max: 127)
                 try validate($0.key, name: "weights.key", parent: name, min: 1)
                 try validate($0.key, name: "weights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
-                try validate($0.value, name: "weights[\"\($0.key)\"]", parent: name, max: 100_000)
+                try validate($0.value, name: "weights[\"\($0.key)\"]", parent: name, max: 100000)
                 try validate($0.value, name: "weights[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.validate(self.weights, name: "weights", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluationOrder
-            case segment
-            case weights
+            case evaluationOrder = "evaluationOrder"
+            case segment = "segment"
+            case weights = "weights"
         }
     }
 
@@ -2737,7 +2737,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analysisCompleteTime
+            case analysisCompleteTime = "analysisCompleteTime"
         }
     }
 
@@ -2750,7 +2750,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startedTime
+            case startedTime = "startedTime"
         }
     }
 
@@ -2790,7 +2790,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launch
+            case launch = "launch"
         }
     }
 
@@ -2827,8 +2827,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredState
-            case reason
+            case desiredState = "desiredState"
+            case reason = "reason"
         }
     }
 
@@ -2841,7 +2841,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endedTime
+            case endedTime = "endedTime"
         }
     }
 
@@ -2878,8 +2878,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredState
-            case reason
+            case desiredState = "desiredState"
+            case reason = "reason"
         }
     }
 
@@ -2892,7 +2892,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endedTime
+            case endedTime = "endedTime"
         }
     }
 
@@ -2923,7 +2923,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2948,8 +2948,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pattern
-            case payload
+            case pattern = "pattern"
+            case payload = "payload"
         }
     }
 
@@ -2962,7 +2962,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case match
+            case match = "match"
         }
     }
 
@@ -2981,9 +2981,9 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case featureVariations
-            case name
+            case description = "description"
+            case featureVariations = "featureVariations"
+            case name = "name"
         }
     }
 
@@ -3019,10 +3019,10 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case feature
-            case name
-            case variation
+            case description = "description"
+            case feature = "feature"
+            case name = "name"
+            case variation = "variation"
         }
     }
 
@@ -3116,7 +3116,7 @@ extension Evidently {
             try self.validate(self.project, name: "project", parent: name, pattern: "(^[a-zA-Z0-9._-]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[a-zA-Z0-9._-]*)")
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, max: 127)
             try self.validate(self.randomizationSalt, name: "randomizationSalt", parent: name, pattern: ".*")
-            try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100_000)
+            try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100000)
             try self.validate(self.samplingRate, name: "samplingRate", parent: name, min: 0)
             try self.validate(self.segment, name: "segment", parent: name, max: 2048)
             try self.validate(self.segment, name: "segment", parent: name, pattern: "(^[-a-zA-Z0-9._]*$)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:segment/[-a-zA-Z0-9._]*)")
@@ -3127,14 +3127,14 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case metricGoals
-            case onlineAbConfig
-            case randomizationSalt
-            case removeSegment
-            case samplingRate
-            case segment
-            case treatments
+            case description = "description"
+            case metricGoals = "metricGoals"
+            case onlineAbConfig = "onlineAbConfig"
+            case randomizationSalt = "randomizationSalt"
+            case removeSegment = "removeSegment"
+            case samplingRate = "samplingRate"
+            case segment = "segment"
+            case treatments = "treatments"
         }
     }
 
@@ -3147,7 +3147,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -3219,12 +3219,12 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOrUpdateVariations
-            case defaultVariation
-            case description
-            case entityOverrides
-            case evaluationStrategy
-            case removeVariations
+            case addOrUpdateVariations = "addOrUpdateVariations"
+            case defaultVariation = "defaultVariation"
+            case description = "description"
+            case entityOverrides = "entityOverrides"
+            case evaluationStrategy = "evaluationStrategy"
+            case removeVariations = "removeVariations"
         }
     }
 
@@ -3237,7 +3237,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case feature
+            case feature = "feature"
         }
     }
 
@@ -3295,11 +3295,11 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case groups
-            case metricMonitors
-            case randomizationSalt
-            case scheduledSplitsConfig
+            case description = "description"
+            case groups = "groups"
+            case metricMonitors = "metricMonitors"
+            case randomizationSalt = "randomizationSalt"
+            case scheduledSplitsConfig = "scheduledSplitsConfig"
         }
     }
 
@@ -3312,7 +3312,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launch
+            case launch = "launch"
         }
     }
 
@@ -3342,8 +3342,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case s3Destination
+            case cloudWatchLogs = "cloudWatchLogs"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -3356,7 +3356,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -3387,8 +3387,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appConfigResource
-            case description
+            case appConfigResource = "appConfigResource"
+            case description = "description"
         }
     }
 
@@ -3401,7 +3401,7 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -3417,8 +3417,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -3440,8 +3440,8 @@ extension Evidently {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 }

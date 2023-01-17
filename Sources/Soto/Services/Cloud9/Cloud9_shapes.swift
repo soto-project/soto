@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -37,19 +37,19 @@ extension Cloud9 {
     }
 
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case connecting
-        case creating
-        case deleting
-        case error
-        case ready
-        case stopped
-        case stopping
+        case connecting = "connecting"
+        case creating = "creating"
+        case deleting = "deleting"
+        case error = "error"
+        case ready = "ready"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ec2
-        case ssh
+        case ec2 = "ec2"
+        case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
@@ -81,7 +81,7 @@ extension Cloud9 {
     }
 
     public enum Permissions: String, CustomStringConvertible, Codable, _SotoSendable {
-        case owner
+        case owner = "owner"
         case readOnly = "read-only"
         case readWrite = "read-write"
         public var description: String { return self.rawValue }
@@ -148,17 +148,17 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automaticStopTimeMinutes
-            case clientRequestToken
-            case connectionType
-            case description
-            case dryRun
-            case imageId
-            case instanceType
-            case name
-            case ownerArn
-            case subnetId
-            case tags
+            case automaticStopTimeMinutes = "automaticStopTimeMinutes"
+            case clientRequestToken = "clientRequestToken"
+            case connectionType = "connectionType"
+            case description = "description"
+            case dryRun = "dryRun"
+            case imageId = "imageId"
+            case instanceType = "instanceType"
+            case name = "name"
+            case ownerArn = "ownerArn"
+            case subnetId = "subnetId"
+            case tags = "tags"
         }
     }
 
@@ -171,7 +171,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
+            case environmentId = "environmentId"
         }
     }
 
@@ -195,9 +195,9 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
-            case permissions
-            case userArn
+            case environmentId = "environmentId"
+            case permissions = "permissions"
+            case userArn = "userArn"
         }
     }
 
@@ -210,7 +210,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case membership
+            case membership = "membership"
         }
     }
 
@@ -231,8 +231,8 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
-            case userArn
+            case environmentId = "environmentId"
+            case userArn = "userArn"
         }
     }
 
@@ -253,7 +253,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
+            case environmentId = "environmentId"
         }
     }
 
@@ -289,11 +289,11 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
-            case maxResults
-            case nextToken
-            case permissions
-            case userArn
+            case environmentId = "environmentId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case permissions = "permissions"
+            case userArn = "userArn"
         }
     }
 
@@ -309,8 +309,8 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberships
-            case nextToken
+            case memberships = "memberships"
+            case nextToken = "nextToken"
         }
     }
 
@@ -327,7 +327,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
+            case environmentId = "environmentId"
         }
     }
 
@@ -343,8 +343,8 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case status
+            case message = "message"
+            case status = "status"
         }
     }
 
@@ -365,7 +365,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentIds
+            case environmentIds = "environmentIds"
         }
     }
 
@@ -378,7 +378,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environments
+            case environments = "environments"
         }
     }
 
@@ -415,15 +415,15 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectionType
-            case description
-            case id
-            case lifecycle
-            case managedCredentialsStatus
-            case name
-            case ownerArn
-            case type
+            case arn = "arn"
+            case connectionType = "connectionType"
+            case description = "description"
+            case id = "id"
+            case lifecycle = "lifecycle"
+            case managedCredentialsStatus = "managedCredentialsStatus"
+            case name = "name"
+            case ownerArn = "ownerArn"
+            case type = "type"
         }
     }
 
@@ -442,9 +442,9 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureResource
-            case reason
-            case status
+            case failureResource = "failureResource"
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -469,11 +469,11 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
-            case lastAccess
-            case permissions
-            case userArn
-            case userId
+            case environmentId = "environmentId"
+            case lastAccess = "lastAccess"
+            case permissions = "permissions"
+            case userArn = "userArn"
+            case userId = "userId"
         }
     }
 
@@ -494,8 +494,8 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -511,8 +511,8 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentIds
-            case nextToken
+            case environmentIds = "environmentIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -648,9 +648,9 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
-            case permissions
-            case userArn
+            case environmentId = "environmentId"
+            case permissions = "permissions"
+            case userArn = "userArn"
         }
     }
 
@@ -663,7 +663,7 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case membership
+            case membership = "membership"
         }
     }
 
@@ -692,10 +692,10 @@ extension Cloud9 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case environmentId
-            case managedCredentialsAction
-            case name
+            case description = "description"
+            case environmentId = "environmentId"
+            case managedCredentialsAction = "managedCredentialsAction"
+            case name = "name"
         }
     }
 

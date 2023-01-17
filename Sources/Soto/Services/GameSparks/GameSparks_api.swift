@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -239,7 +239,7 @@ extension GameSparks {
 // MARK: Paginators
 
 extension GameSparks {
-    ///  Gets a paginated list of available versions for the extension.  Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
+    /// Gets a paginated list of available versions for the extension.  Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -292,7 +292,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of available extensions.  Extensions provide features that games can use from scripts.
+    /// Gets a paginated list of available extensions.  Extensions provide features that games can use from scripts.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -345,7 +345,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of games.
+    /// Gets a paginated list of games.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -398,7 +398,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of code generation jobs for a snapshot.
+    /// Gets a paginated list of code generation jobs for a snapshot.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -451,7 +451,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of snapshot summaries from the game.
+    /// Gets a paginated list of snapshot summaries from the game.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -504,7 +504,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of stage deployment summaries from the game.
+    /// Gets a paginated list of stage deployment summaries from the game.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -557,7 +557,7 @@ extension GameSparks {
         )
     }
 
-    ///  Gets a paginated list of stage summaries from the game.
+    /// Gets a paginated list of stage summaries from the game.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

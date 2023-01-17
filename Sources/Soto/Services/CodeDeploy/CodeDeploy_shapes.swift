@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,9 +22,9 @@ extension CodeDeploy {
     // MARK: Enums
 
     public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case firstUsedTime
-        case lastUsedTime
-        case registerTime
+        case firstUsedTime = "firstUsedTime"
+        case lastUsedTime = "lastUsedTime"
+        case registerTime = "registerTime"
         public var description: String { return self.rawValue }
     }
 
@@ -37,10 +37,10 @@ extension CodeDeploy {
 
     public enum BundleType: String, CustomStringConvertible, Codable, _SotoSendable {
         case json = "JSON"
-        case tar
+        case tar = "tar"
         case tarGZip = "tgz"
         case yaml = "YAML"
-        case zip
+        case zip = "zip"
         public var description: String { return self.rawValue }
     }
 
@@ -52,13 +52,13 @@ extension CodeDeploy {
     }
 
     public enum DeploymentCreator: String, CustomStringConvertible, Codable, _SotoSendable {
-        case autoscaling
+        case autoscaling = "autoscaling"
         case cloudFormation = "CloudFormation"
         case cloudFormationRollback = "CloudFormationRollback"
         case codeDeploy = "CodeDeploy"
         case codeDeployAutoUpdate = "CodeDeployAutoUpdate"
-        case codeDeployRollback
-        case user
+        case codeDeployRollback = "codeDeployRollback"
+        case user = "user"
         public var description: String { return self.rawValue }
     }
 
@@ -208,9 +208,9 @@ extension CodeDeploy {
     }
 
     public enum ListStateFilterAction: String, CustomStringConvertible, Codable, _SotoSendable {
-        case exclude
-        case ignore
-        case include
+        case exclude = "exclude"
+        case ignore = "ignore"
+        case include = "include"
         public var description: String { return self.rawValue }
     }
 
@@ -241,8 +241,8 @@ extension CodeDeploy {
     }
 
     public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ascending
-        case descending
+        case ascending = "ascending"
+        case descending = "descending"
         public var description: String { return self.rawValue }
     }
 
@@ -317,8 +317,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case tags
+            case instanceNames = "instanceNames"
+            case tags = "tags"
         }
     }
 
@@ -331,7 +331,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -350,9 +350,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case enabled
-            case ignorePollAlarmFailure
+            case alarms = "alarms"
+            case enabled = "enabled"
+            case ignorePollAlarmFailure = "ignorePollAlarmFailure"
         }
     }
 
@@ -368,8 +368,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case sha256
+            case content = "content"
+            case sha256 = "sha256"
         }
     }
 
@@ -397,12 +397,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case applicationName
-            case computePlatform
-            case createTime
-            case gitHubAccountName
-            case linkedToGitHub
+            case applicationId = "applicationId"
+            case applicationName = "applicationName"
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case gitHubAccountName = "gitHubAccountName"
+            case linkedToGitHub = "linkedToGitHub"
         }
     }
 
@@ -418,8 +418,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case events
+            case enabled = "enabled"
+            case events = "events"
         }
     }
 
@@ -435,8 +435,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hook
-            case name
+            case hook = "hook"
+            case name = "name"
         }
     }
 
@@ -457,8 +457,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revisions
+            case applicationName = "applicationName"
+            case revisions = "revisions"
         }
     }
 
@@ -477,9 +477,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case errorMessage
-            case revisions
+            case applicationName = "applicationName"
+            case errorMessage = "errorMessage"
+            case revisions = "revisions"
         }
     }
 
@@ -499,7 +499,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationNames
+            case applicationNames = "applicationNames"
         }
     }
 
@@ -512,7 +512,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationsInfo
+            case applicationsInfo = "applicationsInfo"
         }
     }
 
@@ -537,8 +537,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupNames
+            case applicationName = "applicationName"
+            case deploymentGroupNames = "deploymentGroupNames"
         }
     }
 
@@ -554,8 +554,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupsInfo
-            case errorMessage
+            case deploymentGroupsInfo = "deploymentGroupsInfo"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -571,8 +571,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceIds
+            case deploymentId = "deploymentId"
+            case instanceIds = "instanceIds"
         }
     }
 
@@ -588,8 +588,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case instancesSummary
+            case errorMessage = "errorMessage"
+            case instancesSummary = "instancesSummary"
         }
     }
 
@@ -605,8 +605,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case targetIds
+            case deploymentId = "deploymentId"
+            case targetIds = "targetIds"
         }
     }
 
@@ -619,7 +619,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentTargets
+            case deploymentTargets = "deploymentTargets"
         }
     }
 
@@ -632,7 +632,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentIds
+            case deploymentIds = "deploymentIds"
         }
     }
 
@@ -645,7 +645,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentsInfo
+            case deploymentsInfo = "deploymentsInfo"
         }
     }
 
@@ -658,7 +658,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
+            case instanceNames = "instanceNames"
         }
     }
 
@@ -671,7 +671,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceInfos
+            case instanceInfos = "instanceInfos"
         }
     }
 
@@ -690,9 +690,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentReadyOption
-            case greenFleetProvisioningOption
-            case terminateBlueInstancesOnDeploymentSuccess
+            case deploymentReadyOption = "deploymentReadyOption"
+            case greenFleetProvisioningOption = "greenFleetProvisioningOption"
+            case terminateBlueInstancesOnDeploymentSuccess = "terminateBlueInstancesOnDeploymentSuccess"
         }
     }
 
@@ -710,8 +710,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case terminationWaitTimeInMinutes
+            case action = "action"
+            case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
         }
     }
 
@@ -742,13 +742,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lastUpdatedAt
-            case lifecycleEvents
-            case resourceType
-            case status
-            case targetId
-            case targetVersionWeight
+            case deploymentId = "deploymentId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case resourceType = "resourceType"
+            case status = "status"
+            case targetId = "targetId"
+            case targetVersionWeight = "targetVersionWeight"
         }
     }
 
@@ -764,8 +764,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case deploymentWaitType
+            case deploymentId = "deploymentId"
+            case deploymentWaitType = "deploymentWaitType"
         }
     }
 
@@ -789,9 +789,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case computePlatform
-            case tags
+            case applicationName = "applicationName"
+            case computePlatform = "computePlatform"
+            case tags = "tags"
         }
     }
 
@@ -804,7 +804,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
+            case applicationId = "applicationId"
         }
     }
 
@@ -831,10 +831,10 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computePlatform
-            case deploymentConfigName
-            case minimumHealthyHosts
-            case trafficRoutingConfig
+            case computePlatform = "computePlatform"
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case trafficRoutingConfig = "trafficRoutingConfig"
         }
     }
 
@@ -847,7 +847,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigId
+            case deploymentConfigId = "deploymentConfigId"
         }
     }
 
@@ -920,24 +920,24 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case deploymentConfigName
-            case deploymentGroupName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case loadBalancerInfo
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case tags
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case tags = "tags"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
@@ -950,7 +950,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupId
+            case deploymentGroupId = "deploymentGroupId"
         }
     }
 
@@ -1005,17 +1005,17 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case autoRollbackConfiguration
-            case deploymentConfigName
-            case deploymentGroupName
-            case description
-            case fileExistsBehavior
-            case ignoreApplicationStopFailures
-            case overrideAlarmConfiguration
-            case revision
-            case targetInstances
-            case updateOutdatedInstancesOnly
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case description = "description"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case overrideAlarmConfiguration = "overrideAlarmConfiguration"
+            case revision = "revision"
+            case targetInstances = "targetInstances"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
         }
     }
 
@@ -1028,7 +1028,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
@@ -1046,7 +1046,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
+            case applicationName = "applicationName"
         }
     }
 
@@ -1064,7 +1064,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
@@ -1087,8 +1087,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupName
+            case applicationName = "applicationName"
+            case deploymentGroupName = "deploymentGroupName"
         }
     }
 
@@ -1101,7 +1101,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 
@@ -1114,7 +1114,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenName
+            case tokenName = "tokenName"
         }
     }
 
@@ -1127,7 +1127,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenName
+            case tokenName = "tokenName"
         }
     }
 
@@ -1140,7 +1140,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalId
+            case externalId = "externalId"
         }
     }
 
@@ -1172,12 +1172,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computePlatform
-            case createTime
-            case deploymentConfigId
-            case deploymentConfigName
-            case minimumHealthyHosts
-            case trafficRoutingConfig
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case deploymentConfigId = "deploymentConfigId"
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case trafficRoutingConfig = "trafficRoutingConfig"
         }
     }
 
@@ -1253,28 +1253,28 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case computePlatform
-            case deploymentConfigName
-            case deploymentGroupId
-            case deploymentGroupName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case lastAttemptedDeployment
-            case lastSuccessfulDeployment
-            case loadBalancerInfo
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case targetRevision
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case computePlatform = "computePlatform"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupId = "deploymentGroupId"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case lastAttemptedDeployment = "lastAttemptedDeployment"
+            case lastSuccessfulDeployment = "lastSuccessfulDeployment"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case targetRevision = "targetRevision"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
@@ -1375,36 +1375,36 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalDeploymentStatusInfo
-            case applicationName
-            case autoRollbackConfiguration
-            case blueGreenDeploymentConfiguration
-            case completeTime
-            case computePlatform
-            case createTime
-            case creator
-            case deploymentConfigName
-            case deploymentGroupName
-            case deploymentId
-            case deploymentOverview
-            case deploymentStatusMessages
-            case deploymentStyle
-            case description
-            case errorInformation
-            case externalId
-            case fileExistsBehavior
-            case ignoreApplicationStopFailures
-            case instanceTerminationWaitTimeStarted
-            case loadBalancerInfo
-            case overrideAlarmConfiguration
-            case previousRevision
-            case relatedDeployments
-            case revision
-            case rollbackInfo
-            case startTime
-            case status
-            case targetInstances
-            case updateOutdatedInstancesOnly
+            case additionalDeploymentStatusInfo = "additionalDeploymentStatusInfo"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case completeTime = "completeTime"
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case creator = "creator"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentId = "deploymentId"
+            case deploymentOverview = "deploymentOverview"
+            case deploymentStatusMessages = "deploymentStatusMessages"
+            case deploymentStyle = "deploymentStyle"
+            case description = "description"
+            case errorInformation = "errorInformation"
+            case externalId = "externalId"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case instanceTerminationWaitTimeStarted = "instanceTerminationWaitTimeStarted"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case overrideAlarmConfiguration = "overrideAlarmConfiguration"
+            case previousRevision = "previousRevision"
+            case relatedDeployments = "relatedDeployments"
+            case revision = "revision"
+            case rollbackInfo = "rollbackInfo"
+            case startTime = "startTime"
+            case status = "status"
+            case targetInstances = "targetInstances"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
         }
     }
 
@@ -1453,8 +1453,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionOnTimeout
-            case waitTimeInMinutes
+            case actionOnTimeout = "actionOnTimeout"
+            case waitTimeInMinutes = "waitTimeInMinutes"
         }
     }
 
@@ -1470,8 +1470,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentOption
-            case deploymentType
+            case deploymentOption = "deploymentOption"
+            case deploymentType = "deploymentType"
         }
     }
 
@@ -1495,11 +1495,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudFormationTarget
-            case deploymentTargetType
-            case ecsTarget
-            case instanceTarget
-            case lambdaTarget
+            case cloudFormationTarget = "cloudFormationTarget"
+            case deploymentTargetType = "deploymentTargetType"
+            case ecsTarget = "ecsTarget"
+            case instanceTarget = "instanceTarget"
+            case lambdaTarget = "lambdaTarget"
         }
     }
 
@@ -1512,7 +1512,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -1534,10 +1534,10 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case logTail
-            case message
-            case scriptName
+            case errorCode = "errorCode"
+            case logTail = "logTail"
+            case message = "message"
+            case scriptName = "scriptName"
         }
     }
 
@@ -1571,7 +1571,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2TagSetList
+            case ec2TagSetList = "ec2TagSetList"
         }
     }
 
@@ -1587,8 +1587,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName
-            case serviceName
+            case clusterName = "clusterName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1619,13 +1619,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
-            case taskSetsInfo
+            case deploymentId = "deploymentId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
+            case taskSetsInfo = "taskSetsInfo"
         }
     }
 
@@ -1659,14 +1659,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCount
-            case identifer
-            case pendingCount
-            case runningCount
-            case status
-            case targetGroup
-            case taskSetLabel
-            case trafficWeight
+            case desiredCount = "desiredCount"
+            case identifer = "identifer"
+            case pendingCount = "pendingCount"
+            case runningCount = "runningCount"
+            case status = "status"
+            case targetGroup = "targetGroup"
+            case taskSetLabel = "taskSetLabel"
+            case trafficWeight = "trafficWeight"
         }
     }
 
@@ -1679,7 +1679,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1695,8 +1695,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1721,11 +1721,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroups
-            case description
-            case firstUsedTime
-            case lastUsedTime
-            case registerTime
+            case deploymentGroups = "deploymentGroups"
+            case description = "description"
+            case firstUsedTime = "firstUsedTime"
+            case lastUsedTime = "lastUsedTime"
+            case registerTime = "registerTime"
         }
     }
 
@@ -1743,7 +1743,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
+            case applicationName = "applicationName"
         }
     }
 
@@ -1756,7 +1756,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -1777,8 +1777,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revision
+            case applicationName = "applicationName"
+            case revision = "revision"
         }
     }
 
@@ -1797,9 +1797,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revision
-            case revisionInfo
+            case applicationName = "applicationName"
+            case revision = "revision"
+            case revisionInfo = "revisionInfo"
         }
     }
 
@@ -1817,7 +1817,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
@@ -1830,7 +1830,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigInfo
+            case deploymentConfigInfo = "deploymentConfigInfo"
         }
     }
 
@@ -1853,8 +1853,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupName
+            case applicationName = "applicationName"
+            case deploymentGroupName = "deploymentGroupName"
         }
     }
 
@@ -1867,7 +1867,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupInfo
+            case deploymentGroupInfo = "deploymentGroupInfo"
         }
     }
 
@@ -1880,7 +1880,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
@@ -1896,8 +1896,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceId
+            case deploymentId = "deploymentId"
+            case instanceId = "instanceId"
         }
     }
 
@@ -1910,7 +1910,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSummary
+            case instanceSummary = "instanceSummary"
         }
     }
 
@@ -1923,7 +1923,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentInfo
+            case deploymentInfo = "deploymentInfo"
         }
     }
 
@@ -1939,8 +1939,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case targetId
+            case deploymentId = "deploymentId"
+            case targetId = "targetId"
         }
     }
 
@@ -1953,7 +1953,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentTarget
+            case deploymentTarget = "deploymentTarget"
         }
     }
 
@@ -1966,7 +1966,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -1979,7 +1979,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceInfo
+            case instanceInfo = "instanceInfo"
         }
     }
 
@@ -1995,8 +1995,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case repository
+            case commitId = "commitId"
+            case repository = "repository"
         }
     }
 
@@ -2009,7 +2009,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
+            case action = "action"
         }
     }
 
@@ -2040,13 +2040,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deregisterTime
-            case iamSessionArn
-            case iamUserArn
-            case instanceArn
-            case instanceName
-            case registerTime
-            case tags
+            case deregisterTime = "deregisterTime"
+            case iamSessionArn = "iamSessionArn"
+            case iamUserArn = "iamUserArn"
+            case instanceArn = "instanceArn"
+            case instanceName = "instanceName"
+            case registerTime = "registerTime"
+            case tags = "tags"
         }
     }
 
@@ -2074,12 +2074,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceId
-            case instanceType
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
+            case deploymentId = "deploymentId"
+            case instanceId = "instanceId"
+            case instanceType = "instanceType"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
         }
     }
 
@@ -2110,13 +2110,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceLabel
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
+            case deploymentId = "deploymentId"
+            case instanceLabel = "instanceLabel"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
         }
     }
 
@@ -2141,11 +2141,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case functionAlias
-            case functionName
-            case targetVersion
-            case targetVersionWeight
+            case currentVersion = "currentVersion"
+            case functionAlias = "functionAlias"
+            case functionName = "functionName"
+            case targetVersion = "targetVersion"
+            case targetVersionWeight = "targetVersionWeight"
         }
     }
 
@@ -2176,13 +2176,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lambdaFunctionInfo
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
+            case deploymentId = "deploymentId"
+            case lambdaFunctionInfo = "lambdaFunctionInfo"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
         }
     }
 
@@ -2204,10 +2204,10 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case deploymentId
-            case endTime
-            case status
+            case createTime = "createTime"
+            case deploymentId = "deploymentId"
+            case endTime = "endTime"
+            case status = "status"
         }
     }
 
@@ -2232,11 +2232,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diagnostics
-            case endTime
-            case lifecycleEventName
-            case startTime
-            case status
+            case diagnostics = "diagnostics"
+            case endTime = "endTime"
+            case lifecycleEventName = "lifecycleEventName"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
@@ -2272,13 +2272,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deployed
-            case nextToken
-            case s3Bucket
-            case s3KeyPrefix
-            case sortBy
-            case sortOrder
+            case applicationName = "applicationName"
+            case deployed = "deployed"
+            case nextToken = "nextToken"
+            case s3Bucket = "s3Bucket"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2294,8 +2294,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case revisions
+            case nextToken = "nextToken"
+            case revisions = "revisions"
         }
     }
 
@@ -2308,7 +2308,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2324,8 +2324,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2338,7 +2338,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2354,8 +2354,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigsList
-            case nextToken
+            case deploymentConfigsList = "deploymentConfigsList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2376,8 +2376,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case nextToken
+            case applicationName = "applicationName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2396,9 +2396,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroups
-            case nextToken
+            case applicationName = "applicationName"
+            case deploymentGroups = "deploymentGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2420,10 +2420,10 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceStatusFilter
-            case instanceTypeFilter
-            case nextToken
+            case deploymentId = "deploymentId"
+            case instanceStatusFilter = "instanceStatusFilter"
+            case instanceTypeFilter = "instanceTypeFilter"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2439,8 +2439,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instancesList
-            case nextToken
+            case instancesList = "instancesList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2459,9 +2459,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case nextToken
-            case targetFilters
+            case deploymentId = "deploymentId"
+            case nextToken = "nextToken"
+            case targetFilters = "targetFilters"
         }
     }
 
@@ -2477,8 +2477,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case targetIds
+            case nextToken = "nextToken"
+            case targetIds = "targetIds"
         }
     }
 
@@ -2513,12 +2513,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case createTimeRange
-            case deploymentGroupName
-            case externalId
-            case includeOnlyStatuses
-            case nextToken
+            case applicationName = "applicationName"
+            case createTimeRange = "createTimeRange"
+            case deploymentGroupName = "deploymentGroupName"
+            case externalId = "externalId"
+            case includeOnlyStatuses = "includeOnlyStatuses"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2534,8 +2534,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
-            case nextToken
+            case deployments = "deployments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2548,7 +2548,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2564,8 +2564,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tokenNameList
+            case nextToken = "nextToken"
+            case tokenNameList = "tokenNameList"
         }
     }
 
@@ -2584,9 +2584,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case registrationStatus
-            case tagFilters
+            case nextToken = "nextToken"
+            case registrationStatus = "registrationStatus"
+            case tagFilters = "tagFilters"
         }
     }
 
@@ -2602,8 +2602,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case nextToken
+            case instanceNames = "instanceNames"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2661,9 +2661,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case elbInfoList
-            case targetGroupInfoList
-            case targetGroupPairInfoList
+            case elbInfoList = "elbInfoList"
+            case targetGroupInfoList = "targetGroupInfoList"
+            case targetGroupPairInfoList = "targetGroupPairInfoList"
         }
     }
 
@@ -2679,8 +2679,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -2693,7 +2693,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case onPremisesTagSetList
+            case onPremisesTagSetList = "onPremisesTagSetList"
         }
     }
 
@@ -2712,9 +2712,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lifecycleEventHookExecutionId
-            case status
+            case deploymentId = "deploymentId"
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
+            case status = "status"
         }
     }
 
@@ -2727,7 +2727,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleEventHookExecutionId
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
         }
     }
 
@@ -2743,8 +2743,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case sha256
+            case content = "content"
+            case sha256 = "sha256"
         }
     }
 
@@ -2768,9 +2768,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case description
-            case revision
+            case applicationName = "applicationName"
+            case description = "description"
+            case revision = "revision"
         }
     }
 
@@ -2789,9 +2789,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamSessionArn
-            case iamUserArn
-            case instanceName
+            case iamSessionArn = "iamSessionArn"
+            case iamUserArn = "iamUserArn"
+            case instanceName = "instanceName"
         }
     }
 
@@ -2807,8 +2807,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoUpdateOutdatedInstancesDeploymentIds
-            case autoUpdateOutdatedInstancesRootDeploymentId
+            case autoUpdateOutdatedInstancesDeploymentIds = "autoUpdateOutdatedInstancesDeploymentIds"
+            case autoUpdateOutdatedInstancesRootDeploymentId = "autoUpdateOutdatedInstancesRootDeploymentId"
         }
     }
 
@@ -2824,8 +2824,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case tags
+            case instanceNames = "instanceNames"
+            case tags = "tags"
         }
     }
 
@@ -2841,8 +2841,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case genericRevisionInfo
-            case revisionLocation
+            case genericRevisionInfo = "genericRevisionInfo"
+            case revisionLocation = "revisionLocation"
         }
     }
 
@@ -2867,11 +2867,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSpecContent
-            case gitHubLocation
-            case revisionType
-            case s3Location
-            case string
+            case appSpecContent = "appSpecContent"
+            case gitHubLocation = "gitHubLocation"
+            case revisionType = "revisionType"
+            case s3Location = "s3Location"
+            case string = "string"
         }
     }
 
@@ -2890,9 +2890,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rollbackDeploymentId
-            case rollbackMessage
-            case rollbackTriggeringDeploymentId
+            case rollbackDeploymentId = "rollbackDeploymentId"
+            case rollbackMessage = "rollbackMessage"
+            case rollbackTriggeringDeploymentId = "rollbackTriggeringDeploymentId"
         }
     }
 
@@ -2917,11 +2917,11 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case bundleType
-            case eTag
-            case key
-            case version
+            case bucket = "bucket"
+            case bundleType = "bundleType"
+            case eTag = "eTag"
+            case key = "key"
+            case version = "version"
         }
     }
 
@@ -2934,7 +2934,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
@@ -2950,8 +2950,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoRollbackEnabled
-            case deploymentId
+            case autoRollbackEnabled = "autoRollbackEnabled"
+            case deploymentId = "deploymentId"
         }
     }
 
@@ -2967,8 +2967,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusMessage
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -3045,7 +3045,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -3064,9 +3064,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prodTrafficRoute
-            case targetGroups
-            case testTrafficRoute
+            case prodTrafficRoute = "prodTrafficRoute"
+            case targetGroups = "targetGroups"
+            case testTrafficRoute = "testTrafficRoute"
         }
     }
 
@@ -3085,9 +3085,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroups
-            case ec2TagSet
-            case tagFilters
+            case autoScalingGroups = "autoScalingGroups"
+            case ec2TagSet = "ec2TagSet"
+            case tagFilters = "tagFilters"
         }
     }
 
@@ -3103,8 +3103,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canaryInterval
-            case canaryPercentage
+            case canaryInterval = "canaryInterval"
+            case canaryPercentage = "canaryPercentage"
         }
     }
 
@@ -3120,8 +3120,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case linearInterval
-            case linearPercentage
+            case linearInterval = "linearInterval"
+            case linearPercentage = "linearPercentage"
         }
     }
 
@@ -3137,8 +3137,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
+            case end = "end"
+            case start = "start"
         }
     }
 
@@ -3151,7 +3151,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listenerArns
+            case listenerArns = "listenerArns"
         }
     }
 
@@ -3170,9 +3170,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeBasedCanary
-            case timeBasedLinear
-            case type
+            case timeBasedCanary = "timeBasedCanary"
+            case timeBasedLinear = "timeBasedLinear"
+            case type = "type"
         }
     }
 
@@ -3191,9 +3191,9 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerEvents
-            case triggerName
-            case triggerTargetArn
+            case triggerEvents = "triggerEvents"
+            case triggerName = "triggerName"
+            case triggerTargetArn = "triggerTargetArn"
         }
     }
 
@@ -3242,8 +3242,8 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case newApplicationName
+            case applicationName = "applicationName"
+            case newApplicationName = "newApplicationName"
         }
     }
 
@@ -3318,24 +3318,24 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case currentDeploymentGroupName
-            case deploymentConfigName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case loadBalancerInfo
-            case newDeploymentGroupName
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case currentDeploymentGroupName = "currentDeploymentGroupName"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case newDeploymentGroupName = "newDeploymentGroupName"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
@@ -3348,7 +3348,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 }
@@ -3527,7 +3527,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var deploymentGroupNameRequiredException: Self { .init(.deploymentGroupNameRequiredException) }
     /// At least one deployment ID must be specified.
     public static var deploymentIdRequiredException: Self { .init(.deploymentIdRequiredException) }
-    /// The deployment does not have a status of Ready and can&#39;t continue yet.
+    /// The deployment does not have a status of Ready and can't continue yet.
     public static var deploymentIsNotInReadyStateException: Self { .init(.deploymentIsNotInReadyStateException) }
     /// The number of allowed deployments was exceeded.
     public static var deploymentLimitExceededException: Self { .init(.deploymentLimitExceededException) }
@@ -3579,7 +3579,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidAutoScalingGroupException: Self { .init(.invalidAutoScalingGroupException) }
     /// The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see CreateDeploymentConfig.
     public static var invalidBlueGreenDeploymentConfigurationException: Self { .init(.invalidBlueGreenDeploymentConfigurationException) }
-    /// The bucket name either doesn&#39;t exist or was specified in an invalid format.
+    /// The bucket name either doesn't exist or was specified in an invalid format.
     public static var invalidBucketNameFilterException: Self { .init(.invalidBucketNameFilterException) }
     /// The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     public static var invalidComputePlatformException: Self { .init(.invalidComputePlatformException) }
@@ -3593,9 +3593,9 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidDeploymentIdException: Self { .init(.invalidDeploymentIdException) }
     /// An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
     public static var invalidDeploymentInstanceTypeException: Self { .init(.invalidDeploymentInstanceTypeException) }
-    /// The specified deployment status doesn&#39;t exist or cannot be determined.
+    /// The specified deployment status doesn't exist or cannot be determined.
     public static var invalidDeploymentStatusException: Self { .init(.invalidDeploymentStatusException) }
-    /// An invalid deployment style was specified. Valid deployment types include &quot;IN_PLACE&quot; and &quot;BLUE_GREEN.&quot; Valid deployment options include &quot;WITH_TRAFFIC_CONTROL&quot; and &quot;WITHOUT_TRAFFIC_CONTROL.&quot;
+    /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
     public static var invalidDeploymentStyleException: Self { .init(.invalidDeploymentStyleException) }
     ///  The target ID provided was not valid.
     public static var invalidDeploymentTargetIdException: Self { .init(.invalidDeploymentTargetIdException) }
@@ -3609,7 +3609,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidECSServiceException: Self { .init(.invalidECSServiceException) }
     /// The external ID was specified in an invalid format.
     public static var invalidExternalIdException: Self { .init(.invalidExternalIdException) }
-    /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren&#39;t part of the previous successful deployment. Valid values include &quot;DISALLOW,&quot; &quot;OVERWRITE,&quot; and &quot;RETAIN.&quot;
+    /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
     public static var invalidFileExistsBehaviorException: Self { .init(.invalidFileExistsBehaviorException) }
     /// The GitHub token is not valid.
     public static var invalidGitHubAccountTokenException: Self { .init(.invalidGitHubAccountTokenException) }
@@ -3627,7 +3627,7 @@ public struct CodeDeployErrorType: AWSErrorType {
     public static var invalidInstanceNameException: Self { .init(.invalidInstanceNameException) }
     /// The specified instance status does not exist.
     public static var invalidInstanceStatusException: Self { .init(.invalidInstanceStatusException) }
-    /// An invalid instance type was specified for instances in a blue/green deployment. Valid values include &quot;Blue&quot; for an original environment and &quot;Green&quot; for a replacement environment.
+    /// An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     public static var invalidInstanceTypeException: Self { .init(.invalidInstanceTypeException) }
     /// The specified key prefix filter was specified in an invalid format.
     public static var invalidKeyPrefixFilterException: Self { .init(.invalidKeyPrefixFilterException) }

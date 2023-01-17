@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -55,14 +55,14 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case clientSecret
-            case code
-            case deviceCode
-            case grantType
-            case redirectUri
-            case refreshToken
-            case scope
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case code = "code"
+            case deviceCode = "deviceCode"
+            case grantType = "grantType"
+            case redirectUri = "redirectUri"
+            case refreshToken = "refreshToken"
+            case scope = "scope"
         }
     }
 
@@ -87,11 +87,11 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case expiresIn
-            case idToken
-            case refreshToken
-            case tokenType
+            case accessToken = "accessToken"
+            case expiresIn = "expiresIn"
+            case idToken = "idToken"
+            case refreshToken = "refreshToken"
+            case tokenType = "tokenType"
         }
     }
 
@@ -110,9 +110,9 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientName
-            case clientType
-            case scopes
+            case clientName = "clientName"
+            case clientType = "clientType"
+            case scopes = "scopes"
         }
     }
 
@@ -140,12 +140,12 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationEndpoint
-            case clientId
-            case clientIdIssuedAt
-            case clientSecret
-            case clientSecretExpiresAt
-            case tokenEndpoint
+            case authorizationEndpoint = "authorizationEndpoint"
+            case clientId = "clientId"
+            case clientIdIssuedAt = "clientIdIssuedAt"
+            case clientSecret = "clientSecret"
+            case clientSecretExpiresAt = "clientSecretExpiresAt"
+            case tokenEndpoint = "tokenEndpoint"
         }
     }
 
@@ -164,9 +164,9 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case clientSecret
-            case startUrl
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case startUrl = "startUrl"
         }
     }
 
@@ -194,12 +194,12 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceCode
-            case expiresIn
-            case interval
-            case userCode
-            case verificationUri
-            case verificationUriComplete
+            case deviceCode = "deviceCode"
+            case expiresIn = "expiresIn"
+            case interval = "interval"
+            case userCode = "userCode"
+            case verificationUri = "verificationUri"
+            case verificationUriComplete = "verificationUriComplete"
         }
     }
 }

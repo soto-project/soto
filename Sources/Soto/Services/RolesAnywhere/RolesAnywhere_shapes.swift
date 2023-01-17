@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -64,8 +64,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acmPcaArn
-            case x509CertificateData
+            case acmPcaArn = "acmPcaArn"
+            case x509CertificateData = "x509CertificateData"
         }
     }
 
@@ -118,14 +118,14 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationSeconds
-            case enabled
-            case managedPolicyArns
-            case name
-            case requireInstanceProperties
-            case roleArns
-            case sessionPolicy
-            case tags
+            case durationSeconds = "durationSeconds"
+            case enabled = "enabled"
+            case managedPolicyArns = "managedPolicyArns"
+            case name = "name"
+            case requireInstanceProperties = "requireInstanceProperties"
+            case roleArns = "roleArns"
+            case sessionPolicy = "sessionPolicy"
+            case tags = "tags"
         }
     }
 
@@ -157,10 +157,10 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case name
-            case source
-            case tags
+            case enabled = "enabled"
+            case name = "name"
+            case source = "source"
+            case tags = "tags"
         }
     }
 
@@ -188,12 +188,12 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case failed
-            case issuer
-            case seenAt
-            case serialNumber
-            case x509CertificateData
+            case enabled = "enabled"
+            case failed = "failed"
+            case issuer = "issuer"
+            case seenAt = "seenAt"
+            case serialNumber = "serialNumber"
+            case x509CertificateData = "x509CertificateData"
         }
     }
 
@@ -227,14 +227,14 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case crlArn
-            case crlData
-            case crlId
-            case enabled
-            case name
-            case trustAnchorArn
-            case updatedAt
+            case createdAt = "createdAt"
+            case crlArn = "crlArn"
+            case crlData = "crlData"
+            case crlId = "crlId"
+            case enabled = "enabled"
+            case name = "name"
+            case trustAnchorArn = "trustAnchorArn"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -247,7 +247,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crl
+            case crl = "crl"
         }
     }
 
@@ -285,11 +285,11 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crlData
-            case enabled
-            case name
-            case tags
-            case trustAnchorArn
+            case crlData = "crlData"
+            case enabled = "enabled"
+            case name = "name"
+            case tags = "tags"
+            case trustAnchorArn = "trustAnchorArn"
         }
     }
 
@@ -308,9 +308,9 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case properties
-            case seenAt
+            case failed = "failed"
+            case properties = "properties"
+            case seenAt = "seenAt"
         }
     }
 
@@ -326,8 +326,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crls
-            case nextToken
+            case crls = "crls"
+            case nextToken = "nextToken"
         }
     }
 
@@ -343,8 +343,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profiles
+            case nextToken = "nextToken"
+            case profiles = "profiles"
         }
     }
 
@@ -379,8 +379,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case subjects
+            case nextToken = "nextToken"
+            case subjects = "subjects"
         }
     }
 
@@ -413,7 +413,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -429,8 +429,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case trustAnchors
+            case nextToken = "nextToken"
+            case trustAnchors = "trustAnchors"
         }
     }
 
@@ -476,18 +476,18 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case createdBy
-            case durationSeconds
-            case enabled
-            case managedPolicyArns
-            case name
-            case profileArn
-            case profileId
-            case requireInstanceProperties
-            case roleArns
-            case sessionPolicy
-            case updatedAt
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case durationSeconds = "durationSeconds"
+            case enabled = "enabled"
+            case managedPolicyArns = "managedPolicyArns"
+            case name = "name"
+            case profileArn = "profileArn"
+            case profileId = "profileId"
+            case requireInstanceProperties = "requireInstanceProperties"
+            case roleArns = "roleArns"
+            case sessionPolicy = "sessionPolicy"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -500,7 +500,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profile
+            case profile = "profile"
         }
     }
 
@@ -600,8 +600,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceData
-            case sourceType
+            case sourceData = "sourceData"
+            case sourceType = "sourceType"
         }
     }
 
@@ -638,15 +638,15 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case credentials
-            case enabled
-            case instanceProperties
-            case lastSeenAt
-            case subjectArn
-            case subjectId
-            case updatedAt
-            case x509Subject
+            case createdAt = "createdAt"
+            case credentials = "credentials"
+            case enabled = "enabled"
+            case instanceProperties = "instanceProperties"
+            case lastSeenAt = "lastSeenAt"
+            case subjectArn = "subjectArn"
+            case subjectId = "subjectId"
+            case updatedAt = "updatedAt"
+            case x509Subject = "x509Subject"
         }
     }
 
@@ -659,7 +659,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subject
+            case subject = "subject"
         }
     }
 
@@ -690,13 +690,13 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case enabled
-            case lastSeenAt
-            case subjectArn
-            case subjectId
-            case updatedAt
-            case x509Subject
+            case createdAt = "createdAt"
+            case enabled = "enabled"
+            case lastSeenAt = "lastSeenAt"
+            case subjectArn = "subjectArn"
+            case subjectId = "subjectId"
+            case updatedAt = "updatedAt"
+            case x509Subject = "x509Subject"
         }
     }
 
@@ -720,8 +720,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -746,8 +746,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -782,13 +782,13 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case enabled
-            case name
-            case source
-            case trustAnchorArn
-            case trustAnchorId
-            case updatedAt
+            case createdAt = "createdAt"
+            case enabled = "enabled"
+            case name = "name"
+            case source = "source"
+            case trustAnchorArn = "trustAnchorArn"
+            case trustAnchorId = "trustAnchorId"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -801,7 +801,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trustAnchor
+            case trustAnchor = "trustAnchor"
         }
     }
 
@@ -828,8 +828,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -865,8 +865,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crlData
-            case name
+            case crlData = "crlData"
+            case name = "name"
         }
     }
 
@@ -914,11 +914,11 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationSeconds
-            case managedPolicyArns
-            case name
-            case roleArns
-            case sessionPolicy
+            case durationSeconds = "durationSeconds"
+            case managedPolicyArns = "managedPolicyArns"
+            case name = "name"
+            case roleArns = "roleArns"
+            case sessionPolicy = "sessionPolicy"
         }
     }
 
@@ -950,8 +950,8 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case source
+            case name = "name"
+            case source = "source"
         }
     }
 }

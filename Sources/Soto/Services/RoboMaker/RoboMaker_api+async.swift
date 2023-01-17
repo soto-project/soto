@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -328,7 +328,7 @@ extension RoboMaker {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RoboMaker {
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    /// Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -351,7 +351,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    /// Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -374,7 +374,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
+    /// Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -396,7 +396,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    /// Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -419,7 +419,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    /// Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -441,7 +441,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
+    /// Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -463,7 +463,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    /// Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -485,7 +485,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Lists world export jobs.
+    /// Lists world export jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -507,7 +507,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Lists world generator jobs.
+    /// Lists world generator jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -529,7 +529,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Lists world templates.
+    /// Lists world templates.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -551,7 +551,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Lists worlds.
+    /// Lists worlds.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

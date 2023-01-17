@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4742,9 +4742,9 @@ public struct CostExplorerErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     public static var requestChangedException: Self { .init(.requestChangedException) }
-    ///  The specified ARN in the request doesn&#39;t exist.
+    ///  The specified ARN in the request doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    ///  You&#39;ve reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
+    ///  You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -791,6 +791,13 @@ extension MediaConvert {
     public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashManifestStyle: String, CustomStringConvertible, Codable, _SotoSendable {
+        case basic = "BASIC"
+        case compact = "COMPACT"
+        case distinct = "DISTINCT"
         public var description: String { return self.rawValue }
     }
 
@@ -2590,6 +2597,7 @@ extension MediaConvert {
     }
 
     public enum SampleRangeConversion: String, CustomStringConvertible, Codable, _SotoSendable {
+        case limitedRangeClip = "LIMITED_RANGE_CLIP"
         case limitedRangeSqueeze = "LIMITED_RANGE_SQUEEZE"
         case none = "NONE"
         public var description: String { return self.rawValue }
@@ -3022,22 +3030,22 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_024_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1024000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 6000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 96000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptionBroadcasterMix
-            case bitrate
-            case codecProfile
-            case codingMode
-            case rateControlMode
-            case rawFormat
-            case sampleRate
-            case specification
-            case vbrQuality
+            case audioDescriptionBroadcasterMix = "audioDescriptionBroadcasterMix"
+            case bitrate = "bitrate"
+            case codecProfile = "codecProfile"
+            case codingMode = "codingMode"
+            case rateControlMode = "rateControlMode"
+            case rawFormat = "rawFormat"
+            case sampleRate = "sampleRate"
+            case specification = "specification"
+            case vbrQuality = "vbrQuality"
         }
     }
 
@@ -3077,7 +3085,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 64000)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
@@ -3086,16 +3094,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dialnorm
-            case dynamicRangeCompressionLine
-            case dynamicRangeCompressionProfile
-            case dynamicRangeCompressionRf
-            case lfeFilter
-            case metadataControl
-            case sampleRate
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialnorm = "dialnorm"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionProfile = "dynamicRangeCompressionProfile"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case lfeFilter = "lfeFilter"
+            case metadataControl = "metadataControl"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -3108,7 +3116,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mode
+            case mode = "mode"
         }
     }
 
@@ -3131,14 +3139,14 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192_000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitDepth
-            case channels
-            case sampleRate
+            case bitDepth = "bitDepth"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -3164,9 +3172,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case required
-            case width
+            case height = "height"
+            case required = "required"
+            case width = "width"
         }
     }
 
@@ -3190,9 +3198,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case sourceAncillaryChannelNumber
-            case terminateCaptions
+            case convert608To708 = "convert608To708"
+            case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
+            case terminateCaptions = "terminateCaptions"
         }
     }
 
@@ -3205,7 +3213,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -3222,7 +3230,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelTag
+            case channelTag = "channelTag"
         }
     }
 
@@ -3278,17 +3286,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aacSettings
-            case ac3Settings
-            case aiffSettings
-            case codec
-            case eac3AtmosSettings
-            case eac3Settings
-            case mp2Settings
-            case mp3Settings
-            case opusSettings
-            case vorbisSettings
-            case wavSettings
+            case aacSettings = "aacSettings"
+            case ac3Settings = "ac3Settings"
+            case aiffSettings = "aiffSettings"
+            case codec = "codec"
+            case eac3AtmosSettings = "eac3AtmosSettings"
+            case eac3Settings = "eac3Settings"
+            case mp2Settings = "mp2Settings"
+            case mp3Settings = "mp3Settings"
+            case opusSettings = "opusSettings"
+            case vorbisSettings = "vorbisSettings"
+            case wavSettings = "wavSettings"
         }
     }
 
@@ -3341,17 +3349,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChannelTaggingSettings
-            case audioNormalizationSettings
-            case audioSourceName
-            case audioType
-            case audioTypeControl
-            case codecSettings
-            case customLanguageCode
-            case languageCode
-            case languageCodeControl
-            case remixSettings
-            case streamName
+            case audioChannelTaggingSettings = "audioChannelTaggingSettings"
+            case audioNormalizationSettings = "audioNormalizationSettings"
+            case audioSourceName = "audioSourceName"
+            case audioType = "audioType"
+            case audioTypeControl = "audioTypeControl"
+            case codecSettings = "codecSettings"
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case languageCodeControl = "languageCodeControl"
+            case remixSettings = "remixSettings"
+            case streamName = "streamName"
         }
     }
 
@@ -3368,14 +3376,17 @@ extension MediaConvert {
         public let peakCalculation: AudioNormalizationPeakCalculation?
         /// When you use Audio normalization (AudioNormalizationSettings), optionally use this setting to specify a target loudness. If you don't specify a value here, the encoder chooses a value for you, based on the algorithm that you choose for Algorithm (algorithm). If you choose algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
         public let targetLkfs: Double?
+        /// Specify the True-peak limiter threshold in decibels relative to full scale (dBFS). The peak inter-audio sample loudness in your output will be limited to the value that you specify, without affecting the overall target LKFS. Enter a value from 0 to -20. Leave blank to use the default value 0.
+        public let truePeakLimiterThreshold: Double?
 
-        public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, correctionGateLevel: Int? = nil, loudnessLogging: AudioNormalizationLoudnessLogging? = nil, peakCalculation: AudioNormalizationPeakCalculation? = nil, targetLkfs: Double? = nil) {
+        public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, correctionGateLevel: Int? = nil, loudnessLogging: AudioNormalizationLoudnessLogging? = nil, peakCalculation: AudioNormalizationPeakCalculation? = nil, targetLkfs: Double? = nil, truePeakLimiterThreshold: Double? = nil) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
             self.correctionGateLevel = correctionGateLevel
             self.loudnessLogging = loudnessLogging
             self.peakCalculation = peakCalculation
             self.targetLkfs = targetLkfs
+            self.truePeakLimiterThreshold = truePeakLimiterThreshold
         }
 
         public func validate(name: String) throws {
@@ -3384,12 +3395,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case algorithmControl
-            case correctionGateLevel
-            case loudnessLogging
-            case peakCalculation
-            case targetLkfs
+            case algorithm = "algorithm"
+            case algorithmControl = "algorithmControl"
+            case correctionGateLevel = "correctionGateLevel"
+            case loudnessLogging = "loudnessLogging"
+            case peakCalculation = "peakCalculation"
+            case targetLkfs = "targetLkfs"
+            case truePeakLimiterThreshold = "truePeakLimiterThreshold"
         }
     }
 
@@ -3439,34 +3451,34 @@ extension MediaConvert {
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, min: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
             try self.validate(self.externalAudioFileInput, name: "externalAudioFileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[pP]|[wW][eE][bB][mM]|[mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vVaA]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]|[aA][tT][mM][oO][sS]|[oO][gG][gGaA]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vVaA]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]|[aA][tT][mM][oO][sS]|[oO][gG][gGaA])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.offset, name: "offset", parent: name, max: 2_147_483_647)
-            try self.validate(self.offset, name: "offset", parent: name, min: -2_147_483_648)
+            try self.validate(self.offset, name: "offset", parent: name, max: 2147483647)
+            try self.validate(self.offset, name: "offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
-                try validate($0, name: "pids[]", parent: name, max: 2_147_483_647)
+                try validate($0, name: "pids[]", parent: name, max: 2147483647)
                 try validate($0, name: "pids[]", parent: name, min: 1)
             }
             try self.validate(self.programSelection, name: "programSelection", parent: name, max: 8)
             try self.validate(self.programSelection, name: "programSelection", parent: name, min: 0)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
             try self.tracks?.forEach {
-                try validate($0, name: "tracks[]", parent: name, max: 2_147_483_647)
+                try validate($0, name: "tracks[]", parent: name, max: 2147483647)
                 try validate($0, name: "tracks[]", parent: name, min: 1)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDurationCorrection
-            case customLanguageCode
-            case defaultSelection
-            case externalAudioFileInput
-            case hlsRenditionGroupSettings
-            case languageCode
-            case offset
-            case pids
-            case programSelection
-            case remixSettings
-            case selectorType
-            case tracks
+            case audioDurationCorrection = "audioDurationCorrection"
+            case customLanguageCode = "customLanguageCode"
+            case defaultSelection = "defaultSelection"
+            case externalAudioFileInput = "externalAudioFileInput"
+            case hlsRenditionGroupSettings = "hlsRenditionGroupSettings"
+            case languageCode = "languageCode"
+            case offset = "offset"
+            case pids = "pids"
+            case programSelection = "programSelection"
+            case remixSettings = "remixSettings"
+            case selectorType = "selectorType"
+            case tracks = "tracks"
         }
     }
 
@@ -3485,7 +3497,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorNames
+            case audioSelectorNames = "audioSelectorNames"
         }
     }
 
@@ -3521,11 +3533,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedRenditions
-            case forceIncludeRenditions
-            case minBottomRenditionSize
-            case minTopRenditionSize
-            case type
+            case allowedRenditions = "allowedRenditions"
+            case forceIncludeRenditions = "forceIncludeRenditions"
+            case minBottomRenditionSize = "minBottomRenditionSize"
+            case minTopRenditionSize = "minTopRenditionSize"
+            case type = "type"
         }
     }
 
@@ -3547,22 +3559,22 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, min: 100_000)
+            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, max: 100000000)
+            try self.validate(self.maxAbrBitrate, name: "maxAbrBitrate", parent: name, min: 100000)
             try self.validate(self.maxRenditions, name: "maxRenditions", parent: name, max: 15)
             try self.validate(self.maxRenditions, name: "maxRenditions", parent: name, min: 3)
-            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, min: 100_000)
+            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, max: 100000000)
+            try self.validate(self.minAbrBitrate, name: "minAbrBitrate", parent: name, min: 100000)
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAbrBitrate
-            case maxRenditions
-            case minAbrBitrate
-            case rules
+            case maxAbrBitrate = "maxAbrBitrate"
+            case maxRenditions = "maxRenditions"
+            case minAbrBitrate = "minAbrBitrate"
+            case rules = "rules"
         }
     }
 
@@ -3579,7 +3591,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case abrSettings
+            case abrSettings = "abrSettings"
         }
     }
 
@@ -3600,8 +3612,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
@@ -3650,11 +3662,11 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, max: 15)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
@@ -3664,19 +3676,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case bitDepth
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case maxBitrate
-            case numberBFramesBetweenReferenceFrames
-            case qvbrSettings
-            case rateControlMode
-            case slices
-            case spatialAdaptiveQuantization
+            case adaptiveQuantization = "adaptiveQuantization"
+            case bitDepth = "bitDepth"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case maxBitrate = "maxBitrate"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case slices = "slices"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
         }
     }
 
@@ -3694,7 +3706,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availBlankingImage
+            case availBlankingImage = "availBlankingImage"
         }
     }
 
@@ -3741,16 +3753,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case avcIntraClass
-            case avcIntraUhdSettings
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case scanTypeConversionMode
-            case slowPal
-            case telecine
+            case avcIntraClass = "avcIntraClass"
+            case avcIntraUhdSettings = "avcIntraUhdSettings"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
         }
     }
 
@@ -3763,7 +3775,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualityTuningLevel
+            case qualityTuningLevel = "qualityTuningLevel"
         }
     }
 
@@ -3851,38 +3863,38 @@ extension MediaConvert {
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2147483648)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2147483648)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2147483647)
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case applyFontColor
-            case backgroundColor
-            case backgroundOpacity
-            case fallbackFont
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontScript
-            case fontSize
-            case hexFontColor
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case stylePassthrough
-            case teletextSpacing
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case applyFontColor = "applyFontColor"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case fallbackFont = "fallbackFont"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontScript = "fontScript"
+            case fontSize = "fontSize"
+            case hexFontColor = "hexFontColor"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case stylePassthrough = "stylePassthrough"
+            case teletextSpacing = "teletextSpacing"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
@@ -3932,11 +3944,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionSelectorName
-            case customLanguageCode
-            case destinationSettings
-            case languageCode
-            case languageDescription
+            case captionSelectorName = "captionSelectorName"
+            case customLanguageCode = "customLanguageCode"
+            case destinationSettings = "destinationSettings"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
@@ -3963,10 +3975,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customLanguageCode
-            case destinationSettings
-            case languageCode
-            case languageDescription
+            case customLanguageCode = "customLanguageCode"
+            case destinationSettings = "destinationSettings"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
@@ -4013,16 +4025,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case burninDestinationSettings
-            case destinationType
-            case dvbSubDestinationSettings
-            case embeddedDestinationSettings
-            case imscDestinationSettings
-            case sccDestinationSettings
-            case srtDestinationSettings
-            case teletextDestinationSettings
-            case ttmlDestinationSettings
-            case webvttDestinationSettings
+            case burninDestinationSettings = "burninDestinationSettings"
+            case destinationType = "destinationType"
+            case dvbSubDestinationSettings = "dvbSubDestinationSettings"
+            case embeddedDestinationSettings = "embeddedDestinationSettings"
+            case imscDestinationSettings = "imscDestinationSettings"
+            case sccDestinationSettings = "sccDestinationSettings"
+            case srtDestinationSettings = "srtDestinationSettings"
+            case teletextDestinationSettings = "teletextDestinationSettings"
+            case ttmlDestinationSettings = "ttmlDestinationSettings"
+            case webvttDestinationSettings = "webvttDestinationSettings"
         }
     }
 
@@ -4048,9 +4060,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customLanguageCode
-            case languageCode
-            case sourceSettings
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case sourceSettings = "sourceSettings"
         }
     }
 
@@ -4073,8 +4085,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
         }
     }
 
@@ -4117,14 +4129,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ancillarySourceSettings
-            case dvbSubSourceSettings
-            case embeddedSourceSettings
-            case fileSourceSettings
-            case sourceType
-            case teletextSourceSettings
-            case trackSourceSettings
-            case webvttHlsSourceSettings
+            case ancillarySourceSettings = "ancillarySourceSettings"
+            case dvbSubSourceSettings = "dvbSubSourceSettings"
+            case embeddedSourceSettings = "embeddedSourceSettings"
+            case fileSourceSettings = "fileSourceSettings"
+            case sourceType = "sourceType"
+            case teletextSourceSettings = "teletextSourceSettings"
+            case trackSourceSettings = "trackSourceSettings"
+            case webvttHlsSourceSettings = "webvttHlsSourceSettings"
         }
     }
 
@@ -4143,7 +4155,43 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputChannels
+            case outputChannels = "outputChannels"
+        }
+    }
+
+    public struct ClipLimits: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the Maximum RGB color sample range tolerance for your output. MediaConvert corrects any YUV values that, when converted to RGB, would be outside the upper tolerance that you specify. Enter an integer from 90 to 105 as an offset percentage to the maximum possible value. Leave blank to use the default value 100. When you specify a value for Maximum RGB tolerance, you must set Sample range conversion to Limited range clip.
+        public let maximumRGBTolerance: Int?
+        /// Specify the Maximum YUV color sample limit. MediaConvert conforms any pixels in your input above the value that you specify to typical limited range bounds. Enter an integer from 920 to 1023. Leave blank to use the default value 940. The value that you enter applies to 10-bit ranges. For 8-bit ranges, MediaConvert automatically scales this value down. When you specify a value for Maximum YUV, you must set Sample range conversion to Limited range clip.
+        public let maximumYUV: Int?
+        /// Specify the Minimum RGB color sample range tolerance for your output. MediaConvert corrects any YUV values that, when converted to RGB, would be outside the lower tolerance that you specify. Enter an integer from -5 to 10 as an offset percentage to the minimum possible value. Leave blank to use the default value 0. When you specify a value for Minimum RGB tolerance, you must set Sample range conversion to Limited range clip.
+        public let minimumRGBTolerance: Int?
+        /// Specify the Minimum YUV color sample limit. MediaConvert conforms any pixels in your input below the value that you specify to typical limited range bounds. Enter an integer from 0 to 128. Leave blank to use the default value 64. The value that you enter applies to 10-bit ranges. For 8-bit ranges, MediaConvert automatically scales this value down. When you specify a value for Minumum YUV, you must set Sample range conversion to Limited range clip.
+        public let minimumYUV: Int?
+
+        public init(maximumRGBTolerance: Int? = nil, maximumYUV: Int? = nil, minimumRGBTolerance: Int? = nil, minimumYUV: Int? = nil) {
+            self.maximumRGBTolerance = maximumRGBTolerance
+            self.maximumYUV = maximumYUV
+            self.minimumRGBTolerance = minimumRGBTolerance
+            self.minimumYUV = minimumYUV
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumRGBTolerance, name: "maximumRGBTolerance", parent: name, max: 105)
+            try self.validate(self.maximumRGBTolerance, name: "maximumRGBTolerance", parent: name, min: 90)
+            try self.validate(self.maximumYUV, name: "maximumYUV", parent: name, max: 1023)
+            try self.validate(self.maximumYUV, name: "maximumYUV", parent: name, min: 920)
+            try self.validate(self.minimumRGBTolerance, name: "minimumRGBTolerance", parent: name, max: 10)
+            try self.validate(self.minimumRGBTolerance, name: "minimumRGBTolerance", parent: name, min: -5)
+            try self.validate(self.minimumYUV, name: "minimumYUV", parent: name, max: 128)
+            try self.validate(self.minimumYUV, name: "minimumYUV", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumRGBTolerance = "maximumRGBTolerance"
+            case maximumYUV = "maximumYUV"
+            case minimumRGBTolerance = "minimumRGBTolerance"
+            case minimumYUV = "minimumYUV"
         }
     }
 
@@ -4166,8 +4214,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
@@ -4203,12 +4251,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case encryptionMethod
-            case initializationVectorInManifest
-            case spekeKeyProvider
-            case staticKeyProvider
-            case type
+            case constantInitializationVector = "constantInitializationVector"
+            case encryptionMethod = "encryptionMethod"
+            case initializationVectorInManifest = "initializationVectorInManifest"
+            case spekeKeyProvider = "spekeKeyProvider"
+            case staticKeyProvider = "staticKeyProvider"
+            case type = "type"
         }
     }
 
@@ -4221,6 +4269,8 @@ extension MediaConvert {
         public let clientCache: CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: CmafCodecSpecification?
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        public let dashManifestStyle: DashManifestStyle?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -4266,11 +4316,12 @@ extension MediaConvert {
         /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
             self.encryption = encryption
@@ -4302,42 +4353,43 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
             try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
-            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
+            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2147483647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case baseUrl
-            case clientCache
-            case codecSpecification
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case imageBasedTrickPlay
-            case imageBasedTrickPlaySettings
-            case manifestCompression
-            case manifestDurationFormat
-            case minBufferTime
-            case minFinalSegmentLength
-            case mpdManifestBandwidthType
-            case mpdProfile
-            case ptsOffsetHandlingForBFrames
-            case segmentControl
-            case segmentLength
-            case segmentLengthControl
-            case streamInfResolution
-            case targetDurationCompatibilityMode
-            case videoCompositionOffsets
-            case writeDashManifest
-            case writeHlsManifest
-            case writeSegmentTimelineInRepresentation
+            case additionalManifests = "additionalManifests"
+            case baseUrl = "baseUrl"
+            case clientCache = "clientCache"
+            case codecSpecification = "codecSpecification"
+            case dashManifestStyle = "dashManifestStyle"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case imageBasedTrickPlay = "imageBasedTrickPlay"
+            case imageBasedTrickPlaySettings = "imageBasedTrickPlaySettings"
+            case manifestCompression = "manifestCompression"
+            case manifestDurationFormat = "manifestDurationFormat"
+            case minBufferTime = "minBufferTime"
+            case minFinalSegmentLength = "minFinalSegmentLength"
+            case mpdManifestBandwidthType = "mpdManifestBandwidthType"
+            case mpdProfile = "mpdProfile"
+            case ptsOffsetHandlingForBFrames = "ptsOffsetHandlingForBFrames"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case segmentLengthControl = "segmentLengthControl"
+            case streamInfResolution = "streamInfResolution"
+            case targetDurationCompatibilityMode = "targetDurationCompatibilityMode"
+            case videoCompositionOffsets = "videoCompositionOffsets"
+            case writeDashManifest = "writeDashManifest"
+            case writeHlsManifest = "writeHlsManifest"
+            case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
         }
     }
 
@@ -4376,12 +4428,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intervalCadence
-            case thumbnailHeight
-            case thumbnailInterval
-            case thumbnailWidth
-            case tileHeight
-            case tileWidth
+            case intervalCadence = "intervalCadence"
+            case thumbnailHeight = "thumbnailHeight"
+            case thumbnailInterval = "thumbnailInterval"
+            case thumbnailWidth = "thumbnailWidth"
+            case tileHeight = "tileHeight"
+            case tileWidth = "tileWidth"
         }
     }
 
@@ -4400,7 +4452,7 @@ extension MediaConvert {
         public let iFrameOnlyManifest: CmfcIFrameOnlyManifest?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: CmfcKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
         public let manifestMetadataSignaling: CmfcManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
@@ -4441,26 +4493,28 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDuration
-            case audioGroupId
-            case audioRenditionSets
-            case audioTrackType
-            case descriptiveVideoServiceFlag
-            case iFrameOnlyManifest
-            case klvMetadata
-            case manifestMetadataSignaling
-            case scte35Esam
-            case scte35Source
-            case timedMetadata
-            case timedMetadataBoxVersion
-            case timedMetadataSchemeIdUri
-            case timedMetadataValue
+            case audioDuration = "audioDuration"
+            case audioGroupId = "audioGroupId"
+            case audioRenditionSets = "audioRenditionSets"
+            case audioTrackType = "audioTrackType"
+            case descriptiveVideoServiceFlag = "descriptiveVideoServiceFlag"
+            case iFrameOnlyManifest = "iFrameOnlyManifest"
+            case klvMetadata = "klvMetadata"
+            case manifestMetadataSignaling = "manifestMetadataSignaling"
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
+            case timedMetadata = "timedMetadata"
+            case timedMetadataBoxVersion = "timedMetadataBoxVersion"
+            case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
+            case timedMetadataValue = "timedMetadataValue"
         }
     }
 
     public struct ColorCorrector: AWSEncodableShape & AWSDecodableShape {
         /// Brightness level.
         public let brightness: Int?
+        /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
+        public let clipLimits: ClipLimits?
         /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR. Select Force P3D65 (SDR) to set the output color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
         public let colorSpaceConversion: ColorSpaceConversion?
         /// Contrast level.
@@ -4469,15 +4523,16 @@ extension MediaConvert {
         public let hdr10Metadata: Hdr10Metadata?
         /// Hue in degrees.
         public let hue: Int?
-        /// Specify the video color sample range for this output. To create a full range output, you must start with a full range YUV input and keep the default value, None (NONE). To create a limited range output from a full range input, choose Limited range (LIMITED_RANGE_SQUEEZE). With RGB inputs, your output is always limited range, regardless of your choice here. When you create a limited range output from a full range input, MediaConvert limits the active pixel values in a way that depends on the output's bit depth: 8-bit outputs contain only values from 16 through 235 and 10-bit outputs contain only values from 64 through 940. With this conversion, MediaConvert also changes the output metadata to note the limited range.
+        /// Specify how MediaConvert limits the color sample range for this output. To create a limited range output from a full range input: Choose Limited range squeeze. For full range inputs, MediaConvert performs a linear offset to color samples equally across all pixels and frames. Color samples in 10-bit outputs are limited to 64 through 940, and 8-bit outputs are limited to 16 through 235. Note: For limited range inputs, values for color samples are passed through to your output unchanged. MediaConvert does not limit the sample range. To correct pixels in your input that are out of range or out of gamut: Choose Limited range clip. Use for broadcast applications. MediaConvert conforms any pixels outside of the values that you specify under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also corrects any YUV values that, when converted to RGB, would be outside the bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance. With either limited range conversion, MediaConvert writes the sample range metadata in the output.
         public let sampleRangeConversion: SampleRangeConversion?
         /// Saturation level.
         public let saturation: Int?
         /// Specify the reference white level, in nits, for all of your SDR inputs. Use to correct brightness levels within HDR10 outputs. The following color metadata must be present in your SDR input: color primaries, transfer characteristics, and matrix coefficients. If your SDR input has missing color metadata, or if you want to correct input color metadata, manually specify a color space in the input video selector. For 1,000 nit peak brightness displays, we recommend that you set SDR reference white level to 203 (according to ITU-R BT.2408). Leave blank to use the default value of 100, or specify an integer from 100 to 1000.
         public let sdrReferenceWhiteLevel: Int?
 
-        public init(brightness: Int? = nil, colorSpaceConversion: ColorSpaceConversion? = nil, contrast: Int? = nil, hdr10Metadata: Hdr10Metadata? = nil, hue: Int? = nil, sampleRangeConversion: SampleRangeConversion? = nil, saturation: Int? = nil, sdrReferenceWhiteLevel: Int? = nil) {
+        public init(brightness: Int? = nil, clipLimits: ClipLimits? = nil, colorSpaceConversion: ColorSpaceConversion? = nil, contrast: Int? = nil, hdr10Metadata: Hdr10Metadata? = nil, hue: Int? = nil, sampleRangeConversion: SampleRangeConversion? = nil, saturation: Int? = nil, sdrReferenceWhiteLevel: Int? = nil) {
             self.brightness = brightness
+            self.clipLimits = clipLimits
             self.colorSpaceConversion = colorSpaceConversion
             self.contrast = contrast
             self.hdr10Metadata = hdr10Metadata
@@ -4490,6 +4545,7 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.validate(self.brightness, name: "brightness", parent: name, max: 100)
             try self.validate(self.brightness, name: "brightness", parent: name, min: 1)
+            try self.clipLimits?.validate(name: "\(name).clipLimits")
             try self.validate(self.contrast, name: "contrast", parent: name, max: 100)
             try self.validate(self.contrast, name: "contrast", parent: name, min: 1)
             try self.hdr10Metadata?.validate(name: "\(name).hdr10Metadata")
@@ -4502,14 +4558,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brightness
-            case colorSpaceConversion
-            case contrast
-            case hdr10Metadata
-            case hue
-            case sampleRangeConversion
-            case saturation
-            case sdrReferenceWhiteLevel
+            case brightness = "brightness"
+            case clipLimits = "clipLimits"
+            case colorSpaceConversion = "colorSpaceConversion"
+            case contrast = "contrast"
+            case hdr10Metadata = "hdr10Metadata"
+            case hue = "hue"
+            case sampleRangeConversion = "sampleRangeConversion"
+            case saturation = "saturation"
+            case sdrReferenceWhiteLevel = "sdrReferenceWhiteLevel"
         }
     }
 
@@ -4555,15 +4612,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cmfcSettings
-            case container
-            case f4vSettings
-            case m2tsSettings
-            case m3u8Settings
-            case movSettings
-            case mp4Settings
-            case mpdSettings
-            case mxfSettings
+            case cmfcSettings = "cmfcSettings"
+            case container = "container"
+            case f4vSettings = "f4vSettings"
+            case m2tsSettings = "m2tsSettings"
+            case m3u8Settings = "m3u8Settings"
+            case movSettings = "movSettings"
+            case mp4Settings = "mp4Settings"
+            case mpdSettings = "mpdSettings"
+            case mxfSettings = "mxfSettings"
         }
     }
 
@@ -4572,7 +4629,7 @@ extension MediaConvert {
         public let accelerationSettings: AccelerationSettings?
         /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
         public let billingTagsSource: BillingTagsSource?
-        /// Optional. Idempotency token for CreateJob operation.
+        /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
         public let clientRequestToken: String?
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
@@ -4621,19 +4678,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case billingTagsSource
-            case clientRequestToken
-            case hopDestinations
-            case jobTemplate
-            case priority
-            case queue
-            case role
-            case settings
-            case simulateReservedQueue
-            case statusUpdateInterval
-            case tags
-            case userMetadata
+            case accelerationSettings = "accelerationSettings"
+            case billingTagsSource = "billingTagsSource"
+            case clientRequestToken = "clientRequestToken"
+            case hopDestinations = "hopDestinations"
+            case jobTemplate = "jobTemplate"
+            case priority = "priority"
+            case queue = "queue"
+            case role = "role"
+            case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case tags = "tags"
+            case userMetadata = "userMetadata"
         }
     }
 
@@ -4646,7 +4703,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -4695,16 +4752,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case category
-            case description
-            case hopDestinations
-            case name
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
-            case tags
+            case accelerationSettings = "accelerationSettings"
+            case category = "category"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case name = "name"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case tags = "tags"
         }
     }
 
@@ -4717,7 +4774,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -4746,11 +4803,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case name
-            case settings
-            case tags
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case settings = "settings"
+            case tags = "tags"
         }
     }
 
@@ -4763,7 +4820,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
@@ -4791,12 +4848,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case pricingPlan
-            case reservationPlanSettings
-            case status
-            case tags
+            case description = "description"
+            case name = "name"
+            case pricingPlan = "pricingPlan"
+            case reservationPlanSettings = "reservationPlanSettings"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -4809,7 +4866,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
@@ -4832,8 +4889,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
@@ -4853,8 +4910,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case playbackDeviceCompatibility
-            case spekeKeyProvider
+            case playbackDeviceCompatibility = "playbackDeviceCompatibility"
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -4865,6 +4922,8 @@ extension MediaConvert {
         public let audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        public let dashManifestStyle: DashManifestStyle?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -4900,10 +4959,11 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
             self.encryption = encryption
@@ -4930,36 +4990,37 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
             try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
-            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
+            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2147483647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case audioChannelConfigSchemeIdUri
-            case baseUrl
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case hbbtvCompliance
-            case imageBasedTrickPlay
-            case imageBasedTrickPlaySettings
-            case minBufferTime
-            case minFinalSegmentLength
-            case mpdManifestBandwidthType
-            case mpdProfile
-            case ptsOffsetHandlingForBFrames
-            case segmentControl
-            case segmentLength
-            case segmentLengthControl
-            case videoCompositionOffsets
-            case writeSegmentTimelineInRepresentation
+            case additionalManifests = "additionalManifests"
+            case audioChannelConfigSchemeIdUri = "audioChannelConfigSchemeIdUri"
+            case baseUrl = "baseUrl"
+            case dashManifestStyle = "dashManifestStyle"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case hbbtvCompliance = "hbbtvCompliance"
+            case imageBasedTrickPlay = "imageBasedTrickPlay"
+            case imageBasedTrickPlaySettings = "imageBasedTrickPlaySettings"
+            case minBufferTime = "minBufferTime"
+            case minFinalSegmentLength = "minFinalSegmentLength"
+            case mpdManifestBandwidthType = "mpdManifestBandwidthType"
+            case mpdProfile = "mpdProfile"
+            case ptsOffsetHandlingForBFrames = "ptsOffsetHandlingForBFrames"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case segmentLengthControl = "segmentLengthControl"
+            case videoCompositionOffsets = "videoCompositionOffsets"
+            case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
         }
     }
 
@@ -4998,12 +5059,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intervalCadence
-            case thumbnailHeight
-            case thumbnailInterval
-            case thumbnailWidth
-            case tileHeight
-            case tileWidth
+            case intervalCadence = "intervalCadence"
+            case thumbnailHeight = "thumbnailHeight"
+            case thumbnailInterval = "thumbnailInterval"
+            case thumbnailWidth = "thumbnailWidth"
+            case tileHeight = "tileHeight"
+            case tileWidth = "tileWidth"
         }
     }
 
@@ -5022,9 +5083,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case control
-            case mode
+            case algorithm = "algorithm"
+            case control = "control"
+            case mode = "mode"
         }
     }
 
@@ -5108,9 +5169,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case mode
-            case nextToken
+            case maxResults = "maxResults"
+            case mode = "mode"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5126,8 +5187,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoints
-            case nextToken
+            case endpoints = "endpoints"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5144,7 +5205,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Settings
+            case s3Settings = "s3Settings"
         }
     }
 
@@ -5189,10 +5250,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case l6Metadata
-            case l6Mode
-            case mapping
-            case profile
+            case l6Metadata = "l6Metadata"
+            case l6Mode = "l6Mode"
+            case mapping = "mapping"
+            case profile = "profile"
         }
     }
 
@@ -5215,8 +5276,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxCll
-            case maxFall
+            case maxCll = "maxCll"
+            case maxFall = "maxFall"
         }
     }
 
@@ -5244,9 +5305,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkId
-            case networkName
-            case nitInterval
+            case networkId = "networkId"
+            case networkName = "networkName"
+            case nitInterval = "nitInterval"
         }
     }
 
@@ -5277,10 +5338,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputSdt
-            case sdtInterval
-            case serviceName
-            case serviceProviderName
+            case outputSdt = "outputSdt"
+            case sdtInterval = "sdtInterval"
+            case serviceName = "serviceName"
+            case serviceProviderName = "serviceProviderName"
         }
     }
 
@@ -5375,9 +5436,9 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
-            try self.validate(self.ddsXCoordinate, name: "ddsXCoordinate", parent: name, max: 2_147_483_647)
+            try self.validate(self.ddsXCoordinate, name: "ddsXCoordinate", parent: name, max: 2147483647)
             try self.validate(self.ddsXCoordinate, name: "ddsXCoordinate", parent: name, min: 0)
-            try self.validate(self.ddsYCoordinate, name: "ddsYCoordinate", parent: name, max: 2_147_483_647)
+            try self.validate(self.ddsYCoordinate, name: "ddsYCoordinate", parent: name, max: 2147483647)
             try self.validate(self.ddsYCoordinate, name: "ddsYCoordinate", parent: name, min: 0)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
@@ -5385,7 +5446,7 @@ extension MediaConvert {
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, max: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, min: 0)
-            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: 1)
             try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, max: 8)
             try self.validate(self.hexFontColor, name: "hexFontColor", parent: name, min: 6)
@@ -5394,46 +5455,46 @@ extension MediaConvert {
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2147483648)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2147483648)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: 1)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2147483647)
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case applyFontColor
-            case backgroundColor
-            case backgroundOpacity
-            case ddsHandling
-            case ddsXCoordinate
-            case ddsYCoordinate
-            case fallbackFont
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontScript
-            case fontSize
-            case height
-            case hexFontColor
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case stylePassthrough
-            case subtitlingType
-            case teletextSpacing
-            case width
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case applyFontColor = "applyFontColor"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case ddsHandling = "ddsHandling"
+            case ddsXCoordinate = "ddsXCoordinate"
+            case ddsYCoordinate = "ddsYCoordinate"
+            case fallbackFont = "fallbackFont"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontScript = "fontScript"
+            case fontSize = "fontSize"
+            case height = "height"
+            case hexFontColor = "hexFontColor"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case stylePassthrough = "stylePassthrough"
+            case subtitlingType = "subtitlingType"
+            case teletextSpacing = "teletextSpacing"
+            case width = "width"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
@@ -5446,12 +5507,12 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, max: 2_147_483_647)
+            try self.validate(self.pid, name: "pid", parent: name, max: 2147483647)
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pid
+            case pid = "pid"
         }
     }
 
@@ -5469,7 +5530,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tdtInterval
+            case tdtInterval = "tdtInterval"
         }
     }
 
@@ -5530,8 +5591,8 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_024_000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 384_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1024000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 384000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 48000)
             try self.validate(self.speechThreshold, name: "speechThreshold", parent: name, max: 100)
@@ -5539,23 +5600,23 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dialogueIntelligence
-            case downmixControl
-            case dynamicRangeCompressionLine
-            case dynamicRangeCompressionRf
-            case dynamicRangeControl
-            case loRoCenterMixLevel
-            case loRoSurroundMixLevel
-            case ltRtCenterMixLevel
-            case ltRtSurroundMixLevel
-            case meteringMode
-            case sampleRate
-            case speechThreshold
-            case stereoDownmix
-            case surroundExMode
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialogueIntelligence = "dialogueIntelligence"
+            case downmixControl = "downmixControl"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case dynamicRangeControl = "dynamicRangeControl"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case meteringMode = "meteringMode"
+            case sampleRate = "sampleRate"
+            case speechThreshold = "speechThreshold"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
         }
     }
 
@@ -5628,7 +5689,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 3_024_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 3024000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
@@ -5637,27 +5698,27 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attenuationControl
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dcFilter
-            case dialnorm
-            case dynamicRangeCompressionLine
-            case dynamicRangeCompressionRf
-            case lfeControl
-            case lfeFilter
-            case loRoCenterMixLevel
-            case loRoSurroundMixLevel
-            case ltRtCenterMixLevel
-            case ltRtSurroundMixLevel
-            case metadataControl
-            case passthroughControl
-            case phaseControl
-            case sampleRate
-            case stereoDownmix
-            case surroundExMode
-            case surroundMode
+            case attenuationControl = "attenuationControl"
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dcFilter = "dcFilter"
+            case dialnorm = "dialnorm"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case lfeControl = "lfeControl"
+            case lfeFilter = "lfeFilter"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case metadataControl = "metadataControl"
+            case passthroughControl = "passthroughControl"
+            case phaseControl = "phaseControl"
+            case sampleRate = "sampleRate"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
+            case surroundMode = "surroundMode"
         }
     }
 
@@ -5680,8 +5741,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination608ChannelNumber
-            case destination708ServiceNumber
+            case destination608ChannelNumber = "destination608ChannelNumber"
+            case destination708ServiceNumber = "destination708ServiceNumber"
         }
     }
 
@@ -5710,10 +5771,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case source608ChannelNumber
-            case source608TrackNumber
-            case terminateCaptions
+            case convert608To708 = "convert608To708"
+            case source608ChannelNumber = "source608ChannelNumber"
+            case source608TrackNumber = "source608TrackNumber"
+            case terminateCaptions = "terminateCaptions"
         }
     }
 
@@ -5726,7 +5787,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url
+            case url = "url"
         }
     }
 
@@ -5743,7 +5804,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mccXml
+            case mccXml = "mccXml"
         }
     }
 
@@ -5769,9 +5830,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestConfirmConditionNotification
-            case responseSignalPreroll
-            case signalProcessingNotification
+            case manifestConfirmConditionNotification = "manifestConfirmConditionNotification"
+            case responseSignalPreroll = "responseSignalPreroll"
+            case signalProcessingNotification = "signalProcessingNotification"
         }
     }
 
@@ -5788,7 +5849,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sccXml
+            case sccXml = "sccXml"
         }
     }
 
@@ -5804,8 +5865,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case copyProtectionAction
-            case vchipAction
+            case copyProtectionAction = "copyProtectionAction"
+            case vchipAction = "vchipAction"
         }
     }
 
@@ -5818,7 +5879,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case moovPlacement
+            case moovPlacement = "moovPlacement"
         }
     }
 
@@ -5839,8 +5900,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationSettings
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
         }
     }
 
@@ -5868,16 +5929,16 @@ extension MediaConvert {
             try self.framerate?.validate(name: "\(name).framerate")
             try self.validate(self.sourceFile, name: "sourceFile", parent: name, min: 14)
             try self.validate(self.sourceFile, name: "sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI|vtt|VTT|webvtt|WEBVTT))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI|vtt|VTT|webvtt|WEBVTT)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.timeDelta, name: "timeDelta", parent: name, max: 2_147_483_647)
-            try self.validate(self.timeDelta, name: "timeDelta", parent: name, min: -2_147_483_648)
+            try self.validate(self.timeDelta, name: "timeDelta", parent: name, max: 2147483647)
+            try self.validate(self.timeDelta, name: "timeDelta", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case framerate
-            case sourceFile
-            case timeDelta
-            case timeDeltaUnits
+            case convert608To708 = "convert608To708"
+            case framerate = "framerate"
+            case sourceFile = "sourceFile"
+            case timeDelta = "timeDelta"
+            case timeDeltaUnits = "timeDeltaUnits"
         }
     }
 
@@ -5900,8 +5961,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
+            case height = "height"
+            case width = "width"
         }
     }
 
@@ -5923,21 +5984,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, max: 10_000_000)
+            try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, max: 10000000)
             try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, min: 1)
             try self.validate(self.quality, name: "quality", parent: name, max: 100)
             try self.validate(self.quality, name: "quality", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
-            case maxCaptures
-            case quality
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case maxCaptures = "maxCaptures"
+            case quality = "quality"
         }
     }
 
@@ -5965,7 +6026,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -5993,7 +6054,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -6010,7 +6071,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -6038,7 +6099,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
@@ -6066,7 +6127,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
@@ -6085,16 +6146,16 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, min: 1000)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAverageBitrate
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case maxAverageBitrate = "maxAverageBitrate"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
@@ -6227,21 +6288,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_152_000_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1152000000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
@@ -6249,9 +6310,9 @@ extension MediaConvert {
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, max: 6)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
@@ -6261,47 +6322,47 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case entropyEncoding
-            case fieldEncoding
-            case flickerAdaptiveQuantization
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopBReference
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferFinalFillPercentage
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case numberReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case qvbrSettings
-            case rateControlMode
-            case repeatPps
-            case scanTypeConversionMode
-            case sceneChangeDetect
-            case slices
-            case slowPal
-            case softness
-            case spatialAdaptiveQuantization
-            case syntax
-            case telecine
-            case temporalAdaptiveQuantization
-            case unregisteredSeiTimecode
+            case adaptiveQuantization = "adaptiveQuantization"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case entropyEncoding = "entropyEncoding"
+            case fieldEncoding = "fieldEncoding"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferFinalFillPercentage = "hrdBufferFinalFillPercentage"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case numberReferenceFrames = "numberReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case repeatPps = "repeatPps"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case slowPal = "slowPal"
+            case softness = "softness"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case syntax = "syntax"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
+            case unregisteredSeiTimecode = "unregisteredSeiTimecode"
         }
     }
 
@@ -6320,16 +6381,16 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1466400000)
             try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, min: 1000)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAverageBitrate
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case maxAverageBitrate = "maxAverageBitrate"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
@@ -6462,21 +6523,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1466400000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_466_400_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1466400000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1466400000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
@@ -6484,9 +6545,9 @@ extension MediaConvert {
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, max: 6)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
@@ -6494,47 +6555,47 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case alternateTransferFunctionSei
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case flickerAdaptiveQuantization
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopBReference
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferFinalFillPercentage
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case numberReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case qvbrSettings
-            case rateControlMode
-            case sampleAdaptiveOffsetFilterMode
-            case scanTypeConversionMode
-            case sceneChangeDetect
-            case slices
-            case slowPal
-            case spatialAdaptiveQuantization
-            case telecine
-            case temporalAdaptiveQuantization
-            case temporalIds
-            case tiles
-            case unregisteredSeiTimecode
-            case writeMp4PackagingType
+            case adaptiveQuantization = "adaptiveQuantization"
+            case alternateTransferFunctionSei = "alternateTransferFunctionSei"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferFinalFillPercentage = "hrdBufferFinalFillPercentage"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case numberReferenceFrames = "numberReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case sampleAdaptiveOffsetFilterMode = "sampleAdaptiveOffsetFilterMode"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case slowPal = "slowPal"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
+            case temporalIds = "temporalIds"
+            case tiles = "tiles"
+            case unregisteredSeiTimecode = "unregisteredSeiTimecode"
+            case writeMp4PackagingType = "writeMp4PackagingType"
         }
     }
 
@@ -6592,9 +6653,9 @@ extension MediaConvert {
             try self.validate(self.maxContentLightLevel, name: "maxContentLightLevel", parent: name, min: 0)
             try self.validate(self.maxFrameAverageLightLevel, name: "maxFrameAverageLightLevel", parent: name, max: 65535)
             try self.validate(self.maxFrameAverageLightLevel, name: "maxFrameAverageLightLevel", parent: name, min: 0)
-            try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, max: 2147483647)
             try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, min: 0)
-            try self.validate(self.minLuminance, name: "minLuminance", parent: name, max: 2_147_483_647)
+            try self.validate(self.minLuminance, name: "minLuminance", parent: name, max: 2147483647)
             try self.validate(self.minLuminance, name: "minLuminance", parent: name, min: 0)
             try self.validate(self.redPrimaryX, name: "redPrimaryX", parent: name, max: 50000)
             try self.validate(self.redPrimaryX, name: "redPrimaryX", parent: name, min: 0)
@@ -6607,18 +6668,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bluePrimaryX
-            case bluePrimaryY
-            case greenPrimaryX
-            case greenPrimaryY
-            case maxContentLightLevel
-            case maxFrameAverageLightLevel
-            case maxLuminance
-            case minLuminance
-            case redPrimaryX
-            case redPrimaryY
-            case whitePointX
-            case whitePointY
+            case bluePrimaryX = "bluePrimaryX"
+            case bluePrimaryY = "bluePrimaryY"
+            case greenPrimaryX = "greenPrimaryX"
+            case greenPrimaryY = "greenPrimaryY"
+            case maxContentLightLevel = "maxContentLightLevel"
+            case maxFrameAverageLightLevel = "maxFrameAverageLightLevel"
+            case maxLuminance = "maxLuminance"
+            case minLuminance = "minLuminance"
+            case redPrimaryX = "redPrimaryX"
+            case redPrimaryY = "redPrimaryY"
+            case whitePointX = "whitePointX"
+            case whitePointY = "whitePointY"
         }
     }
 
@@ -6641,8 +6702,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case masteringMonitorNits
-            case targetMonitorNits
+            case masteringMonitorNits = "masteringMonitorNits"
+            case targetMonitorNits = "targetMonitorNits"
         }
     }
 
@@ -6665,8 +6726,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
@@ -6688,18 +6749,18 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 2_147_483_647)
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: -2_147_483_648)
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 2147483647)
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: -2147483648)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, max: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, min: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionChannel
-            case customLanguageCode
-            case languageCode
-            case languageDescription
+            case captionChannel = "captionChannel"
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
@@ -6738,13 +6799,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case encryptionMethod
-            case initializationVectorInManifest
-            case offlineEncrypted
-            case spekeKeyProvider
-            case staticKeyProvider
-            case type
+            case constantInitializationVector = "constantInitializationVector"
+            case encryptionMethod = "encryptionMethod"
+            case initializationVectorInManifest = "initializationVectorInManifest"
+            case offlineEncrypted = "offlineEncrypted"
+            case spekeKeyProvider = "spekeKeyProvider"
+            case staticKeyProvider = "staticKeyProvider"
+            case type = "type"
         }
     }
 
@@ -6857,52 +6918,52 @@ extension MediaConvert {
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
             try self.imageBasedTrickPlaySettings?.validate(name: "\(name).imageBasedTrickPlaySettings")
-            try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, max: 2147483647)
             try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, min: 0)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, max: 3600)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
-            try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, max: 2147483647)
             try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, min: 1)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 2_147_483_647)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: -2_147_483_648)
-            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, max: 2_147_483_647)
-            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: -2_147_483_648)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 2147483647)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: -2147483648)
+            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, max: 2147483647)
+            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case adMarkers
-            case audioOnlyHeader
-            case baseUrl
-            case captionLanguageMappings
-            case captionLanguageSetting
-            case captionSegmentLengthControl
-            case clientCache
-            case codecSpecification
-            case destination
-            case destinationSettings
-            case directoryStructure
-            case encryption
-            case imageBasedTrickPlay
-            case imageBasedTrickPlaySettings
-            case manifestCompression
-            case manifestDurationFormat
-            case minFinalSegmentLength
-            case minSegmentLength
-            case outputSelection
-            case programDateTime
-            case programDateTimePeriod
-            case segmentControl
-            case segmentLength
-            case segmentLengthControl
-            case segmentsPerSubdirectory
-            case streamInfResolution
-            case targetDurationCompatibilityMode
-            case timedMetadataId3Frame
-            case timedMetadataId3Period
-            case timestampDeltaMilliseconds
+            case additionalManifests = "additionalManifests"
+            case adMarkers = "adMarkers"
+            case audioOnlyHeader = "audioOnlyHeader"
+            case baseUrl = "baseUrl"
+            case captionLanguageMappings = "captionLanguageMappings"
+            case captionLanguageSetting = "captionLanguageSetting"
+            case captionSegmentLengthControl = "captionSegmentLengthControl"
+            case clientCache = "clientCache"
+            case codecSpecification = "codecSpecification"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case directoryStructure = "directoryStructure"
+            case encryption = "encryption"
+            case imageBasedTrickPlay = "imageBasedTrickPlay"
+            case imageBasedTrickPlaySettings = "imageBasedTrickPlaySettings"
+            case manifestCompression = "manifestCompression"
+            case manifestDurationFormat = "manifestDurationFormat"
+            case minFinalSegmentLength = "minFinalSegmentLength"
+            case minSegmentLength = "minSegmentLength"
+            case outputSelection = "outputSelection"
+            case programDateTime = "programDateTime"
+            case programDateTimePeriod = "programDateTimePeriod"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case segmentLengthControl = "segmentLengthControl"
+            case segmentsPerSubdirectory = "segmentsPerSubdirectory"
+            case streamInfResolution = "streamInfResolution"
+            case targetDurationCompatibilityMode = "targetDurationCompatibilityMode"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case timestampDeltaMilliseconds = "timestampDeltaMilliseconds"
         }
     }
 
@@ -6941,12 +7002,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intervalCadence
-            case thumbnailHeight
-            case thumbnailInterval
-            case thumbnailWidth
-            case tileHeight
-            case tileWidth
+            case intervalCadence = "intervalCadence"
+            case thumbnailHeight = "thumbnailHeight"
+            case thumbnailInterval = "thumbnailInterval"
+            case thumbnailWidth = "thumbnailWidth"
+            case tileHeight = "tileHeight"
+            case tileWidth = "tileWidth"
         }
     }
 
@@ -6965,9 +7026,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case renditionGroupId
-            case renditionLanguageCode
-            case renditionName
+            case renditionGroupId = "renditionGroupId"
+            case renditionLanguageCode = "renditionLanguageCode"
+            case renditionName = "renditionName"
         }
     }
 
@@ -6998,13 +7059,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioGroupId
-            case audioOnlyContainer
-            case audioRenditionSets
-            case audioTrackType
-            case descriptiveVideoServiceFlag
-            case iFrameOnlyManifest
-            case segmentModifier
+            case audioGroupId = "audioGroupId"
+            case audioOnlyContainer = "audioOnlyContainer"
+            case audioRenditionSets = "audioRenditionSets"
+            case audioTrackType = "audioTrackType"
+            case descriptiveVideoServiceFlag = "descriptiveVideoServiceFlag"
+            case iFrameOnlyManifest = "iFrameOnlyManifest"
+            case segmentModifier = "segmentModifier"
         }
     }
 
@@ -7028,9 +7089,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case priority
-            case queue
-            case waitMinutes
+            case priority = "priority"
+            case queue = "queue"
+            case waitMinutes = "waitMinutes"
         }
     }
 
@@ -7051,8 +7112,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id3
-            case timecode
+            case id3 = "id3"
+            case timecode = "timecode"
         }
     }
 
@@ -7076,8 +7137,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case insertableImages
-            case sdrReferenceWhiteLevel
+            case insertableImages = "insertableImages"
+            case sdrReferenceWhiteLevel = "sdrReferenceWhiteLevel"
         }
     }
 
@@ -7093,8 +7154,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessibility
-            case stylePassthrough
+            case accessibility = "accessibility"
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
@@ -7191,7 +7252,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
             try self.position?.validate(name: "\(name).position")
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 1)
             try self.supplementalImps?.forEach {
                 try validate($0, name: "supplementalImps[]", parent: name, pattern: "^s3:\\/\\/.*\\/(ASSETMAP.xml)?$")
@@ -7204,28 +7265,28 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorGroups
-            case audioSelectors
-            case captionSelectors
-            case crop
-            case deblockFilter
-            case decryptionSettings
-            case denoiseFilter
-            case dolbyVisionMetadataXml
-            case fileInput
-            case filterEnable
-            case filterStrength
-            case imageInserter
-            case inputClippings
-            case inputScanType
-            case position
-            case programNumber
-            case psiControl
-            case supplementalImps
-            case timecodeSource
-            case timecodeStart
-            case videoGenerator
-            case videoSelector
+            case audioSelectorGroups = "audioSelectorGroups"
+            case audioSelectors = "audioSelectors"
+            case captionSelectors = "captionSelectors"
+            case crop = "crop"
+            case deblockFilter = "deblockFilter"
+            case decryptionSettings = "decryptionSettings"
+            case denoiseFilter = "denoiseFilter"
+            case dolbyVisionMetadataXml = "dolbyVisionMetadataXml"
+            case fileInput = "fileInput"
+            case filterEnable = "filterEnable"
+            case filterStrength = "filterStrength"
+            case imageInserter = "imageInserter"
+            case inputClippings = "inputClippings"
+            case inputScanType = "inputScanType"
+            case position = "position"
+            case programNumber = "programNumber"
+            case psiControl = "psiControl"
+            case supplementalImps = "supplementalImps"
+            case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
+            case videoGenerator = "videoGenerator"
+            case videoSelector = "videoSelector"
         }
     }
 
@@ -7246,8 +7307,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTimecode
-            case startTimecode
+            case endTimecode = "endTimecode"
+            case startTimecode = "startTimecode"
         }
     }
 
@@ -7281,10 +7342,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryptionMode
-            case encryptedDecryptionKey
-            case initializationVector
-            case kmsKeyRegion
+            case decryptionMode = "decryptionMode"
+            case encryptedDecryptionKey = "encryptedDecryptionKey"
+            case initializationVector = "initializationVector"
+            case kmsKeyRegion = "kmsKeyRegion"
         }
     }
 
@@ -7367,7 +7428,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
             try self.position?.validate(name: "\(name).position")
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 1)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
@@ -7376,24 +7437,24 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorGroups
-            case audioSelectors
-            case captionSelectors
-            case crop
-            case deblockFilter
-            case denoiseFilter
-            case dolbyVisionMetadataXml
-            case filterEnable
-            case filterStrength
-            case imageInserter
-            case inputClippings
-            case inputScanType
-            case position
-            case programNumber
-            case psiControl
-            case timecodeSource
-            case timecodeStart
-            case videoSelector
+            case audioSelectorGroups = "audioSelectorGroups"
+            case audioSelectors = "audioSelectors"
+            case captionSelectors = "captionSelectors"
+            case crop = "crop"
+            case deblockFilter = "deblockFilter"
+            case denoiseFilter = "denoiseFilter"
+            case dolbyVisionMetadataXml = "dolbyVisionMetadataXml"
+            case filterEnable = "filterEnable"
+            case filterStrength = "filterStrength"
+            case imageInserter = "imageInserter"
+            case inputClippings = "inputClippings"
+            case inputScanType = "inputScanType"
+            case position = "position"
+            case programNumber = "programNumber"
+            case psiControl = "psiControl"
+            case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
+            case videoSelector = "videoSelector"
         }
     }
 
@@ -7406,12 +7467,12 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 86_400_000)
+            try self.validate(self.duration, name: "duration", parent: name, max: 86400000)
             try self.validate(self.duration, name: "duration", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
+            case duration = "duration"
         }
     }
 
@@ -7454,41 +7515,41 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 2_147_483_647)
+            try self.validate(self.duration, name: "duration", parent: name, max: 2147483647)
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.fadeIn, name: "fadeIn", parent: name, max: 2_147_483_647)
+            try self.validate(self.fadeIn, name: "fadeIn", parent: name, max: 2147483647)
             try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, max: 2_147_483_647)
+            try self.validate(self.fadeOut, name: "fadeOut", parent: name, max: 2147483647)
             try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: 0)
             try self.validate(self.imageInserterInput, name: "imageInserterInput", parent: name, min: 14)
             try self.validate(self.imageInserterInput, name: "imageInserterInput", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA))|(https?://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.imageX, name: "imageX", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageX, name: "imageX", parent: name, max: 2147483647)
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageY, name: "imageY", parent: name, max: 2147483647)
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
             try self.validate(self.layer, name: "layer", parent: name, max: 99)
             try self.validate(self.layer, name: "layer", parent: name, min: 0)
             try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
             try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
             try self.validate(self.startTime, name: "startTime", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
-            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case fadeIn
-            case fadeOut
-            case height
-            case imageInserterInput
-            case imageX
-            case imageY
-            case layer
-            case opacity
-            case startTime
-            case width
+            case duration = "duration"
+            case fadeIn = "fadeIn"
+            case fadeOut = "fadeOut"
+            case height = "height"
+            case imageInserterInput = "imageInserterInput"
+            case imageX = "imageX"
+            case imageY = "imageY"
+            case layer = "layer"
+            case opacity = "opacity"
+            case startTime = "startTime"
+            case width = "width"
         }
     }
 
@@ -7574,31 +7635,31 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case accelerationStatus
-            case arn
-            case billingTagsSource
-            case createdAt
-            case currentPhase
-            case errorCode
-            case errorMessage
-            case hopDestinations
-            case id
-            case jobPercentComplete
-            case jobTemplate
-            case messages
-            case outputGroupDetails
-            case priority
-            case queue
-            case queueTransitions
-            case retryCount
-            case role
-            case settings
-            case simulateReservedQueue
-            case status
-            case statusUpdateInterval
-            case timing
-            case userMetadata
+            case accelerationSettings = "accelerationSettings"
+            case accelerationStatus = "accelerationStatus"
+            case arn = "arn"
+            case billingTagsSource = "billingTagsSource"
+            case createdAt = "createdAt"
+            case currentPhase = "currentPhase"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case hopDestinations = "hopDestinations"
+            case id = "id"
+            case jobPercentComplete = "jobPercentComplete"
+            case jobTemplate = "jobTemplate"
+            case messages = "messages"
+            case outputGroupDetails = "outputGroupDetails"
+            case priority = "priority"
+            case queue = "queue"
+            case queueTransitions = "queueTransitions"
+            case retryCount = "retryCount"
+            case role = "role"
+            case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
+            case status = "status"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case timing = "timing"
+            case userMetadata = "userMetadata"
         }
     }
 
@@ -7614,8 +7675,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case info
-            case warning
+            case info = "info"
+            case warning = "warning"
         }
     }
 
@@ -7680,18 +7741,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case availBlanking
-            case esam
-            case extendedDataServices
-            case inputs
-            case kantarWatermark
-            case motionImageInserter
-            case nielsenConfiguration
-            case nielsenNonLinearWatermark
-            case outputGroups
-            case timecodeConfig
-            case timedMetadataInsertion
+            case adAvailOffset = "adAvailOffset"
+            case availBlanking = "availBlanking"
+            case esam = "esam"
+            case extendedDataServices = "extendedDataServices"
+            case inputs = "inputs"
+            case kantarWatermark = "kantarWatermark"
+            case motionImageInserter = "motionImageInserter"
+            case nielsenConfiguration = "nielsenConfiguration"
+            case nielsenNonLinearWatermark = "nielsenNonLinearWatermark"
+            case outputGroups = "outputGroups"
+            case timecodeConfig = "timecodeConfig"
+            case timedMetadataInsertion = "timedMetadataInsertion"
         }
     }
 
@@ -7742,19 +7803,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case arn
-            case category
-            case createdAt
-            case description
-            case hopDestinations
-            case lastUpdated
-            case name
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
-            case type
+            case accelerationSettings = "accelerationSettings"
+            case arn = "arn"
+            case category = "category"
+            case createdAt = "createdAt"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case type = "type"
         }
     }
 
@@ -7819,18 +7880,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case availBlanking
-            case esam
-            case extendedDataServices
-            case inputs
-            case kantarWatermark
-            case motionImageInserter
-            case nielsenConfiguration
-            case nielsenNonLinearWatermark
-            case outputGroups
-            case timecodeConfig
-            case timedMetadataInsertion
+            case adAvailOffset = "adAvailOffset"
+            case availBlanking = "availBlanking"
+            case esam = "esam"
+            case extendedDataServices = "extendedDataServices"
+            case inputs = "inputs"
+            case kantarWatermark = "kantarWatermark"
+            case motionImageInserter = "motionImageInserter"
+            case nielsenConfiguration = "nielsenConfiguration"
+            case nielsenNonLinearWatermark = "nielsenNonLinearWatermark"
+            case outputGroups = "outputGroups"
+            case timecodeConfig = "timecodeConfig"
+            case timedMetadataInsertion = "timedMetadataInsertion"
         }
     }
 
@@ -7887,7 +7948,7 @@ extension MediaConvert {
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, max: 512)
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, min: 1)
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, pattern: "^[a-zA-Z0-9_\\/_+=.@-]*$")
-            try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2_147_483_647)
+            try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2147483647)
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, min: 0)
             try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.kantarmedia.com$")
             try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^s3:\\/\\/")
@@ -7906,19 +7967,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case contentReference
-            case credentialsSecretName
-            case fileOffset
-            case kantarLicenseId
-            case kantarServerUrl
-            case logDestination
-            case metadata3
-            case metadata4
-            case metadata5
-            case metadata6
-            case metadata7
-            case metadata8
+            case channelName = "channelName"
+            case contentReference = "contentReference"
+            case credentialsSecretName = "credentialsSecretName"
+            case fileOffset = "fileOffset"
+            case kantarLicenseId = "kantarLicenseId"
+            case kantarServerUrl = "kantarServerUrl"
+            case logDestination = "logDestination"
+            case metadata3 = "metadata3"
+            case metadata4 = "metadata4"
+            case metadata5 = "metadata5"
+            case metadata6 = "metadata6"
+            case metadata7 = "metadata7"
+            case metadata8 = "metadata8"
         }
     }
 
@@ -7970,8 +8031,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplates
-            case nextToken
+            case jobTemplates = "jobTemplates"
+            case nextToken = "nextToken"
         }
     }
 
@@ -8023,8 +8084,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -8076,8 +8137,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case presets
+            case nextToken = "nextToken"
+            case presets = "presets"
         }
     }
 
@@ -8125,8 +8186,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case queues
+            case nextToken = "nextToken"
+            case queues = "queues"
         }
     }
 
@@ -8154,7 +8215,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceTags
+            case resourceTags = "resourceTags"
         }
     }
 
@@ -8172,7 +8233,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scte35EsamPid
+            case scte35EsamPid = "scte35EsamPid"
         }
     }
 
@@ -8299,13 +8360,13 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2_147_483_647)
+            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2147483647)
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
             try self.audioPids?.forEach {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
                 try validate($0, name: "audioPids[]", parent: name, min: 32)
             }
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 2_147_483_647)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 2147483647)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 0)
             try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
             try self.dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
@@ -8344,45 +8405,45 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioBufferModel
-            case audioDuration
-            case audioFramesPerPes
-            case audioPids
-            case bitrate
-            case bufferModel
-            case dataPTSControl
-            case dvbNitSettings
-            case dvbSdtSettings
-            case dvbSubPids
-            case dvbTdtSettings
-            case dvbTeletextPid
-            case ebpAudioInterval
-            case ebpPlacement
-            case esRateInPes
-            case forceTsVideoEbpOrder
-            case fragmentTime
-            case klvMetadata
-            case maxPcrInterval
-            case minEbpInterval
-            case nielsenId3
-            case nullPacketBitrate
-            case patInterval
-            case pcrControl
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case privateMetadataPid
-            case programNumber
-            case rateMode
-            case scte35Esam
-            case scte35Pid
-            case scte35Source
-            case segmentationMarkers
-            case segmentationStyle
-            case segmentationTime
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case audioBufferModel = "audioBufferModel"
+            case audioDuration = "audioDuration"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case bitrate = "bitrate"
+            case bufferModel = "bufferModel"
+            case dataPTSControl = "dataPTSControl"
+            case dvbNitSettings = "dvbNitSettings"
+            case dvbSdtSettings = "dvbSdtSettings"
+            case dvbSubPids = "dvbSubPids"
+            case dvbTdtSettings = "dvbTdtSettings"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case ebpAudioInterval = "ebpAudioInterval"
+            case ebpPlacement = "ebpPlacement"
+            case esRateInPes = "esRateInPes"
+            case forceTsVideoEbpOrder = "forceTsVideoEbpOrder"
+            case fragmentTime = "fragmentTime"
+            case klvMetadata = "klvMetadata"
+            case maxPcrInterval = "maxPcrInterval"
+            case minEbpInterval = "minEbpInterval"
+            case nielsenId3 = "nielsenId3"
+            case nullPacketBitrate = "nullPacketBitrate"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case programNumber = "programNumber"
+            case rateMode = "rateMode"
+            case scte35Esam = "scte35Esam"
+            case scte35Pid = "scte35Pid"
+            case scte35Source = "scte35Source"
+            case segmentationMarkers = "segmentationMarkers"
+            case segmentationStyle = "segmentationStyle"
+            case segmentationTime = "segmentationTime"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
@@ -8449,7 +8510,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2_147_483_647)
+            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2147483647)
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
             try self.audioPids?.forEach {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
@@ -8480,25 +8541,25 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDuration
-            case audioFramesPerPes
-            case audioPids
-            case dataPTSControl
-            case maxPcrInterval
-            case nielsenId3
-            case patInterval
-            case pcrControl
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case privateMetadataPid
-            case programNumber
-            case scte35Pid
-            case scte35Source
-            case timedMetadata
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case audioDuration = "audioDuration"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case dataPTSControl = "dataPTSControl"
+            case maxPcrInterval = "maxPcrInterval"
+            case nielsenId3 = "nielsenId3"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case programNumber = "programNumber"
+            case scte35Pid = "scte35Pid"
+            case scte35Source = "scte35Source"
+            case timedMetadata = "timedMetadata"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
@@ -8521,8 +8582,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
+            case height = "height"
+            case width = "width"
         }
     }
 
@@ -8545,8 +8606,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
+            case height = "height"
+            case width = "width"
         }
     }
 
@@ -8584,12 +8645,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerate
-            case input
-            case insertionMode
-            case offset
-            case playback
-            case startTime
+            case framerate = "framerate"
+            case input = "input"
+            case insertionMode = "insertionMode"
+            case offset = "offset"
+            case playback = "playback"
+            case startTime = "startTime"
         }
     }
 
@@ -8605,15 +8666,15 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 17_895_697)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 17895697)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_640)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483640)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
         }
     }
 
@@ -8629,15 +8690,15 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageX, name: "imageX", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageX, name: "imageX", parent: name, max: 2147483647)
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageY, name: "imageY", parent: name, max: 2147483647)
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageX
-            case imageY
+            case imageX = "imageX"
+            case imageY = "imageY"
         }
     }
 
@@ -8662,11 +8723,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clapAtom
-            case cslgAtom
-            case mpeg2FourCCControl
-            case paddingControl
-            case reference
+            case clapAtom = "clapAtom"
+            case cslgAtom = "cslgAtom"
+            case mpeg2FourCCControl = "mpeg2FourCCControl"
+            case paddingControl = "paddingControl"
+            case reference = "reference"
         }
     }
 
@@ -8685,7 +8746,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 384_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 384000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -8694,9 +8755,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case sampleRate
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -8721,7 +8782,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 320_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 320000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 16000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -8732,11 +8793,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case rateControlMode
-            case sampleRate
-            case vbrQuality
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case rateControlMode = "rateControlMode"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
         }
     }
 
@@ -8769,12 +8830,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDuration
-            case cslgAtom
-            case cttsVersion
-            case freeSpaceBox
-            case moovPlacement
-            case mp4MajorBrand
+            case audioDuration = "audioDuration"
+            case cslgAtom = "cslgAtom"
+            case cttsVersion = "cttsVersion"
+            case freeSpaceBox = "freeSpaceBox"
+            case moovPlacement = "moovPlacement"
+            case mp4MajorBrand = "mp4MajorBrand"
         }
     }
 
@@ -8787,7 +8848,7 @@ extension MediaConvert {
         public let captionContainerType: MpdCaptionContainerType?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: MpdKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
         public let manifestMetadataSignaling: MpdManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: MpdScte35Esam?
@@ -8825,17 +8886,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessibilityCaptionHints
-            case audioDuration
-            case captionContainerType
-            case klvMetadata
-            case manifestMetadataSignaling
-            case scte35Esam
-            case scte35Source
-            case timedMetadata
-            case timedMetadataBoxVersion
-            case timedMetadataSchemeIdUri
-            case timedMetadataValue
+            case accessibilityCaptionHints = "accessibilityCaptionHints"
+            case audioDuration = "audioDuration"
+            case captionContainerType = "captionContainerType"
+            case klvMetadata = "klvMetadata"
+            case manifestMetadataSignaling = "manifestMetadataSignaling"
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
+            case timedMetadata = "timedMetadata"
+            case timedMetadataBoxVersion = "timedMetadataBoxVersion"
+            case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
+            case timedMetadataValue = "timedMetadataValue"
         }
     }
 
@@ -8944,68 +9005,68 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 288_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 288000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 1001)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 60000)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 24)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferFinalFillPercentage, name: "hrdBufferFinalFillPercentage", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 300_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 300000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, max: 7)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferFinalFillPercentage
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case intraDcPrecision
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
-            case scanTypeConversionMode
-            case sceneChangeDetect
-            case slowPal
-            case softness
-            case spatialAdaptiveQuantization
-            case syntax
-            case telecine
-            case temporalAdaptiveQuantization
+            case adaptiveQuantization = "adaptiveQuantization"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferFinalFillPercentage = "hrdBufferFinalFillPercentage"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case intraDcPrecision = "intraDcPrecision"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slowPal = "slowPal"
+            case softness = "softness"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case syntax = "syntax"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
         }
     }
 
@@ -9028,8 +9089,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
@@ -9046,7 +9107,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -9086,19 +9147,19 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case audioDeduplication
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case fragmentLengthControl
-            case manifestEncoding
+            case additionalManifests = "additionalManifests"
+            case audioDeduplication = "audioDeduplication"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case fragmentLengthControl = "fragmentLengthControl"
+            case manifestEncoding = "manifestEncoding"
         }
     }
 
@@ -9121,9 +9182,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afdSignaling
-            case profile
-            case xavcProfileSettings
+            case afdSignaling = "afdSignaling"
+            case profile = "profile"
+            case xavcProfileSettings = "xavcProfileSettings"
         }
     }
 
@@ -9139,13 +9200,13 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAncDataSize, name: "maxAncDataSize", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxAncDataSize, name: "maxAncDataSize", parent: name, max: 2147483647)
             try self.validate(self.maxAncDataSize, name: "maxAncDataSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationMode
-            case maxAncDataSize
+            case durationMode = "durationMode"
+            case maxAncDataSize = "maxAncDataSize"
         }
     }
 
@@ -9167,19 +9228,19 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.license, name: "license", parent: name, max: 100_000)
+            try self.validate(self.license, name: "license", parent: name, max: 100000)
             try self.validate(self.license, name: "license", parent: name, min: 1)
-            try self.validate(self.payload, name: "payload", parent: name, max: 4_194_303)
+            try self.validate(self.payload, name: "payload", parent: name, max: 4194303)
             try self.validate(self.payload, name: "payload", parent: name, min: 0)
             try self.validate(self.preset, name: "preset", parent: name, max: 256)
             try self.validate(self.preset, name: "preset", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case license
-            case payload
-            case preset
-            case strength
+            case license = "license"
+            case payload = "payload"
+            case preset = "preset"
+            case strength = "strength"
         }
     }
 
@@ -9200,8 +9261,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case breakoutCode
-            case distributorId
+            case breakoutCode = "breakoutCode"
+            case distributorId = "distributorId"
         }
     }
 
@@ -9259,17 +9320,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeWatermarkProcess
-            case adiFilename
-            case assetId
-            case assetName
-            case cbetSourceId
-            case episodeId
-            case metadataDestination
-            case sourceId
-            case sourceWatermarkStatus
-            case ticServerUrl
-            case uniqueTicPerAudioTrack
+            case activeWatermarkProcess = "activeWatermarkProcess"
+            case adiFilename = "adiFilename"
+            case assetId = "assetId"
+            case assetName = "assetName"
+            case cbetSourceId = "cbetSourceId"
+            case episodeId = "episodeId"
+            case metadataDestination = "metadataDestination"
+            case sourceId = "sourceId"
+            case sourceWatermarkStatus = "sourceWatermarkStatus"
+            case ticServerUrl = "ticServerUrl"
+            case uniqueTicPerAudioTrack = "uniqueTicPerAudioTrack"
         }
     }
 
@@ -9297,10 +9358,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case filterSettings
-            case spatialFilterSettings
-            case temporalFilterSettings
+            case filter = "filter"
+            case filterSettings = "filterSettings"
+            case spatialFilterSettings = "spatialFilterSettings"
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
@@ -9318,7 +9379,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case strength
+            case strength = "strength"
         }
     }
 
@@ -9346,9 +9407,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case postFilterSharpenStrength
-            case speed
-            case strength
+            case postFilterSharpenStrength = "postFilterSharpenStrength"
+            case speed = "speed"
+            case strength = "strength"
         }
     }
 
@@ -9382,11 +9443,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggressiveMode
-            case postTemporalSharpening
-            case postTemporalSharpeningStrength
-            case speed
-            case strength
+            case aggressiveMode = "aggressiveMode"
+            case postTemporalSharpening = "postTemporalSharpening"
+            case postTemporalSharpeningStrength = "postTemporalSharpeningStrength"
+            case speed = "speed"
+            case strength = "strength"
         }
     }
 
@@ -9405,7 +9466,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 192_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 192000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -9414,9 +9475,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case sampleRate
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -9462,14 +9523,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptions
-            case captionDescriptions
-            case containerSettings
-            case `extension`
-            case nameModifier
-            case outputSettings
-            case preset
-            case videoDescription
+            case audioDescriptions = "audioDescriptions"
+            case captionDescriptions = "captionDescriptions"
+            case containerSettings = "containerSettings"
+            case `extension` = "extension"
+            case nameModifier = "nameModifier"
+            case outputSettings = "outputSettings"
+            case preset = "preset"
+            case videoDescription = "videoDescription"
         }
     }
 
@@ -9492,8 +9553,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputChannels
-            case inputChannelsFineTune
+            case inputChannels = "inputChannels"
+            case inputChannelsFineTune = "inputChannelsFineTune"
         }
     }
 
@@ -9509,8 +9570,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInMs
-            case videoDetails
+            case durationInMs = "durationInMs"
+            case videoDetails = "videoDetails"
         }
     }
 
@@ -9543,11 +9604,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automatedEncodingSettings
-            case customName
-            case name
-            case outputGroupSettings
-            case outputs
+            case automatedEncodingSettings = "automatedEncodingSettings"
+            case customName = "customName"
+            case name = "name"
+            case outputGroupSettings = "outputGroupSettings"
+            case outputs = "outputs"
         }
     }
 
@@ -9560,7 +9621,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputDetails
+            case outputDetails = "outputDetails"
         }
     }
 
@@ -9596,12 +9657,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cmafGroupSettings
-            case dashIsoGroupSettings
-            case fileGroupSettings
-            case hlsGroupSettings
-            case msSmoothGroupSettings
-            case type
+            case cmafGroupSettings = "cmafGroupSettings"
+            case dashIsoGroupSettings = "dashIsoGroupSettings"
+            case fileGroupSettings = "fileGroupSettings"
+            case hlsGroupSettings = "hlsGroupSettings"
+            case msSmoothGroupSettings = "msSmoothGroupSettings"
+            case type = "type"
         }
     }
 
@@ -9614,7 +9675,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsSettings
+            case hlsSettings = "hlsSettings"
         }
     }
 
@@ -9631,7 +9692,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nexguardFileMarkerSettings
+            case nexguardFileMarkerSettings = "nexguardFileMarkerSettings"
         }
     }
 
@@ -9650,9 +9711,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case httpInputs
-            case httpsInputs
-            case s3Inputs
+            case httpInputs = "httpInputs"
+            case httpsInputs = "httpsInputs"
+            case s3Inputs = "s3Inputs"
         }
     }
 
@@ -9688,14 +9749,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case category
-            case createdAt
-            case description
-            case lastUpdated
-            case name
-            case settings
-            case type
+            case arn = "arn"
+            case category = "category"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case settings = "settings"
+            case type = "type"
         }
     }
 
@@ -9728,10 +9789,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptions
-            case captionDescriptions
-            case containerSettings
-            case videoDescription
+            case audioDescriptions = "audioDescriptions"
+            case captionDescriptions = "captionDescriptions"
+            case containerSettings = "containerSettings"
+            case videoDescription = "videoDescription"
         }
     }
 
@@ -9780,30 +9841,30 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case chromaSampling
-            case codecProfile
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case parControl
-            case parDenominator
-            case parNumerator
-            case scanTypeConversionMode
-            case slowPal
-            case telecine
+            case chromaSampling = "chromaSampling"
+            case codecProfile = "codecProfile"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
         }
     }
 
@@ -9816,7 +9877,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -9829,7 +9890,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -9874,17 +9935,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastUpdated
-            case name
-            case pricingPlan
-            case progressingJobsCount
-            case reservationPlan
-            case status
-            case submittedJobsCount
-            case type
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case pricingPlan = "pricingPlan"
+            case progressingJobsCount = "progressingJobsCount"
+            case reservationPlan = "reservationPlan"
+            case status = "status"
+            case submittedJobsCount = "submittedJobsCount"
+            case type = "type"
         }
     }
 
@@ -9904,9 +9965,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationQueue
-            case sourceQueue
-            case timestamp
+            case destinationQueue = "destinationQueue"
+            case sourceQueue = "sourceQueue"
+            case timestamp = "timestamp"
         }
     }
 
@@ -9928,21 +9989,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: 2)
-            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: 2)
-            try self.validate(self.x, name: "x", parent: name, max: 2_147_483_647)
+            try self.validate(self.x, name: "x", parent: name, max: 2147483647)
             try self.validate(self.x, name: "x", parent: name, min: 0)
-            try self.validate(self.y, name: "y", parent: name, max: 2_147_483_647)
+            try self.validate(self.y, name: "y", parent: name, max: 2147483647)
             try self.validate(self.y, name: "y", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
-            case x
-            case y
+            case height = "height"
+            case width = "width"
+            case x = "x"
+            case y = "y"
         }
     }
 
@@ -9969,9 +10030,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelMapping
-            case channelsIn
-            case channelsOut
+            case channelMapping = "channelMapping"
+            case channelsIn = "channelsIn"
+            case channelsOut = "channelsOut"
         }
     }
 
@@ -10001,12 +10062,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitment
-            case expiresAt
-            case purchasedAt
-            case renewalType
-            case reservedSlots
-            case status
+            case commitment = "commitment"
+            case expiresAt = "expiresAt"
+            case purchasedAt = "purchasedAt"
+            case renewalType = "renewalType"
+            case reservedSlots = "reservedSlots"
+            case status = "status"
         }
     }
 
@@ -10025,9 +10086,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitment
-            case renewalType
-            case reservedSlots
+            case commitment = "commitment"
+            case renewalType = "renewalType"
+            case reservedSlots = "reservedSlots"
         }
     }
 
@@ -10043,8 +10104,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case tags
+            case arn = "arn"
+            case tags = "tags"
         }
     }
 
@@ -10057,7 +10118,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cannedAcl
+            case cannedAcl = "cannedAcl"
         }
     }
 
@@ -10077,8 +10138,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControl
-            case encryption
+            case accessControl = "accessControl"
+            case encryption = "encryption"
         }
     }
 
@@ -10102,9 +10163,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsEncryptionContext
-            case kmsKeyArn
+            case encryptionType = "encryptionType"
+            case kmsEncryptionContext = "kmsEncryptionContext"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -10117,7 +10178,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerate
+            case framerate = "framerate"
         }
     }
 
@@ -10147,10 +10208,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case resourceId
-            case systemIds
-            case url
+            case certificateArn = "certificateArn"
+            case resourceId = "resourceId"
+            case systemIds = "systemIds"
+            case url = "url"
         }
     }
 
@@ -10191,11 +10252,11 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case dashSignaledSystemIds
-            case hlsSignaledSystemIds
-            case resourceId
-            case url
+            case certificateArn = "certificateArn"
+            case dashSignaledSystemIds = "dashSignaledSystemIds"
+            case hlsSignaledSystemIds = "hlsSignaledSystemIds"
+            case resourceId = "resourceId"
+            case url = "url"
         }
     }
 
@@ -10208,7 +10269,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stylePassthrough
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
@@ -10236,10 +10297,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyFormat
-            case keyFormatVersions
-            case staticKeyValue
-            case url
+            case keyFormat = "keyFormat"
+            case keyFormatVersions = "keyFormatVersions"
+            case staticKeyValue = "staticKeyValue"
+            case url = "url"
         }
     }
 
@@ -10255,8 +10316,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case tags
+            case arn = "arn"
+            case tags = "tags"
         }
     }
 
@@ -10282,8 +10343,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageNumber
-            case pageTypes
+            case pageNumber = "pageNumber"
+            case pageTypes = "pageTypes"
         }
     }
 
@@ -10302,7 +10363,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageNumber
+            case pageNumber = "pageNumber"
         }
     }
 
@@ -10327,9 +10388,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fontSize
-            case position
-            case prefix
+            case fontSize = "fontSize"
+            case position = "position"
+            case prefix = "prefix"
         }
     }
 
@@ -10357,10 +10418,10 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case anchor
-            case source
-            case start
-            case timestampOffset
+            case anchor = "anchor"
+            case source = "source"
+            case start = "start"
+            case timestampOffset = "timestampOffset"
         }
     }
 
@@ -10379,7 +10440,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id3Insertions
+            case id3Insertions = "id3Insertions"
         }
     }
 
@@ -10401,9 +10462,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finishTime
-            case startTime
-            case submitTime
+            case finishTime = "finishTime"
+            case startTime = "startTime"
+            case submitTime = "submitTime"
         }
     }
 
@@ -10416,12 +10477,12 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.trackNumber, name: "trackNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.trackNumber, name: "trackNumber", parent: name, max: 2147483647)
             try self.validate(self.trackNumber, name: "trackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trackNumber
+            case trackNumber = "trackNumber"
         }
     }
 
@@ -10434,7 +10495,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stylePassthrough
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
@@ -10454,7 +10515,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -10508,14 +10569,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case category
-            case description
-            case hopDestinations
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
+            case accelerationSettings = "accelerationSettings"
+            case category = "category"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
         }
     }
 
@@ -10528,7 +10589,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -10558,9 +10619,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case settings
+            case category = "category"
+            case description = "description"
+            case settings = "settings"
         }
     }
 
@@ -10573,7 +10634,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
@@ -10599,9 +10660,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case reservationPlanSettings
-            case status
+            case description = "description"
+            case reservationPlanSettings = "reservationPlanSettings"
+            case status = "status"
         }
     }
 
@@ -10614,7 +10675,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
@@ -10658,15 +10719,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case scanTypeConversionMode
-            case slowPal
-            case telecine
-            case vc3Class
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case scanTypeConversionMode = "scanTypeConversionMode"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
+            case vc3Class = "vc3Class"
         }
     }
 
@@ -10726,18 +10787,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case av1Settings
-            case avcIntraSettings
-            case codec
-            case frameCaptureSettings
-            case h264Settings
-            case h265Settings
-            case mpeg2Settings
-            case proresSettings
-            case vc3Settings
-            case vp8Settings
-            case vp9Settings
-            case xavcSettings
+            case av1Settings = "av1Settings"
+            case avcIntraSettings = "avcIntraSettings"
+            case codec = "codec"
+            case frameCaptureSettings = "frameCaptureSettings"
+            case h264Settings = "h264Settings"
+            case h265Settings = "h265Settings"
+            case mpeg2Settings = "mpeg2Settings"
+            case proresSettings = "proresSettings"
+            case vc3Settings = "vc3Settings"
+            case vp8Settings = "vp8Settings"
+            case vp9Settings = "vp9Settings"
+            case xavcSettings = "xavcSettings"
         }
     }
 
@@ -10807,21 +10868,21 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afdSignaling
-            case antiAlias
-            case codecSettings
-            case colorMetadata
-            case crop
-            case dropFrameTimecode
-            case fixedAfd
-            case height
-            case position
-            case respondToAfd
-            case scalingBehavior
-            case sharpness
-            case timecodeInsertion
-            case videoPreprocessors
-            case width
+            case afdSignaling = "afdSignaling"
+            case antiAlias = "antiAlias"
+            case codecSettings = "codecSettings"
+            case colorMetadata = "colorMetadata"
+            case crop = "crop"
+            case dropFrameTimecode = "dropFrameTimecode"
+            case fixedAfd = "fixedAfd"
+            case height = "height"
+            case position = "position"
+            case respondToAfd = "respondToAfd"
+            case scalingBehavior = "scalingBehavior"
+            case sharpness = "sharpness"
+            case timecodeInsertion = "timecodeInsertion"
+            case videoPreprocessors = "videoPreprocessors"
+            case width = "width"
         }
     }
 
@@ -10837,8 +10898,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heightInPx
-            case widthInPx
+            case heightInPx = "heightInPx"
+            case widthInPx = "widthInPx"
         }
     }
 
@@ -10882,14 +10943,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case colorCorrector
-            case deinterlacer
-            case dolbyVision
-            case hdr10Plus
-            case imageInserter
-            case noiseReducer
-            case partnerWatermarking
-            case timecodeBurnin
+            case colorCorrector = "colorCorrector"
+            case deinterlacer = "deinterlacer"
+            case dolbyVision = "dolbyVision"
+            case hdr10Plus = "hdr10Plus"
+            case imageInserter = "imageInserter"
+            case noiseReducer = "noiseReducer"
+            case partnerWatermarking = "partnerWatermarking"
+            case timecodeBurnin = "timecodeBurnin"
         }
     }
 
@@ -10930,23 +10991,23 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.hdr10Metadata?.validate(name: "\(name).hdr10Metadata")
-            try self.validate(self.pid, name: "pid", parent: name, max: 2_147_483_647)
+            try self.validate(self.pid, name: "pid", parent: name, max: 2147483647)
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
-            try self.validate(self.programNumber, name: "programNumber", parent: name, min: -2_147_483_648)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alphaBehavior
-            case colorSpace
-            case colorSpaceUsage
-            case embeddedTimecodeOverride
-            case hdr10Metadata
-            case padVideo
-            case pid
-            case programNumber
-            case rotate
-            case sampleRange
+            case alphaBehavior = "alphaBehavior"
+            case colorSpace = "colorSpace"
+            case colorSpaceUsage = "colorSpaceUsage"
+            case embeddedTimecodeOverride = "embeddedTimecodeOverride"
+            case hdr10Metadata = "hdr10Metadata"
+            case padVideo = "padVideo"
+            case pid = "pid"
+            case programNumber = "programNumber"
+            case rotate = "rotate"
+            case sampleRange = "sampleRange"
         }
     }
 
@@ -10974,9 +11035,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case sampleRate
-            case vbrQuality
+            case channels = "channels"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
         }
     }
 
@@ -11025,36 +11086,36 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case hrdBufferSize
-            case maxBitrate
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
         }
     }
 
@@ -11103,36 +11164,36 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 480_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 480000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 480_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 480000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case hrdBufferSize
-            case maxBitrate
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
         }
     }
 
@@ -11158,15 +11219,15 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192_000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitDepth
-            case channels
-            case format
-            case sampleRate
+            case bitDepth = "bitDepth"
+            case channels = "channels"
+            case format = "format"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -11182,8 +11243,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessibility
-            case stylePassthrough
+            case accessibility = "accessibility"
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
@@ -11202,9 +11263,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case renditionGroupId
-            case renditionLanguageCode
-            case renditionName
+            case renditionGroupId = "renditionGroupId"
+            case renditionLanguageCode = "renditionLanguageCode"
+            case renditionName = "renditionName"
         }
     }
 
@@ -11217,7 +11278,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case xavcClass
+            case xavcClass = "xavcClass"
         }
     }
 
@@ -11230,7 +11291,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case xavcClass
+            case xavcClass = "xavcClass"
         }
     }
 
@@ -11264,23 +11325,23 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_152_000_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1152000000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
             try self.validate(self.slices, name: "slices", parent: name, max: 12)
             try self.validate(self.slices, name: "slices", parent: name, min: 8)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrateClass
-            case codecProfile
-            case flickerAdaptiveQuantization
-            case gopBReference
-            case gopClosedCadence
-            case hrdBufferSize
-            case qualityTuningLevel
-            case slices
+            case bitrateClass = "bitrateClass"
+            case codecProfile = "codecProfile"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case hrdBufferSize = "hrdBufferSize"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case slices = "slices"
         }
     }
 
@@ -11293,7 +11354,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case xavcClass
+            case xavcClass = "xavcClass"
         }
     }
 
@@ -11330,24 +11391,24 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_152_000_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1152000000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
             try self.validate(self.slices, name: "slices", parent: name, max: 12)
             try self.validate(self.slices, name: "slices", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrateClass
-            case flickerAdaptiveQuantization
-            case gopBReference
-            case gopClosedCadence
-            case hrdBufferSize
-            case interlaceMode
-            case qualityTuningLevel
-            case slices
-            case telecine
+            case bitrateClass = "bitrateClass"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case slices = "slices"
+            case telecine = "telecine"
         }
     }
 
@@ -11416,22 +11477,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case entropyEncoding
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case profile
-            case slowPal
-            case softness
-            case spatialAdaptiveQuantization
-            case temporalAdaptiveQuantization
-            case xavc4kIntraCbgProfileSettings
-            case xavc4kIntraVbrProfileSettings
-            case xavc4kProfileSettings
-            case xavcHdIntraCbgProfileSettings
-            case xavcHdProfileSettings
+            case adaptiveQuantization = "adaptiveQuantization"
+            case entropyEncoding = "entropyEncoding"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case profile = "profile"
+            case slowPal = "slowPal"
+            case softness = "softness"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
+            case xavc4kIntraCbgProfileSettings = "xavc4kIntraCbgProfileSettings"
+            case xavc4kIntraVbrProfileSettings = "xavc4kIntraVbrProfileSettings"
+            case xavc4kProfileSettings = "xavc4kProfileSettings"
+            case xavcHdIntraCbgProfileSettings = "xavcHdIntraCbgProfileSettings"
+            case xavcHdProfileSettings = "xavcHdProfileSettings"
         }
     }
 }
@@ -11467,15 +11528,15 @@ public struct MediaConvertErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The service can&#39;t process your request because of a problem in the request. Please check your request form and syntax.
+    /// The service can't process your request because of a problem in the request. Please check your request form and syntax.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// The service couldn&#39;t complete your request because there is a conflict with the current state of the resource.
+    /// The service couldn't complete your request because there is a conflict with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
-    /// You don&#39;t have permissions for this action with the credentials you sent.
+    /// You don't have permissions for this action with the credentials you sent.
     public static var forbiddenException: Self { .init(.forbiddenException) }
-    /// The service encountered an unexpected condition and can&#39;t fulfill your request.
+    /// The service encountered an unexpected condition and can't fulfill your request.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
-    /// The resource you requested doesn&#39;t exist.
+    /// The resource you requested doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
     /// Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

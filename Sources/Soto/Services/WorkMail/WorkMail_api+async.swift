@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -428,7 +428,7 @@ extension WorkMail {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkMail {
-    ///  Creates a paginated call to list the aliases associated with a given entity.
+    /// Creates a paginated call to list the aliases associated with a given entity.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -450,7 +450,7 @@ extension WorkMail {
         )
     }
 
-    ///  List all the AvailabilityConfiguration's for the given WorkMail organization.
+    /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -472,7 +472,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns an overview of the members of a group. Users and groups can be members of a group.
+    /// Returns an overview of the members of a group. Users and groups can be members of a group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -494,7 +494,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's groups.
+    /// Returns summaries of the organization's groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -516,7 +516,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists all the impersonation roles for the given WorkMail organization.
+    /// Lists all the impersonation roles for the given WorkMail organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -538,7 +538,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mail domains in a given WorkMail organization.
+    /// Lists the mail domains in a given WorkMail organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -560,7 +560,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
+    /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -582,7 +582,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
+    /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -604,7 +604,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -626,7 +626,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the customer's organizations.
+    /// Returns summaries of the customer's organizations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -648,7 +648,7 @@ extension WorkMail {
         )
     }
 
-    ///  Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
+    /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -670,7 +670,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's resources.
+    /// Returns summaries of the organization's resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -692,7 +692,7 @@ extension WorkMail {
         )
     }
 
-    ///  Returns summaries of the organization's users.
+    /// Returns summaries of the organization's users.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

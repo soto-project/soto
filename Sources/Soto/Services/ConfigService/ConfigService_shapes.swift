@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -862,20 +862,20 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case availabilityZone
-            case awsRegion
-            case configuration
-            case configurationItemCaptureTime
-            case configurationItemStatus
-            case configurationStateId
-            case resourceCreationTime
-            case resourceId
-            case resourceName
-            case resourceType
-            case supplementaryConfiguration
-            case version
+            case accountId = "accountId"
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case awsRegion = "awsRegion"
+            case configuration = "configuration"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemStatus = "configurationItemStatus"
+            case configurationStateId = "configurationStateId"
+            case resourceCreationTime = "resourceCreationTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case version = "version"
         }
     }
 
@@ -943,7 +943,7 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceKeys
+            case resourceKeys = "resourceKeys"
         }
     }
 
@@ -966,8 +966,8 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseConfigurationItems
-            case unprocessedResourceKeys
+            case baseConfigurationItems = "baseConfigurationItems"
+            case unprocessedResourceKeys = "unprocessedResourceKeys"
         }
     }
 
@@ -1127,12 +1127,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastAttemptTime
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStatus
-            case lastSuccessfulTime
-            case nextDeliveryTime
+            case lastAttemptTime = "lastAttemptTime"
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStatus = "lastStatus"
+            case lastSuccessfulTime = "lastSuccessfulTime"
+            case nextDeliveryTime = "nextDeliveryTime"
         }
     }
 
@@ -1416,7 +1416,7 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryFrequency
+            case deliveryFrequency = "deliveryFrequency"
         }
     }
 
@@ -1442,10 +1442,10 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStatus
-            case lastStatusChangeTime
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStatus = "lastStatus"
+            case lastStatusChangeTime = "lastStatusChangeTime"
         }
     }
 
@@ -1569,24 +1569,24 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case availabilityZone
-            case awsRegion
-            case configuration
-            case configurationItemCaptureTime
-            case configurationItemMD5Hash
-            case configurationItemStatus
-            case configurationStateId
-            case relatedEvents
-            case relationships
-            case resourceCreationTime
-            case resourceId
-            case resourceName
-            case resourceType
-            case supplementaryConfiguration
-            case tags
-            case version
+            case accountId = "accountId"
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case awsRegion = "awsRegion"
+            case configuration = "configuration"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemMD5Hash = "configurationItemMD5Hash"
+            case configurationItemStatus = "configurationItemStatus"
+            case configurationStateId = "configurationStateId"
+            case relatedEvents = "relatedEvents"
+            case relationships = "relationships"
+            case resourceCreationTime = "resourceCreationTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -1615,9 +1615,9 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case recordingGroup
-            case roleARN
+            case name = "name"
+            case recordingGroup = "recordingGroup"
+            case roleARN = "roleARN"
         }
     }
 
@@ -1653,14 +1653,14 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStartTime
-            case lastStatus
-            case lastStatusChangeTime
-            case lastStopTime
-            case name
-            case recording
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStartTime = "lastStartTime"
+            case lastStatus = "lastStatus"
+            case lastStatusChangeTime = "lastStatusChangeTime"
+            case lastStopTime = "lastStopTime"
+            case name = "name"
+            case recording = "recording"
         }
     }
 
@@ -2340,7 +2340,7 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryChannelName
+            case deliveryChannelName = "deliveryChannelName"
         }
     }
 
@@ -2353,7 +2353,7 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configSnapshotId
+            case configSnapshotId = "configSnapshotId"
         }
     }
 
@@ -2403,12 +2403,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configSnapshotDeliveryProperties
-            case name
-            case s3BucketName
-            case s3KeyPrefix
-            case s3KmsKeyArn
-            case snsTopicARN
+            case configSnapshotDeliveryProperties = "configSnapshotDeliveryProperties"
+            case name = "name"
+            case s3BucketName = "s3BucketName"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case s3KmsKeyArn = "s3KmsKeyArn"
+            case snsTopicARN = "snsTopicARN"
         }
     }
 
@@ -2434,10 +2434,10 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configHistoryDeliveryInfo
-            case configSnapshotDeliveryInfo
-            case configStreamDeliveryInfo
-            case name
+            case configHistoryDeliveryInfo = "configHistoryDeliveryInfo"
+            case configSnapshotDeliveryInfo = "configSnapshotDeliveryInfo"
+            case configStreamDeliveryInfo = "configStreamDeliveryInfo"
+            case name = "name"
         }
     }
 
@@ -4675,9 +4675,9 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case nextToken
-            case resourceTypes
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceTypes = "resourceTypes"
         }
     }
 
@@ -4716,9 +4716,9 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceCounts
-            case totalDiscoveredResources
+            case nextToken = "nextToken"
+            case resourceCounts = "resourceCounts"
+            case totalDiscoveredResources = "totalDiscoveredResources"
         }
     }
 
@@ -4902,13 +4902,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case chronologicalOrder
-            case earlierTime
-            case laterTime
-            case limit
-            case nextToken
-            case resourceId
-            case resourceType
+            case chronologicalOrder = "chronologicalOrder"
+            case earlierTime = "earlierTime"
+            case laterTime = "laterTime"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -4926,8 +4926,8 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationItems
-            case nextToken
+            case configurationItems = "configurationItems"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5191,12 +5191,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeDeletedResources
-            case limit
-            case nextToken
-            case resourceIds
-            case resourceName
-            case resourceType
+            case includeDeletedResources = "includeDeletedResources"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceIds = "resourceIds"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -5214,8 +5214,8 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceIdentifiers
+            case nextToken = "nextToken"
+            case resourceIdentifiers = "resourceIdentifiers"
         }
     }
 
@@ -6660,9 +6660,9 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allSupported
-            case includeGlobalResourceTypes
-            case resourceTypes
+            case allSupported = "allSupported"
+            case includeGlobalResourceTypes = "includeGlobalResourceTypes"
+            case resourceTypes = "resourceTypes"
         }
     }
 
@@ -6686,10 +6686,10 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationshipName
-            case resourceId
-            case resourceName
-            case resourceType
+            case relationshipName = "relationshipName"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -6758,7 +6758,7 @@ extension ConfigService {
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
             try self.validate(self.parameters, name: "parameters", parent: name, max: 25)
-            try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, max: 2_678_000)
+            try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, max: 2678000)
             try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, min: 1)
             try self.validate(self.targetId, name: "targetId", parent: name, max: 256)
             try self.validate(self.targetId, name: "targetId", parent: name, min: 1)
@@ -6924,8 +6924,8 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case resourceType
+            case count = "count"
+            case resourceType = "resourceType"
         }
     }
 
@@ -7089,10 +7089,10 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceDeletionTime
-            case resourceId
-            case resourceName
-            case resourceType
+            case resourceDeletionTime = "resourceDeletionTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -7113,8 +7113,8 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId
-            case resourceType
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -7945,7 +7945,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// 			write to it.
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
     /// Indicates one of the following errors:
-    /// 		         For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function&#39;s permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// 		         For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
     /// 				             You do not have permission to call IAM GetRole action or create a service-linked role.   You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     ///
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }

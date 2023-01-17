@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -123,7 +123,7 @@ extension IdentityStore {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IdentityStore {
-    ///  For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -145,7 +145,7 @@ extension IdentityStore {
         )
     }
 
-    ///  For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -167,7 +167,7 @@ extension IdentityStore {
         )
     }
 
-    ///  Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -189,7 +189,7 @@ extension IdentityStore {
         )
     }
 
-    ///  Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

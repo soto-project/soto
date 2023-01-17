@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -238,7 +238,7 @@ extension Wisdom {
 // MARK: Paginators
 
 extension Wisdom {
-    ///  Lists information about assistant associations.
+    /// Lists information about assistant associations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -291,7 +291,7 @@ extension Wisdom {
         )
     }
 
-    ///  Lists information about assistants.
+    /// Lists information about assistants.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -344,7 +344,7 @@ extension Wisdom {
         )
     }
 
-    ///  Lists the content.
+    /// Lists the content.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -397,7 +397,7 @@ extension Wisdom {
         )
     }
 
-    ///  Lists the knowledge bases.
+    /// Lists the knowledge bases.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -450,7 +450,7 @@ extension Wisdom {
         )
     }
 
-    ///  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -503,7 +503,7 @@ extension Wisdom {
         )
     }
 
-    ///  Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
+    /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -556,7 +556,7 @@ extension Wisdom {
         )
     }
 
-    ///  Searches for sessions.
+    /// Searches for sessions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

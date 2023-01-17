@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2209,7 +2209,7 @@ public struct ElasticTranscoderErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource you are attempting to change is in use. For example, you are attempting  to delete a pipeline that is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The requested resource does not exist or is not available. For example, the pipeline  to which you&#39;re trying to add a job doesn&#39;t exist or is still being created.
+    /// The requested resource does not exist or is not available. For example, the pipeline  to which you're trying to add a job doesn't exist or is still being created.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// One or more required parameter values were not provided in the request.
     public static var validationException: Self { .init(.validationException) }

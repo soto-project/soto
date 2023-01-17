@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -246,7 +246,7 @@ extension Budgets {
 // MARK: Paginators
 
 extension Budgets {
-    ///   Describes a budget action history detail.
+    ///  Describes a budget action history detail.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -299,7 +299,7 @@ extension Budgets {
         )
     }
 
-    ///   Describes all of the budget actions for an account.
+    ///  Describes all of the budget actions for an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -352,7 +352,7 @@ extension Budgets {
         )
     }
 
-    ///   Describes all of the budget actions for a budget.
+    ///  Describes all of the budget actions for a budget.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -405,7 +405,7 @@ extension Budgets {
         )
     }
 
-    ///  			Lists the budget names and notifications that are associated with an account.
+    /// 			Lists the budget names and notifications that are associated with an account.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -459,7 +459,7 @@ extension Budgets {
         )
     }
 
-    ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
+    /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -512,9 +512,9 @@ extension Budgets {
         )
     }
 
-    ///  Lists the budgets that are associated with an account.
+    /// Lists the budgets that are associated with an account.
     ///
-    ///  			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
+    /// 			         The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -568,7 +568,7 @@ extension Budgets {
         )
     }
 
-    ///  Lists the notifications that are associated with a budget.
+    /// Lists the notifications that are associated with a budget.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -621,7 +621,7 @@ extension Budgets {
         )
     }
 
-    ///  Lists the subscribers that are associated with a notification.
+    /// Lists the subscribers that are associated with a notification.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -138,17 +138,17 @@ extension EKS {
     }
 
     public enum IpFamily: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ipv4
-        case ipv6
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
     public enum LogType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case api
-        case audit
-        case authenticator
-        case controllerManager
-        case scheduler
+        case api = "api"
+        case audit = "audit"
+        case authenticator = "authenticator"
+        case controllerManager = "controllerManager"
+        case scheduler = "scheduler"
         public var description: String { return self.rawValue }
     }
 
@@ -297,20 +297,20 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonArn
-            case addonName
-            case addonVersion
-            case clusterName
-            case configurationValues
-            case createdAt
-            case health
-            case marketplaceInformation
-            case modifiedAt
-            case owner
-            case publisher
-            case serviceAccountRoleArn
-            case status
-            case tags
+            case addonArn = "addonArn"
+            case addonName = "addonName"
+            case addonVersion = "addonVersion"
+            case clusterName = "clusterName"
+            case configurationValues = "configurationValues"
+            case createdAt = "createdAt"
+            case health = "health"
+            case marketplaceInformation = "marketplaceInformation"
+            case modifiedAt = "modifiedAt"
+            case owner = "owner"
+            case publisher = "publisher"
+            case serviceAccountRoleArn = "serviceAccountRoleArn"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -323,7 +323,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case issues
+            case issues = "issues"
         }
     }
 
@@ -351,12 +351,12 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonName
-            case addonVersions
-            case marketplaceInformation
-            case owner
-            case publisher
-            case type
+            case addonName = "addonName"
+            case addonVersions = "addonVersions"
+            case marketplaceInformation = "marketplaceInformation"
+            case owner = "owner"
+            case publisher = "publisher"
+            case type = "type"
         }
     }
 
@@ -375,9 +375,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case resourceIds
+            case code = "code"
+            case message = "message"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -399,10 +399,10 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonVersion
-            case architecture
-            case compatibilities
-            case requiresConfiguration
+            case addonVersion = "addonVersion"
+            case architecture = "architecture"
+            case compatibilities = "compatibilities"
+            case requiresConfiguration = "requiresConfiguration"
         }
     }
 
@@ -429,8 +429,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case encryptionConfig
+            case clientRequestToken = "clientRequestToken"
+            case encryptionConfig = "encryptionConfig"
         }
     }
 
@@ -442,7 +442,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -479,9 +479,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case oidc
-            case tags
+            case clientRequestToken = "clientRequestToken"
+            case oidc = "oidc"
+            case tags = "tags"
         }
     }
 
@@ -496,8 +496,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case update
+            case tags = "tags"
+            case update = "update"
         }
     }
 
@@ -510,7 +510,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -523,7 +523,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
+            case data = "data"
         }
     }
 
@@ -593,26 +593,26 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case certificateAuthority
-            case clientRequestToken
-            case connectorConfig
-            case createdAt
-            case encryptionConfig
-            case endpoint
-            case health
-            case id
-            case identity
-            case kubernetesNetworkConfig
-            case logging
-            case name
-            case outpostConfig
-            case platformVersion
-            case resourcesVpcConfig
-            case roleArn
-            case status
-            case tags
-            case version
+            case arn = "arn"
+            case certificateAuthority = "certificateAuthority"
+            case clientRequestToken = "clientRequestToken"
+            case connectorConfig = "connectorConfig"
+            case createdAt = "createdAt"
+            case encryptionConfig = "encryptionConfig"
+            case endpoint = "endpoint"
+            case health = "health"
+            case id = "id"
+            case identity = "identity"
+            case kubernetesNetworkConfig = "kubernetesNetworkConfig"
+            case logging = "logging"
+            case name = "name"
+            case outpostConfig = "outpostConfig"
+            case platformVersion = "platformVersion"
+            case resourcesVpcConfig = "resourcesVpcConfig"
+            case roleArn = "roleArn"
+            case status = "status"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -625,7 +625,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case issues
+            case issues = "issues"
         }
     }
 
@@ -644,9 +644,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case resourceIds
+            case code = "code"
+            case message = "message"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -665,9 +665,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterVersion
-            case defaultVersion
-            case platformVersions
+            case clusterVersion = "clusterVersion"
+            case defaultVersion = "defaultVersion"
+            case platformVersions = "platformVersions"
         }
     }
 
@@ -683,8 +683,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provider
-            case roleArn
+            case provider = "provider"
+            case roleArn = "roleArn"
         }
     }
 
@@ -709,11 +709,11 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activationCode
-            case activationExpiry
-            case activationId
-            case provider
-            case roleArn
+            case activationCode = "activationCode"
+            case activationExpiry = "activationExpiry"
+            case activationId = "activationId"
+            case provider = "provider"
+            case roleArn = "roleArn"
         }
     }
 
@@ -726,7 +726,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName
+            case groupName = "groupName"
         }
     }
 
@@ -739,7 +739,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName
+            case groupName = "groupName"
         }
     }
 
@@ -792,13 +792,13 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonName
-            case addonVersion
-            case clientRequestToken
-            case configurationValues
-            case resolveConflicts
-            case serviceAccountRoleArn
-            case tags
+            case addonName = "addonName"
+            case addonVersion = "addonVersion"
+            case clientRequestToken = "clientRequestToken"
+            case configurationValues = "configurationValues"
+            case resolveConflicts = "resolveConflicts"
+            case serviceAccountRoleArn = "serviceAccountRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -810,7 +810,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addon
+            case addon = "addon"
         }
     }
 
@@ -864,16 +864,16 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case encryptionConfig
-            case kubernetesNetworkConfig
-            case logging
-            case name
-            case outpostConfig
-            case resourcesVpcConfig
-            case roleArn
-            case tags
-            case version
+            case clientRequestToken = "clientRequestToken"
+            case encryptionConfig = "encryptionConfig"
+            case kubernetesNetworkConfig = "kubernetesNetworkConfig"
+            case logging = "logging"
+            case name = "name"
+            case outpostConfig = "outpostConfig"
+            case resourcesVpcConfig = "resourcesVpcConfig"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
@@ -886,7 +886,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -931,12 +931,12 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case fargateProfileName
-            case podExecutionRoleArn
-            case selectors
-            case subnets
-            case tags
+            case clientRequestToken = "clientRequestToken"
+            case fargateProfileName = "fargateProfileName"
+            case podExecutionRoleArn = "podExecutionRoleArn"
+            case selectors = "selectors"
+            case subnets = "subnets"
+            case tags = "tags"
         }
     }
 
@@ -949,7 +949,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fargateProfile
+            case fargateProfile = "fargateProfile"
         }
     }
 
@@ -1038,23 +1038,23 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiType
-            case capacityType
-            case clientRequestToken
-            case diskSize
-            case instanceTypes
-            case labels
-            case launchTemplate
-            case nodegroupName
-            case nodeRole
-            case releaseVersion
-            case remoteAccess
-            case scalingConfig
-            case subnets
-            case tags
-            case taints
-            case updateConfig
-            case version
+            case amiType = "amiType"
+            case capacityType = "capacityType"
+            case clientRequestToken = "clientRequestToken"
+            case diskSize = "diskSize"
+            case instanceTypes = "instanceTypes"
+            case labels = "labels"
+            case launchTemplate = "launchTemplate"
+            case nodegroupName = "nodegroupName"
+            case nodeRole = "nodeRole"
+            case releaseVersion = "releaseVersion"
+            case remoteAccess = "remoteAccess"
+            case scalingConfig = "scalingConfig"
+            case subnets = "subnets"
+            case tags = "tags"
+            case taints = "taints"
+            case updateConfig = "updateConfig"
+            case version = "version"
         }
     }
 
@@ -1067,7 +1067,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodegroup
+            case nodegroup = "nodegroup"
         }
     }
 
@@ -1108,7 +1108,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addon
+            case addon = "addon"
         }
     }
 
@@ -1136,7 +1136,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -1168,7 +1168,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fargateProfile
+            case fargateProfile = "fargateProfile"
         }
     }
 
@@ -1200,7 +1200,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodegroup
+            case nodegroup = "nodegroup"
         }
     }
 
@@ -1227,7 +1227,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -1265,9 +1265,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonName
-            case addonVersion
-            case configurationSchema
+            case addonName = "addonName"
+            case addonVersion = "addonVersion"
+            case configurationSchema = "configurationSchema"
         }
     }
 
@@ -1304,7 +1304,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addon
+            case addon = "addon"
         }
     }
 
@@ -1364,8 +1364,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addons
-            case nextToken
+            case addons = "addons"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1393,7 +1393,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -1425,7 +1425,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fargateProfile
+            case fargateProfile = "fargateProfile"
         }
     }
 
@@ -1445,7 +1445,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderConfig
+            case identityProviderConfig = "identityProviderConfig"
         }
     }
 
@@ -1458,7 +1458,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderConfig
+            case identityProviderConfig = "identityProviderConfig"
         }
     }
 
@@ -1490,7 +1490,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nodegroup
+            case nodegroup = "nodegroup"
         }
     }
 
@@ -1530,7 +1530,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -1553,8 +1553,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case identityProviderConfig
+            case clientRequestToken = "clientRequestToken"
+            case identityProviderConfig = "identityProviderConfig"
         }
     }
 
@@ -1566,7 +1566,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -1582,8 +1582,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provider
-            case resources
+            case provider = "provider"
+            case resources = "resources"
         }
     }
 
@@ -1602,9 +1602,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case resourceIds
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -1641,15 +1641,15 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName
-            case createdAt
-            case fargateProfileArn
-            case fargateProfileName
-            case podExecutionRoleArn
-            case selectors
-            case status
-            case subnets
-            case tags
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case fargateProfileArn = "fargateProfileArn"
+            case fargateProfileName = "fargateProfileName"
+            case podExecutionRoleArn = "podExecutionRoleArn"
+            case selectors = "selectors"
+            case status = "status"
+            case subnets = "subnets"
+            case tags = "tags"
         }
     }
 
@@ -1665,8 +1665,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case labels
-            case namespace
+            case labels = "labels"
+            case namespace = "namespace"
         }
     }
 
@@ -1679,7 +1679,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oidc
+            case oidc = "oidc"
         }
     }
 
@@ -1695,8 +1695,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1709,7 +1709,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oidc
+            case oidc = "oidc"
         }
     }
 
@@ -1728,9 +1728,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case resourceIds
+            case code = "code"
+            case message = "message"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -1746,8 +1746,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipFamily
-            case serviceIpv4Cidr
+            case ipFamily = "ipFamily"
+            case serviceIpv4Cidr = "serviceIpv4Cidr"
         }
     }
 
@@ -1766,9 +1766,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipFamily
-            case serviceIpv4Cidr
-            case serviceIpv6Cidr
+            case ipFamily = "ipFamily"
+            case serviceIpv4Cidr = "serviceIpv4Cidr"
+            case serviceIpv6Cidr = "serviceIpv6Cidr"
         }
     }
 
@@ -1787,9 +1787,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case version
+            case id = "id"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -1836,8 +1836,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addons
-            case nextToken
+            case addons = "addons"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1881,8 +1881,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case nextToken
+            case clusters = "clusters"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1926,8 +1926,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fargateProfileNames
-            case nextToken
+            case fargateProfileNames = "fargateProfileNames"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1971,8 +1971,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityProviderConfigs
-            case nextToken
+            case identityProviderConfigs = "identityProviderConfigs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2016,8 +2016,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case nodegroups
+            case nextToken = "nextToken"
+            case nodegroups = "nodegroups"
         }
     }
 
@@ -2045,7 +2045,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2097,8 +2097,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case updateIds
+            case nextToken = "nextToken"
+            case updateIds = "updateIds"
         }
     }
 
@@ -2114,8 +2114,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case types
+            case enabled = "enabled"
+            case types = "types"
         }
     }
 
@@ -2128,7 +2128,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterLogging
+            case clusterLogging = "clusterLogging"
         }
     }
 
@@ -2144,8 +2144,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case productId
-            case productUrl
+            case productId = "productId"
+            case productUrl = "productUrl"
         }
     }
 
@@ -2224,29 +2224,29 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiType
-            case capacityType
-            case clusterName
-            case createdAt
-            case diskSize
-            case health
-            case instanceTypes
-            case labels
-            case launchTemplate
-            case modifiedAt
-            case nodegroupArn
-            case nodegroupName
-            case nodeRole
-            case releaseVersion
-            case remoteAccess
-            case resources
-            case scalingConfig
-            case status
-            case subnets
-            case tags
-            case taints
-            case updateConfig
-            case version
+            case amiType = "amiType"
+            case capacityType = "capacityType"
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case diskSize = "diskSize"
+            case health = "health"
+            case instanceTypes = "instanceTypes"
+            case labels = "labels"
+            case launchTemplate = "launchTemplate"
+            case modifiedAt = "modifiedAt"
+            case nodegroupArn = "nodegroupArn"
+            case nodegroupName = "nodegroupName"
+            case nodeRole = "nodeRole"
+            case releaseVersion = "releaseVersion"
+            case remoteAccess = "remoteAccess"
+            case resources = "resources"
+            case scalingConfig = "scalingConfig"
+            case status = "status"
+            case subnets = "subnets"
+            case tags = "tags"
+            case taints = "taints"
+            case updateConfig = "updateConfig"
+            case version = "version"
         }
     }
 
@@ -2259,7 +2259,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case issues
+            case issues = "issues"
         }
     }
 
@@ -2275,8 +2275,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroups
-            case remoteAccessSecurityGroup
+            case autoScalingGroups = "autoScalingGroups"
+            case remoteAccessSecurityGroup = "remoteAccessSecurityGroup"
         }
     }
 
@@ -2301,9 +2301,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredSize
-            case maxSize
-            case minSize
+            case desiredSize = "desiredSize"
+            case maxSize = "maxSize"
+            case minSize = "minSize"
         }
     }
 
@@ -2325,8 +2325,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxUnavailable
-            case maxUnavailablePercentage
+            case maxUnavailable = "maxUnavailable"
+            case maxUnavailablePercentage = "maxUnavailablePercentage"
         }
     }
 
@@ -2339,7 +2339,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case issuer
+            case issuer = "issuer"
         }
     }
 
@@ -2385,18 +2385,18 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case clusterName
-            case groupsClaim
-            case groupsPrefix
-            case identityProviderConfigArn
-            case identityProviderConfigName
-            case issuerUrl
-            case requiredClaims
-            case status
-            case tags
-            case usernameClaim
-            case usernamePrefix
+            case clientId = "clientId"
+            case clusterName = "clusterName"
+            case groupsClaim = "groupsClaim"
+            case groupsPrefix = "groupsPrefix"
+            case identityProviderConfigArn = "identityProviderConfigArn"
+            case identityProviderConfigName = "identityProviderConfigName"
+            case issuerUrl = "issuerUrl"
+            case requiredClaims = "requiredClaims"
+            case status = "status"
+            case tags = "tags"
+            case usernameClaim = "usernameClaim"
+            case usernamePrefix = "usernamePrefix"
         }
     }
 
@@ -2439,14 +2439,14 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case groupsClaim
-            case groupsPrefix
-            case identityProviderConfigName
-            case issuerUrl
-            case requiredClaims
-            case usernameClaim
-            case usernamePrefix
+            case clientId = "clientId"
+            case groupsClaim = "groupsClaim"
+            case groupsPrefix = "groupsPrefix"
+            case identityProviderConfigName = "identityProviderConfigName"
+            case issuerUrl = "issuerUrl"
+            case requiredClaims = "requiredClaims"
+            case usernameClaim = "usernameClaim"
+            case usernamePrefix = "usernamePrefix"
         }
     }
 
@@ -2465,9 +2465,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlPlaneInstanceType
-            case controlPlanePlacement
-            case outpostArns
+            case controlPlaneInstanceType = "controlPlaneInstanceType"
+            case controlPlanePlacement = "controlPlanePlacement"
+            case outpostArns = "outpostArns"
         }
     }
 
@@ -2486,9 +2486,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlPlaneInstanceType
-            case controlPlanePlacement
-            case outpostArns
+            case controlPlaneInstanceType = "controlPlaneInstanceType"
+            case controlPlanePlacement = "controlPlanePlacement"
+            case outpostArns = "outpostArns"
         }
     }
 
@@ -2501,7 +2501,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyArn
+            case keyArn = "keyArn"
         }
     }
 
@@ -2536,10 +2536,10 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case connectorConfig
-            case name
-            case tags
+            case clientRequestToken = "clientRequestToken"
+            case connectorConfig = "connectorConfig"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2551,7 +2551,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -2567,8 +2567,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2SshKey
-            case sourceSecurityGroups
+            case ec2SshKey = "ec2SshKey"
+            case sourceSecurityGroups = "sourceSecurityGroups"
         }
     }
 
@@ -2598,7 +2598,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2627,9 +2627,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effect
-            case key
-            case value
+            case effect = "effect"
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2689,12 +2689,12 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case errors
-            case id
-            case params
-            case status
-            case type
+            case createdAt = "createdAt"
+            case errors = "errors"
+            case id = "id"
+            case params = "params"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -2738,11 +2738,11 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addonVersion
-            case clientRequestToken
-            case configurationValues
-            case resolveConflicts
-            case serviceAccountRoleArn
+            case addonVersion = "addonVersion"
+            case clientRequestToken = "clientRequestToken"
+            case configurationValues = "configurationValues"
+            case resolveConflicts = "resolveConflicts"
+            case serviceAccountRoleArn = "serviceAccountRoleArn"
         }
     }
 
@@ -2754,7 +2754,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -2779,9 +2779,9 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case logging
-            case resourcesVpcConfig
+            case clientRequestToken = "clientRequestToken"
+            case logging = "logging"
+            case resourcesVpcConfig = "resourcesVpcConfig"
         }
     }
 
@@ -2793,7 +2793,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -2816,8 +2816,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case version
+            case clientRequestToken = "clientRequestToken"
+            case version = "version"
         }
     }
 
@@ -2830,7 +2830,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -2855,8 +2855,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOrUpdateLabels
-            case removeLabels
+            case addOrUpdateLabels = "addOrUpdateLabels"
+            case removeLabels = "removeLabels"
         }
     }
 
@@ -2899,11 +2899,11 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case labels
-            case scalingConfig
-            case taints
-            case updateConfig
+            case clientRequestToken = "clientRequestToken"
+            case labels = "labels"
+            case scalingConfig = "scalingConfig"
+            case taints = "taints"
+            case updateConfig = "updateConfig"
         }
     }
 
@@ -2915,7 +2915,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -2951,11 +2951,11 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case force
-            case launchTemplate
-            case releaseVersion
-            case version
+            case clientRequestToken = "clientRequestToken"
+            case force = "force"
+            case launchTemplate = "launchTemplate"
+            case releaseVersion = "releaseVersion"
+            case version = "version"
         }
     }
 
@@ -2967,7 +2967,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case update
+            case update = "update"
         }
     }
 
@@ -2983,8 +2983,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -3009,8 +3009,8 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOrUpdateTaints
-            case removeTaints
+            case addOrUpdateTaints = "addOrUpdateTaints"
+            case removeTaints = "removeTaints"
         }
     }
 
@@ -3035,11 +3035,11 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointPrivateAccess
-            case endpointPublicAccess
-            case publicAccessCidrs
-            case securityGroupIds
-            case subnetIds
+            case endpointPrivateAccess = "endpointPrivateAccess"
+            case endpointPublicAccess = "endpointPublicAccess"
+            case publicAccessCidrs = "publicAccessCidrs"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -3070,13 +3070,13 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterSecurityGroupId
-            case endpointPrivateAccess
-            case endpointPublicAccess
-            case publicAccessCidrs
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case clusterSecurityGroupId = "clusterSecurityGroupId"
+            case endpointPrivateAccess = "endpointPrivateAccess"
+            case endpointPublicAccess = "endpointPublicAccess"
+            case publicAccessCidrs = "publicAccessCidrs"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 }
@@ -3119,11 +3119,11 @@ public struct EKSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn&#39;t have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     public static var clientException: Self { .init(.clientException) }
     /// The specified parameter is invalid. Review the available parameters for the API request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }

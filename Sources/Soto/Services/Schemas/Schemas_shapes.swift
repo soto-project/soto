@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -69,7 +69,7 @@ extension Schemas {
             case crossAccount = "CrossAccount"
             case description = "Description"
             case sourceArn = "SourceArn"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -106,7 +106,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -134,7 +134,7 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -159,7 +159,7 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -192,7 +192,7 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, max: 100000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
         }
@@ -200,7 +200,7 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
-            case tags
+            case tags = "tags"
             case type = "Type"
         }
     }
@@ -241,7 +241,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags
+            case tags = "tags"
             case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
@@ -436,7 +436,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -476,7 +476,7 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -544,7 +544,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags
+            case tags = "tags"
             case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
@@ -579,7 +579,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -692,7 +692,7 @@ extension Schemas {
 
         public func validate(name: String) throws {
             try self.events.forEach {
-                try validate($0, name: "events[]", parent: name, max: 100_000)
+                try validate($0, name: "events[]", parent: name, max: 100000)
                 try validate($0, name: "events[]", parent: name, min: 1)
             }
             try self.validate(self.events, name: "events", parent: name, max: 10)
@@ -945,7 +945,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1061,7 +1061,7 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1090,7 +1090,7 @@ extension Schemas {
             case lastModified = "LastModified"
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
-            case tags
+            case tags = "tags"
             case versionCount = "VersionCount"
         }
     }
@@ -1290,7 +1290,7 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1374,7 +1374,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1423,7 +1423,7 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1457,7 +1457,7 @@ extension Schemas {
 
         public func validate(name: String) throws {
             try self.validate(self.clientTokenId, name: "clientTokenId", parent: name, max: 36)
-            try self.validate(self.content, name: "content", parent: name, max: 100_000)
+            try self.validate(self.content, name: "content", parent: name, max: 100000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
         }
@@ -1506,7 +1506,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags
+            case tags = "tags"
             case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }

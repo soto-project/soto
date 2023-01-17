@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -606,7 +606,7 @@ extension IoTWireless {
 // MARK: Paginators
 
 extension IoTWireless {
-    ///  Lists the destinations registered to your AWS account.
+    /// Lists the destinations registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -659,7 +659,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the device profiles registered to your AWS account.
+    /// Lists the device profiles registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -712,7 +712,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the FUOTA tasks registered to your AWS account.
+    /// Lists the FUOTA tasks registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -765,7 +765,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the multicast groups registered to your AWS account.
+    /// Lists the multicast groups registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -818,7 +818,7 @@ extension IoTWireless {
         )
     }
 
-    ///  List all multicast groups associated with a fuota task.
+    /// List all multicast groups associated with a fuota task.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -871,7 +871,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the network analyzer configurations.
+    /// Lists the network analyzer configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -924,7 +924,7 @@ extension IoTWireless {
         )
     }
 
-    ///  List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
+    /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition  API operation instead.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -979,7 +979,7 @@ extension IoTWireless {
         )
     }
 
-    ///  List queued messages in the downlink queue.
+    /// List queued messages in the downlink queue.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1032,7 +1032,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the service profiles registered to your AWS account.
+    /// Lists the service profiles registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1085,7 +1085,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the wireless devices registered to your AWS account.
+    /// Lists the wireless devices registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1138,7 +1138,7 @@ extension IoTWireless {
         )
     }
 
-    ///  Lists the wireless gateways registered to your AWS account.
+    /// Lists the wireless gateways registered to your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

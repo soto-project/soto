@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -29,7 +29,7 @@ extension Health {
     }
 
     public enum EventAggregateField: String, CustomStringConvertible, Codable, _SotoSendable {
-        case eventTypeCategory
+        case eventTypeCategory = "eventTypeCategory"
         public var description: String { return self.rawValue }
     }
 
@@ -41,17 +41,17 @@ extension Health {
     }
 
     public enum EventStatusCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case closed
-        case open
-        case upcoming
+        case closed = "closed"
+        case open = "open"
+        case upcoming = "upcoming"
         public var description: String { return self.rawValue }
     }
 
     public enum EventTypeCategory: String, CustomStringConvertible, Codable, _SotoSendable {
-        case accountNotification
-        case investigation
-        case issue
-        case scheduledChange
+        case accountNotification = "accountNotification"
+        case investigation = "investigation"
+        case issue = "issue"
+        case scheduledChange = "scheduledChange"
         public var description: String { return self.rawValue }
     }
 
@@ -89,14 +89,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case entityArn
-            case entityUrl
-            case entityValue
-            case eventArn
-            case lastUpdatedTime
-            case statusCode
-            case tags
+            case awsAccountId = "awsAccountId"
+            case entityArn = "entityArn"
+            case entityUrl = "entityUrl"
+            case entityValue = "entityValue"
+            case eventArn = "eventArn"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case statusCode = "statusCode"
+            case tags = "tags"
         }
     }
 
@@ -112,8 +112,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case from
-            case to
+            case from = "from"
+            case to = "to"
         }
     }
 
@@ -147,9 +147,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArn
-            case maxResults
-            case nextToken
+            case eventArn = "eventArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -171,9 +171,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case affectedAccounts
-            case eventScopeCode
-            case nextToken
+            case affectedAccounts = "affectedAccounts"
+            case eventScopeCode = "eventScopeCode"
+            case nextToken = "nextToken"
         }
     }
 
@@ -214,10 +214,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale
-            case maxResults
-            case nextToken
-            case organizationEntityFilters
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case organizationEntityFilters = "organizationEntityFilters"
         }
     }
 
@@ -239,9 +239,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case failedSet
-            case nextToken
+            case entities = "entities"
+            case failedSet = "failedSet"
+            case nextToken = "nextToken"
         }
     }
 
@@ -278,10 +278,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -300,8 +300,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -323,7 +323,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns
+            case eventArns = "eventArns"
         }
     }
 
@@ -336,7 +336,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityAggregates
+            case entityAggregates = "entityAggregates"
         }
     }
 
@@ -370,10 +370,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregateField
-            case filter
-            case maxResults
-            case nextToken
+            case aggregateField = "aggregateField"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -392,8 +392,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventAggregates
-            case nextToken
+            case eventAggregates = "eventAggregates"
+            case nextToken = "nextToken"
         }
     }
 
@@ -420,8 +420,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale
-            case organizationEventDetailFilters
+            case locale = "locale"
+            case organizationEventDetailFilters = "organizationEventDetailFilters"
         }
     }
 
@@ -437,8 +437,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedSet
-            case successfulSet
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
         }
     }
 
@@ -466,8 +466,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns
-            case locale
+            case eventArns = "eventArns"
+            case locale = "locale"
         }
     }
 
@@ -483,8 +483,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedSet
-            case successfulSet
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
         }
     }
 
@@ -521,10 +521,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -543,8 +543,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypes
-            case nextToken
+            case eventTypes = "eventTypes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -581,10 +581,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -603,8 +603,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
@@ -641,10 +641,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -663,8 +663,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
@@ -677,7 +677,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthServiceAccessStatusForOrganization
+            case healthServiceAccessStatusForOrganization = "healthServiceAccessStatusForOrganization"
         }
     }
 
@@ -695,8 +695,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case eventArn
+            case count = "count"
+            case eventArn = "eventArn"
         }
     }
 
@@ -753,12 +753,12 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityArns
-            case entityValues
-            case eventArns
-            case lastUpdatedTimes
-            case statusCodes
-            case tags
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventArns = "eventArns"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case statusCodes = "statusCodes"
+            case tags = "tags"
         }
     }
 
@@ -805,17 +805,17 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZone
-            case endTime
-            case eventScopeCode
-            case eventTypeCategory
-            case eventTypeCode
-            case lastUpdatedTime
-            case region
-            case service
-            case startTime
-            case statusCode
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
+            case eventTypeCategory = "eventTypeCategory"
+            case eventTypeCode = "eventTypeCode"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case region = "region"
+            case service = "service"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
         }
     }
 
@@ -840,8 +840,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case eventArn = "eventArn"
         }
     }
 
@@ -857,8 +857,8 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregateValue
-            case count
+            case aggregateValue = "aggregateValue"
+            case count = "count"
         }
     }
 
@@ -871,7 +871,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestDescription
+            case latestDescription = "latestDescription"
         }
     }
 
@@ -890,9 +890,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventDescription
-            case eventMetadata
+            case event = "event"
+            case eventDescription = "eventDescription"
+            case eventMetadata = "eventMetadata"
         }
     }
 
@@ -913,9 +913,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case errorName
-            case eventArn
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
@@ -1027,19 +1027,19 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case endTimes
-            case entityArns
-            case entityValues
-            case eventArns
-            case eventStatusCodes
-            case eventTypeCategories
-            case eventTypeCodes
-            case lastUpdatedTimes
-            case regions
-            case services
-            case startTimes
-            case tags
+            case availabilityZones = "availabilityZones"
+            case endTimes = "endTimes"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventArns = "eventArns"
+            case eventStatusCodes = "eventStatusCodes"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case regions = "regions"
+            case services = "services"
+            case startTimes = "startTimes"
+            case tags = "tags"
         }
     }
 
@@ -1060,9 +1060,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case code
-            case service
+            case category = "category"
+            case code = "code"
+            case service = "service"
         }
     }
 
@@ -1102,9 +1102,9 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeCategories
-            case eventTypeCodes
-            case services
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case services = "services"
         }
     }
 
@@ -1128,10 +1128,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case errorMessage
-            case errorName
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
@@ -1175,16 +1175,16 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case endTime
-            case eventScopeCode
-            case eventTypeCategory
-            case eventTypeCode
-            case lastUpdatedTime
-            case region
-            case service
-            case startTime
-            case statusCode
+            case arn = "arn"
+            case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
+            case eventTypeCategory = "eventTypeCategory"
+            case eventTypeCode = "eventTypeCode"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case region = "region"
+            case service = "service"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
         }
     }
 
@@ -1204,10 +1204,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case event
-            case eventDescription
-            case eventMetadata
+            case awsAccountId = "awsAccountId"
+            case event = "event"
+            case eventDescription = "eventDescription"
+            case eventMetadata = "eventMetadata"
         }
     }
 
@@ -1232,10 +1232,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case errorMessage
-            case errorName
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
@@ -1323,17 +1323,17 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountIds
-            case endTime
-            case entityArns
-            case entityValues
-            case eventStatusCodes
-            case eventTypeCategories
-            case eventTypeCodes
-            case lastUpdatedTime
-            case regions
-            case services
-            case startTime
+            case awsAccountIds = "awsAccountIds"
+            case endTime = "endTime"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventStatusCodes = "eventStatusCodes"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case regions = "regions"
+            case services = "services"
+            case startTime = "startTime"
         }
     }
 }

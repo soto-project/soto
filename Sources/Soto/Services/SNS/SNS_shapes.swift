@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -121,7 +121,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case phoneNumber
+            case phoneNumber = "phoneNumber"
         }
     }
 
@@ -134,7 +134,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isOptedOut
+            case isOptedOut = "isOptedOut"
         }
     }
 
@@ -487,7 +487,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -501,7 +501,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -660,7 +660,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -677,8 +677,8 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case phoneNumbers
+            case nextToken = "nextToken"
+            case phoneNumbers = "phoneNumbers"
         }
     }
 
@@ -912,7 +912,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case phoneNumber
+            case phoneNumber = "phoneNumber"
         }
     }
 
@@ -991,7 +991,11 @@ extension SNS {
     }
 
     public struct PublishBatchRequestEntry: AWSEncodableShape {
-        public struct _MessageAttributesEncoding: DictionaryCoderProperties { public static let entry: String? = "entry"; public static let key = "Name"; public static let value = "Value" }
+        public struct _MessageAttributesEncoding: DictionaryCoderProperties {
+            public static let entry: String? = "entry"
+            public static let key = "Name"
+            public static let value = "Value"
+        }
 
         /// An identifier for the message in this batch.    The Ids of a batch request must be unique within a request.  This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         public let id: String
@@ -1071,7 +1075,11 @@ extension SNS {
     }
 
     public struct PublishInput: AWSEncodableShape {
-        public struct _MessageAttributesEncoding: DictionaryCoderProperties { public static let entry: String? = "entry"; public static let key = "Name"; public static let value = "Value" }
+        public struct _MessageAttributesEncoding: DictionaryCoderProperties {
+            public static let entry: String? = "entry"
+            public static let key = "Name"
+            public static let value = "Value"
+        }
 
         /// The message you want to send. If you are publishing to a topic and you want to send the same message to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter.    Constraints:   With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).   For SMS, each message can contain up to 140 characters. This character limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries. The total size limit for a single SMS Publish action is 1,600 characters.   JSON-specific constraints:   Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values.   The values will be parsed (unescaped) before they are used in outgoing messages.   Outbound notifications are JSON encoded (meaning that the characters will be reescaped for sending).   Values have a minimum length of 0 (the empty string, "", is allowed).   Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes).   Non-string values will cause the key to be ignored.   Keys that do not correspond to supported transport protocols are ignored.   Duplicate keys are not allowed.   Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).
         public let message: String
@@ -1232,7 +1240,7 @@ extension SNS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -1557,9 +1565,9 @@ public struct SNSErrorType: AWSErrorType {
     public static var batchEntryIdsNotDistinctException: Self { .init(.batchEntryIdsNotDistinctException) }
     /// The length of all the batch messages put together is more than the limit.
     public static var batchRequestTooLongException: Self { .init(.batchRequestTooLongException) }
-    /// Can&#39;t perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
     public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
-    /// The batch request doesn&#39;t contain any entries.
+    /// The batch request doesn't contain any entries.
     public static var emptyBatchRequestException: Self { .init(.emptyBatchRequestException) }
     /// Exception error indicating endpoint disabled.
     public static var endpointDisabledException: Self { .init(.endpointDisabledException) }
@@ -1567,21 +1575,21 @@ public struct SNSErrorType: AWSErrorType {
     public static var filterPolicyLimitExceededException: Self { .init(.filterPolicyLimitExceededException) }
     /// Indicates an internal service error.
     public static var internalErrorException: Self { .init(.internalErrorException) }
-    /// The Id of a batch entry in a batch request doesn&#39;t abide by the specification.
+    /// The Id of a batch entry in a batch request doesn't abide by the specification.
     public static var invalidBatchEntryIdException: Self { .init(.invalidBatchEntryIdException) }
     /// Indicates that a request parameter does not comply with the associated constraints.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Indicates that a request parameter does not comply with the associated constraints.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// The credential signature isn&#39;t valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     public static var invalidSecurityException: Self { .init(.invalidSecurityException) }
-    /// The ciphertext references a key that doesn&#39;t exist or that you don&#39;t have access to.
+    /// The ciphertext references a key that doesn't exist or that you don't have access to.
     public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
-    /// The request was rejected because the specified customer master key (CMK) isn&#39;t enabled.
+    /// The request was rejected because the specified customer master key (CMK) isn't enabled.
     public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
-    /// The request was rejected because the state of the specified resource isn&#39;t valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Key Management Service Developer Guide.
+    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Key Management Service Developer Guide.
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
-    /// The request was rejected because the specified entity or resource can&#39;t be found.
+    /// The request was rejected because the specified entity or resource can't be found.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The Amazon Web Services access key ID needs a subscription for the service.
     public static var kmsOptInRequired: Self { .init(.kmsOptInRequired) }
@@ -1589,7 +1597,7 @@ public struct SNSErrorType: AWSErrorType {
     public static var kmsThrottlingException: Self { .init(.kmsThrottlingException) }
     /// Indicates that the requested resource does not exist.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can&#39;t send SMS messages to phone numbers that opt out.
+    /// Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
     public static var optedOutException: Self { .init(.optedOutException) }
     /// Exception error indicating platform application disabled.
     public static var platformApplicationDisabledException: Self { .init(.platformApplicationDisabledException) }
@@ -1599,9 +1607,9 @@ public struct SNSErrorType: AWSErrorType {
     public static var staleTagException: Self { .init(.staleTagException) }
     /// Indicates that the customer already owns the maximum allowed number of subscriptions.
     public static var subscriptionLimitExceededException: Self { .init(.subscriptionLimitExceededException) }
-    /// Can&#39;t add more than 50 tags to a topic.
+    /// Can't add more than 50 tags to a topic.
     public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
-    /// The request doesn&#39;t comply with the IAM tag policy. Correct your request and then retry it.
+    /// The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
     /// Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public static var throttledException: Self { .init(.throttledException) }

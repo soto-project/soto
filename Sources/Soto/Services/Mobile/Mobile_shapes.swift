@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -59,12 +59,12 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availablePlatforms
-            case bundleId
-            case description
-            case iconUrl
-            case title
-            case version
+            case availablePlatforms = "availablePlatforms"
+            case bundleId = "bundleId"
+            case description = "description"
+            case iconUrl = "iconUrl"
+            case title = "title"
+            case version = "version"
         }
     }
 
@@ -106,7 +106,7 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
+            case details = "details"
         }
     }
 
@@ -137,8 +137,8 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletedResources
-            case orphanedResources
+            case deletedResources = "deletedResources"
+            case orphanedResources = "orphanedResources"
         }
     }
 
@@ -166,7 +166,7 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
+            case details = "details"
         }
     }
 
@@ -197,7 +197,7 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
+            case details = "details"
         }
     }
 
@@ -233,7 +233,7 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case downloadUrl
+            case downloadUrl = "downloadUrl"
         }
     }
 
@@ -267,9 +267,9 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case downloadUrl
-            case shareUrl
-            case snapshotId
+            case downloadUrl = "downloadUrl"
+            case shareUrl = "shareUrl"
+            case snapshotId = "snapshotId"
         }
     }
 
@@ -304,8 +304,8 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleList
-            case nextToken
+            case bundleList = "bundleList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -338,8 +338,8 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -368,14 +368,14 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleUrl
-            case createdDate
-            case lastUpdatedDate
-            case name
-            case projectId
-            case region
-            case resources
-            case state
+            case consoleUrl = "consoleUrl"
+            case createdDate = "createdDate"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
+            case projectId = "projectId"
+            case region = "region"
+            case resources = "resources"
+            case state = "state"
         }
     }
 
@@ -391,8 +391,8 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case projectId
+            case name = "name"
+            case projectId = "projectId"
         }
     }
 
@@ -412,11 +412,11 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attributes
-            case feature
-            case name
-            case type
+            case arn = "arn"
+            case attributes = "attributes"
+            case feature = "feature"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -450,7 +450,7 @@ extension Mobile {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
+            case details = "details"
         }
     }
 }

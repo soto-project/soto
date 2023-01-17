@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -183,7 +183,7 @@ extension FinspaceData {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension FinspaceData {
-    ///  Lists the FinSpace Changesets for a Dataset.
+    /// Lists the FinSpace Changesets for a Dataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -205,7 +205,7 @@ extension FinspaceData {
         )
     }
 
-    ///  Lists all available Dataviews for a Dataset.
+    /// Lists all available Dataviews for a Dataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -227,7 +227,7 @@ extension FinspaceData {
         )
     }
 
-    ///  Lists all of the active Datasets that a user has access to.
+    /// Lists all of the active Datasets that a user has access to.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -249,7 +249,7 @@ extension FinspaceData {
         )
     }
 
-    ///  Lists all available permission groups in FinSpace.
+    /// Lists all available permission groups in FinSpace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -271,7 +271,7 @@ extension FinspaceData {
         )
     }
 
-    ///  Lists all available user accounts in FinSpace.
+    /// Lists all available user accounts in FinSpace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

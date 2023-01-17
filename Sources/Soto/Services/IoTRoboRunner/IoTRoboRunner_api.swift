@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -177,7 +177,7 @@ extension IoTRoboRunner {
 // MARK: Paginators
 
 extension IoTRoboRunner {
-    ///  Grants permission to list destinations
+    /// Grants permission to list destinations
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -230,7 +230,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list sites
+    /// Grants permission to list sites
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -283,7 +283,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list worker fleets
+    /// Grants permission to list worker fleets
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -336,7 +336,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list workers
+    /// Grants permission to list workers
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -263,7 +263,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -296,9 +296,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contextAttributes
-            case name
-            case timeToLive
+            case contextAttributes = "contextAttributes"
+            case name = "name"
+            case timeToLive = "timeToLive"
         }
     }
 
@@ -321,8 +321,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeToLiveInSeconds
-            case turnsToLive
+            case timeToLiveInSeconds = "timeToLiveInSeconds"
+            case turnsToLive = "turnsToLive"
         }
     }
 
@@ -351,10 +351,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChunk
-            case clientTimestampMillis
-            case contentType
-            case eventId
+            case audioChunk = "audioChunk"
+            case clientTimestampMillis = "clientTimestampMillis"
+            case contentType = "contentType"
+            case eventId = "eventId"
         }
     }
 
@@ -373,9 +373,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChunk
-            case contentType
-            case eventId
+            case audioChunk = "audioChunk"
+            case contentType = "contentType"
+            case eventId = "eventId"
         }
     }
 
@@ -387,7 +387,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -410,8 +410,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case value
+            case text = "text"
+            case value = "value"
         }
     }
 
@@ -424,7 +424,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case score
+            case score = "score"
         }
     }
 
@@ -469,13 +469,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case disablePlayback
-            case eventId
-            case requestAttributes
-            case responseContentType
-            case sessionState
-            case welcomeMessages
+            case clientTimestampMillis = "clientTimestampMillis"
+            case disablePlayback = "disablePlayback"
+            case eventId = "eventId"
+            case requestAttributes = "requestAttributes"
+            case responseContentType = "responseContentType"
+            case sessionState = "sessionState"
+            case welcomeMessages = "welcomeMessages"
         }
     }
 
@@ -487,7 +487,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -515,9 +515,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
-            case inputCharacter
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
+            case inputCharacter = "inputCharacter"
         }
     }
 
@@ -576,10 +576,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botId
-            case localeId
-            case sessionId
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case localeId = "localeId"
+            case sessionId = "sessionId"
         }
     }
 
@@ -591,7 +591,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -618,10 +618,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotElicitationStyle
-            case slotToElicit
-            case subSlotToElicit
-            case type
+            case slotElicitationStyle = "slotElicitationStyle"
+            case slotToElicit = "slotToElicit"
+            case subSlotToElicit = "subSlotToElicit"
+            case type = "type"
         }
     }
 
@@ -643,8 +643,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
         }
     }
 
@@ -665,8 +665,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case subSlotToElicit
+            case name = "name"
+            case subSlotToElicit = "subSlotToElicit"
         }
     }
 
@@ -725,10 +725,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretations
-            case messages
-            case sessionId
-            case sessionState
+            case interpretations = "interpretations"
+            case messages = "messages"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
@@ -741,7 +741,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
+            case eventId = "eventId"
         }
     }
 
@@ -776,10 +776,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buttons
-            case imageUrl
-            case subtitle
-            case title
+            case buttons = "buttons"
+            case imageUrl = "imageUrl"
+            case subtitle = "subtitle"
+            case title = "title"
         }
     }
 
@@ -809,10 +809,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case confirmationState
-            case name
-            case slots
-            case state
+            case confirmationState = "confirmationState"
+            case name = "name"
+            case slots = "slots"
+            case state = "state"
         }
     }
 
@@ -840,12 +840,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case inputMode
-            case interpretations
-            case requestAttributes
-            case sessionId
-            case sessionState
+            case eventId = "eventId"
+            case inputMode = "inputMode"
+            case interpretations = "interpretations"
+            case requestAttributes = "requestAttributes"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
@@ -857,7 +857,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -876,9 +876,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intent
-            case nluConfidence
-            case sentimentResponse
+            case intent = "intent"
+            case nluConfidence = "nluConfidence"
+            case sentimentResponse = "sentimentResponse"
         }
     }
 
@@ -902,9 +902,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case contentType
-            case imageResponseCard
+            case content = "content"
+            case contentType = "contentType"
+            case imageResponseCard = "imageResponseCard"
         }
     }
 
@@ -926,8 +926,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
         }
     }
 
@@ -946,9 +946,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case causedByEventId
-            case eventId
-            case eventReason
+            case causedByEventId = "causedByEventId"
+            case eventId = "eventId"
+            case eventReason = "eventReason"
         }
     }
 
@@ -1009,9 +1009,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
-            case requestAttributes
-            case sessionState
+            case messages = "messages"
+            case requestAttributes = "requestAttributes"
+            case sessionState = "sessionState"
         }
     }
 
@@ -1050,7 +1050,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioStream
+            case audioStream = "audioStream"
             case contentType = "Content-Type"
             case messages = "x-amz-lex-messages"
             case requestAttributes = "x-amz-lex-request-attributes"
@@ -1109,9 +1109,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestAttributes
-            case sessionState
-            case text
+            case requestAttributes = "requestAttributes"
+            case sessionState = "sessionState"
+            case text = "text"
         }
     }
 
@@ -1136,11 +1136,11 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretations
-            case messages
-            case requestAttributes
-            case sessionId
-            case sessionState
+            case interpretations = "interpretations"
+            case messages = "messages"
+            case requestAttributes = "requestAttributes"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
@@ -1252,7 +1252,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioStream
+            case audioStream = "audioStream"
             case contentType = "Content-Type"
             case inputMode = "x-amz-lex-input-mode"
             case inputTranscript = "x-amz-lex-input-transcript"
@@ -1272,7 +1272,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -1302,8 +1302,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runtimeHintValues
-            case subSlotHints
+            case runtimeHintValues = "runtimeHintValues"
+            case subSlotHints = "subSlotHints"
         }
     }
 
@@ -1321,7 +1321,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case phrase
+            case phrase = "phrase"
         }
     }
 
@@ -1342,7 +1342,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotHints
+            case slotHints = "slotHints"
         }
     }
 
@@ -1357,8 +1357,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sentiment
-            case sentimentScore
+            case sentiment = "sentiment"
+            case sentimentScore = "sentimentScore"
         }
     }
 
@@ -1380,10 +1380,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mixed
-            case negative
-            case neutral
-            case positive
+            case mixed = "mixed"
+            case negative = "negative"
+            case neutral = "neutral"
+            case positive = "positive"
         }
     }
 
@@ -1425,12 +1425,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case dialogAction
-            case intent
-            case originatingRequestId
-            case runtimeHints
-            case sessionAttributes
+            case activeContexts = "activeContexts"
+            case dialogAction = "dialogAction"
+            case intent = "intent"
+            case originatingRequestId = "originatingRequestId"
+            case runtimeHints = "runtimeHints"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
@@ -1463,10 +1463,10 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shape
-            case subSlots
-            case value
-            case values
+            case shape = "shape"
+            case subSlots = "subSlots"
+            case value = "value"
+            case values = "values"
         }
     }
 
@@ -1515,14 +1515,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestEventStream
+            case requestEventStream = "requestEventStream"
         }
     }
 
     public struct StartConversationResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "responseEventStream"
-
         /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
         public let responseEventStream: StartConversationResponseEventStream?
 
@@ -1531,7 +1530,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseEventStream
+            case responseEventStream = "responseEventStream"
         }
     }
 
@@ -1558,9 +1557,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
-            case text
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
+            case text = "text"
         }
     }
 
@@ -1576,8 +1575,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case messages
+            case eventId = "eventId"
+            case messages = "messages"
         }
     }
 
@@ -1589,7 +1588,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -1605,8 +1604,8 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case transcript
+            case eventId = "eventId"
+            case transcript = "transcript"
         }
     }
 
@@ -1618,7 +1617,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -1645,9 +1644,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretedValue
-            case originalValue
-            case resolvedValues
+            case interpretedValue = "interpretedValue"
+            case originalValue = "originalValue"
+            case resolvedValues = "resolvedValues"
         }
     }
 }

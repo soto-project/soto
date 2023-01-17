@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -729,9 +729,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.copyOptions, name: "copyOptions", parent: name, max: 204_800)
+            try self.validate(self.copyOptions, name: "copyOptions", parent: name, max: 204800)
             try self.validate(self.copyOptions, name: "copyOptions", parent: name, pattern: ".*")
-            try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, max: 204_800)
+            try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, max: 204800)
             try self.validate(self.dataTableColumns, name: "dataTableColumns", parent: name, pattern: ".*")
             try self.validate(self.dataTableName, name: "dataTableName", parent: name, max: 512)
             try self.validate(self.dataTableName, name: "dataTableName", parent: name, min: 1)
@@ -2241,7 +2241,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.blockSizeBytes, name: "blockSizeBytes", parent: name, min: 67_108_864)
+            try self.validate(self.blockSizeBytes, name: "blockSizeBytes", parent: name, min: 67108864)
             try self.bloomFilterColumns?.forEach {
                 try validate($0, name: "bloomFilterColumns[]", parent: name, max: 1024)
                 try validate($0, name: "bloomFilterColumns[]", parent: name, min: 1)
@@ -2254,7 +2254,7 @@ extension Firehose {
             try self.validate(self.paddingTolerance, name: "paddingTolerance", parent: name, max: 1.0)
             try self.validate(self.paddingTolerance, name: "paddingTolerance", parent: name, min: 0.0)
             try self.validate(self.rowIndexStride, name: "rowIndexStride", parent: name, min: 1000)
-            try self.validate(self.stripeSizeBytes, name: "stripeSizeBytes", parent: name, min: 8_388_608)
+            try self.validate(self.stripeSizeBytes, name: "stripeSizeBytes", parent: name, min: 8388608)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2312,7 +2312,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.blockSizeBytes, name: "blockSizeBytes", parent: name, min: 67_108_864)
+            try self.validate(self.blockSizeBytes, name: "blockSizeBytes", parent: name, min: 67108864)
             try self.validate(self.maxPaddingBytes, name: "maxPaddingBytes", parent: name, min: 0)
             try self.validate(self.pageSizeBytes, name: "pageSizeBytes", parent: name, min: 65536)
         }
@@ -2516,7 +2516,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1_024_000)
+            try self.validate(self.data, name: "data", parent: name, max: 1024000)
         }
 
         private enum CodingKeys: String, CodingKey {

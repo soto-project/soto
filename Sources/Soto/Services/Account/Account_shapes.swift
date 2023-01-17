@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -329,11 +329,11 @@ public struct AccountErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The operation failed because the calling identity doesn&#39;t have the minimum required permissions.
+    /// The operation failed because the calling identity doesn't have the minimum required permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The operation failed because it specified a resource that can&#39;t be found.
+    /// The operation failed because it specified a resource that can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The operation failed because it was called too frequently and exceeded a throttle limit.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

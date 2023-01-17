@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -273,7 +273,7 @@ extension RDS {
         return try await self.client.execute(operation: "DescribeBlueGreenDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
+    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     public func describeCertificates(_ input: DescribeCertificatesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CertificateMessage {
         return try await self.client.execute(operation: "DescribeCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -673,7 +673,7 @@ extension RDS {
         return try await self.client.execute(operation: "RevokeDBSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts a database activity stream to monitor activity on the database. For more information, see Database Activity Streams in the Amazon Aurora User Guide.
+    /// Starts a database activity stream to monitor activity on the database. For more information, see   Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide.
     public func startActivityStream(_ input: StartActivityStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartActivityStreamResponse {
         return try await self.client.execute(operation: "StartActivityStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -698,7 +698,7 @@ extension RDS {
         return try await self.client.execute(operation: "StartExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops a database activity stream that was started using the Amazon Web Services console,  the start-activity-stream CLI command, or the StartActivityStream action. For more information, see  Database Activity Streams in the Amazon Aurora User Guide.
+    /// Stops a database activity stream that was started using the Amazon Web Services console,  the start-activity-stream CLI command, or the StartActivityStream action. For more information, see   Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide.
     public func stopActivityStream(_ input: StopActivityStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopActivityStreamResponse {
         return try await self.client.execute(operation: "StopActivityStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -733,7 +733,7 @@ extension RDS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RDS {
-    ///  Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
+    /// Returns information about blue/green deployments. For more information, see Using Amazon RDS Blue/Green Deployments  for database updates in the Amazon RDS User Guide and   Using Amazon RDS Blue/Green Deployments for database updates in the Amazon Aurora  User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -755,7 +755,7 @@ extension RDS {
         )
     }
 
-    ///  Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
+    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -777,7 +777,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
+    /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -799,7 +799,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters.
+    /// Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -821,7 +821,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DBClusterParameterGroup descriptions. If a  DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+    /// Returns a list of DBClusterParameterGroup descriptions. If a  DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -843,7 +843,7 @@ extension RDS {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+    /// Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -865,7 +865,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+    /// Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -887,7 +887,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -909,7 +909,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of the available DB engines.
+    /// Returns a list of the available DB engines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -931,7 +931,7 @@ extension RDS {
         )
     }
 
-    ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the  DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
+    /// Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the  DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -953,7 +953,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    /// Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -975,7 +975,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DB log files for the DB instance. This command doesn't apply to RDS Custom.
+    /// Returns a list of DB log files for the DB instance. This command doesn't apply to RDS Custom.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -997,7 +997,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1019,7 +1019,7 @@ extension RDS {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB parameter group.
+    /// Returns the detailed parameter list for a particular DB parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1041,7 +1041,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB proxies.
+    /// Returns information about DB proxies.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1063,7 +1063,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB proxy endpoints.
+    /// Returns information about DB proxy endpoints.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1085,7 +1085,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
+    /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1107,7 +1107,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DBProxyTarget objects. This API supports pagination.
+    /// Returns information about DBProxyTarget objects. This API supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1129,7 +1129,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that  you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the  Amazon EC2 User Guide, the blog EC2-Classic Networking is Retiring –  Here’s How to Prepare, and Moving a DB instance not in a VPC  into a VPC in the Amazon RDS User Guide.
+    /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that  you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the  Amazon EC2 User Guide, the blog EC2-Classic Networking is Retiring –  Here’s How to Prepare, and Moving a DB instance not in a VPC  into a VPC in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1151,7 +1151,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB snapshots. This API action supports pagination.
+    /// Returns information about DB snapshots. This API action supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1173,7 +1173,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the  Wikipedia Tutorial.
+    /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the  Wikipedia Tutorial.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1195,7 +1195,7 @@ extension RDS {
         )
     }
 
-    ///  Returns the default engine and system parameter information for the specified database engine.
+    /// Returns the default engine and system parameter information for the specified database engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1217,7 +1217,7 @@ extension RDS {
         )
     }
 
-    ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes  SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    /// Lists all the subscription descriptions for a customer account. The description for a subscription includes  SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1239,7 +1239,7 @@ extension RDS {
         )
     }
 
-    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days.  Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be  obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring  Amazon Aurora events in the Amazon Aurora User Guide.  By default, RDS returns events that were generated in the past hour.
+    /// Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days.  Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be  obtained by providing the name as a parameter. For more information on working with events, see Monitoring Amazon RDS events in the Amazon RDS User Guide and Monitoring  Amazon Aurora events in the Amazon Aurora User Guide.  By default, RDS returns events that were generated in the past hour.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1261,7 +1261,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about a snapshot export to Amazon S3. This API operation supports pagination.
+    /// Returns information about a snapshot export to Amazon S3. This API operation supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1283,7 +1283,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about Aurora global database clusters. This API supports pagination. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
+    /// Returns information about Aurora global database clusters. This API supports pagination. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1305,7 +1305,7 @@ extension RDS {
         )
     }
 
-    ///  Describes all available options.
+    /// Describes all available options.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1327,7 +1327,7 @@ extension RDS {
         )
     }
 
-    ///  Describes the available option groups.
+    /// Describes the available option groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1349,7 +1349,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
+    /// Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1371,7 +1371,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1393,7 +1393,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
+    /// Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1415,7 +1415,7 @@ extension RDS {
         )
     }
 
-    ///  Lists available reserved DB instance offerings.
+    /// Lists available reserved DB instance offerings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1437,7 +1437,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions  and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions,  use the EC2 operation DescribeRegions. For more information, see   DescribeRegions in the Amazon EC2 API Reference.
+    /// Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica,  copy a DB snapshot from, or replicate automated backups from. Use this operation to determine whether cross-Region features are supported between other Regions  and your current Region. This operation supports pagination. To return information about the Regions that are enabled for your account, or all Regions,  use the EC2 operation DescribeRegions. For more information, see   DescribeRegions in the Amazon EC2 API Reference.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1459,7 +1459,7 @@ extension RDS {
         )
     }
 
-    ///  Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
+    /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

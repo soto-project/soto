@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,9 +22,9 @@ extension SecretsManager {
     // MARK: Enums
 
     public enum FilterNameStringType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case description
-        case name
+        case all = "all"
+        case description = "description"
+        case name = "name"
         case owningService = "owning-service"
         case primaryRegion = "primary-region"
         case tagKey = "tag-key"
@@ -33,8 +33,8 @@ extension SecretsManager {
     }
 
     public enum SortOrderType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case asc
-        case desc
+        case asc = "asc"
+        case desc = "desc"
         public var description: String { return self.rawValue }
     }
 
@@ -293,6 +293,7 @@ extension SecretsManager {
         public let lastRotatedDate: Date?
         /// The name of the secret.
         public let name: String?
+        /// The next date and time that Secrets Manager will rotate the secret, rounded to the nearest hour. If the secret isn't configured for rotation, Secrets Manager returns null.
         public let nextRotationDate: Date?
         /// The ID of the service that created this secret. For more information, see Secrets managed by other Amazon Web Services services.
         public let owningService: String?
@@ -355,7 +356,7 @@ extension SecretsManager {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The following are keys you can use:    description: Prefix match, not case-sensitive.    name: Prefix match, case-sensitive.    tag-key: Prefix match, case-sensitive.    tag-value: Prefix match, case-sensitive.    primary-region: Prefix match, case-sensitive.    all: Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive.
+        /// The following are keys you can use:    description: Prefix match, not case-sensitive.    name: Prefix match, case-sensitive.    tag-key: Prefix match, case-sensitive.    tag-value: Prefix match, case-sensitive.    primary-region: Prefix match, case-sensitive.    owning-service: Prefix match, case-sensitive.    all: Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive.
         public let key: FilterNameStringType?
         /// The keyword to filter for. You can prefix your search value with an exclamation mark (!) in order to perform negation filters.
         public let values: [String]?
@@ -608,6 +609,7 @@ extension SecretsManager {
     public struct ListSecretsRequest: AWSEncodableShape {
         /// The filters to apply to the list of secrets.
         public let filters: [Filter]?
+        /// Specifies whether to include secrets scheduled for deletion.
         public let includePlannedDeletion: Bool?
         /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken.  To get the next results, call ListSecrets again with the value from  NextToken.
         public let maxResults: Int?
@@ -958,9 +960,9 @@ extension SecretsManager {
     public struct RotateSecretRequest: AWSEncodableShape {
         /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.
         public let clientRequestToken: String?
-        /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window.  The rotation schedule is defined in RotateSecretRequest$RotationRules. If you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the   testSecret  step of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
+        /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window.  The rotation schedule is defined in RotateSecretRequest$RotationRules. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the   testSecret  step of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
         public let rotateImmediately: Bool?
-        /// The ARN of the Lambda rotation function that can rotate the secret.
+        /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function.  For secrets that use managed rotation, omit this field. For more information, see Managed rotation in the Secrets Manager User Guide.
         public let rotationLambdaARN: String?
         /// A structure that defines the rotation configuration for this secret.
         public let rotationRules: RotationRulesType?
@@ -1015,7 +1017,7 @@ extension SecretsManager {
     }
 
     public struct RotationRulesType: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days between automatic scheduled rotations of the secret. You can use this  value to check that your secret meets your compliance guidelines for how often secrets must  be rotated. In DescribeSecret and ListSecrets, this value is calculated from  the rotation schedule after every successful rotation. In RotateSecret, you can  set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use  ScheduleExpression.
+        /// The number of days between rotations of the secret. You can use this  value to check that your secret meets your compliance guidelines for how often secrets must  be rotated. If you use this field to set the rotation schedule, Secrets Manager calculates the next rotation  date based on the previous rotation. Manually updating the secret value by calling  PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets, this value is calculated from  the rotation schedule after every successful rotation. In RotateSecret, you can  set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use  ScheduleExpression.
         public let automaticallyAfterDays: Int64?
         /// The length of the rotation window in hours, for example 3h for a three  hour window. Secrets Manager rotates your secret at any time during this window. The window must not  extend into the next rotation window or the next UTC day. The window starts according to the ScheduleExpression. If you don't specify a Duration,  for a ScheduleExpression in hours, the window automatically closes after one  hour. For a ScheduleExpression in days, the window automatically closes at the  end of the UTC day. For  more information, including examples, see Schedule expressions  in Secrets Manager rotation in the Secrets Manager Users Guide.
         public let duration: String?
@@ -1065,6 +1067,7 @@ extension SecretsManager {
         public let lastRotatedDate: Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public let name: String?
+        /// The next date and time that Secrets Manager will attempt to rotate the secret, rounded to the nearest hour. This value is null if the secret is not set up for rotation.
         public let nextRotationDate: Date?
         /// Returns the name of the service that created the secret.
         public let owningService: String?
@@ -1470,9 +1473,9 @@ public struct SecretsManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Secrets Manager can&#39;t decrypt the protected secret text using the provided KMS key.
+    /// Secrets Manager can't decrypt the protected secret text using the provided KMS key.
     public static var decryptionFailure: Self { .init(.decryptionFailure) }
-    /// Secrets Manager can&#39;t encrypt the protected secret text using the provided KMS key. Check that the KMS key is available, enabled, and not in an invalid state. For more information, see Key state: Effect on your KMS key.
+    /// Secrets Manager can't encrypt the protected secret text using the provided KMS key. Check that the KMS key is available, enabled, and not in an invalid state. For more information, see Key state: Effect on your KMS key.
     public static var encryptionFailure: Self { .init(.encryptionFailure) }
     /// An error occurred on the server side.
     public static var internalServiceError: Self { .init(.internalServiceError) }
@@ -1480,7 +1483,7 @@ public struct SecretsManagerErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// The parameter name or value is invalid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// A parameter value is not valid for the current state of the resource. Possible causes:   The secret is scheduled for deletion.   You tried to enable rotation on a secret that doesn&#39;t already have a Lambda function ARN configured and you didn&#39;t include such an ARN as a parameter in this call.    The secret is managed by another service, and you must use that service to update it.  For more information, see Secrets managed by other Amazon Web Services services.
+    /// A parameter value is not valid for the current state of the resource. Possible causes:   The secret is scheduled for deletion.   You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.    The secret is managed by another service, and you must use that service to update it.  For more information, see Secrets managed by other Amazon Web Services services.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The request failed because it would exceed one of the Secrets Manager quotas.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -1492,7 +1495,7 @@ public struct SecretsManagerErrorType: AWSErrorType {
     public static var publicPolicyException: Self { .init(.publicPolicyException) }
     /// A resource with the ID you requested already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
-    /// Secrets Manager can&#39;t find the resource that you asked for.
+    /// Secrets Manager can't find the resource that you asked for.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

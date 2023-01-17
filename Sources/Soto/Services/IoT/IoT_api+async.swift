@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1309,7 +1309,7 @@ extension IoT {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoT {
-    ///   Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
+    ///  Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1331,7 +1331,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
+    /// Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1353,7 +1353,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified thing group. Requires permission to access the ListAttachedPolicies action.
+    /// Lists the policies attached to the specified thing group. Requires permission to access the ListAttachedPolicies action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1375,7 +1375,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)  Requires permission to access the ListAuditFindings action.
+    /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)  Requires permission to access the ListAuditFindings action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1397,7 +1397,7 @@ extension IoT {
         )
     }
 
-    ///  Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action.
+    /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1419,7 +1419,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks action.
+    /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1441,7 +1441,7 @@ extension IoT {
         )
     }
 
-    ///   Lists your Device Defender audit listings.  Requires permission to access the ListAuditSuppressions action.
+    ///  Lists your Device Defender audit listings.  Requires permission to access the ListAuditSuppressions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1463,7 +1463,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the ListAuditTasks action.
+    /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the ListAuditTasks action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1485,7 +1485,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the authorizers registered in your account. Requires permission to access the ListAuthorizers action.
+    /// Lists the authorizers registered in your account. Requires permission to access the ListAuthorizers action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1507,8 +1507,8 @@ extension IoT {
         )
     }
 
-    ///  Lists the billing groups you have created.
-    ///  		       Requires permission to access the ListBillingGroups action.
+    /// Lists the billing groups you have created.
+    /// 		       Requires permission to access the ListBillingGroups action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1530,7 +1530,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action.
+    /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1552,7 +1552,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCertificates action.
+    /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCertificates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1574,7 +1574,7 @@ extension IoT {
         )
     }
 
-    ///  List the device certificates signed by the specified CA certificate. Requires permission to access the ListCertificatesByCA action.
+    /// List the device certificates signed by the specified CA certificate. Requires permission to access the ListCertificatesByCA action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1596,7 +1596,7 @@ extension IoT {
         )
     }
 
-    ///   Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
+    ///  Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1618,7 +1618,7 @@ extension IoT {
         )
     }
 
-    ///   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
+    ///  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1640,7 +1640,7 @@ extension IoT {
         )
     }
 
-    ///   List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
+    ///  List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1662,7 +1662,7 @@ extension IoT {
         )
     }
 
-    ///  List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
+    /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1684,7 +1684,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the ListDomainConfigurations action.
+    /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the ListDomainConfigurations action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1706,7 +1706,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
+    /// Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1728,7 +1728,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the search indices. Requires permission to access the ListIndices action.
+    /// Lists the search indices. Requires permission to access the ListIndices action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1750,7 +1750,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action.
+    /// Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1772,7 +1772,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action.
+    /// Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1794,7 +1794,7 @@ extension IoT {
         )
     }
 
-    ///  Returns a list of job templates. Requires permission to access the ListJobTemplates action.
+    /// Returns a list of job templates. Requires permission to access the ListJobTemplates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1816,7 +1816,7 @@ extension IoT {
         )
     }
 
-    ///  Lists jobs. Requires permission to access the ListJobs action.
+    /// Lists jobs. Requires permission to access the ListJobs action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1838,7 +1838,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)  by the given thing during the specified time period.
+    /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)  by the given thing during the specified time period.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1860,7 +1860,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
+    /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1882,7 +1882,7 @@ extension IoT {
         )
     }
 
-    ///  Lists OTA updates. Requires permission to access the ListOTAUpdates action.
+    /// Lists OTA updates. Requires permission to access the ListOTAUpdates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1904,7 +1904,7 @@ extension IoT {
         )
     }
 
-    ///  Lists certificates that are being transferred but not yet accepted. Requires permission to access the ListOutgoingCertificates action.
+    /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the ListOutgoingCertificates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1926,7 +1926,7 @@ extension IoT {
         )
     }
 
-    ///  Lists your policies. Requires permission to access the ListPolicies action.
+    /// Lists your policies. Requires permission to access the ListPolicies action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1948,7 +1948,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
+    /// Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1970,7 +1970,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
+    /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1992,10 +1992,10 @@ extension IoT {
         )
     }
 
-    ///  Lists the things associated with the specified principal. A principal can be X.509
-    ///  			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    ///  			identities.
-    ///  		       Requires permission to access the ListPrincipalThings action.
+    /// Lists the things associated with the specified principal. A principal can be X.509
+    /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+    /// 			identities.
+    /// 		       Requires permission to access the ListPrincipalThings action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2017,7 +2017,7 @@ extension IoT {
         )
     }
 
-    ///  A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
+    /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2039,7 +2039,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
+    /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2061,7 +2061,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the role aliases registered in your account. Requires permission to access the ListRoleAliases action.
+    /// Lists the role aliases registered in your account. Requires permission to access the ListRoleAliases action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2083,7 +2083,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
+    /// Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2105,7 +2105,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
+    /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2127,7 +2127,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profiles attached to a target (thing group).  Requires permission to access the ListSecurityProfilesForTarget action.
+    /// Lists the Device Defender security profiles attached to a target (thing group).  Requires permission to access the ListSecurityProfilesForTarget action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2149,8 +2149,8 @@ extension IoT {
         )
     }
 
-    ///  Lists all of the streams in your Amazon Web Services account.
-    ///  		       Requires permission to access the ListStreams action.
+    /// Lists all of the streams in your Amazon Web Services account.
+    /// 		       Requires permission to access the ListStreams action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2172,8 +2172,8 @@ extension IoT {
         )
     }
 
-    ///  Lists the tags (metadata) you have assigned to the resource.
-    ///  		       Requires permission to access the ListTagsForResource action.
+    /// Lists the tags (metadata) you have assigned to the resource.
+    /// 		       Requires permission to access the ListTagsForResource action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2195,7 +2195,7 @@ extension IoT {
         )
     }
 
-    ///  List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action.
+    /// List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2217,7 +2217,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
+    /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2239,8 +2239,8 @@ extension IoT {
         )
     }
 
-    ///  List the thing groups in your account.
-    ///  		       Requires permission to access the ListThingGroups action.
+    /// List the thing groups in your account.
+    /// 		       Requires permission to access the ListThingGroups action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2262,8 +2262,8 @@ extension IoT {
         )
     }
 
-    ///  List the thing groups to which the specified thing belongs.
-    ///  		       Requires permission to access the ListThingGroupsForThing action.
+    /// List the thing groups to which the specified thing belongs.
+    /// 		       Requires permission to access the ListThingGroupsForThing action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2285,10 +2285,10 @@ extension IoT {
         )
     }
 
-    ///  Lists the principals associated with the specified thing. A principal can be X.509
-    ///  			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
-    ///  			identities.
-    ///  		       Requires permission to access the ListThingPrincipals action.
+    /// Lists the principals associated with the specified thing. A principal can be X.509
+    /// 			certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+    /// 			identities.
+    /// 		       Requires permission to access the ListThingPrincipals action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2310,7 +2310,7 @@ extension IoT {
         )
     }
 
-    ///  Information about the thing registration tasks.
+    /// Information about the thing registration tasks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2332,8 +2332,8 @@ extension IoT {
         )
     }
 
-    ///  List bulk thing provisioning tasks.
-    ///  		       Requires permission to access the ListThingRegistrationTasks action.
+    /// List bulk thing provisioning tasks.
+    /// 		       Requires permission to access the ListThingRegistrationTasks action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2355,8 +2355,8 @@ extension IoT {
         )
     }
 
-    ///  Lists the existing thing types.
-    ///  		       Requires permission to access the ListThingTypes action.
+    /// Lists the existing thing types.
+    /// 		       Requires permission to access the ListThingTypes action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2378,15 +2378,15 @@ extension IoT {
         )
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example,
-    ///  			calling ListThings with attributeName=Color and attributeValue=Red
-    ///  			retrieves all things in the registry that contain an attribute Color with the value Red. For more
-    ///  			information, see List Things from the Amazon Web Services IoT Core Developer
-    ///  				Guide.
-    ///  		       Requires permission to access the ListThings action.
+    /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example,
+    /// 			calling ListThings with attributeName=Color and attributeValue=Red
+    /// 			retrieves all things in the registry that contain an attribute Color with the value Red. For more
+    /// 			information, see List Things from the Amazon Web Services IoT Core Developer
+    /// 				Guide.
+    /// 		       Requires permission to access the ListThings action.
     ///
     ///
-    ///  			         You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
+    /// 			         You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -2409,8 +2409,8 @@ extension IoT {
         )
     }
 
-    ///  Lists the things you have added to the given billing group.
-    ///  		       Requires permission to access the ListThingsInBillingGroup action.
+    /// Lists the things you have added to the given billing group.
+    /// 		       Requires permission to access the ListThingsInBillingGroup action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2432,8 +2432,8 @@ extension IoT {
         )
     }
 
-    ///  Lists the things in the specified group.
-    ///  		       Requires permission to access the ListThingsInThingGroup action.
+    /// Lists the things in the specified group.
+    /// 		       Requires permission to access the ListThingsInThingGroup action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2455,7 +2455,7 @@ extension IoT {
         )
     }
 
-    ///  Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the ListTopicRuleDestinations action.
+    /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the ListTopicRuleDestinations action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2477,7 +2477,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the rules for the specific topic. Requires permission to access the ListTopicRules action.
+    /// Lists the rules for the specific topic. Requires permission to access the ListTopicRules action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2499,7 +2499,7 @@ extension IoT {
         )
     }
 
-    ///  Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
+    /// Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2521,7 +2521,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
+    /// Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

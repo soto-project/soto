@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -461,13 +461,13 @@ public struct PinpointSMSVoiceErrorType: AWSErrorType {
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// The input you provided is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// The API encountered an unexpected error and couldn&#39;t complete the request. You might be able to successfully issue the request again in the future.
+    /// The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// There are too many instances of the specified resource type.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The resource you attempted to access doesn&#39;t exist.
+    /// The resource you attempted to access doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// You&#39;ve issued too many requests to the resource. Wait a few minutes, and then try again.
+    /// You've issued too many requests to the resource. Wait a few minutes, and then try again.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

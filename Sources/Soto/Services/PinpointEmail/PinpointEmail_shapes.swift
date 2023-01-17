@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2052,7 +2052,7 @@ extension PinpointEmail {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2186,7 +2186,7 @@ public struct PinpointEmailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The message can&#39;t be sent because the account&#39;s ability to send email has been permanently restricted.
+    /// The message can't be sent because the account's ability to send email has been permanently restricted.
     public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
     /// The resource specified in your request already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
@@ -2196,13 +2196,13 @@ public struct PinpointEmailErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// There are too many instances of the specified resource type.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The message can&#39;t be sent because the sending domain isn&#39;t verified.
+    /// The message can't be sent because the sending domain isn't verified.
     public static var mailFromDomainNotVerifiedException: Self { .init(.mailFromDomainNotVerifiedException) }
-    /// The message can&#39;t be sent because it contains invalid content.
+    /// The message can't be sent because it contains invalid content.
     public static var messageRejected: Self { .init(.messageRejected) }
-    /// The resource you attempted to access doesn&#39;t exist.
+    /// The resource you attempted to access doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// The message can&#39;t be sent because the account&#39;s ability to send email is currently paused.
+    /// The message can't be sent because the account's ability to send email is currently paused.
     public static var sendingPausedException: Self { .init(.sendingPausedException) }
     /// Too many requests have been made to the operation.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

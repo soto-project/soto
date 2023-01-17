@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -29,7 +29,7 @@ extension S3Control {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
@@ -199,7 +199,7 @@ extension S3Control {
     }
 
     public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
@@ -225,7 +225,7 @@ extension S3Control {
 
     public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable, _SotoSendable {
         case canonical = "id"
-        case emailAddress
+        case emailAddress = "emailAddress"
         case group = "uri"
         public var description: String { return self.rawValue }
     }
@@ -842,7 +842,7 @@ extension S3Control {
             try self.manifest?.validate(name: "\(name).manifest")
             try self.manifestGenerator?.validate(name: "\(name).manifestGenerator")
             try self.operation.validate(name: "\(name).operation")
-            try self.validate(self.priority, name: "priority", parent: name, max: 2_147_483_647)
+            try self.validate(self.priority, name: "priority", parent: name, max: 2147483647)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.report.validate(name: "\(name).report")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
@@ -4034,6 +4034,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
             AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
+
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The account ID of the requester.
@@ -4077,6 +4078,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
             AWSMemberEncoding(label: "configId", location: .uri("ConfigId"))
         ]
+
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The account ID of the requester.
@@ -4932,6 +4934,7 @@ extension S3Control {
             AWSMemberEncoding(label: "accountId", location: .hostname("AccountId")),
             AWSMemberEncoding(label: "mrap", location: .uri("Mrap"))
         ]
+
         public struct _RouteUpdatesEncoding: ArrayCoderProperties { public static let member = "Route" }
 
         /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
@@ -5035,7 +5038,7 @@ extension S3Control {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]+$")
-            try self.validate(self.priority, name: "priority", parent: name, max: 2_147_483_647)
+            try self.validate(self.priority, name: "priority", parent: name, max: 2147483647)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
         }
 
@@ -5235,7 +5238,7 @@ public struct S3ControlErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     public static var jobStatusException: Self { .init(.jobStatusException) }
-    /// Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn&#39;t have a PublicAccessBlockConfiguration set.
+    /// Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
     public static var noSuchPublicAccessBlockConfiguration: Self { .init(.noSuchPublicAccessBlockConfiguration) }
     public static var notFoundException: Self { .init(.notFoundException) }
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

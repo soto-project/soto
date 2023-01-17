@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -182,7 +182,7 @@ extension MigrationHubStrategy {
 // MARK: Paginators
 
 extension MigrationHubStrategy {
-    ///   Retrieves detailed information about a specified server.
+    ///  Retrieves detailed information about a specified server.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -235,7 +235,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the application components (processes).
+    ///  Retrieves a list of all the application components (processes).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -288,7 +288,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the installed collectors.
+    ///  Retrieves a list of all the installed collectors.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -341,7 +341,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Retrieves a list of all the imports performed.
+    ///  Retrieves a list of all the imports performed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -394,7 +394,7 @@ extension MigrationHubStrategy {
         )
     }
 
-    ///   Returns a list of all the servers.
+    ///  Returns a list of all the servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -125,14 +125,14 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case packagingGroupId
-            case resourceId
-            case sourceArn
-            case sourceRoleArn
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case packagingGroupId = "packagingGroupId"
+            case resourceId = "resourceId"
+            case sourceArn = "sourceArn"
+            case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -148,8 +148,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cdnIdentifierSecret
-            case secretsRoleArn
+            case cdnIdentifierSecret = "cdnIdentifierSecret"
+            case secretsRoleArn = "secretsRoleArn"
         }
     }
 
@@ -164,8 +164,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case spekeKeyProvider
+            case constantInitializationVector = "constantInitializationVector"
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -187,10 +187,10 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryption
-            case hlsManifests
-            case includeEncoderConfigurationInSegments
-            case segmentDurationSeconds
+            case encryption = "encryption"
+            case hlsManifests = "hlsManifests"
+            case includeEncoderConfigurationInSegments = "includeEncoderConfigurationInSegments"
+            case segmentDurationSeconds = "segmentDurationSeconds"
         }
     }
 
@@ -209,7 +209,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case egressAccessLogs
+            case egressAccessLogs = "egressAccessLogs"
         }
     }
 
@@ -234,12 +234,12 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authorization
-            case domainName
-            case egressAccessLogs
-            case id
-            case tags
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -266,12 +266,12 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case packagingGroupId
-            case resourceId
-            case sourceArn
-            case sourceRoleArn
-            case tags
+            case id = "id"
+            case packagingGroupId = "packagingGroupId"
+            case resourceId = "resourceId"
+            case sourceArn = "sourceArn"
+            case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -307,15 +307,15 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case egressEndpoints
-            case id
-            case packagingGroupId
-            case resourceId
-            case sourceArn
-            case sourceRoleArn
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case egressEndpoints = "egressEndpoints"
+            case id = "id"
+            case packagingGroupId = "packagingGroupId"
+            case resourceId = "resourceId"
+            case sourceArn = "sourceArn"
+            case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -341,13 +341,13 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cmafPackage
-            case dashPackage
-            case hlsPackage
-            case id
-            case mssPackage
-            case packagingGroupId
-            case tags
+            case cmafPackage = "cmafPackage"
+            case dashPackage = "dashPackage"
+            case hlsPackage = "hlsPackage"
+            case id = "id"
+            case mssPackage = "mssPackage"
+            case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -376,14 +376,14 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cmafPackage
-            case dashPackage
-            case hlsPackage
-            case id
-            case mssPackage
-            case packagingGroupId
-            case tags
+            case arn = "arn"
+            case cmafPackage = "cmafPackage"
+            case dashPackage = "dashPackage"
+            case hlsPackage = "hlsPackage"
+            case id = "id"
+            case mssPackage = "mssPackage"
+            case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -402,10 +402,10 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorization
-            case egressAccessLogs
-            case id
-            case tags
+            case authorization = "authorization"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -430,12 +430,12 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authorization
-            case domainName
-            case egressAccessLogs
-            case id
-            case tags
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -447,7 +447,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -474,12 +474,12 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestLayout
-            case manifestName
-            case minBufferTimeSeconds
-            case profile
-            case scteMarkersSource
-            case streamSelection
+            case manifestLayout = "manifestLayout"
+            case manifestName = "manifestName"
+            case minBufferTimeSeconds = "minBufferTimeSeconds"
+            case profile = "profile"
+            case scteMarkersSource = "scteMarkersSource"
+            case streamSelection = "streamSelection"
         }
     }
 
@@ -513,13 +513,13 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashManifests
-            case encryption
-            case includeEncoderConfigurationInSegments
-            case includeIframeOnlyStream
-            case periodTriggers
-            case segmentDurationSeconds
-            case segmentTemplateFormat
+            case dashManifests = "dashManifests"
+            case encryption = "encryption"
+            case includeEncoderConfigurationInSegments = "includeEncoderConfigurationInSegments"
+            case includeIframeOnlyStream = "includeIframeOnlyStream"
+            case periodTriggers = "periodTriggers"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case segmentTemplateFormat = "segmentTemplateFormat"
         }
     }
 
@@ -627,15 +627,15 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case egressEndpoints
-            case id
-            case packagingGroupId
-            case resourceId
-            case sourceArn
-            case sourceRoleArn
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case egressEndpoints = "egressEndpoints"
+            case id = "id"
+            case packagingGroupId = "packagingGroupId"
+            case resourceId = "resourceId"
+            case sourceArn = "sourceArn"
+            case sourceRoleArn = "sourceRoleArn"
+            case tags = "tags"
         }
     }
 
@@ -679,14 +679,14 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cmafPackage
-            case dashPackage
-            case hlsPackage
-            case id
-            case mssPackage
-            case packagingGroupId
-            case tags
+            case arn = "arn"
+            case cmafPackage = "cmafPackage"
+            case dashPackage = "dashPackage"
+            case hlsPackage = "hlsPackage"
+            case id = "id"
+            case mssPackage = "mssPackage"
+            case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -729,13 +729,13 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateAssetCount
-            case arn
-            case authorization
-            case domainName
-            case egressAccessLogs
-            case id
-            case tags
+            case approximateAssetCount = "approximateAssetCount"
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -748,7 +748,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -767,9 +767,9 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packagingConfigurationId
-            case status
-            case url
+            case packagingConfigurationId = "packagingConfigurationId"
+            case status = "status"
+            case url = "url"
         }
     }
 
@@ -785,8 +785,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case presetSpeke20Audio
-            case presetSpeke20Video
+            case presetSpeke20Audio = "presetSpeke20Audio"
+            case presetSpeke20Video = "presetSpeke20Video"
         }
     }
 
@@ -805,9 +805,9 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case encryptionMethod
-            case spekeKeyProvider
+            case constantInitializationVector = "constantInitializationVector"
+            case encryptionMethod = "encryptionMethod"
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -847,12 +847,12 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adMarkers
-            case includeIframeOnlyStream
-            case manifestName
-            case programDateTimeIntervalSeconds
-            case repeatExtXKey
-            case streamSelection
+            case adMarkers = "adMarkers"
+            case includeIframeOnlyStream = "includeIframeOnlyStream"
+            case manifestName = "manifestName"
+            case programDateTimeIntervalSeconds = "programDateTimeIntervalSeconds"
+            case repeatExtXKey = "repeatExtXKey"
+            case streamSelection = "streamSelection"
         }
     }
 
@@ -877,11 +877,11 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryption
-            case hlsManifests
-            case includeDvbSubtitles
-            case segmentDurationSeconds
-            case useAudioRenditionGroup
+            case encryption = "encryption"
+            case hlsManifests = "hlsManifests"
+            case includeDvbSubtitles = "includeDvbSubtitles"
+            case segmentDurationSeconds = "segmentDurationSeconds"
+            case useAudioRenditionGroup = "useAudioRenditionGroup"
         }
     }
 
@@ -925,8 +925,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assets
-            case nextToken
+            case assets = "assets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -970,8 +970,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case packagingConfigurations
+            case nextToken = "nextToken"
+            case packagingConfigurations = "packagingConfigurations"
         }
     }
 
@@ -1011,8 +1011,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case packagingGroups
+            case nextToken = "nextToken"
+            case packagingGroups = "packagingGroups"
         }
     }
 
@@ -1040,7 +1040,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1052,7 +1052,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
@@ -1067,8 +1067,8 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestName
-            case streamSelection
+            case manifestName = "manifestName"
+            case streamSelection = "streamSelection"
         }
     }
 
@@ -1086,9 +1086,9 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryption
-            case mssManifests
-            case segmentDurationSeconds
+            case encryption = "encryption"
+            case mssManifests = "mssManifests"
+            case segmentDurationSeconds = "segmentDurationSeconds"
         }
     }
 
@@ -1117,14 +1117,14 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cmafPackage
-            case dashPackage
-            case hlsPackage
-            case id
-            case mssPackage
-            case packagingGroupId
-            case tags
+            case arn = "arn"
+            case cmafPackage = "cmafPackage"
+            case dashPackage = "dashPackage"
+            case hlsPackage = "hlsPackage"
+            case id = "id"
+            case mssPackage = "mssPackage"
+            case packagingGroupId = "packagingGroupId"
+            case tags = "tags"
         }
     }
 
@@ -1152,13 +1152,13 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateAssetCount
-            case arn
-            case authorization
-            case domainName
-            case egressAccessLogs
-            case id
-            case tags
+            case approximateAssetCount = "approximateAssetCount"
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -1180,10 +1180,10 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionContractConfiguration
-            case roleArn
-            case systemIds
-            case url
+            case encryptionContractConfiguration = "encryptionContractConfiguration"
+            case roleArn = "roleArn"
+            case systemIds = "systemIds"
+            case url = "url"
         }
     }
 
@@ -1202,9 +1202,9 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxVideoBitsPerSecond
-            case minVideoBitsPerSecond
-            case streamOrder
+            case maxVideoBitsPerSecond = "maxVideoBitsPerSecond"
+            case minVideoBitsPerSecond = "minVideoBitsPerSecond"
+            case streamOrder = "streamOrder"
         }
     }
 
@@ -1224,7 +1224,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1262,7 +1262,7 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorization
+            case authorization = "authorization"
         }
     }
 
@@ -1290,13 +1290,13 @@ extension MediaPackageVod {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateAssetCount
-            case arn
-            case authorization
-            case domainName
-            case egressAccessLogs
-            case id
-            case tags
+            case approximateAssetCount = "approximateAssetCount"
+            case arn = "arn"
+            case authorization = "authorization"
+            case domainName = "domainName"
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case tags = "tags"
         }
     }
 }

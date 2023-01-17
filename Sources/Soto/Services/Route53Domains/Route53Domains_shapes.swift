@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1241,7 +1241,7 @@ extension Route53Domains {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
@@ -1257,8 +1257,8 @@ extension Route53Domains {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case status
+            case domainName = "domainName"
+            case status = "status"
         }
     }
 
@@ -2057,7 +2057,7 @@ extension Route53Domains {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
@@ -2079,9 +2079,9 @@ extension Route53Domains {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case emailAddress
-            case isAlreadyVerified
+            case domainName = "domainName"
+            case emailAddress = "emailAddress"
+            case isAlreadyVerified = "isAlreadyVerified"
         }
     }
 
@@ -2614,7 +2614,7 @@ public struct Route53DomainsErrorType: AWSErrorType {
     public var errorCode: String { self.error.rawValue }
 
     ///  This error is returned if you call AssociateDelegationSignerToDomain
-    /// 			when the specified domain has reached the maximum number of DS records. You can&#39;t add
+    /// 			when the specified domain has reached the maximum number of DS records. You can't add
     /// 			any additional DS records unless you delete an existing one first.
     public static var dnssecLimitExceeded: Self { .init(.dnssecLimitExceeded) }
     /// The number of domains has exceeded the allowed threshold for the account.
@@ -2622,7 +2622,7 @@ public struct Route53DomainsErrorType: AWSErrorType {
     /// The request is already in progress for the domain.
     public static var duplicateRequest: Self { .init(.duplicateRequest) }
     /// The requested item is not acceptable. For example, for APIs that accept a domain name,
-    /// 			the request might specify a domain name that doesn&#39;t belong to the account that
+    /// 			the request might specify a domain name that doesn't belong to the account that
     /// 			submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the
     /// 			password might be invalid.
     public static var invalidInput: Self { .init(.invalidInput) }

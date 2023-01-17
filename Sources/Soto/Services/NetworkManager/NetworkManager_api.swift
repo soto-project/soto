@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -507,7 +507,7 @@ extension NetworkManager {
 // MARK: Paginators
 
 extension NetworkManager {
-    ///  Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
+    /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -560,7 +560,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns information about a core network Connect peer associations.
+    /// Returns information about a core network Connect peer associations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -613,7 +613,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about one or more of your connections in a global network.
+    /// Gets information about one or more of your connections in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -666,7 +666,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns information about a core network change event.
+    /// Returns information about a core network change event.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -719,7 +719,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns a change set between the LIVE core network policy and a submitted policy.
+    /// Returns a change set between the LIVE core network policy and a submitted policy.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -772,7 +772,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets the association information for customer gateways that are associated with devices and links in your global network.
+    /// Gets the association information for customer gateways that are associated with devices and links in your global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -825,7 +825,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about one or more of your devices in a global network.
+    /// Gets information about one or more of your devices in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -878,7 +878,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
+    /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -931,7 +931,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
+    /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -984,7 +984,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets the count of network resources, by resource type, for the specified global network.
+    /// Gets the count of network resources, by resource type, for the specified global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1037,7 +1037,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets the network resource relationships for the specified global network.
+    /// Gets the network resource relationships for the specified global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1090,7 +1090,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1143,7 +1143,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets the network telemetry of the specified global network.
+    /// Gets the network telemetry of the specified global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1196,7 +1196,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about one or more of your sites in a global network.
+    /// Gets information about one or more of your sites in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1249,7 +1249,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about one or more of your transit gateway Connect peer associations in a global network.
+    /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1302,7 +1302,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Gets information about the transit gateway registrations in a specified global network.
+    /// Gets information about the transit gateway registrations in a specified global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1355,7 +1355,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns a list of core network attachments.
+    /// Returns a list of core network attachments.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1408,7 +1408,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns a list of core network Connect peers.
+    /// Returns a list of core network Connect peers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1461,7 +1461,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns a list of core network policy versions.
+    /// Returns a list of core network policy versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1514,7 +1514,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Returns a list of owned and shared core networks.
+    /// Returns a list of owned and shared core networks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1567,7 +1567,7 @@ extension NetworkManager {
         )
     }
 
-    ///  Lists the peerings for a core network.
+    /// Lists the peerings for a core network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

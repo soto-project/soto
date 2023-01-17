@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -573,7 +573,7 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -607,7 +607,7 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1441,12 +1441,12 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dryRun
-            case existingImageName
-            case newImageDescription
-            case newImageDisplayName
-            case newImageName
-            case newImageTags
+            case dryRun = "dryRun"
+            case existingImageName = "existingImageName"
+            case newImageDescription = "newImageDescription"
+            case newImageDisplayName = "newImageDisplayName"
+            case newImageName = "newImageName"
+            case newImageTags = "newImageTags"
         }
     }
 
@@ -1461,8 +1461,8 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canUpdateImage
-            case image
+            case canUpdateImage = "canUpdateImage"
+            case image = "image"
         }
     }
 
@@ -3031,8 +3031,8 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowFleet
-            case allowImageBuilder
+            case allowFleet = "allowFleet"
+            case allowImageBuilder = "allowImageBuilder"
         }
     }
 
@@ -3404,8 +3404,8 @@ extension AppStream {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePermissions
-            case sharedAccountId
+            case imagePermissions = "imagePermissions"
+            case sharedAccountId = "sharedAccountId"
         }
     }
 
@@ -4376,9 +4376,9 @@ public struct AppStreamErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The entitlement already exists.
     public static var entitlementAlreadyExistsException: Self { .init(.entitlementAlreadyExistsException) }
-    /// The entitlement can&#39;t be found.
+    /// The entitlement can't be found.
     public static var entitlementNotFoundException: Self { .init(.entitlementNotFoundException) }
-    /// The image can&#39;t be updated because it&#39;s not compatible for updates.
+    /// The image can't be updated because it's not compatible for updates.
     public static var incompatibleImageException: Self { .init(.incompatibleImageException) }
     /// The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     public static var invalidAccountStatusException: Self { .init(.invalidAccountStatusException) }
@@ -4396,7 +4396,7 @@ public struct AppStreamErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource exists and is not in use, but isn&#39;t available.
+    /// The specified resource exists and is not in use, but isn't available.
     public static var resourceNotAvailableException: Self { .init(.resourceNotAvailableException) }
     /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

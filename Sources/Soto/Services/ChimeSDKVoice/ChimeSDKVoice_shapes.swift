@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -203,16 +203,16 @@ extension ChimeSDKVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case country
-            case postalCode
-            case postalCodePlus4
-            case postDirectional
-            case preDirectional
-            case state
-            case streetName
-            case streetNumber
-            case streetSuffix
+            case city = "city"
+            case country = "country"
+            case postalCode = "postalCode"
+            case postalCodePlus4 = "postalCodePlus4"
+            case postDirectional = "postDirectional"
+            case preDirectional = "preDirectional"
+            case state = "state"
+            case streetName = "streetName"
+            case streetNumber = "streetNumber"
+            case streetSuffix = "streetSuffix"
         }
     }
 
@@ -374,13 +374,13 @@ extension ChimeSDKVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case country
-            case postalCode
-            case postalCodePlus4
-            case state
-            case streetInfo
-            case streetNumber
+            case city = "city"
+            case country = "country"
+            case postalCode = "postalCode"
+            case postalCodePlus4 = "postalCodePlus4"
+            case state = "state"
+            case streetInfo = "streetInfo"
+            case streetNumber = "streetNumber"
         }
     }
 

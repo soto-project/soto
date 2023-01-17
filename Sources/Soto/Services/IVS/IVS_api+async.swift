@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -168,7 +168,7 @@ extension IVS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IVS {
-    ///  Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
+    /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -190,7 +190,7 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
+    /// Gets summary information about playback key pairs. For more information, see Setting Up Private Channels in the Amazon IVS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -212,7 +212,7 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
+    /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -234,7 +234,7 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about stream keys for the specified channel.
+    /// Gets summary information about stream keys for the specified channel.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -256,7 +256,7 @@ extension IVS {
         )
     }
 
-    ///  Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
+    /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -278,7 +278,7 @@ extension IVS {
         )
     }
 
-    ///  Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
+    /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

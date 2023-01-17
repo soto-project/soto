@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,29 +22,29 @@ extension RDS {
     // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `async`
-        case sync
+        case `async` = "async"
+        case sync = "sync"
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStreamPolicyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case locked
+        case locked = "locked"
         case lockingPolicy = "locking-policy"
-        case unlocked
+        case unlocked = "unlocked"
         case unlockingPolicy = "unlocking-policy"
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStreamStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case started
-        case starting
-        case stopped
-        case stopping
+        case started = "started"
+        case starting = "starting"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case immediate
+        case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -62,7 +62,7 @@ extension RDS {
 
     public enum AutomationMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case allPaused = "all-paused"
-        case full
+        case full = "full"
         public var description: String { return self.rawValue }
     }
 
@@ -75,19 +75,19 @@ extension RDS {
     }
 
     public enum CustomEngineVersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case inactive
+        case available = "available"
+        case inactive = "inactive"
         case inactiveExceptRestore = "inactive-except-restore"
         public var description: String { return self.rawValue }
     }
 
     public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case creating
-        case deleting
+        case available = "available"
+        case creating = "creating"
+        case deleting = "deleting"
         case incompatibleNetwork = "incompatible-network"
         case insufficientResourceLimits = "insufficient-resource-limits"
-        case modifying
+        case modifying = "modifying"
         public var description: String { return self.rawValue }
     }
 
@@ -98,15 +98,15 @@ extension RDS {
     }
 
     public enum DBProxyStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case creating
-        case deleting
+        case available = "available"
+        case creating = "creating"
+        case deleting = "deleting"
         case incompatibleNetwork = "incompatible-network"
         case insufficientResourceLimits = "insufficient-resource-limits"
-        case modifying
-        case reactivating
-        case suspended
-        case suspending
+        case modifying = "modifying"
+        case reactivating = "reactivating"
+        case suspended = "suspended"
+        case suspending = "suspending"
         public var description: String { return self.rawValue }
     }
 
@@ -124,9 +124,9 @@ extension RDS {
     }
 
     public enum FailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelling
+        case cancelling = "cancelling"
         case failingOver = "failing-over"
-        case pending
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -138,7 +138,7 @@ extension RDS {
     }
 
     public enum ReplicaMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mounted
+        case mounted = "mounted"
         case openReadOnly = "open-read-only"
         public var description: String { return self.rawValue }
     }
@@ -187,11 +187,11 @@ extension RDS {
     }
 
     public enum WriteForwardingStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case unknown
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -582,6 +582,23 @@ extension RDS {
             case customerOverrideValidTill = "CustomerOverrideValidTill"
             case thumbprint = "Thumbprint"
             case validFrom = "ValidFrom"
+            case validTill = "ValidTill"
+        }
+    }
+
+    public struct CertificateDetails: AWSDecodableShape {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public let caIdentifier: String?
+        /// The expiration date of the DB instance’s server certificate.
+        public let validTill: Date?
+
+        public init(caIdentifier: String? = nil, validTill: Date? = nil) {
+            self.caIdentifier = caIdentifier
+            self.validTill = validTill
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caIdentifier = "CAIdentifier"
             case validTill = "ValidTill"
         }
     }
@@ -1459,6 +1476,8 @@ extension RDS {
         public let backupRetentionPeriod: Int?
         /// Specifies where automated backups and manual snapshots are stored. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see Working  with Amazon RDS on Amazon Web Services Outposts in the Amazon RDS User Guide.
         public let backupTarget: String?
+        /// Specifies the CA certificate identifier to use for the DB instance’s server certificate. This setting doesn't apply to RDS Custom. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+        public let caCertificateIdentifier: String?
         /// For supported engines, this value indicates that the DB instance should be associated with the  specified CharacterSet. This setting doesn't apply to RDS Custom. However, if you need to change the character set,  you can change it on the database itself.  Amazon Aurora  Not applicable. The character set is managed by the DB cluster. For more information, see CreateDBCluster.
         public let characterSetName: String?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.  Amazon Aurora  Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
@@ -1563,12 +1582,13 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.backupTarget = backupTarget
+            self.caCertificateIdentifier = caCertificateIdentifier
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
@@ -1626,6 +1646,7 @@ extension RDS {
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case backupTarget = "BackupTarget"
+            case caCertificateIdentifier = "CACertificateIdentifier"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customIamInstanceProfile = "CustomIamInstanceProfile"
@@ -1683,6 +1704,8 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough memory for your read replica so that the create operation can succeed. You can also allocate additional memory for future growth.
+        public let allocatedStorage: Int?
         /// A value that indicates whether minor engine upgrades are applied automatically to the read replica during the maintenance window. This setting doesn't apply to RDS Custom. Default: Inherits from the source DB instance
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
@@ -1759,7 +1782,8 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBInstanceIdentifier: String, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, replicaMode: ReplicaMode? = nil, sourceDBInstanceIdentifier: String, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -1799,6 +1823,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
@@ -3137,6 +3162,9 @@ extension RDS {
         public let majorEngineVersion: String?
         /// The status of the DB engine version, either available or deprecated.
         public let status: String?
+        /// A list of the supported CA certificate identifiers. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var supportedCACertificateIdentifiers: [String]?
         /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
         @OptionalCustomCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>>
         public var supportedCharacterSets: [CharacterSet]?
@@ -3154,6 +3182,8 @@ extension RDS {
         public var supportedTimezones: [Timezone]?
         /// A value that indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
         public let supportsBabelfish: Bool?
+        /// A value that indicates whether the engine version supports rotating the server certificate without  rebooting the DB instance.
+        public let supportsCertificateRotationWithoutRestart: Bool?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
         public let supportsGlobalDatabases: Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -3168,7 +3198,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_ValidUpgradeTargetEncoding, UpgradeTarget>>
         public var validUpgradeTarget: [UpgradeTarget]?
 
-        public init(createTime: Date? = nil, customDBEngineVersionManifest: String? = nil, databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, dbEngineDescription: String? = nil, dbEngineMediaType: String? = nil, dbEngineVersionArn: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, image: CustomDBEngineVersionAMI? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, status: String? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedNcharCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsBabelfish: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, tagList: [Tag]? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(createTime: Date? = nil, customDBEngineVersionManifest: String? = nil, databaseInstallationFilesS3BucketName: String? = nil, databaseInstallationFilesS3Prefix: String? = nil, dbEngineDescription: String? = nil, dbEngineMediaType: String? = nil, dbEngineVersionArn: String? = nil, dbEngineVersionDescription: String? = nil, dbParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, image: CustomDBEngineVersionAMI? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, status: String? = nil, supportedCACertificateIdentifiers: [String]? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedNcharCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsBabelfish: Bool? = nil, supportsCertificateRotationWithoutRestart: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, tagList: [Tag]? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.createTime = createTime
             self.customDBEngineVersionManifest = customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -3186,12 +3216,14 @@ extension RDS {
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
             self.status = status
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportedCharacterSets = supportedCharacterSets
             self.supportedEngineModes = supportedEngineModes
             self.supportedFeatureNames = supportedFeatureNames
             self.supportedNcharCharacterSets = supportedNcharCharacterSets
             self.supportedTimezones = supportedTimezones
             self.supportsBabelfish = supportsBabelfish
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
@@ -3218,12 +3250,14 @@ extension RDS {
             case kmsKeyId = "KMSKeyId"
             case majorEngineVersion = "MajorEngineVersion"
             case status = "Status"
+            case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
             case supportedCharacterSets = "SupportedCharacterSets"
             case supportedEngineModes = "SupportedEngineModes"
             case supportedFeatureNames = "SupportedFeatureNames"
             case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
             case supportedTimezones = "SupportedTimezones"
             case supportsBabelfish = "SupportsBabelfish"
+            case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
             case supportsParallelQuery = "SupportsParallelQuery"
@@ -3298,8 +3332,10 @@ extension RDS {
         public let backupRetentionPeriod: Int?
         /// Specifies where automated backups and manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
         public let backupTarget: String?
-        /// The identifier of the CA certificate for this DB instance.
+        /// The identifier of the CA certificate for this DB instance. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
         public let caCertificateIdentifier: String?
+        /// The details of the DB instance's server certificate.
+        public let certificateDetails: CertificateDetails?
         /// If present, specifies the name of the character set that this instance is associated with.
         public let characterSetName: String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.  Amazon Aurora  Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see DBCluster.
@@ -3438,7 +3474,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -3455,6 +3491,7 @@ extension RDS {
             self.backupRetentionPeriod = backupRetentionPeriod
             self.backupTarget = backupTarget
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customerOwnedIpEnabled = customerOwnedIpEnabled
@@ -3537,6 +3574,7 @@ extension RDS {
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case backupTarget = "BackupTarget"
             case caCertificateIdentifier = "CACertificateIdentifier"
+            case certificateDetails = "CertificateDetails"
             case characterSetName = "CharacterSetName"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case customerOwnedIpEnabled = "CustomerOwnedIpEnabled"
@@ -7297,7 +7335,7 @@ extension RDS {
         public let monitoringRoleArn: String?
         /// The network type of the DB cluster. Valid values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon Aurora User Guide.  Valid for: Aurora DB clusters only
         public let networkType: String?
-        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2  Valid for: Aurora DB clusters only
+        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2  Valid for: Aurora DB clusters and Multi-AZ DB clusters
         public let newDBClusterIdentifier: String?
         /// A value that indicates that the DB cluster should be associated with the specified option group. DB clusters are associated with a default option group that can't be modified.
         public let optionGroupName: String?
@@ -7500,7 +7538,7 @@ extension RDS {
         public let awsBackupRecoveryPointArn: String?
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.  Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance.  These changes are applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:   It must be a value from 0 to 35. It can't be set to 0 if the DB instance is a source to  read replicas. It can't be set to 0 for an RDS Custom for Oracle DB instance.   It can be specified for a MySQL read replica only if the source is running MySQL 5.6 or later.   It can be specified for a PostgreSQL read replica only if the source is running PostgreSQL 9.3.5.
         public let backupRetentionPeriod: Int?
-        /// Specifies the certificate to associate with the DB instance. This setting doesn't apply to RDS Custom.
+        /// Specifies the CA certificate identifier to use for the DB instance’s server certificate. This setting doesn't apply to RDS Custom. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
         public let caCertificateIdentifier: String?
         /// A value that indicates whether the DB instance is restarted when you rotate your  SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate  is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your  DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   This setting doesn't apply to RDS Custom.
         public let certificateRotationRestart: Bool?
@@ -8839,7 +8877,7 @@ extension RDS {
         public let automationMode: AutomationMode?
         /// The number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
-        /// The identifier of the CA certificate for the DB instance.
+        /// The identifier of the CA certificate for the DB instance. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
         public let caCertificateIdentifier: String?
         /// The name of the compute and memory capacity class for the DB instance.
         public let dbInstanceClass: String?
@@ -9963,6 +10001,8 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+        public let allocatedStorage: Int?
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
@@ -10035,7 +10075,8 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupTarget = backupTarget
@@ -10073,6 +10114,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case backupTarget = "BackupTarget"
@@ -10128,7 +10170,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
         public let allocatedStorage: Int?
         /// A value that indicates whether minor engine upgrades are applied automatically  to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically.
         public let autoMinorVersionUpgrade: Bool?
@@ -10350,6 +10392,8 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+        public let allocatedStorage: Int?
         /// A value that indicates whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
@@ -10430,7 +10474,8 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupTarget = backupTarget
@@ -10472,6 +10517,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "AllocatedStorage"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case backupTarget = "BackupTarget"
@@ -10885,7 +10931,7 @@ extension RDS {
         public let exportTaskIdentifier: String
         /// The name of the IAM role to use for writing to the Amazon S3 bucket  when exporting a snapshot.
         public let iamRoleArn: String
-        /// The ID of the Amazon Web Services KMS key to use to encrypt the snapshot exported to Amazon S3. The Amazon Web Services KMS  key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  The caller of this operation must be authorized to execute the following operations.  These can be set in the Amazon Web Services KMS key policy:   GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey   GrantOperation.RetireGrant
+        /// The ID of the Amazon Web Services KMS key to use to encrypt the snapshot exported to Amazon S3. The Amazon Web Services KMS  key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  The caller of this operation must be authorized to run the following operations.  These can be set in the Amazon Web Services KMS key policy:   kms:Encrypt   kms:Decrypt   kms:GenerateDataKey   kms:GenerateDataKeyWithoutPlaintext   kms:ReEncryptFrom   kms:ReEncryptTo   kms:CreateGrant   kms:DescribeKey   kms:RetireGrant
         public let kmsKeyId: String
         /// The name of the Amazon S3 bucket to export the snapshot to.
         public let s3BucketName: String
@@ -11563,11 +11609,11 @@ public struct RDSErrorType: AWSErrorType {
     public static var backupPolicyNotFoundFault: Self { .init(.backupPolicyNotFoundFault) }
     /// A blue/green deployment with the specified name already exists.
     public static var blueGreenDeploymentAlreadyExistsFault: Self { .init(.blueGreenDeploymentAlreadyExistsFault) }
-    ///  BlueGreenDeploymentIdentifier doesn&#39;t refer to an existing blue/green deployment.
+    ///  BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     public static var blueGreenDeploymentNotFoundFault: Self { .init(.blueGreenDeploymentNotFoundFault) }
-    ///  CertificateIdentifier doesn&#39;t refer to an existing certificate.
+    ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
-    ///  CustomAvailabilityZoneId doesn&#39;t refer to an existing custom Availability Zone identifier.
+    ///  CustomAvailabilityZoneId doesn't refer to an existing custom Availability Zone identifier.
     public static var customAvailabilityZoneNotFoundFault: Self { .init(.customAvailabilityZoneNotFoundFault) }
     /// A CEV with the specified name already exists.
     public static var customDBEngineVersionAlreadyExistsFault: Self { .init(.customDBEngineVersionAlreadyExistsFault) }
@@ -11577,29 +11623,29 @@ public struct RDSErrorType: AWSErrorType {
     public static var customDBEngineVersionQuotaExceededFault: Self { .init(.customDBEngineVersionQuotaExceededFault) }
     /// The user already has a DB cluster with the given identifier.
     public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
-    ///  BacktrackIdentifier doesn&#39;t refer to an existing backtrack.
+    ///  BacktrackIdentifier doesn't refer to an existing backtrack.
     public static var dbClusterBacktrackNotFoundFault: Self { .init(.dbClusterBacktrackNotFoundFault) }
-    /// The specified custom endpoint can&#39;t be created because it already exists.
+    /// The specified custom endpoint can't be created because it already exists.
     public static var dbClusterEndpointAlreadyExistsFault: Self { .init(.dbClusterEndpointAlreadyExistsFault) }
-    /// The specified custom endpoint doesn&#39;t exist.
+    /// The specified custom endpoint doesn't exist.
     public static var dbClusterEndpointNotFoundFault: Self { .init(.dbClusterEndpointNotFoundFault) }
     /// The cluster already has the maximum number of custom endpoints.
     public static var dbClusterEndpointQuotaExceededFault: Self { .init(.dbClusterEndpointQuotaExceededFault) }
-    ///  DBClusterIdentifier doesn&#39;t refer to an existing DB cluster.
+    ///  DBClusterIdentifier doesn't refer to an existing DB cluster.
     public static var dbClusterNotFoundFault: Self { .init(.dbClusterNotFoundFault) }
-    ///  DBClusterParameterGroupName doesn&#39;t refer to an existing DB cluster parameter group.
+    ///  DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
     public static var dbClusterParameterGroupNotFoundFault: Self { .init(.dbClusterParameterGroupNotFoundFault) }
     /// The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
     public static var dbClusterQuotaExceededFault: Self { .init(.dbClusterQuotaExceededFault) }
     /// The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
     public static var dbClusterRoleAlreadyExistsFault: Self { .init(.dbClusterRoleAlreadyExistsFault) }
-    /// The specified IAM role Amazon Resource Name (ARN) isn&#39;t associated with the specified DB cluster.
+    /// The specified IAM role Amazon Resource Name (ARN) isn't associated with the specified DB cluster.
     public static var dbClusterRoleNotFoundFault: Self { .init(.dbClusterRoleNotFoundFault) }
     /// You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
     public static var dbClusterRoleQuotaExceededFault: Self { .init(.dbClusterRoleQuotaExceededFault) }
     /// The user already has a DB cluster snapshot with the given identifier.
     public static var dbClusterSnapshotAlreadyExistsFault: Self { .init(.dbClusterSnapshotAlreadyExistsFault) }
-    ///  DBClusterSnapshotIdentifier doesn&#39;t refer to an existing DB cluster snapshot.
+    ///  DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     public static var dbClusterSnapshotNotFoundFault: Self { .init(.dbClusterSnapshotNotFoundFault) }
     /// The user already has a DB instance with the given identifier.
     public static var dbInstanceAlreadyExistsFault: Self { .init(.dbInstanceAlreadyExistsFault) }
@@ -11607,19 +11653,19 @@ public struct RDSErrorType: AWSErrorType {
     public static var dbInstanceAutomatedBackupNotFoundFault: Self { .init(.dbInstanceAutomatedBackupNotFoundFault) }
     /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups  quota is the same as your DB Instance quota.
     public static var dbInstanceAutomatedBackupQuotaExceededFault: Self { .init(.dbInstanceAutomatedBackupQuotaExceededFault) }
-    ///  DBInstanceIdentifier doesn&#39;t refer to an existing DB instance.
+    ///  DBInstanceIdentifier doesn't refer to an existing DB instance.
     public static var dbInstanceNotFoundFault: Self { .init(.dbInstanceNotFoundFault) }
     /// The specified RoleArn or FeatureName value is already associated with the DB instance.
     public static var dbInstanceRoleAlreadyExistsFault: Self { .init(.dbInstanceRoleAlreadyExistsFault) }
-    /// The specified RoleArn value doesn&#39;t match the specified feature for the DB instance.
+    /// The specified RoleArn value doesn't match the specified feature for the DB instance.
     public static var dbInstanceRoleNotFoundFault: Self { .init(.dbInstanceRoleNotFoundFault) }
-    /// You can&#39;t associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
+    /// You can't associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
     public static var dbInstanceRoleQuotaExceededFault: Self { .init(.dbInstanceRoleQuotaExceededFault) }
-    ///  LogFileName doesn&#39;t refer to an existing DB log file.
+    ///  LogFileName doesn't refer to an existing DB log file.
     public static var dbLogFileNotFoundFault: Self { .init(.dbLogFileNotFoundFault) }
     /// A DB parameter group with the same name exists.
     public static var dbParameterGroupAlreadyExistsFault: Self { .init(.dbParameterGroupAlreadyExistsFault) }
-    ///  DBParameterGroupName doesn&#39;t refer to an existing DB parameter group.
+    ///  DBParameterGroupName doesn't refer to an existing DB parameter group.
     public static var dbParameterGroupNotFoundFault: Self { .init(.dbParameterGroupNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB parameter groups.
     public static var dbParameterGroupQuotaExceededFault: Self { .init(.dbParameterGroupQuotaExceededFault) }
@@ -11627,59 +11673,59 @@ public struct RDSErrorType: AWSErrorType {
     public static var dbProxyAlreadyExistsFault: Self { .init(.dbProxyAlreadyExistsFault) }
     /// The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dbProxyEndpointAlreadyExistsFault: Self { .init(.dbProxyEndpointAlreadyExistsFault) }
-    /// The DB proxy endpoint doesn&#39;t exist.
+    /// The DB proxy endpoint doesn't exist.
     public static var dbProxyEndpointNotFoundFault: Self { .init(.dbProxyEndpointNotFoundFault) }
     /// The DB proxy already has the maximum number of endpoints.
     public static var dbProxyEndpointQuotaExceededFault: Self { .init(.dbProxyEndpointQuotaExceededFault) }
-    /// The specified proxy name doesn&#39;t correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dbProxyNotFoundFault: Self { .init(.dbProxyNotFoundFault) }
     /// Your Amazon Web Services account already has the maximum number of proxies in the specified Amazon Web Services Region.
     public static var dbProxyQuotaExceededFault: Self { .init(.dbProxyQuotaExceededFault) }
     /// The proxy is already associated with the specified RDS DB instance or Aurora DB cluster.
     public static var dbProxyTargetAlreadyRegisteredFault: Self { .init(.dbProxyTargetAlreadyRegisteredFault) }
-    /// The specified target group isn&#39;t available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dbProxyTargetGroupNotFoundFault: Self { .init(.dbProxyTargetGroupNotFoundFault) }
-    /// The specified RDS DB instance or Aurora DB cluster isn&#39;t available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dbProxyTargetNotFoundFault: Self { .init(.dbProxyTargetNotFoundFault) }
     /// A DB security group with the name specified in DBSecurityGroupName already exists.
     public static var dbSecurityGroupAlreadyExistsFault: Self { .init(.dbSecurityGroupAlreadyExistsFault) }
-    ///  DBSecurityGroupName doesn&#39;t refer to an existing DB security group.
+    ///  DBSecurityGroupName doesn't refer to an existing DB security group.
     public static var dbSecurityGroupNotFoundFault: Self { .init(.dbSecurityGroupNotFoundFault) }
-    /// A DB security group isn&#39;t allowed for this action.
+    /// A DB security group isn't allowed for this action.
     public static var dbSecurityGroupNotSupportedFault: Self { .init(.dbSecurityGroupNotSupportedFault) }
     /// The request would result in the user exceeding the allowed number of DB security groups.
     public static var dbSecurityGroupQuotaExceededFault: Self { .init(.dbSecurityGroupQuotaExceededFault) }
     ///  DBSnapshotIdentifier is already used by an existing snapshot.
     public static var dbSnapshotAlreadyExistsFault: Self { .init(.dbSnapshotAlreadyExistsFault) }
-    ///  DBSnapshotIdentifier doesn&#39;t refer to an existing DB snapshot.
+    ///  DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     public static var dbSnapshotNotFoundFault: Self { .init(.dbSnapshotNotFoundFault) }
     ///  DBSubnetGroupName is already used by an existing DB subnet group.
     public static var dbSubnetGroupAlreadyExistsFault: Self { .init(.dbSubnetGroupAlreadyExistsFault) }
     /// Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     public static var dbSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dbSubnetGroupDoesNotCoverEnoughAZs) }
-    /// The DBSubnetGroup shouldn&#39;t be specified while creating read replicas that lie in the same region as the source instance.
+    /// The DBSubnetGroup shouldn't be specified while creating read replicas that lie in the same region as the source instance.
     public static var dbSubnetGroupNotAllowedFault: Self { .init(.dbSubnetGroupNotAllowedFault) }
-    ///  DBSubnetGroupName doesn&#39;t refer to an existing DB subnet group.
+    ///  DBSubnetGroupName doesn't refer to an existing DB subnet group.
     public static var dbSubnetGroupNotFoundFault: Self { .init(.dbSubnetGroupNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB subnet groups.
     public static var dbSubnetGroupQuotaExceededFault: Self { .init(.dbSubnetGroupQuotaExceededFault) }
     /// The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
     public static var dbSubnetQuotaExceededFault: Self { .init(.dbSubnetQuotaExceededFault) }
-    /// The DB upgrade failed because a resource the DB depends on can&#39;t be modified.
+    /// The DB upgrade failed because a resource the DB depends on can't be modified.
     public static var dbUpgradeDependencyFailureFault: Self { .init(.dbUpgradeDependencyFailureFault) }
-    ///  Domain doesn&#39;t refer to an existing Active Directory domain.
+    ///  Domain doesn't refer to an existing Active Directory domain.
     public static var domainNotFoundFault: Self { .init(.domainNotFoundFault) }
     /// The AMI configuration prerequisite has not been met.
     public static var ec2ImagePropertiesNotSupportedFault: Self { .init(.ec2ImagePropertiesNotSupportedFault) }
     /// You have reached the maximum number of event subscriptions.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
-    /// You can&#39;t start an export task that&#39;s already running.
+    /// You can't start an export task that's already running.
     public static var exportTaskAlreadyExistsFault: Self { .init(.exportTaskAlreadyExistsFault) }
-    /// The export task doesn&#39;t exist.
+    /// The export task doesn't exist.
     public static var exportTaskNotFoundFault: Self { .init(.exportTaskNotFoundFault) }
     /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
     public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
-    /// The GlobalClusterIdentifier doesn&#39;t refer to an existing global database cluster.
+    /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
     /// The number of global database clusters for this account is already at the maximum allowed.
     public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
@@ -11689,45 +11735,45 @@ public struct RDSErrorType: AWSErrorType {
     public static var iamRoleNotFoundFault: Self { .init(.iamRoleNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
-    /// The requested operation can&#39;t be performed because there aren&#39;t enough available IP addresses  in the proxy&#39;s subnets. Add more CIDR blocks to the VPC or remove IP address that aren&#39;t required  from the subnets.
+    /// The requested operation can't be performed because there aren't enough available IP addresses  in the proxy's subnets. Add more CIDR blocks to the VPC or remove IP address that aren't required  from the subnets.
     public static var insufficientAvailableIPsInSubnetFault: Self { .init(.insufficientAvailableIPsInSubnetFault) }
-    /// The DB cluster doesn&#39;t have enough capacity for the current operation.
+    /// The DB cluster doesn't have enough capacity for the current operation.
     public static var insufficientDBClusterCapacityFault: Self { .init(.insufficientDBClusterCapacityFault) }
-    /// The specified DB instance class isn&#39;t available in the specified Availability Zone.
+    /// The specified DB instance class isn't available in the specified Availability Zone.
     public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
     /// There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
     public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
-    /// The blue/green deployment can&#39;t be switched over or deleted because there is an invalid configuration in  the green environment.
+    /// The blue/green deployment can't be switched over or deleted because there is an invalid configuration in  the green environment.
     public static var invalidBlueGreenDeploymentStateFault: Self { .init(.invalidBlueGreenDeploymentStateFault) }
-    /// You can&#39;t delete the CEV.
+    /// You can't delete the CEV.
     public static var invalidCustomDBEngineVersionStateFault: Self { .init(.invalidCustomDBEngineVersionStateFault) }
-    ///  Capacity isn&#39;t a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16,  32, 64, 128, and 256.
+    ///  Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16,  32, 64, 128, and 256.
     public static var invalidDBClusterCapacityFault: Self { .init(.invalidDBClusterCapacityFault) }
-    /// The requested operation can&#39;t be performed on the endpoint while the endpoint is in this state.
+    /// The requested operation can't be performed on the endpoint while the endpoint is in this state.
     public static var invalidDBClusterEndpointStateFault: Self { .init(.invalidDBClusterEndpointStateFault) }
-    /// The supplied value isn&#39;t a valid DB cluster snapshot state.
+    /// The supplied value isn't a valid DB cluster snapshot state.
     public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
-    /// The requested operation can&#39;t be performed while the cluster is in this state.
+    /// The requested operation can't be performed while the cluster is in this state.
     public static var invalidDBClusterStateFault: Self { .init(.invalidDBClusterStateFault) }
     /// The automated backup is in an invalid state.  For example, this automated backup is associated with an active instance.
     public static var invalidDBInstanceAutomatedBackupStateFault: Self { .init(.invalidDBInstanceAutomatedBackupStateFault) }
-    /// The DB instance isn&#39;t in a valid state.
+    /// The DB instance isn't in a valid state.
     public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
-    /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can&#39;t delete it when the parameter group is in this state.
+    /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public static var invalidDBParameterGroupStateFault: Self { .init(.invalidDBParameterGroupStateFault) }
-    /// You can&#39;t perform this operation while the DB proxy endpoint is in a particular state.
+    /// You can't perform this operation while the DB proxy endpoint is in a particular state.
     public static var invalidDBProxyEndpointStateFault: Self { .init(.invalidDBProxyEndpointStateFault) }
-    /// The requested operation can&#39;t be performed while the proxy is in this state.
+    /// The requested operation can't be performed while the proxy is in this state.
     public static var invalidDBProxyStateFault: Self { .init(.invalidDBProxyStateFault) }
-    /// The state of the DB security group doesn&#39;t allow deletion.
+    /// The state of the DB security group doesn't allow deletion.
     public static var invalidDBSecurityGroupStateFault: Self { .init(.invalidDBSecurityGroupStateFault) }
-    /// The state of the DB snapshot doesn&#39;t allow deletion.
+    /// The state of the DB snapshot doesn't allow deletion.
     public static var invalidDBSnapshotStateFault: Self { .init(.invalidDBSnapshotStateFault) }
-    /// The DBSubnetGroup doesn&#39;t belong to the same VPC as that of an existing cross-region read replica of the same source instance.
+    /// The DBSubnetGroup doesn't belong to the same VPC as that of an existing cross-region read replica of the same source instance.
     public static var invalidDBSubnetGroupFault: Self { .init(.invalidDBSubnetGroupFault) }
-    /// The DB subnet group cannot be deleted because it&#39;s in use.
+    /// The DB subnet group cannot be deleted because it's in use.
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
-    /// The DB subnet isn&#39;t in the available state.
+    /// The DB subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// This error can occur if someone else is modifying a subscription. You should retry the action.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
@@ -11735,19 +11781,19 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidExportOnlyFault: Self { .init(.invalidExportOnlyFault) }
     /// The state of the export snapshot is invalid for exporting to an Amazon S3 bucket.
     public static var invalidExportSourceStateFault: Self { .init(.invalidExportSourceStateFault) }
-    /// You can&#39;t cancel an export task that has completed.
+    /// You can't cancel an export task that has completed.
     public static var invalidExportTaskStateFault: Self { .init(.invalidExportTaskStateFault) }
-    /// The global cluster is in an invalid state and can&#39;t perform the requested operation.
+    /// The global cluster is in an invalid state and can't perform the requested operation.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
-    /// The option group isn&#39;t in the available state.
+    /// The option group isn't in the available state.
     public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }
     /// Cannot restore from VPC backup to non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
-    /// The specified Amazon S3 bucket name can&#39;t be found or Amazon RDS isn&#39;t authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
+    /// The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
     public static var invalidS3BucketFault: Self { .init(.invalidS3BucketFault) }
     /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
-    /// The DB subnet group doesn&#39;t cover all Availability Zones after it&#39;s created because of users&#39; change.
+    /// The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred accessing an Amazon Web Services KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
@@ -11767,7 +11813,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var reservedDBInstanceAlreadyExistsFault: Self { .init(.reservedDBInstanceAlreadyExistsFault) }
     /// The specified reserved DB Instance not found.
     public static var reservedDBInstanceNotFoundFault: Self { .init(.reservedDBInstanceNotFoundFault) }
-    /// Request would exceed the user&#39;s DB Instance quota.
+    /// Request would exceed the user's DB Instance quota.
     public static var reservedDBInstanceQuotaExceededFault: Self { .init(.reservedDBInstanceQuotaExceededFault) }
     /// Specified offering does not exist.
     public static var reservedDBInstancesOfferingNotFoundFault: Self { .init(.reservedDBInstancesOfferingNotFoundFault) }
@@ -11783,15 +11829,15 @@ public struct RDSErrorType: AWSErrorType {
     public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }
     /// The SNS topic ARN does not exist.
     public static var snsTopicArnNotFoundFault: Self { .init(.snsTopicArnNotFoundFault) }
-    /// The source DB cluster isn&#39;t supported for a blue/green deployment.
+    /// The source DB cluster isn't supported for a blue/green deployment.
     public static var sourceClusterNotSupportedFault: Self { .init(.sourceClusterNotSupportedFault) }
-    /// The source DB instance isn&#39;t supported for a blue/green deployment.
+    /// The source DB instance isn't supported for a blue/green deployment.
     public static var sourceDatabaseNotSupportedFault: Self { .init(.sourceDatabaseNotSupportedFault) }
     /// The requested source could not be found.
     public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
-    /// Storage of the StorageType specified can&#39;t be associated with the DB instance.
+    /// Storage of the StorageType specified can't be associated with the DB instance.
     public static var storageTypeNotSupportedFault: Self { .init(.storageTypeNotSupportedFault) }
     /// The DB subnet is already in use in the Availability Zone.
     public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }

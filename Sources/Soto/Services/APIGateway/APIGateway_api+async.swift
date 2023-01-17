@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -628,7 +628,7 @@ extension APIGateway {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension APIGateway {
-    ///  Gets information about the current ApiKeys resource.
+    /// Gets information about the current ApiKeys resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -650,7 +650,7 @@ extension APIGateway {
         )
     }
 
-    ///  Represents a collection of BasePathMapping resources.
+    /// Represents a collection of BasePathMapping resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -672,7 +672,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets a collection of ClientCertificate resources.
+    /// Gets a collection of ClientCertificate resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -694,7 +694,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets information about a Deployments collection.
+    /// Gets information about a Deployments collection.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -716,7 +716,7 @@ extension APIGateway {
         )
     }
 
-    ///  Represents a collection of DomainName resources.
+    /// Represents a collection of DomainName resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -738,7 +738,7 @@ extension APIGateway {
         )
     }
 
-    ///  Describes existing Models defined for a RestApi resource.
+    /// Describes existing Models defined for a RestApi resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -760,7 +760,7 @@ extension APIGateway {
         )
     }
 
-    ///  Lists information about a collection of Resource resources.
+    /// Lists information about a collection of Resource resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -782,7 +782,7 @@ extension APIGateway {
         )
     }
 
-    ///  Lists the RestApis resources for your collection.
+    /// Lists the RestApis resources for your collection.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -804,7 +804,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets the usage data of a usage plan in a specified time interval.
+    /// Gets the usage data of a usage plan in a specified time interval.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -826,7 +826,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
+    /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -848,7 +848,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets all the usage plans of the caller's account.
+    /// Gets all the usage plans of the caller's account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -870,7 +870,7 @@ extension APIGateway {
         )
     }
 
-    ///  Gets the VpcLinks collection under the caller's account in a selected region.
+    /// Gets the VpcLinks collection under the caller's account in a selected region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

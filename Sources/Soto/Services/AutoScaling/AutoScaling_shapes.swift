@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,66 +23,66 @@ extension AutoScaling {
 
     public enum AcceleratorManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonWebServices = "amazon-web-services"
-        case amd
-        case nvidia
-        case xilinx
+        case amd = "amd"
+        case nvidia = "nvidia"
+        case xilinx = "xilinx"
         public var description: String { return self.rawValue }
     }
 
     public enum AcceleratorName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case a100
-        case k80
-        case m60
+        case a100 = "a100"
+        case k80 = "k80"
+        case m60 = "m60"
         case radeonProV520 = "radeon-pro-v520"
-        case t4
-        case v100
-        case vu9p
+        case t4 = "t4"
+        case v100 = "v100"
+        case vu9p = "vu9p"
         public var description: String { return self.rawValue }
     }
 
     public enum AcceleratorType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case fpga
-        case gpu
-        case inference
+        case fpga = "fpga"
+        case gpu = "gpu"
+        case inference = "inference"
         public var description: String { return self.rawValue }
     }
 
     public enum BareMetal: String, CustomStringConvertible, Codable, _SotoSendable {
-        case excluded
-        case included
-        case required
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
     public enum BurstablePerformance: String, CustomStringConvertible, Codable, _SotoSendable {
-        case excluded
-        case included
-        case required
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
     public enum CpuManufacturer: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonWebServices = "amazon-web-services"
-        case amd
-        case intel
+        case amd = "amd"
+        case intel = "intel"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceGeneration: String, CustomStringConvertible, Codable, _SotoSendable {
-        case current
-        case previous
+        case current = "current"
+        case previous = "previous"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceMetadataHttpTokensState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case optional
-        case required
+        case optional = "optional"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
@@ -124,15 +124,15 @@ extension AutoScaling {
     }
 
     public enum LocalStorage: String, CustomStringConvertible, Codable, _SotoSendable {
-        case excluded
-        case included
-        case required
+        case excluded = "excluded"
+        case included = "included"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
     public enum LocalStorageType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case hdd
-        case ssd
+        case hdd = "hdd"
+        case ssd = "ssd"
         public var description: String { return self.rawValue }
     }
 
@@ -4451,7 +4451,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, max: 172_800)
+            try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, max: 172800)
             try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, min: 0)
             try self.checkpointPercentages?.forEach {
                 try validate($0, name: "checkpointPercentages[]", parent: name, max: 100)
@@ -5370,9 +5370,9 @@ public struct AutoScalingErrorType: AWSErrorType {
     public static var limitExceededFault: Self { .init(.limitExceededFault) }
     /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
     public static var resourceContentionFault: Self { .init(.resourceContentionFault) }
-    /// The operation can&#39;t be performed because the resource is in use.
+    /// The operation can't be performed because the resource is in use.
     public static var resourceInUseFault: Self { .init(.resourceInUseFault) }
-    /// The operation can&#39;t be performed because there are scaling activities in progress.
+    /// The operation can't be performed because there are scaling activities in progress.
     public static var scalingActivityInProgressFault: Self { .init(.scalingActivityInProgressFault) }
     /// The service-linked role is not yet ready for use.
     public static var serviceLinkedRoleFailure: Self { .init(.serviceLinkedRoleFailure) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -143,7 +143,7 @@ extension Route53RecoveryControlConfig {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53RecoveryControlConfig {
-    ///  Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
+    /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -165,7 +165,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  Returns an array of all the clusters in an account.
+    /// Returns an array of all the clusters in an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -187,7 +187,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  Returns an array of control panels in an account or in a cluster.
+    /// Returns an array of control panels in an account or in a cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -209,7 +209,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
+    /// Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -231,7 +231,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
+    /// List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

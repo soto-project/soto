@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -76,15 +76,15 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case eventType
-            case eventValue
-            case impression
-            case itemId
-            case metricAttribution
-            case properties
-            case recommendationId
-            case sentAt
+            case eventId = "eventId"
+            case eventType = "eventType"
+            case eventValue = "eventValue"
+            case impression = "impression"
+            case itemId = "itemId"
+            case metricAttribution = "metricAttribution"
+            case properties = "properties"
+            case recommendationId = "recommendationId"
+            case sentAt = "sentAt"
         }
     }
 
@@ -107,8 +107,8 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemId
-            case properties
+            case itemId = "itemId"
+            case properties = "properties"
         }
     }
 
@@ -126,7 +126,7 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventAttributionSource
+            case eventAttributionSource = "eventAttributionSource"
         }
     }
 
@@ -162,10 +162,10 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventList
-            case sessionId
-            case trackingId
-            case userId
+            case eventList = "eventList"
+            case sessionId = "sessionId"
+            case trackingId = "trackingId"
+            case userId = "userId"
         }
     }
 
@@ -191,8 +191,8 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case items
+            case datasetArn = "datasetArn"
+            case items = "items"
         }
     }
 
@@ -218,8 +218,8 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case users
+            case datasetArn = "datasetArn"
+            case users = "users"
         }
     }
 
@@ -242,8 +242,8 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case properties
-            case userId
+            case properties = "properties"
+            case userId = "userId"
         }
     }
 }

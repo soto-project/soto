@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,19 +22,19 @@ extension AmplifyUIBuilder {
     // MARK: Enums
 
     public enum FixedPosition: String, CustomStringConvertible, Codable, _SotoSendable {
-        case first
+        case first = "first"
         public var description: String { return self.rawValue }
     }
 
     public enum FormActionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case create
-        case update
+        case create = "create"
+        case update = "update"
         public var description: String { return self.rawValue }
     }
 
     public enum FormButtonsPosition: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bottom
-        case top
+        case bottom = "bottom"
+        case top = "top"
         case topAndBottom = "top_and_bottom"
         public var description: String { return self.rawValue }
     }
@@ -55,7 +55,7 @@ extension AmplifyUIBuilder {
 
     public enum TokenProviders: String, CustomStringConvertible, Codable, _SotoSendable {
         /// The figma token provider.
-        case figma
+        case figma = "figma"
         public var description: String { return self.rawValue }
     }
 
@@ -102,9 +102,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case below
-            case fixed
-            case rightOf
+            case below = "below"
+            case fixed = "fixed"
+            case rightOf = "rightOf"
         }
     }
 
@@ -144,8 +144,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenReference
-            case value
+            case tokenReference = "tokenReference"
+            case value = "value"
         }
     }
 
@@ -184,15 +184,15 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case anchor
-            case fields
-            case global
-            case id
-            case model
-            case state
-            case target
-            case type
-            case url
+            case anchor = "anchor"
+            case fields = "fields"
+            case global = "global"
+            case id = "id"
+            case model = "model"
+            case state = "state"
+            case target = "target"
+            case type = "type"
+            case url = "url"
         }
     }
 
@@ -253,23 +253,23 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case bindingProperties
-            case children
-            case collectionProperties
-            case componentType
-            case createdAt
-            case environmentName
-            case events
-            case id
-            case modifiedAt
-            case name
-            case overrides
-            case properties
-            case schemaVersion
-            case sourceId
-            case tags
-            case variants
+            case appId = "appId"
+            case bindingProperties = "bindingProperties"
+            case children = "children"
+            case collectionProperties = "collectionProperties"
+            case componentType = "componentType"
+            case createdAt = "createdAt"
+            case environmentName = "environmentName"
+            case events = "events"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case overrides = "overrides"
+            case properties = "properties"
+            case schemaVersion = "schemaVersion"
+            case sourceId = "sourceId"
+            case tags = "tags"
+            case variants = "variants"
         }
     }
 
@@ -288,9 +288,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindingProperties
-            case defaultValue
-            case type
+            case bindingProperties = "bindingProperties"
+            case defaultValue = "defaultValue"
+            case type = "type"
         }
     }
 
@@ -324,14 +324,14 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case defaultValue
-            case field
-            case key
-            case model
-            case predicates
-            case slotName
-            case userAttribute
+            case bucket = "bucket"
+            case defaultValue = "defaultValue"
+            case field = "field"
+            case key = "key"
+            case model = "model"
+            case predicates = "predicates"
+            case slotName = "slotName"
+            case userAttribute = "userAttribute"
         }
     }
 
@@ -359,12 +359,12 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case children
-            case componentType
-            case events
-            case name
-            case properties
-            case sourceId
+            case children = "children"
+            case componentType = "componentType"
+            case events = "events"
+            case name = "name"
+            case properties = "properties"
+            case sourceId = "sourceId"
         }
     }
 
@@ -395,13 +395,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `else`
-            case field
-            case operand
-            case operandType
-            case `operator`
-            case property
-            case then
+            case `else` = "else"
+            case field = "field"
+            case operand = "operand"
+            case operandType = "operandType"
+            case `operator` = "operator"
+            case property = "property"
+            case then = "then"
         }
     }
 
@@ -423,10 +423,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifiers
-            case model
-            case predicate
-            case sort
+            case identifiers = "identifiers"
+            case model = "model"
+            case predicate = "predicate"
+            case sort = "sort"
         }
     }
 
@@ -445,9 +445,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case bindingEvent
-            case parameters
+            case action = "action"
+            case bindingEvent = "bindingEvent"
+            case parameters = "parameters"
         }
     }
 
@@ -502,21 +502,21 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindingProperties
-            case bindings
-            case collectionBindingProperties
-            case componentName
-            case concat
-            case condition
-            case configured
-            case defaultValue
-            case event
-            case importedValue
-            case model
-            case property
-            case type
-            case userAttribute
-            case value
+            case bindingProperties = "bindingProperties"
+            case bindings = "bindings"
+            case collectionBindingProperties = "collectionBindingProperties"
+            case componentName = "componentName"
+            case concat = "concat"
+            case condition = "condition"
+            case configured = "configured"
+            case defaultValue = "defaultValue"
+            case event = "event"
+            case importedValue = "importedValue"
+            case model = "model"
+            case property = "property"
+            case type = "type"
+            case userAttribute = "userAttribute"
+            case value = "value"
         }
     }
 
@@ -532,8 +532,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case property
+            case field = "field"
+            case property = "property"
         }
     }
 
@@ -558,11 +558,11 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case componentType
-            case environmentName
-            case id
-            case name
+            case appId = "appId"
+            case componentType = "componentType"
+            case environmentName = "environmentName"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -578,8 +578,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overrides
-            case variantValues
+            case overrides = "overrides"
+            case variantValues = "variantValues"
         }
     }
 
@@ -639,18 +639,18 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindingProperties
-            case children
-            case collectionProperties
-            case componentType
-            case events
-            case name
-            case overrides
-            case properties
-            case schemaVersion
-            case sourceId
-            case tags
-            case variants
+            case bindingProperties = "bindingProperties"
+            case children = "children"
+            case collectionProperties = "collectionProperties"
+            case componentType = "componentType"
+            case events = "events"
+            case name = "name"
+            case overrides = "overrides"
+            case properties = "properties"
+            case schemaVersion = "schemaVersion"
+            case sourceId = "sourceId"
+            case tags = "tags"
+            case variants = "variants"
         }
     }
 
@@ -684,14 +684,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentToCreate
+            case componentToCreate = "componentToCreate"
         }
     }
 
     public struct CreateComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the new component.
         public let entity: Component?
 
@@ -700,7 +699,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -749,15 +748,15 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cta
-            case dataType
-            case fields
-            case formActionType
-            case name
-            case schemaVersion
-            case sectionalElements
-            case style
-            case tags
+            case cta = "cta"
+            case dataType = "dataType"
+            case fields = "fields"
+            case formActionType = "formActionType"
+            case name = "name"
+            case schemaVersion = "schemaVersion"
+            case sectionalElements = "sectionalElements"
+            case style = "style"
+            case tags = "tags"
         }
     }
 
@@ -791,14 +790,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case formToCreate
+            case formToCreate = "formToCreate"
         }
     }
 
     public struct CreateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the new form.
         public let entity: Form?
 
@@ -807,7 +805,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -841,10 +839,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case overrides
-            case tags
-            case values
+            case name = "name"
+            case overrides = "overrides"
+            case tags = "tags"
+            case values = "values"
         }
     }
 
@@ -878,14 +876,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case themeToCreate
+            case themeToCreate = "themeToCreate"
         }
     }
 
     public struct CreateThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the new theme.
         public let entity: Theme?
 
@@ -894,7 +891,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -985,7 +982,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case request
+            case request = "request"
         }
     }
 
@@ -1001,8 +998,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case redirectUri
+            case code = "code"
+            case redirectUri = "redirectUri"
         }
     }
 
@@ -1021,9 +1018,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case expiresIn
-            case refreshToken
+            case accessToken = "accessToken"
+            case expiresIn = "expiresIn"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -1062,8 +1059,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1102,8 +1099,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1142,8 +1139,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1168,11 +1165,11 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excluded
-            case inputType
-            case label
-            case position
-            case validations
+            case excluded = "excluded"
+            case inputType = "inputType"
+            case label = "label"
+            case position = "position"
+            case validations = "validations"
         }
     }
 
@@ -1227,21 +1224,21 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultChecked
-            case defaultCountryCode
-            case defaultValue
-            case descriptiveText
-            case isArray
-            case maxValue
-            case minValue
-            case name
-            case placeholder
-            case readOnly
-            case required
-            case step
-            case type
-            case value
-            case valueMappings
+            case defaultChecked = "defaultChecked"
+            case defaultCountryCode = "defaultCountryCode"
+            case defaultValue = "defaultValue"
+            case descriptiveText = "descriptiveText"
+            case isArray = "isArray"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
+            case placeholder = "placeholder"
+            case readOnly = "readOnly"
+            case required = "required"
+            case step = "step"
+            case type = "type"
+            case value = "value"
+            case valueMappings = "valueMappings"
         }
     }
 
@@ -1263,10 +1260,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numValues
-            case strValues
-            case type
-            case validationMessage
+            case numValues = "numValues"
+            case strValues = "strValues"
+            case type = "type"
+            case validationMessage = "validationMessage"
         }
     }
 
@@ -1312,18 +1309,18 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case cta
-            case dataType
-            case environmentName
-            case fields
-            case formActionType
-            case id
-            case name
-            case schemaVersion
-            case sectionalElements
-            case style
-            case tags
+            case appId = "appId"
+            case cta = "cta"
+            case dataType = "dataType"
+            case environmentName = "environmentName"
+            case fields = "fields"
+            case formActionType = "formActionType"
+            case id = "id"
+            case name = "name"
+            case schemaVersion = "schemaVersion"
+            case sectionalElements = "sectionalElements"
+            case style = "style"
+            case tags = "tags"
         }
     }
 
@@ -1339,8 +1336,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case element
-            case property
+            case element = "element"
+            case property = "property"
         }
     }
 
@@ -1359,9 +1356,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case children
-            case excluded
-            case position
+            case children = "children"
+            case excluded = "excluded"
+            case position = "position"
         }
     }
 
@@ -1383,10 +1380,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancel
-            case clear
-            case position
-            case submit
+            case cancel = "cancel"
+            case clear = "clear"
+            case position = "position"
+            case submit = "submit"
         }
     }
 
@@ -1402,8 +1399,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceType
-            case dataTypeName
+            case dataSourceType = "dataSourceType"
+            case dataTypeName = "dataTypeName"
         }
     }
 
@@ -1416,7 +1413,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -1435,9 +1432,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case horizontalGap
-            case outerPadding
-            case verticalGap
+            case horizontalGap = "horizontalGap"
+            case outerPadding = "outerPadding"
+            case verticalGap = "verticalGap"
         }
     }
 
@@ -1465,12 +1462,12 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case dataType
-            case environmentName
-            case formActionType
-            case id
-            case name
+            case appId = "appId"
+            case dataType = "dataType"
+            case environmentName = "environmentName"
+            case formActionType = "formActionType"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1500,7 +1497,6 @@ extension AmplifyUIBuilder {
     public struct GetComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "component"
-
         /// Represents the configuration settings for the component.
         public let component: Component?
 
@@ -1509,7 +1505,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -1539,7 +1535,6 @@ extension AmplifyUIBuilder {
     public struct GetFormResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "form"
-
         /// Represents the configuration settings for the form.
         public let form: Form?
 
@@ -1548,7 +1543,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case form
+            case form = "form"
         }
     }
 
@@ -1580,7 +1575,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case features
+            case features = "features"
         }
     }
 
@@ -1610,7 +1605,6 @@ extension AmplifyUIBuilder {
     public struct GetThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "theme"
-
         /// Represents the configuration settings for the theme.
         public let theme: Theme?
 
@@ -1619,7 +1613,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case theme
+            case theme = "theme"
         }
     }
 
@@ -1667,8 +1661,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1716,8 +1710,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1765,8 +1759,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1785,9 +1779,9 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case property
-            case set
+            case componentName = "componentName"
+            case property = "property"
+            case set = "set"
         }
     }
 
@@ -1812,11 +1806,11 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case and
-            case field
-            case operand
-            case `operator`
-            case or
+            case and = "and"
+            case field = "field"
+            case operand = "operand"
+            case `operator` = "operator"
+            case or = "or"
         }
     }
 
@@ -1829,7 +1823,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newValue
+            case newValue = "newValue"
         }
     }
 
@@ -1859,7 +1853,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
@@ -1881,7 +1875,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case refreshTokenBody
+            case refreshTokenBody = "refreshTokenBody"
         }
     }
 
@@ -1894,7 +1888,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case token
+            case token = "token"
         }
     }
 
@@ -1910,8 +1904,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case expiresIn
+            case accessToken = "accessToken"
+            case expiresIn = "expiresIn"
         }
     }
 
@@ -1936,11 +1930,11 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case level
-            case orientation
-            case position
-            case text
-            case type
+            case level = "level"
+            case orientation = "orientation"
+            case position = "position"
+            case text = "text"
+            case type = "type"
         }
     }
 
@@ -1956,8 +1950,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case direction
-            case field
+            case direction = "direction"
+            case field = "field"
         }
     }
 
@@ -1994,15 +1988,15 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case createdAt
-            case environmentName
-            case id
-            case modifiedAt
-            case name
-            case overrides
-            case tags
-            case values
+            case appId = "appId"
+            case createdAt = "createdAt"
+            case environmentName = "environmentName"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case overrides = "overrides"
+            case tags = "tags"
+            case values = "values"
         }
     }
 
@@ -2024,10 +2018,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case environmentName
-            case id
-            case name
+            case appId = "appId"
+            case environmentName = "environmentName"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -2043,8 +2037,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case children
-            case value
+            case children = "children"
+            case value = "value"
         }
     }
 
@@ -2060,8 +2054,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2114,18 +2108,18 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindingProperties
-            case children
-            case collectionProperties
-            case componentType
-            case events
-            case id
-            case name
-            case overrides
-            case properties
-            case schemaVersion
-            case sourceId
-            case variants
+            case bindingProperties = "bindingProperties"
+            case children = "children"
+            case collectionProperties = "collectionProperties"
+            case componentType = "componentType"
+            case events = "events"
+            case id = "id"
+            case name = "name"
+            case overrides = "overrides"
+            case properties = "properties"
+            case schemaVersion = "schemaVersion"
+            case sourceId = "sourceId"
+            case variants = "variants"
         }
     }
 
@@ -2163,14 +2157,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updatedComponent
+            case updatedComponent = "updatedComponent"
         }
     }
 
     public struct UpdateComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the updated component.
         public let entity: Component?
 
@@ -2179,7 +2172,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -2218,14 +2211,14 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cta
-            case dataType
-            case fields
-            case formActionType
-            case name
-            case schemaVersion
-            case sectionalElements
-            case style
+            case cta = "cta"
+            case dataType = "dataType"
+            case fields = "fields"
+            case formActionType = "formActionType"
+            case name = "name"
+            case schemaVersion = "schemaVersion"
+            case sectionalElements = "sectionalElements"
+            case style = "style"
         }
     }
 
@@ -2263,14 +2256,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updatedForm
+            case updatedForm = "updatedForm"
         }
     }
 
     public struct UpdateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the updated form.
         public let entity: Form?
 
@@ -2279,7 +2271,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -2306,10 +2298,10 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case overrides
-            case values
+            case id = "id"
+            case name = "name"
+            case overrides = "overrides"
+            case values = "values"
         }
     }
 
@@ -2347,14 +2339,13 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updatedTheme
+            case updatedTheme = "updatedTheme"
         }
     }
 
     public struct UpdateThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "entity"
-
         /// Describes the configuration of the updated theme.
         public let entity: Theme?
 
@@ -2363,7 +2354,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entity
+            case entity = "entity"
         }
     }
 
@@ -2379,8 +2370,8 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayValue
-            case value
+            case displayValue = "displayValue"
+            case value = "value"
         }
     }
 
@@ -2393,7 +2384,7 @@ extension AmplifyUIBuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values
+            case values = "values"
         }
     }
 }
@@ -2439,7 +2430,7 @@ public struct AmplifyUIBuilderErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// You don&#39;t have permission to perform this operation.
+    /// You don't have permission to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -681,7 +681,7 @@ extension ServiceQuotas {
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10_000_000_000.0)
+            try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10000000000.0)
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0.0)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
@@ -744,7 +744,7 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10_000_000_000.0)
+            try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10000000000.0)
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0.0)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
@@ -1089,7 +1089,7 @@ public struct ServiceQuotasErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
     public static var awsServiceAccessNotEnabledException: Self { .init(.awsServiceAccessNotEnabledException) }
-    /// You can&#39;t perform this action because a dependency does not have access.
+    /// You can't perform this action because a dependency does not have access.
     public static var dependencyAccessDeniedException: Self { .init(.dependencyAccessDeniedException) }
     /// Invalid input was provided.
     public static var illegalArgumentException: Self { .init(.illegalArgumentException) }
@@ -1117,7 +1117,7 @@ public struct ServiceQuotasErrorType: AWSErrorType {
     public static var templatesNotAvailableInRegionException: Self { .init(.templatesNotAvailableInRegionException) }
     /// Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
-    /// You&#39;ve exceeded the number of tags allowed for a resource. For more information, see Tag restrictions in the Service Quotas User Guide.
+    /// You've exceeded the number of tags allowed for a resource. For more information, see Tag restrictions in the Service Quotas User Guide.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

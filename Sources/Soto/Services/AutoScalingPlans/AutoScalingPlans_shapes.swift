@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -119,11 +119,11 @@ extension AutoScalingPlans {
     }
 
     public enum ServiceNamespace: String, CustomStringConvertible, Codable, _SotoSendable {
-        case autoscaling
-        case dynamodb
-        case ec2
-        case ecs
-        case rds
+        case autoscaling = "autoscaling"
+        case dynamodb = "dynamodb"
+        case ec2 = "ec2"
+        case ecs = "ecs"
+        case rds = "rds"
         public var description: String { return self.rawValue }
     }
 

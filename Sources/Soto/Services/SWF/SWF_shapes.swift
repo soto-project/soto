@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -299,12 +299,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case activityType
-            case input
-            case startedEventId
-            case taskToken
-            case workflowExecution
+            case activityId = "activityId"
+            case activityType = "activityType"
+            case input = "input"
+            case startedEventId = "startedEventId"
+            case taskToken = "taskToken"
+            case workflowExecution = "workflowExecution"
         }
     }
 
@@ -320,8 +320,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case decisionTaskCompletedEventId
+            case activityId = "activityId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -343,10 +343,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case latestCancelRequestedEventId
-            case scheduledEventId
-            case startedEventId
+            case details = "details"
+            case latestCancelRequestedEventId = "latestCancelRequestedEventId"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -365,9 +365,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
-            case scheduledEventId
-            case startedEventId
+            case result = "result"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -389,10 +389,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reason
-            case scheduledEventId
-            case startedEventId
+            case details = "details"
+            case reason = "reason"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -435,17 +435,17 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case activityType
-            case control
-            case decisionTaskCompletedEventId
-            case heartbeatTimeout
-            case input
-            case scheduleToCloseTimeout
-            case scheduleToStartTimeout
-            case startToCloseTimeout
-            case taskList
-            case taskPriority
+            case activityId = "activityId"
+            case activityType = "activityType"
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case heartbeatTimeout = "heartbeatTimeout"
+            case input = "input"
+            case scheduleToCloseTimeout = "scheduleToCloseTimeout"
+            case scheduleToStartTimeout = "scheduleToStartTimeout"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
         }
     }
 
@@ -461,8 +461,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identity
-            case scheduledEventId
+            case identity = "identity"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
@@ -475,7 +475,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancelRequested
+            case cancelRequested = "cancelRequested"
         }
     }
 
@@ -497,10 +497,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case scheduledEventId
-            case startedEventId
-            case timeoutType
+            case details = "details"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
         }
     }
 
@@ -523,8 +523,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -552,12 +552,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultTaskHeartbeatTimeout
-            case defaultTaskList
-            case defaultTaskPriority
-            case defaultTaskScheduleToCloseTimeout
-            case defaultTaskScheduleToStartTimeout
-            case defaultTaskStartToCloseTimeout
+            case defaultTaskHeartbeatTimeout = "defaultTaskHeartbeatTimeout"
+            case defaultTaskList = "defaultTaskList"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskScheduleToCloseTimeout = "defaultTaskScheduleToCloseTimeout"
+            case defaultTaskScheduleToStartTimeout = "defaultTaskScheduleToStartTimeout"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
         }
     }
 
@@ -573,8 +573,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case typeInfo
+            case configuration = "configuration"
+            case typeInfo = "typeInfo"
         }
     }
 
@@ -599,11 +599,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityType
-            case creationDate
-            case deprecationDate
-            case description
-            case status
+            case activityType = "activityType"
+            case creationDate = "creationDate"
+            case deprecationDate = "deprecationDate"
+            case description = "description"
+            case status = "status"
         }
     }
 
@@ -619,8 +619,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case typeInfos
+            case nextPageToken = "nextPageToken"
+            case typeInfos = "typeInfos"
         }
     }
 
@@ -638,7 +638,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timerId
+            case timerId = "timerId"
         }
     }
 
@@ -657,9 +657,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
-            case timerId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case timerId = "timerId"
         }
     }
 
@@ -676,7 +676,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
+            case details = "details"
         }
     }
 
@@ -692,8 +692,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -718,11 +718,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case initiatedEventId
-            case startedEventId
-            case workflowExecution
-            case workflowType
+            case details = "details"
+            case initiatedEventId = "initiatedEventId"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -747,11 +747,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case result
-            case startedEventId
-            case workflowExecution
-            case workflowType
+            case initiatedEventId = "initiatedEventId"
+            case result = "result"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -779,12 +779,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case initiatedEventId
-            case reason
-            case startedEventId
-            case workflowExecution
-            case workflowType
+            case details = "details"
+            case initiatedEventId = "initiatedEventId"
+            case reason = "reason"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -803,9 +803,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case workflowExecution
-            case workflowType
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -827,10 +827,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case startedEventId
-            case workflowExecution
-            case workflowType
+            case initiatedEventId = "initiatedEventId"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -855,11 +855,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case startedEventId
-            case timeoutType
-            case workflowExecution
-            case workflowType
+            case initiatedEventId = "initiatedEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -872,7 +872,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -889,7 +889,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
+            case result = "result"
         }
     }
 
@@ -905,8 +905,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -958,15 +958,15 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowTypeVersion
+            case childPolicy = "childPolicy"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowTypeVersion = "workflowTypeVersion"
         }
     }
 
@@ -982,8 +982,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -1022,13 +1022,13 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case closeStatusFilter
-            case closeTimeFilter
-            case domain
-            case executionFilter
-            case startTimeFilter
-            case tagFilter
-            case typeFilter
+            case closeStatusFilter = "closeStatusFilter"
+            case closeTimeFilter = "closeTimeFilter"
+            case domain = "domain"
+            case executionFilter = "executionFilter"
+            case startTimeFilter = "startTimeFilter"
+            case tagFilter = "tagFilter"
+            case typeFilter = "typeFilter"
         }
     }
 
@@ -1061,11 +1061,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case executionFilter
-            case startTimeFilter
-            case tagFilter
-            case typeFilter
+            case domain = "domain"
+            case executionFilter = "executionFilter"
+            case startTimeFilter = "startTimeFilter"
+            case tagFilter = "tagFilter"
+            case typeFilter = "typeFilter"
         }
     }
 
@@ -1087,8 +1087,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case taskList
+            case domain = "domain"
+            case taskList = "taskList"
         }
     }
 
@@ -1110,8 +1110,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case taskList
+            case domain = "domain"
+            case taskList = "taskList"
         }
     }
 
@@ -1179,20 +1179,20 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancelTimerDecisionAttributes
-            case cancelWorkflowExecutionDecisionAttributes
-            case completeWorkflowExecutionDecisionAttributes
-            case continueAsNewWorkflowExecutionDecisionAttributes
-            case decisionType
-            case failWorkflowExecutionDecisionAttributes
-            case recordMarkerDecisionAttributes
-            case requestCancelActivityTaskDecisionAttributes
-            case requestCancelExternalWorkflowExecutionDecisionAttributes
-            case scheduleActivityTaskDecisionAttributes
-            case scheduleLambdaFunctionDecisionAttributes
-            case signalExternalWorkflowExecutionDecisionAttributes
-            case startChildWorkflowExecutionDecisionAttributes
-            case startTimerDecisionAttributes
+            case cancelTimerDecisionAttributes = "cancelTimerDecisionAttributes"
+            case cancelWorkflowExecutionDecisionAttributes = "cancelWorkflowExecutionDecisionAttributes"
+            case completeWorkflowExecutionDecisionAttributes = "completeWorkflowExecutionDecisionAttributes"
+            case continueAsNewWorkflowExecutionDecisionAttributes = "continueAsNewWorkflowExecutionDecisionAttributes"
+            case decisionType = "decisionType"
+            case failWorkflowExecutionDecisionAttributes = "failWorkflowExecutionDecisionAttributes"
+            case recordMarkerDecisionAttributes = "recordMarkerDecisionAttributes"
+            case requestCancelActivityTaskDecisionAttributes = "requestCancelActivityTaskDecisionAttributes"
+            case requestCancelExternalWorkflowExecutionDecisionAttributes = "requestCancelExternalWorkflowExecutionDecisionAttributes"
+            case scheduleActivityTaskDecisionAttributes = "scheduleActivityTaskDecisionAttributes"
+            case scheduleLambdaFunctionDecisionAttributes = "scheduleLambdaFunctionDecisionAttributes"
+            case signalExternalWorkflowExecutionDecisionAttributes = "signalExternalWorkflowExecutionDecisionAttributes"
+            case startChildWorkflowExecutionDecisionAttributes = "startChildWorkflowExecutionDecisionAttributes"
+            case startTimerDecisionAttributes = "startTimerDecisionAttributes"
         }
     }
 
@@ -1223,13 +1223,13 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextPageToken
-            case previousStartedEventId
-            case startedEventId
-            case taskToken
-            case workflowExecution
-            case workflowType
+            case events = "events"
+            case nextPageToken = "nextPageToken"
+            case previousStartedEventId = "previousStartedEventId"
+            case startedEventId = "startedEventId"
+            case taskToken = "taskToken"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
@@ -1248,9 +1248,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionContext
-            case scheduledEventId
-            case startedEventId
+            case executionContext = "executionContext"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -1269,9 +1269,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startToCloseTimeout
-            case taskList
-            case taskPriority
+            case startToCloseTimeout = "startToCloseTimeout"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
         }
     }
 
@@ -1287,8 +1287,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identity
-            case scheduledEventId
+            case identity = "identity"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
@@ -1307,9 +1307,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledEventId
-            case startedEventId
-            case timeoutType
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
         }
     }
 
@@ -1331,8 +1331,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityType
-            case domain
+            case activityType = "activityType"
+            case domain = "domain"
         }
     }
 
@@ -1350,7 +1350,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1372,8 +1372,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case workflowType
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
@@ -1395,8 +1395,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityType
-            case domain
+            case activityType = "activityType"
+            case domain = "domain"
         }
     }
 
@@ -1414,7 +1414,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1436,8 +1436,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case execution
+            case domain = "domain"
+            case execution = "execution"
         }
     }
 
@@ -1459,8 +1459,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case workflowType
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
@@ -1473,7 +1473,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workflowExecutionRetentionPeriodInDays
+            case workflowExecutionRetentionPeriodInDays = "workflowExecutionRetentionPeriodInDays"
         }
     }
 
@@ -1489,8 +1489,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case domainInfo
+            case configuration = "configuration"
+            case domainInfo = "domainInfo"
         }
     }
 
@@ -1512,10 +1512,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case name
-            case status
+            case arn = "arn"
+            case description = "description"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1531,8 +1531,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainInfos
-            case nextPageToken
+            case domainInfos = "domainInfos"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -1548,8 +1548,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestDate
-            case oldestDate
+            case latestDate = "latestDate"
+            case oldestDate = "oldestDate"
         }
     }
 
@@ -1565,8 +1565,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case workflowExecution
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
@@ -1582,8 +1582,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initiatedEventId
-            case workflowExecution
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
@@ -1604,8 +1604,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reason
+            case details = "details"
+            case reason = "reason"
         }
     }
 
@@ -1621,8 +1621,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -1656,11 +1656,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case execution
-            case maximumPageSize
-            case nextPageToken
-            case reverseOrder
+            case domain = "domain"
+            case execution = "execution"
+            case maximumPageSize = "maximumPageSize"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
         }
     }
 
@@ -1676,8 +1676,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextPageToken
+            case events = "events"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -1858,63 +1858,63 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityTaskCanceledEventAttributes
-            case activityTaskCancelRequestedEventAttributes
-            case activityTaskCompletedEventAttributes
-            case activityTaskFailedEventAttributes
-            case activityTaskScheduledEventAttributes
-            case activityTaskStartedEventAttributes
-            case activityTaskTimedOutEventAttributes
-            case cancelTimerFailedEventAttributes
-            case cancelWorkflowExecutionFailedEventAttributes
-            case childWorkflowExecutionCanceledEventAttributes
-            case childWorkflowExecutionCompletedEventAttributes
-            case childWorkflowExecutionFailedEventAttributes
-            case childWorkflowExecutionStartedEventAttributes
-            case childWorkflowExecutionTerminatedEventAttributes
-            case childWorkflowExecutionTimedOutEventAttributes
-            case completeWorkflowExecutionFailedEventAttributes
-            case continueAsNewWorkflowExecutionFailedEventAttributes
-            case decisionTaskCompletedEventAttributes
-            case decisionTaskScheduledEventAttributes
-            case decisionTaskStartedEventAttributes
-            case decisionTaskTimedOutEventAttributes
-            case eventId
-            case eventTimestamp
-            case eventType
-            case externalWorkflowExecutionCancelRequestedEventAttributes
-            case externalWorkflowExecutionSignaledEventAttributes
-            case failWorkflowExecutionFailedEventAttributes
-            case lambdaFunctionCompletedEventAttributes
-            case lambdaFunctionFailedEventAttributes
-            case lambdaFunctionScheduledEventAttributes
-            case lambdaFunctionStartedEventAttributes
-            case lambdaFunctionTimedOutEventAttributes
-            case markerRecordedEventAttributes
-            case recordMarkerFailedEventAttributes
-            case requestCancelActivityTaskFailedEventAttributes
-            case requestCancelExternalWorkflowExecutionFailedEventAttributes
-            case requestCancelExternalWorkflowExecutionInitiatedEventAttributes
-            case scheduleActivityTaskFailedEventAttributes
-            case scheduleLambdaFunctionFailedEventAttributes
-            case signalExternalWorkflowExecutionFailedEventAttributes
-            case signalExternalWorkflowExecutionInitiatedEventAttributes
-            case startChildWorkflowExecutionFailedEventAttributes
-            case startChildWorkflowExecutionInitiatedEventAttributes
-            case startLambdaFunctionFailedEventAttributes
-            case startTimerFailedEventAttributes
-            case timerCanceledEventAttributes
-            case timerFiredEventAttributes
-            case timerStartedEventAttributes
-            case workflowExecutionCanceledEventAttributes
-            case workflowExecutionCancelRequestedEventAttributes
-            case workflowExecutionCompletedEventAttributes
-            case workflowExecutionContinuedAsNewEventAttributes
-            case workflowExecutionFailedEventAttributes
-            case workflowExecutionSignaledEventAttributes
-            case workflowExecutionStartedEventAttributes
-            case workflowExecutionTerminatedEventAttributes
-            case workflowExecutionTimedOutEventAttributes
+            case activityTaskCanceledEventAttributes = "activityTaskCanceledEventAttributes"
+            case activityTaskCancelRequestedEventAttributes = "activityTaskCancelRequestedEventAttributes"
+            case activityTaskCompletedEventAttributes = "activityTaskCompletedEventAttributes"
+            case activityTaskFailedEventAttributes = "activityTaskFailedEventAttributes"
+            case activityTaskScheduledEventAttributes = "activityTaskScheduledEventAttributes"
+            case activityTaskStartedEventAttributes = "activityTaskStartedEventAttributes"
+            case activityTaskTimedOutEventAttributes = "activityTaskTimedOutEventAttributes"
+            case cancelTimerFailedEventAttributes = "cancelTimerFailedEventAttributes"
+            case cancelWorkflowExecutionFailedEventAttributes = "cancelWorkflowExecutionFailedEventAttributes"
+            case childWorkflowExecutionCanceledEventAttributes = "childWorkflowExecutionCanceledEventAttributes"
+            case childWorkflowExecutionCompletedEventAttributes = "childWorkflowExecutionCompletedEventAttributes"
+            case childWorkflowExecutionFailedEventAttributes = "childWorkflowExecutionFailedEventAttributes"
+            case childWorkflowExecutionStartedEventAttributes = "childWorkflowExecutionStartedEventAttributes"
+            case childWorkflowExecutionTerminatedEventAttributes = "childWorkflowExecutionTerminatedEventAttributes"
+            case childWorkflowExecutionTimedOutEventAttributes = "childWorkflowExecutionTimedOutEventAttributes"
+            case completeWorkflowExecutionFailedEventAttributes = "completeWorkflowExecutionFailedEventAttributes"
+            case continueAsNewWorkflowExecutionFailedEventAttributes = "continueAsNewWorkflowExecutionFailedEventAttributes"
+            case decisionTaskCompletedEventAttributes = "decisionTaskCompletedEventAttributes"
+            case decisionTaskScheduledEventAttributes = "decisionTaskScheduledEventAttributes"
+            case decisionTaskStartedEventAttributes = "decisionTaskStartedEventAttributes"
+            case decisionTaskTimedOutEventAttributes = "decisionTaskTimedOutEventAttributes"
+            case eventId = "eventId"
+            case eventTimestamp = "eventTimestamp"
+            case eventType = "eventType"
+            case externalWorkflowExecutionCancelRequestedEventAttributes = "externalWorkflowExecutionCancelRequestedEventAttributes"
+            case externalWorkflowExecutionSignaledEventAttributes = "externalWorkflowExecutionSignaledEventAttributes"
+            case failWorkflowExecutionFailedEventAttributes = "failWorkflowExecutionFailedEventAttributes"
+            case lambdaFunctionCompletedEventAttributes = "lambdaFunctionCompletedEventAttributes"
+            case lambdaFunctionFailedEventAttributes = "lambdaFunctionFailedEventAttributes"
+            case lambdaFunctionScheduledEventAttributes = "lambdaFunctionScheduledEventAttributes"
+            case lambdaFunctionStartedEventAttributes = "lambdaFunctionStartedEventAttributes"
+            case lambdaFunctionTimedOutEventAttributes = "lambdaFunctionTimedOutEventAttributes"
+            case markerRecordedEventAttributes = "markerRecordedEventAttributes"
+            case recordMarkerFailedEventAttributes = "recordMarkerFailedEventAttributes"
+            case requestCancelActivityTaskFailedEventAttributes = "requestCancelActivityTaskFailedEventAttributes"
+            case requestCancelExternalWorkflowExecutionFailedEventAttributes = "requestCancelExternalWorkflowExecutionFailedEventAttributes"
+            case requestCancelExternalWorkflowExecutionInitiatedEventAttributes = "requestCancelExternalWorkflowExecutionInitiatedEventAttributes"
+            case scheduleActivityTaskFailedEventAttributes = "scheduleActivityTaskFailedEventAttributes"
+            case scheduleLambdaFunctionFailedEventAttributes = "scheduleLambdaFunctionFailedEventAttributes"
+            case signalExternalWorkflowExecutionFailedEventAttributes = "signalExternalWorkflowExecutionFailedEventAttributes"
+            case signalExternalWorkflowExecutionInitiatedEventAttributes = "signalExternalWorkflowExecutionInitiatedEventAttributes"
+            case startChildWorkflowExecutionFailedEventAttributes = "startChildWorkflowExecutionFailedEventAttributes"
+            case startChildWorkflowExecutionInitiatedEventAttributes = "startChildWorkflowExecutionInitiatedEventAttributes"
+            case startLambdaFunctionFailedEventAttributes = "startLambdaFunctionFailedEventAttributes"
+            case startTimerFailedEventAttributes = "startTimerFailedEventAttributes"
+            case timerCanceledEventAttributes = "timerCanceledEventAttributes"
+            case timerFiredEventAttributes = "timerFiredEventAttributes"
+            case timerStartedEventAttributes = "timerStartedEventAttributes"
+            case workflowExecutionCanceledEventAttributes = "workflowExecutionCanceledEventAttributes"
+            case workflowExecutionCancelRequestedEventAttributes = "workflowExecutionCancelRequestedEventAttributes"
+            case workflowExecutionCompletedEventAttributes = "workflowExecutionCompletedEventAttributes"
+            case workflowExecutionContinuedAsNewEventAttributes = "workflowExecutionContinuedAsNewEventAttributes"
+            case workflowExecutionFailedEventAttributes = "workflowExecutionFailedEventAttributes"
+            case workflowExecutionSignaledEventAttributes = "workflowExecutionSignaledEventAttributes"
+            case workflowExecutionStartedEventAttributes = "workflowExecutionStartedEventAttributes"
+            case workflowExecutionTerminatedEventAttributes = "workflowExecutionTerminatedEventAttributes"
+            case workflowExecutionTimedOutEventAttributes = "workflowExecutionTimedOutEventAttributes"
         }
     }
 
@@ -1933,9 +1933,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
-            case scheduledEventId
-            case startedEventId
+            case result = "result"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -1957,10 +1957,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reason
-            case scheduledEventId
-            case startedEventId
+            case details = "details"
+            case reason = "reason"
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
         }
     }
 
@@ -1988,12 +1988,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case decisionTaskCompletedEventId
-            case id
-            case input
-            case name
-            case startToCloseTimeout
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case id = "id"
+            case input = "input"
+            case name = "name"
+            case startToCloseTimeout = "startToCloseTimeout"
         }
     }
 
@@ -2006,7 +2006,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledEventId
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
@@ -2025,9 +2025,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduledEventId
-            case startedEventId
-            case timeoutType
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
         }
     }
 
@@ -2065,12 +2065,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case maximumPageSize
-            case name
-            case nextPageToken
-            case registrationStatus
-            case reverseOrder
+            case domain = "domain"
+            case maximumPageSize = "maximumPageSize"
+            case name = "name"
+            case nextPageToken = "nextPageToken"
+            case registrationStatus = "registrationStatus"
+            case reverseOrder = "reverseOrder"
         }
     }
 
@@ -2121,16 +2121,16 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case closeStatusFilter
-            case closeTimeFilter
-            case domain
-            case executionFilter
-            case maximumPageSize
-            case nextPageToken
-            case reverseOrder
-            case startTimeFilter
-            case tagFilter
-            case typeFilter
+            case closeStatusFilter = "closeStatusFilter"
+            case closeTimeFilter = "closeTimeFilter"
+            case domain = "domain"
+            case executionFilter = "executionFilter"
+            case maximumPageSize = "maximumPageSize"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case startTimeFilter = "startTimeFilter"
+            case tagFilter = "tagFilter"
+            case typeFilter = "typeFilter"
         }
     }
 
@@ -2158,10 +2158,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumPageSize
-            case nextPageToken
-            case registrationStatus
-            case reverseOrder
+            case maximumPageSize = "maximumPageSize"
+            case nextPageToken = "nextPageToken"
+            case registrationStatus = "registrationStatus"
+            case reverseOrder = "reverseOrder"
         }
     }
 
@@ -2206,14 +2206,14 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case executionFilter
-            case maximumPageSize
-            case nextPageToken
-            case reverseOrder
-            case startTimeFilter
-            case tagFilter
-            case typeFilter
+            case domain = "domain"
+            case executionFilter = "executionFilter"
+            case maximumPageSize = "maximumPageSize"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case startTimeFilter = "startTimeFilter"
+            case tagFilter = "tagFilter"
+            case typeFilter = "typeFilter"
         }
     }
 
@@ -2231,7 +2231,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2244,7 +2244,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2282,12 +2282,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case maximumPageSize
-            case name
-            case nextPageToken
-            case registrationStatus
-            case reverseOrder
+            case domain = "domain"
+            case maximumPageSize = "maximumPageSize"
+            case name = "name"
+            case nextPageToken = "nextPageToken"
+            case registrationStatus = "registrationStatus"
+            case reverseOrder = "reverseOrder"
         }
     }
 
@@ -2306,9 +2306,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisionTaskCompletedEventId
-            case details
-            case markerName
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case details = "details"
+            case markerName = "markerName"
         }
     }
 
@@ -2324,8 +2324,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case truncated
+            case count = "count"
+            case truncated = "truncated"
         }
     }
 
@@ -2351,9 +2351,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case identity
-            case taskList
+            case domain = "domain"
+            case identity = "identity"
+            case taskList = "taskList"
         }
     }
 
@@ -2391,12 +2391,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case identity
-            case maximumPageSize
-            case nextPageToken
-            case reverseOrder
-            case taskList
+            case domain = "domain"
+            case identity = "identity"
+            case maximumPageSize = "maximumPageSize"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case taskList = "taskList"
         }
     }
 
@@ -2418,8 +2418,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case taskToken
+            case details = "details"
+            case taskToken = "taskToken"
         }
     }
 
@@ -2441,8 +2441,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case markerName
+            case details = "details"
+            case markerName = "markerName"
         }
     }
 
@@ -2461,9 +2461,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
-            case markerName
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case markerName = "markerName"
         }
     }
 
@@ -2518,16 +2518,16 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultTaskHeartbeatTimeout
-            case defaultTaskList
-            case defaultTaskPriority
-            case defaultTaskScheduleToCloseTimeout
-            case defaultTaskScheduleToStartTimeout
-            case defaultTaskStartToCloseTimeout
-            case description
-            case domain
-            case name
-            case version
+            case defaultTaskHeartbeatTimeout = "defaultTaskHeartbeatTimeout"
+            case defaultTaskList = "defaultTaskList"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskScheduleToCloseTimeout = "defaultTaskScheduleToCloseTimeout"
+            case defaultTaskScheduleToStartTimeout = "defaultTaskScheduleToStartTimeout"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case description = "description"
+            case domain = "domain"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -2560,10 +2560,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
-            case workflowExecutionRetentionPeriodInDays
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case workflowExecutionRetentionPeriodInDays = "workflowExecutionRetentionPeriodInDays"
         }
     }
 
@@ -2619,16 +2619,16 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultChildPolicy
-            case defaultExecutionStartToCloseTimeout
-            case defaultLambdaRole
-            case defaultTaskList
-            case defaultTaskPriority
-            case defaultTaskStartToCloseTimeout
-            case description
-            case domain
-            case name
-            case version
+            case defaultChildPolicy = "defaultChildPolicy"
+            case defaultExecutionStartToCloseTimeout = "defaultExecutionStartToCloseTimeout"
+            case defaultLambdaRole = "defaultLambdaRole"
+            case defaultTaskList = "defaultTaskList"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case description = "description"
+            case domain = "domain"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -2646,7 +2646,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
+            case activityId = "activityId"
         }
     }
 
@@ -2665,9 +2665,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case cause
-            case decisionTaskCompletedEventId
+            case activityId = "activityId"
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -2693,9 +2693,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case runId
-            case workflowId
+            case control = "control"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2723,12 +2723,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case control
-            case decisionTaskCompletedEventId
-            case initiatedEventId
-            case runId
-            case workflowId
+            case cause = "cause"
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case initiatedEventId = "initiatedEventId"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2750,10 +2750,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case decisionTaskCompletedEventId
-            case runId
-            case workflowId
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2780,9 +2780,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case runId
-            case workflowId
+            case domain = "domain"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2804,8 +2804,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2827,8 +2827,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case taskToken
+            case details = "details"
+            case taskToken = "taskToken"
         }
     }
 
@@ -2850,8 +2850,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
-            case taskToken
+            case result = "result"
+            case taskToken = "taskToken"
         }
     }
 
@@ -2878,9 +2878,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case reason
-            case taskToken
+            case details = "details"
+            case reason = "reason"
+            case taskToken = "taskToken"
         }
     }
 
@@ -2908,9 +2908,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisions
-            case executionContext
-            case taskToken
+            case decisions = "decisions"
+            case executionContext = "executionContext"
+            case taskToken = "taskToken"
         }
     }
 
@@ -2923,7 +2923,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runId
+            case runId = "runId"
         }
     }
 
@@ -2976,16 +2976,16 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case activityType
-            case control
-            case heartbeatTimeout
-            case input
-            case scheduleToCloseTimeout
-            case scheduleToStartTimeout
-            case startToCloseTimeout
-            case taskList
-            case taskPriority
+            case activityId = "activityId"
+            case activityType = "activityType"
+            case control = "control"
+            case heartbeatTimeout = "heartbeatTimeout"
+            case input = "input"
+            case scheduleToCloseTimeout = "scheduleToCloseTimeout"
+            case scheduleToStartTimeout = "scheduleToStartTimeout"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
         }
     }
 
@@ -3007,10 +3007,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityId
-            case activityType
-            case cause
-            case decisionTaskCompletedEventId
+            case activityId = "activityId"
+            case activityType = "activityType"
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
@@ -3045,11 +3045,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case id
-            case input
-            case name
-            case startToCloseTimeout
+            case control = "control"
+            case id = "id"
+            case input = "input"
+            case name = "name"
+            case startToCloseTimeout = "startToCloseTimeout"
         }
     }
 
@@ -3071,10 +3071,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
-            case id
-            case name
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -3109,11 +3109,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case input
-            case runId
-            case signalName
-            case workflowId
+            case control = "control"
+            case input = "input"
+            case runId = "runId"
+            case signalName = "signalName"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3141,12 +3141,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case control
-            case decisionTaskCompletedEventId
-            case initiatedEventId
-            case runId
-            case workflowId
+            case cause = "cause"
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case initiatedEventId = "initiatedEventId"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3174,12 +3174,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case decisionTaskCompletedEventId
-            case input
-            case runId
-            case signalName
-            case workflowId
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case input = "input"
+            case runId = "runId"
+            case signalName = "signalName"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3215,11 +3215,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case input
-            case runId
-            case signalName
-            case workflowId
+            case domain = "domain"
+            case input = "input"
+            case runId = "runId"
+            case signalName = "signalName"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3279,17 +3279,17 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case control
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowId
-            case workflowType
+            case childPolicy = "childPolicy"
+            case control = "control"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3317,12 +3317,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case control
-            case decisionTaskCompletedEventId
-            case initiatedEventId
-            case workflowId
-            case workflowType
+            case cause = "cause"
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case initiatedEventId = "initiatedEventId"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3368,18 +3368,18 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case control
-            case decisionTaskCompletedEventId
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowId
-            case workflowType
+            case childPolicy = "childPolicy"
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3398,9 +3398,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case message
-            case scheduledEventId
+            case cause = "cause"
+            case message = "message"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
@@ -3427,9 +3427,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case startToFireTimeout
-            case timerId
+            case control = "control"
+            case startToFireTimeout = "startToFireTimeout"
+            case timerId = "timerId"
         }
     }
 
@@ -3448,9 +3448,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case decisionTaskCompletedEventId
-            case timerId
+            case cause = "cause"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case timerId = "timerId"
         }
     }
 
@@ -3513,17 +3513,17 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case domain
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowId
-            case workflowType
+            case childPolicy = "childPolicy"
+            case domain = "domain"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3540,7 +3540,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tag
+            case tag = "tag"
         }
     }
 
@@ -3564,8 +3564,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -3583,7 +3583,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -3621,12 +3621,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case details
-            case domain
-            case reason
-            case runId
-            case workflowId
+            case childPolicy = "childPolicy"
+            case details = "details"
+            case domain = "domain"
+            case reason = "reason"
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3645,9 +3645,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisionTaskCompletedEventId
-            case startedEventId
-            case timerId
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case startedEventId = "startedEventId"
+            case timerId = "timerId"
         }
     }
 
@@ -3663,8 +3663,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startedEventId
-            case timerId
+            case startedEventId = "startedEventId"
+            case timerId = "timerId"
         }
     }
 
@@ -3686,10 +3686,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
-            case decisionTaskCompletedEventId
-            case startToFireTimeout
-            case timerId
+            case control = "control"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case startToFireTimeout = "startToFireTimeout"
+            case timerId = "timerId"
         }
     }
 
@@ -3711,8 +3711,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityType
-            case domain
+            case activityType = "activityType"
+            case domain = "domain"
         }
     }
 
@@ -3730,7 +3730,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -3752,8 +3752,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case workflowType
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3778,8 +3778,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -3802,8 +3802,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runId
-            case workflowId
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -3822,9 +3822,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case externalInitiatedEventId
-            case externalWorkflowExecution
+            case cause = "cause"
+            case externalInitiatedEventId = "externalInitiatedEventId"
+            case externalWorkflowExecution = "externalWorkflowExecution"
         }
     }
 
@@ -3840,8 +3840,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisionTaskCompletedEventId
-            case details
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case details = "details"
         }
     }
 
@@ -3857,8 +3857,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisionTaskCompletedEventId
-            case result
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case result = "result"
         }
     }
 
@@ -3886,12 +3886,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case executionStartToCloseTimeout
-            case lambdaRole
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
+            case childPolicy = "childPolicy"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case lambdaRole = "lambdaRole"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
         }
     }
 
@@ -3934,17 +3934,17 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case decisionTaskCompletedEventId
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case newExecutionRunId
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowType
+            case childPolicy = "childPolicy"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case newExecutionRunId = "newExecutionRunId"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowType = "workflowType"
         }
     }
 
@@ -3960,8 +3960,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case truncated
+            case count = "count"
+            case truncated = "truncated"
         }
     }
 
@@ -3986,11 +3986,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionConfiguration
-            case executionInfo
-            case latestActivityTaskTimestamp
-            case latestExecutionContext
-            case openCounts
+            case executionConfiguration = "executionConfiguration"
+            case executionInfo = "executionInfo"
+            case latestActivityTaskTimestamp = "latestActivityTaskTimestamp"
+            case latestExecutionContext = "latestExecutionContext"
+            case openCounts = "openCounts"
         }
     }
 
@@ -4009,9 +4009,9 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decisionTaskCompletedEventId
-            case details
-            case reason
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case details = "details"
+            case reason = "reason"
         }
     }
 
@@ -4029,7 +4029,7 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workflowId
+            case workflowId = "workflowId"
         }
     }
 
@@ -4066,15 +4066,15 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancelRequested
-            case closeStatus
-            case closeTimestamp
-            case execution
-            case executionStatus
-            case parent
-            case startTimestamp
-            case tagList
-            case workflowType
+            case cancelRequested = "cancelRequested"
+            case closeStatus = "closeStatus"
+            case closeTimestamp = "closeTimestamp"
+            case execution = "execution"
+            case executionStatus = "executionStatus"
+            case parent = "parent"
+            case startTimestamp = "startTimestamp"
+            case tagList = "tagList"
+            case workflowType = "workflowType"
         }
     }
 
@@ -4090,8 +4090,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionInfos
-            case nextPageToken
+            case executionInfos = "executionInfos"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -4116,11 +4116,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case openActivityTasks
-            case openChildWorkflowExecutions
-            case openDecisionTasks
-            case openLambdaFunctions
-            case openTimers
+            case openActivityTasks = "openActivityTasks"
+            case openChildWorkflowExecutions = "openChildWorkflowExecutions"
+            case openDecisionTasks = "openDecisionTasks"
+            case openLambdaFunctions = "openLambdaFunctions"
+            case openTimers = "openTimers"
         }
     }
 
@@ -4142,10 +4142,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalInitiatedEventId
-            case externalWorkflowExecution
-            case input
-            case signalName
+            case externalInitiatedEventId = "externalInitiatedEventId"
+            case externalWorkflowExecution = "externalWorkflowExecution"
+            case input = "input"
+            case signalName = "signalName"
         }
     }
 
@@ -4191,18 +4191,18 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case continuedExecutionRunId
-            case executionStartToCloseTimeout
-            case input
-            case lambdaRole
-            case parentInitiatedEventId
-            case parentWorkflowExecution
-            case tagList
-            case taskList
-            case taskPriority
-            case taskStartToCloseTimeout
-            case workflowType
+            case childPolicy = "childPolicy"
+            case continuedExecutionRunId = "continuedExecutionRunId"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case input = "input"
+            case lambdaRole = "lambdaRole"
+            case parentInitiatedEventId = "parentInitiatedEventId"
+            case parentWorkflowExecution = "parentWorkflowExecution"
+            case tagList = "tagList"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case workflowType = "workflowType"
         }
     }
 
@@ -4224,10 +4224,10 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case childPolicy
-            case details
-            case reason
+            case cause = "cause"
+            case childPolicy = "childPolicy"
+            case details = "details"
+            case reason = "reason"
         }
     }
 
@@ -4243,8 +4243,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childPolicy
-            case timeoutType
+            case childPolicy = "childPolicy"
+            case timeoutType = "timeoutType"
         }
     }
 
@@ -4267,8 +4267,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -4296,12 +4296,12 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultChildPolicy
-            case defaultExecutionStartToCloseTimeout
-            case defaultLambdaRole
-            case defaultTaskList
-            case defaultTaskPriority
-            case defaultTaskStartToCloseTimeout
+            case defaultChildPolicy = "defaultChildPolicy"
+            case defaultExecutionStartToCloseTimeout = "defaultExecutionStartToCloseTimeout"
+            case defaultLambdaRole = "defaultLambdaRole"
+            case defaultTaskList = "defaultTaskList"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
         }
     }
 
@@ -4317,8 +4317,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case typeInfo
+            case configuration = "configuration"
+            case typeInfo = "typeInfo"
         }
     }
 
@@ -4340,8 +4340,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -4366,11 +4366,11 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case deprecationDate
-            case description
-            case status
-            case workflowType
+            case creationDate = "creationDate"
+            case deprecationDate = "deprecationDate"
+            case description = "description"
+            case status = "status"
+            case workflowType = "workflowType"
         }
     }
 
@@ -4386,8 +4386,8 @@ extension SWF {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case typeInfos
+            case nextPageToken = "nextPageToken"
+            case typeInfos = "typeInfos"
         }
     }
 }
@@ -4427,7 +4427,7 @@ public struct SWFErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type.  If these parameters aren&#39;t set and no default parameters were defined in the workflow type, this error is displayed.
+    /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type.  If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
     public static var defaultUndefinedFault: Self { .init(.defaultUndefinedFault) }
     /// Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
     public static var domainAlreadyExistsFault: Self { .init(.domainAlreadyExistsFault) }
@@ -4435,9 +4435,9 @@ public struct SWFErrorType: AWSErrorType {
     public static var domainDeprecatedFault: Self { .init(.domainDeprecatedFault) }
     /// Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
     public static var limitExceededFault: Self { .init(.limitExceededFault) }
-    /// Returned when the caller doesn&#39;t have sufficient permissions to invoke the action.
+    /// Returned when the caller doesn't have sufficient permissions to invoke the action.
     public static var operationNotPermittedFault: Self { .init(.operationNotPermittedFault) }
-    /// You&#39;ve exceeded the number of tags allowed for a domain.
+    /// You've exceeded the number of tags allowed for a domain.
     public static var tooManyTagsFault: Self { .init(.tooManyTagsFault) }
     /// Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     public static var typeAlreadyExistsFault: Self { .init(.typeAlreadyExistsFault) }

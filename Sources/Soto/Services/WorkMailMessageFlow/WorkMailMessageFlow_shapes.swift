@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -48,7 +48,6 @@ extension WorkMailMessageFlow {
         /// The key for the payload
         public static let _payloadPath: String = "messageContent"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-
         /// The raw content of the email message, in MIME format.
         public let messageContent: AWSPayload
 
@@ -57,7 +56,7 @@ extension WorkMailMessageFlow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageContent
+            case messageContent = "messageContent"
         }
     }
 
@@ -84,7 +83,7 @@ extension WorkMailMessageFlow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
+            case content = "content"
         }
     }
 
@@ -105,7 +104,7 @@ extension WorkMailMessageFlow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Reference
+            case s3Reference = "s3Reference"
         }
     }
 
@@ -136,9 +135,9 @@ extension WorkMailMessageFlow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case objectVersion
+            case bucket = "bucket"
+            case key = "key"
+            case objectVersion = "objectVersion"
         }
     }
 }

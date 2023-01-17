@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -219,7 +219,7 @@ extension Outposts {
 // MARK: Paginators
 
 extension Outposts {
-    ///  Gets the instance types for the specified Outpost.
+    /// Gets the instance types for the specified Outpost.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -272,7 +272,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -325,7 +325,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -378,7 +378,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outpost orders for your Amazon Web Services account.
+    /// Lists the Outpost orders for your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -431,7 +431,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -484,7 +484,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

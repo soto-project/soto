@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -157,19 +157,15 @@ extension ACMPCA {
 
     public struct ASN1Subject: AWSEncodableShape & AWSDecodableShape {
         /// For CA and end-entity certificates in a private PKI, the common name (CN) can be any
-        /// 			string within the length limit.
-        /// 		       Note: In publicly trusted certificates, the common name must be a fully qualified
+        /// 			string within the length limit.  Note: In publicly trusted certificates, the common name must be a fully qualified
         /// 			domain name (FQDN) associated with the certificate subject.
         public let commonName: String?
         /// Two-digit code that specifies the country in which the certificate subject
         /// 			located.
         public let country: String?
-        /// 		       Contains a sequence of one or more X.500 relative distinguished names (RDNs), each of
+        ///  Contains a sequence of one or more X.500 relative distinguished names (RDNs), each of
         /// 			which consists of an object identifier (OID) and a value. For more information, see
-        /// 			NIST’s definition of Object Identifier (OID).
-        ///
-        /// 			         Custom attributes cannot be used in combination with standard attributes.
-        ///
+        /// 			NIST’s definition of Object Identifier (OID).  Custom attributes cannot be used in combination with standard attributes.
         public let customAttributes: [CustomAttribute]?
         /// Disambiguating information for the certificate subject.
         public let distinguishedNameQualifier: String?
@@ -346,9 +342,7 @@ extension ACMPCA {
         public let createdAt: Date?
         /// Reason the request to create your private CA failed.
         public let failureReason: FailureReason?
-        /// Defines a cryptographic key management compliance standard used for handling CA keys.
-        /// 		       Default: FIPS_140_2_LEVEL_3_OR_HIGHER
-        /// 		       Note: Amazon Web Services Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must
+        /// Defines a cryptographic key management compliance standard used for handling CA keys.  Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: Amazon Web Services Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must
         /// 			explicitly specify this parameter and value when creating a CA in that Region.
         /// 			Specifying a different value (or no value) results in an
         /// 				InvalidArgsException with the message "A certificate authority cannot
@@ -375,9 +369,9 @@ extension ACMPCA {
         /// Type of your private CA.
         public let type: CertificateAuthorityType?
         /// Specifies whether the CA issues general-purpose certificates that typically require a
-        /// 			revocation mechanism, or short-lived certificates that may optionally omit revocation because
-        /// 			they expire quickly. Short-lived certificate validity is limited to seven days.
-        /// 		       The default value is GENERAL_PURPOSE.
+        /// 			revocation mechanism, or short-lived certificates that may optionally omit revocation
+        /// 			because they expire quickly. Short-lived certificate validity is limited to seven
+        /// 			days. The default value is GENERAL_PURPOSE.
         public let usageMode: CertificateAuthorityUsageMode?
 
         public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
@@ -425,8 +419,7 @@ extension ACMPCA {
         /// 			creates when it issues a certificate. When you create a subordinate CA, you must use a
         /// 			key algorithm supported by the parent CA.
         public let keyAlgorithm: KeyAlgorithm
-        /// Name of the algorithm your private CA uses to sign certificate requests.
-        /// 		       This parameter should not be confused with the SigningAlgorithm parameter
+        /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter
         /// 			used to sign certificates when they are issued.
         public let signingAlgorithm: SigningAlgorithm
         /// Structure that contains X.500 distinguished name information for your private
@@ -456,8 +449,7 @@ extension ACMPCA {
     public struct CreateCertificateAuthorityAuditReportRequest: AWSEncodableShape {
         /// The format in which to create the report. This can be either JSON or CSV.
         public let auditReportResponseFormat: AuditReportResponseFormat
-        /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form:
-        /// 		        arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) of the CA to be audited. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
         /// The name of the S3 bucket that will contain the audit report.
         public let s3BucketName: String
@@ -510,23 +502,14 @@ extension ACMPCA {
         /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for
         /// 				CreateCertificateAuthority time out after five
         /// 			minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency
-        /// 			token within five minutes, ACM Private CA recognizes that you are requesting only
+        /// 			token within five minutes, Amazon Web Services Private CA recognizes that you are requesting only
         /// 			certificate authority and will issue only one. If you change the idempotency token for
-        /// 			each call, PCA recognizes that you are requesting multiple certificate
+        /// 			each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificate
         /// 			authorities.
         public let idempotencyToken: String?
         /// Specifies a cryptographic key management compliance standard used for handling CA
-        /// 			keys.
-        /// 		       Default: FIPS_140_2_LEVEL_3_OR_HIGHER
-        /// 		        Note:
-        /// 			         FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following
-        /// 			Regions:
-        ///
-        /// 				           ap-northeast-3
-        ///
-        /// 				           ap-southeast-3
-        ///
-        /// 		       When creating a CA in these Regions, you must provide
+        /// 			keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following
+        /// 			Regions:   ap-northeast-3   ap-southeast-3   When creating a CA in these Regions, you must provide
         /// 				FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for
         /// 				KeyStorageSecurityStandard. Failure to do this results in an
         /// 				InvalidArgsException with the message, "A certificate authority cannot
@@ -534,14 +517,24 @@ extension ACMPCA {
         public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
         /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to
         /// 			enable a certificate revocation list (CRL), to enable both, or to enable neither. The
-        /// 			default is for both certificate validation mechanisms to be disabled. For more
-        /// 			information, see the OcspConfiguration and CrlConfiguration types.
+        /// 			default is for both certificate validation mechanisms to be disabled.   The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
+        /// 					parameter, and will fail if other parameters such as CustomCname or
+        /// 					ExpirationInDays are included.   In a CRL configuration, the S3BucketName parameter must conform to
+        /// 					Amazon S3
+        /// 					bucket naming rules.   A configuration containing a custom Canonical
+        /// 						Name (CNAME) parameter for CRLs or OCSP must conform to RFC2396 restrictions
+        /// 						on the use of special characters in a CNAME.    In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
+        /// 						protocol prefix such as "http://" or "https://".    For more information, see the OcspConfiguration and CrlConfiguration
+        /// 			types.
         public let revocationConfiguration: RevocationConfiguration?
         /// Key-value pairs that will be attached to the new private CA. You can associate up to
         /// 			50 tags with a private CA. For information using tags with IAM to manage permissions,
         /// 			see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
-        /// Specifies whether the CA issues general-purpose certificates that typically require a revocation mechanism, or short-lived certificates that may optionally omit revocation because they expire quickly. Short-lived certificate validity is limited to seven days. The default value is GENERAL_PURPOSE.
+        /// Specifies whether the CA issues general-purpose certificates that typically require a
+        /// 			revocation mechanism, or short-lived certificates that may optionally omit revocation
+        /// 			because they expire quickly. Short-lived certificate validity is limited to seven
+        /// 			days. The default value is GENERAL_PURPOSE.
         public let usageMode: CertificateAuthorityUsageMode?
 
         public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil, usageMode: CertificateAuthorityUsageMode? = nil) {
@@ -580,9 +573,7 @@ extension ACMPCA {
 
     public struct CreateCertificateAuthorityResponse: AWSDecodableShape {
         /// If successful, the Amazon Resource Name (ARN) of the certificate authority (CA). This
-        /// 			is of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// 			is of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String?
 
@@ -601,9 +592,7 @@ extension ACMPCA {
         /// 				ListPermissions.
         public let actions: [ActionType]
         /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the
-        /// 			ARN by calling the ListCertificateAuthorities action. This must have the following form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// 			ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
         /// The Amazon Web Services service or identity that receives the permission. At this time, the only
@@ -644,7 +633,9 @@ extension ACMPCA {
         /// Name inserted into the certificate CRL Distribution
         /// 				Points extension that enables the use of an alias for the CRL
         /// 			distribution point. Use this value if you don't want the name of your S3 bucket to be
-        /// 			public.
+        /// 			public.  The content of a Canonical Name (CNAME) record must conform to RFC2396 restrictions on the
+        /// 				use of special characters in URIs. Additionally, the value of the CNAME must not
+        /// 				include a protocol prefix such as "http://" or "https://".
         public let customCname: String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled.
         /// 			You can use this value to enable certificate revocation for a new CA when you call the
@@ -657,21 +648,19 @@ extension ACMPCA {
         /// 				CustomCname argument, the name of your S3 bucket
         /// 			is placed into the CRL Distribution Points extension of
         /// 			the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority operation. You must specify a bucket
-        /// 				policy that allows ACM Private CA to write the CRL to your bucket.
+        /// 				policy that allows Amazon Web Services Private CA to write the CRL to your bucket.  The S3BucketName parameter must conform to the S3
+        /// 					bucket naming rules.
         public let s3BucketName: String?
         /// Determines whether the CRL will be publicly readable or privately held in the CRL
         /// 			Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public
         /// 			internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket
-        /// 			can access the CRL, and your PKI clients may need an alternative method of access.
-        /// 		       If no value is specified, the default is PUBLIC_READ.
-        /// 		        Note: This default can cause CA creation to fail in some
+        /// 			can access the CRL, and your PKI clients may need an alternative method of access.  If no value is specified, the default is PUBLIC_READ.  Note: This default can cause CA creation to fail in some
         /// 			circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3
         /// 			account, then you must specify the value of this parameter as
         /// 				BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you
         /// 			have disabled BPA in S3, then you can specify either
         /// 				BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the
-        /// 			value.
-        /// 		       For more information, see Blocking public access to the S3
+        /// 			value. For more information, see Blocking public access to the S3
         /// 				bucket.
         public let s3ObjectAcl: S3ObjectAcl?
 
@@ -685,10 +674,12 @@ extension ACMPCA {
 
         public func validate(name: String) throws {
             try self.validate(self.customCname, name: "customCname", parent: name, max: 253)
+            try self.validate(self.customCname, name: "customCname", parent: name, pattern: "^[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*$")
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, max: 5000)
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, min: 1)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 255)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[-a-zA-Z0-9._/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,7 +721,7 @@ extension ACMPCA {
         /// Specifies the object identifier (OID) of the attribute type of the relative
         /// 			distinguished name (RDN).
         public let objectIdentifier: String
-        /// 		       Specifies the attribute value of relative distinguished name (RDN).
+        ///  Specifies the attribute value of relative distinguished name (RDN).
         public let value: String
 
         public init(objectIdentifier: String, value: String) {
@@ -752,13 +743,12 @@ extension ACMPCA {
     }
 
     public struct CustomExtension: AWSEncodableShape {
-        /// 		       Specifies the critical flag of the X.509 extension.
+        ///  Specifies the critical flag of the X.509 extension.
         public let critical: Bool?
-        /// 		       Specifies the object identifier (OID) of the X.509 extension. For more information,
+        ///  Specifies the object identifier (OID) of the X.509 extension. For more information,
         /// 			see the Global OID reference database.
-        ///
         public let objectIdentifier: String
-        /// 		       Specifies the base64-encoded value of the X.509 extension.
+        ///  Specifies the base64-encoded value of the X.509 extension.
         public let value: String
 
         public init(critical: Bool? = nil, objectIdentifier: String, value: String) {
@@ -783,9 +773,7 @@ extension ACMPCA {
     }
 
     public struct DeleteCertificateAuthorityRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
         /// The number of days to make a CA restorable after it has been deleted. This can be
@@ -813,9 +801,7 @@ extension ACMPCA {
 
     public struct DeletePermissionRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You
-        /// 			can find the CA's ARN by calling the ListCertificateAuthorities action. This must have the following form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// 			can find the CA's ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
         /// The Amazon Web Services service or identity that will have its CA permissions revoked. At this time,
@@ -873,9 +859,7 @@ extension ACMPCA {
     public struct DescribeCertificateAuthorityAuditReportRequest: AWSEncodableShape {
         /// The report ID returned by calling the CreateCertificateAuthorityAuditReport action.
         public let auditReportId: String
-        /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
 
@@ -926,9 +910,7 @@ extension ACMPCA {
     }
 
     public struct DescribeCertificateAuthorityRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
 
@@ -1011,13 +993,12 @@ extension ACMPCA {
         /// Contains a sequence of one or more policy information terms, each of which consists of
         /// 			an object identifier (OID) and optional qualifiers. For more information, see NIST's
         /// 			definition of Object
-        /// 				Identifier (OID).
-        /// 		       In an end-entity certificate, these terms indicate the policy under which the
+        /// 				Identifier (OID). In an end-entity certificate, these terms indicate the policy under which the
         /// 			certificate was issued and the purposes for which it may be used. In a CA certificate,
         /// 			these terms limit the set of policies for certification paths that include this
         /// 			certificate.
         public let certificatePolicies: [PolicyInformation]?
-        /// 		       Contains a sequence of one or more X.509 extensions, each of which consists of an
+        ///  Contains a sequence of one or more X.509 extensions, each of which consists of an
         /// 			object identifier (OID), a base64-encoded value, and the critical flag. For more
         /// 			information, see the Global OID reference
         /// 				database.
@@ -1125,9 +1106,7 @@ extension ACMPCA {
     }
 
     public struct GetCertificateAuthorityCertificateRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of your private CA. This is of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
 
@@ -1167,10 +1146,7 @@ extension ACMPCA {
     }
 
     public struct GetCertificateAuthorityCsrRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
 
         public init(certificateAuthorityArn: String) {
@@ -1204,14 +1180,9 @@ extension ACMPCA {
 
     public struct GetCertificateRequest: AWSEncodableShape {
         /// The ARN of the issued certificate. The ARN contains the certificate serial number and
-        /// 			must be in the following form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
-        ///
+        /// 			must be in the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
         public let certificateArn: String
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         ///
         public let certificateAuthorityArn: String
 
@@ -1293,14 +1264,12 @@ extension ACMPCA {
         /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in
         /// 			the case of a root CA, or it may be signed by another CA that you control.
         public let certificate: AWSBase64Data
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        /// 		        arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// A PEM-encoded file that contains all of your certificates, other than the certificate
-        /// 			you're importing, chaining up to your root CA. Your ACM Private CA-hosted or on-premises
+        /// 			you're importing, chaining up to your root CA. Your Amazon Web Services Private CA-hosted or on-premises
         /// 			root certificate is the last in the chain, and each certificate in the chain signs the
-        /// 			one preceding.
-        /// 		       This parameter must be supplied when you import a subordinate CA. When you import a
+        /// 			one preceding.  This parameter must be supplied when you import a subordinate CA. When you import a
         /// 			root CA, there is no chain.
         public let certificateChain: AWSBase64Data?
 
@@ -1316,7 +1285,7 @@ extension ACMPCA {
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 200)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 5)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]*:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,82 +1299,60 @@ extension ACMPCA {
         /// Specifies X.509 certificate information to be included in the issued certificate. An
         /// 				APIPassthrough or APICSRPassthrough template variant must
         /// 			be selected, or else this parameter is ignored. For more information about using these
-        /// 			templates, see Understanding Certificate Templates.
-        /// 		       If conflicting or duplicate certificate information is supplied during certificate
-        /// 			issuance, ACM Private CA applies order of
+        /// 			templates, see Understanding Certificate Templates. If conflicting or duplicate certificate information is supplied during certificate
+        /// 			issuance, Amazon Web Services Private CA applies order of
         /// 				operation rules to determine what information is used.
         public let apiPassthrough: ApiPassthrough?
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// The certificate signing request (CSR) for the certificate you want to issue. As an
         /// 			example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA
-        /// 			private key.
-        ///
-        /// 			         openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem
-        /// 				-out csr/test_cert_.csr
-        ///
-        /// 		       If you have a configuration file, you can then use the following OpenSSL command. The
+        /// 			private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem
+        /// 				-out csr/test_cert_.csr  If you have a configuration file, you can then use the following OpenSSL command. The
         /// 				usr_cert block in the configuration file contains your X509 version 3
-        /// 			extensions.
-        /// 		        openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048
+        /// 			extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048
         /// 				-days 365 -keyout private/test_cert_priv_key.pem -out
-        /// 			csr/test_cert_.csr
-        /// 		       Note: A CSR must provide either a subject name or a
+        /// 			csr/test_cert_.csr  Note: A CSR must provide either a subject name or a
         /// 				subject alternative name or the request will be rejected.
         ///
         public let csr: AWSBase64Data
         /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you
         /// 			call IssueCertificate multiple times with the same
-        /// 			idempotency token within one minute, ACM Private CA recognizes that you are requesting only
+        /// 			idempotency token within one minute, Amazon Web Services Private CA recognizes that you are requesting only
         /// 			one certificate and will issue only one. If you change the idempotency token for each
-        /// 			call, PCA recognizes that you are requesting multiple certificates.
+        /// 			call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// The name of the algorithm that will be used to sign the certificate to be issued.
-        /// 		       This parameter should not be confused with the SigningAlgorithm parameter
-        /// 			used to sign a CSR in the CreateCertificateAuthority action.
-        ///
-        /// 			         The specified signing algorithm family (RSA or ECDSA) much match the algorithm
+        /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
+        /// 			used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) much match the algorithm
         /// 				family of the CA's secret key.
-        ///
         public let signingAlgorithm: SigningAlgorithm
         /// Specifies a custom configuration template to use when issuing a certificate. If this
-        /// 			parameter is not provided, ACM Private CA defaults to the
+        /// 			parameter is not provided, Amazon Web Services Private CA defaults to the
         /// 				EndEntityCertificate/V1 template. For CA certificates, you should
         /// 			choose the shortest path length that meets your needs. The path length is indicated by
         /// 			the PathLenN portion of the ARN, where N is
         /// 			the CA
-        /// 				depth.
-        /// 		       Note: The CA depth configured on a subordinate CA certificate must not exceed the
-        /// 			limit set by its parents in the CA hierarchy.
-        /// 		       For a list of TemplateArn values supported by ACM Private CA, see Understanding Certificate
+        /// 				depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the
+        /// 			limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by Amazon Web Services Private CA, see Understanding Certificate
         /// 				Templates.
         public let templateArn: String?
         /// Information describing the end of the validity period of the certificate. This
-        /// 			parameter sets the “Not After” date for the certificate.
-        /// 		       Certificate validity is the period of time during which a certificate is valid.
+        /// 			parameter sets the “Not After” date for the certificate. Certificate validity is the period of time during which a certificate is valid.
         /// 			Validity can be expressed as an explicit date and time when the certificate expires, or
         /// 			as a span of time after issuance, stated in days, months, or years. For more
         /// 			information, see Validity
-        /// 			in RFC 5280.
-        /// 		       This value is unaffected when ValidityNotBefore is also specified. For
+        /// 			in RFC 5280.  This value is unaffected when ValidityNotBefore is also specified. For
         /// 			example, if Validity is set to 20 days in the future, the certificate will
         /// 			expire 20 days from issuance time regardless of the ValidityNotBefore
-        /// 			value.
-        /// 		       The end of the validity period configured on a certificate must not exceed the limit
+        /// 			value. The end of the validity period configured on a certificate must not exceed the limit
         /// 			set on its parents in the CA hierarchy.
         public let validity: Validity
         /// Information describing the start of the validity period of the certificate. This
-        /// 			parameter sets the “Not Before" date for the certificate.
-        /// 		       By default, when issuing a certificate, ACM Private CA sets the "Not Before" date to the
+        /// 			parameter sets the “Not Before" date for the certificate. By default, when issuing a certificate, Amazon Web Services Private CA sets the "Not Before" date to the
         /// 			issuance time minus 60 minutes. This compensates for clock inconsistencies across
         /// 			computer systems. The ValidityNotBefore parameter can be used to customize
-        /// 			the “Not Before” value.
-        /// 		       Unlike the Validity parameter, the ValidityNotBefore
-        /// 			parameter is optional.
-        /// 		       The ValidityNotBefore value is expressed as an explicit date and time,
+        /// 			the “Not Before” value.  Unlike the Validity parameter, the ValidityNotBefore
+        /// 			parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time,
         /// 			using the Validity type value ABSOLUTE. For more information,
         /// 			see Validity in this API reference and Validity
         /// 			in RFC 5280.
@@ -1453,10 +1400,7 @@ extension ACMPCA {
 
     public struct IssueCertificateResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial
-        /// 			number. This is of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
-        ///
+        /// 			number. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
         public let certificateArn: String?
 
         public init(certificateArn: String? = nil) {
@@ -1625,10 +1569,7 @@ extension ACMPCA {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// Use this parameter when paginating results to specify the maximum number of items to
         /// 			return in the response. If additional items exist beyond the number you specify, the
@@ -1685,13 +1626,12 @@ extension ACMPCA {
         /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating
         /// 			certificate revocation status.
         public let enabled: Bool
-        /// By default, ACM Private CA injects an Amazon Web Services domain into certificates being validated by
+        /// By default, Amazon Web Services Private CA injects an Amazon Web Services domain into certificates being validated by
         /// 			the Online Certificate Status Protocol (OCSP). A customer can alternatively use this
-        /// 			object to define a CNAME specifying a customized OCSP domain.
-        /// 		       Note: The value of the CNAME must not include a protocol prefix such as "http://" or
-        /// 			"https://".
-        /// 		       For more information, see Customizing Online Certificate Status Protocol
-        /// 				(OCSP)  in the Private Certificate Authority (PCA) User Guide.
+        /// 			object to define a CNAME specifying a customized OCSP domain.  The content of a Canonical Name (CNAME) record must conform to RFC2396 restrictions on the
+        /// 				use of special characters in URIs. Additionally, the value of the CNAME must not
+        /// 				include a protocol prefix such as "http://" or "https://".  For more information, see Customizing Online Certificate Status Protocol
+        /// 				(OCSP)  in the Amazon Web Services Private Certificate Authority User Guide.
         public let ocspCustomCname: String?
 
         public init(enabled: Bool, ocspCustomCname: String? = nil) {
@@ -1701,6 +1641,7 @@ extension ACMPCA {
 
         public func validate(name: String) throws {
             try self.validate(self.ocspCustomCname, name: "ocspCustomCname", parent: name, max: 253)
+            try self.validate(self.ocspCustomCname, name: "ocspCustomCname", parent: name, pattern: "^[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1772,7 +1713,7 @@ extension ACMPCA {
         /// 			certificate was issued. For more information, see NIST's definition of Object Identifier
         /// 				(OID).
         public let certPolicyId: String
-        /// Modifies the given CertPolicyId with a qualifier. ACM Private CA supports the
+        /// Modifies the given CertPolicyId with a qualifier. Amazon Web Services Private CA supports the
         /// 			certification practice statement (CPS) qualifier.
         public let policyQualifiers: [PolicyQualifierInfo]?
 
@@ -1800,7 +1741,7 @@ extension ACMPCA {
     public struct PolicyQualifierInfo: AWSEncodableShape {
         /// Identifies the qualifier modifying a CertPolicyId.
         public let policyQualifierId: PolicyQualifierId
-        /// Defines the qualifier type. ACM Private CA supports the use of a URI for a CPS qualifier
+        /// Defines the qualifier type. Amazon Web Services Private CA supports the use of a URI for a CPS qualifier
         /// 			in this field.
         public let qualifier: Qualifier
 
@@ -1828,7 +1769,6 @@ extension ACMPCA {
         public let policy: String
         /// The Amazon Resource Number (ARN) of the private CA to associate with the policy. The
         /// 			ARN of the CA can be found by calling the ListCertificateAuthorities action.
-        ///
         public let resourceArn: String
 
         public init(policy: String, resourceArn: String) {
@@ -1870,10 +1810,7 @@ extension ACMPCA {
     }
 
     public struct RestoreCertificateAuthorityRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
 
         public init(certificateAuthorityArn: String) {
@@ -1894,7 +1831,7 @@ extension ACMPCA {
     public struct RevocationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration of the certificate revocation list (CRL), if any, maintained by your
         /// 			private CA. A CRL is typically updated approximately 30 minutes after a certificate
-        /// 	is revoked. If for any reason a CRL update fails, ACM Private CA makes further attempts
+        /// 	is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts
         /// 	every 15 minutes.
         public let crlConfiguration: CrlConfiguration?
         /// Configuration of Online Certificate Status Protocol (OCSP) support, if any, maintained
@@ -1920,19 +1857,14 @@ extension ACMPCA {
 
     public struct RevokeCertificateRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be
-        /// 			revoked. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// 			revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// Serial number of the certificate to be revoked. This must be in hexadecimal format.
         /// 			You can retrieve the serial number by calling GetCertificate with the Amazon
         /// 			Resource Name (ARN) of the certificate you want and the ARN of your private CA. The
         /// 				GetCertificate action retrieves the certificate in
         /// 			the PEM format. You can use the following OpenSSL command to list the certificate in
-        /// 			text format and copy the hexadecimal serial number.
-        /// 		        openssl x509 -in file_path -text -noout
-        /// 		       You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API
+        /// 			text format and copy the hexadecimal serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API
         /// 				Reference.
         public let certificateSerial: String
         /// Specifies why you revoked the certificate.
@@ -1984,10 +1916,7 @@ extension ACMPCA {
     }
 
     public struct TagCertificateAuthorityRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// List of tags to be associated with the CA.
         public let tags: [Tag]
@@ -2015,10 +1944,7 @@ extension ACMPCA {
     }
 
     public struct UntagCertificateAuthorityRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// List of tags to be removed from the CA.
         public let tags: [Tag]
@@ -2047,15 +1973,19 @@ extension ACMPCA {
 
     public struct UpdateCertificateAuthorityRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be
-        /// 			revoked. This must be of the form:
-        ///
-        /// 			         arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
-        ///
+        /// 			revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
         /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to
         /// 			enable a certificate revocation list (CRL), to enable both, or to enable neither. If
         /// 			this parameter is not supplied, existing capibilites remain unchanged. For more
-        /// 			information, see the OcspConfiguration and CrlConfiguration types.
+        /// 			information, see the OcspConfiguration and CrlConfiguration types.  The following requirements apply to revocation configurations.   A configuration disabling CRLs or OCSP must contain only the Enabled=False
+        /// 					parameter, and will fail if other parameters such as CustomCname or
+        /// 					ExpirationInDays are included.   In a CRL configuration, the S3BucketName parameter must conform to
+        /// 					Amazon S3
+        /// 					bucket naming rules.   A configuration containing a custom Canonical
+        /// 						Name (CNAME) parameter for CRLs or OCSP must conform to RFC2396 restrictions
+        /// 						on the use of special characters in a CNAME.    In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
+        /// 						protocol prefix such as "http://" or "https://".
         public let revocationConfiguration: RevocationConfiguration?
         /// Status of your private CA.
         public let status: CertificateAuthorityStatus?
@@ -2081,36 +2011,16 @@ extension ACMPCA {
     }
 
     public struct Validity: AWSEncodableShape {
-        /// Determines how ACM Private CA interprets the Value
+        /// Determines how Amazon Web Services Private CA interprets the Value
         /// 			parameter, an integer. Supported validity types include those listed below. Type
-        /// 			definitions with values include a sample input value and the resulting output.
-        /// 		        END_DATE: The specific date and time when the certificate will expire,
+        /// 			definitions with values include a sample input value and the resulting output.   END_DATE: The specific date and time when the certificate will expire,
         /// 			expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When
         /// 			UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is
         /// 			interpreted as 19YY. If the year field is less than 50, the year is interpreted as
-        /// 			20YY.
-        ///
-        /// 				           Sample input value: 491231235959 (UTCTime format)
-        ///
-        /// 				           Output expiration date/time: 12/31/2049 23:59:59
-        ///
-        /// 		        ABSOLUTE: The specific date and time when the validity of a certificate
-        /// 			will start or expire, expressed in seconds since the Unix Epoch.
-        ///
-        /// 				           Sample input value: 2524608000
-        ///
-        /// 				           Output expiration date/time: 01/01/2050 00:00:00
-        ///
-        /// 		        DAYS, MONTHS, YEARS: The relative time from the
+        /// 			20YY.   Sample input value: 491231235959 (UTCTime format)   Output expiration date/time: 12/31/2049 23:59:59    ABSOLUTE: The specific date and time when the validity of a certificate
+        /// 			will start or expire, expressed in seconds since the Unix Epoch.    Sample input value: 2524608000   Output expiration date/time: 01/01/2050 00:00:00    DAYS, MONTHS, YEARS: The relative time from the
         /// 			moment of issuance until the certificate will expire, expressed in days, months, or
-        /// 			years.
-        /// 		       Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:
-        ///
-        /// 				           Sample input value: 90
-        ///
-        /// 				           Output expiration date: 01/10/2020 12:34:54 UTC
-        ///
-        /// 		       The minimum validity duration for a certificate using relative time
+        /// 			years.  Example if DAYS, issued on 10/12/2020 at 12:34:54 UTC:   Sample input value: 90   Output expiration date: 01/10/2020 12:34:54 UTC   The minimum validity duration for a certificate using relative time
         /// 			(DAYS) is one day. The minimum validity for a certificate using absolute
         /// 			time (ABSOLUTE or END_DATE) is one second.
         public let type: ValidityPeriodType
@@ -2200,7 +2110,7 @@ public struct ACMPCAErrorType: AWSErrorType {
     /// The tag associated with the CA is not valid. The invalid argument is contained in the
     /// 			message field.
     public static var invalidTagException: Self { .init(.invalidTagException) }
-    /// An ACM Private CA quota has been exceeded. See the exception message returned to determine
+    /// An Amazon Web Services Private CA quota has been exceeded. See the exception message returned to determine
     /// 			the quota that was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The current action was prevented because it would lock the caller out from performing

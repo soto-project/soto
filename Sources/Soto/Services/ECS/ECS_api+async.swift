@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -663,7 +663,7 @@ extension ECS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECS {
-    ///  Lists the account settings for a specified principal.
+    /// Lists the account settings for a specified principal.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -685,13 +685,13 @@ extension ECS {
         )
     }
 
-    ///  Lists the attributes for Amazon ECS resources within a specified target type and cluster.
-    ///  			When you specify a target type and cluster, ListAttributes returns a list
-    ///  			of attribute objects, one for each attribute on each resource. You can filter the list
-    ///  			of results to a single attribute name to only return results that have that name. You
-    ///  			can also filter the results by attribute name and value. You can do this, for example,
-    ///  			to see which container instances in a cluster are running a Linux AMI
-    ///  				(ecs.os-type=linux).
+    /// Lists the attributes for Amazon ECS resources within a specified target type and cluster.
+    /// 			When you specify a target type and cluster, ListAttributes returns a list
+    /// 			of attribute objects, one for each attribute on each resource. You can filter the list
+    /// 			of results to a single attribute name to only return results that have that name. You
+    /// 			can also filter the results by attribute name and value. You can do this, for example,
+    /// 			to see which container instances in a cluster are running a Linux AMI
+    /// 				(ecs.os-type=linux).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -713,7 +713,7 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of existing clusters.
+    /// Returns a list of existing clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -735,9 +735,9 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of container instances in a specified cluster. You can filter the
-    ///  			results of a ListContainerInstances operation with cluster query language
-    ///  			statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
+    /// Returns a list of container instances in a specified cluster. You can filter the
+    /// 			results of a ListContainerInstances operation with cluster query language
+    /// 			statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -759,8 +759,8 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of services. You can filter the results by cluster, launch type, and
-    ///  			scheduling strategy.
+    /// Returns a list of services. You can filter the results by cluster, launch type, and
+    /// 			scheduling strategy.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -782,11 +782,11 @@ extension ECS {
         )
     }
 
-    ///  This operation lists all of the services that are associated with a Cloud Map
-    ///  			namespace. This list might include services in different clusters. In contrast,
-    ///  				ListServices can only list services in one cluster at a time. If you
-    ///  			need to filter the list of services in a single cluster by various parameters, use
-    ///  				ListServices. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
+    /// This operation lists all of the services that are associated with a Cloud Map
+    /// 			namespace. This list might include services in different clusters. In contrast,
+    /// 				ListServices can only list services in one cluster at a time. If you
+    /// 			need to filter the list of services in a single cluster by various parameters, use
+    /// 				ListServices. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -808,12 +808,12 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of task definition families that are registered to your account. This
-    ///  			list includes task definition families that no longer have any ACTIVE task
-    ///  			definition revisions. You can filter out task definition families that don't contain any ACTIVE
-    ///  			task definition revisions by setting the status parameter to
-    ///  				ACTIVE. You can also filter the results with the
-    ///  				familyPrefix parameter.
+    /// Returns a list of task definition families that are registered to your account. This
+    /// 			list includes task definition families that no longer have any ACTIVE task
+    /// 			definition revisions. You can filter out task definition families that don't contain any ACTIVE
+    /// 			task definition revisions by setting the status parameter to
+    /// 				ACTIVE. You can also filter the results with the
+    /// 				familyPrefix parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -835,9 +835,9 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of task definitions that are registered to your account. You can filter
-    ///  			the results by family name with the familyPrefix parameter or by status
-    ///  			with the status parameter.
+    /// Returns a list of task definitions that are registered to your account. You can filter
+    /// 			the results by family name with the familyPrefix parameter or by status
+    /// 			with the status parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -859,10 +859,10 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of tasks. You can filter the results by cluster, task definition
-    ///  			family, container instance, launch type, what IAM principal started the task, or by the
-    ///  			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
-    ///  			appear in the returned results for at least one hour.
+    /// Returns a list of tasks. You can filter the results by cluster, task definition
+    /// 			family, container instance, launch type, what IAM principal started the task, or by the
+    /// 			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
+    /// 			appear in the returned results for at least one hour.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,9 +22,9 @@ extension MediaConnect {
     // MARK: Enums
 
     public enum Algorithm: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aes128
-        case aes192
-        case aes256
+        case aes128 = "aes128"
+        case aes192 = "aes192"
+        case aes256 = "aes256"
         public var description: String { return self.rawValue }
     }
 
@@ -45,16 +45,16 @@ extension MediaConnect {
     }
 
     public enum EncoderProfile: String, CustomStringConvertible, Codable, _SotoSendable {
-        case high
-        case main
+        case high = "high"
+        case main = "main"
         public var description: String { return self.rawValue }
     }
 
     public enum EncodingName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case jxsv
-        case pcm
-        case raw
-        case smpte291
+        case jxsv = "jxsv"
+        case pcm = "pcm"
+        case raw = "raw"
+        case smpte291 = "smpte291"
         public var description: String { return self.rawValue }
     }
 
@@ -71,7 +71,7 @@ extension MediaConnect {
     }
 
     public enum KeyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case speke
+        case speke = "speke"
         case srtPassword = "srt-password"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
@@ -90,14 +90,14 @@ extension MediaConnect {
 
     public enum MediaStreamType: String, CustomStringConvertible, Codable, _SotoSendable {
         case ancillaryData = "ancillary-data"
-        case audio
-        case video
+        case audio = "audio"
+        case video = "video"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case efa
-        case ena
+        case efa = "efa"
+        case ena = "ena"
         public var description: String { return self.rawValue }
     }
 
@@ -127,8 +127,8 @@ extension MediaConnect {
     }
 
     public enum ScanMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case interlace
-        case progressive
+        case interlace = "interlace"
+        case progressive = "progressive"
         case progressiveSegmentedFrame = "progressive-segmented-frame"
         public var description: String { return self.rawValue }
     }
@@ -170,10 +170,10 @@ extension MediaConnect {
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cdi
+        case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
-        case rist
-        case rtp
+        case rist = "rist"
+        case rtp = "rtp"
         case rtpFec = "rtp-fec"
         case srtCaller = "srt-caller"
         case srtListener = "srt-listener"
@@ -201,7 +201,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mediaStreams
+            case mediaStreams = "mediaStreams"
         }
     }
 
@@ -217,8 +217,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case mediaStreams
+            case flowArn = "flowArn"
+            case mediaStreams = "mediaStreams"
         }
     }
 
@@ -238,7 +238,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputs
+            case outputs = "outputs"
         }
     }
 
@@ -254,8 +254,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case outputs
+            case flowArn = "flowArn"
+            case outputs = "outputs"
         }
     }
 
@@ -275,7 +275,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sources
+            case sources = "sources"
         }
     }
 
@@ -291,8 +291,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case sources
+            case flowArn = "flowArn"
+            case sources = "sources"
         }
     }
 
@@ -312,7 +312,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcInterfaces
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -328,8 +328,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case vpcInterfaces
+            case flowArn = "flowArn"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -345,8 +345,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceStartHour
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceStartHour = "maintenanceStartHour"
         }
     }
 
@@ -377,13 +377,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case clockRate
-            case description
-            case mediaStreamId
-            case mediaStreamName
-            case mediaStreamType
-            case videoFormat
+            case attributes = "attributes"
+            case clockRate = "clockRate"
+            case description = "description"
+            case mediaStreamId = "mediaStreamId"
+            case mediaStreamName = "mediaStreamName"
+            case mediaStreamType = "mediaStreamType"
+            case videoFormat = "videoFormat"
         }
     }
 
@@ -438,21 +438,21 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case description
-            case destination
-            case encryption
-            case maxLatency
-            case mediaStreamOutputConfigurations
-            case minLatency
-            case name
-            case port
-            case `protocol`
-            case remoteId
-            case senderControlPort
-            case smoothingLatency
-            case streamId
-            case vpcInterfaceAttachment
+            case cidrAllowList = "cidrAllowList"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case maxLatency = "maxLatency"
+            case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
+            case minLatency = "minLatency"
+            case name = "name"
+            case port = "port"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case senderControlPort = "senderControlPort"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -488,16 +488,16 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case entitlements
-            case maintenance
-            case mediaStreams
-            case name
-            case outputs
-            case source
-            case sourceFailoverConfig
-            case sources
-            case vpcInterfaces
+            case availabilityZone = "availabilityZone"
+            case entitlements = "entitlements"
+            case maintenance = "maintenance"
+            case mediaStreams = "mediaStreams"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -509,7 +509,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
+            case flow = "flow"
         }
     }
 
@@ -540,8 +540,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -570,8 +570,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
-            case messages
+            case flow = "flow"
+            case messages = "messages"
         }
     }
 
@@ -598,7 +598,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offering
+            case offering = "offering"
         }
     }
 
@@ -625,7 +625,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
@@ -647,10 +647,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationIp
-            case destinationPort
-            case interface
-            case outboundIp
+            case destinationIp = "destinationIp"
+            case destinationPort = "destinationPort"
+            case interface = "interface"
+            case outboundIp = "outboundIp"
         }
     }
 
@@ -669,9 +669,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationIp
-            case destinationPort
-            case interface
+            case destinationIp = "destinationIp"
+            case destinationPort = "destinationPort"
+            case interface = "interface"
         }
     }
 
@@ -687,8 +687,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compressionFactor
-            case encoderProfile
+            case compressionFactor = "compressionFactor"
+            case encoderProfile = "encoderProfile"
         }
     }
 
@@ -704,8 +704,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compressionFactor
-            case encoderProfile
+            case compressionFactor = "compressionFactor"
+            case encoderProfile = "encoderProfile"
         }
     }
 
@@ -742,15 +742,15 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case constantInitializationVector
-            case deviceId
-            case keyType
-            case region
-            case resourceId
-            case roleArn
-            case secretArn
-            case url
+            case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
+            case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+            case url = "url"
         }
     }
 
@@ -781,13 +781,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case encryption
-            case entitlementArn
-            case entitlementStatus
-            case name
-            case subscribers
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case entitlementStatus = "entitlementStatus"
+            case name = "name"
+            case subscribers = "subscribers"
         }
     }
 
@@ -808,10 +808,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failoverMode
-            case recoveryWindow
-            case sourcePriority
-            case state
+            case failoverMode = "failoverMode"
+            case recoveryWindow = "recoveryWindow"
+            case sourcePriority = "sourcePriority"
+            case state = "state"
         }
     }
 
@@ -859,20 +859,20 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case description
-            case egressIp
-            case entitlements
-            case flowArn
-            case maintenance
-            case mediaStreams
-            case name
-            case outputs
-            case source
-            case sourceFailoverConfig
-            case sources
-            case status
-            case vpcInterfaces
+            case availabilityZone = "availabilityZone"
+            case description = "description"
+            case egressIp = "egressIp"
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
+            case maintenance = "maintenance"
+            case mediaStreams = "mediaStreams"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+            case status = "status"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
@@ -903,13 +903,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelOrder
-            case colorimetry
-            case exactFramerate
-            case par
-            case range
-            case scanMode
-            case tcs
+            case channelOrder = "channelOrder"
+            case colorimetry = "colorimetry"
+            case exactFramerate = "exactFramerate"
+            case par = "par"
+            case range = "range"
+            case scanMode = "scanMode"
+            case tcs = "tcs"
         }
     }
 
@@ -940,13 +940,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelOrder
-            case colorimetry
-            case exactFramerate
-            case par
-            case range
-            case scanMode
-            case tcs
+            case channelOrder = "channelOrder"
+            case colorimetry = "colorimetry"
+            case exactFramerate = "exactFramerate"
+            case par = "par"
+            case range = "range"
+            case scanMode = "scanMode"
+            case tcs = "tcs"
         }
     }
 
@@ -974,12 +974,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case encryption
-            case entitlementStatus
-            case name
-            case subscribers
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
+            case name = "name"
+            case subscribers = "subscribers"
         }
     }
 
@@ -999,7 +999,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
+            case entitlements = "entitlements"
         }
     }
 
@@ -1015,8 +1015,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
-            case flowArn
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
         }
     }
 
@@ -1035,9 +1035,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputIp
-            case inputPort
-            case interface
+            case inputIp = "inputIp"
+            case inputPort = "inputPort"
+            case interface = "interface"
         }
     }
 
@@ -1053,8 +1053,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputPort
-            case interface
+            case inputPort = "inputPort"
+            case interface = "interface"
         }
     }
 
@@ -1067,7 +1067,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1080,7 +1080,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1120,8 +1120,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
-            case nextToken
+            case entitlements = "entitlements"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1161,8 +1161,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flows
-            case nextToken
+            case flows = "flows"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1202,8 +1202,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offerings
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
@@ -1243,8 +1243,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reservations
+            case nextToken = "nextToken"
+            case reservations = "reservations"
         }
     }
 
@@ -1272,7 +1272,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1291,9 +1291,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case entitlementArn
-            case entitlementName
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case entitlementArn = "entitlementArn"
+            case entitlementName = "entitlementName"
         }
     }
 
@@ -1323,13 +1323,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case description
-            case flowArn
-            case maintenance
-            case name
-            case sourceType
-            case status
+            case availabilityZone = "availabilityZone"
+            case description = "description"
+            case flowArn = "flowArn"
+            case maintenance = "maintenance"
+            case name = "name"
+            case sourceType = "sourceType"
+            case status = "status"
         }
     }
 
@@ -1351,10 +1351,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceDeadline
-            case maintenanceScheduledDate
-            case maintenanceStartHour
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceDeadline = "maintenanceDeadline"
+            case maintenanceScheduledDate = "maintenanceScheduledDate"
+            case maintenanceStartHour = "maintenanceStartHour"
         }
     }
 
@@ -1388,14 +1388,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case clockRate
-            case description
-            case fmt
-            case mediaStreamId
-            case mediaStreamName
-            case mediaStreamType
-            case videoFormat
+            case attributes = "attributes"
+            case clockRate = "clockRate"
+            case description = "description"
+            case fmt = "fmt"
+            case mediaStreamId = "mediaStreamId"
+            case mediaStreamName = "mediaStreamName"
+            case mediaStreamType = "mediaStreamType"
+            case videoFormat = "videoFormat"
         }
     }
 
@@ -1411,8 +1411,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fmtp
-            case lang
+            case fmtp = "fmtp"
+            case lang = "lang"
         }
     }
 
@@ -1428,8 +1428,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fmtp
-            case lang
+            case fmtp = "fmtp"
+            case lang = "lang"
         }
     }
 
@@ -1451,10 +1451,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationConfigurations
-            case encodingName
-            case encodingParameters
-            case mediaStreamName
+            case destinationConfigurations = "destinationConfigurations"
+            case encodingName = "encodingName"
+            case encodingParameters = "encodingParameters"
+            case mediaStreamName = "mediaStreamName"
         }
     }
 
@@ -1476,10 +1476,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationConfigurations
-            case encodingName
-            case encodingParameters
-            case mediaStreamName
+            case destinationConfigurations = "destinationConfigurations"
+            case encodingName = "encodingName"
+            case encodingParameters = "encodingParameters"
+            case mediaStreamName = "mediaStreamName"
         }
     }
 
@@ -1498,9 +1498,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encodingName
-            case inputConfigurations
-            case mediaStreamName
+            case encodingName = "encodingName"
+            case inputConfigurations = "inputConfigurations"
+            case mediaStreamName = "mediaStreamName"
         }
     }
 
@@ -1519,9 +1519,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encodingName
-            case inputConfigurations
-            case mediaStreamName
+            case encodingName = "encodingName"
+            case inputConfigurations = "inputConfigurations"
+            case mediaStreamName = "mediaStreamName"
         }
     }
 
@@ -1534,7 +1534,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1568,14 +1568,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currencyCode
-            case duration
-            case durationUnits
-            case offeringArn
-            case offeringDescription
-            case pricePerUnit
-            case priceUnits
-            case resourceSpecification
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -1624,19 +1624,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case destination
-            case encryption
-            case entitlementArn
-            case listenerAddress
-            case mediaLiveInputArn
-            case mediaStreamOutputConfigurations
-            case name
-            case outputArn
-            case port
-            case transport
-            case vpcInterfaceAttachment
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case listenerAddress = "listenerAddress"
+            case mediaLiveInputArn = "mediaLiveInputArn"
+            case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
+            case name = "name"
+            case outputArn = "outputArn"
+            case port = "port"
+            case transport = "transport"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -1659,8 +1659,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservationName
-            case start
+            case reservationName = "reservationName"
+            case start = "start"
         }
     }
 
@@ -1672,7 +1672,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
@@ -1707,8 +1707,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case mediaStreamName
+            case flowArn = "flowArn"
+            case mediaStreamName = "mediaStreamName"
         }
     }
 
@@ -1743,8 +1743,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case outputArn
+            case flowArn = "flowArn"
+            case outputArn = "outputArn"
         }
     }
 
@@ -1779,8 +1779,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case sourceArn
+            case flowArn = "flowArn"
+            case sourceArn = "sourceArn"
         }
     }
 
@@ -1818,9 +1818,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case nonDeletedNetworkInterfaceIds
-            case vpcInterfaceName
+            case flowArn = "flowArn"
+            case nonDeletedNetworkInterfaceIds = "nonDeletedNetworkInterfaceIds"
+            case vpcInterfaceName = "vpcInterfaceName"
         }
     }
 
@@ -1869,19 +1869,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currencyCode
-            case duration
-            case durationUnits
-            case end
-            case offeringArn
-            case offeringDescription
-            case pricePerUnit
-            case priceUnits
-            case reservationArn
-            case reservationName
-            case reservationState
-            case resourceSpecification
-            case start
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case reservationArn = "reservationArn"
+            case reservationName = "reservationName"
+            case reservationState = "reservationState"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
         }
     }
 
@@ -1897,8 +1897,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservedBitrate
-            case resourceType
+            case reservedBitrate = "reservedBitrate"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1933,8 +1933,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlementArn
-            case flowArn
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
         }
     }
 
@@ -1998,24 +1998,24 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryption
-            case description
-            case entitlementArn
-            case ingestPort
-            case maxBitrate
-            case maxLatency
-            case maxSyncBuffer
-            case mediaStreamSourceConfigurations
-            case minLatency
-            case name
-            case `protocol`
-            case senderControlPort
-            case senderIpAddress
-            case sourceListenerAddress
-            case sourceListenerPort
-            case streamId
-            case vpcInterfaceName
-            case whitelistCidr
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case maxSyncBuffer = "maxSyncBuffer"
+            case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
+            case minLatency = "minLatency"
+            case name = "name"
+            case `protocol` = "protocol"
+            case senderControlPort = "senderControlPort"
+            case senderIpAddress = "senderIpAddress"
+            case sourceListenerAddress = "sourceListenerAddress"
+            case sourceListenerPort = "sourceListenerPort"
+            case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
@@ -2067,20 +2067,20 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case decryption
-            case description
-            case entitlementArn
-            case ingestIp
-            case ingestPort
-            case mediaStreamSourceConfigurations
-            case name
-            case senderControlPort
-            case senderIpAddress
-            case sourceArn
-            case transport
-            case vpcInterfaceName
-            case whitelistCidr
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestIp = "ingestIp"
+            case ingestPort = "ingestPort"
+            case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
+            case name = "name"
+            case senderControlPort = "senderControlPort"
+            case senderIpAddress = "senderIpAddress"
+            case sourceArn = "sourceArn"
+            case transport = "transport"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
@@ -2093,7 +2093,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case primarySource
+            case primarySource = "primarySource"
         }
     }
 
@@ -2124,8 +2124,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -2156,8 +2156,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -2177,7 +2177,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2226,19 +2226,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case maxBitrate
-            case maxLatency
-            case maxSyncBuffer
-            case minLatency
-            case `protocol`
-            case remoteId
-            case senderControlPort
-            case senderIpAddress
-            case smoothingLatency
-            case sourceListenerAddress
-            case sourceListenerPort
-            case streamId
+            case cidrAllowList = "cidrAllowList"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case maxSyncBuffer = "maxSyncBuffer"
+            case minLatency = "minLatency"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case senderControlPort = "senderControlPort"
+            case senderIpAddress = "senderIpAddress"
+            case smoothingLatency = "smoothingLatency"
+            case sourceListenerAddress = "sourceListenerAddress"
+            case sourceListenerPort = "sourceListenerPort"
+            case streamId = "streamId"
         }
     }
 
@@ -2294,15 +2294,15 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case constantInitializationVector
-            case deviceId
-            case keyType
-            case region
-            case resourceId
-            case roleArn
-            case secretArn
-            case url
+            case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
+            case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+            case url = "url"
         }
     }
 
@@ -2323,10 +2323,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failoverMode
-            case recoveryWindow
-            case sourcePriority
-            case state
+            case failoverMode = "failoverMode"
+            case recoveryWindow = "recoveryWindow"
+            case sourcePriority = "sourcePriority"
+            case state = "state"
         }
     }
 
@@ -2359,10 +2359,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encryption
-            case entitlementStatus
-            case subscribers
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
+            case subscribers = "subscribers"
         }
     }
 
@@ -2378,8 +2378,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlement
-            case flowArn
+            case entitlement = "entitlement"
+            case flowArn = "flowArn"
         }
     }
 
@@ -2415,11 +2415,11 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case clockRate
-            case description
-            case mediaStreamType
-            case videoFormat
+            case attributes = "attributes"
+            case clockRate = "clockRate"
+            case description = "description"
+            case mediaStreamType = "mediaStreamType"
+            case videoFormat = "videoFormat"
         }
     }
 
@@ -2435,8 +2435,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case mediaStream
+            case flowArn = "flowArn"
+            case mediaStream = "mediaStream"
         }
     }
 
@@ -2502,21 +2502,21 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case description
-            case destination
-            case encryption
-            case maxLatency
-            case mediaStreamOutputConfigurations
-            case minLatency
-            case port
-            case `protocol`
-            case remoteId
-            case senderControlPort
-            case senderIpAddress
-            case smoothingLatency
-            case streamId
-            case vpcInterfaceAttachment
+            case cidrAllowList = "cidrAllowList"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case maxLatency = "maxLatency"
+            case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
+            case minLatency = "minLatency"
+            case port = "port"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case senderControlPort = "senderControlPort"
+            case senderIpAddress = "senderIpAddress"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -2532,8 +2532,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case output
+            case flowArn = "flowArn"
+            case output = "output"
         }
     }
 
@@ -2554,8 +2554,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenance
-            case sourceFailoverConfig
+            case maintenance = "maintenance"
+            case sourceFailoverConfig = "sourceFailoverConfig"
         }
     }
 
@@ -2567,7 +2567,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
+            case flow = "flow"
         }
     }
 
@@ -2639,23 +2639,23 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryption
-            case description
-            case entitlementArn
-            case ingestPort
-            case maxBitrate
-            case maxLatency
-            case maxSyncBuffer
-            case mediaStreamSourceConfigurations
-            case minLatency
-            case `protocol`
-            case senderControlPort
-            case senderIpAddress
-            case sourceListenerAddress
-            case sourceListenerPort
-            case streamId
-            case vpcInterfaceName
-            case whitelistCidr
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case maxSyncBuffer = "maxSyncBuffer"
+            case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
+            case minLatency = "minLatency"
+            case `protocol` = "protocol"
+            case senderControlPort = "senderControlPort"
+            case senderIpAddress = "senderIpAddress"
+            case sourceListenerAddress = "sourceListenerAddress"
+            case sourceListenerPort = "sourceListenerPort"
+            case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
@@ -2671,8 +2671,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case source
+            case flowArn = "flowArn"
+            case source = "source"
         }
     }
 
@@ -2691,9 +2691,9 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceScheduledDate
-            case maintenanceStartHour
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceScheduledDate = "maintenanceScheduledDate"
+            case maintenanceStartHour = "maintenanceStartHour"
         }
     }
 
@@ -2721,12 +2721,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case networkInterfaceIds
-            case networkInterfaceType
-            case roleArn
-            case securityGroupIds
-            case subnetId
+            case name = "name"
+            case networkInterfaceIds = "networkInterfaceIds"
+            case networkInterfaceType = "networkInterfaceType"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 
@@ -2739,7 +2739,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcInterfaceName
+            case vpcInterfaceName = "vpcInterfaceName"
         }
     }
 
@@ -2764,11 +2764,11 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case networkInterfaceType
-            case roleArn
-            case securityGroupIds
-            case subnetId
+            case name = "name"
+            case networkInterfaceType = "networkInterfaceType"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 }

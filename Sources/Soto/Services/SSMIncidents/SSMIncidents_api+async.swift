@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -173,7 +173,7 @@ extension SSMIncidents {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSMIncidents {
-    ///  Retrieves the resource policies attached to the specified response plan.
+    /// Retrieves the resource policies attached to the specified response plan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -195,7 +195,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
+    /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -217,7 +217,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  List all related items for an incident record.
+    /// List all related items for an incident record.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -239,7 +239,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists details about the replication set configured in your account.
+    /// Lists details about the replication set configured in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -261,7 +261,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists all response plans in your account.
+    /// Lists all response plans in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -283,7 +283,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists timeline events for the specified incident record.
+    /// Lists timeline events for the specified incident record.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

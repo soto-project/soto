@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,9 +22,9 @@ extension Rbin {
     // MARK: Enums
 
     public enum LockState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case locked
+        case locked = "locked"
         case pendingUnlock = "pending_unlock"
-        case unlocked
+        case unlocked = "unlocked"
         public var description: String { return self.rawValue }
     }
 
@@ -40,8 +40,8 @@ extension Rbin {
     }
 
     public enum RuleStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case pending
+        case available = "available"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -761,7 +761,7 @@ public struct RbinErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The specified retention rule lock request can&#39;t be completed.
+    /// The specified retention rule lock request can't be completed.
     public static var conflictException: Self { .init(.conflictException) }
     /// The service could not respond to the request due to an internal problem.
     public static var internalServerException: Self { .init(.internalServerException) }

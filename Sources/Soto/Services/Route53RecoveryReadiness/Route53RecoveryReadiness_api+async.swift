@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -188,7 +188,7 @@ extension Route53RecoveryReadiness {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53RecoveryReadiness {
-    ///  Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
+    /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -210,7 +210,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
+    /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -232,7 +232,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
+    /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -254,7 +254,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
+    /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -276,7 +276,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists the cells for an account.
+    /// Lists the cells for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -298,7 +298,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists the cross-account readiness authorizations that are in place for an account.
+    /// Lists the cross-account readiness authorizations that are in place for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -320,7 +320,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists the readiness checks for an account.
+    /// Lists the readiness checks for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -342,7 +342,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists the recovery groups in an account.
+    /// Lists the recovery groups in an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -364,7 +364,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists the resource sets in an account.
+    /// Lists the resource sets in an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -386,7 +386,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Lists all readiness rules, or lists the readiness rules for a specific resource type.
+    /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

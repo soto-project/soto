@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -286,7 +286,7 @@ extension WellArchitected {
 // MARK: Paginators
 
 extension WellArchitected {
-    ///  List of answers.
+    /// List of answers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -339,7 +339,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List of Trusted Advisor check details by account related to the workload.
+    /// List of Trusted Advisor check details by account related to the workload.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -392,7 +392,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List of Trusted Advisor checks summarized for all accounts related to the workload.
+    /// List of Trusted Advisor checks summarized for all accounts related to the workload.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -445,7 +445,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens review improvements.
+    /// List lens review improvements.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -498,7 +498,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens reviews.
+    /// List lens reviews.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -551,7 +551,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the lens shares associated with the lens.
+    /// List the lens shares associated with the lens.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -604,7 +604,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the available lenses.
+    /// List the available lenses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -657,7 +657,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List all milestones for an existing workload.
+    /// List all milestones for an existing workload.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -710,7 +710,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens notifications.
+    /// List lens notifications.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -763,7 +763,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List  the workload invitations.
+    /// List  the workload invitations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -816,7 +816,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the workload shares associated with the workload.
+    /// List the workload shares associated with the workload.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -869,7 +869,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List workloads. Paginated.
+    /// List workloads. Paginated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

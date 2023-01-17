@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,10 +103,10 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case data
-            case modifiedAt
-            case status
+            case createdAt = "createdAt"
+            case data = "data"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
         }
     }
 
@@ -122,8 +122,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
-            case statusReason
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
         }
     }
 
@@ -155,8 +155,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case data
+            case clientToken = "clientToken"
+            case data = "data"
         }
     }
 
@@ -169,7 +169,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -202,8 +202,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case logGroupArn
+            case clientToken = "clientToken"
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -216,7 +216,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -265,10 +265,10 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case data
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case data = "data"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -290,10 +290,10 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case status
-            case tags
+            case arn = "arn"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -328,9 +328,9 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case tags
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -352,10 +352,10 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case status
-            case tags
-            case workspaceId
+            case arn = "arn"
+            case status = "status"
+            case tags = "tags"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -508,7 +508,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alertManagerDefinition
+            case alertManagerDefinition = "alertManagerDefinition"
         }
     }
 
@@ -542,7 +542,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingConfiguration
+            case loggingConfiguration = "loggingConfiguration"
         }
     }
 
@@ -583,7 +583,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleGroupsNamespace
+            case ruleGroupsNamespace = "ruleGroupsNamespace"
         }
     }
 
@@ -617,7 +617,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -669,8 +669,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case ruleGroupsNamespaces
+            case nextToken = "nextToken"
+            case ruleGroupsNamespaces = "ruleGroupsNamespaces"
         }
     }
 
@@ -697,7 +697,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -741,8 +741,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workspaces
+            case nextToken = "nextToken"
+            case workspaces = "workspaces"
         }
     }
 
@@ -767,11 +767,11 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case logGroupArn
-            case modifiedAt
-            case status
-            case workspace
+            case createdAt = "createdAt"
+            case logGroupArn = "logGroupArn"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
+            case workspace = "workspace"
         }
     }
 
@@ -787,8 +787,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
-            case statusReason
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
         }
     }
 
@@ -820,8 +820,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case data
+            case clientToken = "clientToken"
+            case data = "data"
         }
     }
 
@@ -834,7 +834,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -873,8 +873,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case data
+            case clientToken = "clientToken"
+            case data = "data"
         }
     }
 
@@ -896,10 +896,10 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case status
-            case tags
+            case arn = "arn"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -930,13 +930,13 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case data
-            case modifiedAt
-            case name
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case data = "data"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -952,8 +952,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
-            case statusReason
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
         }
     }
 
@@ -981,12 +981,12 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case modifiedAt
-            case name
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1016,7 +1016,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1084,8 +1084,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case logGroupArn
+            case clientToken = "clientToken"
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -1098,7 +1098,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -1132,8 +1132,8 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
+            case alias = "alias"
+            case clientToken = "clientToken"
         }
     }
 
@@ -1164,13 +1164,13 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case arn
-            case createdAt
-            case prometheusEndpoint
-            case status
-            case tags
-            case workspaceId
+            case alias = "alias"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case prometheusEndpoint = "prometheusEndpoint"
+            case status = "status"
+            case tags = "tags"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -1183,7 +1183,7 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
+            case statusCode = "statusCode"
         }
     }
 
@@ -1211,12 +1211,12 @@ extension Amp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case arn
-            case createdAt
-            case status
-            case tags
-            case workspaceId
+            case alias = "alias"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case status = "status"
+            case tags = "tags"
+            case workspaceId = "workspaceId"
         }
     }
 }

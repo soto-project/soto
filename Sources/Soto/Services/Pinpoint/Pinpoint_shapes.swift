@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1174,7 +1174,7 @@ extension Pinpoint {
             case creationDate = "CreationDate"
             case id = "Id"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1684,7 +1684,7 @@ extension Pinpoint {
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
             case state = "State"
-            case tags
+            case tags = "tags"
             case templateConfiguration = "TemplateConfiguration"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
@@ -1967,7 +1967,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3674,7 +3674,7 @@ extension Pinpoint {
             case htmlPart = "HtmlPart"
             case recommenderId = "RecommenderId"
             case subject = "Subject"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case textPart = "TextPart"
         }
@@ -3732,7 +3732,7 @@ extension Pinpoint {
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
             case subject = "Subject"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -6822,7 +6822,7 @@ extension Pinpoint {
             case content = "Content"
             case customConfig = "CustomConfig"
             case layout = "Layout"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
         }
     }
@@ -6872,7 +6872,7 @@ extension Pinpoint {
             case customConfig = "CustomConfig"
             case lastModifiedDate = "LastModifiedDate"
             case layout = "Layout"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -7163,7 +7163,7 @@ extension Pinpoint {
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
-            case tags
+            case tags = "tags"
             case waitForQuietTime = "WaitForQuietTime"
         }
     }
@@ -7991,7 +7991,7 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case gcm = "GCM"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
         }
     }
@@ -8057,7 +8057,7 @@ extension Pinpoint {
             case gcm = "GCM"
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -8541,7 +8541,7 @@ extension Pinpoint {
             case body = "Body"
             case defaultSubstitutions = "DefaultSubstitutions"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
         }
     }
@@ -8591,7 +8591,7 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -8889,7 +8889,7 @@ extension Pinpoint {
             case name = "Name"
             case segmentGroups = "SegmentGroups"
             case segmentType = "SegmentType"
-            case tags
+            case tags = "tags"
             case version = "Version"
         }
     }
@@ -9193,7 +9193,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case eventCondition = "EventCondition"
             case segmentCondition = "SegmentCondition"
-            case segmentDimensions
+            case segmentDimensions = "segmentDimensions"
         }
     }
 
@@ -9286,7 +9286,7 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -9403,7 +9403,7 @@ extension Pinpoint {
             case creationDate = "CreationDate"
             case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -10828,7 +10828,7 @@ extension Pinpoint {
             case body = "Body"
             case defaultSubstitutions = "DefaultSubstitutions"
             case languageCode = "LanguageCode"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case voiceId = "VoiceId"
         }
@@ -10882,7 +10882,7 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case languageCode = "LanguageCode"
             case lastModifiedDate = "LastModifiedDate"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -11023,7 +11023,7 @@ extension Pinpoint {
             case schedule = "Schedule"
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
-            case tags
+            case tags = "tags"
             case templateConfiguration = "TemplateConfiguration"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
@@ -11149,7 +11149,7 @@ extension Pinpoint {
             case dimensions = "Dimensions"
             case name = "Name"
             case segmentGroups = "SegmentGroups"
-            case tags
+            case tags = "tags"
         }
     }
 

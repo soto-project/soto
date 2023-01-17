@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -202,8 +202,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorId
-            case invitationId
+            case administratorId = "administratorId"
+            case invitationId = "invitationId"
         }
     }
 
@@ -235,8 +235,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitationId
-            case masterId
+            case invitationId = "invitationId"
+            case masterId = "masterId"
         }
     }
 
@@ -256,8 +256,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -279,10 +279,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case principalId
-            case userName
-            case userType
+            case accessKeyId = "accessKeyId"
+            case principalId = "principalId"
+            case userName = "userName"
+            case userType = "userType"
         }
     }
 
@@ -305,8 +305,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case email
+            case accountId = "accountId"
+            case email = "email"
         }
     }
 
@@ -322,8 +322,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case dataSources
+            case accountId = "accountId"
+            case dataSources = "dataSources"
         }
     }
 
@@ -336,7 +336,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAccess
+            case blockPublicAccess = "blockPublicAccess"
         }
     }
 
@@ -364,12 +364,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
-            case awsApiCallAction
-            case dnsRequestAction
-            case kubernetesApiCallAction
-            case networkConnectionAction
-            case portProbeAction
+            case actionType = "actionType"
+            case awsApiCallAction = "awsApiCallAction"
+            case dnsRequestAction = "dnsRequestAction"
+            case kubernetesApiCallAction = "kubernetesApiCallAction"
+            case networkConnectionAction = "networkConnectionAction"
+            case portProbeAction = "portProbeAction"
         }
     }
 
@@ -385,8 +385,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case adminStatus
+            case adminAccountId = "adminAccountId"
+            case adminStatus = "adminStatus"
         }
     }
 
@@ -408,10 +408,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case invitationId
-            case invitedAt
-            case relationshipStatus
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
@@ -441,7 +441,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
+            case findingIds = "findingIds"
         }
     }
 
@@ -482,15 +482,15 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case affectedResources
-            case api
-            case callerType
-            case domainDetails
-            case errorCode
-            case remoteAccountDetails
-            case remoteIpDetails
-            case serviceName
-            case userAgent
+            case affectedResources = "affectedResources"
+            case api = "api"
+            case callerType = "callerType"
+            case domainDetails = "domainDetails"
+            case errorCode = "errorCode"
+            case remoteAccountDetails = "remoteAccountDetails"
+            case remoteIpDetails = "remoteIpDetails"
+            case serviceName = "serviceName"
+            case userAgent = "userAgent"
         }
     }
 
@@ -512,10 +512,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAcls
-            case blockPublicPolicy
-            case ignorePublicAcls
-            case restrictPublicBuckets
+            case blockPublicAcls = "blockPublicAcls"
+            case blockPublicPolicy = "blockPublicPolicy"
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
         }
     }
 
@@ -534,9 +534,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControlList
-            case blockPublicAccess
-            case bucketPolicy
+            case accessControlList = "accessControlList"
+            case blockPublicAccess = "blockPublicAccess"
+            case bucketPolicy = "bucketPolicy"
         }
     }
 
@@ -552,8 +552,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -566,7 +566,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cityName
+            case cityName = "cityName"
         }
     }
 
@@ -579,7 +579,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -641,18 +641,18 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eq
-            case equals
-            case greaterThan
-            case greaterThanOrEqual
-            case gt
-            case gte
-            case lessThan
-            case lessThanOrEqual
-            case lt
-            case lte
-            case neq
-            case notEquals
+            case eq = "eq"
+            case equals = "equals"
+            case greaterThan = "greaterThan"
+            case greaterThanOrEqual = "greaterThanOrEqual"
+            case gt = "gt"
+            case gte = "gte"
+            case lessThan = "lessThan"
+            case lessThanOrEqual = "lessThanOrEqual"
+            case lt = "lt"
+            case lte = "lte"
+            case neq = "neq"
+            case notEquals = "notEquals"
         }
     }
 
@@ -683,13 +683,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRuntime
-            case id
-            case image
-            case imagePrefix
-            case name
-            case securityContext
-            case volumeMounts
+            case containerRuntime = "containerRuntime"
+            case id = "id"
+            case image = "image"
+            case imagePrefix = "imagePrefix"
+            case name = "name"
+            case securityContext = "securityContext"
+            case volumeMounts = "volumeMounts"
         }
     }
 
@@ -705,8 +705,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countryCode
-            case countryName
+            case countryCode = "countryCode"
+            case countryName = "countryName"
         }
     }
 
@@ -743,11 +743,11 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dataSources
-            case enable
-            case findingPublishingFrequency
-            case tags
+            case clientToken = "clientToken"
+            case dataSources = "dataSources"
+            case enable = "enable"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case tags = "tags"
         }
     }
 
@@ -763,8 +763,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorId
-            case unprocessedDataSources
+            case detectorId = "detectorId"
+            case unprocessedDataSources = "unprocessedDataSources"
         }
     }
 
@@ -821,13 +821,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case clientToken
-            case description
-            case findingCriteria
-            case name
-            case rank
-            case tags
+            case action = "action"
+            case clientToken = "clientToken"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case rank = "rank"
+            case tags = "tags"
         }
     }
 
@@ -840,7 +840,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -893,12 +893,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activate
-            case clientToken
-            case format
-            case location
-            case name
-            case tags
+            case activate = "activate"
+            case clientToken = "clientToken"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -911,7 +911,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipSetId
+            case ipSetId = "ipSetId"
         }
     }
 
@@ -941,7 +941,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountDetails
+            case accountDetails = "accountDetails"
         }
     }
 
@@ -954,7 +954,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -986,9 +986,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case destinationProperties
-            case destinationType
+            case clientToken = "clientToken"
+            case destinationProperties = "destinationProperties"
+            case destinationType = "destinationType"
         }
     }
 
@@ -1001,7 +1001,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationId
+            case destinationId = "destinationId"
         }
     }
 
@@ -1031,7 +1031,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingTypes
+            case findingTypes = "findingTypes"
         }
     }
 
@@ -1088,12 +1088,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activate
-            case clientToken
-            case format
-            case location
-            case name
-            case tags
+            case activate = "activate"
+            case clientToken = "clientToken"
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1106,7 +1106,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case threatIntelSetId
+            case threatIntelSetId = "threatIntelSetId"
         }
     }
 
@@ -1119,7 +1119,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -1138,9 +1138,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kubernetes
-            case malwareProtection
-            case s3Logs
+            case kubernetes = "kubernetes"
+            case malwareProtection = "malwareProtection"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -1168,12 +1168,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudTrail
-            case dnsLogs
-            case flowLogs
-            case kubernetes
-            case malwareProtection
-            case s3Logs
+            case cloudTrail = "cloudTrail"
+            case dnsLogs = "dnsLogs"
+            case flowLogs = "flowLogs"
+            case kubernetes = "kubernetes"
+            case malwareProtection = "malwareProtection"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -1186,7 +1186,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case freeTrialDaysRemaining
+            case freeTrialDaysRemaining = "freeTrialDaysRemaining"
         }
     }
 
@@ -1214,12 +1214,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudTrail
-            case dnsLogs
-            case flowLogs
-            case kubernetes
-            case malwareProtection
-            case s3Logs
+            case cloudTrail = "cloudTrail"
+            case dnsLogs = "dnsLogs"
+            case flowLogs = "flowLogs"
+            case kubernetes = "kubernetes"
+            case malwareProtection = "malwareProtection"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -1241,7 +1241,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1254,7 +1254,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1270,8 +1270,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsMasterKeyArn
+            case encryptionType = "encryptionType"
+            case kmsMasterKeyArn = "kmsMasterKeyArn"
         }
     }
 
@@ -1373,7 +1373,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1386,7 +1386,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1417,7 +1417,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1430,7 +1430,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1523,10 +1523,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -1542,8 +1542,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case scans
+            case nextToken = "nextToken"
+            case scans = "scans"
         }
     }
 
@@ -1582,9 +1582,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
-            case dataSources
-            case memberAccountLimitReached
+            case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
+            case memberAccountLimitReached = "memberAccountLimitReached"
         }
     }
 
@@ -1633,11 +1633,11 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationId
-            case destinationProperties
-            case destinationType
-            case publishingFailureStartTimestamp
-            case status
+            case destinationId = "destinationId"
+            case destinationProperties = "destinationProperties"
+            case destinationType = "destinationType"
+            case publishingFailureStartTimestamp = "publishingFailureStartTimestamp"
+            case status = "status"
         }
     }
 
@@ -1656,9 +1656,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationId
-            case destinationType
-            case status
+            case destinationId = "destinationId"
+            case destinationType = "destinationType"
+            case status = "status"
         }
     }
 
@@ -1674,8 +1674,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn
-            case kmsKeyArn
+            case destinationArn = "destinationArn"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -1688,7 +1688,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
@@ -1771,7 +1771,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1784,7 +1784,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1803,9 +1803,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blocked
-            case domain
-            case `protocol`
+            case blocked = "blocked"
+            case domain = "domain"
+            case `protocol` = "protocol"
         }
     }
 
@@ -1818,7 +1818,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
@@ -1834,8 +1834,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scannedVolumeDetails
-            case skippedVolumeDetails
+            case scannedVolumeDetails = "scannedVolumeDetails"
+            case skippedVolumeDetails = "skippedVolumeDetails"
         }
     }
 
@@ -1863,12 +1863,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanCompletedAt
-            case scanDetections
-            case scanId
-            case scanStartedAt
-            case sources
-            case triggerFindingId
+            case scanCompletedAt = "scanCompletedAt"
+            case scanDetections = "scanDetections"
+            case scanId = "scanId"
+            case scanStartedAt = "scanStartedAt"
+            case sources = "sources"
+            case triggerFindingId = "triggerFindingId"
         }
     }
 
@@ -1884,8 +1884,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -1919,14 +1919,14 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeServicesCount
-            case arn
-            case name
-            case registeredContainerInstancesCount
-            case runningTasksCount
-            case status
-            case tags
-            case taskDetails
+            case activeServicesCount = "activeServicesCount"
+            case arn = "arn"
+            case name = "name"
+            case registeredContainerInstancesCount = "registeredContainerInstancesCount"
+            case runningTasksCount = "runningTasksCount"
+            case status = "status"
+            case tags = "tags"
+            case taskDetails = "taskDetails"
         }
     }
 
@@ -1966,16 +1966,16 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containers
-            case definitionArn
-            case group
-            case startedAt
-            case startedBy
-            case tags
+            case arn = "arn"
+            case containers = "containers"
+            case definitionArn = "definitionArn"
+            case group = "group"
+            case startedAt = "startedAt"
+            case startedBy = "startedBy"
+            case tags = "tags"
             case taskCreatedAt = "createdAt"
-            case version
-            case volumes
+            case version = "version"
+            case volumes = "volumes"
         }
     }
 
@@ -2003,12 +2003,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case name
-            case status
-            case tags
-            case vpcId
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case vpcId = "vpcId"
         }
     }
 
@@ -2021,7 +2021,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
@@ -2038,7 +2038,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case threatIntelligenceDetails
+            case threatIntelligenceDetails = "threatIntelligenceDetails"
         }
     }
 
@@ -2062,9 +2062,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case equalsValue
-            case greaterThan
-            case lessThan
+            case equalsValue = "equalsValue"
+            case greaterThan = "greaterThan"
+            case lessThan = "lessThan"
         }
     }
 
@@ -2084,7 +2084,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriterion
+            case filterCriterion = "filterCriterion"
         }
     }
 
@@ -2104,8 +2104,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criterionKey
-            case filterCondition
+            case criterionKey = "criterionKey"
+            case filterCondition = "filterCondition"
         }
     }
 
@@ -2158,21 +2158,21 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case confidence
-            case createdAt
-            case description
-            case id
-            case partition
-            case region
-            case resource
-            case schemaVersion
-            case service
-            case severity
-            case title
-            case type
-            case updatedAt
+            case accountId = "accountId"
+            case arn = "arn"
+            case confidence = "confidence"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case partition = "partition"
+            case region = "region"
+            case resource = "resource"
+            case schemaVersion = "schemaVersion"
+            case service = "service"
+            case severity = "severity"
+            case title = "title"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2185,7 +2185,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criterion
+            case criterion = "criterion"
         }
     }
 
@@ -2198,7 +2198,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countBySeverity
+            case countBySeverity = "countBySeverity"
         }
     }
 
@@ -2211,7 +2211,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2227,8 +2227,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lat
-            case lon
+            case lat = "lat"
+            case lon = "lon"
         }
     }
 
@@ -2261,7 +2261,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administrator
+            case administrator = "administrator"
         }
     }
 
@@ -2312,13 +2312,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case dataSources
-            case findingPublishingFrequency
-            case serviceRole
-            case status
-            case tags
-            case updatedAt
+            case createdAt = "createdAt"
+            case dataSources = "dataSources"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case serviceRole = "serviceRole"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2370,12 +2370,12 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case description
-            case findingCriteria
-            case name
-            case rank
-            case tags
+            case action = "action"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case rank = "rank"
+            case tags = "tags"
         }
     }
 
@@ -2408,8 +2408,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case sortCriteria
+            case findingIds = "findingIds"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -2422,7 +2422,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
+            case findings = "findings"
         }
     }
 
@@ -2451,8 +2451,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case findingStatisticTypes
+            case findingCriteria = "findingCriteria"
+            case findingStatisticTypes = "findingStatisticTypes"
         }
     }
 
@@ -2465,7 +2465,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingStatistics
+            case findingStatistics = "findingStatistics"
         }
     }
 
@@ -2514,11 +2514,11 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case location
-            case name
-            case status
-            case tags
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2535,7 +2535,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitationsCount
+            case invitationsCount = "invitationsCount"
         }
     }
 
@@ -2571,8 +2571,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsSnapshotPreservation
-            case scanResourceCriteria
+            case ebsSnapshotPreservation = "ebsSnapshotPreservation"
+            case scanResourceCriteria = "scanResourceCriteria"
         }
     }
 
@@ -2605,7 +2605,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case master
+            case master = "master"
         }
     }
 
@@ -2636,7 +2636,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -2653,7 +2653,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case memberDataSourceConfigurations = "members"
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -2684,7 +2684,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -2700,8 +2700,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case unprocessedAccounts
+            case members = "members"
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -2732,7 +2732,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -2748,8 +2748,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case unprocessedAccounts
+            case accounts = "accounts"
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -2798,11 +2798,11 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case location
-            case name
-            case status
-            case tags
+            case format = "format"
+            case location = "location"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2842,10 +2842,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case unit
-            case usageCriteria
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case unit = "unit"
+            case usageCriteria = "usageCriteria"
             case usageStatisticType = "usageStatisticsType"
         }
     }
@@ -2862,8 +2862,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case usageStatistics
+            case nextToken = "nextToken"
+            case usageStatistics = "usageStatistics"
         }
     }
 
@@ -2882,9 +2882,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case severity
-            case threatName
+            case count = "count"
+            case severity = "severity"
+            case threatName = "threatName"
         }
     }
 
@@ -2897,7 +2897,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
+            case path = "path"
         }
     }
 
@@ -2913,8 +2913,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -2963,19 +2963,19 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case iamInstanceProfile
-            case imageDescription
-            case imageId
-            case instanceId
-            case instanceState
-            case instanceType
-            case launchTime
-            case networkInterfaces
-            case outpostArn
-            case platform
-            case productCodes
-            case tags
+            case availabilityZone = "availabilityZone"
+            case iamInstanceProfile = "iamInstanceProfile"
+            case imageDescription = "imageDescription"
+            case imageId = "imageId"
+            case instanceId = "instanceId"
+            case instanceState = "instanceState"
+            case instanceType = "instanceType"
+            case launchTime = "launchTime"
+            case networkInterfaces = "networkInterfaces"
+            case outpostArn = "outpostArn"
+            case platform = "platform"
+            case productCodes = "productCodes"
+            case tags = "tags"
         }
     }
 
@@ -2997,10 +2997,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case invitationId
-            case invitedAt
-            case relationshipStatus
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
@@ -3037,9 +3037,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case disableEmailNotification
-            case message
+            case accountIds = "accountIds"
+            case disableEmailNotification = "disableEmailNotification"
+            case message = "message"
         }
     }
 
@@ -3052,7 +3052,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -3082,13 +3082,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
-            case remoteIpDetails
-            case requestUri
-            case sourceIps
-            case statusCode
-            case userAgent
-            case verb
+            case parameters = "parameters"
+            case remoteIpDetails = "remoteIpDetails"
+            case requestUri = "requestUri"
+            case sourceIps = "sourceIps"
+            case statusCode = "statusCode"
+            case userAgent = "userAgent"
+            case verb = "verb"
         }
     }
 
@@ -3101,7 +3101,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enable
+            case enable = "enable"
         }
     }
 
@@ -3114,7 +3114,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -3127,7 +3127,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditLogs
+            case auditLogs = "auditLogs"
         }
     }
 
@@ -3140,7 +3140,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditLogs
+            case auditLogs = "auditLogs"
         }
     }
 
@@ -3153,7 +3153,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditLogs
+            case auditLogs = "auditLogs"
         }
     }
 
@@ -3169,8 +3169,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kubernetesUserDetails
-            case kubernetesWorkloadDetails
+            case kubernetesUserDetails = "kubernetesUserDetails"
+            case kubernetesWorkloadDetails = "kubernetesWorkloadDetails"
         }
     }
 
@@ -3189,9 +3189,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups
-            case uid
-            case username
+            case groups = "groups"
+            case uid = "uid"
+            case username = "username"
         }
     }
 
@@ -3222,13 +3222,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case hostNetwork
-            case name
-            case namespace
-            case type
-            case uid
-            case volumes
+            case containers = "containers"
+            case hostNetwork = "hostNetwork"
+            case name = "name"
+            case namespace = "namespace"
+            case type = "type"
+            case uid = "uid"
+            case volumes = "volumes"
         }
     }
 
@@ -3268,8 +3268,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorIds
-            case nextToken
+            case detectorIds = "detectorIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3315,8 +3315,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNames
-            case nextToken
+            case filterNames = "filterNames"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3352,10 +3352,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case findingCriteria = "findingCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -3371,8 +3371,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case nextToken
+            case findingIds = "findingIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3418,8 +3418,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipSetIds
-            case nextToken
+            case ipSetIds = "ipSetIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3459,8 +3459,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitations
-            case nextToken
+            case invitations = "invitations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3510,8 +3510,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3551,8 +3551,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccounts
-            case nextToken
+            case adminAccounts = "adminAccounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3598,8 +3598,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case nextToken
+            case destinations = "destinations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3631,7 +3631,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3677,8 +3677,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case threatIntelSetIds
+            case nextToken = "nextToken"
+            case threatIntelSetIds = "threatIntelSetIds"
         }
     }
 
@@ -3691,7 +3691,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressV4
+            case ipAddressV4 = "ipAddressV4"
         }
     }
 
@@ -3707,8 +3707,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case portName
+            case port = "port"
+            case portName = "portName"
         }
     }
 
@@ -3721,7 +3721,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanEc2InstanceWithFindings
+            case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
         }
     }
 
@@ -3737,8 +3737,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanEc2InstanceWithFindings
-            case serviceRole
+            case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
+            case serviceRole = "serviceRole"
         }
     }
 
@@ -3751,7 +3751,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanEc2InstanceWithFindings
+            case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
         }
     }
 
@@ -3773,10 +3773,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case invitationId
-            case invitedAt
-            case relationshipStatus
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
@@ -3810,14 +3810,14 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case administratorId
-            case detectorId
-            case email
-            case invitedAt
-            case masterId
-            case relationshipStatus
-            case updatedAt
+            case accountId = "accountId"
+            case administratorId = "administratorId"
+            case detectorId = "detectorId"
+            case email = "email"
+            case invitedAt = "invitedAt"
+            case masterId = "masterId"
+            case relationshipStatus = "relationshipStatus"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -3833,8 +3833,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case dataSources
+            case accountId = "accountId"
+            case dataSources = "dataSources"
         }
     }
 
@@ -3865,13 +3865,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blocked
-            case connectionDirection
-            case localIpDetails
-            case localPortDetails
-            case `protocol`
-            case remoteIpDetails
-            case remotePortDetails
+            case blocked = "blocked"
+            case connectionDirection = "connectionDirection"
+            case localIpDetails = "localIpDetails"
+            case localPortDetails = "localPortDetails"
+            case `protocol` = "protocol"
+            case remoteIpDetails = "remoteIpDetails"
+            case remotePortDetails = "remotePortDetails"
         }
     }
 
@@ -3911,16 +3911,16 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipv6Addresses
-            case networkInterfaceId
-            case privateDnsName
-            case privateIpAddress
-            case privateIpAddresses
-            case publicDnsName
-            case publicIp
-            case securityGroups
-            case subnetId
-            case vpcId
+            case ipv6Addresses = "ipv6Addresses"
+            case networkInterfaceId = "networkInterfaceId"
+            case privateDnsName = "privateDnsName"
+            case privateIpAddress = "privateIpAddress"
+            case privateIpAddresses = "privateIpAddresses"
+            case publicDnsName = "publicDnsName"
+            case publicIp = "publicIp"
+            case securityGroups = "securityGroups"
+            case subnetId = "subnetId"
+            case vpcId = "vpcId"
         }
     }
 
@@ -3942,10 +3942,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn
-            case asnOrg
-            case isp
-            case org
+            case asn = "asn"
+            case asnOrg = "asnOrg"
+            case isp = "isp"
+            case org = "org"
         }
     }
 
@@ -3964,9 +3964,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kubernetes
-            case malwareProtection
-            case s3Logs
+            case kubernetes = "kubernetes"
+            case malwareProtection = "malwareProtection"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -3985,9 +3985,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kubernetes
-            case malwareProtection
-            case s3Logs
+            case kubernetes = "kubernetes"
+            case malwareProtection = "malwareProtection"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -4000,7 +4000,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4013,7 +4013,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4026,7 +4026,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4039,7 +4039,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4052,7 +4052,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditLogs
+            case auditLogs = "auditLogs"
         }
     }
 
@@ -4065,7 +4065,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auditLogs
+            case auditLogs = "auditLogs"
         }
     }
 
@@ -4078,7 +4078,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanEc2InstanceWithFindings
+            case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
         }
     }
 
@@ -4091,7 +4091,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanEc2InstanceWithFindings
+            case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
         }
     }
 
@@ -4104,7 +4104,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4117,7 +4117,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4130,7 +4130,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsVolumes
+            case ebsVolumes = "ebsVolumes"
         }
     }
 
@@ -4143,7 +4143,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsVolumes
+            case ebsVolumes = "ebsVolumes"
         }
     }
 
@@ -4156,7 +4156,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -4172,8 +4172,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountLevelPermissions
-            case bucketLevelPermissions
+            case accountLevelPermissions = "accountLevelPermissions"
+            case bucketLevelPermissions = "bucketLevelPermissions"
         }
     }
 
@@ -4189,8 +4189,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blocked
-            case portProbeDetails
+            case blocked = "blocked"
+            case portProbeDetails = "portProbeDetails"
         }
     }
 
@@ -4209,9 +4209,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case localIpDetails
-            case localPortDetails
-            case remoteIpDetails
+            case localIpDetails = "localIpDetails"
+            case localPortDetails = "localPortDetails"
+            case remoteIpDetails = "remoteIpDetails"
         }
     }
 
@@ -4227,8 +4227,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case privateDnsName
-            case privateIpAddress
+            case privateDnsName = "privateDnsName"
+            case privateIpAddress = "privateIpAddress"
         }
     }
 
@@ -4261,8 +4261,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectivePermission
-            case permissionConfiguration
+            case effectivePermission = "effectivePermission"
+            case permissionConfiguration = "permissionConfiguration"
         }
     }
 
@@ -4278,8 +4278,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case affiliated
+            case accountId = "accountId"
+            case affiliated = "affiliated"
         }
     }
 
@@ -4304,11 +4304,11 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case country
-            case geoLocation
-            case ipAddressV4
-            case organization
+            case city = "city"
+            case country = "country"
+            case geoLocation = "geoLocation"
+            case ipAddressV4 = "ipAddressV4"
+            case organization = "organization"
         }
     }
 
@@ -4324,8 +4324,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case portName
+            case port = "port"
+            case portName = "portName"
         }
     }
 
@@ -4361,15 +4361,15 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyDetails
-            case containerDetails
-            case ebsVolumeDetails
-            case ecsClusterDetails
-            case eksClusterDetails
-            case instanceDetails
-            case kubernetesDetails
-            case resourceType
-            case s3BucketDetails
+            case accessKeyDetails = "accessKeyDetails"
+            case containerDetails = "containerDetails"
+            case ebsVolumeDetails = "ebsVolumeDetails"
+            case ecsClusterDetails = "ecsClusterDetails"
+            case eksClusterDetails = "eksClusterDetails"
+            case instanceDetails = "instanceDetails"
+            case kubernetesDetails = "kubernetesDetails"
+            case resourceType = "resourceType"
+            case s3BucketDetails = "s3BucketDetails"
         }
     }
 
@@ -4382,7 +4382,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceArn
+            case instanceArn = "instanceArn"
         }
     }
 
@@ -4416,14 +4416,14 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case defaultServerSideEncryption
-            case name
-            case owner
-            case publicAccess
-            case tags
-            case type
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case defaultServerSideEncryption = "defaultServerSideEncryption"
+            case name = "name"
+            case owner = "owner"
+            case publicAccess = "publicAccess"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -4436,7 +4436,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enable
+            case enable = "enable"
         }
     }
 
@@ -4449,7 +4449,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -4501,20 +4501,20 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case adminDetectorId
-            case attachedVolumes
-            case detectorId
-            case failureReason
-            case fileCount
-            case resourceDetails
-            case scanEndTime
-            case scanId
-            case scanResultDetails
-            case scanStartTime
-            case scanStatus
-            case totalBytes
-            case triggerDetails
+            case accountId = "accountId"
+            case adminDetectorId = "adminDetectorId"
+            case attachedVolumes = "attachedVolumes"
+            case detectorId = "detectorId"
+            case failureReason = "failureReason"
+            case fileCount = "fileCount"
+            case resourceDetails = "resourceDetails"
+            case scanEndTime = "scanEndTime"
+            case scanId = "scanId"
+            case scanResultDetails = "scanResultDetails"
+            case scanStartTime = "scanStartTime"
+            case scanStatus = "scanStatus"
+            case totalBytes = "totalBytes"
+            case triggerDetails = "triggerDetails"
         }
     }
 
@@ -4533,7 +4533,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mapEquals
+            case mapEquals = "mapEquals"
         }
     }
 
@@ -4556,8 +4556,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4579,10 +4579,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case highestSeverityThreatDetails
-            case scannedItemCount
-            case threatDetectedByName
-            case threatsDetectedItemCount
+            case highestSeverityThreatDetails = "highestSeverityThreatDetails"
+            case scannedItemCount = "scannedItemCount"
+            case threatDetectedByName = "threatDetectedByName"
+            case threatsDetectedItemCount = "threatsDetectedItemCount"
         }
     }
 
@@ -4595,7 +4595,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsVolumes
+            case ebsVolumes = "ebsVolumes"
         }
     }
 
@@ -4608,7 +4608,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsVolumes
+            case ebsVolumes = "ebsVolumes"
         }
     }
 
@@ -4630,10 +4630,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileName
-            case filePath
-            case hash
-            case volumeArn
+            case fileName = "fileName"
+            case filePath = "filePath"
+            case hash = "hash"
+            case volumeArn = "volumeArn"
         }
     }
 
@@ -4658,8 +4658,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exclude
-            case include
+            case exclude = "exclude"
+            case include = "include"
         }
     }
 
@@ -4672,7 +4672,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanResult
+            case scanResult = "scanResult"
         }
     }
 
@@ -4694,10 +4694,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePaths
-            case itemCount
-            case name
-            case severity
+            case filePaths = "filePaths"
+            case itemCount = "itemCount"
+            case name = "name"
+            case severity = "severity"
         }
     }
 
@@ -4716,9 +4716,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case files
-            case totalGb
-            case volumes
+            case files = "files"
+            case totalGb = "totalGb"
+            case volumes = "volumes"
         }
     }
 
@@ -4731,7 +4731,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case privileged
+            case privileged = "privileged"
         }
     }
 
@@ -4747,8 +4747,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId
-            case groupName
+            case groupId = "groupId"
+            case groupName = "groupName"
         }
     }
 
@@ -4797,19 +4797,19 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case additionalInfo
-            case archived
-            case count
-            case detectorId
-            case ebsVolumeScanDetails
-            case eventFirstSeen
-            case eventLastSeen
-            case evidence
-            case featureName
-            case resourceRole
-            case serviceName
-            case userFeedback
+            case action = "action"
+            case additionalInfo = "additionalInfo"
+            case archived = "archived"
+            case count = "count"
+            case detectorId = "detectorId"
+            case ebsVolumeScanDetails = "ebsVolumeScanDetails"
+            case eventFirstSeen = "eventFirstSeen"
+            case eventLastSeen = "eventLastSeen"
+            case evidence = "evidence"
+            case featureName = "featureName"
+            case resourceRole = "resourceRole"
+            case serviceName = "serviceName"
+            case userFeedback = "userFeedback"
         }
     }
 
@@ -4825,8 +4825,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -4842,8 +4842,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -4874,7 +4874,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -4887,7 +4887,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -4918,7 +4918,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -4931,7 +4931,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -4947,8 +4947,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4980,7 +4980,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -5006,10 +5006,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemCount
-            case shortened
-            case threatNames
-            case uniqueThreatNameCount
+            case itemCount = "itemCount"
+            case shortened = "shortened"
+            case threatNames = "threatNames"
+            case uniqueThreatNameCount = "uniqueThreatNameCount"
         }
     }
 
@@ -5025,8 +5025,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case threatListName
-            case threatNames
+            case threatListName = "threatListName"
+            case threatNames = "threatNames"
         }
     }
 
@@ -5039,7 +5039,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case files
+            case files = "files"
         }
     }
 
@@ -5055,8 +5055,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case unit
+            case amount = "amount"
+            case unit = "unit"
         }
     }
 
@@ -5072,8 +5072,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case guardDutyFindingId
+            case description = "description"
+            case guardDutyFindingId = "guardDutyFindingId"
         }
     }
 
@@ -5103,7 +5103,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
+            case findingIds = "findingIds"
         }
     }
 
@@ -5123,8 +5123,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case result
+            case accountId = "accountId"
+            case result = "result"
         }
     }
 
@@ -5136,7 +5136,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case malwareProtection
+            case malwareProtection = "malwareProtection"
         }
     }
 
@@ -5201,9 +5201,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSources
-            case enable
-            case findingPublishingFrequency
+            case dataSources = "dataSources"
+            case enable = "enable"
+            case findingPublishingFrequency = "findingPublishingFrequency"
         }
     }
 
@@ -5248,10 +5248,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case description
-            case findingCriteria
-            case rank
+            case action = "action"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case rank = "rank"
         }
     }
 
@@ -5264,7 +5264,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -5300,9 +5300,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comments
-            case feedback
-            case findingIds
+            case comments = "comments"
+            case feedback = "feedback"
+            case findingIds = "findingIds"
         }
     }
 
@@ -5345,9 +5345,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activate
-            case location
-            case name
+            case activate = "activate"
+            case location = "location"
+            case name = "name"
         }
     }
 
@@ -5380,8 +5380,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsSnapshotPreservation
-            case scanResourceCriteria
+            case ebsSnapshotPreservation = "ebsSnapshotPreservation"
+            case scanResourceCriteria = "scanResourceCriteria"
         }
     }
 
@@ -5419,8 +5419,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case dataSources
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
         }
     }
 
@@ -5433,7 +5433,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -5461,8 +5461,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
-            case dataSources
+            case autoEnable = "autoEnable"
+            case dataSources = "dataSources"
         }
     }
 
@@ -5495,7 +5495,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationProperties
+            case destinationProperties = "destinationProperties"
         }
     }
 
@@ -5538,9 +5538,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activate
-            case location
-            case name
+            case activate = "activate"
+            case location = "location"
+            case name = "name"
         }
     }
 
@@ -5560,8 +5560,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case total
+            case accountId = "accountId"
+            case total = "total"
         }
     }
 
@@ -5589,9 +5589,9 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case dataSources
-            case resources
+            case accountIds = "accountIds"
+            case dataSources = "dataSources"
+            case resources = "resources"
         }
     }
 
@@ -5607,8 +5607,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case total
+            case dataSource = "dataSource"
+            case total = "total"
         }
     }
 
@@ -5624,8 +5624,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
-            case total
+            case resource = "resource"
+            case total = "total"
         }
     }
 
@@ -5647,10 +5647,10 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sumByAccount
-            case sumByDataSource
-            case sumByResource
-            case topResources
+            case sumByAccount = "sumByAccount"
+            case sumByDataSource = "sumByDataSource"
+            case sumByResource = "sumByResource"
+            case topResources = "topResources"
         }
     }
 
@@ -5666,8 +5666,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostPath
-            case name
+            case hostPath = "hostPath"
+            case name = "name"
         }
     }
 
@@ -5698,13 +5698,13 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case encryptionType
-            case kmsKeyArn
-            case snapshotArn
-            case volumeArn
-            case volumeSizeInGB
-            case volumeType
+            case deviceName = "deviceName"
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
+            case snapshotArn = "snapshotArn"
+            case volumeArn = "volumeArn"
+            case volumeSizeInGB = "volumeSizeInGB"
+            case volumeType = "volumeType"
         }
     }
 
@@ -5720,8 +5720,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mountPath
-            case name
+            case mountPath = "mountPath"
+            case name = "name"
         }
     }
 }

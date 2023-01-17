@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -242,7 +242,7 @@ extension LookoutEquipment {
 // MARK: Paginators
 
 extension LookoutEquipment {
-    ///  Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
+    /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -295,7 +295,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Lists all datasets currently available in your account, filtering on the dataset name.
+    /// Lists all datasets currently available in your account, filtering on the dataset name.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -348,7 +348,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///   Lists all inference events that have been found for the specified inference scheduler.
+    ///  Lists all inference events that have been found for the specified inference scheduler.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -401,7 +401,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///   Lists all inference executions that have been performed by the specified inference scheduler.
+    ///  Lists all inference executions that have been performed by the specified inference scheduler.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -454,7 +454,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Retrieves a list of all inference schedulers currently available for your account.
+    /// Retrieves a list of all inference schedulers currently available for your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -507,7 +507,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Returns a list of the label groups.
+    /// Returns a list of the label groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -560,7 +560,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Provides a list of labels.
+    /// Provides a list of labels.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -613,7 +613,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///  Generates a list of all models in the account, including model name and ARN, dataset, and status.
+    /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -666,7 +666,7 @@ extension LookoutEquipment {
         )
     }
 
-    ///   Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    ///  Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

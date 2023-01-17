@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,7 +178,7 @@ extension SageMakerGeospatial {
 // MARK: Paginators
 
 extension SageMakerGeospatial {
-    ///  Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
+    /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Use this operation to get raster data collections.
+    /// Use this operation to get raster data collections.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Retrieves a list of vector enrichment jobs.
+    /// Retrieves a list of vector enrichment jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
+    /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,8 +22,8 @@ extension RAM {
     // MARK: Enums
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable, _SotoSendable {
-        case otherAccounts = "OTHER-ACCOUNTS"
         case _self = "SELF"
+        case otherAccounts = "OTHER-ACCOUNTS"
         public var description: String { return self.rawValue }
     }
 
@@ -102,8 +102,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareInvitationArn
+            case clientToken = "clientToken"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
         }
     }
 
@@ -119,8 +119,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareInvitation
+            case clientToken = "clientToken"
+            case resourceShareInvitation = "resourceShareInvitation"
         }
     }
 
@@ -145,11 +145,11 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case permissionArn
-            case permissionVersion
-            case replace
-            case resourceShareArn
+            case clientToken = "clientToken"
+            case permissionArn = "permissionArn"
+            case permissionVersion = "permissionVersion"
+            case replace = "replace"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -165,8 +165,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case returnValue
+            case clientToken = "clientToken"
+            case returnValue = "returnValue"
         }
     }
 
@@ -188,10 +188,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case principals
-            case resourceArns
-            case resourceShareArn
+            case clientToken = "clientToken"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -207,8 +207,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareAssociations
+            case clientToken = "clientToken"
+            case resourceShareAssociations = "resourceShareAssociations"
         }
     }
 
@@ -239,13 +239,13 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowExternalPrincipals
-            case clientToken
-            case name
-            case permissionArns
-            case principals
-            case resourceArns
-            case tags
+            case allowExternalPrincipals = "allowExternalPrincipals"
+            case clientToken = "clientToken"
+            case name = "name"
+            case permissionArns = "permissionArns"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
+            case tags = "tags"
         }
     }
 
@@ -261,8 +261,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShare
+            case clientToken = "clientToken"
+            case resourceShare = "resourceShare"
         }
     }
 
@@ -297,7 +297,7 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
             case returnValue = "return"
         }
     }
@@ -317,9 +317,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case permissionArn
-            case resourceShareArn
+            case clientToken = "clientToken"
+            case permissionArn = "permissionArn"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -335,8 +335,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case returnValue
+            case clientToken = "clientToken"
+            case returnValue = "returnValue"
         }
     }
 
@@ -358,10 +358,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case principals
-            case resourceArns
-            case resourceShareArn
+            case clientToken = "clientToken"
+            case principals = "principals"
+            case resourceArns = "resourceArns"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -377,8 +377,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareAssociations
+            case clientToken = "clientToken"
+            case resourceShareAssociations = "resourceShareAssociations"
         }
     }
 
@@ -411,8 +411,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissionArn
-            case permissionVersion
+            case permissionArn = "permissionArn"
+            case permissionVersion = "permissionVersion"
         }
     }
 
@@ -425,7 +425,7 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permission
+            case permission = "permission"
         }
     }
 
@@ -452,10 +452,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case principal
-            case resourceArns
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArns = "resourceArns"
         }
     }
 
@@ -471,8 +471,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case policies
+            case nextToken = "nextToken"
+            case policies = "policies"
         }
     }
 
@@ -508,13 +508,13 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationStatus
-            case associationType
-            case maxResults
-            case nextToken
-            case principal
-            case resourceArn
-            case resourceShareArns
+            case associationStatus = "associationStatus"
+            case associationType = "associationType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArn = "resourceArn"
+            case resourceShareArns = "resourceShareArns"
         }
     }
 
@@ -530,8 +530,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceShareAssociations
+            case nextToken = "nextToken"
+            case resourceShareAssociations = "resourceShareAssociations"
         }
     }
 
@@ -558,10 +558,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceShareArns
-            case resourceShareInvitationArns
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareArns = "resourceShareArns"
+            case resourceShareInvitationArns = "resourceShareInvitationArns"
         }
     }
 
@@ -577,8 +577,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceShareInvitations
+            case nextToken = "nextToken"
+            case resourceShareInvitations = "resourceShareInvitations"
         }
     }
 
@@ -617,14 +617,14 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case name
-            case nextToken
-            case permissionArn
-            case resourceOwner
-            case resourceShareArns
-            case resourceShareStatus
-            case tagFilters
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+            case permissionArn = "permissionArn"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArns = "resourceShareArns"
+            case resourceShareStatus = "resourceShareStatus"
+            case tagFilters = "tagFilters"
         }
     }
 
@@ -640,8 +640,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceShares
+            case nextToken = "nextToken"
+            case resourceShares = "resourceShares"
         }
     }
 
@@ -668,10 +668,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceRegionScope
-            case resourceShareInvitationArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceRegionScope = "resourceRegionScope"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
         }
     }
 
@@ -687,8 +687,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resources
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -712,9 +712,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case permissionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case permissionArn = "permissionArn"
         }
     }
 
@@ -730,8 +730,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
+            case nextToken = "nextToken"
+            case permissions = "permissions"
         }
     }
 
@@ -755,9 +755,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceType
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
         }
     }
 
@@ -773,8 +773,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
+            case nextToken = "nextToken"
+            case permissions = "permissions"
         }
     }
 
@@ -810,13 +810,13 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case principals
-            case resourceArn
-            case resourceOwner
-            case resourceShareArns
-            case resourceType
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principals = "principals"
+            case resourceArn = "resourceArn"
+            case resourceOwner = "resourceOwner"
+            case resourceShareArns = "resourceShareArns"
+            case resourceType = "resourceType"
         }
     }
 
@@ -832,8 +832,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case principals
+            case nextToken = "nextToken"
+            case principals = "principals"
         }
     }
 
@@ -857,9 +857,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceShareArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -875,8 +875,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
+            case nextToken = "nextToken"
+            case permissions = "permissions"
         }
     }
 
@@ -900,9 +900,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceRegionScope
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceRegionScope = "resourceRegionScope"
         }
     }
 
@@ -918,8 +918,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceTypes
+            case nextToken = "nextToken"
+            case resourceTypes = "resourceTypes"
         }
     }
 
@@ -958,14 +958,14 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case principal
-            case resourceArns
-            case resourceOwner
-            case resourceRegionScope
-            case resourceShareArns
-            case resourceType
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "principal"
+            case resourceArns = "resourceArns"
+            case resourceOwner = "resourceOwner"
+            case resourceRegionScope = "resourceRegionScope"
+            case resourceShareArns = "resourceShareArns"
+            case resourceType = "resourceType"
         }
     }
 
@@ -981,8 +981,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resources
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -1007,11 +1007,11 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case external
-            case id
-            case lastUpdatedTime
-            case resourceShareArn
+            case creationTime = "creationTime"
+            case external = "external"
+            case id = "id"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -1055,8 +1055,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareInvitationArn
+            case clientToken = "clientToken"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
         }
     }
 
@@ -1072,8 +1072,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShareInvitation
+            case clientToken = "clientToken"
+            case resourceShareInvitation = "resourceShareInvitation"
         }
     }
 
@@ -1110,15 +1110,15 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case lastUpdatedTime
-            case resourceGroupArn
-            case resourceRegionScope
-            case resourceShareArn
-            case status
-            case statusMessage
-            case type
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case resourceGroupArn = "resourceGroupArn"
+            case resourceRegionScope = "resourceRegionScope"
+            case resourceShareArn = "resourceShareArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case type = "type"
         }
     }
 
@@ -1158,16 +1158,16 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowExternalPrincipals
-            case creationTime
-            case featureSet
-            case lastUpdatedTime
-            case name
-            case owningAccountId
-            case resourceShareArn
-            case status
-            case statusMessage
-            case tags
+            case allowExternalPrincipals = "allowExternalPrincipals"
+            case creationTime = "creationTime"
+            case featureSet = "featureSet"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case owningAccountId = "owningAccountId"
+            case resourceShareArn = "resourceShareArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
         }
     }
 
@@ -1204,15 +1204,15 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedEntity
-            case associationType
-            case creationTime
-            case external
-            case lastUpdatedTime
-            case resourceShareArn
-            case resourceShareName
-            case status
-            case statusMessage
+            case associatedEntity = "associatedEntity"
+            case associationType = "associationType"
+            case creationTime = "creationTime"
+            case external = "external"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case resourceShareArn = "resourceShareArn"
+            case resourceShareName = "resourceShareName"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1262,15 +1262,15 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitationTimestamp
-            case receiverAccountId
-            case receiverArn
-            case resourceShareArn
-            case resourceShareAssociations
-            case resourceShareInvitationArn
-            case resourceShareName
-            case senderAccountId
-            case status
+            case invitationTimestamp = "invitationTimestamp"
+            case receiverAccountId = "receiverAccountId"
+            case receiverArn = "receiverArn"
+            case resourceShareArn = "resourceShareArn"
+            case resourceShareAssociations = "resourceShareAssociations"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
+            case resourceShareName = "resourceShareName"
+            case senderAccountId = "senderAccountId"
+            case status = "status"
         }
     }
 
@@ -1307,15 +1307,15 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case defaultVersion
-            case isResourceTypeDefault
-            case lastUpdatedTime
-            case name
-            case permission
-            case resourceType
-            case version
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case defaultVersion = "defaultVersion"
+            case isResourceTypeDefault = "isResourceTypeDefault"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case permission = "permission"
+            case resourceType = "resourceType"
+            case version = "version"
         }
     }
 
@@ -1352,15 +1352,15 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case defaultVersion
-            case isResourceTypeDefault
-            case lastUpdatedTime
-            case name
-            case resourceType
-            case status
-            case version
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case defaultVersion = "defaultVersion"
+            case isResourceTypeDefault = "isResourceTypeDefault"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case resourceType = "resourceType"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -1379,9 +1379,9 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceRegionScope
-            case resourceType
-            case serviceName
+            case resourceRegionScope = "resourceRegionScope"
+            case resourceType = "resourceType"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1397,8 +1397,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1414,8 +1414,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKey
-            case tagValues
+            case tagKey = "tagKey"
+            case tagValues = "tagValues"
         }
     }
 
@@ -1431,8 +1431,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceShareArn
-            case tags
+            case resourceShareArn = "resourceShareArn"
+            case tags = "tags"
         }
     }
 
@@ -1452,8 +1452,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceShareArn
-            case tagKeys
+            case resourceShareArn = "resourceShareArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -1479,10 +1479,10 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowExternalPrincipals
-            case clientToken
-            case name
-            case resourceShareArn
+            case allowExternalPrincipals = "allowExternalPrincipals"
+            case clientToken = "clientToken"
+            case name = "name"
+            case resourceShareArn = "resourceShareArn"
         }
     }
 
@@ -1498,8 +1498,8 @@ extension RAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case resourceShare
+            case clientToken = "clientToken"
+            case resourceShare = "resourceShare"
         }
     }
 }
@@ -1589,7 +1589,7 @@ public struct RAMErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// This request would exceed the limit for tags for your account.
     public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
-    /// The specified tag key is a reserved word and can&#39;t be used.
+    /// The specified tag key is a reserved word and can't be used.
     public static var tagPolicyViolationException: Self { .init(.tagPolicyViolationException) }
     /// You exceeded the rate at which you are allowed to perform this operation. Please try again later.
     public static var throttlingException: Self { .init(.throttlingException) }

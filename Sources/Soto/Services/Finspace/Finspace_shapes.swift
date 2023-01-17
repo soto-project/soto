@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -102,14 +102,14 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataBundles
-            case description
-            case federationMode
-            case federationParameters
-            case kmsKeyId
-            case name
-            case superuserParameters
-            case tags
+            case dataBundles = "dataBundles"
+            case description = "description"
+            case federationMode = "federationMode"
+            case federationParameters = "federationParameters"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case superuserParameters = "superuserParameters"
+            case tags = "tags"
         }
     }
 
@@ -128,9 +128,9 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentArn
-            case environmentId
-            case environmentUrl
+            case environmentArn = "environmentArn"
+            case environmentId = "environmentId"
+            case environmentUrl = "environmentUrl"
         }
     }
 
@@ -201,18 +201,18 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case dedicatedServiceAccountId
-            case description
-            case environmentArn
-            case environmentId
-            case environmentUrl
-            case federationMode
-            case federationParameters
-            case kmsKeyId
-            case name
-            case sageMakerStudioDomainUrl
-            case status
+            case awsAccountId = "awsAccountId"
+            case dedicatedServiceAccountId = "dedicatedServiceAccountId"
+            case description = "description"
+            case environmentArn = "environmentArn"
+            case environmentId = "environmentId"
+            case environmentUrl = "environmentUrl"
+            case federationMode = "federationMode"
+            case federationParameters = "federationParameters"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case sageMakerStudioDomainUrl = "sageMakerStudioDomainUrl"
+            case status = "status"
         }
     }
 
@@ -257,7 +257,7 @@ extension Finspace {
             try self.validate(self.federationURN, name: "federationURN", parent: name, max: 255)
             try self.validate(self.federationURN, name: "federationURN", parent: name, min: 1)
             try self.validate(self.federationURN, name: "federationURN", parent: name, pattern: "^[A-Za-z0-9._\\-:\\/#\\+]+$")
-            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10_000_000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10000000)
             try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, min: 1000)
             try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, pattern: ".*")
             try self.validate(self.samlMetadataURL, name: "samlMetadataURL", parent: name, max: 1000)
@@ -266,12 +266,12 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationCallBackURL
-            case attributeMap
-            case federationProviderName
-            case federationURN
-            case samlMetadataDocument
-            case samlMetadataURL
+            case applicationCallBackURL = "applicationCallBackURL"
+            case attributeMap = "attributeMap"
+            case federationProviderName = "federationProviderName"
+            case federationURN = "federationURN"
+            case samlMetadataDocument = "samlMetadataDocument"
+            case samlMetadataURL = "samlMetadataURL"
         }
     }
 
@@ -305,7 +305,7 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -348,8 +348,8 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environments
-            case nextToken
+            case environments = "environments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -383,7 +383,7 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -414,9 +414,9 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailAddress
-            case firstName
-            case lastName
+            case emailAddress = "emailAddress"
+            case firstName = "firstName"
+            case lastName = "lastName"
         }
     }
 
@@ -452,7 +452,7 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -533,10 +533,10 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case federationMode
-            case federationParameters
-            case name
+            case description = "description"
+            case federationMode = "federationMode"
+            case federationParameters = "federationParameters"
+            case name = "name"
         }
     }
 
@@ -549,7 +549,7 @@ extension Finspace {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 }
@@ -595,7 +595,7 @@ public struct FinspaceErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// A service limit or quota is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// One or more resources can&#39;t be found.
+    /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  You have exceeded your service quota. To perform the requested action,  remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

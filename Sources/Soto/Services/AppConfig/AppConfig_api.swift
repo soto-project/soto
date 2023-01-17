@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -299,7 +299,7 @@ extension AppConfig {
 // MARK: Paginators
 
 extension AppConfig {
-    ///  Lists all applications in your Amazon Web Services account.
+    /// Lists all applications in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -352,7 +352,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists the configuration profiles for an application.
+    /// Lists the configuration profiles for an application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -405,7 +405,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists deployment strategies.
+    /// Lists deployment strategies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -458,7 +458,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists the deployments for an environment in descending deployment number order.
+    /// Lists the deployments for an environment in descending deployment number order.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -511,7 +511,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists the environments for an application.
+    /// Lists the environments for an application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -564,7 +564,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
+    /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +617,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
+    /// Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -670,7 +670,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists configurations stored in the AppConfig hosted configuration store by version.
+    /// Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

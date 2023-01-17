@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4733,37 +4733,37 @@ public struct WorkMailErrorType: AWSErrorType {
 
     /// The directory is already in use by another WorkMail organization in the same account and Region.
     public static var directoryInUseException: Self { .init(.directoryInUseException) }
-    /// The directory service doesn&#39;t recognize the credentials supplied by WorkMail.
+    /// The directory service doesn't recognize the credentials supplied by WorkMail.
     public static var directoryServiceAuthenticationFailedException: Self { .init(.directoryServiceAuthenticationFailedException) }
     /// The directory is unavailable. It might be located in another Region or deleted.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
-    /// The email address that you&#39;re trying to assign is already created for a different user, group, or resource.
+    /// The email address that you're trying to assign is already created for a different user, group, or resource.
     public static var emailAddressInUseException: Self { .init(.emailAddressInUseException) }
-    /// The user, group, or resource that you&#39;re trying to register is already registered.
+    /// The user, group, or resource that you're trying to register is already registered.
     public static var entityAlreadyRegisteredException: Self { .init(.entityAlreadyRegisteredException) }
     /// The identifier supplied for the user, group, or resource does not exist in your organization.
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
-    /// You are performing an operation on a user, group, or resource that isn&#39;t in the expected state, such as trying to delete an active user.
+    /// You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
     public static var entityStateException: Self { .init(.entityStateException) }
-    /// The configuration for a resource isn&#39;t valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
+    /// The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
     public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
     /// You SES configuration has customizations that WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to  CreateReceiptRule.
     public static var invalidCustomSesConfigurationException: Self { .init(.invalidCustomSesConfigurationException) }
-    /// One or more of the input parameters don&#39;t match the service&#39;s restrictions.
+    /// One or more of the input parameters don't match the service's restrictions.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// The supplied password doesn&#39;t match the minimum security constraints, such as length or use of special characters.
+    /// The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
     /// The request exceeds the limit of the resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The domain you&#39;re trying to change is in use by another user or organization in your account. See the error message for details.
+    /// The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
     public static var mailDomainInUseException: Self { .init(.mailDomainInUseException) }
     /// The domain specified is not found in your organization.
     public static var mailDomainNotFoundException: Self { .init(.mailDomainNotFoundException) }
     /// After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     public static var mailDomainStateException: Self { .init(.mailDomainStateException) }
-    /// The user, group, or resource name isn&#39;t unique in WorkMail.
+    /// The user, group, or resource name isn't unique in WorkMail.
     public static var nameAvailabilityException: Self { .init(.nameAvailabilityException) }
-    /// An operation received a valid organization identifier that either doesn&#39;t belong or exist in the system.
+    /// An operation received a valid organization identifier that either doesn't belong or exist in the system.
     public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
     /// The organization must have a valid state to perform certain operations on the organization or its members.
     public static var organizationStateException: Self { .init(.organizationStateException) }
@@ -4773,7 +4773,7 @@ public struct WorkMailErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The resource can have up to 50 user-applied tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// You can&#39;t perform a write operation against a read-only directory.
+    /// You can't perform a write operation against a read-only directory.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 

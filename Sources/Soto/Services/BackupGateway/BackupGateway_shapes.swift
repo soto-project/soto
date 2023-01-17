@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -108,7 +108,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, max: 8_000_000_000_000)
+            try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, max: 8000000000000)
             try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
             try self.daysOfWeek.forEach {
                 try validate($0, name: "daysOfWeek[]", parent: name, max: 6)
@@ -1482,7 +1482,7 @@ public struct BackupGatewayErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The operation did not succeed because an internal error occurred. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// A resource that is required for the action wasn&#39;t found.
+    /// A resource that is required for the action wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// TPS has been limited to protect against intentional or unintentional  high request volumes.
     public static var throttlingException: Self { .init(.throttlingException) }

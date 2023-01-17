@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,19 +22,19 @@ extension Glue {
     // MARK: Enums
 
     public enum AggFunction: String, CustomStringConvertible, Codable, _SotoSendable {
-        case avg
-        case count
-        case countDistinct
-        case first
-        case kurtosis
-        case last
-        case max
-        case min
-        case skewness
+        case avg = "avg"
+        case count = "count"
+        case countDistinct = "countDistinct"
+        case first = "first"
+        case kurtosis = "kurtosis"
+        case last = "last"
+        case max = "max"
+        case min = "min"
+        case skewness = "skewness"
         case stddevPop = "stddev_pop"
         case stddevSamp = "stddev_samp"
-        case sum
-        case sumDistinct
+        case sum = "sum"
+        case sumDistinct = "sumDistinct"
         case varPop = "var_pop"
         case varSamp = "var_samp"
         public var description: String { return self.rawValue }
@@ -110,8 +110,8 @@ extension Glue {
     }
 
     public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bzip2
-        case gzip
+        case bzip2 = "bzip2"
+        case gzip = "gzip"
         public var description: String { return self.rawValue }
     }
 
@@ -375,12 +375,12 @@ extension Glue {
     }
 
     public enum JoinType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case equijoin
-        case left
+        case equijoin = "equijoin"
+        case left = "left"
         case leftAnti = "leftanti"
         case leftSemi = "leftsemi"
-        case outer
-        case right
+        case outer = "outer"
+        case right = "right"
         public var description: String { return self.rawValue }
     }
 
@@ -422,22 +422,22 @@ extension Glue {
     }
 
     public enum ParamType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bool
-        case complex
-        case float
-        case int
-        case list
-        case null
-        case str
+        case bool = "bool"
+        case complex = "complex"
+        case float = "float"
+        case int = "int"
+        case list = "list"
+        case null = "null"
+        case str = "str"
         public var description: String { return self.rawValue }
     }
 
     public enum ParquetCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gzip
-        case lzo
-        case none
-        case snappy
-        case uncompressed
+        case gzip = "gzip"
+        case lzo = "lzo"
+        case none = "none"
+        case snappy = "snappy"
+        case uncompressed = "uncompressed"
         public var description: String { return self.rawValue }
     }
 
@@ -484,9 +484,9 @@ extension Glue {
     }
 
     public enum QuoteChar: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case quillemet
-        case quote
+        case disabled = "disabled"
+        case quillemet = "quillemet"
+        case quote = "quote"
         case singleQuote = "single_quote"
         public var description: String { return self.rawValue }
     }
@@ -552,11 +552,11 @@ extension Glue {
     }
 
     public enum Separator: String, CustomStringConvertible, Codable, _SotoSendable {
-        case comma
-        case ctrla
-        case pipe
-        case semicolon
-        case tab
+        case comma = "comma"
+        case ctrla = "ctrla"
+        case pipe = "pipe"
+        case semicolon = "semicolon"
+        case tab = "tab"
         public var description: String { return self.rawValue }
     }
 
@@ -595,8 +595,8 @@ extension Glue {
     }
 
     public enum StartingPosition: String, CustomStringConvertible, Codable, _SotoSendable {
-        case earliest
-        case latest
+        case earliest = "earliest"
+        case latest = "latest"
         case trimHorizon = "trim_horizon"
         public var description: String { return self.rawValue }
     }
@@ -612,11 +612,11 @@ extension Glue {
     }
 
     public enum TargetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case avro
-        case csv
-        case json
-        case orc
-        case parquet
+        case avro = "avro"
+        case csv = "csv"
+        case json = "json"
+        case orc = "orc"
+        case parquet = "parquet"
         public var description: String { return self.rawValue }
     }
 
@@ -2359,7 +2359,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: "\\S")
         }
@@ -2813,9 +2813,9 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
-            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, max: 131072)
             try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
@@ -4572,7 +4572,7 @@ extension Glue {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.registryId?.validate(name: "\(name).registryId")
-            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: "\\S")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
@@ -5822,7 +5822,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.targetDatabase?.validate(name: "\(name).targetDatabase")
         }
@@ -6512,7 +6512,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId.validate(name: "\(name).schemaId")
-            try self.validate(self.versions, name: "versions", parent: name, max: 100_000)
+            try self.validate(self.versions, name: "versions", parent: name, max: 100000)
             try self.validate(self.versions, name: "versions", parent: name, min: 1)
             try self.validate(self.versions, name: "versions", parent: name, pattern: "^[1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*$")
         }
@@ -7264,8 +7264,8 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case path = "Path"
-            case scanAll
-            case scanRate
+            case scanAll = "scanAll"
+            case scanRate = "scanRate"
         }
     }
 
@@ -9753,7 +9753,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: "\\S")
             try self.schemaId.validate(name: "\(name).schemaId")
@@ -11011,7 +11011,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, max: 131072)
             try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
@@ -11626,7 +11626,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^([2-3]|3[.]9)$")
-            try self.validate(self.scriptLocation, name: "scriptLocation", parent: name, max: 400_000)
+            try self.validate(self.scriptLocation, name: "scriptLocation", parent: name, max: 400000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12991,7 +12991,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400000)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -13047,7 +13047,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400000)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
             try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -14048,7 +14048,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
             try self.values?.forEach {
@@ -14644,7 +14644,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
+            try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: "\\S")
             try self.schemaId.validate(name: "\(name).schemaId")
@@ -15601,7 +15601,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dataType, name: "dataType", parent: name, max: 131_072)
+            try self.validate(self.dataType, name: "dataType", parent: name, max: 131072)
             try self.validate(self.dataType, name: "dataType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -15703,7 +15703,7 @@ extension Glue {
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, max: 100_000)
+            try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, max: 100000)
             try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, min: 1)
         }
 
@@ -15772,7 +15772,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.versionNumber, name: "versionNumber", parent: name, max: 100_000)
+            try self.validate(self.versionNumber, name: "versionNumber", parent: name, max: 100000)
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -15979,7 +15979,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, max: 255)
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, min: 1)
@@ -16445,7 +16445,7 @@ extension Glue {
             try self.validate(self.blueprintName, name: "blueprintName", parent: name, max: 128)
             try self.validate(self.blueprintName, name: "blueprintName", parent: name, min: 1)
             try self.validate(self.blueprintName, name: "blueprintName", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
-            try self.validate(self.parameters, name: "parameters", parent: name, max: 131_072)
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 131072)
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
@@ -17269,7 +17269,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.schemaReference?.validate(name: "\(name).schemaReference")
             try self.serdeInfo?.validate(name: "\(name).serdeInfo")
@@ -17547,7 +17547,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.partitionKeys?.forEach {
                 try $0.validate(name: "\(name).partitionKeys[]")
@@ -17556,8 +17556,8 @@ extension Glue {
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
             try self.validate(self.tableType, name: "tableType", parent: name, max: 255)
             try self.targetTable?.validate(name: "\(name).targetTable")
-            try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409_600)
-            try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409_600)
+            try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409600)
+            try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409600)
         }
 
         private enum CodingKeys: String, CodingKey {

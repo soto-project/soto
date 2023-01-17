@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -120,9 +120,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentId
-            case description
-            case operationSucceeded
+            case agentId = "agentId"
+            case description = "description"
+            case operationSucceeded = "operationSucceeded"
         }
     }
 
@@ -162,16 +162,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentId
-            case agentNetworkInfoList
-            case agentType
-            case collectionStatus
-            case connectorId
-            case health
-            case hostName
-            case lastHealthPingTime
-            case registeredTime
-            case version
+            case agentId = "agentId"
+            case agentNetworkInfoList = "agentNetworkInfoList"
+            case agentType = "agentType"
+            case collectionStatus = "collectionStatus"
+            case connectorId = "connectorId"
+            case health = "health"
+            case hostName = "hostName"
+            case lastHealthPingTime = "lastHealthPingTime"
+            case registeredTime = "registeredTime"
+            case version = "version"
         }
     }
 
@@ -187,8 +187,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddress
-            case macAddress
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
         }
     }
 
@@ -213,8 +213,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId
-            case configurationIds
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
@@ -237,9 +237,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorDescription
-            case importTaskId
+            case errorCode = "errorCode"
+            case errorDescription = "errorDescription"
+            case importTaskId = "importTaskId"
         }
     }
 
@@ -261,7 +261,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importTaskIds
+            case importTaskIds = "importTaskIds"
         }
     }
 
@@ -274,7 +274,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -299,11 +299,11 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case configurationType
-            case key
-            case timeOfCreation
-            case value
+            case configurationId = "configurationId"
+            case configurationType = "configurationType"
+            case key = "key"
+            case timeOfCreation = "timeOfCreation"
+            case value = "value"
         }
     }
 
@@ -338,14 +338,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case exportId
-            case s3Bucket
-            case schemaStorageConfig
-            case startTime
-            case status
-            case statusDetail
-            case stopTime
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
+            case status = "status"
+            case statusDetail = "statusDetail"
+            case stopTime = "stopTime"
         }
     }
 
@@ -368,8 +368,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -382,7 +382,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
+            case configurationId = "configurationId"
         }
     }
 
@@ -405,8 +405,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
-            case tags
+            case configurationIds = "configurationIds"
+            case tags = "tags"
         }
     }
 
@@ -441,13 +441,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeAgents
-            case blackListedAgents
-            case healthyAgents
-            case shutdownAgents
-            case totalAgents
-            case unhealthyAgents
-            case unknownAgents
+            case activeAgents = "activeAgents"
+            case blackListedAgents = "blackListedAgents"
+            case healthyAgents = "healthyAgents"
+            case shutdownAgents = "shutdownAgents"
+            case totalAgents = "totalAgents"
+            case unhealthyAgents = "unhealthyAgents"
+            case unknownAgents = "unknownAgents"
         }
     }
 
@@ -471,13 +471,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeAgentlessCollectors
-            case denyListedAgentlessCollectors
-            case healthyAgentlessCollectors
-            case shutdownAgentlessCollectors
-            case totalAgentlessCollectors
-            case unhealthyAgentlessCollectors
-            case unknownAgentlessCollectors
+            case activeAgentlessCollectors = "activeAgentlessCollectors"
+            case denyListedAgentlessCollectors = "denyListedAgentlessCollectors"
+            case healthyAgentlessCollectors = "healthyAgentlessCollectors"
+            case shutdownAgentlessCollectors = "shutdownAgentlessCollectors"
+            case totalAgentlessCollectors = "totalAgentlessCollectors"
+            case unhealthyAgentlessCollectors = "unhealthyAgentlessCollectors"
+            case unknownAgentlessCollectors = "unknownAgentlessCollectors"
         }
     }
 
@@ -508,13 +508,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeConnectors
-            case blackListedConnectors
-            case healthyConnectors
-            case shutdownConnectors
-            case totalConnectors
-            case unhealthyConnectors
-            case unknownConnectors
+            case activeConnectors = "activeConnectors"
+            case blackListedConnectors = "blackListedConnectors"
+            case healthyConnectors = "healthyConnectors"
+            case shutdownConnectors = "shutdownConnectors"
+            case totalConnectors = "totalConnectors"
+            case unhealthyConnectors = "unhealthyConnectors"
+            case unknownConnectors = "unknownConnectors"
         }
     }
 
@@ -545,13 +545,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeMeCollectors
-            case denyListedMeCollectors
-            case healthyMeCollectors
-            case shutdownMeCollectors
-            case totalMeCollectors
-            case unhealthyMeCollectors
-            case unknownMeCollectors
+            case activeMeCollectors = "activeMeCollectors"
+            case denyListedMeCollectors = "denyListedMeCollectors"
+            case healthyMeCollectors = "healthyMeCollectors"
+            case shutdownMeCollectors = "shutdownMeCollectors"
+            case totalMeCollectors = "totalMeCollectors"
+            case unhealthyMeCollectors = "unhealthyMeCollectors"
+            case unknownMeCollectors = "unknownMeCollectors"
         }
     }
 
@@ -571,7 +571,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
+            case configurationIds = "configurationIds"
         }
     }
 
@@ -598,8 +598,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
-            case tags
+            case configurationIds = "configurationIds"
+            case tags = "tags"
         }
     }
 
@@ -636,10 +636,10 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
-            case filters
-            case maxResults
-            case nextToken
+            case agentIds = "agentIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -655,8 +655,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsInfo
-            case nextToken
+            case agentsInfo = "agentsInfo"
+            case nextToken = "nextToken"
         }
     }
 
@@ -676,7 +676,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
+            case configurationIds = "configurationIds"
         }
     }
 
@@ -689,7 +689,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
+            case configurations = "configurations"
         }
     }
 
@@ -717,9 +717,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -735,8 +735,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
-            case nextToken
+            case descriptions = "descriptions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -762,9 +762,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -779,8 +779,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportsInfo
-            case nextToken
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
         }
     }
 
@@ -812,10 +812,10 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case filters
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -831,8 +831,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportsInfo
-            case nextToken
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
         }
     }
 
@@ -859,9 +859,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -877,8 +877,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tasks
+            case nextToken = "nextToken"
+            case tasks = "tasks"
         }
     }
 
@@ -903,9 +903,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -921,8 +921,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -947,8 +947,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId
-            case configurationIds
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
@@ -965,7 +965,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
@@ -995,9 +995,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case values
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1031,14 +1031,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationsDownloadUrl
-            case exportId
-            case exportRequestTime
-            case exportStatus
-            case isTruncated
-            case requestedEndTime
-            case requestedStartTime
-            case statusMessage
+            case configurationsDownloadUrl = "configurationsDownloadUrl"
+            case exportId = "exportId"
+            case exportRequestTime = "exportRequestTime"
+            case exportStatus = "exportStatus"
+            case isTruncated = "isTruncated"
+            case requestedEndTime = "requestedEndTime"
+            case requestedStartTime = "requestedStartTime"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1068,9 +1068,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case values
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1107,14 +1107,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentlessCollectorSummary
-            case agentSummary
-            case applications
-            case connectorSummary
-            case meCollectorSummary
-            case servers
-            case serversMappedToApplications
-            case serversMappedtoTags
+            case agentlessCollectorSummary = "agentlessCollectorSummary"
+            case agentSummary = "agentSummary"
+            case applications = "applications"
+            case connectorSummary = "connectorSummary"
+            case meCollectorSummary = "meCollectorSummary"
+            case servers = "servers"
+            case serversMappedToApplications = "serversMappedToApplications"
+            case serversMappedtoTags = "serversMappedtoTags"
         }
     }
 
@@ -1165,19 +1165,19 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationImportFailure
-            case applicationImportSuccess
-            case clientRequestToken
-            case errorsAndFailedEntriesZip
-            case importCompletionTime
-            case importDeletedTime
-            case importRequestTime
-            case importTaskId
-            case importUrl
-            case name
-            case serverImportFailure
-            case serverImportSuccess
-            case status
+            case applicationImportFailure = "applicationImportFailure"
+            case applicationImportSuccess = "applicationImportSuccess"
+            case clientRequestToken = "clientRequestToken"
+            case errorsAndFailedEntriesZip = "errorsAndFailedEntriesZip"
+            case importCompletionTime = "importCompletionTime"
+            case importDeletedTime = "importDeletedTime"
+            case importRequestTime = "importRequestTime"
+            case importTaskId = "importTaskId"
+            case importUrl = "importUrl"
+            case name = "name"
+            case serverImportFailure = "serverImportFailure"
+            case serverImportSuccess = "serverImportSuccess"
+            case status = "status"
         }
     }
 
@@ -1202,8 +1202,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1237,11 +1237,11 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationType
-            case filters
-            case maxResults
-            case nextToken
-            case orderBy
+            case configurationType = "configurationType"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case orderBy = "orderBy"
         }
     }
 
@@ -1257,8 +1257,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
-            case nextToken
+            case configurations = "configurations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1294,11 +1294,11 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case maxResults
-            case neighborConfigurationIds
-            case nextToken
-            case portInformationNeeded
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case neighborConfigurationIds = "neighborConfigurationIds"
+            case nextToken = "nextToken"
+            case portInformationNeeded = "portInformationNeeded"
         }
     }
 
@@ -1317,9 +1317,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knownDependencyCount
-            case neighbors
-            case nextToken
+            case knownDependencyCount = "knownDependencyCount"
+            case neighbors = "neighbors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1344,11 +1344,11 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionsCount
-            case destinationPort
-            case destinationServerId
-            case sourceServerId
-            case transportProtocol
+            case connectionsCount = "connectionsCount"
+            case destinationPort = "destinationPort"
+            case destinationServerId = "destinationServerId"
+            case sourceServerId = "sourceServerId"
+            case transportProtocol = "transportProtocol"
         }
     }
 
@@ -1369,8 +1369,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldName
-            case sortOrder
+            case fieldName = "fieldName"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1399,11 +1399,11 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case exportId
-            case s3Bucket
-            case schemaStorageConfig
-            case startTime
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
         }
     }
 
@@ -1424,7 +1424,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
+            case agentIds = "agentIds"
         }
     }
 
@@ -1437,7 +1437,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
@@ -1465,10 +1465,10 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case exportDataFormat
-            case filters
-            case startTime
+            case endTime = "endTime"
+            case exportDataFormat = "exportDataFormat"
+            case filters = "filters"
+            case startTime = "startTime"
         }
     }
 
@@ -1481,7 +1481,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
@@ -1513,9 +1513,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case importUrl
-            case name
+            case clientRequestToken = "clientRequestToken"
+            case importUrl = "importUrl"
+            case name = "name"
         }
     }
 
@@ -1528,7 +1528,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case task
+            case task = "task"
         }
     }
 
@@ -1546,7 +1546,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
@@ -1562,8 +1562,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTime
-            case stopTime
+            case startTime = "startTime"
+            case stopTime = "stopTime"
         }
     }
 
@@ -1584,7 +1584,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
+            case agentIds = "agentIds"
         }
     }
 
@@ -1597,7 +1597,7 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
@@ -1613,8 +1613,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1639,8 +1639,8 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1668,9 +1668,9 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case description
-            case name
+            case configurationId = "configurationId"
+            case description = "description"
+            case name = "name"
         }
     }
 

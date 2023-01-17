@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -553,7 +553,7 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachedObjectIdentifier
+            case attachedObjectIdentifier = "attachedObjectIdentifier"
         }
     }
 
@@ -841,7 +841,7 @@ extension CloudDirectory {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detachedObjectIdentifier
+            case detachedObjectIdentifier = "detachedObjectIdentifier"
         }
     }
 
@@ -3270,7 +3270,7 @@ extension CloudDirectory {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case state
+            case state = "state"
         }
     }
 
@@ -5080,7 +5080,7 @@ public struct CloudDirectoryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Access denied or directory not found. Either you don&#39;t have permissions for this directory or the directory does not exist. Try calling ListDirectories and check your permissions.
+    /// Access denied or directory not found. Either you don't have permissions for this directory or the directory does not exist. Try calling ListDirectories and check your permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A BatchWrite exception has occurred.
     public static var batchWriteException: Self { .init(.batchWriteException) }

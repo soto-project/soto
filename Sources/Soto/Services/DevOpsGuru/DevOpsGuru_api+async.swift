@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -243,9 +243,9 @@ extension DevOpsGuru {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DevOpsGuru {
-    ///  Provides an overview of your system's health. If additional member accounts are part
-    ///  			of your organization, you can filter those accounts using the AccountIds
-    ///  			field.
+    /// Provides an overview of your system's health. If additional member accounts are part
+    /// 			of your organization, you can filter those accounts using the AccountIds
+    /// 			field.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -267,9 +267,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
-    ///  			for all closed insights in resource collections in your account. You specify the type of
-    ///  			Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///  Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
+    /// 			for all closed insights in resource collections in your account. You specify the type of
+    /// 			Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -291,11 +291,11 @@ extension DevOpsGuru {
         )
     }
 
-    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
-    ///  			For more information,
-    ///  			see Estimate your
-    ///  			Amazon DevOps Guru costs and
-    ///  			Amazon DevOps Guru pricing.
+    /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources.
+    /// 			For more information,
+    /// 			see Estimate your
+    /// 			Amazon DevOps Guru costs and
+    /// 			Amazon DevOps Guru pricing.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -317,8 +317,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns lists Amazon Web Services resources that are of the specified resource collection type.
-    ///  			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///  Returns lists Amazon Web Services resources that are of the specified resource collection type.
+    /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -340,8 +340,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of the anomalies that belong to an insight that you specify using its
-    ///  			ID.
+    ///  Returns a list of the anomalies that belong to an insight that you specify using its
+    /// 			ID.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -363,7 +363,7 @@ extension DevOpsGuru {
         )
     }
 
-    ///  			Returns the list of log groups that contain log anomalies.
+    /// 			Returns the list of log groups that contain log anomalies.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -386,8 +386,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
-    ///  			You can use filters to specify which events are returned.
+    ///  Returns a list of the events emitted by the resources that are evaluated by DevOps Guru.
+    /// 			You can use filters to specify which events are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -409,9 +409,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
-    ///  			returned by their start time and status (ONGOING, CLOSED, or
-    ///  				ANY).
+    ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    /// 			returned by their start time and status (ONGOING, CLOSED, or
+    /// 				ANY).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -433,7 +433,7 @@ extension DevOpsGuru {
         )
     }
 
-    ///  			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
+    /// 			Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
     ///
     /// Return PaginatorSequence for operation.
     ///
@@ -456,9 +456,9 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of notification channels configured for DevOps Guru. Each notification
-    ///  			channel is used to notify you when DevOps Guru generates an insight that contains information
-    ///  			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
+    ///  Returns a list of notification channels configured for DevOps Guru. Each notification
+    /// 			channel is used to notify you when DevOps Guru generates an insight that contains information
+    /// 			about how to improve your operations. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -480,7 +480,7 @@ extension DevOpsGuru {
         )
     }
 
-    ///  Returns a list of insights associated with the account or OU Id.
+    /// Returns a list of insights associated with the account or OU Id.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -502,8 +502,8 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of a specified insight's recommendations. Each recommendation includes
-    ///  			a list of related metrics and a list of related events.
+    ///  Returns a list of a specified insight's recommendations. Each recommendation includes
+    /// 			a list of related metrics and a list of related events.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -525,13 +525,13 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of insights in your Amazon Web Services account. You can specify which insights are
-    ///  			returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities
-    ///  				(LOW, MEDIUM, and HIGH), and type
-    ///  				(REACTIVE or PROACTIVE).
-    ///  		        Use the Filters parameter to specify status and severity search
-    ///  			parameters. Use the Type parameter to specify REACTIVE or
-    ///  				PROACTIVE in your search.
+    ///  Returns a list of insights in your Amazon Web Services account. You can specify which insights are
+    /// 			returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities
+    /// 				(LOW, MEDIUM, and HIGH), and type
+    /// 				(REACTIVE or PROACTIVE).
+    /// 		        Use the Filters parameter to specify status and severity search
+    /// 			parameters. Use the Type parameter to specify REACTIVE or
+    /// 				PROACTIVE in your search.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -553,14 +553,14 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns a list of insights in your organization. You can specify which insights are
-    ///  			returned by their start time, one or more statuses (ONGOING,
-    ///  				CLOSED, and CLOSED), one or more severities
-    ///  				(LOW, MEDIUM, and HIGH), and type
-    ///  				(REACTIVE or PROACTIVE).
-    ///  		        Use the Filters parameter to specify status and severity search
-    ///  			parameters. Use the Type parameter to specify REACTIVE or
-    ///  				PROACTIVE in your search.
+    ///  Returns a list of insights in your organization. You can specify which insights are
+    /// 			returned by their start time, one or more statuses (ONGOING,
+    /// 				CLOSED, and CLOSED), one or more severities
+    /// 				(LOW, MEDIUM, and HIGH), and type
+    /// 				(REACTIVE or PROACTIVE).
+    /// 		        Use the Filters parameter to specify status and severity search
+    /// 			parameters. Use the Type parameter to specify REACTIVE or
+    /// 				PROACTIVE in your search.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

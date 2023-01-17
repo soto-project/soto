@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -145,6 +145,7 @@ extension Outposts {
     public enum PowerDrawKva: String, CustomStringConvertible, Codable, _SotoSendable {
         case power10Kva = "POWER_10_KVA"
         case power15Kva = "POWER_15_KVA"
+        case power30Kva = "POWER_30_KVA"
         case power5Kva = "POWER_5_KVA"
         public var description: String { return self.rawValue }
     }
@@ -1418,7 +1419,7 @@ extension Outposts {
         public let outpostId: String?
         /// The payment option for the order.
         public let paymentOption: PaymentOption?
-        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.     The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
+        /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. To get more details, see the line item status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
         public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, status: OrderStatus? = nil) {
@@ -1455,7 +1456,7 @@ extension Outposts {
         public let orderType: OrderType?
         ///  The ID of the Outpost.
         public let outpostId: String?
-        /// The status of the order.    PREPARING - Order is received and is being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. For more information, see the LineItem status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.     The following statuses are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
+        /// The status of the order.    PREPARING - Order is received and is being prepared.    IN_PROGRESS - Order is either being built, shipped, or installed. For more information, see the LineItem status.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following statuses are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
         public init(lineItemCountsByStatus: [LineItemStatus: Int]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, status: OrderStatus? = nil) {

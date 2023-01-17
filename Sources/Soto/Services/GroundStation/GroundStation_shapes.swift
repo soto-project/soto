@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -30,7 +30,7 @@ extension GroundStation {
     public enum BandwidthUnits: String, CustomStringConvertible, Codable, _SotoSendable {
         case gHz = "GHz"
         case mHz = "MHz"
-        case kHz
+        case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
@@ -40,7 +40,7 @@ extension GroundStation {
         case antennaUplink = "antenna-uplink"
         case dataflowEndpoint = "dataflow-endpoint"
         case s3Recording = "s3-recording"
-        case tracking
+        case tracking = "tracking"
         case uplinkEcho = "uplink-echo"
         public var description: String { return self.rawValue }
     }
@@ -70,16 +70,16 @@ extension GroundStation {
     }
 
     public enum EirpUnits: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dBW
+        case dBW = "dBW"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case created
-        case creating
-        case deleted
-        case deleting
-        case failed
+        case created = "created"
+        case creating = "creating"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case failed = "failed"
         public var description: String { return self.rawValue }
     }
 
@@ -116,7 +116,7 @@ extension GroundStation {
     public enum FrequencyUnits: String, CustomStringConvertible, Codable, _SotoSendable {
         case gHz = "GHz"
         case mHz = "MHz"
-        case kHz
+        case kHz = "kHz"
         public var description: String { return self.rawValue }
     }
 
@@ -157,9 +157,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case antennaDemodDecodeDetails
-            case endpointDetails
-            case s3RecordingDetails
+            case antennaDemodDecodeDetails = "antennaDemodDecodeDetails"
+            case endpointDetails = "endpointDetails"
+            case s3RecordingDetails = "s3RecordingDetails"
         }
     }
 
@@ -245,13 +245,13 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case antennaDownlinkConfig
-            case antennaDownlinkDemodDecodeConfig
-            case antennaUplinkConfig
-            case dataflowEndpointConfig
-            case s3RecordingConfig
-            case trackingConfig
-            case uplinkEchoConfig
+            case antennaDownlinkConfig = "antennaDownlinkConfig"
+            case antennaDownlinkDemodDecodeConfig = "antennaDownlinkDemodDecodeConfig"
+            case antennaUplinkConfig = "antennaUplinkConfig"
+            case dataflowEndpointConfig = "dataflowEndpointConfig"
+            case s3RecordingConfig = "s3RecordingConfig"
+            case trackingConfig = "trackingConfig"
+            case uplinkEchoConfig = "uplinkEchoConfig"
         }
     }
 
@@ -279,8 +279,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oem
-            case tle
+            case oem = "oem"
+            case tle = "tle"
         }
     }
 
@@ -308,8 +308,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oem
-            case tle
+            case oem = "oem"
+            case tle = "tle"
         }
     }
 
@@ -324,7 +324,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputNode
+            case outputNode = "outputNode"
         }
     }
 
@@ -337,7 +337,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spectrumConfig
+            case spectrumConfig = "spectrumConfig"
         }
     }
 
@@ -361,9 +361,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decodeConfig
-            case demodulationConfig
-            case spectrumConfig
+            case decodeConfig = "decodeConfig"
+            case demodulationConfig = "demodulationConfig"
+            case spectrumConfig = "spectrumConfig"
         }
     }
 
@@ -382,9 +382,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spectrumConfig
-            case targetEirp
-            case transmitDisabled
+            case spectrumConfig = "spectrumConfig"
+            case targetEirp = "targetEirp"
+            case transmitDisabled = "transmitDisabled"
         }
     }
 
@@ -424,9 +424,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configArn
-            case configId
-            case configType
+            case configArn = "configArn"
+            case configId = "configId"
+            case configType = "configType"
         }
     }
 
@@ -448,10 +448,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configArn
-            case configId
-            case configType
-            case name
+            case configArn = "configArn"
+            case configId = "configId"
+            case configType = "configType"
+            case name = "name"
         }
     }
 
@@ -500,19 +500,19 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactId
-            case contactStatus
-            case endTime
-            case errorMessage
-            case groundStation
-            case maximumElevation
-            case missionProfileArn
-            case postPassEndTime
-            case prePassStartTime
-            case region
-            case satelliteArn
-            case startTime
-            case tags
+            case contactId = "contactId"
+            case contactStatus = "contactStatus"
+            case endTime = "endTime"
+            case errorMessage = "errorMessage"
+            case groundStation = "groundStation"
+            case maximumElevation = "maximumElevation"
+            case missionProfileArn = "missionProfileArn"
+            case postPassEndTime = "postPassEndTime"
+            case prePassStartTime = "prePassStartTime"
+            case region = "region"
+            case satelliteArn = "satelliteArn"
+            case startTime = "startTime"
+            case tags = "tags"
         }
     }
 
@@ -525,7 +525,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactId
+            case contactId = "contactId"
         }
     }
 
@@ -551,9 +551,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configData
-            case name
-            case tags
+            case configData = "configData"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -576,8 +576,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpointDetails
-            case tags
+            case endpointDetails = "endpointDetails"
+            case tags = "tags"
         }
     }
 
@@ -623,14 +623,14 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case ephemeris
-            case expirationTime
-            case kmsKeyArn
-            case name
-            case priority
-            case satelliteId
-            case tags
+            case enabled = "enabled"
+            case ephemeris = "ephemeris"
+            case expirationTime = "expirationTime"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case priority = "priority"
+            case satelliteId = "satelliteId"
+            case tags = "tags"
         }
     }
 
@@ -678,13 +678,13 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactPostPassDurationSeconds
-            case contactPrePassDurationSeconds
-            case dataflowEdges
-            case minimumViableContactDurationSeconds
-            case name
-            case tags
-            case trackingConfigArn
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
+            case dataflowEdges = "dataflowEdges"
+            case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
+            case name = "name"
+            case tags = "tags"
+            case trackingConfigArn = "trackingConfigArn"
         }
     }
 
@@ -701,9 +701,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case errorMessage
-            case source
+            case destination = "destination"
+            case errorMessage = "errorMessage"
+            case source = "source"
         }
     }
 
@@ -731,10 +731,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address
-            case mtu
-            case name
-            case status
+            case address = "address"
+            case mtu = "mtu"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -750,8 +750,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointName
-            case dataflowEndpointRegion
+            case dataflowEndpointName = "dataflowEndpointName"
+            case dataflowEndpointRegion = "dataflowEndpointRegion"
         }
     }
 
@@ -764,7 +764,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupId
+            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
         }
     }
 
@@ -780,8 +780,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupArn
-            case dataflowEndpointGroupId
+            case dataflowEndpointGroupArn = "dataflowEndpointGroupArn"
+            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
         }
     }
 
@@ -800,7 +800,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unvalidatedJSON
+            case unvalidatedJSON = "unvalidatedJSON"
         }
     }
 
@@ -907,7 +907,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unvalidatedJSON
+            case unvalidatedJSON = "unvalidatedJSON"
         }
     }
 
@@ -980,20 +980,20 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactId
-            case contactStatus
-            case dataflowList
-            case endTime
-            case errorMessage
-            case groundStation
-            case maximumElevation
-            case missionProfileArn
-            case postPassEndTime
-            case prePassStartTime
-            case region
-            case satelliteArn
-            case startTime
-            case tags
+            case contactId = "contactId"
+            case contactStatus = "contactStatus"
+            case dataflowList = "dataflowList"
+            case endTime = "endTime"
+            case errorMessage = "errorMessage"
+            case groundStation = "groundStation"
+            case maximumElevation = "maximumElevation"
+            case missionProfileArn = "missionProfileArn"
+            case postPassEndTime = "postPassEndTime"
+            case prePassStartTime = "prePassStartTime"
+            case region = "region"
+            case satelliteArn = "satelliteArn"
+            case startTime = "startTime"
+            case tags = "tags"
         }
     }
 
@@ -1054,16 +1054,16 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case enabled
-            case ephemerisId
-            case invalidReason
-            case name
-            case priority
-            case satelliteId
-            case status
-            case suppliedData
-            case tags
+            case creationTime = "creationTime"
+            case enabled = "enabled"
+            case ephemerisId = "ephemerisId"
+            case invalidReason = "invalidReason"
+            case name = "name"
+            case priority = "priority"
+            case satelliteId = "satelliteId"
+            case status = "status"
+            case suppliedData = "suppliedData"
+            case tags = "tags"
         }
     }
 
@@ -1085,10 +1085,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configDetails
-            case configId
-            case configType
-            case dataflowDestinationRegion
+            case configDetails = "configDetails"
+            case configId = "configId"
+            case configType = "configType"
+            case dataflowDestinationRegion = "dataflowDestinationRegion"
         }
     }
 
@@ -1104,8 +1104,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case units
-            case value
+            case units = "units"
+            case value = "value"
         }
     }
 
@@ -1121,8 +1121,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unit
-            case value
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -1142,8 +1142,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
-            case securityDetails
+            case endpoint = "endpoint"
+            case securityDetails = "securityDetails"
         }
     }
 
@@ -1159,8 +1159,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ephemerisData
-            case sourceS3Object
+            case ephemerisData = "ephemerisData"
+            case sourceS3Object = "sourceS3Object"
         }
     }
 
@@ -1173,7 +1173,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ephemerisId
+            case ephemerisId = "ephemerisId"
         }
     }
 
@@ -1204,13 +1204,13 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case enabled
-            case ephemerisId
-            case name
-            case priority
-            case sourceS3Object
-            case status
+            case creationTime = "creationTime"
+            case enabled = "enabled"
+            case ephemerisId = "ephemerisId"
+            case name = "name"
+            case priority = "priority"
+            case sourceS3Object = "sourceS3Object"
+            case status = "status"
         }
     }
 
@@ -1232,10 +1232,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ephemerisId
-            case epoch
-            case name
-            case source
+            case ephemerisId = "ephemerisId"
+            case epoch = "epoch"
+            case name = "name"
+            case source = "source"
         }
     }
 
@@ -1251,8 +1251,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case units
-            case value
+            case units = "units"
+            case value = "value"
         }
     }
 
@@ -1268,8 +1268,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case units
-            case value
+            case units = "units"
+            case value = "value"
         }
     }
 
@@ -1322,12 +1322,12 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configArn
-            case configData
-            case configId
-            case configType
-            case name
-            case tags
+            case configArn = "configArn"
+            case configData = "configData"
+            case configId = "configId"
+            case configType = "configType"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1370,10 +1370,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupArn
-            case dataflowEndpointGroupId
-            case endpointsDetails
-            case tags
+            case dataflowEndpointGroupArn = "dataflowEndpointGroupArn"
+            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
+            case endpointsDetails = "endpointsDetails"
+            case tags = "tags"
         }
     }
 
@@ -1396,8 +1396,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case month
-            case year
+            case month = "month"
+            case year = "year"
         }
     }
 
@@ -1422,11 +1422,11 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedMinutesRemaining
-            case isReservedMinutesCustomer
-            case totalReservedMinuteAllocation
-            case totalScheduledMinutes
-            case upcomingMinutesScheduled
+            case estimatedMinutesRemaining = "estimatedMinutesRemaining"
+            case isReservedMinutesCustomer = "isReservedMinutesCustomer"
+            case totalReservedMinuteAllocation = "totalReservedMinuteAllocation"
+            case totalScheduledMinutes = "totalScheduledMinutes"
+            case upcomingMinutesScheduled = "upcomingMinutesScheduled"
         }
     }
 
@@ -1487,16 +1487,16 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactPostPassDurationSeconds
-            case contactPrePassDurationSeconds
-            case dataflowEdges
-            case minimumViableContactDurationSeconds
-            case missionProfileArn
-            case missionProfileId
-            case name
-            case region
-            case tags
-            case trackingConfigArn
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
+            case dataflowEdges = "dataflowEdges"
+            case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
+            case missionProfileArn = "missionProfileArn"
+            case missionProfileId = "missionProfileId"
+            case name = "name"
+            case region = "region"
+            case tags = "tags"
+            case trackingConfigArn = "trackingConfigArn"
         }
     }
 
@@ -1542,11 +1542,11 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentEphemeris
-            case groundStations
-            case noradSatelliteID
-            case satelliteArn
-            case satelliteId
+            case currentEphemeris = "currentEphemeris"
+            case groundStations = "groundStations"
+            case noradSatelliteID = "noradSatelliteID"
+            case satelliteArn = "satelliteArn"
+            case satelliteId = "satelliteId"
         }
     }
 
@@ -1565,9 +1565,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groundStationId
-            case groundStationName
-            case region
+            case groundStationId = "groundStationId"
+            case groundStationName = "groundStationName"
+            case region = "region"
         }
     }
 
@@ -1610,8 +1610,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configList
-            case nextToken
+            case configList = "configList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1657,14 +1657,14 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case groundStation
-            case maxResults
-            case missionProfileArn
-            case nextToken
-            case satelliteArn
-            case startTime
-            case statusList
+            case endTime = "endTime"
+            case groundStation = "groundStation"
+            case maxResults = "maxResults"
+            case missionProfileArn = "missionProfileArn"
+            case nextToken = "nextToken"
+            case satelliteArn = "satelliteArn"
+            case startTime = "startTime"
+            case statusList = "statusList"
         }
     }
 
@@ -1680,8 +1680,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactList
-            case nextToken
+            case contactList = "contactList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1724,8 +1724,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataflowEndpointGroupList
-            case nextToken
+            case dataflowEndpointGroupList = "dataflowEndpointGroupList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1770,10 +1770,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case satelliteId
-            case startTime
-            case statusList
+            case endTime = "endTime"
+            case satelliteId = "satelliteId"
+            case startTime = "startTime"
+            case statusList = "statusList"
         }
     }
 
@@ -1789,8 +1789,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ephemerides
-            case nextToken
+            case ephemerides = "ephemerides"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1840,8 +1840,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groundStationList
-            case nextToken
+            case groundStationList = "groundStationList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1884,8 +1884,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case missionProfileList
-            case nextToken
+            case missionProfileList = "missionProfileList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1928,8 +1928,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case satellites
+            case nextToken = "nextToken"
+            case satellites = "satellites"
         }
     }
 
@@ -1963,7 +1963,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1976,7 +1976,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case missionProfileId
+            case missionProfileId = "missionProfileId"
         }
     }
 
@@ -1998,10 +1998,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case missionProfileArn
-            case missionProfileId
-            case name
-            case region
+            case missionProfileArn = "missionProfileArn"
+            case missionProfileId = "missionProfileId"
+            case name = "name"
+            case region = "region"
         }
     }
 
@@ -2023,8 +2023,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oemData
-            case s3Object
+            case oemData = "oemData"
+            case s3Object = "s3Object"
         }
     }
 
@@ -2058,12 +2058,12 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case groundStation
-            case missionProfileArn
-            case satelliteArn
-            case startTime
-            case tags
+            case endTime = "endTime"
+            case groundStation = "groundStation"
+            case missionProfileArn = "missionProfileArn"
+            case satelliteArn = "satelliteArn"
+            case startTime = "startTime"
+            case tags = "tags"
         }
     }
 
@@ -2094,9 +2094,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case version
+            case bucket = "bucket"
+            case key = "key"
+            case version = "version"
         }
     }
 
@@ -2121,9 +2121,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case prefix
-            case roleArn
+            case bucketArn = "bucketArn"
+            case prefix = "prefix"
+            case roleArn = "roleArn"
         }
     }
 
@@ -2139,8 +2139,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case keyTemplate
+            case bucketArn = "bucketArn"
+            case keyTemplate = "keyTemplate"
         }
     }
 
@@ -2165,11 +2165,11 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentEphemeris
-            case groundStations
-            case noradSatelliteID
-            case satelliteArn
-            case satelliteId
+            case currentEphemeris = "currentEphemeris"
+            case groundStations = "groundStations"
+            case noradSatelliteID = "noradSatelliteID"
+            case satelliteArn = "satelliteArn"
+            case satelliteId = "satelliteId"
         }
     }
 
@@ -2188,9 +2188,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case securityGroupIds
-            case subnetIds
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -2206,8 +2206,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case port
+            case name = "name"
+            case port = "port"
         }
     }
 
@@ -2229,10 +2229,10 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configDetails
-            case configId
-            case configType
-            case dataflowSourceRegion
+            case configDetails = "configDetails"
+            case configId = "configId"
+            case configType = "configType"
+            case dataflowSourceRegion = "dataflowSourceRegion"
         }
     }
 
@@ -2251,9 +2251,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case centerFrequency
-            case polarization
+            case bandwidth = "bandwidth"
+            case centerFrequency = "centerFrequency"
+            case polarization = "polarization"
         }
     }
 
@@ -2281,9 +2281,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tleLine1
-            case tleLine2
-            case validTimeRange
+            case tleLine1 = "tleLine1"
+            case tleLine2 = "tleLine2"
+            case validTimeRange = "validTimeRange"
         }
     }
 
@@ -2308,8 +2308,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Object
-            case tleData
+            case s3Object = "s3Object"
+            case tleData = "tleData"
         }
     }
 
@@ -2335,7 +2335,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2355,8 +2355,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case startTime
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -2369,7 +2369,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autotrack
+            case autotrack = "autotrack"
         }
     }
 
@@ -2440,8 +2440,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configData
-            case name
+            case configData = "configData"
+            case name = "name"
         }
     }
 
@@ -2478,9 +2478,9 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case name
-            case priority
+            case enabled = "enabled"
+            case name = "name"
+            case priority = "priority"
         }
     }
 
@@ -2535,12 +2535,12 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactPostPassDurationSeconds
-            case contactPrePassDurationSeconds
-            case dataflowEdges
-            case minimumViableContactDurationSeconds
-            case name
-            case trackingConfigArn
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
+            case dataflowEdges = "dataflowEdges"
+            case minimumViableContactDurationSeconds = "minimumViableContactDurationSeconds"
+            case name = "name"
+            case trackingConfigArn = "trackingConfigArn"
         }
     }
 
@@ -2556,8 +2556,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case antennaUplinkConfigArn
-            case enabled
+            case antennaUplinkConfigArn = "antennaUplinkConfigArn"
+            case enabled = "enabled"
         }
     }
 
@@ -2573,8 +2573,8 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case centerFrequency
-            case polarization
+            case centerFrequency = "centerFrequency"
+            case polarization = "polarization"
         }
     }
 }

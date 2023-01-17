@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -203,7 +203,7 @@ extension AppRunner {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppRunner {
-    ///  Return a description of custom domain names that are associated with an App Runner service.
+    /// Return a description of custom domain names that are associated with an App Runner service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -225,7 +225,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call  and provide one of the ARNs returned by ListAutoScalingConfigurations.
+    /// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call  and provide one of the ARNs returned by ListAutoScalingConfigurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -247,7 +247,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of App Runner connections that are associated with your Amazon Web Services account.
+    /// Returns a list of App Runner connections that are associated with your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -269,7 +269,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call  and provide one of the ARNs returned by ListObservabilityConfigurations.
+    /// Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call  and provide one of the ARNs returned by ListObservabilityConfigurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -291,7 +291,7 @@ extension AppRunner {
         )
     }
 
-    ///  Return a list of operations that occurred on an App Runner service. The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
+    /// Return a list of operations that occurred on an App Runner service. The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -313,7 +313,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of running App Runner services in your Amazon Web Services account.
+    /// Returns a list of running App Runner services in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -335,7 +335,7 @@ extension AppRunner {
         )
     }
 
-    ///  Returns a list of App Runner VPC connectors in your Amazon Web Services account.
+    /// Returns a list of App Runner VPC connectors in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -357,7 +357,7 @@ extension AppRunner {
         )
     }
 
-    ///  Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
+    /// Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

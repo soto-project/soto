@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,7 +23,7 @@ extension OpenSearchServerless {
 
     public enum AccessPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
         /// data policy type
-        case data
+        case data = "data"
         public var description: String { return self.rawValue }
     }
 
@@ -49,15 +49,15 @@ extension OpenSearchServerless {
 
     public enum SecurityConfigType: String, CustomStringConvertible, Codable, _SotoSendable {
         /// saml provider
-        case saml
+        case saml = "saml"
         public var description: String { return self.rawValue }
     }
 
     public enum SecurityPolicyType: String, CustomStringConvertible, Codable, _SotoSendable {
         /// encryption policy type
-        case encryption
+        case encryption = "encryption"
         /// network policy type
-        case network
+        case network = "network"
         public var description: String { return self.rawValue }
     }
 
@@ -102,13 +102,13 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case description
-            case lastModifiedDate
-            case name
-            case policy
-            case policyVersion
-            case type
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -149,12 +149,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case description
-            case lastModifiedDate
-            case name
-            case policyVersion
-            case type
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -166,7 +166,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityLimits
+            case capacityLimits = "capacityLimits"
         }
     }
 
@@ -199,8 +199,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case names
+            case ids = "ids"
+            case names = "names"
         }
     }
 
@@ -216,8 +216,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectionDetails
-            case collectionErrorDetails
+            case collectionDetails = "collectionDetails"
+            case collectionErrorDetails = "collectionErrorDetails"
         }
     }
 
@@ -239,7 +239,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -255,8 +255,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcEndpointDetails
-            case vpcEndpointErrorDetails
+            case vpcEndpointDetails = "vpcEndpointDetails"
+            case vpcEndpointErrorDetails = "vpcEndpointErrorDetails"
         }
     }
 
@@ -277,8 +277,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxIndexingCapacityInOCU
-            case maxSearchCapacityInOCU
+            case maxIndexingCapacityInOCU = "maxIndexingCapacityInOCU"
+            case maxSearchCapacityInOCU = "maxSearchCapacityInOCU"
         }
     }
 
@@ -321,17 +321,17 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case collectionEndpoint
-            case createdDate
-            case dashboardEndpoint
-            case description
-            case id
-            case kmsKeyArn
-            case lastModifiedDate
-            case name
-            case status
-            case type
+            case arn = "arn"
+            case collectionEndpoint = "collectionEndpoint"
+            case createdDate = "createdDate"
+            case dashboardEndpoint = "dashboardEndpoint"
+            case description = "description"
+            case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -353,10 +353,10 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case id
-            case name
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -378,8 +378,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case status
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -401,10 +401,10 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
-            case status
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -442,11 +442,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case policy
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case type = "type"
         }
     }
 
@@ -459,7 +459,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyDetail
+            case accessPolicyDetail = "accessPolicyDetail"
         }
     }
 
@@ -496,15 +496,15 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdDate
-            case description
-            case id
-            case kmsKeyArn
-            case lastModifiedDate
-            case name
-            case status
-            case type
+            case arn = "arn"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -541,11 +541,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case tags
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -558,7 +558,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createCollectionDetail
+            case createCollectionDetail = "createCollectionDetail"
         }
     }
 
@@ -594,11 +594,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case samlOptions
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case samlOptions = "samlOptions"
+            case type = "type"
         }
     }
 
@@ -611,7 +611,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityConfigDetail
+            case securityConfigDetail = "securityConfigDetail"
         }
     }
 
@@ -649,11 +649,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case policy
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case type = "type"
         }
     }
 
@@ -666,7 +666,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityPolicyDetail
+            case securityPolicyDetail = "securityPolicyDetail"
         }
     }
 
@@ -685,9 +685,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case status
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -737,11 +737,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case name
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case clientToken = "clientToken"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -754,7 +754,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createVpcEndpointDetail
+            case createVpcEndpointDetail = "createVpcEndpointDetail"
         }
     }
 
@@ -781,9 +781,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case name
-            case type
+            case clientToken = "clientToken"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -806,9 +806,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case status
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -832,8 +832,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case id
+            case clientToken = "clientToken"
+            case id = "id"
         }
     }
 
@@ -846,7 +846,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteCollectionDetail
+            case deleteCollectionDetail = "deleteCollectionDetail"
         }
     }
 
@@ -869,8 +869,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case id
+            case clientToken = "clientToken"
+            case id = "id"
         }
     }
 
@@ -901,9 +901,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case name
-            case type
+            case clientToken = "clientToken"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -926,9 +926,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case status
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -952,8 +952,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case id
+            case clientToken = "clientToken"
+            case id = "id"
         }
     }
 
@@ -966,7 +966,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteVpcEndpointDetail
+            case deleteVpcEndpointDetail = "deleteVpcEndpointDetail"
         }
     }
 
@@ -988,8 +988,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1002,7 +1002,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyDetail
+            case accessPolicyDetail = "accessPolicyDetail"
         }
     }
 
@@ -1019,7 +1019,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettingsDetail
+            case accountSettingsDetail = "accountSettingsDetail"
         }
     }
 
@@ -1066,7 +1066,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1079,7 +1079,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityConfigDetail
+            case securityConfigDetail = "securityConfigDetail"
         }
     }
 
@@ -1101,8 +1101,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1115,7 +1115,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityPolicyDetail
+            case securityPolicyDetail = "securityPolicyDetail"
         }
     }
 
@@ -1137,10 +1137,10 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resource
-            case type
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resource = "resource"
+            case type = "type"
         }
     }
 
@@ -1156,8 +1156,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicySummaries
-            case nextToken
+            case accessPolicySummaries = "accessPolicySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1180,9 +1180,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectionFilters
-            case maxResults
-            case nextToken
+            case collectionFilters = "collectionFilters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1198,8 +1198,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectionSummaries
-            case nextToken
+            case collectionSummaries = "collectionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1218,9 +1218,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case type
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
@@ -1236,8 +1236,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case securityConfigSummaries
+            case nextToken = "nextToken"
+            case securityConfigSummaries = "securityConfigSummaries"
         }
     }
 
@@ -1259,10 +1259,10 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resource
-            case type
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resource = "resource"
+            case type = "type"
         }
     }
 
@@ -1278,8 +1278,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case securityPolicySummaries
+            case nextToken = "nextToken"
+            case securityPolicySummaries = "securityPolicySummaries"
         }
     }
 
@@ -1297,7 +1297,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1310,7 +1310,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1329,9 +1329,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case vpcEndpointFilters
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case vpcEndpointFilters = "vpcEndpointFilters"
         }
     }
 
@@ -1347,8 +1347,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case vpcEndpointSummaries
+            case nextToken = "nextToken"
+            case vpcEndpointSummaries = "vpcEndpointSummaries"
         }
     }
 
@@ -1382,10 +1382,10 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupAttribute
-            case metadata
-            case sessionTimeout
-            case userAttribute
+            case groupAttribute = "groupAttribute"
+            case metadata = "metadata"
+            case sessionTimeout = "sessionTimeout"
+            case userAttribute = "userAttribute"
         }
     }
 
@@ -1416,13 +1416,13 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configVersion
-            case createdDate
-            case description
-            case id
-            case lastModifiedDate
-            case samlOptions
-            case type
+            case configVersion = "configVersion"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case lastModifiedDate = "lastModifiedDate"
+            case samlOptions = "samlOptions"
+            case type = "type"
         }
     }
 
@@ -1463,12 +1463,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configVersion
-            case createdDate
-            case description
-            case id
-            case lastModifiedDate
-            case type
+            case configVersion = "configVersion"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case lastModifiedDate = "lastModifiedDate"
+            case type = "type"
         }
     }
 
@@ -1499,13 +1499,13 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case description
-            case lastModifiedDate
-            case name
-            case policy
-            case policyVersion
-            case type
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -1550,12 +1550,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case description
-            case lastModifiedDate
-            case name
-            case policyVersion
-            case type
+            case createdDate = "createdDate"
+            case description = "description"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -1577,8 +1577,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1603,8 +1603,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -1634,8 +1634,8 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -1683,12 +1683,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case policy
-            case policyVersion
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -1701,7 +1701,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyDetail
+            case accessPolicyDetail = "accessPolicyDetail"
         }
     }
 
@@ -1717,7 +1717,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityLimits
+            case capacityLimits = "capacityLimits"
         }
     }
 
@@ -1730,7 +1730,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettingsDetail
+            case accountSettingsDetail = "accountSettingsDetail"
         }
     }
 
@@ -1764,14 +1764,14 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdDate
-            case description
-            case id
-            case lastModifiedDate
-            case name
-            case status
-            case type
+            case arn = "arn"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -1798,9 +1798,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case id
+            case clientToken = "clientToken"
+            case description = "description"
+            case id = "id"
         }
     }
 
@@ -1813,7 +1813,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateCollectionDetail
+            case updateCollectionDetail = "updateCollectionDetail"
         }
     }
 
@@ -1851,11 +1851,11 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case configVersion
-            case description
-            case id
-            case samlOptions
+            case clientToken = "clientToken"
+            case configVersion = "configVersion"
+            case description = "description"
+            case id = "id"
+            case samlOptions = "samlOptions"
         }
     }
 
@@ -1868,7 +1868,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityConfigDetail
+            case securityConfigDetail = "securityConfigDetail"
         }
     }
 
@@ -1912,12 +1912,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case policy
-            case policyVersion
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policy = "policy"
+            case policyVersion = "policyVersion"
+            case type = "type"
         }
     }
 
@@ -1930,7 +1930,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityPolicyDetail
+            case securityPolicyDetail = "securityPolicyDetail"
         }
     }
 
@@ -1958,12 +1958,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case lastModifiedDate
-            case name
-            case securityGroupIds
-            case status
-            case subnetIds
+            case id = "id"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -2027,12 +2027,12 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addSecurityGroupIds
-            case addSubnetIds
-            case clientToken
-            case id
-            case removeSecurityGroupIds
-            case removeSubnetIds
+            case addSecurityGroupIds = "addSecurityGroupIds"
+            case addSubnetIds = "addSubnetIds"
+            case clientToken = "clientToken"
+            case id = "id"
+            case removeSecurityGroupIds = "removeSecurityGroupIds"
+            case removeSubnetIds = "removeSubnetIds"
         }
     }
 
@@ -2076,13 +2076,13 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case id
-            case name
-            case securityGroupIds
-            case status
-            case subnetIds
-            case vpcId
+            case createdDate = "createdDate"
+            case id = "id"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -2101,9 +2101,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case id
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case id = "id"
         }
     }
 
@@ -2116,7 +2116,7 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2135,9 +2135,9 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case status
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1256,7 +1256,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
+            try self.validate(self.ionText, name: "ionText", parent: name, max: 1048576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }
 
@@ -1297,17 +1297,17 @@ public struct QLDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// One or more parameters in the request aren&#39;t valid.
+    /// One or more parameters in the request aren't valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// You have reached the limit on the maximum number of resources allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// The specified resource can&#39;t be modified at this time.
+    /// The specified resource can't be modified at this time.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource doesn&#39;t exist.
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The operation failed because a condition wasn&#39;t satisfied in advance.
+    /// The operation failed because a condition wasn't satisfied in advance.
     public static var resourcePreconditionNotMetException: Self { .init(.resourcePreconditionNotMetException) }
 }
 

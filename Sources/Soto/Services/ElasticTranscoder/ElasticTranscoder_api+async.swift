@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -113,7 +113,7 @@ extension ElasticTranscoder {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElasticTranscoder {
-    ///  The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains  one element for each job that satisfies the search criteria.
+    /// The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains  one element for each job that satisfies the search criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -135,7 +135,7 @@ extension ElasticTranscoder {
         )
     }
 
-    ///  The ListJobsByStatus operation gets a list of jobs that have a specified status. The response  body contains one element for each job that satisfies the search criteria.
+    /// The ListJobsByStatus operation gets a list of jobs that have a specified status. The response  body contains one element for each job that satisfies the search criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -157,7 +157,7 @@ extension ElasticTranscoder {
         )
     }
 
-    ///  The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
+    /// The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -179,7 +179,7 @@ extension ElasticTranscoder {
         )
     }
 
-    ///  The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that  you've added in an AWS region.
+    /// The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that  you've added in an AWS region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

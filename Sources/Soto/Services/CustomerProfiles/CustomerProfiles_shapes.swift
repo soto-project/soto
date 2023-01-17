@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2814,7 +2814,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3383,7 +3383,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.object, name: "object", parent: name, max: 256_000)
+            try self.validate(self.object, name: "object", parent: name, max: 256000)
             try self.validate(self.object, name: "object", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
@@ -3895,7 +3895,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 

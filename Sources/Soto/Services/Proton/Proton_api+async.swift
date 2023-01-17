@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -403,7 +403,7 @@ extension Proton {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Proton {
-    ///  Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton User Guide.
+    /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -425,7 +425,7 @@ extension Proton {
         )
     }
 
-    ///  List provisioned resources for a component with details. For more information about components, see Proton components in the Proton User Guide.
+    /// List provisioned resources for a component with details. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -447,7 +447,7 @@ extension Proton {
         )
     }
 
-    ///  List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
+    /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see Proton components in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -469,7 +469,7 @@ extension Proton {
         )
     }
 
-    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
+    /// View a list of environment account connections. For more information, see Environment account connections in the Proton User guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -491,7 +491,7 @@ extension Proton {
         )
     }
 
-    ///  List the infrastructure as code outputs for your environment.
+    /// List the infrastructure as code outputs for your environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -513,7 +513,7 @@ extension Proton {
         )
     }
 
-    ///  List the provisioned resources for your environment.
+    /// List the provisioned resources for your environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -535,7 +535,7 @@ extension Proton {
         )
     }
 
-    ///  List major or minor versions of an environment template with detail data.
+    /// List major or minor versions of an environment template with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -557,7 +557,7 @@ extension Proton {
         )
     }
 
-    ///  List environment templates.
+    /// List environment templates.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -579,7 +579,7 @@ extension Proton {
         )
     }
 
-    ///  List environments with detail data summaries.
+    /// List environments with detail data summaries.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -601,7 +601,7 @@ extension Proton {
         )
     }
 
-    ///  List linked repositories with detail data.
+    /// List linked repositories with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -623,7 +623,7 @@ extension Proton {
         )
     }
 
-    ///  List repository sync definitions with detail data.
+    /// List repository sync definitions with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -645,7 +645,7 @@ extension Proton {
         )
     }
 
-    ///  Get a list service of instance Infrastructure as Code (IaC) outputs.
+    /// Get a list service of instance Infrastructure as Code (IaC) outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -667,7 +667,7 @@ extension Proton {
         )
     }
 
-    ///  List provisioned resources for a service instance with details.
+    /// List provisioned resources for a service instance with details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -689,7 +689,7 @@ extension Proton {
         )
     }
 
-    ///  List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
+    /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -711,7 +711,7 @@ extension Proton {
         )
     }
 
-    ///  Get a list of service pipeline Infrastructure as Code (IaC) outputs.
+    /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -733,7 +733,7 @@ extension Proton {
         )
     }
 
-    ///  List provisioned resources for a service and pipeline with details.
+    /// List provisioned resources for a service and pipeline with details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -755,7 +755,7 @@ extension Proton {
         )
     }
 
-    ///  List major or minor versions of a service template with detail data.
+    /// List major or minor versions of a service template with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -777,7 +777,7 @@ extension Proton {
         )
     }
 
-    ///  List service templates with detail data.
+    /// List service templates with detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -799,7 +799,7 @@ extension Proton {
         )
     }
 
-    ///  List services with summaries of detail data.
+    /// List services with summaries of detail data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -821,7 +821,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton User Guide.
+    /// List tags for a resource. For more information, see Proton resources and tagging in the Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

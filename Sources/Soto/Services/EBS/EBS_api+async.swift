@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -65,7 +65,7 @@ extension EBS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EBS {
-    ///  Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
+    /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -87,7 +87,7 @@ extension EBS {
         )
     }
 
-    ///  Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+    /// Returns information about the blocks in an Amazon Elastic Block Store snapshot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

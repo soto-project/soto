@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,10 +28,10 @@ extension CloudSearchDomain {
     }
 
     public enum QueryParser: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dismax
-        case lucene
-        case simple
-        case structured
+        case dismax = "dismax"
+        case lucene = "lucene"
+        case simple = "simple"
+        case structured = "structured"
         public var description: String { return self.rawValue }
     }
 
@@ -49,8 +49,8 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case value
+            case count = "count"
+            case value = "value"
         }
     }
 
@@ -63,7 +63,7 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
+            case buckets = "buckets"
         }
     }
 
@@ -76,7 +76,7 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -110,14 +110,14 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case max
-            case mean
-            case min
-            case missing
-            case stddev
-            case sum
-            case sumOfSquares
+            case count = "count"
+            case max = "max"
+            case mean = "mean"
+            case min = "min"
+            case missing = "missing"
+            case stddev = "stddev"
+            case sum = "sum"
+            case sumOfSquares = "sumOfSquares"
         }
     }
 
@@ -139,10 +139,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exprs
-            case fields
-            case highlights
-            case id
+            case exprs = "exprs"
+            case fields = "fields"
+            case highlights = "highlights"
+            case id = "id"
         }
     }
 
@@ -164,10 +164,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cursor
-            case found
-            case hit
-            case start
+            case cursor = "cursor"
+            case found = "found"
+            case hit = "hit"
+            case start = "start"
         }
     }
 
@@ -262,10 +262,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case facets
-            case hits
-            case stats
-            case status
+            case facets = "facets"
+            case hits = "hits"
+            case stats = "stats"
+            case status = "status"
         }
     }
 
@@ -281,8 +281,8 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
@@ -301,9 +301,9 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case found
-            case query
-            case suggestions
+            case found = "found"
+            case query = "query"
+            case suggestions = "suggestions"
         }
     }
 
@@ -342,8 +342,8 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case suggest
+            case status = "status"
+            case suggest = "suggest"
         }
     }
 
@@ -359,8 +359,8 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
@@ -379,9 +379,9 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case score
-            case suggestion
+            case id = "id"
+            case score = "score"
+            case suggestion = "suggestion"
         }
     }
 
@@ -424,10 +424,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adds
-            case deletes
-            case status
-            case warnings
+            case adds = "adds"
+            case deletes = "deletes"
+            case status = "status"
+            case warnings = "warnings"
         }
     }
 }

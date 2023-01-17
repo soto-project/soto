@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -327,8 +327,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tsvOptions
-            case vcfOptions
+            case tsvOptions = "tsvOptions"
+            case vcfOptions = "vcfOptions"
         }
     }
 
@@ -349,9 +349,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case status
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case status = "status"
         }
     }
 
@@ -376,11 +376,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case sequenceStoreId
-            case status
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -399,9 +399,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readSetId
-            case status
-            case statusMessage
+            case readSetId = "readSetId"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -417,8 +417,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobStatus
-            case source
+            case jobStatus = "jobStatus"
+            case source = "source"
         }
     }
 
@@ -435,7 +435,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
+            case source = "source"
         }
     }
 
@@ -472,14 +472,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destinationName
-            case id
-            case roleArn
-            case runLeftNormalization
-            case status
-            case updateTime
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destinationName = "destinationName"
+            case id = "id"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -527,18 +527,18 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case sseConfig
-            case status
-            case statusMessage
-            case storeArn
-            case storeFormat
-            case storeSizeBytes
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeArn = "storeArn"
+            case storeFormat = "storeFormat"
+            case storeSizeBytes = "storeSizeBytes"
+            case updateTime = "updateTime"
         }
     }
 
@@ -571,7 +571,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -584,7 +584,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -693,13 +693,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case reference
-            case sseConfig
-            case storeFormat
-            case storeOptions
-            case tags
+            case description = "description"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case storeFormat = "storeFormat"
+            case storeOptions = "storeOptions"
+            case tags = "tags"
         }
     }
 
@@ -731,13 +731,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case name
-            case reference
-            case status
-            case storeFormat
-            case storeOptions
+            case creationTime = "creationTime"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case status = "status"
+            case storeFormat = "storeFormat"
+            case storeOptions = "storeOptions"
         }
     }
 
@@ -779,11 +779,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case sseConfig
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case sseConfig = "sseConfig"
+            case tags = "tags"
         }
     }
 
@@ -811,12 +811,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -858,12 +858,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxCpus
-            case maxDuration
-            case maxRuns
-            case name
-            case requestId
-            case tags
+            case maxCpus = "maxCpus"
+            case maxDuration = "maxDuration"
+            case maxRuns = "maxRuns"
+            case name = "name"
+            case requestId = "requestId"
+            case tags = "tags"
         }
     }
 
@@ -882,9 +882,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case tags
+            case arn = "arn"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -926,11 +926,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case sseConfig
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case sseConfig = "sseConfig"
+            case tags = "tags"
         }
     }
 
@@ -958,12 +958,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -998,11 +998,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case reference
-            case sseConfig
-            case tags
+            case description = "description"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case tags = "tags"
         }
     }
 
@@ -1028,11 +1028,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case name
-            case reference
-            case status
+            case creationTime = "creationTime"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case status = "status"
         }
     }
 
@@ -1103,16 +1103,16 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definitionUri
-            case definitionZip
-            case description
-            case engine
-            case main
-            case name
-            case parameterTemplate
-            case requestId
-            case storageCapacity
-            case tags
+            case definitionUri = "definitionUri"
+            case definitionZip = "definitionZip"
+            case description = "description"
+            case engine = "engine"
+            case main = "main"
+            case name = "name"
+            case parameterTemplate = "parameterTemplate"
+            case requestId = "requestId"
+            case storageCapacity = "storageCapacity"
+            case tags = "tags"
         }
     }
 
@@ -1134,10 +1134,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case status
-            case tags
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1169,7 +1169,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -1325,7 +1325,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -1365,7 +1365,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readSetId
+            case readSetId = "readSetId"
         }
     }
 
@@ -1384,9 +1384,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case status
-            case statusMessage
+            case id = "id"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1405,9 +1405,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case status
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case status = "status"
         }
     }
 
@@ -1435,12 +1435,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destination
-            case id
-            case sequenceStoreId
-            case status
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destination = "destination"
+            case id = "id"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -1459,9 +1459,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentLength
-            case partSize
-            case totalParts
+            case contentLength = "contentLength"
+            case partSize = "partSize"
+            case totalParts = "totalParts"
         }
     }
 
@@ -1525,17 +1525,17 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destinationName
-            case formatOptions
-            case id
-            case items
-            case roleArn
-            case runLeftNormalization
-            case status
-            case statusMessage
-            case updateTime
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destinationName = "destinationName"
+            case formatOptions = "formatOptions"
+            case id = "id"
+            case items = "items"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
         }
     }
 
@@ -1604,20 +1604,20 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case sseConfig
-            case status
-            case statusMessage
-            case storeArn
-            case storeFormat
-            case storeOptions
-            case storeSizeBytes
-            case tags
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeArn = "storeArn"
+            case storeFormat = "storeFormat"
+            case storeOptions = "storeOptions"
+            case storeSizeBytes = "storeSizeBytes"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -1676,13 +1676,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case sequenceStoreId
-            case sources
-            case status
-            case statusMessage
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case sequenceStoreId = "sequenceStoreId"
+            case sources = "sources"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1744,14 +1744,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destination
-            case id
-            case readSets
-            case sequenceStoreId
-            case status
-            case statusMessage
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destination = "destination"
+            case id = "id"
+            case readSets = "readSets"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1813,14 +1813,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case roleArn
-            case sequenceStoreId
-            case sources
-            case status
-            case statusMessage
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case roleArn = "roleArn"
+            case sequenceStoreId = "sequenceStoreId"
+            case sources = "sources"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1897,19 +1897,19 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case files
-            case fileType
-            case id
-            case name
-            case referenceArn
-            case sampleId
-            case sequenceInformation
-            case sequenceStoreId
-            case status
-            case subjectId
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case files = "files"
+            case fileType = "fileType"
+            case id = "id"
+            case name = "name"
+            case referenceArn = "referenceArn"
+            case sampleId = "sampleId"
+            case sequenceInformation = "sequenceInformation"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
+            case subjectId = "subjectId"
         }
     }
 
@@ -1953,7 +1953,6 @@ extension Omics {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-
         /// The read set file payload.
         public let payload: AWSPayload?
 
@@ -1962,7 +1961,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload
+            case payload = "payload"
         }
     }
 
@@ -2024,14 +2023,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case referenceStoreId
-            case roleArn
-            case sources
-            case status
-            case statusMessage
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case referenceStoreId = "referenceStoreId"
+            case roleArn = "roleArn"
+            case sources = "sources"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -2099,16 +2098,16 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case files
-            case id
-            case md5
-            case name
-            case referenceStoreId
-            case status
-            case updateTime
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case files = "files"
+            case id = "id"
+            case md5 = "md5"
+            case name = "name"
+            case referenceStoreId = "referenceStoreId"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -2159,7 +2158,6 @@ extension Omics {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-
         /// The reference file payload.
         public let payload: AWSPayload?
 
@@ -2168,7 +2166,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload
+            case payload = "payload"
         }
     }
 
@@ -2217,12 +2215,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -2278,14 +2276,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case id
-            case maxCpus
-            case maxDuration
-            case maxRuns
-            case name
-            case tags
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case id = "id"
+            case maxCpus = "maxCpus"
+            case maxDuration = "maxDuration"
+            case maxRuns = "maxRuns"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2393,29 +2391,29 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case definition
-            case digest
-            case id
-            case logLevel
-            case name
-            case outputUri
-            case parameters
-            case priority
-            case resourceDigests
-            case roleArn
-            case runGroupId
-            case runId
-            case startedBy
-            case startTime
-            case status
-            case statusMessage
-            case stopTime
-            case storageCapacity
-            case tags
-            case workflowId
-            case workflowType
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case definition = "definition"
+            case digest = "digest"
+            case id = "id"
+            case logLevel = "logLevel"
+            case name = "name"
+            case outputUri = "outputUri"
+            case parameters = "parameters"
+            case priority = "priority"
+            case resourceDigests = "resourceDigests"
+            case roleArn = "roleArn"
+            case runGroupId = "runGroupId"
+            case runId = "runId"
+            case startedBy = "startedBy"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case stopTime = "stopTime"
+            case storageCapacity = "storageCapacity"
+            case tags = "tags"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -2486,16 +2484,16 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case creationTime
-            case logStream
-            case memory
-            case name
-            case startTime
-            case status
-            case statusMessage
-            case stopTime
-            case taskId
+            case cpus = "cpus"
+            case creationTime = "creationTime"
+            case logStream = "logStream"
+            case memory = "memory"
+            case name = "name"
+            case startTime = "startTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case stopTime = "stopTime"
+            case taskId = "taskId"
         }
     }
 
@@ -2544,12 +2542,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -2611,16 +2609,16 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destinationName
-            case id
-            case items
-            case roleArn
-            case runLeftNormalization
-            case status
-            case statusMessage
-            case updateTime
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destinationName = "destinationName"
+            case id = "id"
+            case items = "items"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updateTime = "updateTime"
         }
     }
 
@@ -2683,18 +2681,18 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case sseConfig
-            case status
-            case statusMessage
-            case storeArn
-            case storeSizeBytes
-            case tags
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeArn = "storeArn"
+            case storeSizeBytes = "storeSizeBytes"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -2780,21 +2778,21 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case definition
-            case description
-            case digest
-            case engine
-            case id
-            case main
-            case name
-            case parameterTemplate
-            case status
-            case statusMessage
-            case storageCapacity
-            case tags
-            case type
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case definition = "definition"
+            case description = "description"
+            case digest = "digest"
+            case engine = "engine"
+            case id = "id"
+            case main = "main"
+            case name = "name"
+            case parameterTemplate = "parameterTemplate"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storageCapacity = "storageCapacity"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -2813,9 +2811,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case status
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case status = "status"
         }
     }
 
@@ -2843,12 +2841,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case roleArn
-            case sequenceStoreId
-            case status
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case roleArn = "roleArn"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -2891,17 +2889,17 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case generatedFrom
-            case name
-            case referenceArn
-            case sampleId
-            case sourceFiles
-            case sourceFileType
-            case status
-            case statusMessage
-            case subjectId
-            case tags
+            case description = "description"
+            case generatedFrom = "generatedFrom"
+            case name = "name"
+            case referenceArn = "referenceArn"
+            case sampleId = "sampleId"
+            case sourceFiles = "sourceFiles"
+            case sourceFileType = "sourceFileType"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case subjectId = "subjectId"
+            case tags = "tags"
         }
     }
 
@@ -2920,9 +2918,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case status
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case status = "status"
         }
     }
 
@@ -2950,12 +2948,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case id
-            case referenceStoreId
-            case roleArn
-            case status
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case id = "id"
+            case referenceStoreId = "referenceStoreId"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -2983,12 +2981,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case sourceFile
-            case status
-            case statusMessage
-            case tags
+            case description = "description"
+            case name = "name"
+            case sourceFile = "sourceFile"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
         }
     }
 
@@ -3004,8 +3002,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case storeName
+            case status = "status"
+            case storeName = "storeName"
         }
     }
 
@@ -3039,8 +3037,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ids
+            case filter = "filter"
+            case ids = "ids"
         }
     }
 
@@ -3056,8 +3054,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case annotationImportJobs
-            case nextToken
+            case annotationImportJobs = "annotationImportJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3070,7 +3068,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -3104,8 +3102,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ids
+            case filter = "filter"
+            case ids = "ids"
         }
     }
 
@@ -3121,8 +3119,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case annotationStores
-            case nextToken
+            case annotationStores = "annotationStores"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3159,7 +3157,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3175,8 +3173,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activationJobs
-            case nextToken
+            case activationJobs = "activationJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3213,7 +3211,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3229,8 +3227,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportJobs
-            case nextToken
+            case exportJobs = "exportJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3267,7 +3265,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3283,8 +3281,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importJobs
-            case nextToken
+            case importJobs = "importJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3322,7 +3320,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3338,8 +3336,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case readSets
+            case nextToken = "nextToken"
+            case readSets = "readSets"
         }
     }
 
@@ -3376,7 +3374,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3392,8 +3390,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importJobs
-            case nextToken
+            case importJobs = "importJobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3424,7 +3422,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3440,8 +3438,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case referenceStores
+            case nextToken = "nextToken"
+            case referenceStores = "referenceStores"
         }
     }
 
@@ -3479,7 +3477,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3495,8 +3493,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case references
+            case nextToken = "nextToken"
+            case references = "references"
         }
     }
 
@@ -3544,8 +3542,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3597,8 +3595,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3653,8 +3651,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3685,7 +3683,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
@@ -3701,8 +3699,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sequenceStores
+            case nextToken = "nextToken"
+            case sequenceStores = "sequenceStores"
         }
     }
 
@@ -3736,7 +3734,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3752,8 +3750,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case storeName
+            case status = "status"
+            case storeName = "storeName"
         }
     }
 
@@ -3787,8 +3785,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ids
+            case filter = "filter"
+            case ids = "ids"
         }
     }
 
@@ -3804,8 +3802,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case variantImportJobs
+            case nextToken = "nextToken"
+            case variantImportJobs = "variantImportJobs"
         }
     }
 
@@ -3818,7 +3816,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -3852,8 +3850,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ids
+            case filter = "filter"
+            case ids = "ids"
         }
     }
 
@@ -3869,8 +3867,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case variantStores
+            case nextToken = "nextToken"
+            case variantStores = "variantStores"
         }
     }
 
@@ -3922,8 +3920,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3975,15 +3973,15 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case encoding
-            case escape
-            case escapeQuotes
-            case header
-            case lineSep
-            case quote
-            case quoteAll
-            case sep
+            case comment = "comment"
+            case encoding = "encoding"
+            case escape = "escape"
+            case escapeQuotes = "escapeQuotes"
+            case header = "header"
+            case lineSep = "lineSep"
+            case quote = "quote"
+            case quoteAll = "quoteAll"
+            case sep = "sep"
         }
     }
 
@@ -4002,9 +4000,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case id
-            case message
+            case code = "code"
+            case id = "id"
+            case message = "message"
         }
     }
 
@@ -4023,9 +4021,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case source1
-            case source2
+            case index = "index"
+            case source1 = "source1"
+            case source2 = "source2"
         }
     }
 
@@ -4059,11 +4057,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case name
-            case referenceArn
-            case status
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case name = "name"
+            case referenceArn = "referenceArn"
+            case status = "status"
         }
     }
 
@@ -4108,18 +4106,18 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case fileType
-            case id
-            case name
-            case referenceArn
-            case sampleId
-            case sequenceInformation
-            case sequenceStoreId
-            case status
-            case subjectId
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case fileType = "fileType"
+            case id = "id"
+            case name = "name"
+            case referenceArn = "referenceArn"
+            case sampleId = "sampleId"
+            case sequenceInformation = "sequenceInformation"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
+            case subjectId = "subjectId"
         }
     }
 
@@ -4135,8 +4133,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case source
+            case index = "index"
+            case source = "source"
         }
     }
 
@@ -4167,10 +4165,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case md5
-            case name
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case md5 = "md5"
+            case name = "name"
         }
     }
 
@@ -4207,15 +4205,15 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case md5
-            case name
-            case referenceStoreId
-            case status
-            case updateTime
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case md5 = "md5"
+            case name = "name"
+            case referenceStoreId = "referenceStoreId"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -4243,12 +4241,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -4273,9 +4271,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case name
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case name = "name"
         }
     }
 
@@ -4307,13 +4305,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case id
-            case maxCpus
-            case maxDuration
-            case maxRuns
-            case name
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case id = "id"
+            case maxCpus = "maxCpus"
+            case maxDuration = "maxDuration"
+            case maxRuns = "maxRuns"
+            case name = "name"
         }
     }
 
@@ -4356,16 +4354,16 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case id
-            case name
-            case priority
-            case startTime
-            case status
-            case stopTime
-            case storageCapacity
-            case workflowId
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case id = "id"
+            case name = "name"
+            case priority = "priority"
+            case startTime = "startTime"
+            case status = "status"
+            case stopTime = "stopTime"
+            case storageCapacity = "storageCapacity"
+            case workflowId = "workflowId"
         }
     }
 
@@ -4387,10 +4385,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case generatedFrom
-            case totalBaseCount
-            case totalReadCount
+            case alignment = "alignment"
+            case generatedFrom = "generatedFrom"
+            case totalBaseCount = "totalBaseCount"
+            case totalReadCount = "totalReadCount"
         }
     }
 
@@ -4418,12 +4416,12 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case sseConfig
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sseConfig = "sseConfig"
         }
     }
 
@@ -4448,9 +4446,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAfter
-            case createdBefore
-            case name
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case name = "name"
         }
     }
 
@@ -4471,8 +4469,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source1
-            case source2
+            case source1 = "source1"
+            case source2 = "source2"
         }
     }
 
@@ -4488,8 +4486,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyArn
-            case type
+            case keyArn = "keyArn"
+            case type = "type"
         }
     }
 
@@ -4529,11 +4527,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName
-            case formatOptions
-            case items
-            case roleArn
-            case runLeftNormalization
+            case destinationName = "destinationName"
+            case formatOptions = "formatOptions"
+            case items = "items"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
         }
     }
 
@@ -4546,7 +4544,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -4581,8 +4579,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case sources
+            case clientToken = "clientToken"
+            case sources = "sources"
         }
     }
 
@@ -4604,10 +4602,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case sequenceStoreId
-            case status
+            case creationTime = "creationTime"
+            case id = "id"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -4626,7 +4624,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readSetId
+            case readSetId = "readSetId"
         }
     }
 
@@ -4671,10 +4669,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case destination
-            case roleArn
-            case sources
+            case clientToken = "clientToken"
+            case destination = "destination"
+            case roleArn = "roleArn"
+            case sources = "sources"
         }
     }
 
@@ -4699,11 +4697,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case destination
-            case id
-            case sequenceStoreId
-            case status
+            case creationTime = "creationTime"
+            case destination = "destination"
+            case id = "id"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -4744,9 +4742,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case roleArn
-            case sources
+            case clientToken = "clientToken"
+            case roleArn = "roleArn"
+            case sources = "sources"
         }
     }
 
@@ -4771,11 +4769,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case roleArn
-            case sequenceStoreId
-            case status
+            case creationTime = "creationTime"
+            case id = "id"
+            case roleArn = "roleArn"
+            case sequenceStoreId = "sequenceStoreId"
+            case status = "status"
         }
     }
 
@@ -4839,15 +4837,15 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case generatedFrom
-            case name
-            case referenceArn
-            case sampleId
-            case sourceFiles
-            case sourceFileType
-            case subjectId
-            case tags
+            case description = "description"
+            case generatedFrom = "generatedFrom"
+            case name = "name"
+            case referenceArn = "referenceArn"
+            case sampleId = "sampleId"
+            case sourceFiles = "sourceFiles"
+            case sourceFileType = "sourceFileType"
+            case subjectId = "subjectId"
+            case tags = "tags"
         }
     }
 
@@ -4888,9 +4886,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case roleArn
-            case sources
+            case clientToken = "clientToken"
+            case roleArn = "roleArn"
+            case sources = "sources"
         }
     }
 
@@ -4915,11 +4913,11 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case referenceStoreId
-            case roleArn
-            case status
+            case creationTime = "creationTime"
+            case id = "id"
+            case referenceStoreId = "referenceStoreId"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -4956,10 +4954,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case sourceFile
-            case tags
+            case description = "description"
+            case name = "name"
+            case sourceFile = "sourceFile"
+            case tags = "tags"
         }
     }
 
@@ -5037,19 +5035,19 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logLevel
-            case name
-            case outputUri
-            case parameters
-            case priority
-            case requestId
-            case roleArn
-            case runGroupId
-            case runId
-            case storageCapacity
-            case tags
-            case workflowId
-            case workflowType
+            case logLevel = "logLevel"
+            case name = "name"
+            case outputUri = "outputUri"
+            case parameters = "parameters"
+            case priority = "priority"
+            case requestId = "requestId"
+            case roleArn = "roleArn"
+            case runGroupId = "runGroupId"
+            case runId = "runId"
+            case storageCapacity = "storageCapacity"
+            case tags = "tags"
+            case workflowId = "workflowId"
+            case workflowType = "workflowType"
         }
     }
 
@@ -5071,10 +5069,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case status
-            case tags
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -5110,10 +5108,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName
-            case items
-            case roleArn
-            case runLeftNormalization
+            case destinationName = "destinationName"
+            case items = "items"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
         }
     }
 
@@ -5126,7 +5124,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
@@ -5157,7 +5155,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -5198,14 +5196,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case creationTime
-            case memory
-            case name
-            case startTime
-            case status
-            case stopTime
-            case taskId
+            case cpus = "cpus"
+            case creationTime = "creationTime"
+            case memory = "memory"
+            case name = "name"
+            case startTime = "startTime"
+            case status = "status"
+            case stopTime = "stopTime"
+            case taskId = "taskId"
         }
     }
 
@@ -5222,7 +5220,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readOptions
+            case readOptions = "readOptions"
         }
     }
 
@@ -5248,9 +5246,9 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case annotationType
-            case formatToHeader
-            case schema
+            case annotationType = "annotationType"
+            case formatToHeader = "formatToHeader"
+            case schema = "schema"
         }
     }
 
@@ -5308,7 +5306,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -5347,15 +5345,15 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case status
-            case storeFormat
-            case storeOptions
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case status = "status"
+            case storeFormat = "storeFormat"
+            case storeOptions = "storeOptions"
+            case updateTime = "updateTime"
         }
     }
 
@@ -5393,10 +5391,10 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxCpus
-            case maxDuration
-            case maxRuns
-            case name
+            case maxCpus = "maxCpus"
+            case maxDuration = "maxDuration"
+            case maxRuns = "maxRuns"
+            case name = "name"
         }
     }
 
@@ -5420,7 +5418,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -5453,13 +5451,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case status
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -5494,8 +5492,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -5511,8 +5509,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobStatus
-            case source
+            case jobStatus = "jobStatus"
+            case source = "source"
         }
     }
 
@@ -5529,7 +5527,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
+            case source = "source"
         }
     }
 
@@ -5566,14 +5564,14 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case destinationName
-            case id
-            case roleArn
-            case runLeftNormalization
-            case status
-            case updateTime
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case destinationName = "destinationName"
+            case id = "id"
+            case roleArn = "roleArn"
+            case runLeftNormalization = "runLeftNormalization"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -5618,17 +5616,17 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case reference
-            case sseConfig
-            case status
-            case statusMessage
-            case storeArn
-            case storeSizeBytes
-            case updateTime
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case reference = "reference"
+            case sseConfig = "sseConfig"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storeArn = "storeArn"
+            case storeSizeBytes = "storeSizeBytes"
+            case updateTime = "updateTime"
         }
     }
 
@@ -5644,8 +5642,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ignoreFilterField
-            case ignoreQualField
+            case ignoreFilterField = "ignoreFilterField"
+            case ignoreQualField = "ignoreQualField"
         }
     }
 
@@ -5677,13 +5675,13 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case digest
-            case id
-            case name
-            case status
-            case type
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case digest = "digest"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -5704,8 +5702,8 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case optional
+            case description = "description"
+            case optional = "optional"
         }
     }
 
@@ -5724,7 +5722,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case referenceArn
+            case referenceArn = "referenceArn"
         }
     }
 
@@ -5741,7 +5739,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tsvStoreOptions
+            case tsvStoreOptions = "tsvStoreOptions"
         }
     }
 }

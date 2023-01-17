@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -72,6 +72,7 @@ public struct Batch: AWSService {
                     "eu-west-1": "fips.batch.eu-west-1.amazonaws.com",
                     "eu-west-2": "fips.batch.eu-west-2.amazonaws.com",
                     "eu-west-3": "fips.batch.eu-west-3.amazonaws.com",
+                    "me-central-1": "fips.batch.me-central-1.amazonaws.com",
                     "me-south-1": "fips.batch.me-south-1.amazonaws.com",
                     "sa-east-1": "fips.batch.sa-east-1.amazonaws.com",
                     "us-east-1": "fips.batch.us-east-1.amazonaws.com",
@@ -225,7 +226,7 @@ extension Batch {
 // MARK: Paginators
 
 extension Batch {
-    ///  Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
+    /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -278,7 +279,7 @@ extension Batch {
         )
     }
 
-    ///  Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
+    /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -331,7 +332,7 @@ extension Batch {
         )
     }
 
-    ///  Describes one or more of your job queues.
+    /// Describes one or more of your job queues.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -384,7 +385,7 @@ extension Batch {
         )
     }
 
-    ///  Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
+    /// Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -437,7 +438,7 @@ extension Batch {
         )
     }
 
-    ///  Returns a list of Batch scheduling policies.
+    /// Returns a list of Batch scheduling policies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

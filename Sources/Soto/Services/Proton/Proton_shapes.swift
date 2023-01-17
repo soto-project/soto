@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -61,27 +61,27 @@ extension Proton {
     }
 
     public enum ListServiceInstancesFilterBy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case createdAtAfter
-        case createdAtBefore
-        case deployedTemplateVersionStatus
-        case deploymentStatus
-        case environmentName
-        case lastDeploymentAttemptedAtAfter
-        case lastDeploymentAttemptedAtBefore
-        case name
-        case serviceName
-        case templateName
+        case createdAtAfter = "createdAtAfter"
+        case createdAtBefore = "createdAtBefore"
+        case deployedTemplateVersionStatus = "deployedTemplateVersionStatus"
+        case deploymentStatus = "deploymentStatus"
+        case environmentName = "environmentName"
+        case lastDeploymentAttemptedAtAfter = "lastDeploymentAttemptedAtAfter"
+        case lastDeploymentAttemptedAtBefore = "lastDeploymentAttemptedAtBefore"
+        case name = "name"
+        case serviceName = "serviceName"
+        case templateName = "templateName"
         public var description: String { return self.rawValue }
     }
 
     public enum ListServiceInstancesSortBy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case createdAt
-        case deploymentStatus
-        case environmentName
-        case lastDeploymentAttemptedAt
-        case name
-        case serviceName
-        case templateName
+        case createdAt = "createdAt"
+        case deploymentStatus = "deploymentStatus"
+        case environmentName = "environmentName"
+        case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+        case name = "name"
+        case serviceName = "serviceName"
+        case templateName = "templateName"
         public var description: String { return self.rawValue }
     }
 
@@ -199,7 +199,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -212,7 +212,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -231,9 +231,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineCodebuildRoleArn
-            case pipelineProvisioningRepository
-            case pipelineServiceRoleArn
+            case pipelineCodebuildRoleArn = "pipelineCodebuildRoleArn"
+            case pipelineProvisioningRepository = "pipelineProvisioningRepository"
+            case pipelineServiceRoleArn = "pipelineServiceRoleArn"
         }
     }
 
@@ -252,7 +252,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
+            case componentName = "componentName"
         }
     }
 
@@ -265,7 +265,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -284,7 +284,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentName
+            case environmentName = "environmentName"
         }
     }
 
@@ -297,7 +297,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -322,8 +322,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceInstanceName
-            case serviceName
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -336,7 +336,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceInstance
+            case serviceInstance = "serviceInstance"
         }
     }
 
@@ -355,7 +355,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
@@ -368,7 +368,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
@@ -384,8 +384,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -410,8 +410,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -460,19 +460,19 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
-            case environmentName
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case lastModifiedAt
-            case name
-            case serviceInstanceName
-            case serviceName
-            case serviceSpec
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
+            case environmentName = "environmentName"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case serviceSpec = "serviceSpec"
         }
     }
 
@@ -515,17 +515,17 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case environmentName
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case lastModifiedAt
-            case name
-            case serviceInstanceName
-            case serviceName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case environmentName = "environmentName"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -588,15 +588,15 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case environmentName
-            case manifest
-            case name
-            case serviceInstanceName
-            case serviceName
-            case serviceSpec
-            case tags
-            case templateFile
+            case description = "description"
+            case environmentName = "environmentName"
+            case manifest = "manifest"
+            case name = "name"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case serviceSpec = "serviceSpec"
+            case tags = "tags"
+            case templateFile = "templateFile"
         }
     }
 
@@ -609,7 +609,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -662,13 +662,13 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case codebuildRoleArn
-            case componentRoleArn
-            case environmentName
-            case managementAccountId
-            case roleArn
-            case tags
+            case clientToken = "clientToken"
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case environmentName = "environmentName"
+            case managementAccountId = "managementAccountId"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
@@ -681,7 +681,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -760,18 +760,18 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codebuildRoleArn
-            case componentRoleArn
-            case description
-            case environmentAccountConnectionId
-            case name
-            case protonServiceRoleArn
-            case provisioningRepository
-            case spec
-            case tags
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case description = "description"
+            case environmentAccountConnectionId = "environmentAccountConnectionId"
+            case name = "name"
+            case protonServiceRoleArn = "protonServiceRoleArn"
+            case provisioningRepository = "provisioningRepository"
+            case spec = "spec"
+            case tags = "tags"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -784,7 +784,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -828,12 +828,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case encryptionKey
-            case name
-            case provisioning
-            case tags
+            case description = "description"
+            case displayName = "displayName"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case provisioning = "provisioning"
+            case tags = "tags"
         }
     }
 
@@ -846,7 +846,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplate
+            case environmentTemplate = "environmentTemplate"
         }
     }
 
@@ -891,12 +891,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case majorVersion
-            case source
-            case tags
-            case templateName
+            case clientToken = "clientToken"
+            case description = "description"
+            case majorVersion = "majorVersion"
+            case source = "source"
+            case tags = "tags"
+            case templateName = "templateName"
         }
     }
 
@@ -909,7 +909,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplateVersion
+            case environmentTemplateVersion = "environmentTemplateVersion"
         }
     }
 
@@ -950,11 +950,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionArn
-            case encryptionKey
-            case name
-            case provider
-            case tags
+            case connectionArn = "connectionArn"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case provider = "provider"
+            case tags = "tags"
         }
     }
 
@@ -967,7 +967,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -1036,16 +1036,16 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case description
-            case name
-            case repositoryConnectionArn
-            case repositoryId
-            case spec
-            case tags
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case branchName = "branchName"
+            case description = "description"
+            case name = "name"
+            case repositoryConnectionArn = "repositoryConnectionArn"
+            case repositoryId = "repositoryId"
+            case spec = "spec"
+            case tags = "tags"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1058,7 +1058,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -1102,12 +1102,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case encryptionKey
-            case name
-            case pipelineProvisioning
-            case tags
+            case description = "description"
+            case displayName = "displayName"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case pipelineProvisioning = "pipelineProvisioning"
+            case tags = "tags"
         }
     }
 
@@ -1120,7 +1120,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplate
+            case serviceTemplate = "serviceTemplate"
         }
     }
 
@@ -1176,14 +1176,14 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case compatibleEnvironmentTemplates
-            case description
-            case majorVersion
-            case source
-            case supportedComponentSources
-            case tags
-            case templateName
+            case clientToken = "clientToken"
+            case compatibleEnvironmentTemplates = "compatibleEnvironmentTemplates"
+            case description = "description"
+            case majorVersion = "majorVersion"
+            case source = "source"
+            case supportedComponentSources = "supportedComponentSources"
+            case tags = "tags"
+            case templateName = "templateName"
         }
     }
 
@@ -1196,7 +1196,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplateVersion
+            case serviceTemplateVersion = "serviceTemplateVersion"
         }
     }
 
@@ -1237,12 +1237,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case repositoryName
-            case repositoryProvider
-            case subdirectory
-            case templateName
-            case templateType
+            case branch = "branch"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case subdirectory = "subdirectory"
+            case templateName = "templateName"
+            case templateType = "templateType"
         }
     }
 
@@ -1255,7 +1255,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateSyncConfig
+            case templateSyncConfig = "templateSyncConfig"
         }
     }
 
@@ -1274,7 +1274,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1287,7 +1287,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -1304,7 +1304,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1317,7 +1317,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -1336,7 +1336,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1349,7 +1349,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -1368,7 +1368,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1381,7 +1381,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplate
+            case environmentTemplate = "environmentTemplate"
         }
     }
 
@@ -1412,9 +1412,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case minorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1427,7 +1427,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplateVersion
+            case environmentTemplateVersion = "environmentTemplateVersion"
         }
     }
 
@@ -1449,8 +1449,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case provider
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -1463,7 +1463,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -1482,7 +1482,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1495,7 +1495,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -1514,7 +1514,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1527,7 +1527,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplate
+            case serviceTemplate = "serviceTemplate"
         }
     }
 
@@ -1558,9 +1558,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case minorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1573,7 +1573,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplateVersion
+            case serviceTemplateVersion = "serviceTemplateVersion"
         }
     }
 
@@ -1595,8 +1595,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateName
-            case templateType
+            case templateName = "templateName"
+            case templateType = "templateType"
         }
     }
 
@@ -1609,7 +1609,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateSyncConfig
+            case templateSyncConfig = "templateSyncConfig"
         }
     }
 
@@ -1676,25 +1676,25 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case codebuildRoleArn
-            case componentRoleArn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
-            case environmentAccountConnectionId
-            case environmentAccountId
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case name
-            case protonServiceRoleArn
-            case provisioning
-            case provisioningRepository
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case arn = "arn"
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
+            case environmentAccountConnectionId = "environmentAccountConnectionId"
+            case environmentAccountId = "environmentAccountId"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case name = "name"
+            case protonServiceRoleArn = "protonServiceRoleArn"
+            case provisioning = "provisioning"
+            case provisioningRepository = "provisioningRepository"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1737,17 +1737,17 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case codebuildRoleArn
-            case componentRoleArn
-            case environmentAccountId
-            case environmentName
-            case id
-            case lastModifiedAt
-            case managementAccountId
-            case requestedAt
-            case roleArn
-            case status
+            case arn = "arn"
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case environmentAccountId = "environmentAccountId"
+            case environmentName = "environmentName"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case managementAccountId = "managementAccountId"
+            case requestedAt = "requestedAt"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1787,16 +1787,16 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentRoleArn
-            case environmentAccountId
-            case environmentName
-            case id
-            case lastModifiedAt
-            case managementAccountId
-            case requestedAt
-            case roleArn
-            case status
+            case arn = "arn"
+            case componentRoleArn = "componentRoleArn"
+            case environmentAccountId = "environmentAccountId"
+            case environmentName = "environmentName"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case managementAccountId = "managementAccountId"
+            case requestedAt = "requestedAt"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1854,22 +1854,22 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentRoleArn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
-            case environmentAccountConnectionId
-            case environmentAccountId
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case name
-            case protonServiceRoleArn
-            case provisioning
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case arn = "arn"
+            case componentRoleArn = "componentRoleArn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
+            case environmentAccountConnectionId = "environmentAccountConnectionId"
+            case environmentAccountId = "environmentAccountId"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case name = "name"
+            case protonServiceRoleArn = "protonServiceRoleArn"
+            case provisioning = "provisioning"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1906,15 +1906,15 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case displayName
-            case encryptionKey
-            case lastModifiedAt
-            case name
-            case provisioning
-            case recommendedVersion
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case encryptionKey = "encryptionKey"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case provisioning = "provisioning"
+            case recommendedVersion = "recommendedVersion"
         }
     }
 
@@ -1939,8 +1939,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -1974,14 +1974,14 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case displayName
-            case lastModifiedAt
-            case name
-            case provisioning
-            case recommendedVersion
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case provisioning = "provisioning"
+            case recommendedVersion = "recommendedVersion"
         }
     }
 
@@ -2024,17 +2024,17 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastModifiedAt
-            case majorVersion
-            case minorVersion
-            case recommendedMinorVersion
-            case schema
-            case status
-            case statusMessage
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case recommendedMinorVersion = "recommendedMinorVersion"
+            case schema = "schema"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateName = "templateName"
         }
     }
 
@@ -2074,16 +2074,16 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastModifiedAt
-            case majorVersion
-            case minorVersion
-            case recommendedMinorVersion
-            case status
-            case statusMessage
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case recommendedMinorVersion = "recommendedMinorVersion"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateName = "templateName"
         }
     }
 
@@ -2100,7 +2100,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettings
+            case accountSettings = "accountSettings"
         }
     }
 
@@ -2119,7 +2119,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2132,7 +2132,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -2149,7 +2149,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -2162,7 +2162,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -2181,7 +2181,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2194,7 +2194,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -2213,7 +2213,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2226,7 +2226,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplate
+            case environmentTemplate = "environmentTemplate"
         }
     }
 
@@ -2257,9 +2257,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case minorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -2272,7 +2272,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplateVersion
+            case environmentTemplateVersion = "environmentTemplateVersion"
         }
     }
 
@@ -2294,8 +2294,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case provider
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -2308,7 +2308,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -2338,10 +2338,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case repositoryName
-            case repositoryProvider
-            case syncType
+            case branch = "branch"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case syncType = "syncType"
         }
     }
 
@@ -2354,7 +2354,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestSync
+            case latestSync = "latestSync"
         }
     }
 
@@ -2373,7 +2373,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2398,8 +2398,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case serviceName
+            case name = "name"
+            case serviceName = "serviceName"
         }
     }
 
@@ -2412,7 +2412,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceInstance
+            case serviceInstance = "serviceInstance"
         }
     }
 
@@ -2425,7 +2425,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -2444,7 +2444,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -2457,7 +2457,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplate
+            case serviceTemplate = "serviceTemplate"
         }
     }
 
@@ -2488,9 +2488,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case minorVersion
-            case templateName
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -2503,7 +2503,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplateVersion
+            case serviceTemplateVersion = "serviceTemplateVersion"
         }
     }
 
@@ -2525,8 +2525,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateName
-            case templateType
+            case templateName = "templateName"
+            case templateType = "templateType"
         }
     }
 
@@ -2539,7 +2539,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateSyncConfig
+            case templateSyncConfig = "templateSyncConfig"
         }
     }
 
@@ -2567,9 +2567,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateName
-            case templateType
-            case templateVersion
+            case templateName = "templateName"
+            case templateType = "templateType"
+            case templateVersion = "templateVersion"
         }
     }
 
@@ -2588,9 +2588,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredState
-            case latestSuccessfulSync
-            case latestSync
+            case desiredState = "desiredState"
+            case latestSuccessfulSync = "latestSuccessfulSync"
+            case latestSync = "latestSync"
         }
     }
 
@@ -2613,8 +2613,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case nextToken
+            case componentName = "componentName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2630,8 +2630,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case outputs
+            case nextToken = "nextToken"
+            case outputs = "outputs"
         }
     }
 
@@ -2654,8 +2654,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case nextToken
+            case componentName = "componentName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2671,8 +2671,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case provisionedResources
+            case nextToken = "nextToken"
+            case provisionedResources = "provisionedResources"
         }
     }
 
@@ -2712,11 +2712,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentName
-            case maxResults
-            case nextToken
-            case serviceInstanceName
-            case serviceName
+            case environmentName = "environmentName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -2732,8 +2732,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case components
-            case nextToken
+            case components = "components"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2767,11 +2767,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentName
-            case maxResults
-            case nextToken
-            case requestedBy
-            case statuses
+            case environmentName = "environmentName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case requestedBy = "requestedBy"
+            case statuses = "statuses"
         }
     }
 
@@ -2787,8 +2787,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnections
-            case nextToken
+            case environmentAccountConnections = "environmentAccountConnections"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2811,8 +2811,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentName
-            case nextToken
+            case environmentName = "environmentName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2828,8 +2828,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case outputs
+            case nextToken = "nextToken"
+            case outputs = "outputs"
         }
     }
 
@@ -2852,8 +2852,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentName
-            case nextToken
+            case environmentName = "environmentName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2869,8 +2869,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case provisionedResources
+            case nextToken = "nextToken"
+            case provisionedResources = "provisionedResources"
         }
     }
 
@@ -2904,10 +2904,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case maxResults
-            case nextToken
-            case templateName
+            case majorVersion = "majorVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case templateName = "templateName"
         }
     }
 
@@ -2923,8 +2923,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateVersions
+            case nextToken = "nextToken"
+            case templateVersions = "templateVersions"
         }
     }
 
@@ -2946,8 +2946,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2963,8 +2963,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templates
+            case nextToken = "nextToken"
+            case templates = "templates"
         }
     }
 
@@ -2992,9 +2992,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplates
-            case maxResults
-            case nextToken
+            case environmentTemplates = "environmentTemplates"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3010,8 +3010,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environments
-            case nextToken
+            case environments = "environments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3033,8 +3033,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3050,8 +3050,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
@@ -3080,10 +3080,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositoryName
-            case repositoryProvider
-            case syncType
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case syncType = "syncType"
         }
     }
 
@@ -3099,8 +3099,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case syncDefinitions
+            case nextToken = "nextToken"
+            case syncDefinitions = "syncDefinitions"
         }
     }
 
@@ -3129,9 +3129,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceInstanceName
-            case serviceName
+            case nextToken = "nextToken"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -3147,8 +3147,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case outputs
+            case nextToken = "nextToken"
+            case outputs = "outputs"
         }
     }
 
@@ -3177,9 +3177,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceInstanceName
-            case serviceName
+            case nextToken = "nextToken"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -3195,8 +3195,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case provisionedResources
+            case nextToken = "nextToken"
+            case provisionedResources = "provisionedResources"
         }
     }
 
@@ -3212,8 +3212,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3250,12 +3250,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case serviceName
-            case sortBy
-            case sortOrder
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceName = "serviceName"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -3271,8 +3271,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceInstances
+            case nextToken = "nextToken"
+            case serviceInstances = "serviceInstances"
         }
     }
 
@@ -3295,8 +3295,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceName
+            case nextToken = "nextToken"
+            case serviceName = "serviceName"
         }
     }
 
@@ -3312,8 +3312,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case outputs
+            case nextToken = "nextToken"
+            case outputs = "outputs"
         }
     }
 
@@ -3336,8 +3336,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceName
+            case nextToken = "nextToken"
+            case serviceName = "serviceName"
         }
     }
 
@@ -3353,8 +3353,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case provisionedResources
+            case nextToken = "nextToken"
+            case provisionedResources = "provisionedResources"
         }
     }
 
@@ -3388,10 +3388,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case majorVersion
-            case maxResults
-            case nextToken
-            case templateName
+            case majorVersion = "majorVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case templateName = "templateName"
         }
     }
 
@@ -3407,8 +3407,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateVersions
+            case nextToken = "nextToken"
+            case templateVersions = "templateVersions"
         }
     }
 
@@ -3430,8 +3430,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3447,8 +3447,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templates
+            case nextToken = "nextToken"
+            case templates = "templates"
         }
     }
 
@@ -3470,8 +3470,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3487,8 +3487,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case services
+            case nextToken = "nextToken"
+            case services = "services"
         }
     }
 
@@ -3535,8 +3535,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -3571,11 +3571,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case outputs
-            case resourceArn
-            case status
-            case statusMessage
+            case deploymentId = "deploymentId"
+            case outputs = "outputs"
+            case resourceArn = "resourceArn"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -3602,8 +3602,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case valueString
+            case key = "key"
+            case valueString = "valueString"
         }
     }
 
@@ -3622,9 +3622,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case name
-            case provisioningEngine
+            case identifier = "identifier"
+            case name = "name"
+            case provisioningEngine = "provisioningEngine"
         }
     }
 
@@ -3641,7 +3641,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -3654,7 +3654,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -3679,11 +3679,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectionArn
-            case encryptionKey
-            case name
-            case provider
+            case arn = "arn"
+            case connectionArn = "connectionArn"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -3705,10 +3705,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case branch
-            case name
-            case provider
+            case arn = "arn"
+            case branch = "branch"
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -3735,9 +3735,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case name
-            case provider
+            case branch = "branch"
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -3756,9 +3756,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case provider
+            case arn = "arn"
+            case name = "name"
+            case provider = "provider"
         }
     }
 
@@ -3777,9 +3777,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case startedAt
-            case status
+            case events = "events"
+            case startedAt = "startedAt"
+            case status = "status"
         }
     }
 
@@ -3801,10 +3801,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case directory
-            case parent
-            case target
+            case branch = "branch"
+            case directory = "directory"
+            case parent = "parent"
+            case target = "target"
         }
     }
 
@@ -3826,10 +3826,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case externalId
-            case time
-            case type
+            case event = "event"
+            case externalId = "externalId"
+            case time = "time"
+            case type = "type"
         }
     }
 
@@ -3857,12 +3857,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case initialRevision
-            case startedAt
-            case status
-            case target
-            case targetRevision
+            case events = "events"
+            case initialRevision = "initialRevision"
+            case startedAt = "startedAt"
+            case status = "status"
+            case target = "target"
+            case targetRevision = "targetRevision"
         }
     }
 
@@ -3884,10 +3884,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case externalId
-            case time
-            case type
+            case event = "event"
+            case externalId = "externalId"
+            case time = "time"
+            case type = "type"
         }
     }
 
@@ -3912,11 +3912,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case directory
-            case repositoryName
-            case repositoryProvider
-            case sha
+            case branch = "branch"
+            case directory = "directory"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case sha = "sha"
         }
     }
 
@@ -3940,8 +3940,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
@@ -3990,19 +3990,19 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case branchName
-            case createdAt
-            case description
-            case lastModifiedAt
-            case name
-            case pipeline
-            case repositoryConnectionArn
-            case repositoryId
-            case spec
-            case status
-            case statusMessage
-            case templateName
+            case arn = "arn"
+            case branchName = "branchName"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case pipeline = "pipeline"
+            case repositoryConnectionArn = "repositoryConnectionArn"
+            case repositoryId = "repositoryId"
+            case spec = "spec"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateName = "templateName"
         }
     }
 
@@ -4051,19 +4051,19 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case environmentName
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case name
-            case serviceName
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case environmentName = "environmentName"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case name = "name"
+            case serviceName = "serviceName"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -4109,18 +4109,18 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case environmentName
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case name
-            case serviceName
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case environmentName = "environmentName"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case name = "name"
+            case serviceName = "serviceName"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -4160,16 +4160,16 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentStatus
-            case deploymentStatusMessage
-            case lastDeploymentAttemptedAt
-            case lastDeploymentSucceededAt
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case lastDeploymentAttemptedAt = "lastDeploymentAttemptedAt"
+            case lastDeploymentSucceededAt = "lastDeploymentSucceededAt"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
+            case templateName = "templateName"
         }
     }
 
@@ -4203,14 +4203,14 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastModifiedAt
-            case name
-            case status
-            case statusMessage
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateName = "templateName"
         }
     }
 
@@ -4247,15 +4247,15 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case displayName
-            case encryptionKey
-            case lastModifiedAt
-            case name
-            case pipelineProvisioning
-            case recommendedVersion
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case encryptionKey = "encryptionKey"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case pipelineProvisioning = "pipelineProvisioning"
+            case recommendedVersion = "recommendedVersion"
         }
     }
 
@@ -4289,14 +4289,14 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case displayName
-            case lastModifiedAt
-            case name
-            case pipelineProvisioning
-            case recommendedVersion
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case lastModifiedAt = "lastModifiedAt"
+            case name = "name"
+            case pipelineProvisioning = "pipelineProvisioning"
+            case recommendedVersion = "recommendedVersion"
         }
     }
 
@@ -4345,19 +4345,19 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case compatibleEnvironmentTemplates
-            case createdAt
-            case description
-            case lastModifiedAt
-            case majorVersion
-            case minorVersion
-            case recommendedMinorVersion
-            case schema
-            case status
-            case statusMessage
-            case supportedComponentSources
-            case templateName
+            case arn = "arn"
+            case compatibleEnvironmentTemplates = "compatibleEnvironmentTemplates"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case recommendedMinorVersion = "recommendedMinorVersion"
+            case schema = "schema"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case supportedComponentSources = "supportedComponentSources"
+            case templateName = "templateName"
         }
     }
 
@@ -4397,16 +4397,16 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastModifiedAt
-            case majorVersion
-            case minorVersion
-            case recommendedMinorVersion
-            case status
-            case statusMessage
-            case templateName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastModifiedAt = "lastModifiedAt"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case recommendedMinorVersion = "recommendedMinorVersion"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateName = "templateName"
         }
     }
 
@@ -4428,8 +4428,8 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4459,7 +4459,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4491,12 +4491,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case repositoryName
-            case repositoryProvider
-            case subdirectory
-            case templateName
-            case templateType
+            case branch = "branch"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case subdirectory = "subdirectory"
+            case templateName = "templateName"
+            case templateType = "templateType"
         }
     }
 
@@ -4527,7 +4527,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4561,10 +4561,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletePipelineProvisioningRepository
-            case pipelineCodebuildRoleArn
-            case pipelineProvisioningRepository
-            case pipelineServiceRoleArn
+            case deletePipelineProvisioningRepository = "deletePipelineProvisioningRepository"
+            case pipelineCodebuildRoleArn = "pipelineCodebuildRoleArn"
+            case pipelineProvisioningRepository = "pipelineProvisioningRepository"
+            case pipelineServiceRoleArn = "pipelineServiceRoleArn"
         }
     }
 
@@ -4577,7 +4577,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettings
+            case accountSettings = "accountSettings"
         }
     }
 
@@ -4623,13 +4623,13 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentType
-            case description
-            case name
-            case serviceInstanceName
-            case serviceName
-            case serviceSpec
-            case templateFile
+            case deploymentType = "deploymentType"
+            case description = "description"
+            case name = "name"
+            case serviceInstanceName = "serviceInstanceName"
+            case serviceName = "serviceName"
+            case serviceSpec = "serviceSpec"
+            case templateFile = "templateFile"
         }
     }
 
@@ -4642,7 +4642,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
+            case component = "component"
         }
     }
 
@@ -4677,10 +4677,10 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codebuildRoleArn
-            case componentRoleArn
-            case id
-            case roleArn
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case id = "id"
+            case roleArn = "roleArn"
         }
     }
 
@@ -4693,7 +4693,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentAccountConnection
+            case environmentAccountConnection = "environmentAccountConnection"
         }
     }
 
@@ -4762,17 +4762,17 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codebuildRoleArn
-            case componentRoleArn
-            case deploymentType
-            case description
-            case environmentAccountConnectionId
-            case name
-            case protonServiceRoleArn
-            case provisioningRepository
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
+            case codebuildRoleArn = "codebuildRoleArn"
+            case componentRoleArn = "componentRoleArn"
+            case deploymentType = "deploymentType"
+            case description = "description"
+            case environmentAccountConnectionId = "environmentAccountConnectionId"
+            case name = "name"
+            case protonServiceRoleArn = "protonServiceRoleArn"
+            case provisioningRepository = "provisioningRepository"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
         }
     }
 
@@ -4785,7 +4785,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environment
+            case environment = "environment"
         }
     }
 
@@ -4813,9 +4813,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -4828,7 +4828,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplate
+            case environmentTemplate = "environmentTemplate"
         }
     }
 
@@ -4866,11 +4866,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case majorVersion
-            case minorVersion
-            case status
-            case templateName
+            case description = "description"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case status = "status"
+            case templateName = "templateName"
         }
     }
 
@@ -4883,7 +4883,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentTemplateVersion
+            case environmentTemplateVersion = "environmentTemplateVersion"
         }
     }
 
@@ -4911,9 +4911,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case spec
+            case description = "description"
+            case name = "name"
+            case spec = "spec"
         }
     }
 
@@ -4958,12 +4958,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentType
-            case name
-            case serviceName
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
+            case deploymentType = "deploymentType"
+            case name = "name"
+            case serviceName = "serviceName"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
         }
     }
 
@@ -4976,7 +4976,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceInstance
+            case serviceInstance = "serviceInstance"
         }
     }
 
@@ -4989,7 +4989,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -5028,11 +5028,11 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentType
-            case serviceName
-            case spec
-            case templateMajorVersion
-            case templateMinorVersion
+            case deploymentType = "deploymentType"
+            case serviceName = "serviceName"
+            case spec = "spec"
+            case templateMajorVersion = "templateMajorVersion"
+            case templateMinorVersion = "templateMinorVersion"
         }
     }
 
@@ -5045,7 +5045,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
@@ -5073,9 +5073,9 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -5088,7 +5088,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplate
+            case serviceTemplate = "serviceTemplate"
         }
     }
 
@@ -5137,13 +5137,13 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleEnvironmentTemplates
-            case description
-            case majorVersion
-            case minorVersion
-            case status
-            case supportedComponentSources
-            case templateName
+            case compatibleEnvironmentTemplates = "compatibleEnvironmentTemplates"
+            case description = "description"
+            case majorVersion = "majorVersion"
+            case minorVersion = "minorVersion"
+            case status = "status"
+            case supportedComponentSources = "supportedComponentSources"
+            case templateName = "templateName"
         }
     }
 
@@ -5156,7 +5156,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceTemplateVersion
+            case serviceTemplateVersion = "serviceTemplateVersion"
         }
     }
 
@@ -5197,12 +5197,12 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
-            case repositoryName
-            case repositoryProvider
-            case subdirectory
-            case templateName
-            case templateType
+            case branch = "branch"
+            case repositoryName = "repositoryName"
+            case repositoryProvider = "repositoryProvider"
+            case subdirectory = "subdirectory"
+            case templateName = "templateName"
+            case templateType = "templateType"
         }
     }
 
@@ -5215,7 +5215,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateSyncConfig
+            case templateSyncConfig = "templateSyncConfig"
         }
     }
 
@@ -5232,7 +5232,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 }
@@ -5269,13 +5269,13 @@ public struct ProtonErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// There isn&#39;t sufficient access for performing this action.
+    /// There isn't sufficient access for performing this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request couldn&#39;t be made due to a conflicting operation or resource.
+    /// The request couldn't be made due to a conflicting operation or resource.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request failed to register with the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The requested resource wasn&#39;t found.
+    /// The requested resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// A quota was exceeded. For more information, see Proton Quotas in the Proton User Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

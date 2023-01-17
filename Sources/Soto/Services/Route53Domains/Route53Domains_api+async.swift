@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -325,8 +325,8 @@ extension Route53Domains {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53Domains {
-    ///  This operation returns all the domain names registered with Amazon Route 53 for the
-    ///  			current Amazon Web Services account if no filtering conditions are used.
+    /// This operation returns all the domain names registered with Amazon Route 53 for the
+    /// 			current Amazon Web Services account if no filtering conditions are used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -348,8 +348,8 @@ extension Route53Domains {
         )
     }
 
-    ///  Returns information about all of the operations that return an operation ID and that
-    ///  			have ever been performed on domains that were registered by the current account.  This command runs only in the us-east-1 Region.
+    /// Returns information about all of the operations that return an operation ID and that
+    /// 			have ever been performed on domains that were registered by the current account.  This command runs only in the us-east-1 Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -371,8 +371,8 @@ extension Route53Domains {
         )
     }
 
-    ///  Lists the following prices for either all the TLDs supported by Route 53, or
-    ///  			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    /// Lists the following prices for either all the TLDs supported by Route 53, or
+    /// 			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -394,7 +394,7 @@ extension Route53Domains {
         )
     }
 
-    ///  Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+    /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

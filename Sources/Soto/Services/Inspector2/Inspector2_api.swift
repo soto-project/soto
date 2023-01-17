@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -236,7 +236,7 @@ extension Inspector2 {
 // MARK: Paginators
 
 extension Inspector2 {
-    ///  Lists the permissions an account has to configure Amazon Inspector.
+    /// Lists the permissions an account has to configure Amazon Inspector.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -289,7 +289,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists coverage details for you environment.
+    /// Lists coverage details for you environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -342,7 +342,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists Amazon Inspector coverage statistics for your environment.
+    /// Lists Amazon Inspector coverage statistics for your environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -395,7 +395,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists information about the Amazon Inspector delegated administrator of your organization.
+    /// Lists information about the Amazon Inspector delegated administrator of your organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -448,7 +448,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists the filters associated with your account.
+    /// Lists the filters associated with your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -501,7 +501,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists aggregated finding data for your environment based on specific criteria.
+    /// Lists aggregated finding data for your environment based on specific criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -554,7 +554,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists findings for your environment.
+    /// Lists findings for your environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -607,7 +607,7 @@ extension Inspector2 {
         )
     }
 
-    ///  List members associated with the Amazon Inspector delegated administrator for your organization.
+    /// List members associated with the Amazon Inspector delegated administrator for your organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -660,7 +660,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists the Amazon Inspector usage totals over the last 30 days.
+    /// Lists the Amazon Inspector usage totals over the last 30 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -153,7 +153,7 @@ extension IoTDeviceAdvisor {
 // MARK: Paginators
 
 extension IoTDeviceAdvisor {
-    ///  Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
+    /// Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -206,7 +206,7 @@ extension IoTDeviceAdvisor {
         )
     }
 
-    ///  Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
+    /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

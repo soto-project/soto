@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -212,7 +212,7 @@ extension SSMContacts {
 // MARK: Paginators
 
 extension SSMContacts {
-    ///  Lists all contact channels for the specified contact.
+    /// Lists all contact channels for the specified contact.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -265,7 +265,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all contacts and escalation plans in Incident Manager.
+    /// Lists all contacts and escalation plans in Incident Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -318,7 +318,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all engagements that have happened in an incident.
+    /// Lists all engagements that have happened in an incident.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -371,7 +371,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists all of the engagements to contact channels that have been acknowledged.
+    /// Lists all of the engagements to contact channels that have been acknowledged.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -424,7 +424,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists the engagements to a contact's contact channels.
+    /// Lists the engagements to a contact's contact channels.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -477,7 +477,7 @@ extension SSMContacts {
         )
     }
 
-    ///  Lists the engagements to contact channels that occurred by engaging a contact.
+    /// Lists the engagements to contact channels that occurred by engaging a contact.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

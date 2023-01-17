@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -101,7 +101,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretArnList
+            case secretArnList = "secretArnList"
         }
     }
 
@@ -117,8 +117,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case unprocessedScramSecrets
+            case clusterArn = "clusterArn"
+            case unprocessedScramSecrets = "unprocessedScramSecrets"
         }
     }
 
@@ -138,7 +138,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretArnList
+            case secretArnList = "secretArnList"
         }
     }
 
@@ -154,8 +154,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case unprocessedScramSecrets
+            case clusterArn = "clusterArn"
+            case unprocessedScramSecrets = "unprocessedScramSecrets"
         }
     }
 
@@ -174,9 +174,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kafkaBrokerNodeId
-            case provisionedThroughput
-            case volumeSizeGB
+            case kafkaBrokerNodeId = "kafkaBrokerNodeId"
+            case provisionedThroughput = "provisionedThroughput"
+            case volumeSizeGB = "volumeSizeGB"
         }
     }
 
@@ -192,9 +192,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case firehose
-            case s3
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 
@@ -229,12 +229,12 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerAZDistribution
-            case clientSubnets
-            case connectivityInfo
-            case instanceType
-            case securityGroups
-            case storageInfo
+            case brokerAZDistribution = "brokerAZDistribution"
+            case clientSubnets = "clientSubnets"
+            case connectivityInfo = "connectivityInfo"
+            case instanceType = "instanceType"
+            case securityGroups = "securityGroups"
+            case storageInfo = "storageInfo"
         }
     }
 
@@ -262,12 +262,12 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachedENIId
-            case brokerId
-            case clientSubnet
-            case clientVpcIpAddress
-            case currentBrokerSoftwareInfo
-            case endpoints
+            case attachedENIId = "attachedENIId"
+            case brokerId = "brokerId"
+            case clientSubnet = "clientSubnet"
+            case clientVpcIpAddress = "clientVpcIpAddress"
+            case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
+            case endpoints = "endpoints"
         }
     }
 
@@ -286,9 +286,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationArn
-            case configurationRevision
-            case kafkaVersion
+            case configurationArn = "configurationArn"
+            case configurationRevision = "configurationRevision"
+            case kafkaVersion = "kafkaVersion"
         }
     }
 
@@ -307,9 +307,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sasl
-            case tls
-            case unauthenticated
+            case sasl = "sasl"
+            case tls = "tls"
+            case unauthenticated = "unauthenticated"
         }
     }
 
@@ -323,8 +323,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case logGroup
+            case enabled = "enabled"
+            case logGroup = "logGroup"
         }
     }
 
@@ -368,17 +368,17 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeOperationArn
-            case clusterArn
-            case clusterName
-            case clusterType
-            case creationTime
-            case currentVersion
-            case provisioned
-            case serverless
-            case state
-            case stateInfo
-            case tags
+            case activeOperationArn = "activeOperationArn"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case clusterType = "clusterType"
+            case creationTime = "creationTime"
+            case currentVersion = "currentVersion"
+            case provisioned = "provisioned"
+            case serverless = "serverless"
+            case state = "state"
+            case stateInfo = "stateInfo"
+            case tags = "tags"
         }
     }
 
@@ -444,25 +444,25 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeOperationArn
-            case brokerNodeGroupInfo
-            case clientAuthentication
-            case clusterArn
-            case clusterName
-            case creationTime
-            case currentBrokerSoftwareInfo
-            case currentVersion
-            case encryptionInfo
-            case enhancedMonitoring
-            case loggingInfo
-            case numberOfBrokerNodes
-            case openMonitoring
-            case state
-            case stateInfo
-            case storageMode
-            case tags
-            case zookeeperConnectString
-            case zookeeperConnectStringTls
+            case activeOperationArn = "activeOperationArn"
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clientAuthentication = "clientAuthentication"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case creationTime = "creationTime"
+            case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
+            case currentVersion = "currentVersion"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case openMonitoring = "openMonitoring"
+            case state = "state"
+            case stateInfo = "stateInfo"
+            case storageMode = "storageMode"
+            case tags = "tags"
+            case zookeeperConnectString = "zookeeperConnectString"
+            case zookeeperConnectStringTls = "zookeeperConnectStringTls"
         }
     }
 
@@ -507,17 +507,17 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestId
-            case clusterArn
-            case creationTime
-            case endTime
-            case errorInfo
-            case operationArn
-            case operationState
-            case operationSteps
-            case operationType
-            case sourceClusterInfo
-            case targetClusterInfo
+            case clientRequestId = "clientRequestId"
+            case clusterArn = "clusterArn"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case errorInfo = "errorInfo"
+            case operationArn = "operationArn"
+            case operationState = "operationState"
+            case operationSteps = "operationSteps"
+            case operationType = "operationType"
+            case sourceClusterInfo = "sourceClusterInfo"
+            case targetClusterInfo = "targetClusterInfo"
         }
     }
 
@@ -533,8 +533,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stepInfo
-            case stepName
+            case stepInfo = "stepInfo"
+            case stepName = "stepName"
         }
     }
 
@@ -547,7 +547,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stepStatus
+            case stepStatus = "stepStatus"
         }
     }
 
@@ -563,8 +563,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceVersion
-            case targetVersions
+            case sourceVersion = "sourceVersion"
+            case targetVersions = "targetVersions"
         }
     }
 
@@ -596,13 +596,13 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case kafkaVersions
-            case latestRevision
-            case name
-            case state
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case kafkaVersions = "kafkaVersions"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case state = "state"
         }
     }
 
@@ -618,8 +618,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case revision
+            case arn = "arn"
+            case revision = "revision"
         }
     }
 
@@ -639,9 +639,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case revision
+            case creationTime = "creationTime"
+            case description = "description"
+            case revision = "revision"
         }
     }
 
@@ -654,7 +654,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicAccess
+            case publicAccess = "publicAccess"
         }
     }
 
@@ -709,18 +709,18 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerNodeGroupInfo
-            case clientAuthentication
-            case clusterName
-            case configurationInfo
-            case encryptionInfo
-            case enhancedMonitoring
-            case kafkaVersion
-            case loggingInfo
-            case numberOfBrokerNodes
-            case openMonitoring
-            case storageMode
-            case tags
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clientAuthentication = "clientAuthentication"
+            case clusterName = "clusterName"
+            case configurationInfo = "configurationInfo"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case kafkaVersion = "kafkaVersion"
+            case loggingInfo = "loggingInfo"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case openMonitoring = "openMonitoring"
+            case storageMode = "storageMode"
+            case tags = "tags"
         }
     }
 
@@ -739,9 +739,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterName
-            case state
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case state = "state"
         }
     }
 
@@ -769,10 +769,10 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName
-            case provisioned
-            case serverless
-            case tags
+            case clusterName = "clusterName"
+            case provisioned = "provisioned"
+            case serverless = "serverless"
+            case tags = "tags"
         }
     }
 
@@ -794,10 +794,10 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterName
-            case clusterType
-            case state
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case clusterType = "clusterType"
+            case state = "state"
         }
     }
 
@@ -819,10 +819,10 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case kafkaVersions
-            case name
-            case serverProperties
+            case description = "description"
+            case kafkaVersions = "kafkaVersions"
+            case name = "name"
+            case serverProperties = "serverProperties"
         }
     }
 
@@ -848,11 +848,11 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case latestRevision
-            case name
-            case state
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case state = "state"
         }
     }
 
@@ -887,8 +887,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case state
+            case clusterArn = "clusterArn"
+            case state = "state"
         }
     }
 
@@ -919,8 +919,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case state
+            case arn = "arn"
+            case state = "state"
         }
     }
 
@@ -948,7 +948,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterOperationInfo
+            case clusterOperationInfo = "clusterOperationInfo"
         }
     }
 
@@ -976,7 +976,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterInfo
+            case clusterInfo = "clusterInfo"
         }
     }
 
@@ -1004,7 +1004,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterInfo
+            case clusterInfo = "clusterInfo"
         }
     }
 
@@ -1051,13 +1051,13 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case kafkaVersions
-            case latestRevision
-            case name
-            case state
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case kafkaVersions = "kafkaVersions"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case state = "state"
         }
     }
 
@@ -1102,11 +1102,11 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case revision
-            case serverProperties
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case revision = "revision"
+            case serverProperties = "serverProperties"
         }
     }
 
@@ -1127,8 +1127,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provisionedThroughput
-            case volumeSize
+            case provisionedThroughput = "provisionedThroughput"
+            case volumeSize = "volumeSize"
         }
     }
 
@@ -1141,7 +1141,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataVolumeKMSKeyId
+            case dataVolumeKMSKeyId = "dataVolumeKMSKeyId"
         }
     }
 
@@ -1157,8 +1157,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientBroker
-            case inCluster
+            case clientBroker = "clientBroker"
+            case inCluster = "inCluster"
         }
     }
 
@@ -1174,8 +1174,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionAtRest
-            case encryptionInTransit
+            case encryptionAtRest = "encryptionAtRest"
+            case encryptionInTransit = "encryptionInTransit"
         }
     }
 
@@ -1191,8 +1191,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorString
+            case errorCode = "errorCode"
+            case errorString = "errorString"
         }
     }
 
@@ -1206,8 +1206,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStream
-            case enabled
+            case deliveryStream = "deliveryStream"
+            case enabled = "enabled"
         }
     }
 
@@ -1253,13 +1253,13 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bootstrapBrokerString
-            case bootstrapBrokerStringPublicSaslIam
-            case bootstrapBrokerStringPublicSaslScram
-            case bootstrapBrokerStringPublicTls
-            case bootstrapBrokerStringSaslIam
-            case bootstrapBrokerStringSaslScram
-            case bootstrapBrokerStringTls
+            case bootstrapBrokerString = "bootstrapBrokerString"
+            case bootstrapBrokerStringPublicSaslIam = "bootstrapBrokerStringPublicSaslIam"
+            case bootstrapBrokerStringPublicSaslScram = "bootstrapBrokerStringPublicSaslScram"
+            case bootstrapBrokerStringPublicTls = "bootstrapBrokerStringPublicTls"
+            case bootstrapBrokerStringSaslIam = "bootstrapBrokerStringSaslIam"
+            case bootstrapBrokerStringSaslScram = "bootstrapBrokerStringSaslScram"
+            case bootstrapBrokerStringTls = "bootstrapBrokerStringTls"
         }
     }
 
@@ -1287,7 +1287,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleKafkaVersions
+            case compatibleKafkaVersions = "compatibleKafkaVersions"
         }
     }
 
@@ -1300,7 +1300,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -1313,7 +1313,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabledInBroker
+            case enabledInBroker = "enabledInBroker"
         }
     }
 
@@ -1326,7 +1326,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabledInBroker
+            case enabledInBroker = "enabledInBroker"
         }
     }
 
@@ -1340,8 +1340,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case version
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -1385,8 +1385,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterOperationInfoList
-            case nextToken
+            case clusterOperationInfoList = "clusterOperationInfoList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1430,8 +1430,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterInfoList
-            case nextToken
+            case clusterInfoList = "clusterInfoList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1479,8 +1479,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterInfoList
-            case nextToken
+            case clusterInfoList = "clusterInfoList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1524,8 +1524,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case revisions
+            case nextToken = "nextToken"
+            case revisions = "revisions"
         }
     }
 
@@ -1565,8 +1565,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
-            case nextToken
+            case configurations = "configurations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1604,8 +1604,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kafkaVersions
-            case nextToken
+            case kafkaVersions = "kafkaVersions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1649,8 +1649,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case nodeInfoList
+            case nextToken = "nextToken"
+            case nodeInfoList = "nodeInfoList"
         }
     }
 
@@ -1694,8 +1694,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case secretArnList
+            case nextToken = "nextToken"
+            case secretArnList = "secretArnList"
         }
     }
 
@@ -1723,7 +1723,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1735,7 +1735,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerLogs
+            case brokerLogs = "brokerLogs"
         }
     }
 
@@ -1781,18 +1781,18 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerEBSVolumeInfo
-            case clientAuthentication
-            case configurationInfo
-            case connectivityInfo
-            case encryptionInfo
-            case enhancedMonitoring
-            case instanceType
-            case kafkaVersion
-            case loggingInfo
-            case numberOfBrokerNodes
-            case openMonitoring
-            case storageMode
+            case brokerEBSVolumeInfo = "brokerEBSVolumeInfo"
+            case clientAuthentication = "clientAuthentication"
+            case configurationInfo = "configurationInfo"
+            case connectivityInfo = "connectivityInfo"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case instanceType = "instanceType"
+            case kafkaVersion = "kafkaVersion"
+            case loggingInfo = "loggingInfo"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case openMonitoring = "openMonitoring"
+            case storageMode = "storageMode"
         }
     }
 
@@ -1805,7 +1805,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabledInBroker
+            case enabledInBroker = "enabledInBroker"
         }
     }
 
@@ -1818,7 +1818,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabledInBroker
+            case enabledInBroker = "enabledInBroker"
         }
     }
 
@@ -1846,12 +1846,12 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addedToClusterTime
-            case brokerNodeInfo
-            case instanceType
-            case nodeARN
-            case nodeType
-            case zookeeperNodeInfo
+            case addedToClusterTime = "addedToClusterTime"
+            case brokerNodeInfo = "brokerNodeInfo"
+            case instanceType = "instanceType"
+            case nodeARN = "nodeARN"
+            case nodeType = "nodeType"
+            case zookeeperNodeInfo = "zookeeperNodeInfo"
         }
     }
 
@@ -1864,7 +1864,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prometheus
+            case prometheus = "prometheus"
         }
     }
 
@@ -1877,7 +1877,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prometheus
+            case prometheus = "prometheus"
         }
     }
 
@@ -1893,8 +1893,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jmxExporter
-            case nodeExporter
+            case jmxExporter = "jmxExporter"
+            case nodeExporter = "nodeExporter"
         }
     }
 
@@ -1910,8 +1910,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jmxExporter
-            case nodeExporter
+            case jmxExporter = "jmxExporter"
+            case nodeExporter = "nodeExporter"
         }
     }
 
@@ -1954,17 +1954,17 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerNodeGroupInfo
-            case clientAuthentication
-            case currentBrokerSoftwareInfo
-            case encryptionInfo
-            case enhancedMonitoring
-            case loggingInfo
-            case numberOfBrokerNodes
-            case openMonitoring
-            case storageMode
-            case zookeeperConnectString
-            case zookeeperConnectStringTls
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clientAuthentication = "clientAuthentication"
+            case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case openMonitoring = "openMonitoring"
+            case storageMode = "storageMode"
+            case zookeeperConnectString = "zookeeperConnectString"
+            case zookeeperConnectStringTls = "zookeeperConnectStringTls"
         }
     }
 
@@ -2012,16 +2012,16 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerNodeGroupInfo
-            case clientAuthentication
-            case configurationInfo
-            case encryptionInfo
-            case enhancedMonitoring
-            case kafkaVersion
-            case loggingInfo
-            case numberOfBrokerNodes
-            case openMonitoring
-            case storageMode
+            case brokerNodeGroupInfo = "brokerNodeGroupInfo"
+            case clientAuthentication = "clientAuthentication"
+            case configurationInfo = "configurationInfo"
+            case encryptionInfo = "encryptionInfo"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case kafkaVersion = "kafkaVersion"
+            case loggingInfo = "loggingInfo"
+            case numberOfBrokerNodes = "numberOfBrokerNodes"
+            case openMonitoring = "openMonitoring"
+            case storageMode = "storageMode"
         }
     }
 
@@ -2037,8 +2037,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case volumeThroughput
+            case enabled = "enabled"
+            case volumeThroughput = "volumeThroughput"
         }
     }
 
@@ -2051,7 +2051,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -2071,7 +2071,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerIds
+            case brokerIds = "brokerIds"
         }
     }
 
@@ -2087,8 +2087,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2104,9 +2104,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case enabled
-            case prefix
+            case bucket = "bucket"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -2122,8 +2122,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iam
-            case scram
+            case iam = "iam"
+            case scram = "scram"
         }
     }
 
@@ -2136,7 +2136,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -2152,8 +2152,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientAuthentication
-            case vpcConfigs
+            case clientAuthentication = "clientAuthentication"
+            case vpcConfigs = "vpcConfigs"
         }
     }
 
@@ -2166,7 +2166,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sasl
+            case sasl = "sasl"
         }
     }
 
@@ -2182,8 +2182,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientAuthentication
-            case vpcConfigs
+            case clientAuthentication = "clientAuthentication"
+            case vpcConfigs = "vpcConfigs"
         }
     }
 
@@ -2196,7 +2196,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iam
+            case iam = "iam"
         }
     }
 
@@ -2210,8 +2210,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -2228,7 +2228,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ebsStorageInfo
+            case ebsStorageInfo = "ebsStorageInfo"
         }
     }
 
@@ -2248,7 +2248,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2264,8 +2264,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArnList
-            case enabled
+            case certificateAuthorityArnList = "certificateAuthorityArnList"
+            case enabled = "enabled"
         }
     }
 
@@ -2278,7 +2278,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -2297,9 +2297,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case secretArn
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case secretArn = "secretArn"
         }
     }
 
@@ -2346,8 +2346,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case targetNumberOfBrokerNodes
+            case currentVersion = "currentVersion"
+            case targetNumberOfBrokerNodes = "targetNumberOfBrokerNodes"
         }
     }
 
@@ -2363,8 +2363,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2387,8 +2387,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case targetBrokerEBSVolumeInfo
+            case currentVersion = "currentVersion"
+            case targetBrokerEBSVolumeInfo = "targetBrokerEBSVolumeInfo"
         }
     }
 
@@ -2404,8 +2404,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2428,8 +2428,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case targetInstanceType
+            case currentVersion = "currentVersion"
+            case targetInstanceType = "targetInstanceType"
         }
     }
 
@@ -2445,8 +2445,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2469,8 +2469,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationInfo
-            case currentVersion
+            case configurationInfo = "configurationInfo"
+            case currentVersion = "currentVersion"
         }
     }
 
@@ -2486,8 +2486,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2513,9 +2513,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationInfo
-            case currentVersion
-            case targetKafkaVersion
+            case configurationInfo = "configurationInfo"
+            case currentVersion = "currentVersion"
+            case targetKafkaVersion = "targetKafkaVersion"
         }
     }
 
@@ -2531,8 +2531,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2555,8 +2555,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case serverProperties
+            case description = "description"
+            case serverProperties = "serverProperties"
         }
     }
 
@@ -2572,8 +2572,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case latestRevision
+            case arn = "arn"
+            case latestRevision = "latestRevision"
         }
     }
 
@@ -2596,8 +2596,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectivityInfo
-            case currentVersion
+            case connectivityInfo = "connectivityInfo"
+            case currentVersion = "currentVersion"
         }
     }
 
@@ -2613,8 +2613,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2642,10 +2642,10 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case enhancedMonitoring
-            case loggingInfo
-            case openMonitoring
+            case currentVersion = "currentVersion"
+            case enhancedMonitoring = "enhancedMonitoring"
+            case loggingInfo = "loggingInfo"
+            case openMonitoring = "openMonitoring"
         }
     }
 
@@ -2661,8 +2661,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2688,9 +2688,9 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientAuthentication
-            case currentVersion
-            case encryptionInfo
+            case clientAuthentication = "clientAuthentication"
+            case currentVersion = "currentVersion"
+            case encryptionInfo = "encryptionInfo"
         }
     }
 
@@ -2706,8 +2706,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2736,10 +2736,10 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case provisionedThroughput
-            case storageMode
-            case volumeSizeGB
+            case currentVersion = "currentVersion"
+            case provisionedThroughput = "provisionedThroughput"
+            case storageMode = "storageMode"
+            case volumeSizeGB = "volumeSizeGB"
         }
     }
 
@@ -2755,8 +2755,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case clusterOperationArn
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
         }
     }
 
@@ -2772,8 +2772,8 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -2798,11 +2798,11 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachedENIId
-            case clientVpcIpAddress
-            case endpoints
-            case zookeeperId
-            case zookeeperVersion
+            case attachedENIId = "attachedENIId"
+            case clientVpcIpAddress = "clientVpcIpAddress"
+            case endpoints = "endpoints"
+            case zookeeperId = "zookeeperId"
+            case zookeeperVersion = "zookeeperVersion"
         }
     }
 }

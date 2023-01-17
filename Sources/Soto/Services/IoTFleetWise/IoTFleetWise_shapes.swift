@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -189,8 +189,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conditionBasedCollectionScheme
-            case timeBasedCollectionScheme
+            case conditionBasedCollectionScheme = "conditionBasedCollectionScheme"
+            case timeBasedCollectionScheme = "timeBasedCollectionScheme"
         }
     }
 
@@ -256,10 +256,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actuator
-            case attribute
-            case branch
-            case sensor
+            case actuator = "actuator"
+            case attribute = "attribute"
+            case branch = "branch"
+            case sensor = "sensor"
         }
     }
 
@@ -313,14 +313,14 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case assignedValue
-            case dataType
-            case description
-            case fullyQualifiedName
-            case max
-            case min
-            case unit
+            case allowedValues = "allowedValues"
+            case assignedValue = "assignedValue"
+            case dataType = "dataType"
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case max = "max"
+            case min = "min"
+            case unit = "unit"
         }
     }
 
@@ -349,7 +349,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetId
+            case fleetId = "fleetId"
         }
     }
 
@@ -409,15 +409,15 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case assignedValue
-            case dataType
-            case defaultValue
-            case description
-            case fullyQualifiedName
-            case max
-            case min
-            case unit
+            case allowedValues = "allowedValues"
+            case assignedValue = "assignedValue"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case max = "max"
+            case min = "min"
+            case unit = "unit"
         }
     }
 
@@ -436,7 +436,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vehicles
+            case vehicles = "vehicles"
         }
     }
 
@@ -452,8 +452,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case vehicles
+            case errors = "errors"
+            case vehicles = "vehicles"
         }
     }
 
@@ -472,7 +472,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vehicles
+            case vehicles = "vehicles"
         }
     }
 
@@ -488,8 +488,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case vehicles
+            case errors = "errors"
+            case vehicles = "vehicles"
         }
     }
 
@@ -511,8 +511,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case fullyQualifiedName
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
         }
     }
 
@@ -546,14 +546,14 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case name
-            case signalCatalogArn
-            case status
-            case targetArn
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case signalCatalogArn = "signalCatalogArn"
+            case status = "status"
+            case targetArn = "targetArn"
         }
     }
 
@@ -579,9 +579,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canDbcFiles
-            case networkInterface
-            case signalsMap
+            case canDbcFiles = "canDbcFiles"
+            case networkInterface = "networkInterface"
+            case signalsMap = "signalsMap"
         }
     }
 
@@ -609,9 +609,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case protocolName
-            case protocolVersion
+            case name = "name"
+            case protocolName = "protocolName"
+            case protocolVersion = "protocolVersion"
         }
     }
 
@@ -653,14 +653,14 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case factor
-            case isBigEndian
-            case isSigned
-            case length
-            case messageId
-            case name
-            case offset
-            case startBit
+            case factor = "factor"
+            case isBigEndian = "isBigEndian"
+            case isSigned = "isSigned"
+            case length = "length"
+            case messageId = "messageId"
+            case name = "name"
+            case offset = "offset"
+            case startBit = "startBit"
         }
     }
 
@@ -682,8 +682,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logType
+            case logGroupName = "logGroupName"
+            case logType = "logType"
         }
     }
 
@@ -708,15 +708,15 @@ extension IoTFleetWise {
             try self.validate(self.conditionLanguageVersion, name: "conditionLanguageVersion", parent: name, min: 1)
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
-            try self.validate(self.minimumTriggerIntervalMs, name: "minimumTriggerIntervalMs", parent: name, max: 4_294_967_295)
+            try self.validate(self.minimumTriggerIntervalMs, name: "minimumTriggerIntervalMs", parent: name, max: 4294967295)
             try self.validate(self.minimumTriggerIntervalMs, name: "minimumTriggerIntervalMs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conditionLanguageVersion
-            case expression
-            case minimumTriggerIntervalMs
-            case triggerMode
+            case conditionLanguageVersion = "conditionLanguageVersion"
+            case expression = "expression"
+            case minimumTriggerIntervalMs = "minimumTriggerIntervalMs"
+            case triggerMode = "triggerMode"
         }
     }
 
@@ -788,7 +788,7 @@ extension IoTFleetWise {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
-            try self.validate(self.postTriggerCollectionDuration, name: "postTriggerCollectionDuration", parent: name, max: 4_294_967_295)
+            try self.validate(self.postTriggerCollectionDuration, name: "postTriggerCollectionDuration", parent: name, max: 4294967295)
             try self.validate(self.postTriggerCollectionDuration, name: "postTriggerCollectionDuration", parent: name, min: 0)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.signalsToCollect?.forEach {
@@ -802,20 +802,20 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case collectionScheme
-            case compression
-            case dataExtraDimensions
-            case description
-            case diagnosticsMode
-            case expiryTime
-            case postTriggerCollectionDuration
-            case priority
-            case signalCatalogArn
-            case signalsToCollect
-            case spoolingMode
-            case startTime
-            case tags
-            case targetArn
+            case collectionScheme = "collectionScheme"
+            case compression = "compression"
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
+            case diagnosticsMode = "diagnosticsMode"
+            case expiryTime = "expiryTime"
+            case postTriggerCollectionDuration = "postTriggerCollectionDuration"
+            case priority = "priority"
+            case signalCatalogArn = "signalCatalogArn"
+            case signalsToCollect = "signalsToCollect"
+            case spoolingMode = "spoolingMode"
+            case startTime = "startTime"
+            case tags = "tags"
+            case targetArn = "targetArn"
         }
     }
 
@@ -831,8 +831,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -887,11 +887,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case modelManifestArn
-            case networkInterfaces
-            case signalDecoders
-            case tags
+            case description = "description"
+            case modelManifestArn = "modelManifestArn"
+            case networkInterfaces = "networkInterfaces"
+            case signalDecoders = "signalDecoders"
+            case tags = "tags"
         }
     }
 
@@ -907,8 +907,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -947,9 +947,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case signalCatalogArn
-            case tags
+            case description = "description"
+            case signalCatalogArn = "signalCatalogArn"
+            case tags = "tags"
         }
     }
 
@@ -965,8 +965,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -1008,10 +1008,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nodes
-            case signalCatalogArn
-            case tags
+            case description = "description"
+            case nodes = "nodes"
+            case signalCatalogArn = "signalCatalogArn"
+            case tags = "tags"
         }
     }
 
@@ -1027,8 +1027,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1071,9 +1071,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nodes
-            case tags
+            case description = "description"
+            case nodes = "nodes"
+            case tags = "tags"
         }
     }
 
@@ -1089,8 +1089,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1109,9 +1109,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case vehicleName
+            case code = "code"
+            case message = "message"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -1158,11 +1158,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationBehavior
-            case attributes
-            case decoderManifestArn
-            case modelManifestArn
-            case tags
+            case associationBehavior = "associationBehavior"
+            case attributes = "attributes"
+            case decoderManifestArn = "decoderManifestArn"
+            case modelManifestArn = "modelManifestArn"
+            case tags = "tags"
         }
     }
 
@@ -1205,12 +1205,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationBehavior
-            case attributes
-            case decoderManifestArn
-            case modelManifestArn
-            case tags
-            case vehicleName
+            case associationBehavior = "associationBehavior"
+            case attributes = "attributes"
+            case decoderManifestArn = "decoderManifestArn"
+            case modelManifestArn = "modelManifestArn"
+            case tags = "tags"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -1229,9 +1229,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case thingArn
-            case vehicleName
+            case arn = "arn"
+            case thingArn = "thingArn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -1250,9 +1250,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case thingArn
-            case vehicleName
+            case arn = "arn"
+            case thingArn = "thingArn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -1283,13 +1283,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case modelManifestArn
-            case name
-            case status
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case modelManifestArn = "modelManifestArn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1326,8 +1326,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1364,8 +1364,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1402,8 +1402,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -1440,8 +1440,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1478,8 +1478,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -1516,8 +1516,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case vehicleName
+            case arn = "arn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -1546,7 +1546,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetId
+            case fleetId = "fleetId"
         }
     }
 
@@ -1578,12 +1578,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastModificationTime
-            case signalCatalogArn
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastModificationTime = "lastModificationTime"
+            case signalCatalogArn = "signalCatalogArn"
         }
     }
 
@@ -1668,24 +1668,24 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case collectionScheme
-            case compression
-            case creationTime
-            case dataExtraDimensions
-            case description
-            case diagnosticsMode
-            case expiryTime
-            case lastModificationTime
-            case name
-            case postTriggerCollectionDuration
-            case priority
-            case signalCatalogArn
-            case signalsToCollect
-            case spoolingMode
-            case startTime
-            case status
-            case targetArn
+            case arn = "arn"
+            case collectionScheme = "collectionScheme"
+            case compression = "compression"
+            case creationTime = "creationTime"
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
+            case diagnosticsMode = "diagnosticsMode"
+            case expiryTime = "expiryTime"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case postTriggerCollectionDuration = "postTriggerCollectionDuration"
+            case priority = "priority"
+            case signalCatalogArn = "signalCatalogArn"
+            case signalsToCollect = "signalsToCollect"
+            case spoolingMode = "spoolingMode"
+            case startTime = "startTime"
+            case status = "status"
+            case targetArn = "targetArn"
         }
     }
 
@@ -1737,13 +1737,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case modelManifestArn
-            case name
-            case status
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case modelManifestArn = "modelManifestArn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1792,12 +1792,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastModificationTime
-            case signalCatalogArn
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastModificationTime = "lastModificationTime"
+            case signalCatalogArn = "signalCatalogArn"
         }
     }
 
@@ -1814,7 +1814,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogDelivery
+            case cloudWatchLogDelivery = "cloudWatchLogDelivery"
         }
     }
 
@@ -1866,13 +1866,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case name
-            case signalCatalogArn
-            case status
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case signalCatalogArn = "signalCatalogArn"
+            case status = "status"
         }
     }
 
@@ -1904,12 +1904,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountStatus
-            case creationTime
-            case customerAccountId
-            case iamRegistrationResponse
-            case lastModificationTime
-            case timestreamRegistrationResponse
+            case accountStatus = "accountStatus"
+            case creationTime = "creationTime"
+            case customerAccountId = "customerAccountId"
+            case iamRegistrationResponse = "iamRegistrationResponse"
+            case lastModificationTime = "lastModificationTime"
+            case timestreamRegistrationResponse = "timestreamRegistrationResponse"
         }
     }
 
@@ -1958,12 +1958,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case name
-            case nodeCounts
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case nodeCounts = "nodeCounts"
         }
     }
 
@@ -2015,13 +2015,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attributes
-            case creationTime
-            case decoderManifestArn
-            case lastModificationTime
-            case modelManifestArn
-            case vehicleName
+            case arn = "arn"
+            case attributes = "attributes"
+            case creationTime = "creationTime"
+            case decoderManifestArn = "decoderManifestArn"
+            case lastModificationTime = "lastModificationTime"
+            case modelManifestArn = "modelManifestArn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -2070,8 +2070,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaigns
-            case nextToken
+            case campaigns = "campaigns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2090,9 +2090,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case registrationStatus
-            case roleArn
+            case errorMessage = "errorMessage"
+            case registrationStatus = "registrationStatus"
+            case roleArn = "roleArn"
         }
     }
 
@@ -2111,7 +2111,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
+            case roleArn = "roleArn"
         }
     }
 
@@ -2140,7 +2140,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkFileDefinitions
+            case networkFileDefinitions = "networkFileDefinitions"
         }
     }
 
@@ -2156,8 +2156,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -2196,9 +2196,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case tags
-            case vss
+            case description = "description"
+            case tags = "tags"
+            case vss = "vss"
         }
     }
 
@@ -2214,8 +2214,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -2261,8 +2261,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignSummaries
-            case nextToken
+            case campaignSummaries = "campaignSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2311,8 +2311,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaces
-            case nextToken
+            case networkInterfaces = "networkInterfaces"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2361,8 +2361,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case signalDecoders
+            case nextToken = "nextToken"
+            case signalDecoders = "signalDecoders"
         }
     }
 
@@ -2408,8 +2408,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -2458,8 +2458,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleets
-            case nextToken
+            case fleets = "fleets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2501,8 +2501,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetSummaries
-            case nextToken
+            case fleetSummaries = "fleetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2551,8 +2551,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case nodes
+            case nextToken = "nextToken"
+            case nodes = "nodes"
         }
     }
 
@@ -2598,8 +2598,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -2648,8 +2648,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case nodes
+            case nextToken = "nextToken"
+            case nodes = "nodes"
         }
     }
 
@@ -2691,8 +2691,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -2774,8 +2774,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case vehicles
+            case nextToken = "nextToken"
+            case vehicles = "vehicles"
         }
     }
 
@@ -2821,8 +2821,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case vehicleSummaries
+            case nextToken = "nextToken"
+            case vehicleSummaries = "vehicleSummaries"
         }
     }
 
@@ -2853,13 +2853,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case lastModificationTime
-            case name
-            case signalCatalogArn
-            case status
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
+            case signalCatalogArn = "signalCatalogArn"
+            case status = "status"
         }
     }
 
@@ -2888,10 +2888,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canInterface
-            case interfaceId
-            case obdInterface
-            case type
+            case canInterface = "canInterface"
+            case interfaceId = "interfaceId"
+            case obdInterface = "obdInterface"
+            case type = "type"
         }
     }
 
@@ -2916,11 +2916,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case totalActuators
-            case totalAttributes
-            case totalBranches
-            case totalNodes
-            case totalSensors
+            case totalActuators = "totalActuators"
+            case totalAttributes = "totalAttributes"
+            case totalBranches = "totalBranches"
+            case totalNodes = "totalNodes"
+            case totalSensors = "totalSensors"
         }
     }
 
@@ -2961,13 +2961,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dtcRequestIntervalSeconds
-            case hasTransmissionEcu
-            case name
-            case obdStandard
-            case pidRequestIntervalSeconds
-            case requestMessageId
-            case useExtendedIds
+            case dtcRequestIntervalSeconds = "dtcRequestIntervalSeconds"
+            case hasTransmissionEcu = "hasTransmissionEcu"
+            case name = "name"
+            case obdStandard = "obdStandard"
+            case pidRequestIntervalSeconds = "pidRequestIntervalSeconds"
+            case requestMessageId = "requestMessageId"
+            case useExtendedIds = "useExtendedIds"
         }
     }
 
@@ -3016,15 +3016,15 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitMaskLength
-            case bitRightShift
-            case byteLength
-            case offset
-            case pid
-            case pidResponseLength
-            case scaling
-            case serviceMode
-            case startByte
+            case bitMaskLength = "bitMaskLength"
+            case bitRightShift = "bitRightShift"
+            case byteLength = "byteLength"
+            case offset = "offset"
+            case pid = "pid"
+            case pidResponseLength = "pidResponseLength"
+            case scaling = "scaling"
+            case serviceMode = "serviceMode"
+            case startByte = "startByte"
         }
     }
 
@@ -3041,7 +3041,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogDelivery
+            case cloudWatchLogDelivery = "cloudWatchLogDelivery"
         }
     }
 
@@ -3071,8 +3071,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamResources
-            case timestreamResources
+            case iamResources = "iamResources"
+            case timestreamResources = "timestreamResources"
         }
     }
 
@@ -3096,11 +3096,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case iamResources
-            case lastModificationTime
-            case registerAccountStatus
-            case timestreamResources
+            case creationTime = "creationTime"
+            case iamResources = "iamResources"
+            case lastModificationTime = "lastModificationTime"
+            case registerAccountStatus = "registerAccountStatus"
+            case timestreamResources = "timestreamResources"
         }
     }
 
@@ -3137,13 +3137,13 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case dataType
-            case description
-            case fullyQualifiedName
-            case max
-            case min
-            case unit
+            case allowedValues = "allowedValues"
+            case dataType = "dataType"
+            case description = "description"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case max = "max"
+            case min = "min"
+            case unit = "unit"
         }
     }
 
@@ -3165,10 +3165,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case lastModificationTime
-            case name
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case lastModificationTime = "lastModificationTime"
+            case name = "name"
         }
     }
 
@@ -3202,11 +3202,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canSignal
-            case fullyQualifiedName
-            case interfaceId
-            case obdSignal
-            case type
+            case canSignal = "canSignal"
+            case fullyQualifiedName = "fullyQualifiedName"
+            case interfaceId = "interfaceId"
+            case obdSignal = "obdSignal"
+            case type = "type"
         }
     }
 
@@ -3225,9 +3225,9 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxSampleCount, name: "maxSampleCount", parent: name, max: 4_294_967_295)
+            try self.validate(self.maxSampleCount, name: "maxSampleCount", parent: name, max: 4294967295)
             try self.validate(self.maxSampleCount, name: "maxSampleCount", parent: name, min: 1)
-            try self.validate(self.minimumSamplingIntervalMs, name: "minimumSamplingIntervalMs", parent: name, max: 4_294_967_295)
+            try self.validate(self.minimumSamplingIntervalMs, name: "minimumSamplingIntervalMs", parent: name, max: 4294967295)
             try self.validate(self.minimumSamplingIntervalMs, name: "minimumSamplingIntervalMs", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 150)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -3235,9 +3235,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxSampleCount
-            case minimumSamplingIntervalMs
-            case name
+            case maxSampleCount = "maxSampleCount"
+            case minimumSamplingIntervalMs = "minimumSamplingIntervalMs"
+            case name = "name"
         }
     }
 
@@ -3311,7 +3311,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case periodMs
+            case periodMs = "periodMs"
         }
     }
 
@@ -3339,12 +3339,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case registrationStatus
-            case timestreamDatabaseArn
-            case timestreamDatabaseName
-            case timestreamTableArn
-            case timestreamTableName
+            case errorMessage = "errorMessage"
+            case registrationStatus = "registrationStatus"
+            case timestreamDatabaseArn = "timestreamDatabaseArn"
+            case timestreamDatabaseName = "timestreamDatabaseName"
+            case timestreamTableArn = "timestreamTableArn"
+            case timestreamTableName = "timestreamTableName"
         }
     }
 
@@ -3369,8 +3369,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timestreamDatabaseName
-            case timestreamTableName
+            case timestreamDatabaseName = "timestreamDatabaseName"
+            case timestreamTableName = "timestreamTableName"
         }
     }
 
@@ -3444,9 +3444,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case dataExtraDimensions
-            case description
+            case action = "action"
+            case dataExtraDimensions = "dataExtraDimensions"
+            case description = "description"
         }
     }
 
@@ -3465,9 +3465,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case status
+            case arn = "arn"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3549,14 +3549,14 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case networkInterfacesToAdd
-            case networkInterfacesToRemove
-            case networkInterfacesToUpdate
-            case signalDecodersToAdd
-            case signalDecodersToRemove
-            case signalDecodersToUpdate
-            case status
+            case description = "description"
+            case networkInterfacesToAdd = "networkInterfacesToAdd"
+            case networkInterfacesToRemove = "networkInterfacesToRemove"
+            case networkInterfacesToUpdate = "networkInterfacesToUpdate"
+            case signalDecodersToAdd = "signalDecodersToAdd"
+            case signalDecodersToRemove = "signalDecodersToRemove"
+            case signalDecodersToUpdate = "signalDecodersToUpdate"
+            case status = "status"
         }
     }
 
@@ -3572,8 +3572,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3602,7 +3602,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -3618,8 +3618,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -3671,10 +3671,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nodesToAdd
-            case nodesToRemove
-            case status
+            case description = "description"
+            case nodesToAdd = "nodesToAdd"
+            case nodesToRemove = "nodesToRemove"
+            case status = "status"
         }
     }
 
@@ -3690,8 +3690,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3744,10 +3744,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nodesToAdd
-            case nodesToRemove
-            case nodesToUpdate
+            case description = "description"
+            case nodesToAdd = "nodesToAdd"
+            case nodesToRemove = "nodesToRemove"
+            case nodesToUpdate = "nodesToUpdate"
         }
     }
 
@@ -3763,8 +3763,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3783,9 +3783,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case vehicleName
+            case code = "code"
+            case message = "message"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3825,10 +3825,10 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case attributeUpdateMode
-            case decoderManifestArn
-            case modelManifestArn
+            case attributes = "attributes"
+            case attributeUpdateMode = "attributeUpdateMode"
+            case decoderManifestArn = "decoderManifestArn"
+            case modelManifestArn = "modelManifestArn"
         }
     }
 
@@ -3864,11 +3864,11 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case attributeUpdateMode
-            case decoderManifestArn
-            case modelManifestArn
-            case vehicleName
+            case attributes = "attributes"
+            case attributeUpdateMode = "attributeUpdateMode"
+            case decoderManifestArn = "decoderManifestArn"
+            case modelManifestArn = "modelManifestArn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3884,8 +3884,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case vehicleName
+            case arn = "arn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3901,8 +3901,8 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case vehicleName
+            case arn = "arn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3921,9 +3921,9 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignName
-            case status
-            case vehicleName
+            case campaignName = "campaignName"
+            case status = "status"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3951,12 +3951,12 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case decoderManifestArn
-            case lastModificationTime
-            case modelManifestArn
-            case vehicleName
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case decoderManifestArn = "decoderManifestArn"
+            case lastModificationTime = "lastModificationTime"
+            case modelManifestArn = "modelManifestArn"
+            case vehicleName = "vehicleName"
         }
     }
 
@@ -3969,7 +3969,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vssJson
+            case vssJson = "vssJson"
         }
     }
 
@@ -3986,7 +3986,7 @@ extension IoTFleetWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canDbc
+            case canDbc = "canDbc"
         }
     }
 }
@@ -4026,23 +4026,23 @@ public struct IoTFleetWiseErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient permission to perform this action.
+    /// You don't have sufficient permission to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request has conflicting operations. This can occur if you&#39;re trying to perform more than one operation on the same resource at the same time.
+    /// The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The request couldn&#39;t be completed because it contains signal decoders with one or more validation errors.
+    /// The request couldn't be completed because it contains signal decoders with one or more validation errors.
     public static var decoderManifestValidationException: Self { .init(.decoderManifestValidationException) }
-    /// The request couldn&#39;t be completed because the server temporarily failed.
+    /// The request couldn't be completed because the server temporarily failed.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The specified node type doesn&#39;t match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
+    /// The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
     public static var invalidNodeException: Self { .init(.invalidNodeException) }
-    /// The request couldn&#39;t be completed because it contains signals that aren&#39;t valid.
+    /// The request couldn't be completed because it contains signals that aren't valid.
     public static var invalidSignalsException: Self { .init(.invalidSignalsException) }
     /// A service quota was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The resource wasn&#39;t found.
+    /// The resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request couldn&#39;t be completed due to throttling.
+    /// The request couldn't be completed due to throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }

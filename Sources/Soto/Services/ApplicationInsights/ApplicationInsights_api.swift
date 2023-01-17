@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -216,7 +216,7 @@ extension ApplicationInsights {
 // MARK: Paginators
 
 extension ApplicationInsights {
-    ///  Lists the IDs of the applications that you are monitoring.
+    /// Lists the IDs of the applications that you are monitoring.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -269,7 +269,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the auto-grouped, standalone, and custom components of the application.
+    /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -322,7 +322,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///   Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
+    ///  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -375,7 +375,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the log pattern sets in the specific application.
+    /// Lists the log pattern sets in the specific application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -428,7 +428,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the log patterns in the specific log LogPatternSet.
+    /// Lists the log patterns in the specific log LogPatternSet.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -481,7 +481,7 @@ extension ApplicationInsights {
         )
     }
 
-    ///  Lists the problems with your application.
+    /// Lists the problems with your application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

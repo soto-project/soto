@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -161,7 +161,7 @@ extension Ivschat {
 // MARK: Paginators
 
 extension Ivschat {
-    ///  Gets summary information about all your logging configurations in the AWS region where the API request is processed.
+    /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -214,7 +214,7 @@ extension Ivschat {
         )
     }
 
-    ///  Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
+    /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -96,13 +96,13 @@ extension Transcribe {
     }
 
     public enum MediaFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case amr
-        case flac
-        case mp3
-        case mp4
-        case ogg
-        case wav
-        case webm
+        case amr = "amr"
+        case flac = "flac"
+        case mp3 = "mp3"
+        case mp4 = "mp4"
+        case ogg = "ogg"
+        case wav = "wav"
+        case webm = "webm"
         public var description: String { return self.rawValue }
     }
 
@@ -147,7 +147,7 @@ extension Transcribe {
     }
 
     public enum RedactionOutput: String, CustomStringConvertible, Codable, _SotoSendable {
-        case redacted
+        case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
@@ -171,8 +171,8 @@ extension Transcribe {
     }
 
     public enum SubtitleFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case srt
-        case vtt
+        case srt = "srt"
+        case vtt = "vtt"
         public var description: String { return self.rawValue }
     }
 
@@ -190,9 +190,9 @@ extension Transcribe {
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mask
-        case remove
-        case tag
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -299,13 +299,13 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.endTime, name: "endTime", parent: name, max: 14_400_000)
+            try self.validate(self.endTime, name: "endTime", parent: name, max: 14400000)
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.validate(self.first, name: "first", parent: name, max: 14_400_000)
+            try self.validate(self.first, name: "first", parent: name, max: 14400000)
             try self.validate(self.first, name: "first", parent: name, min: 0)
-            try self.validate(self.last, name: "last", parent: name, max: 14_400_000)
+            try self.validate(self.last, name: "last", parent: name, max: 14400000)
             try self.validate(self.last, name: "last", parent: name, min: 0)
-            try self.validate(self.startTime, name: "startTime", parent: name, max: 14_400_000)
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 14400000)
             try self.validate(self.startTime, name: "startTime", parent: name, min: 0)
         }
 
@@ -1452,7 +1452,7 @@ extension Transcribe {
         public func validate(name: String) throws {
             try self.absoluteTimeRange?.validate(name: "\(name).absoluteTimeRange")
             try self.relativeTimeRange?.validate(name: "\(name).relativeTimeRange")
-            try self.validate(self.threshold, name: "threshold", parent: name, max: 14_400_000)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 14400000)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -2304,7 +2304,7 @@ extension Transcribe {
         public func validate(name: String) throws {
             try self.absoluteTimeRange?.validate(name: "\(name).absoluteTimeRange")
             try self.relativeTimeRange?.validate(name: "\(name).relativeTimeRange")
-            try self.validate(self.threshold, name: "threshold", parent: name, max: 14_400_000)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 14400000)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -3445,15 +3445,15 @@ public struct TranscribeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Your request didn&#39;t pass one or more validation tests. This can occur when the entity you&#39;re trying to delete doesn&#39;t exist or if it&#39;s in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
     public static var conflictException: Self { .init(.conflictException) }
     /// There was an internal error. Check the error message, correct the issue, and try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// You&#39;ve either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    /// You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// We can&#39;t find the requested resource. Check that the specified name is correct and try your request again.
+    /// We can't find the requested resource. Check that the specified name is correct and try your request again.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

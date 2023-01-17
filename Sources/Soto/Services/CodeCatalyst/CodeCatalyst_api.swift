@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -197,7 +197,7 @@ extension CodeCatalyst {
 // MARK: Paginators
 
 extension CodeCatalyst {
-    ///  Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
+    /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your user account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -250,7 +250,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrives a list of Dev Environments in a project.
+    /// Retrives a list of Dev Environments in a project.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -303,7 +303,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
+    /// Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -356,7 +356,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrieves a list of projects.
+    /// Retrieves a list of projects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -409,7 +409,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrieves a list of source repositories in a project.
+    /// Retrieves a list of source repositories in a project.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -462,7 +462,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrieves a list of branches in a specified source repository.
+    /// Retrieves a list of branches in a specified source repository.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -515,7 +515,7 @@ extension CodeCatalyst {
         )
     }
 
-    ///  Retrieves a list of spaces.
+    /// Retrieves a list of spaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

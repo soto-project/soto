@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -537,7 +537,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
@@ -3810,7 +3810,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
@@ -4037,12 +4037,12 @@ public struct Route53ResolverErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The current account doesn&#39;t have the IAM permissions required to perform the specified Resolver operation.
+    /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     public static var conflictException: Self { .init(.conflictException) }
     /// We encountered an unknown error. Try again in a few minutes.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
-    /// The value that you specified for NextToken in a List request isn&#39;t valid.
+    /// The value that you specified for NextToken in a List request isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One or more parameters in this request are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
@@ -4058,13 +4058,13 @@ public struct Route53ResolverErrorType: AWSErrorType {
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
     /// The resource that you tried to update or delete is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource doesn&#39;t exist.
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The specified resource isn&#39;t available.
+    /// The specified resource isn't available.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
     /// The request was throttled. Try again in a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The specified resource doesn&#39;t exist.
+    /// The specified resource doesn't exist.
     public static var unknownResourceException: Self { .init(.unknownResourceException) }
     public static var validationException: Self { .init(.validationException) }
 }

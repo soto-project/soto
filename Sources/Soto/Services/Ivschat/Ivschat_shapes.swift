@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -109,9 +109,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case firehose
-            case s3
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 
@@ -132,7 +132,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -167,11 +167,11 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case capabilities
-            case roomIdentifier
-            case sessionDurationInMinutes
-            case userId
+            case attributes = "attributes"
+            case capabilities = "capabilities"
+            case roomIdentifier = "roomIdentifier"
+            case sessionDurationInMinutes = "sessionDurationInMinutes"
+            case userId = "userId"
         }
     }
 
@@ -192,9 +192,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionExpirationTime
-            case token
-            case tokenExpirationTime
+            case sessionExpirationTime = "sessionExpirationTime"
+            case token = "token"
+            case tokenExpirationTime = "tokenExpirationTime"
         }
     }
 
@@ -225,9 +225,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationConfiguration
-            case name
-            case tags
+            case destinationConfiguration = "destinationConfiguration"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -263,14 +263,14 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case destinationConfiguration
-            case id
-            case name
-            case state
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case destinationConfiguration = "destinationConfiguration"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -320,12 +320,12 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingConfigurationIdentifiers
-            case maximumMessageLength
-            case maximumMessageRatePerSecond
-            case messageReviewHandler
-            case name
-            case tags
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case maximumMessageLength = "maximumMessageLength"
+            case maximumMessageRatePerSecond = "maximumMessageRatePerSecond"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -367,16 +367,16 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case id
-            case loggingConfigurationIdentifiers
-            case maximumMessageLength
-            case maximumMessageRatePerSecond
-            case messageReviewHandler
-            case name
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case id = "id"
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case maximumMessageLength = "maximumMessageLength"
+            case maximumMessageRatePerSecond = "maximumMessageRatePerSecond"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -395,7 +395,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
+            case identifier = "identifier"
         }
     }
 
@@ -425,9 +425,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case reason
-            case roomIdentifier
+            case id = "id"
+            case reason = "reason"
+            case roomIdentifier = "roomIdentifier"
         }
     }
 
@@ -440,7 +440,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -459,7 +459,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
+            case identifier = "identifier"
         }
     }
 
@@ -488,9 +488,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case roomIdentifier
-            case userId
+            case reason = "reason"
+            case roomIdentifier = "roomIdentifier"
+            case userId = "userId"
         }
     }
 
@@ -513,7 +513,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStreamName
+            case deliveryStreamName = "deliveryStreamName"
         }
     }
 
@@ -532,7 +532,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
+            case identifier = "identifier"
         }
     }
 
@@ -568,14 +568,14 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case destinationConfiguration
-            case id
-            case name
-            case state
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case destinationConfiguration = "destinationConfiguration"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -594,7 +594,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
+            case identifier = "identifier"
         }
     }
 
@@ -636,16 +636,16 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case id
-            case loggingConfigurationIdentifiers
-            case maximumMessageLength
-            case maximumMessageRatePerSecond
-            case messageReviewHandler
-            case name
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case id = "id"
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case maximumMessageLength = "maximumMessageLength"
+            case maximumMessageRatePerSecond = "maximumMessageRatePerSecond"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -667,8 +667,8 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -684,8 +684,8 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingConfigurations
-            case nextToken
+            case loggingConfigurations = "loggingConfigurations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -723,11 +723,11 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingConfigurationIdentifier
-            case maxResults
-            case messageReviewHandlerUri
-            case name
-            case nextToken
+            case loggingConfigurationIdentifier = "loggingConfigurationIdentifier"
+            case maxResults = "maxResults"
+            case messageReviewHandlerUri = "messageReviewHandlerUri"
+            case name = "name"
+            case nextToken = "nextToken"
         }
     }
 
@@ -743,8 +743,8 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case rooms
+            case nextToken = "nextToken"
+            case rooms = "rooms"
         }
     }
 
@@ -778,7 +778,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -814,14 +814,14 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case destinationConfiguration
-            case id
-            case name
-            case state
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case destinationConfiguration = "destinationConfiguration"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -842,8 +842,8 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fallbackResult
-            case uri
+            case fallbackResult = "fallbackResult"
+            case uri = "uri"
         }
     }
 
@@ -879,14 +879,14 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case id
-            case loggingConfigurationIdentifiers
-            case messageReviewHandler
-            case name
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case id = "id"
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -905,7 +905,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
+            case bucketName = "bucketName"
         }
     }
 
@@ -932,9 +932,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case eventName
-            case roomIdentifier
+            case attributes = "attributes"
+            case eventName = "eventName"
+            case roomIdentifier = "roomIdentifier"
         }
     }
 
@@ -947,7 +947,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -979,7 +979,7 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1045,9 +1045,9 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationConfiguration
-            case identifier
-            case name
+            case destinationConfiguration = "destinationConfiguration"
+            case identifier = "identifier"
+            case name = "name"
         }
     }
 
@@ -1083,14 +1083,14 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case destinationConfiguration
-            case id
-            case name
-            case state
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case destinationConfiguration = "destinationConfiguration"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
@@ -1137,12 +1137,12 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case loggingConfigurationIdentifiers
-            case maximumMessageLength
-            case maximumMessageRatePerSecond
-            case messageReviewHandler
-            case name
+            case identifier = "identifier"
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case maximumMessageLength = "maximumMessageLength"
+            case maximumMessageRatePerSecond = "maximumMessageRatePerSecond"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
         }
     }
 
@@ -1184,16 +1184,16 @@ extension Ivschat {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createTime
-            case id
-            case loggingConfigurationIdentifiers
-            case maximumMessageLength
-            case maximumMessageRatePerSecond
-            case messageReviewHandler
-            case name
-            case tags
-            case updateTime
+            case arn = "arn"
+            case createTime = "createTime"
+            case id = "id"
+            case loggingConfigurationIdentifiers = "loggingConfigurationIdentifiers"
+            case maximumMessageLength = "maximumMessageLength"
+            case maximumMessageRatePerSecond = "maximumMessageRatePerSecond"
+            case messageReviewHandler = "messageReviewHandler"
+            case name = "name"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 }

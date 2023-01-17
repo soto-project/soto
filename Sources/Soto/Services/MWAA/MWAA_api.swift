@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MWAA service.
 ///
-/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What Is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.     CreateCliToken     CreateWebLoginToken       ops.airflow.{region}.amazonaws.com - This endpoint is used to push environment metrics that track environment health.     PublishMetrics       Regions  For a list of regions that Amazon MWAA supports, see Region availability in the Amazon MWAA User Guide.
+/// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What Is Amazon MWAA?.  Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.    CreateCliToken     CreateWebLoginToken       ops.airflow.{region}.amazonaws.com - This endpoint is used to push environment metrics that track environment health.    PublishMetrics       Regions  For a list of regions that Amazon MWAA supports, see Region availability in the Amazon MWAA User Guide.
 public struct MWAA: AWSService {
     // MARK: Member variables
 
@@ -131,7 +131,7 @@ extension MWAA {
 // MARK: Paginators
 
 extension MWAA {
-    ///  Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
+    /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

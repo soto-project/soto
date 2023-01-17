@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -833,7 +833,7 @@ public struct MarketplaceCatalogErrorType: AWSErrorType {
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The resource is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource wasn&#39;t found.
+    /// The specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Currently, the specified resource is not supported.
     public static var resourceNotSupportedException: Self { .init(.resourceNotSupportedException) }

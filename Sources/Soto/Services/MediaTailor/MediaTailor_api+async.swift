@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -238,7 +238,7 @@ extension MediaTailor {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaTailor {
-    ///  Retrieves information about your channel's schedule.
+    /// Retrieves information about your channel's schedule.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -260,7 +260,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Lists the alerts that are associated with a MediaTailor channel assembly resource.
+    /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -282,7 +282,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Retrieves information about the channels that are associated with the current AWS account.
+    /// Retrieves information about the channels that are associated with the current AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -304,7 +304,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Lists the live sources contained in a source location. A source represents a piece of content.
+    /// Lists the live sources contained in a source location. A source represents a piece of content.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -326,7 +326,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
+    /// Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -348,7 +348,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Lists the prefetch schedules for a playback configuration.
+    /// Lists the prefetch schedules for a playback configuration.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -370,7 +370,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
+    /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -392,7 +392,7 @@ extension MediaTailor {
         )
     }
 
-    ///  Lists the VOD sources contained in a source location. A source represents a piece of content.
+    /// Lists the VOD sources contained in a source location. A source represents a piece of content.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

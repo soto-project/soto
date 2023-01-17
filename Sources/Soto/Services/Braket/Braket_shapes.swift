@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -165,8 +165,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerImage
-            case scriptModeConfig
+            case containerImage = "containerImage"
+            case scriptModeConfig = "scriptModeConfig"
         }
     }
 
@@ -201,8 +201,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancellationStatus
-            case jobArn
+            case cancellationStatus = "cancellationStatus"
+            case jobArn = "jobArn"
         }
     }
 
@@ -229,7 +229,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -245,8 +245,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancellationStatus
-            case quantumTaskArn
+            case cancellationStatus = "cancellationStatus"
+            case quantumTaskArn = "quantumTaskArn"
         }
     }
 
@@ -265,7 +265,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uri
+            case uri = "uri"
         }
     }
 
@@ -329,18 +329,18 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmSpecification
-            case checkpointConfig
-            case clientToken
-            case deviceConfig
-            case hyperParameters
-            case inputDataConfig
-            case instanceConfig
-            case jobName
-            case outputDataConfig
-            case roleArn
-            case stoppingCondition
-            case tags
+            case algorithmSpecification = "algorithmSpecification"
+            case checkpointConfig = "checkpointConfig"
+            case clientToken = "clientToken"
+            case deviceConfig = "deviceConfig"
+            case hyperParameters = "hyperParameters"
+            case inputDataConfig = "inputDataConfig"
+            case instanceConfig = "instanceConfig"
+            case jobName = "jobName"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case stoppingCondition = "stoppingCondition"
+            case tags = "tags"
         }
     }
 
@@ -353,7 +353,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobArn
+            case jobArn = "jobArn"
         }
     }
 
@@ -399,15 +399,15 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case clientToken
-            case deviceArn
-            case deviceParameters
-            case jobToken
-            case outputS3Bucket
-            case outputS3KeyPrefix
-            case shots
-            case tags
+            case action = "action"
+            case clientToken = "clientToken"
+            case deviceArn = "deviceArn"
+            case deviceParameters = "deviceParameters"
+            case jobToken = "jobToken"
+            case outputS3Bucket = "outputS3Bucket"
+            case outputS3KeyPrefix = "outputS3KeyPrefix"
+            case shots = "shots"
+            case tags = "tags"
         }
     }
 
@@ -420,7 +420,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quantumTaskArn
+            case quantumTaskArn = "quantumTaskArn"
         }
     }
 
@@ -437,7 +437,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataSource
+            case s3DataSource = "s3DataSource"
         }
     }
 
@@ -455,7 +455,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
+            case device = "device"
         }
     }
 
@@ -480,11 +480,11 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceArn
-            case deviceName
-            case deviceStatus
-            case deviceType
-            case providerName
+            case deviceArn = "deviceArn"
+            case deviceName = "deviceName"
+            case deviceStatus = "deviceStatus"
+            case deviceType = "deviceType"
+            case providerName = "providerName"
         }
     }
 
@@ -532,12 +532,12 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceArn
-            case deviceCapabilities
-            case deviceName
-            case deviceStatus
-            case deviceType
-            case providerName
+            case deviceArn = "deviceArn"
+            case deviceCapabilities = "deviceCapabilities"
+            case deviceName = "deviceName"
+            case deviceStatus = "deviceStatus"
+            case deviceType = "deviceType"
+            case providerName = "providerName"
         }
     }
 
@@ -623,25 +623,25 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmSpecification
-            case billableDuration
-            case checkpointConfig
-            case createdAt
-            case deviceConfig
-            case endedAt
-            case events
-            case failureReason
-            case hyperParameters
-            case inputDataConfig
-            case instanceConfig
-            case jobArn
-            case jobName
-            case outputDataConfig
-            case roleArn
-            case startedAt
-            case status
-            case stoppingCondition
-            case tags
+            case algorithmSpecification = "algorithmSpecification"
+            case billableDuration = "billableDuration"
+            case checkpointConfig = "checkpointConfig"
+            case createdAt = "createdAt"
+            case deviceConfig = "deviceConfig"
+            case endedAt = "endedAt"
+            case events = "events"
+            case failureReason = "failureReason"
+            case hyperParameters = "hyperParameters"
+            case inputDataConfig = "inputDataConfig"
+            case instanceConfig = "instanceConfig"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case startedAt = "startedAt"
+            case status = "status"
+            case stoppingCondition = "stoppingCondition"
+            case tags = "tags"
         }
     }
 
@@ -707,18 +707,18 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case deviceArn
-            case deviceParameters
-            case endedAt
-            case failureReason
-            case jobArn
-            case outputS3Bucket
-            case outputS3Directory
-            case quantumTaskArn
-            case shots
-            case status
-            case tags
+            case createdAt = "createdAt"
+            case deviceArn = "deviceArn"
+            case deviceParameters = "deviceParameters"
+            case endedAt = "endedAt"
+            case failureReason = "failureReason"
+            case jobArn = "jobArn"
+            case outputS3Bucket = "outputS3Bucket"
+            case outputS3Directory = "outputS3Directory"
+            case quantumTaskArn = "quantumTaskArn"
+            case shots = "shots"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -745,9 +745,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case contentType
-            case dataSource
+            case channelName = "channelName"
+            case contentType = "contentType"
+            case dataSource = "dataSource"
         }
     }
 
@@ -766,9 +766,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceCount
-            case instanceType
-            case volumeSizeInGb
+            case instanceCount = "instanceCount"
+            case instanceType = "instanceType"
+            case volumeSizeInGb = "volumeSizeInGb"
         }
     }
 
@@ -791,8 +791,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case localPath
-            case s3Uri
+            case localPath = "localPath"
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -811,9 +811,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventType
-            case message
-            case timeOfEvent
+            case eventType = "eventType"
+            case message = "message"
+            case timeOfEvent = "timeOfEvent"
         }
     }
 
@@ -836,8 +836,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case s3Path
+            case kmsKeyId = "kmsKeyId"
+            case s3Path = "s3Path"
         }
     }
 
@@ -850,7 +850,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRuntimeInSeconds
+            case maxRuntimeInSeconds = "maxRuntimeInSeconds"
         }
     }
 
@@ -884,14 +884,14 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case device
-            case endedAt
-            case jobArn
-            case jobName
-            case startedAt
-            case status
-            case tags
+            case createdAt = "createdAt"
+            case device = "device"
+            case endedAt = "endedAt"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case startedAt = "startedAt"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -919,7 +919,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -956,15 +956,15 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case deviceArn
-            case endedAt
-            case outputS3Bucket
-            case outputS3Directory
-            case quantumTaskArn
-            case shots
-            case status
-            case tags
+            case createdAt = "createdAt"
+            case deviceArn = "deviceArn"
+            case endedAt = "endedAt"
+            case outputS3Bucket = "outputS3Bucket"
+            case outputS3Directory = "outputS3Directory"
+            case quantumTaskArn = "quantumTaskArn"
+            case shots = "shots"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -982,7 +982,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Uri
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -1006,9 +1006,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compressionType
-            case entryPoint
-            case s3Uri
+            case compressionType = "compressionType"
+            case entryPoint = "entryPoint"
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -1031,8 +1031,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -1057,9 +1057,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1075,8 +1075,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case nextToken
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1104,9 +1104,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -1131,9 +1131,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1149,8 +1149,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1178,9 +1178,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -1205,9 +1205,9 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1223,8 +1223,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case quantumTasks
+            case nextToken = "nextToken"
+            case quantumTasks = "quantumTasks"
         }
     }
 
@@ -1244,7 +1244,7 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 

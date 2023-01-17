@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -98,7 +98,7 @@ extension ServerlessApplicationRepository {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ServerlessApplicationRepository {
-    ///  Retrieves the list of applications nested in the containing application.
+    /// Retrieves the list of applications nested in the containing application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -120,7 +120,7 @@ extension ServerlessApplicationRepository {
         )
     }
 
-    ///  Lists versions for the specified application.
+    /// Lists versions for the specified application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -142,7 +142,7 @@ extension ServerlessApplicationRepository {
         )
     }
 
-    ///  Lists applications owned by the requester.
+    /// Lists applications owned by the requester.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

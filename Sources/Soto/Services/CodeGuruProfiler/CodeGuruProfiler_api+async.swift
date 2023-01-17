@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -143,7 +143,7 @@ extension CodeGuruProfiler {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeGuruProfiler {
-    ///   Returns a list of   FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account.
+    ///  Returns a list of   FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -165,7 +165,7 @@ extension CodeGuruProfiler {
         )
     }
 
-    ///  List the available reports for a given profiling group and time range.
+    /// List the available reports for a given profiling group and time range.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -187,7 +187,7 @@ extension CodeGuruProfiler {
         )
     }
 
-    ///  Lists the start times of the available aggregated profiles of a profiling group  for an aggregation period within the specified time range.
+    /// Lists the start times of the available aggregated profiles of a profiling group  for an aggregation period within the specified time range.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -209,7 +209,7 @@ extension CodeGuruProfiler {
         )
     }
 
-    ///   Returns a list of profiling groups. The profiling groups are returned as   ProfilingGroupDescription  objects.
+    ///  Returns a list of profiling groups. The profiling groups are returned as   ProfilingGroupDescription  objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

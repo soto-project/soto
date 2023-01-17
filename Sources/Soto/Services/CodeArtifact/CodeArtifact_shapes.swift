@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -53,10 +53,10 @@ extension CodeArtifact {
     }
 
     public enum PackageFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case maven
-        case npm
-        case nuget
-        case pypi
+        case maven = "maven"
+        case npm = "npm"
+        case nuget = "nuget"
+        case pypi = "pypi"
         public var description: String { return self.rawValue }
     }
 
@@ -109,9 +109,9 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hashes
-            case name
-            case size
+            case hashes = "hashes"
+            case name = "name"
+            case size = "size"
         }
     }
 
@@ -166,7 +166,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -255,10 +255,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowOverwrite
-            case includeFromUpstream
-            case versionRevisions
-            case versions
+            case allowOverwrite = "allowOverwrite"
+            case includeFromUpstream = "includeFromUpstream"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
@@ -274,8 +274,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
@@ -311,8 +311,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
-            case tags
+            case encryptionKey = "encryptionKey"
+            case tags = "tags"
         }
     }
 
@@ -325,7 +325,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
@@ -380,9 +380,9 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case tags
-            case upstreams
+            case description = "description"
+            case tags = "tags"
+            case upstreams = "upstreams"
         }
     }
 
@@ -395,7 +395,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -443,7 +443,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -484,7 +484,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
@@ -551,8 +551,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case versions
+            case expectedStatus = "expectedStatus"
+            case versions = "versions"
         }
     }
 
@@ -568,8 +568,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
@@ -624,7 +624,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -672,7 +672,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -712,7 +712,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
@@ -778,7 +778,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case package
+            case package = "package"
         }
     }
 
@@ -851,7 +851,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packageVersion
+            case packageVersion = "packageVersion"
         }
     }
 
@@ -899,7 +899,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -954,7 +954,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -1032,9 +1032,9 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case versionRevisions
-            case versions
+            case expectedStatus = "expectedStatus"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
@@ -1050,8 +1050,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
@@ -1088,15 +1088,15 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetSizeBytes
-            case createdTime
-            case encryptionKey
-            case name
-            case owner
-            case repositoryCount
-            case s3BucketArn
-            case status
+            case arn = "arn"
+            case assetSizeBytes = "assetSizeBytes"
+            case createdTime = "createdTime"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case owner = "owner"
+            case repositoryCount = "repositoryCount"
+            case s3BucketArn = "s3BucketArn"
+            case status = "status"
         }
     }
 
@@ -1112,8 +1112,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalConnectionName
-            case repositoryName
+            case externalConnectionName = "externalConnectionName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1141,12 +1141,12 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case encryptionKey
-            case name
-            case owner
-            case status
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case owner = "owner"
+            case status = "status"
         }
     }
 
@@ -1196,8 +1196,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationToken
-            case expiration
+            case authorizationToken = "authorizationToken"
+            case expiration = "expiration"
         }
     }
 
@@ -1238,7 +1238,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1343,7 +1343,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asset
+            case asset = "asset"
             case assetName = "X-AssetName"
             case packageVersion = "X-PackageVersion"
             case packageVersionRevision = "X-PackageVersionRevision"
@@ -1434,12 +1434,12 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case namespace
-            case package
-            case readme
-            case version
-            case versionRevision
+            case format = "format"
+            case namespace = "namespace"
+            case package = "package"
+            case readme = "readme"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
@@ -1491,7 +1491,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryEndpoint
+            case repositoryEndpoint = "repositoryEndpoint"
         }
     }
 
@@ -1539,7 +1539,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1555,8 +1555,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case url
+            case name = "name"
+            case url = "url"
         }
     }
 
@@ -1580,8 +1580,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1597,8 +1597,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains
-            case nextToken
+            case domains = "domains"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1702,13 +1702,13 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assets
-            case format
-            case namespace
-            case nextToken
-            case package
-            case version
-            case versionRevision
+            case assets = "assets"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
@@ -1806,13 +1806,13 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencies
-            case format
-            case namespace
-            case nextToken
-            case package
-            case version
-            case versionRevision
+            case dependencies = "dependencies"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
@@ -1918,12 +1918,12 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultDisplayVersion
-            case format
-            case namespace
-            case nextToken
-            case package
-            case versions
+            case defaultDisplayVersion = "defaultDisplayVersion"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case versions = "versions"
         }
     }
 
@@ -2013,8 +2013,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case packages
+            case nextToken = "nextToken"
+            case packages = "packages"
         }
     }
 
@@ -2085,8 +2085,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
@@ -2136,8 +2136,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
@@ -2171,7 +2171,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2193,10 +2193,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencyType
-            case namespace
-            case package
-            case versionRequirement
+            case dependencyType = "dependencyType"
+            case namespace = "namespace"
+            case package = "package"
+            case versionRequirement = "versionRequirement"
         }
     }
 
@@ -2218,10 +2218,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case name
-            case namespace
-            case originConfiguration
+            case format = "format"
+            case name = "name"
+            case namespace = "namespace"
+            case originConfiguration = "originConfiguration"
         }
     }
 
@@ -2234,7 +2234,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restrictions
+            case restrictions = "restrictions"
         }
     }
 
@@ -2250,8 +2250,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publish
-            case upstream
+            case publish = "publish"
+            case upstream = "upstream"
         }
     }
 
@@ -2273,10 +2273,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case namespace
-            case originConfiguration
-            case package
+            case format = "format"
+            case namespace = "namespace"
+            case originConfiguration = "originConfiguration"
+            case package = "package"
         }
     }
 
@@ -2325,19 +2325,19 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case format
-            case homePage
-            case licenses
-            case namespace
-            case origin
-            case packageName
-            case publishedTime
-            case revision
-            case sourceCodeRepository
-            case status
-            case summary
-            case version
+            case displayName = "displayName"
+            case format = "format"
+            case homePage = "homePage"
+            case licenses = "licenses"
+            case namespace = "namespace"
+            case origin = "origin"
+            case packageName = "packageName"
+            case publishedTime = "publishedTime"
+            case revision = "revision"
+            case sourceCodeRepository = "sourceCodeRepository"
+            case status = "status"
+            case summary = "summary"
+            case version = "version"
         }
     }
 
@@ -2353,8 +2353,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -2370,8 +2370,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntryPoint
-            case originType
+            case domainEntryPoint = "domainEntryPoint"
+            case originType = "originType"
         }
     }
 
@@ -2393,10 +2393,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case origin
-            case revision
-            case status
-            case version
+            case origin = "origin"
+            case revision = "revision"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -2433,10 +2433,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case domainOwner
-            case policyDocument
-            case policyRevision
+            case domain = "domain"
+            case domainOwner = "domainOwner"
+            case policyDocument = "policyDocument"
+            case policyRevision = "policyRevision"
         }
     }
 
@@ -2449,7 +2449,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -2507,7 +2507,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restrictions
+            case restrictions = "restrictions"
         }
     }
 
@@ -2520,7 +2520,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case originConfiguration
+            case originConfiguration = "originConfiguration"
         }
     }
 
@@ -2569,8 +2569,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyDocument
-            case policyRevision
+            case policyDocument = "policyDocument"
+            case policyRevision = "policyRevision"
         }
     }
 
@@ -2583,7 +2583,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -2617,14 +2617,14 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccount
-            case arn
-            case description
-            case domainName
-            case domainOwner
-            case externalConnections
-            case name
-            case upstreams
+            case administratorAccount = "administratorAccount"
+            case arn = "arn"
+            case description = "description"
+            case domainName = "domainName"
+            case domainOwner = "domainOwner"
+            case externalConnections = "externalConnections"
+            case name = "name"
+            case upstreams = "upstreams"
         }
     }
 
@@ -2643,9 +2643,9 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalConnectionName
-            case packageFormat
-            case status
+            case externalConnectionName = "externalConnectionName"
+            case packageFormat = "packageFormat"
+            case status = "status"
         }
     }
 
@@ -2673,12 +2673,12 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccount
-            case arn
-            case description
-            case domainName
-            case domainOwner
-            case name
+            case administratorAccount = "administratorAccount"
+            case arn = "arn"
+            case description = "description"
+            case domainName = "domainName"
+            case domainOwner = "domainOwner"
+            case name = "name"
         }
     }
 
@@ -2697,9 +2697,9 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case resourceArn
-            case revision
+            case document = "document"
+            case resourceArn = "resourceArn"
+            case revision = "revision"
         }
     }
 
@@ -2715,8 +2715,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revision
-            case status
+            case revision = "revision"
+            case status = "status"
         }
     }
 
@@ -2740,8 +2740,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2771,7 +2771,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2807,7 +2807,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -2892,10 +2892,10 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case targetStatus
-            case versionRevisions
-            case versions
+            case expectedStatus = "expectedStatus"
+            case targetStatus = "targetStatus"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
@@ -2911,8 +2911,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
@@ -2960,8 +2960,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case upstreams
+            case description = "description"
+            case upstreams = "upstreams"
         }
     }
 
@@ -2974,7 +2974,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -2993,7 +2993,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3006,7 +3006,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 }

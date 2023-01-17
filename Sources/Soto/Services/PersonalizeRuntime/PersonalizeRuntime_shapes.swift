@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -70,12 +70,12 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case context
-            case filterArn
-            case filterValues
-            case inputList
-            case userId
+            case campaignArn = "campaignArn"
+            case context = "context"
+            case filterArn = "filterArn"
+            case filterValues = "filterValues"
+            case inputList = "inputList"
+            case userId = "userId"
         }
     }
 
@@ -91,8 +91,8 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case personalizedRanking
-            case recommendationId
+            case personalizedRanking = "personalizedRanking"
+            case recommendationId = "recommendationId"
         }
     }
 
@@ -157,15 +157,15 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case context
-            case filterArn
-            case filterValues
-            case itemId
-            case numResults
-            case promotions
-            case recommenderArn
-            case userId
+            case campaignArn = "campaignArn"
+            case context = "context"
+            case filterArn = "filterArn"
+            case filterValues = "filterValues"
+            case itemId = "itemId"
+            case numResults = "numResults"
+            case promotions = "promotions"
+            case recommenderArn = "recommenderArn"
+            case userId = "userId"
         }
     }
 
@@ -181,8 +181,8 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemList
-            case recommendationId
+            case itemList = "itemList"
+            case recommendationId = "recommendationId"
         }
     }
 
@@ -201,9 +201,9 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemId
-            case promotionName
-            case score
+            case itemId = "itemId"
+            case promotionName = "promotionName"
+            case score = "score"
         }
     }
 
@@ -241,10 +241,10 @@ extension PersonalizeRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
-            case filterValues
-            case name
-            case percentPromotedItems
+            case filterArn = "filterArn"
+            case filterValues = "filterValues"
+            case name = "name"
+            case percentPromotedItems = "percentPromotedItems"
         }
     }
 }

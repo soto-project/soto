@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -358,14 +358,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountNumber
-            case defaultJobTimeoutMinutes
-            case maxJobTimeoutMinutes
-            case maxSlots
-            case skipAppResign
-            case trialMinutes
-            case unmeteredDevices
-            case unmeteredRemoteAccessDevices
+            case awsAccountNumber = "awsAccountNumber"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case maxJobTimeoutMinutes = "maxJobTimeoutMinutes"
+            case maxSlots = "maxSlots"
+            case skipAppResign = "skipAppResign"
+            case trialMinutes = "trialMinutes"
+            case unmeteredDevices = "unmeteredDevices"
+            case unmeteredRemoteAccessDevices = "unmeteredRemoteAccessDevices"
         }
     }
 
@@ -390,11 +390,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case `extension`
-            case name
-            case type
-            case url
+            case arn = "arn"
+            case `extension` = "extension"
+            case name = "name"
+            case type = "type"
+            case url = "url"
         }
     }
 
@@ -413,9 +413,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case clock
-            case frequency
+            case architecture = "architecture"
+            case clock = "clock"
+            case frequency = "frequency"
         }
     }
 
@@ -446,13 +446,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case failed
-            case passed
-            case skipped
-            case stopped
-            case total
-            case warned
+            case errored = "errored"
+            case failed = "failed"
+            case passed = "passed"
+            case skipped = "skipped"
+            case stopped = "stopped"
+            case total = "total"
+            case warned = "warned"
         }
     }
 
@@ -485,11 +485,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case maxDevices
-            case name
-            case projectArn
-            case rules
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case projectArn = "projectArn"
+            case rules = "rules"
         }
     }
 
@@ -502,7 +502,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
@@ -532,11 +532,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
@@ -549,7 +549,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
@@ -607,18 +607,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case projectArn
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case projectArn = "projectArn"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
@@ -631,7 +631,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
@@ -655,9 +655,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultJobTimeoutMinutes
-            case name
-            case vpcConfig
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -670,7 +670,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -694,8 +694,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingMethod
-            case vpceConfigurationArns
+            case billingMethod = "billingMethod"
+            case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
 
@@ -760,18 +760,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case configuration
-            case deviceArn
-            case instanceArn
-            case interactionMode
-            case name
-            case projectArn
-            case remoteDebugEnabled
-            case remoteRecordAppArn
-            case remoteRecordEnabled
-            case skipAppResign
-            case sshPublicKey
+            case clientId = "clientId"
+            case configuration = "configuration"
+            case deviceArn = "deviceArn"
+            case instanceArn = "instanceArn"
+            case interactionMode = "interactionMode"
+            case name = "name"
+            case projectArn = "projectArn"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case remoteRecordAppArn = "remoteRecordAppArn"
+            case remoteRecordEnabled = "remoteRecordEnabled"
+            case skipAppResign = "skipAppResign"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
@@ -784,7 +784,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
@@ -813,9 +813,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case vpcConfig
+            case description = "description"
+            case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -828,7 +828,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
@@ -852,8 +852,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresInSeconds
-            case projectArn
+            case expiresInSeconds = "expiresInSeconds"
+            case projectArn = "projectArn"
         }
     }
 
@@ -869,8 +869,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expires
-            case url
+            case expires = "expires"
+            case url = "url"
         }
     }
 
@@ -900,10 +900,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case name
-            case projectArn
-            case type
+            case contentType = "contentType"
+            case name = "name"
+            case projectArn = "projectArn"
+            case type = "type"
         }
     }
 
@@ -916,7 +916,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
@@ -945,10 +945,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 
@@ -961,7 +961,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
@@ -980,9 +980,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case androidPaths
-            case deviceHostPaths
-            case iosPaths
+            case androidPaths = "androidPaths"
+            case deviceHostPaths = "deviceHostPaths"
+            case iosPaths = "iosPaths"
         }
     }
 
@@ -1001,7 +1001,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1024,7 +1024,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1047,7 +1047,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1070,7 +1070,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1093,7 +1093,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1116,7 +1116,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1139,7 +1139,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
+            case projectArn = "projectArn"
         }
     }
 
@@ -1162,7 +1162,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1185,7 +1185,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1262,27 +1262,27 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availability
-            case carrier
-            case cpu
-            case fleetName
-            case fleetType
-            case formFactor
-            case heapSize
-            case image
-            case instances
-            case manufacturer
-            case memory
-            case model
-            case modelId
-            case name
-            case os
-            case platform
-            case radio
-            case remoteAccessEnabled
-            case remoteDebugEnabled
-            case resolution
+            case arn = "arn"
+            case availability = "availability"
+            case carrier = "carrier"
+            case cpu = "cpu"
+            case fleetName = "fleetName"
+            case fleetType = "fleetType"
+            case formFactor = "formFactor"
+            case heapSize = "heapSize"
+            case image = "image"
+            case instances = "instances"
+            case manufacturer = "manufacturer"
+            case memory = "memory"
+            case model = "model"
+            case modelId = "modelId"
+            case name = "name"
+            case os = "os"
+            case platform = "platform"
+            case radio = "radio"
+            case remoteAccessEnabled = "remoteAccessEnabled"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case resolution = "resolution"
         }
     }
 
@@ -1301,9 +1301,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case `operator`
-            case values
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -1331,12 +1331,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deviceArn
-            case instanceProfile
-            case labels
-            case status
-            case udid
+            case arn = "arn"
+            case deviceArn = "deviceArn"
+            case instanceProfile = "instanceProfile"
+            case labels = "labels"
+            case status = "status"
+            case udid = "udid"
         }
     }
 
@@ -1355,9 +1355,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metered
-            case total
-            case unmetered
+            case metered = "metered"
+            case total = "total"
+            case unmetered = "unmetered"
         }
     }
 
@@ -1385,12 +1385,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case maxDevices
-            case name
-            case rules
-            case type
+            case arn = "arn"
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case rules = "rules"
+            case type = "type"
         }
     }
 
@@ -1409,9 +1409,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatible
-            case device
-            case incompatibilityMessages
+            case compatible = "compatible"
+            case device = "device"
+            case incompatibilityMessages = "incompatibilityMessages"
         }
     }
 
@@ -1427,8 +1427,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxDevices
+            case filters = "filters"
+            case maxDevices = "maxDevices"
         }
     }
 
@@ -1447,9 +1447,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case matchedDevicesCount
-            case maxDevices
+            case filters = "filters"
+            case matchedDevicesCount = "matchedDevicesCount"
+            case maxDevices = "maxDevices"
         }
     }
 
@@ -1474,11 +1474,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountsCleanup
-            case appPackagesCleanup
-            case jobTimeoutMinutes
-            case skipAppResign
-            case videoCapture
+            case accountsCleanup = "accountsCleanup"
+            case appPackagesCleanup = "appPackagesCleanup"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case skipAppResign = "skipAppResign"
+            case videoCapture = "videoCapture"
         }
     }
 
@@ -1495,7 +1495,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettings
+            case accountSettings = "accountSettings"
         }
     }
 
@@ -1514,7 +1514,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1527,7 +1527,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstance
+            case deviceInstance = "deviceInstance"
         }
     }
 
@@ -1563,11 +1563,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case configuration
-            case devicePoolArn
-            case test
-            case testType
+            case appArn = "appArn"
+            case configuration = "configuration"
+            case devicePoolArn = "devicePoolArn"
+            case test = "test"
+            case testType = "testType"
         }
     }
 
@@ -1583,8 +1583,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleDevices
-            case incompatibleDevices
+            case compatibleDevices = "compatibleDevices"
+            case incompatibleDevices = "incompatibleDevices"
         }
     }
 
@@ -1603,7 +1603,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1616,7 +1616,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
@@ -1635,7 +1635,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1648,7 +1648,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
+            case device = "device"
         }
     }
 
@@ -1667,7 +1667,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1680,7 +1680,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
@@ -1699,7 +1699,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1712,7 +1712,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -1731,7 +1731,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1744,7 +1744,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
@@ -1762,7 +1762,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -1781,9 +1781,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case current
-            case nextPeriod
-            case nextToken
+            case current = "current"
+            case nextPeriod = "nextPeriod"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1802,7 +1802,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1815,7 +1815,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -1834,7 +1834,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1847,7 +1847,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
@@ -1866,7 +1866,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1879,7 +1879,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
@@ -1898,7 +1898,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1911,7 +1911,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suite
+            case suite = "suite"
         }
     }
 
@@ -1930,7 +1930,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
+            case projectArn = "projectArn"
         }
     }
 
@@ -1943,7 +1943,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
@@ -1974,9 +1974,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case sessionArn
-            case sessionId
+            case projectArn = "projectArn"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
         }
     }
 
@@ -1989,7 +1989,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridSession
+            case testGridSession = "testGridSession"
         }
     }
 
@@ -2008,7 +2008,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -2021,7 +2021,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case test
+            case test = "test"
         }
     }
 
@@ -2040,7 +2040,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -2053,7 +2053,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
@@ -2072,7 +2072,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -2085,7 +2085,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
@@ -2101,8 +2101,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case type
+            case message = "message"
+            case type = "type"
         }
     }
 
@@ -2127,8 +2127,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case remoteAccessSessionArn
+            case appArn = "appArn"
+            case remoteAccessSessionArn = "remoteAccessSessionArn"
         }
     }
 
@@ -2141,7 +2141,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appUpload
+            case appUpload = "appUpload"
         }
     }
 
@@ -2169,12 +2169,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case arn = "arn"
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
@@ -2229,21 +2229,21 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case device
-            case deviceMinutes
-            case instanceArn
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
-            case videoCapture
-            case videoEndpoint
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case device = "device"
+            case deviceMinutes = "deviceMinutes"
+            case instanceArn = "instanceArn"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
+            case videoCapture = "videoCapture"
+            case videoEndpoint = "videoEndpoint"
         }
     }
 
@@ -2270,9 +2270,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
@@ -2288,8 +2288,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2310,8 +2310,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2327,8 +2327,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstances
-            case nextToken
+            case deviceInstances = "deviceInstances"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2355,9 +2355,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
@@ -2373,8 +2373,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePools
-            case nextToken
+            case devicePools = "devicePools"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2401,9 +2401,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case filters
-            case nextToken
+            case arn = "arn"
+            case filters = "filters"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2419,8 +2419,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case nextToken
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2441,8 +2441,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2458,8 +2458,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfiles
-            case nextToken
+            case instanceProfiles = "instanceProfiles"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2483,8 +2483,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2500,8 +2500,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2528,9 +2528,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
@@ -2546,8 +2546,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfiles
-            case nextToken
+            case networkProfiles = "networkProfiles"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2565,7 +2565,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2581,8 +2581,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offeringPromotions
+            case nextToken = "nextToken"
+            case offeringPromotions = "offeringPromotions"
         }
     }
 
@@ -2600,7 +2600,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2616,8 +2616,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offeringTransactions
+            case nextToken = "nextToken"
+            case offeringTransactions = "offeringTransactions"
         }
     }
 
@@ -2635,7 +2635,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -2651,8 +2651,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offerings
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
@@ -2676,8 +2676,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2693,8 +2693,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -2718,8 +2718,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2735,8 +2735,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case remoteAccessSessions
+            case nextToken = "nextToken"
+            case remoteAccessSessions = "remoteAccessSessions"
         }
     }
 
@@ -2760,8 +2760,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2777,8 +2777,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case runs
+            case nextToken = "nextToken"
+            case runs = "runs"
         }
     }
 
@@ -2802,8 +2802,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2819,8 +2819,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case samples
+            case nextToken = "nextToken"
+            case samples = "samples"
         }
     }
 
@@ -2844,8 +2844,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2861,8 +2861,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suites
+            case nextToken = "nextToken"
+            case suites = "suites"
         }
     }
 
@@ -2917,8 +2917,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2934,8 +2934,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testGridProjects
+            case nextToken = "nextToken"
+            case testGridProjects = "testGridProjects"
         }
     }
 
@@ -2964,9 +2964,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
-            case sessionArn
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case sessionArn = "sessionArn"
         }
     }
 
@@ -2982,8 +2982,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case nextToken
+            case actions = "actions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3015,10 +3015,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
-            case sessionArn
-            case type
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case sessionArn = "sessionArn"
+            case type = "type"
         }
     }
 
@@ -3034,8 +3034,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3079,14 +3079,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimeAfter
-            case creationTimeBefore
-            case endTimeAfter
-            case endTimeBefore
-            case maxResult
-            case nextToken
-            case projectArn
-            case status
+            case creationTimeAfter = "creationTimeAfter"
+            case creationTimeBefore = "creationTimeBefore"
+            case endTimeAfter = "endTimeAfter"
+            case endTimeBefore = "endTimeBefore"
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case projectArn = "projectArn"
+            case status = "status"
         }
     }
 
@@ -3102,8 +3102,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testGridSessions
+            case nextToken = "nextToken"
+            case testGridSessions = "testGridSessions"
         }
     }
 
@@ -3127,8 +3127,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3144,8 +3144,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tests
+            case nextToken = "nextToken"
+            case tests = "tests"
         }
     }
 
@@ -3169,8 +3169,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3186,8 +3186,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case uniqueProblems
+            case nextToken = "nextToken"
+            case uniqueProblems = "uniqueProblems"
         }
     }
 
@@ -3214,9 +3214,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
@@ -3232,8 +3232,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case uploads
+            case nextToken = "nextToken"
+            case uploads = "uploads"
         }
     }
 
@@ -3254,8 +3254,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3271,8 +3271,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case vpceConfigurations
+            case nextToken = "nextToken"
+            case vpceConfigurations = "vpceConfigurations"
         }
     }
 
@@ -3288,8 +3288,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latitude
-            case longitude
+            case latitude = "latitude"
+            case longitude = "longitude"
         }
     }
 
@@ -3305,8 +3305,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case currencyCode
+            case amount = "amount"
+            case currencyCode = "currencyCode"
         }
     }
 
@@ -3352,18 +3352,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case arn = "arn"
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
@@ -3388,11 +3388,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case platform
-            case recurringCharges
-            case type
+            case description = "description"
+            case id = "id"
+            case platform = "platform"
+            case recurringCharges = "recurringCharges"
+            case type = "type"
         }
     }
 
@@ -3408,8 +3408,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
+            case description = "description"
+            case id = "id"
         }
     }
 
@@ -3431,10 +3431,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveOn
-            case offering
-            case quantity
-            case type
+            case effectiveOn = "effectiveOn"
+            case offering = "offering"
+            case quantity = "quantity"
+            case type = "type"
         }
     }
 
@@ -3459,11 +3459,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cost
-            case createdOn
-            case offeringPromotionId
-            case offeringStatus
-            case transactionId
+            case cost = "cost"
+            case createdOn = "createdOn"
+            case offeringPromotionId = "offeringPromotionId"
+            case offeringStatus = "offeringStatus"
+            case transactionId = "transactionId"
         }
     }
 
@@ -3494,13 +3494,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
-            case job
-            case message
-            case result
-            case run
-            case suite
-            case test
+            case device = "device"
+            case job = "job"
+            case message = "message"
+            case result = "result"
+            case run = "run"
+            case suite = "suite"
+            case test = "test"
         }
     }
 
@@ -3516,8 +3516,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -3542,11 +3542,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case defaultJobTimeoutMinutes
-            case name
-            case vpcConfig
+            case arn = "arn"
+            case created = "created"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -3570,9 +3570,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringId
-            case offeringPromotionId
-            case quantity
+            case offeringId = "offeringId"
+            case offeringPromotionId = "offeringPromotionId"
+            case quantity = "quantity"
         }
     }
 
@@ -3585,7 +3585,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringTransaction
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
@@ -3607,10 +3607,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bluetooth
-            case gps
-            case nfc
-            case wifi
+            case bluetooth = "bluetooth"
+            case gps = "gps"
+            case nfc = "nfc"
+            case wifi = "wifi"
         }
     }
 
@@ -3626,8 +3626,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cost
-            case frequency
+            case cost = "cost"
+            case frequency = "frequency"
         }
     }
 
@@ -3703,28 +3703,28 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case billingMethod
-            case clientId
-            case created
-            case device
-            case deviceMinutes
-            case deviceUdid
-            case endpoint
-            case hostAddress
-            case instanceArn
-            case interactionMode
-            case message
-            case name
-            case remoteDebugEnabled
-            case remoteRecordAppArn
-            case remoteRecordEnabled
-            case result
-            case skipAppResign
-            case started
-            case status
-            case stopped
-            case vpcConfig
+            case arn = "arn"
+            case billingMethod = "billingMethod"
+            case clientId = "clientId"
+            case created = "created"
+            case device = "device"
+            case deviceMinutes = "deviceMinutes"
+            case deviceUdid = "deviceUdid"
+            case endpoint = "endpoint"
+            case hostAddress = "hostAddress"
+            case instanceArn = "instanceArn"
+            case interactionMode = "interactionMode"
+            case message = "message"
+            case name = "name"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case remoteRecordAppArn = "remoteRecordAppArn"
+            case remoteRecordEnabled = "remoteRecordEnabled"
+            case result = "result"
+            case skipAppResign = "skipAppResign"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -3744,8 +3744,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringId
-            case quantity
+            case offeringId = "offeringId"
+            case quantity = "quantity"
         }
     }
 
@@ -3758,7 +3758,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringTransaction
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
@@ -3774,8 +3774,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
+            case height = "height"
+            case width = "width"
         }
     }
 
@@ -3794,9 +3794,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case `operator`
-            case value
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
@@ -3902,38 +3902,38 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appUpload
-            case arn
-            case billingMethod
-            case completedJobs
-            case counters
-            case created
-            case customerArtifactPaths
-            case deviceMinutes
-            case devicePoolArn
-            case deviceSelectionResult
-            case eventCount
-            case jobTimeoutMinutes
-            case locale
-            case location
-            case message
-            case name
-            case networkProfile
-            case parsingResultUrl
-            case platform
-            case radios
-            case result
-            case resultCode
-            case seed
-            case skipAppResign
-            case started
-            case status
-            case stopped
-            case testSpecArn
-            case totalJobs
-            case type
-            case vpcConfig
-            case webUrl
+            case appUpload = "appUpload"
+            case arn = "arn"
+            case billingMethod = "billingMethod"
+            case completedJobs = "completedJobs"
+            case counters = "counters"
+            case created = "created"
+            case customerArtifactPaths = "customerArtifactPaths"
+            case deviceMinutes = "deviceMinutes"
+            case devicePoolArn = "devicePoolArn"
+            case deviceSelectionResult = "deviceSelectionResult"
+            case eventCount = "eventCount"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case locale = "locale"
+            case location = "location"
+            case message = "message"
+            case name = "name"
+            case networkProfile = "networkProfile"
+            case parsingResultUrl = "parsingResultUrl"
+            case platform = "platform"
+            case radios = "radios"
+            case result = "result"
+            case resultCode = "resultCode"
+            case seed = "seed"
+            case skipAppResign = "skipAppResign"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case testSpecArn = "testSpecArn"
+            case totalJobs = "totalJobs"
+            case type = "type"
+            case vpcConfig = "vpcConfig"
+            case webUrl = "webUrl"
         }
     }
 
@@ -3952,9 +3952,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case type
-            case url
+            case arn = "arn"
+            case type = "type"
+            case url = "url"
         }
     }
 
@@ -4010,15 +4010,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auxiliaryApps
-            case billingMethod
-            case customerArtifactPaths
-            case extraDataPackageArn
-            case locale
-            case location
-            case networkProfileArn
-            case radios
-            case vpceConfigurationArns
+            case auxiliaryApps = "auxiliaryApps"
+            case billingMethod = "billingMethod"
+            case customerArtifactPaths = "customerArtifactPaths"
+            case extraDataPackageArn = "extraDataPackageArn"
+            case locale = "locale"
+            case location = "location"
+            case networkProfileArn = "networkProfileArn"
+            case radios = "radios"
+            case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
 
@@ -4067,14 +4067,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case configuration
-            case devicePoolArn
-            case deviceSelectionConfiguration
-            case executionConfiguration
-            case name
-            case projectArn
-            case test
+            case appArn = "appArn"
+            case configuration = "configuration"
+            case devicePoolArn = "devicePoolArn"
+            case deviceSelectionConfiguration = "deviceSelectionConfiguration"
+            case executionConfiguration = "executionConfiguration"
+            case name = "name"
+            case projectArn = "projectArn"
+            case test = "test"
         }
     }
 
@@ -4087,7 +4087,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
@@ -4122,11 +4122,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case parameters
-            case testPackageArn
-            case testSpecArn
-            case type
+            case filter = "filter"
+            case parameters = "parameters"
+            case testPackageArn = "testPackageArn"
+            case testSpecArn = "testSpecArn"
+            case type = "type"
         }
     }
 
@@ -4145,7 +4145,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4158,7 +4158,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -4177,7 +4177,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4190,7 +4190,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
@@ -4209,7 +4209,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4222,7 +4222,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
@@ -4265,17 +4265,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case deviceMinutes
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
         }
     }
 
@@ -4372,17 +4372,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case deviceMinutes
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
         }
     }
 
@@ -4407,11 +4407,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case description
-            case name
-            case vpcConfig
+            case arn = "arn"
+            case created = "created"
+            case description = "description"
+            case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4439,12 +4439,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case billingMinutes
-            case created
-            case ended
-            case seleniumProperties
-            case status
+            case arn = "arn"
+            case billingMinutes = "billingMinutes"
+            case created = "created"
+            case ended = "ended"
+            case seleniumProperties = "seleniumProperties"
+            case status = "status"
         }
     }
 
@@ -4469,11 +4469,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case duration
-            case requestMethod
-            case started
-            case statusCode
+            case action = "action"
+            case duration = "duration"
+            case requestMethod = "requestMethod"
+            case started = "started"
+            case statusCode = "statusCode"
         }
     }
 
@@ -4492,9 +4492,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filename
-            case type
-            case url
+            case filename = "filename"
+            case type = "type"
+            case url = "url"
         }
     }
 
@@ -4533,9 +4533,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -4551,8 +4551,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remaining
-            case total
+            case remaining = "remaining"
+            case total = "total"
         }
     }
 
@@ -4568,8 +4568,8 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case problems
+            case message = "message"
+            case problems = "problems"
         }
     }
 
@@ -4629,9 +4629,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case labels
-            case profileArn
+            case arn = "arn"
+            case labels = "labels"
+            case profileArn = "profileArn"
         }
     }
 
@@ -4644,7 +4644,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstance
+            case deviceInstance = "deviceInstance"
         }
     }
 
@@ -4680,12 +4680,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clearMaxDevices
-            case description
-            case maxDevices
-            case name
-            case rules
+            case arn = "arn"
+            case clearMaxDevices = "clearMaxDevices"
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case rules = "rules"
         }
     }
 
@@ -4698,7 +4698,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
@@ -4734,12 +4734,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case arn = "arn"
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
@@ -4752,7 +4752,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
@@ -4810,18 +4810,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case arn = "arn"
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
@@ -4834,7 +4834,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
@@ -4864,10 +4864,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case defaultJobTimeoutMinutes
-            case name
-            case vpcConfig
+            case arn = "arn"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4880,7 +4880,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -4915,10 +4915,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case projectArn
-            case vpcConfig
+            case description = "description"
+            case name = "name"
+            case projectArn = "projectArn"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4931,7 +4931,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
@@ -4961,10 +4961,10 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case contentType
-            case editContent
-            case name
+            case arn = "arn"
+            case contentType = "contentType"
+            case editContent = "editContent"
+            case name = "name"
         }
     }
 
@@ -4977,7 +4977,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
@@ -5012,11 +5012,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case arn = "arn"
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 
@@ -5029,7 +5029,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
@@ -5069,16 +5069,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case category
-            case contentType
-            case created
-            case message
-            case metadata
-            case name
-            case status
-            case type
-            case url
+            case arn = "arn"
+            case category = "category"
+            case contentType = "contentType"
+            case created = "created"
+            case message = "message"
+            case metadata = "metadata"
+            case name = "name"
+            case status = "status"
+            case type = "type"
+            case url = "url"
         }
     }
 
@@ -5103,11 +5103,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case arn = "arn"
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 
@@ -5146,9 +5146,9 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 }
@@ -5210,7 +5210,7 @@ public struct DeviceFarmErrorType: AWSErrorType {
     public static var serviceAccountException: Self { .init(.serviceAccountException) }
     /// The operation was not successful. Try again.
     public static var tagOperationException: Self { .init(.tagOperationException) }
-    /// The request doesn&#39;t comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
+    /// The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
     /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -283,7 +283,7 @@ extension CodePipeline {
 // MARK: Paginators
 
 extension CodePipeline {
-    ///  Lists the action executions that have occurred in a pipeline.
+    /// Lists the action executions that have occurred in a pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -336,7 +336,7 @@ extension CodePipeline {
         )
     }
 
-    ///  Gets a summary of all AWS CodePipeline action types associated with your account.
+    /// Gets a summary of all AWS CodePipeline action types associated with your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -389,7 +389,7 @@ extension CodePipeline {
         )
     }
 
-    ///  Gets a summary of the most recent executions for a pipeline.
+    /// Gets a summary of the most recent executions for a pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -442,7 +442,7 @@ extension CodePipeline {
         )
     }
 
-    ///  Gets a summary of all of the pipelines associated with your account.
+    /// Gets a summary of all of the pipelines associated with your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -495,7 +495,7 @@ extension CodePipeline {
         )
     }
 
-    ///  Gets the set of key-value pairs (metadata) that are used to manage the resource.
+    /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -548,7 +548,7 @@ extension CodePipeline {
         )
     }
 
-    ///  Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
+    /// Gets a listing of all the webhooks in this AWS Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

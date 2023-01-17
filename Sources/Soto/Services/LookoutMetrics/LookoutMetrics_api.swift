@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -226,7 +226,7 @@ extension LookoutMetrics {
 // MARK: Paginators
 
 extension LookoutMetrics {
-    ///  Returns information about the status of the specified anomaly detection jobs.
+    /// Returns information about the status of the specified anomaly detection jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -279,7 +279,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Get feedback for an anomaly group.
+    /// Get feedback for an anomaly group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -332,7 +332,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+    /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -385,7 +385,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+    /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -438,7 +438,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Returns a list of measures that are potential causes or effects of an anomaly group.
+    /// Returns a list of measures that are potential causes or effects of an anomaly group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -491,7 +491,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Returns a list of anomaly groups.
+    /// Returns a list of anomaly groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -544,7 +544,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Gets a list of anomalous metrics for a measure in an anomaly group.
+    /// Gets a list of anomalous metrics for a measure in an anomaly group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -597,7 +597,7 @@ extension LookoutMetrics {
         )
     }
 
-    ///  Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
+    /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

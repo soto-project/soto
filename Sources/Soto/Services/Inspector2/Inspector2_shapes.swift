@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -568,17 +568,17 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAggregation
-            case amiAggregation
-            case awsEcrContainerAggregation
-            case ec2InstanceAggregation
-            case findingTypeAggregation
-            case imageLayerAggregation
-            case lambdaFunctionAggregation
-            case lambdaLayerAggregation
-            case packageAggregation
-            case repositoryAggregation
-            case titleAggregation
+            case accountAggregation = "accountAggregation"
+            case amiAggregation = "amiAggregation"
+            case awsEcrContainerAggregation = "awsEcrContainerAggregation"
+            case ec2InstanceAggregation = "ec2InstanceAggregation"
+            case findingTypeAggregation = "findingTypeAggregation"
+            case imageLayerAggregation = "imageLayerAggregation"
+            case lambdaFunctionAggregation = "lambdaFunctionAggregation"
+            case lambdaLayerAggregation = "lambdaLayerAggregation"
+            case packageAggregation = "packageAggregation"
+            case repositoryAggregation = "repositoryAggregation"
+            case titleAggregation = "titleAggregation"
         }
     }
 
@@ -653,17 +653,17 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAggregation
-            case amiAggregation
-            case awsEcrContainerAggregation
-            case ec2InstanceAggregation
-            case findingTypeAggregation
-            case imageLayerAggregation
-            case lambdaFunctionAggregation
-            case lambdaLayerAggregation
-            case packageAggregation
-            case repositoryAggregation
-            case titleAggregation
+            case accountAggregation = "accountAggregation"
+            case amiAggregation = "amiAggregation"
+            case awsEcrContainerAggregation = "awsEcrContainerAggregation"
+            case ec2InstanceAggregation = "ec2InstanceAggregation"
+            case findingTypeAggregation = "findingTypeAggregation"
+            case imageLayerAggregation = "imageLayerAggregation"
+            case lambdaFunctionAggregation = "lambdaFunctionAggregation"
+            case lambdaLayerAggregation = "lambdaLayerAggregation"
+            case packageAggregation = "packageAggregation"
+            case repositoryAggregation = "repositoryAggregation"
+            case titleAggregation = "titleAggregation"
         }
     }
 
@@ -684,9 +684,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case resourceStatus
-            case status
+            case accountId = "accountId"
+            case resourceStatus = "resourceStatus"
+            case status = "status"
         }
     }
 
@@ -708,10 +708,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingType
-            case resourceType
-            case sortBy
-            case sortOrder
+            case findingType = "findingType"
+            case resourceType = "resourceType"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -727,8 +727,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case severityCounts
+            case accountId = "accountId"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -747,9 +747,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case resourceState
-            case state
+            case accountId = "accountId"
+            case resourceState = "resourceState"
+            case state = "state"
         }
     }
 
@@ -776,9 +776,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amis
-            case sortBy
-            case sortOrder
+            case amis = "amis"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -800,10 +800,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case affectedInstances
-            case ami
-            case severityCounts
+            case accountId = "accountId"
+            case affectedInstances = "affectedInstances"
+            case ami = "ami"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -822,7 +822,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -835,7 +835,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -854,9 +854,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2
-            case ecr
-            case lambda
+            case ec2 = "ec2"
+            case ecr = "ecr"
+            case lambda = "lambda"
         }
     }
 
@@ -896,16 +896,16 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamInstanceProfileArn
-            case imageId
-            case ipV4Addresses
-            case ipV6Addresses
-            case keyName
-            case launchedAt
-            case platform
-            case subnetId
-            case type
-            case vpcId
+            case iamInstanceProfileArn = "iamInstanceProfileArn"
+            case imageId = "imageId"
+            case ipV4Addresses = "ipV4Addresses"
+            case ipV6Addresses = "ipV6Addresses"
+            case keyName = "keyName"
+            case launchedAt = "launchedAt"
+            case platform = "platform"
+            case subnetId = "subnetId"
+            case type = "type"
+            case vpcId = "vpcId"
         }
     }
 
@@ -964,13 +964,13 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architectures
-            case imageShas
-            case imageTags
-            case repositories
-            case resourceIds
-            case sortBy
-            case sortOrder
+            case architectures = "architectures"
+            case imageShas = "imageShas"
+            case imageTags = "imageTags"
+            case repositories = "repositories"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1001,13 +1001,13 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case architecture
-            case imageSha
-            case imageTags
-            case repository
-            case resourceId
-            case severityCounts
+            case accountId = "accountId"
+            case architecture = "architecture"
+            case imageSha = "imageSha"
+            case imageTags = "imageTags"
+            case repository = "repository"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -1041,14 +1041,14 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case author
-            case imageHash
-            case imageTags
-            case platform
-            case pushedAt
-            case registry
-            case repositoryName
+            case architecture = "architecture"
+            case author = "author"
+            case imageHash = "imageHash"
+            case imageTags = "imageTags"
+            case platform = "platform"
+            case pushedAt = "pushedAt"
+            case registry = "registry"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1088,16 +1088,16 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architectures
-            case codeSha256
-            case executionRoleArn
-            case functionName
-            case lastModifiedAt
-            case layers
-            case packageType
-            case runtime
-            case version
-            case vpcConfig
+            case architectures = "architectures"
+            case codeSha256 = "codeSha256"
+            case executionRoleArn = "executionRoleArn"
+            case functionName = "functionName"
+            case lastModifiedAt = "lastModifiedAt"
+            case layers = "layers"
+            case packageType = "packageType"
+            case runtime = "runtime"
+            case version = "version"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1119,7 +1119,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1135,8 +1135,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case failedAccounts
+            case accounts = "accounts"
+            case failedAccounts = "failedAccounts"
         }
     }
 
@@ -1155,7 +1155,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1171,8 +1171,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case failedAccounts
+            case accounts = "accounts"
+            case failedAccounts = "failedAccounts"
         }
     }
 
@@ -1189,7 +1189,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -1202,7 +1202,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -1218,8 +1218,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case groupKey
+            case count = "count"
+            case groupKey = "groupKey"
         }
     }
 
@@ -1328,18 +1328,18 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case ec2InstanceTags
-            case ecrImageTags
-            case ecrRepositoryName
-            case lambdaFunctionName
-            case lambdaFunctionRuntime
-            case lambdaFunctionTags
-            case resourceId
-            case resourceType
-            case scanStatusCode
-            case scanStatusReason
-            case scanType
+            case accountId = "accountId"
+            case ec2InstanceTags = "ec2InstanceTags"
+            case ecrImageTags = "ecrImageTags"
+            case ecrRepositoryName = "ecrRepositoryName"
+            case lambdaFunctionName = "lambdaFunctionName"
+            case lambdaFunctionRuntime = "lambdaFunctionRuntime"
+            case lambdaFunctionTags = "lambdaFunctionTags"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case scanStatusCode = "scanStatusCode"
+            case scanStatusReason = "scanStatusReason"
+            case scanType = "scanType"
         }
     }
 
@@ -1363,9 +1363,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparison
-            case key
-            case value
+            case comparison = "comparison"
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1386,8 +1386,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparison
-            case value
+            case comparison = "comparison"
+            case value = "value"
         }
     }
 
@@ -1415,12 +1415,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case resourceId
-            case resourceMetadata
-            case resourceType
-            case scanStatus
-            case scanType
+            case accountId = "accountId"
+            case resourceId = "resourceId"
+            case resourceMetadata = "resourceMetadata"
+            case resourceType = "resourceType"
+            case scanStatus = "scanStatus"
+            case scanType = "scanType"
         }
     }
 
@@ -1463,12 +1463,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case description
-            case filterCriteria
-            case name
-            case reason
-            case tags
+            case action = "action"
+            case description = "description"
+            case filterCriteria = "filterCriteria"
+            case name = "name"
+            case reason = "reason"
+            case tags = "tags"
         }
     }
 
@@ -1481,7 +1481,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1504,9 +1504,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case reportFormat
-            case s3Destination
+            case filterCriteria = "filterCriteria"
+            case reportFormat = "reportFormat"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1519,7 +1519,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -1541,10 +1541,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseScore
-            case scoringVector
-            case source
-            case version
+            case baseScore = "baseScore"
+            case scoringVector = "scoringVector"
+            case source = "source"
+            case version = "version"
         }
     }
 
@@ -1560,8 +1560,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metric
-            case reason
+            case metric = "metric"
+            case reason = "reason"
         }
     }
 
@@ -1589,12 +1589,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adjustments
-            case cvssSource
-            case score
-            case scoreSource
-            case scoringVector
-            case version
+            case adjustments = "adjustments"
+            case cvssSource = "cvssSource"
+            case score = "score"
+            case scoreSource = "scoreSource"
+            case scoringVector = "scoringVector"
+            case version = "version"
         }
     }
 
@@ -1610,8 +1610,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endInclusive
-            case startInclusive
+            case endInclusive = "endInclusive"
+            case startInclusive = "startInclusive"
         }
     }
 
@@ -1627,8 +1627,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case relationshipStatus
+            case accountId = "accountId"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
@@ -1644,8 +1644,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case status
+            case accountId = "accountId"
+            case status = "status"
         }
     }
 
@@ -1663,7 +1663,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1676,7 +1676,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1696,8 +1696,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
-            case maxAccountLimitReached
+            case autoEnable = "autoEnable"
+            case maxAccountLimitReached = "maxAccountLimitReached"
         }
     }
 
@@ -1716,9 +1716,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case keyPrefix
-            case kmsKeyArn
+            case bucketName = "bucketName"
+            case keyPrefix = "keyPrefix"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -1737,7 +1737,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccountId
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
         }
     }
 
@@ -1750,7 +1750,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccountId
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
         }
     }
 
@@ -1776,8 +1776,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case resourceTypes
+            case accountIds = "accountIds"
+            case resourceTypes = "resourceTypes"
         }
     }
 
@@ -1793,8 +1793,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case failedAccounts
+            case accounts = "accounts"
+            case failedAccounts = "failedAccounts"
         }
     }
 
@@ -1813,7 +1813,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -1826,7 +1826,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -1877,12 +1877,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amis
-            case instanceIds
-            case instanceTags
-            case operatingSystems
-            case sortBy
-            case sortOrder
+            case amis = "amis"
+            case instanceIds = "instanceIds"
+            case instanceTags = "instanceTags"
+            case operatingSystems = "operatingSystems"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1913,13 +1913,13 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case ami
-            case instanceId
-            case instanceTags
-            case networkFindings
-            case operatingSystem
-            case severityCounts
+            case accountId = "accountId"
+            case ami = "ami"
+            case instanceId = "instanceId"
+            case instanceTags = "instanceTags"
+            case networkFindings = "networkFindings"
+            case operatingSystem = "operatingSystem"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -1938,9 +1938,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiId
-            case platform
-            case tags
+            case amiId = "amiId"
+            case platform = "platform"
+            case tags = "tags"
         }
     }
 
@@ -1953,7 +1953,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rescanDuration
+            case rescanDuration = "rescanDuration"
         }
     }
 
@@ -1966,7 +1966,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rescanDurationState
+            case rescanDurationState = "rescanDurationState"
         }
     }
 
@@ -1979,7 +1979,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1995,8 +1995,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case scanFrequency
+            case name = "name"
+            case scanFrequency = "scanFrequency"
         }
     }
 
@@ -2015,9 +2015,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rescanDuration
-            case status
-            case updatedAt
+            case rescanDuration = "rescanDuration"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2041,8 +2041,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case delegatedAdminAccountId
+            case clientToken = "clientToken"
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
         }
     }
 
@@ -2055,7 +2055,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccountId
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
         }
     }
 
@@ -2087,9 +2087,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case clientToken
-            case resourceTypes
+            case accountIds = "accountIds"
+            case clientToken = "clientToken"
+            case resourceTypes = "resourceTypes"
         }
     }
 
@@ -2105,8 +2105,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accounts
-            case failedAccounts
+            case accounts = "accounts"
+            case failedAccounts = "failedAccounts"
         }
     }
 
@@ -2119,7 +2119,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastKnownExploitAt
+            case lastKnownExploitAt = "lastKnownExploitAt"
         }
     }
 
@@ -2144,11 +2144,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case errorCode
-            case errorMessage
-            case resourceStatus
-            case status
+            case accountId = "accountId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case resourceStatus = "resourceStatus"
+            case status = "status"
         }
     }
 
@@ -2188,16 +2188,16 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arn
-            case createdAt
-            case criteria
-            case description
-            case name
-            case ownerId
-            case reason
-            case tags
-            case updatedAt
+            case action = "action"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case criteria = "criteria"
+            case description = "description"
+            case name = "name"
+            case ownerId = "ownerId"
+            case reason = "reason"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2496,44 +2496,44 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case componentId
-            case componentType
-            case ec2InstanceImageId
-            case ec2InstanceSubnetId
-            case ec2InstanceVpcId
-            case ecrImageArchitecture
-            case ecrImageHash
-            case ecrImagePushedAt
-            case ecrImageRegistry
-            case ecrImageRepositoryName
-            case ecrImageTags
-            case exploitAvailable
-            case findingArn
-            case findingStatus
-            case findingType
-            case firstObservedAt
-            case fixAvailable
-            case inspectorScore
-            case lambdaFunctionExecutionRoleArn
-            case lambdaFunctionLastModifiedAt
-            case lambdaFunctionLayers
-            case lambdaFunctionName
-            case lambdaFunctionRuntime
-            case lastObservedAt
-            case networkProtocol
-            case portRange
-            case relatedVulnerabilities
-            case resourceId
-            case resourceTags
-            case resourceType
-            case severity
-            case title
-            case updatedAt
-            case vendorSeverity
-            case vulnerabilityId
-            case vulnerabilitySource
-            case vulnerablePackages
+            case awsAccountId = "awsAccountId"
+            case componentId = "componentId"
+            case componentType = "componentType"
+            case ec2InstanceImageId = "ec2InstanceImageId"
+            case ec2InstanceSubnetId = "ec2InstanceSubnetId"
+            case ec2InstanceVpcId = "ec2InstanceVpcId"
+            case ecrImageArchitecture = "ecrImageArchitecture"
+            case ecrImageHash = "ecrImageHash"
+            case ecrImagePushedAt = "ecrImagePushedAt"
+            case ecrImageRegistry = "ecrImageRegistry"
+            case ecrImageRepositoryName = "ecrImageRepositoryName"
+            case ecrImageTags = "ecrImageTags"
+            case exploitAvailable = "exploitAvailable"
+            case findingArn = "findingArn"
+            case findingStatus = "findingStatus"
+            case findingType = "findingType"
+            case firstObservedAt = "firstObservedAt"
+            case fixAvailable = "fixAvailable"
+            case inspectorScore = "inspectorScore"
+            case lambdaFunctionExecutionRoleArn = "lambdaFunctionExecutionRoleArn"
+            case lambdaFunctionLastModifiedAt = "lambdaFunctionLastModifiedAt"
+            case lambdaFunctionLayers = "lambdaFunctionLayers"
+            case lambdaFunctionName = "lambdaFunctionName"
+            case lambdaFunctionRuntime = "lambdaFunctionRuntime"
+            case lastObservedAt = "lastObservedAt"
+            case networkProtocol = "networkProtocol"
+            case portRange = "portRange"
+            case relatedVulnerabilities = "relatedVulnerabilities"
+            case resourceId = "resourceId"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case severity = "severity"
+            case title = "title"
+            case updatedAt = "updatedAt"
+            case vendorSeverity = "vendorSeverity"
+            case vulnerabilityId = "vulnerabilityId"
+            case vulnerabilitySource = "vulnerabilitySource"
+            case vulnerablePackages = "vulnerablePackages"
         }
     }
 
@@ -2600,25 +2600,25 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case description
-            case exploitabilityDetails
-            case exploitAvailable
-            case findingArn
-            case firstObservedAt
-            case fixAvailable
-            case inspectorScore
-            case inspectorScoreDetails
-            case lastObservedAt
-            case networkReachabilityDetails
-            case packageVulnerabilityDetails
-            case remediation
-            case resources
-            case severity
-            case status
-            case title
-            case type
-            case updatedAt
+            case awsAccountId = "awsAccountId"
+            case description = "description"
+            case exploitabilityDetails = "exploitabilityDetails"
+            case exploitAvailable = "exploitAvailable"
+            case findingArn = "findingArn"
+            case firstObservedAt = "firstObservedAt"
+            case fixAvailable = "fixAvailable"
+            case inspectorScore = "inspectorScore"
+            case inspectorScoreDetails = "inspectorScoreDetails"
+            case lastObservedAt = "lastObservedAt"
+            case networkReachabilityDetails = "networkReachabilityDetails"
+            case packageVulnerabilityDetails = "packageVulnerabilityDetails"
+            case remediation = "remediation"
+            case resources = "resources"
+            case severity = "severity"
+            case status = "status"
+            case title = "title"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2640,10 +2640,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingType
-            case resourceType
-            case sortBy
-            case sortOrder
+            case findingType = "findingType"
+            case resourceType = "resourceType"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2659,8 +2659,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case severityCounts
+            case accountId = "accountId"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -2676,8 +2676,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case freeTrialInfo
+            case accountId = "accountId"
+            case freeTrialInfo = "freeTrialInfo"
         }
     }
 
@@ -2699,10 +2699,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
-            case status
-            case type
+            case end = "end"
+            case start = "start"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -2721,9 +2721,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case code
-            case message
+            case accountId = "accountId"
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -2740,7 +2740,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrConfiguration
+            case ecrConfiguration = "ecrConfiguration"
         }
     }
 
@@ -2757,7 +2757,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdmin
+            case delegatedAdmin = "delegatedAdmin"
         }
     }
 
@@ -2774,7 +2774,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportId
+            case reportId = "reportId"
         }
     }
 
@@ -2802,12 +2802,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case errorCode
-            case errorMessage
-            case filterCriteria
-            case reportId
-            case status
+            case destination = "destination"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case filterCriteria = "filterCriteria"
+            case reportId = "reportId"
+            case status = "status"
         }
     }
 
@@ -2826,7 +2826,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -2839,7 +2839,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case member
+            case member = "member"
         }
     }
 
@@ -2882,11 +2882,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerHashes
-            case repositories
-            case resourceIds
-            case sortBy
-            case sortOrder
+            case layerHashes = "layerHashes"
+            case repositories = "repositories"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2911,11 +2911,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case layerHash
-            case repository
-            case resourceId
-            case severityCounts
+            case accountId = "accountId"
+            case layerHash = "layerHash"
+            case repository = "repository"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -2928,7 +2928,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adjustedCvss
+            case adjustedCvss = "adjustedCvss"
         }
     }
 
@@ -2979,12 +2979,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionNames
-            case functionTags
-            case resourceIds
-            case runtimes
-            case sortBy
-            case sortOrder
+            case functionNames = "functionNames"
+            case functionTags = "functionTags"
+            case resourceIds = "resourceIds"
+            case runtimes = "runtimes"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -3014,13 +3014,13 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case functionName
-            case lambdaTags
-            case lastModifiedAt
-            case resourceId
-            case runtime
-            case severityCounts
+            case accountId = "accountId"
+            case functionName = "functionName"
+            case lambdaTags = "lambdaTags"
+            case lastModifiedAt = "lastModifiedAt"
+            case resourceId = "resourceId"
+            case runtime = "runtime"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -3042,10 +3042,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionName
-            case functionTags
-            case layers
-            case runtime
+            case functionName = "functionName"
+            case functionTags = "functionTags"
+            case layers = "layers"
+            case runtime = "runtime"
         }
     }
 
@@ -3088,11 +3088,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionNames
-            case layerArns
-            case resourceIds
-            case sortBy
-            case sortOrder
+            case functionNames = "functionNames"
+            case layerArns = "layerArns"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -3116,11 +3116,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case functionName
-            case layerArn
-            case resourceId
-            case severityCounts
+            case accountId = "accountId"
+            case functionName = "functionName"
+            case layerArn = "layerArn"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -3139,9 +3139,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
-            case vpcId
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -3162,13 +3162,13 @@ extension Inspector2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1024)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case service
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case service = "service"
         }
     }
 
@@ -3184,8 +3184,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
+            case nextToken = "nextToken"
+            case permissions = "permissions"
         }
     }
 
@@ -3207,13 +3207,13 @@ extension Inspector2 {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case maxResults
-            case nextToken
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3229,8 +3229,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coveredResources
-            case nextToken
+            case coveredResources = "coveredResources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3250,13 +3250,13 @@ extension Inspector2 {
 
         public func validate(name: String) throws {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case groupBy
-            case nextToken
+            case filterCriteria = "filterCriteria"
+            case groupBy = "groupBy"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3275,9 +3275,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countsByGroup
-            case nextToken
-            case totalCounts
+            case countsByGroup = "countsByGroup"
+            case nextToken = "nextToken"
+            case totalCounts = "totalCounts"
         }
     }
 
@@ -3295,12 +3295,12 @@ extension Inspector2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3316,8 +3316,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccounts
-            case nextToken
+            case delegatedAdminAccounts = "delegatedAdminAccounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3345,14 +3345,14 @@ extension Inspector2 {
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arns
-            case maxResults
-            case nextToken
+            case action = "action"
+            case arns = "arns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3368,8 +3368,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case nextToken
+            case filters = "filters"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3402,15 +3402,15 @@ extension Inspector2 {
             try self.aggregationRequest?.validate(name: "\(name).aggregationRequest")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case aggregationRequest
-            case aggregationType
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case aggregationRequest = "aggregationRequest"
+            case aggregationType = "aggregationType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3429,9 +3429,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregationType
-            case nextToken
-            case responses
+            case aggregationType = "aggregationType"
+            case nextToken = "nextToken"
+            case responses = "responses"
         }
     }
 
@@ -3456,14 +3456,14 @@ extension Inspector2 {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -3479,8 +3479,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
-            case nextToken
+            case findings = "findings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3501,13 +3501,13 @@ extension Inspector2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_000_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case onlyAssociated
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case onlyAssociated = "onlyAssociated"
         }
     }
 
@@ -3523,8 +3523,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3557,7 +3557,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3587,9 +3587,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3605,8 +3605,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case totals
+            case nextToken = "nextToken"
+            case totals = "totals"
         }
     }
 
@@ -3631,9 +3631,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparison
-            case key
-            case value
+            case comparison = "comparison"
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3655,10 +3655,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case delegatedAdminAccountId
-            case relationshipStatus
-            case updatedAt
+            case accountId = "accountId"
+            case delegatedAdminAccountId = "delegatedAdminAccountId"
+            case relationshipStatus = "relationshipStatus"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -3671,7 +3671,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case steps
+            case steps = "steps"
         }
     }
 
@@ -3690,9 +3690,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkPath
-            case openPortRange
-            case `protocol`
+            case networkPath = "networkPath"
+            case openPortRange = "openPortRange"
+            case `protocol` = "protocol"
         }
     }
 
@@ -3708,8 +3708,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lowerInclusive
-            case upperInclusive
+            case lowerInclusive = "lowerInclusive"
+            case upperInclusive = "upperInclusive"
         }
     }
 
@@ -3736,9 +3736,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packageNames
-            case sortBy
-            case sortOrder
+            case packageNames = "packageNames"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -3757,9 +3757,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case packageName
-            case severityCounts
+            case accountId = "accountId"
+            case packageName = "packageName"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -3798,13 +3798,13 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case epoch
-            case name
-            case release
-            case sourceLambdaLayerArn
-            case sourceLayerHash
-            case version
+            case architecture = "architecture"
+            case epoch = "epoch"
+            case name = "name"
+            case release = "release"
+            case sourceLambdaLayerArn = "sourceLambdaLayerArn"
+            case sourceLayerHash = "sourceLayerHash"
+            case version = "version"
         }
     }
 
@@ -3844,16 +3844,16 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cvss
-            case referenceUrls
-            case relatedVulnerabilities
-            case source
-            case sourceUrl
-            case vendorCreatedAt
-            case vendorSeverity
-            case vendorUpdatedAt
-            case vulnerabilityId
-            case vulnerablePackages
+            case cvss = "cvss"
+            case referenceUrls = "referenceUrls"
+            case relatedVulnerabilities = "relatedVulnerabilities"
+            case source = "source"
+            case sourceUrl = "sourceUrl"
+            case vendorCreatedAt = "vendorCreatedAt"
+            case vendorSeverity = "vendorSeverity"
+            case vendorUpdatedAt = "vendorUpdatedAt"
+            case vulnerabilityId = "vulnerabilityId"
+            case vulnerablePackages = "vulnerablePackages"
         }
     }
 
@@ -3869,8 +3869,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
-            case service
+            case operation = "operation"
+            case service = "service"
         }
     }
 
@@ -3886,8 +3886,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case begin
-            case end
+            case begin = "begin"
+            case end = "end"
         }
     }
 
@@ -3910,8 +3910,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case beginInclusive
-            case endInclusive
+            case beginInclusive = "beginInclusive"
+            case endInclusive = "endInclusive"
         }
     }
 
@@ -3927,7 +3927,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
+            case text = "text"
             case url = "Url"
         }
     }
@@ -3941,7 +3941,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendation
+            case recommendation = "recommendation"
         }
     }
 
@@ -3968,9 +3968,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositories
-            case sortBy
-            case sortOrder
+            case repositories = "repositories"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -3992,10 +3992,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case affectedImages
-            case repository
-            case severityCounts
+            case accountId = "accountId"
+            case affectedImages = "affectedImages"
+            case repository = "repository"
+            case severityCounts = "severityCounts"
         }
     }
 
@@ -4023,12 +4023,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case id
-            case partition
-            case region
-            case tags
-            case type
+            case details = "details"
+            case id = "id"
+            case partition = "partition"
+            case region = "region"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -4047,9 +4047,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsEc2Instance
-            case awsEcrContainerImage
-            case awsLambdaFunction
+            case awsEc2Instance = "awsEc2Instance"
+            case awsEcrContainerImage = "awsEcrContainerImage"
+            case awsLambdaFunction = "awsLambdaFunction"
         }
     }
 
@@ -4071,10 +4071,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2
-            case ecrImage
-            case ecrRepository
-            case lambdaFunction
+            case ec2 = "ec2"
+            case ecrImage = "ecrImage"
+            case ecrRepository = "ecrRepository"
+            case lambdaFunction = "lambdaFunction"
         }
     }
 
@@ -4092,9 +4092,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2
-            case ecr
-            case lambda
+            case ec2 = "ec2"
+            case ecr = "ecr"
+            case lambda = "lambda"
         }
     }
 
@@ -4113,9 +4113,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2
-            case ecr
-            case lambda
+            case ec2 = "ec2"
+            case ecr = "ecr"
+            case lambda = "lambda"
         }
     }
 
@@ -4131,8 +4131,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case statusCode
+            case reason = "reason"
+            case statusCode = "statusCode"
         }
     }
 
@@ -4154,10 +4154,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case all
-            case critical
-            case high
-            case medium
+            case all = "all"
+            case critical = "critical"
+            case high = "high"
+            case medium = "medium"
         }
     }
 
@@ -4173,8 +4173,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case sortOrder
+            case field = "field"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -4193,9 +4193,9 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case status
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case status = "status"
         }
     }
 
@@ -4211,8 +4211,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentId
-            case componentType
+            case componentId = "componentId"
+            case componentType = "componentType"
         }
     }
 
@@ -4233,8 +4233,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparison
-            case value
+            case comparison = "comparison"
+            case value = "value"
         }
     }
 
@@ -4264,7 +4264,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4306,11 +4306,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType
-            case sortBy
-            case sortOrder
-            case titles
-            case vulnerabilityIds
+            case resourceType = "resourceType"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+            case titles = "titles"
+            case vulnerabilityIds = "vulnerabilityIds"
         }
     }
 
@@ -4332,10 +4332,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case severityCounts
-            case title
-            case vulnerabilityId
+            case accountId = "accountId"
+            case severityCounts = "severityCounts"
+            case title = "title"
+            case vulnerabilityId = "vulnerabilityId"
         }
     }
 
@@ -4382,7 +4382,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrConfiguration
+            case ecrConfiguration = "ecrConfiguration"
         }
     }
 
@@ -4426,12 +4426,12 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case description
-            case filterArn
-            case filterCriteria
-            case name
-            case reason
+            case action = "action"
+            case description = "description"
+            case filterArn = "filterArn"
+            case filterCriteria = "filterCriteria"
+            case name = "name"
+            case reason = "reason"
         }
     }
 
@@ -4444,7 +4444,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -4457,7 +4457,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4470,7 +4470,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -4492,10 +4492,10 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case estimatedMonthlyCost
-            case total
-            case type
+            case currency = "currency"
+            case estimatedMonthlyCost = "estimatedMonthlyCost"
+            case total = "total"
+            case type = "type"
         }
     }
 
@@ -4511,8 +4511,8 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case usage
+            case accountId = "accountId"
+            case usage = "usage"
         }
     }
 
@@ -4555,17 +4555,17 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arch
-            case epoch
-            case filePath
-            case fixedInVersion
-            case name
-            case packageManager
-            case release
-            case remediation
-            case sourceLambdaLayerArn
-            case sourceLayerHash
-            case version
+            case arch = "arch"
+            case epoch = "epoch"
+            case filePath = "filePath"
+            case fixedInVersion = "fixedInVersion"
+            case name = "name"
+            case packageManager = "packageManager"
+            case release = "release"
+            case remediation = "remediation"
+            case sourceLambdaLayerArn = "sourceLambdaLayerArn"
+            case sourceLayerHash = "sourceLayerHash"
+            case version = "version"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -371,8 +371,8 @@ extension LexModelsV2 {
     }
 
     public enum VoiceEngine: String, CustomStringConvertible, Codable, _SotoSendable {
-        case neural
-        case standard
+        case neural = "neural"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -387,7 +387,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioRecognitionStrategy
+            case audioRecognitionStrategy = "audioRecognitionStrategy"
         }
     }
 
@@ -416,9 +416,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -434,8 +434,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -463,12 +463,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containsDataFromDeletedResources
-            case hitCount
-            case missedCount
-            case utterance
-            case utteranceFirstRecordedInAggregationDuration
-            case utteranceLastRecordedInAggregationDuration
+            case containsDataFromDeletedResources = "containsDataFromDeletedResources"
+            case hitCount = "hitCount"
+            case missedCount = "missedCount"
+            case utterance = "utterance"
+            case utteranceFirstRecordedInAggregationDuration = "utteranceFirstRecordedInAggregationDuration"
+            case utteranceLastRecordedInAggregationDuration = "utteranceLastRecordedInAggregationDuration"
         }
     }
 
@@ -484,8 +484,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowAudioInput
-            case allowDTMFInput
+            case allowAudioInput = "allowAudioInput"
+            case allowDTMFInput = "allowDTMFInput"
         }
     }
 
@@ -498,7 +498,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transcript
+            case transcript = "transcript"
         }
     }
 
@@ -524,8 +524,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -550,9 +550,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSpecification
-            case dtmfSpecification
-            case startTimeoutMs
+            case audioSpecification = "audioSpecification"
+            case dtmfSpecification = "dtmfSpecification"
+            case startTimeoutMs = "startTimeoutMs"
         }
     }
 
@@ -569,7 +569,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
+            case s3Bucket = "s3Bucket"
         }
     }
 
@@ -588,8 +588,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case enabled
+            case destination = "destination"
+            case enabled = "enabled"
         }
     }
 
@@ -610,8 +610,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTimeoutMs
-            case maxLengthMs
+            case endTimeoutMs = "endTimeoutMs"
+            case maxLengthMs = "maxLengthMs"
         }
     }
 
@@ -653,7 +653,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customVocabularyItemList
+            case customVocabularyItemList = "customVocabularyItemList"
         }
     }
 
@@ -678,11 +678,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case errors
-            case localeId
-            case resources
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case errors = "errors"
+            case localeId = "localeId"
+            case resources = "resources"
         }
     }
 
@@ -724,7 +724,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customVocabularyItemList
+            case customVocabularyItemList = "customVocabularyItemList"
         }
     }
 
@@ -749,11 +749,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case errors
-            case localeId
-            case resources
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case errors = "errors"
+            case localeId = "localeId"
+            case resources = "resources"
         }
     }
 
@@ -795,7 +795,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customVocabularyItemList
+            case customVocabularyItemList = "customVocabularyItemList"
         }
     }
 
@@ -820,11 +820,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case errors
-            case localeId
-            case resources
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case errors = "errors"
+            case localeId = "localeId"
+            case resources = "resources"
         }
     }
 
@@ -843,9 +843,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botVersion
-            case endDate
-            case startDate
+            case botVersion = "botVersion"
+            case endDate = "endDate"
+            case startDate = "startDate"
         }
     }
 
@@ -865,8 +865,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeHookSpecification
-            case enabled
+            case codeHookSpecification = "codeHookSpecification"
+            case enabled = "enabled"
         }
     }
 
@@ -897,13 +897,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasName
-            case botAliasStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
+            case botAliasId = "botAliasId"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
         }
     }
 
@@ -928,8 +928,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
+            case botId = "botId"
+            case botVersion = "botVersion"
         }
     }
 
@@ -958,9 +958,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -1010,12 +1010,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case botTags
-            case dataPrivacy
-            case idleSessionTTLInSeconds
-            case roleArn
-            case testBotAliasTags
+            case botName = "botName"
+            case botTags = "botTags"
+            case dataPrivacy = "dataPrivacy"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
+            case testBotAliasTags = "testBotAliasTags"
         }
     }
 
@@ -1043,9 +1043,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
@@ -1074,9 +1074,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -1092,8 +1092,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventDate
+            case event = "event"
+            case eventDate = "eventDate"
         }
     }
 
@@ -1128,11 +1128,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -1148,8 +1148,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -1177,12 +1177,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botLocaleStatus
-            case description
-            case lastBuildSubmittedDateTime
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
+            case botLocaleStatus = "botLocaleStatus"
+            case description = "description"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
         }
     }
 
@@ -1198,8 +1198,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intents
-            case slotTypes
+            case intents = "intents"
+            case slotTypes = "slotTypes"
         }
     }
 
@@ -1218,9 +1218,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedTranscriptsUrl
-            case botLocaleExportUrl
-            case statistics
+            case associatedTranscriptsUrl = "associatedTranscriptsUrl"
+            case botLocaleExportUrl = "botLocaleExportUrl"
+            case statistics = "statistics"
         }
     }
 
@@ -1242,10 +1242,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botRecommendationId
-            case botRecommendationStatus
-            case creationDateTime
-            case lastUpdatedDateTime
+            case botRecommendationId = "botRecommendationId"
+            case botRecommendationStatus = "botRecommendationStatus"
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
         }
     }
 
@@ -1261,8 +1261,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -1290,12 +1290,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case description
-            case lastUpdatedDateTime
-            case latestBotVersion
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestBotVersion = "latestBotVersion"
         }
     }
 
@@ -1314,7 +1314,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceBotVersion
+            case sourceBotVersion = "sourceBotVersion"
         }
     }
 
@@ -1330,8 +1330,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -1356,11 +1356,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case botStatus
-            case botVersion
-            case creationDateTime
-            case description
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
         }
     }
 
@@ -1417,11 +1417,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case lastBuildSubmittedDateTime
-            case localeId
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case localeId = "localeId"
         }
     }
 
@@ -1437,8 +1437,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -1454,8 +1454,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case intentSignature
+            case description = "description"
+            case intentSignature = "intentSignature"
         }
     }
 
@@ -1471,8 +1471,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -1488,8 +1488,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case slotTypeSignature
+            case description = "description"
+            case slotTypeSignature = "slotTypeSignature"
         }
     }
 
@@ -1512,8 +1512,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case value
+            case text = "text"
+            case value = "value"
         }
     }
 
@@ -1536,8 +1536,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogGroupArn
-            case logPrefix
+            case cloudWatchLogGroupArn = "cloudWatchLogGroupArn"
+            case logPrefix = "logPrefix"
         }
     }
 
@@ -1553,7 +1553,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaCodeHook
+            case lambdaCodeHook = "lambdaCodeHook"
         }
     }
 
@@ -1573,7 +1573,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subSlots
+            case subSlots = "subSlots"
         }
     }
 
@@ -1591,7 +1591,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expressionString
+            case expressionString = "expressionString"
         }
     }
 
@@ -1621,10 +1621,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case nextStep
-            case response
+            case condition = "condition"
+            case name = "name"
+            case nextStep = "nextStep"
+            case response = "response"
         }
     }
 
@@ -1652,9 +1652,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case conditionalBranches
-            case defaultBranch
+            case active = "active"
+            case conditionalBranches = "conditionalBranches"
+            case defaultBranch = "defaultBranch"
         }
     }
 
@@ -1683,8 +1683,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioLogSettings
-            case textLogSettings
+            case audioLogSettings = "audioLogSettings"
+            case textLogSettings = "textLogSettings"
         }
     }
 
@@ -1745,13 +1745,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasLocaleSettings
-            case botAliasName
-            case botVersion
-            case conversationLogSettings
-            case description
-            case sentimentAnalysisSettings
-            case tags
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
+            case tags = "tags"
         }
     }
 
@@ -1793,17 +1793,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case sentimentAnalysisSettings
-            case tags
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
+            case tags = "tags"
         }
     }
 
@@ -1848,10 +1848,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case localeId
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case description = "description"
+            case localeId = "localeId"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -1888,15 +1888,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -1951,13 +1951,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case botTags
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
-            case testBotAliasTags
+            case botName = "botName"
+            case botTags = "botTags"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
+            case testBotAliasTags = "testBotAliasTags"
         }
     }
 
@@ -1997,16 +1997,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case botTags
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
-            case testBotAliasTags
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botTags = "botTags"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
+            case testBotAliasTags = "testBotAliasTags"
         }
     }
 
@@ -2040,8 +2040,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botVersionLocaleSpecification
-            case description
+            case botVersionLocaleSpecification = "botVersionLocaleSpecification"
+            case description = "description"
         }
     }
 
@@ -2069,12 +2069,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
-            case botVersion
-            case botVersionLocaleSpecification
-            case creationDateTime
-            case description
+            case botId = "botId"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case botVersionLocaleSpecification = "botVersionLocaleSpecification"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
         }
     }
 
@@ -2099,9 +2099,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileFormat
-            case filePassword
-            case resourceSpecification
+            case fileFormat = "fileFormat"
+            case filePassword = "filePassword"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -2126,11 +2126,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case exportId
-            case exportStatus
-            case fileFormat
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
+            case fileFormat = "fileFormat"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -2217,18 +2217,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case initialResponseSetting
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentName
-            case kendraConfiguration
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case initialResponseSetting = "initialResponseSetting"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
         }
     }
 
@@ -2289,23 +2289,23 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case initialResponseSetting
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case initialResponseSetting = "initialResponseSetting"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
         }
     }
 
@@ -2331,7 +2331,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -2347,8 +2347,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case revisionId
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -2408,11 +2408,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case condition
-            case effect
-            case principal
-            case statementId
+            case action = "action"
+            case condition = "condition"
+            case effect = "effect"
+            case principal = "principal"
+            case statementId = "statementId"
         }
     }
 
@@ -2428,8 +2428,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case revisionId
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -2500,13 +2500,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case multipleValuesSetting
-            case obfuscationSetting
-            case slotName
-            case slotTypeId
-            case subSlotSetting
-            case valueElicitationSetting
+            case description = "description"
+            case multipleValuesSetting = "multipleValuesSetting"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case subSlotSetting = "subSlotSetting"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -2555,19 +2555,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case localeId
-            case multipleValuesSetting
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case subSlotSetting
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case localeId = "localeId"
+            case multipleValuesSetting = "multipleValuesSetting"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case subSlotSetting = "subSlotSetting"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -2634,13 +2634,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compositeSlotTypeSetting
-            case description
-            case externalSourceSetting
-            case parentSlotTypeSignature
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case compositeSlotTypeSetting = "compositeSlotTypeSetting"
+            case description = "description"
+            case externalSourceSetting = "externalSourceSetting"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
@@ -2686,18 +2686,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case compositeSlotTypeSetting
-            case creationDateTime
-            case description
-            case externalSourceSetting
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case compositeSlotTypeSetting = "compositeSlotTypeSetting"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case externalSourceSetting = "externalSourceSetting"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
@@ -2717,8 +2717,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importId
-            case uploadUrl
+            case importId = "importId"
+            case uploadUrl = "uploadUrl"
         }
     }
 
@@ -2736,7 +2736,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -2754,7 +2754,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemId
+            case itemId = "itemId"
         }
     }
 
@@ -2782,9 +2782,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
@@ -2812,9 +2812,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
@@ -2847,10 +2847,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayAs
-            case itemId
-            case phrase
-            case weight
+            case displayAs = "displayAs"
+            case itemId = "itemId"
+            case phrase = "phrase"
+            case weight = "weight"
         }
     }
 
@@ -2880,10 +2880,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletionCharacter
-            case endCharacter
-            case endTimeoutMs
-            case maxLength
+            case deletionCharacter = "deletionCharacter"
+            case endCharacter = "endCharacter"
+            case endTimeoutMs = "endTimeoutMs"
+            case maxLength = "maxLength"
         }
     }
 
@@ -2896,7 +2896,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childDirected
+            case childDirected = "childDirected"
         }
     }
 
@@ -2912,8 +2912,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endDateTime
-            case startDateTime
+            case endDateTime = "endDateTime"
+            case startDateTime = "startDateTime"
         }
     }
 
@@ -2933,8 +2933,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextStep
-            case response
+            case nextStep = "nextStep"
+            case response = "response"
         }
     }
 
@@ -2985,9 +2985,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasStatus
-            case botId
+            case botAliasId = "botAliasId"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
         }
     }
 
@@ -3041,10 +3041,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
@@ -3085,8 +3085,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
+            case botId = "botId"
+            case botStatus = "botStatus"
         }
     }
 
@@ -3137,9 +3137,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
-            case botVersion
+            case botId = "botId"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
         }
     }
 
@@ -3193,10 +3193,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case customVocabularyStatus
-            case localeId
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case customVocabularyStatus = "customVocabularyStatus"
+            case localeId = "localeId"
         }
     }
 
@@ -3233,8 +3233,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
-            case exportStatus
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
         }
     }
 
@@ -3271,8 +3271,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importId
-            case importStatus
+            case importId = "importId"
+            case importStatus = "importStatus"
         }
     }
 
@@ -3354,8 +3354,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case revisionId
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -3405,8 +3405,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case revisionId
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -3604,18 +3604,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasHistoryEvents
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case sentimentAnalysisSettings
+            case botAliasHistoryEvents = "botAliasHistoryEvents"
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
@@ -3705,22 +3705,22 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleHistoryEvents
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case failureReasons
-            case intentsCount
-            case lastBuildSubmittedDateTime
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case recommendedActions
-            case slotTypesCount
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleHistoryEvents = "botLocaleHistoryEvents"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case intentsCount = "intentsCount"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case recommendedActions = "recommendedActions"
+            case slotTypesCount = "slotTypesCount"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -3802,17 +3802,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationId
-            case botRecommendationResults
-            case botRecommendationStatus
-            case botVersion
-            case creationDateTime
-            case encryptionSetting
-            case failureReasons
-            case lastUpdatedDateTime
-            case localeId
-            case transcriptSourceSetting
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botRecommendationResults = "botRecommendationResults"
+            case botRecommendationStatus = "botRecommendationStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case encryptionSetting = "encryptionSetting"
+            case failureReasons = "failureReasons"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case transcriptSourceSetting = "transcriptSourceSetting"
         }
     }
 
@@ -3870,15 +3870,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case lastUpdatedDateTime
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
         }
     }
 
@@ -3946,16 +3946,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case botVersion
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case failureReasons
-            case idleSessionTTLInSeconds
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
         }
     }
 
@@ -4015,12 +4015,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case customVocabularyStatus
-            case lastUpdatedDateTime
-            case localeId
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case customVocabularyStatus = "customVocabularyStatus"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
         }
     }
 
@@ -4075,14 +4075,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case downloadUrl
-            case exportId
-            case exportStatus
-            case failureReasons
-            case fileFormat
-            case lastUpdatedDateTime
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case downloadUrl = "downloadUrl"
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
+            case failureReasons = "failureReasons"
+            case fileFormat = "fileFormat"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -4140,15 +4140,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case failureReasons
-            case importedResourceId
-            case importedResourceName
-            case importId
-            case importStatus
-            case lastUpdatedDateTime
-            case mergeStrategy
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case failureReasons = "failureReasons"
+            case importedResourceId = "importedResourceId"
+            case importedResourceName = "importedResourceName"
+            case importId = "importId"
+            case importStatus = "importStatus"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case mergeStrategy = "mergeStrategy"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -4253,25 +4253,25 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case initialResponseSetting
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case lastUpdatedDateTime
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case initialResponseSetting = "initialResponseSetting"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
@@ -4310,9 +4310,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
-            case revisionId
+            case policy = "policy"
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -4410,20 +4410,20 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case lastUpdatedDateTime
-            case localeId
-            case multipleValuesSetting
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case subSlotSetting
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case multipleValuesSetting = "multipleValuesSetting"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case subSlotSetting = "subSlotSetting"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -4510,19 +4510,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case compositeSlotTypeSetting
-            case creationDateTime
-            case description
-            case externalSourceSetting
-            case lastUpdatedDateTime
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case compositeSlotTypeSetting = "compositeSlotTypeSetting"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case externalSourceSetting = "externalSourceSetting"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
@@ -4547,9 +4547,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotToElicit
-            case suppressNextMessage
-            case type
+            case slotToElicit = "slotToElicit"
+            case suppressNextMessage = "suppressNextMessage"
+            case type = "type"
         }
     }
 
@@ -4578,10 +4578,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case enableCodeHookInvocation
-            case invocationLabel
-            case postCodeHookSpecification
+            case active = "active"
+            case enableCodeHookInvocation = "enableCodeHookInvocation"
+            case invocationLabel = "invocationLabel"
+            case postCodeHookSpecification = "postCodeHookSpecification"
         }
     }
 
@@ -4594,7 +4594,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -4619,9 +4619,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dialogAction
-            case intent
-            case sessionAttributes
+            case dialogAction = "dialogAction"
+            case intent = "intent"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
@@ -4643,8 +4643,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableCodeHookInvocation
-            case invocationLabel
+            case enableCodeHookInvocation = "enableCodeHookInvocation"
+            case invocationLabel = "invocationLabel"
         }
     }
 
@@ -4671,9 +4671,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedTranscriptsPassword
-            case botLocaleExportPassword
-            case kmsKeyArn
+            case associatedTranscriptsPassword = "associatedTranscriptsPassword"
+            case botLocaleExportPassword = "botLocaleExportPassword"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -4702,9 +4702,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -4729,9 +4729,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botExportSpecification
-            case botLocaleExportSpecification
-            case customVocabularyExportSpecification
+            case botExportSpecification = "botExportSpecification"
+            case botLocaleExportSpecification = "botLocaleExportSpecification"
+            case customVocabularyExportSpecification = "customVocabularyExportSpecification"
         }
     }
 
@@ -4747,8 +4747,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -4776,12 +4776,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case exportId
-            case exportStatus
-            case fileFormat
-            case lastUpdatedDateTime
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
+            case fileFormat = "fileFormat"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -4798,7 +4798,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grammarSlotTypeSetting
+            case grammarSlotTypeSetting = "grammarSlotTypeSetting"
         }
     }
 
@@ -4817,9 +4817,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case itemId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case itemId = "itemId"
         }
     }
 
@@ -4846,10 +4846,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case enabled
-            case fulfillmentUpdatesSpecification
-            case postFulfillmentStatusSpecification
+            case active = "active"
+            case enabled = "enabled"
+            case fulfillmentUpdatesSpecification = "fulfillmentUpdatesSpecification"
+            case postFulfillmentStatusSpecification = "postFulfillmentStatusSpecification"
         }
     }
 
@@ -4878,9 +4878,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case delayInSeconds
-            case messageGroups
+            case allowInterrupt = "allowInterrupt"
+            case delayInSeconds = "delayInSeconds"
+            case messageGroups = "messageGroups"
         }
     }
 
@@ -4909,9 +4909,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case frequencyInSeconds
-            case messageGroups
+            case allowInterrupt = "allowInterrupt"
+            case frequencyInSeconds = "frequencyInSeconds"
+            case messageGroups = "messageGroups"
         }
     }
 
@@ -4940,10 +4940,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case startResponse
-            case timeoutInSeconds
-            case updateResponse
+            case active = "active"
+            case startResponse = "startResponse"
+            case timeoutInSeconds = "timeoutInSeconds"
+            case updateResponse = "updateResponse"
         }
     }
 
@@ -4960,7 +4960,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
+            case source = "source"
         }
     }
 
@@ -4991,9 +4991,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case s3BucketName
-            case s3ObjectKey
+            case kmsKeyArn = "kmsKeyArn"
+            case s3BucketName = "s3BucketName"
+            case s3ObjectKey = "s3ObjectKey"
         }
     }
 
@@ -5028,10 +5028,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buttons
-            case imageUrl
-            case subtitle
-            case title
+            case buttons = "buttons"
+            case imageUrl = "imageUrl"
+            case subtitle = "subtitle"
+            case title = "title"
         }
     }
 
@@ -5060,9 +5060,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -5086,9 +5086,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botImportSpecification
-            case botLocaleImportSpecification
-            case customVocabularyImportSpecification
+            case botImportSpecification = "botImportSpecification"
+            case botLocaleImportSpecification = "botLocaleImportSpecification"
+            case customVocabularyImportSpecification = "customVocabularyImportSpecification"
         }
     }
 
@@ -5104,8 +5104,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -5139,14 +5139,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case importedResourceId
-            case importedResourceName
-            case importedResourceType
-            case importId
-            case importStatus
-            case lastUpdatedDateTime
-            case mergeStrategy
+            case creationDateTime = "creationDateTime"
+            case importedResourceId = "importedResourceId"
+            case importedResourceName = "importedResourceName"
+            case importedResourceType = "importedResourceType"
+            case importId = "importId"
+            case importStatus = "importStatus"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case mergeStrategy = "mergeStrategy"
         }
     }
 
@@ -5172,10 +5172,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeHook
-            case conditional
-            case initialResponse
-            case nextStep
+            case codeHook = "codeHook"
+            case conditional = "conditional"
+            case initialResponse = "initialResponse"
+            case nextStep = "nextStep"
         }
     }
 
@@ -5194,7 +5194,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -5222,10 +5222,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case closingResponse
-            case conditional
-            case nextStep
+            case active = "active"
+            case closingResponse = "closingResponse"
+            case conditional = "conditional"
+            case nextStep = "nextStep"
         }
     }
 
@@ -5286,19 +5286,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case codeHook
-            case confirmationConditional
-            case confirmationNextStep
-            case confirmationResponse
-            case declinationConditional
-            case declinationNextStep
-            case declinationResponse
-            case elicitationCodeHook
-            case failureConditional
-            case failureNextStep
-            case failureResponse
-            case promptSpecification
+            case active = "active"
+            case codeHook = "codeHook"
+            case confirmationConditional = "confirmationConditional"
+            case confirmationNextStep = "confirmationNextStep"
+            case confirmationResponse = "confirmationResponse"
+            case declinationConditional = "declinationConditional"
+            case declinationNextStep = "declinationNextStep"
+            case declinationResponse = "declinationResponse"
+            case elicitationCodeHook = "elicitationCodeHook"
+            case failureConditional = "failureConditional"
+            case failureNextStep = "failureNextStep"
+            case failureResponse = "failureResponse"
+            case promptSpecification = "promptSpecification"
         }
     }
 
@@ -5327,9 +5327,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -5357,8 +5357,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case slots
+            case name = "name"
+            case slots = "slots"
         }
     }
 
@@ -5374,8 +5374,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -5388,7 +5388,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case discoveredIntentCount
+            case discoveredIntentCount = "discoveredIntentCount"
         }
     }
 
@@ -5419,13 +5419,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case inputContexts
-            case intentId
-            case intentName
-            case lastUpdatedDateTime
-            case outputContexts
-            case parentIntentSignature
+            case description = "description"
+            case inputContexts = "inputContexts"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
         }
     }
 
@@ -5452,9 +5452,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kendraIndex
-            case queryFilterString
-            case queryFilterStringEnabled
+            case kendraIndex = "kendraIndex"
+            case queryFilterString = "queryFilterString"
+            case queryFilterStringEnabled = "queryFilterStringEnabled"
         }
     }
 
@@ -5478,8 +5478,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeHookInterfaceVersion
-            case lambdaARN
+            case codeHookInterfaceVersion = "codeHookInterfaceVersion"
+            case lambdaARN = "lambdaARN"
         }
     }
 
@@ -5492,7 +5492,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dateRangeFilter
+            case dateRangeFilter = "dateRangeFilter"
         }
     }
 
@@ -5553,14 +5553,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregationDuration
-            case botAliasId
-            case botVersion
-            case filters
-            case localeId
-            case maxResults
-            case nextToken
-            case sortBy
+            case aggregationDuration = "aggregationDuration"
+            case botAliasId = "botAliasId"
+            case botVersion = "botVersion"
+            case filters = "filters"
+            case localeId = "localeId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -5600,16 +5600,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedUtterancesSummaries
-            case aggregationDuration
-            case aggregationLastRefreshedDateTime
-            case aggregationWindowEndTime
-            case aggregationWindowStartTime
-            case botAliasId
-            case botId
-            case botVersion
-            case localeId
-            case nextToken
+            case aggregatedUtterancesSummaries = "aggregatedUtterancesSummaries"
+            case aggregationDuration = "aggregationDuration"
+            case aggregationLastRefreshedDateTime = "aggregationLastRefreshedDateTime"
+            case aggregationWindowEndTime = "aggregationWindowEndTime"
+            case aggregationWindowStartTime = "aggregationWindowStartTime"
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5640,8 +5640,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5660,9 +5660,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasSummaries
-            case botId
-            case nextToken
+            case botAliasSummaries = "botAliasSummaries"
+            case botId = "botId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5711,10 +5711,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -5736,10 +5736,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleSummaries
-            case botVersion
-            case nextToken
+            case botId = "botId"
+            case botLocaleSummaries = "botLocaleSummaries"
+            case botVersion = "botVersion"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5781,8 +5781,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5807,11 +5807,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationSummaries
-            case botVersion
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botRecommendationSummaries = "botRecommendationSummaries"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5845,9 +5845,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -5866,9 +5866,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersionSummaries
-            case nextToken
+            case botId = "botId"
+            case botVersionSummaries = "botVersionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5900,10 +5900,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -5919,8 +5919,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botSummaries
-            case nextToken
+            case botSummaries = "botSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5951,9 +5951,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -5972,9 +5972,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builtInIntentSummaries
-            case localeId
-            case nextToken
+            case builtInIntentSummaries = "builtInIntentSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6005,9 +6005,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6026,9 +6026,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builtInSlotTypeSummaries
-            case localeId
-            case nextToken
+            case builtInSlotTypeSummaries = "builtInSlotTypeSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6070,8 +6070,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6096,11 +6096,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case customVocabularyItems
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case customVocabularyItems = "customVocabularyItems"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6147,13 +6147,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case filters
-            case localeId
-            case maxResults
-            case nextToken
-            case sortBy
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case filters = "filters"
+            case localeId = "localeId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6178,11 +6178,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case exportSummaries
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case exportSummaries = "exportSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6229,13 +6229,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case filters
-            case localeId
-            case maxResults
-            case nextToken
-            case sortBy
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case filters = "filters"
+            case localeId = "localeId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6260,11 +6260,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case importSummaries
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case importSummaries = "importSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6317,10 +6317,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6345,11 +6345,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case intentSummaries
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case intentSummaries = "intentSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6398,8 +6398,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6427,12 +6427,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationId
-            case botVersion
-            case localeId
-            case nextToken
-            case summaryList
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+            case summaryList = "summaryList"
         }
     }
 
@@ -6485,10 +6485,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6513,11 +6513,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
-            case nextToken
-            case slotTypeSummaries
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+            case slotTypeSummaries = "slotTypeSummaries"
         }
     }
 
@@ -6577,10 +6577,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
@@ -6608,12 +6608,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case intentId
-            case localeId
-            case nextToken
-            case slotSummaries
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case intentId = "intentId"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+            case slotSummaries = "slotSummaries"
         }
     }
 
@@ -6646,7 +6646,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -6675,10 +6675,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPayload
-            case imageResponseCard
-            case plainTextMessage
-            case ssmlMessage
+            case customPayload = "customPayload"
+            case imageResponseCard = "imageResponseCard"
+            case plainTextMessage = "plainTextMessage"
+            case ssmlMessage = "ssmlMessage"
         }
     }
 
@@ -6702,8 +6702,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case variations
+            case message = "message"
+            case variations = "variations"
         }
     }
 
@@ -6716,7 +6716,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowMultipleValues
+            case allowMultipleValues = "allowMultipleValues"
         }
     }
 
@@ -6744,9 +6744,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayAs
-            case phrase
-            case weight
+            case displayAs = "displayAs"
+            case phrase = "phrase"
+            case weight = "weight"
         }
     }
 
@@ -6759,7 +6759,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case obfuscationSettingType
+            case obfuscationSettingType = "obfuscationSettingType"
         }
     }
 
@@ -6788,9 +6788,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case timeToLiveInSeconds
-            case turnsToLive
+            case name = "name"
+            case timeToLiveInSeconds = "timeToLiveInSeconds"
+            case turnsToLive = "turnsToLive"
         }
     }
 
@@ -6812,7 +6812,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectPrefixes
+            case objectPrefixes = "objectPrefixes"
         }
     }
 
@@ -6830,7 +6830,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -6876,15 +6876,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureConditional
-            case failureNextStep
-            case failureResponse
-            case successConditional
-            case successNextStep
-            case successResponse
-            case timeoutConditional
-            case timeoutNextStep
-            case timeoutResponse
+            case failureConditional = "failureConditional"
+            case failureNextStep = "failureNextStep"
+            case failureResponse = "failureResponse"
+            case successConditional = "successConditional"
+            case successNextStep = "successNextStep"
+            case successResponse = "successResponse"
+            case timeoutConditional = "timeoutConditional"
+            case timeoutNextStep = "timeoutNextStep"
+            case timeoutResponse = "timeoutResponse"
         }
     }
 
@@ -6930,15 +6930,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureConditional
-            case failureNextStep
-            case failureResponse
-            case successConditional
-            case successNextStep
-            case successResponse
-            case timeoutConditional
-            case timeoutNextStep
-            case timeoutResponse
+            case failureConditional = "failureConditional"
+            case failureNextStep = "failureNextStep"
+            case failureResponse = "failureResponse"
+            case successConditional = "successConditional"
+            case successNextStep = "successNextStep"
+            case successResponse = "successResponse"
+            case timeoutConditional = "timeoutConditional"
+            case timeoutNextStep = "timeoutNextStep"
+            case timeoutResponse = "timeoutResponse"
         }
     }
 
@@ -6963,8 +6963,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case service
+            case arn = "arn"
+            case service = "service"
         }
     }
 
@@ -6991,10 +6991,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedInputTypes
-            case allowInterrupt
-            case audioAndDTMFInputSpecification
-            case textInputSpecification
+            case allowedInputTypes = "allowedInputTypes"
+            case allowInterrupt = "allowInterrupt"
+            case audioAndDTMFInputSpecification = "audioAndDTMFInputSpecification"
+            case textInputSpecification = "textInputSpecification"
         }
     }
 
@@ -7032,11 +7032,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case maxRetries
-            case messageGroups
-            case messageSelectionStrategy
-            case promptAttemptsSpecification
+            case allowInterrupt = "allowInterrupt"
+            case maxRetries = "maxRetries"
+            case messageGroups = "messageGroups"
+            case messageSelectionStrategy = "messageSelectionStrategy"
+            case promptAttemptsSpecification = "promptAttemptsSpecification"
         }
     }
 
@@ -7055,9 +7055,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intentId
-            case intentName
-            case sampleUtterancesCount
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case sampleUtterancesCount = "sampleUtterancesCount"
         }
     }
 
@@ -7078,8 +7078,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeDimension
-            case timeValue
+            case timeDimension = "timeDimension"
+            case timeValue = "timeValue"
         }
     }
 
@@ -7103,8 +7103,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case messageGroups
+            case allowInterrupt = "allowInterrupt"
+            case messageGroups = "messageGroups"
         }
     }
 
@@ -7133,9 +7133,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case logPrefix
-            case s3BucketArn
+            case kmsKeyArn = "kmsKeyArn"
+            case logPrefix = "logPrefix"
+            case s3BucketArn = "s3BucketArn"
         }
     }
 
@@ -7170,11 +7170,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case pathFormat
-            case s3BucketName
-            case transcriptFilter
-            case transcriptFormat
+            case kmsKeyArn = "kmsKeyArn"
+            case pathFormat = "pathFormat"
+            case s3BucketName = "s3BucketName"
+            case transcriptFilter = "transcriptFilter"
+            case transcriptFormat = "transcriptFormat"
         }
     }
 
@@ -7192,7 +7192,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -7205,7 +7205,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case utterance
+            case utterance = "utterance"
         }
     }
 
@@ -7223,7 +7223,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -7280,15 +7280,15 @@ extension LexModelsV2 {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextIndex, name: "nextIndex", parent: name, max: 10_000_000)
+            try self.validate(self.nextIndex, name: "nextIndex", parent: name, max: 10000000)
             try self.validate(self.nextIndex, name: "nextIndex", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextIndex
-            case searchOrder
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextIndex = "nextIndex"
+            case searchOrder = "searchOrder"
         }
     }
 
@@ -7319,13 +7319,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedTranscripts
-            case botId
-            case botRecommendationId
-            case botVersion
-            case localeId
-            case nextIndex
-            case totalResults
+            case associatedTranscripts = "associatedTranscripts"
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextIndex = "nextIndex"
+            case totalResults = "totalResults"
         }
     }
 
@@ -7338,7 +7338,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectSentiment
+            case detectSentiment = "detectSentiment"
         }
     }
 
@@ -7381,14 +7381,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captureConditional
-            case captureNextStep
-            case captureResponse
-            case codeHook
-            case elicitationCodeHook
-            case failureConditional
-            case failureNextStep
-            case failureResponse
+            case captureConditional = "captureConditional"
+            case captureNextStep = "captureNextStep"
+            case captureResponse = "captureResponse"
+            case codeHook = "codeHook"
+            case elicitationCodeHook = "elicitationCodeHook"
+            case failureConditional = "failureConditional"
+            case failureNextStep = "failureNextStep"
+            case failureResponse = "failureResponse"
         }
     }
 
@@ -7406,7 +7406,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -7426,7 +7426,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValueList
+            case defaultValueList = "defaultValueList"
         }
     }
 
@@ -7455,9 +7455,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -7481,8 +7481,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case priority
-            case slotId
+            case priority = "priority"
+            case slotId = "slotId"
         }
     }
 
@@ -7498,8 +7498,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -7530,13 +7530,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case lastUpdatedDateTime
-            case slotConstraint
-            case slotId
-            case slotName
-            case slotTypeId
-            case valueElicitationPromptSpecification
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case slotConstraint = "slotConstraint"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationPromptSpecification = "valueElicitationPromptSpecification"
         }
     }
 
@@ -7565,9 +7565,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
@@ -7583,8 +7583,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
@@ -7597,7 +7597,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case discoveredSlotTypeCount
+            case discoveredSlotTypeCount = "discoveredSlotTypeCount"
         }
     }
 
@@ -7625,12 +7625,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case lastUpdatedDateTime
-            case parentSlotTypeSignature
-            case slotTypeCategory
-            case slotTypeId
-            case slotTypeName
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeCategory = "slotTypeCategory"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
         }
     }
 
@@ -7655,8 +7655,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sampleValue
-            case synonyms
+            case sampleValue = "sampleValue"
+            case synonyms = "synonyms"
         }
     }
 
@@ -7673,7 +7673,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretedValue
+            case interpretedValue = "interpretedValue"
         }
     }
 
@@ -7707,12 +7707,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValueSpecification
-            case promptSpecification
-            case sampleUtterances
-            case slotCaptureSetting
-            case slotConstraint
-            case waitAndContinueSpecification
+            case defaultValueSpecification = "defaultValueSpecification"
+            case promptSpecification = "promptSpecification"
+            case sampleUtterances = "sampleUtterances"
+            case slotCaptureSetting = "slotCaptureSetting"
+            case slotConstraint = "slotConstraint"
+            case waitAndContinueSpecification = "waitAndContinueSpecification"
         }
     }
 
@@ -7738,9 +7738,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case shape
-            case value
-            case values
+            case shape = "shape"
+            case value = "value"
+            case values = "values"
         }
     }
 
@@ -7758,7 +7758,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pattern
+            case pattern = "pattern"
         }
     }
 
@@ -7783,9 +7783,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case advancedRecognitionSetting
-            case regexFilter
-            case resolutionStrategy
+            case advancedRecognitionSetting = "advancedRecognitionSetting"
+            case regexFilter = "regexFilter"
+            case resolutionStrategy = "resolutionStrategy"
         }
     }
 
@@ -7808,8 +7808,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotTypeId
-            case valueElicitationSetting
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -7851,8 +7851,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionSetting
-            case transcriptSourceSetting
+            case encryptionSetting = "encryptionSetting"
+            case transcriptSourceSetting = "transcriptSourceSetting"
         }
     }
 
@@ -7886,14 +7886,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationId
-            case botRecommendationStatus
-            case botVersion
-            case creationDateTime
-            case encryptionSetting
-            case localeId
-            case transcriptSourceSetting
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botRecommendationStatus = "botRecommendationStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case encryptionSetting = "encryptionSetting"
+            case localeId = "localeId"
+            case transcriptSourceSetting = "transcriptSourceSetting"
         }
     }
 
@@ -7924,10 +7924,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePassword
-            case importId
-            case mergeStrategy
-            case resourceSpecification
+            case filePassword = "filePassword"
+            case importId = "importId"
+            case mergeStrategy = "mergeStrategy"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -7952,11 +7952,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case importId
-            case importStatus
-            case mergeStrategy
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case importId = "importId"
+            case importStatus = "importStatus"
+            case mergeStrategy = "mergeStrategy"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -7990,10 +7990,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case frequencyInSeconds
-            case messageGroups
-            case timeoutInSeconds
+            case allowInterrupt = "allowInterrupt"
+            case frequencyInSeconds = "frequencyInSeconds"
+            case messageGroups = "messageGroups"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -8057,11 +8057,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationId
-            case botRecommendationStatus
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botRecommendationStatus = "botRecommendationStatus"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
@@ -8089,8 +8089,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case slotSpecifications
+            case expression = "expression"
+            case slotSpecifications = "slotSpecifications"
         }
     }
 
@@ -8115,8 +8115,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case slotTypeId
+            case name = "name"
+            case slotTypeId = "slotTypeId"
         }
     }
 
@@ -8141,10 +8141,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValueSpecification
-            case promptSpecification
-            case sampleUtterances
-            case waitAndContinueSpecification
+            case defaultValueSpecification = "defaultValueSpecification"
+            case promptSpecification = "promptSpecification"
+            case sampleUtterances = "sampleUtterances"
+            case waitAndContinueSpecification = "waitAndContinueSpecification"
         }
     }
 
@@ -8175,7 +8175,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -8196,7 +8196,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTimeoutMs
+            case startTimeoutMs = "startTimeoutMs"
         }
     }
 
@@ -8213,7 +8213,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatch
+            case cloudWatch = "cloudWatch"
         }
     }
 
@@ -8232,8 +8232,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case enabled
+            case destination = "destination"
+            case enabled = "enabled"
         }
     }
 
@@ -8246,7 +8246,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lexTranscriptFilter
+            case lexTranscriptFilter = "lexTranscriptFilter"
         }
     }
 
@@ -8263,7 +8263,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3BucketTranscriptSource
+            case s3BucketTranscriptSource = "s3BucketTranscriptSource"
         }
     }
 
@@ -8355,12 +8355,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasLocaleSettings
-            case botAliasName
-            case botVersion
-            case conversationLogSettings
-            case description
-            case sentimentAnalysisSettings
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
@@ -8402,17 +8402,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case sentimentAnalysisSettings
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
@@ -8458,9 +8458,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case description = "description"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -8506,18 +8506,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case failureReasons
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case recommendedActions
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case recommendedActions = "recommendedActions"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -8562,7 +8562,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionSetting
+            case encryptionSetting = "encryptionSetting"
         }
     }
 
@@ -8599,15 +8599,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botRecommendationId
-            case botRecommendationStatus
-            case botVersion
-            case creationDateTime
-            case encryptionSetting
-            case lastUpdatedDateTime
-            case localeId
-            case transcriptSourceSetting
+            case botId = "botId"
+            case botRecommendationId = "botRecommendationId"
+            case botRecommendationStatus = "botRecommendationStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case encryptionSetting = "encryptionSetting"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case transcriptSourceSetting = "transcriptSourceSetting"
         }
     }
 
@@ -8654,11 +8654,11 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
+            case botName = "botName"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
         }
     }
 
@@ -8695,15 +8695,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case lastUpdatedDateTime
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
         }
     }
 
@@ -8731,7 +8731,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePassword
+            case filePassword = "filePassword"
         }
     }
 
@@ -8759,12 +8759,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case exportId
-            case exportStatus
-            case fileFormat
-            case lastUpdatedDateTime
-            case resourceSpecification
+            case creationDateTime = "creationDateTime"
+            case exportId = "exportId"
+            case exportStatus = "exportStatus"
+            case fileFormat = "fileFormat"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
@@ -8863,19 +8863,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case initialResponseSetting
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentName
-            case kendraConfiguration
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case initialResponseSetting = "initialResponseSetting"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
@@ -8941,25 +8941,25 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case initialResponseSetting
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case lastUpdatedDateTime
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case initialResponseSetting = "initialResponseSetting"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
@@ -8992,7 +8992,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -9008,8 +9008,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case revisionId
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -9087,13 +9087,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case multipleValuesSetting
-            case obfuscationSetting
-            case slotName
-            case slotTypeId
-            case subSlotSetting
-            case valueElicitationSetting
+            case description = "description"
+            case multipleValuesSetting = "multipleValuesSetting"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case subSlotSetting = "subSlotSetting"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -9145,20 +9145,20 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case lastUpdatedDateTime
-            case localeId
-            case multipleValuesSetting
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case subSlotSetting
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case multipleValuesSetting = "multipleValuesSetting"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case subSlotSetting = "subSlotSetting"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
@@ -9231,13 +9231,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compositeSlotTypeSetting
-            case description
-            case externalSourceSetting
-            case parentSlotTypeSignature
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case compositeSlotTypeSetting = "compositeSlotTypeSetting"
+            case description = "description"
+            case externalSourceSetting = "externalSourceSetting"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
@@ -9285,19 +9285,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case compositeSlotTypeSetting
-            case creationDateTime
-            case description
-            case externalSourceSetting
-            case lastUpdatedDateTime
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case compositeSlotTypeSetting = "compositeSlotTypeSetting"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case externalSourceSetting = "externalSourceSetting"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
@@ -9314,7 +9314,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relativeAggregationDuration
+            case relativeAggregationDuration = "relativeAggregationDuration"
         }
     }
 
@@ -9330,8 +9330,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engine
-            case voiceId
+            case engine = "engine"
+            case voiceId = "voiceId"
         }
     }
 
@@ -9359,10 +9359,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case continueResponse
-            case stillWaitingResponse
-            case waitingResponse
+            case active = "active"
+            case continueResponse = "continueResponse"
+            case stillWaitingResponse = "stillWaitingResponse"
+            case waitingResponse = "waitingResponse"
         }
     }
 }
@@ -9399,19 +9399,19 @@ public struct LexModelsV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The action that you tried to perform couldn&#39;t be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
     public static var conflictException: Self { .init(.conflictException) }
     /// The service encountered an unexpected condition. Try your request again.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Your request couldn&#39;t be completed because one or more request fields aren&#39;t valid. Check the fields in your request and try again.
+    /// Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
-    /// You asked to describe a resource that doesn&#39;t exist. Check the resource that you are requesting and try again.
+    /// You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// You have reached a quota for your bot.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Your request rate is too high. Reduce the frequency of requests.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// One of the input parameters in your request isn&#39;t valid. Check the parameters and try your request again.
+    /// One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public static var validationException: Self { .init(.validationException) }
 }
 

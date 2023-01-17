@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -353,7 +353,7 @@ extension AppStream {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppStream {
-    ///  Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
+    /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -375,7 +375,7 @@ extension AppStream {
         )
     }
 
-    ///  Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
+    /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

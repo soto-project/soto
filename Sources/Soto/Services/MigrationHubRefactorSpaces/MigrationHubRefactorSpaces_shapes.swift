@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1976,7 +1976,7 @@ extension MigrationHubRefactorSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 300_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 300000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)

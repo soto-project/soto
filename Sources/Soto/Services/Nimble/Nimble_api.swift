@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -321,7 +321,7 @@ extension Nimble {
 // MARK: Paginators
 
 extension Nimble {
-    ///  List EULA acceptances.
+    /// List EULA acceptances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -374,7 +374,7 @@ extension Nimble {
         )
     }
 
-    ///  List EULAs.
+    /// List EULAs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -427,7 +427,7 @@ extension Nimble {
         )
     }
 
-    ///  Get all users in a given launch profile membership.
+    /// Get all users in a given launch profile membership.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -480,7 +480,7 @@ extension Nimble {
         )
     }
 
-    ///  List all the launch profiles a studio.
+    /// List all the launch profiles a studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -533,7 +533,7 @@ extension Nimble {
         )
     }
 
-    ///  List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
+    /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -586,7 +586,7 @@ extension Nimble {
         )
     }
 
-    ///  Lists the backups of a streaming session in a studio.
+    /// Lists the backups of a streaming session in a studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -639,7 +639,7 @@ extension Nimble {
         )
     }
 
-    ///  Lists the streaming sessions in a studio.
+    /// Lists the streaming sessions in a studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -692,7 +692,7 @@ extension Nimble {
         )
     }
 
-    ///  Lists the StudioComponents in a studio.
+    /// Lists the StudioComponents in a studio.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -745,7 +745,7 @@ extension Nimble {
         )
     }
 
-    ///  Get all users in a given studio membership.   ListStudioMembers only returns admin members.
+    /// Get all users in a given studio membership.   ListStudioMembers only returns admin members.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -798,7 +798,7 @@ extension Nimble {
         )
     }
 
-    ///  List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
+    /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

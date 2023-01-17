@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -280,17 +280,17 @@ public struct Route53RecoveryClusterErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient permissions to perform this action.
+    /// You don't have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There was a conflict with this request. Try again.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The cluster endpoint isn&#39;t available. Try another cluster endpoint.
+    /// The cluster endpoint isn't available. Try another cluster endpoint.
     public static var endpointTemporarilyUnavailableException: Self { .init(.endpointTemporarilyUnavailableException) }
     /// There was an unexpected error during processing of the request.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request references a routing control or control panel that was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request can&#39;t update that many routing control states at the same time. Try again with fewer routing control states.
+    /// The request can't update that many routing control states at the same time. Try again with fewer routing control states.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied because of request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

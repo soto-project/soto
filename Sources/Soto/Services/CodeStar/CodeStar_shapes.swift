@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -57,11 +57,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case projectId
-            case projectRole
-            case remoteAccessAllowed
-            case userArn
+            case clientRequestToken = "clientRequestToken"
+            case projectId = "projectId"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case userArn = "userArn"
         }
     }
 
@@ -74,7 +74,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
+            case clientRequestToken = "clientRequestToken"
         }
     }
 
@@ -95,8 +95,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case source
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -115,7 +115,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -136,8 +136,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeCommit
-            case gitHub
+            case codeCommit = "codeCommit"
+            case gitHub = "gitHub"
         }
     }
 
@@ -154,7 +154,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -210,13 +210,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case description
-            case id
-            case name
-            case sourceCode
-            case tags
-            case toolchain
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case sourceCode = "sourceCode"
+            case tags = "tags"
+            case toolchain = "toolchain"
         }
     }
 
@@ -238,10 +238,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case id
-            case projectTemplateId
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case id = "id"
+            case projectTemplateId = "projectTemplateId"
         }
     }
 
@@ -277,10 +277,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case emailAddress
-            case sshPublicKey
-            case userArn
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 
@@ -308,12 +308,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp
-            case displayName
-            case emailAddress
-            case lastModifiedTimestamp
-            case sshPublicKey
-            case userArn
+            case createdTimestamp = "createdTimestamp"
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 
@@ -341,9 +341,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case deleteStack
-            case id
+            case clientRequestToken = "clientRequestToken"
+            case deleteStack = "deleteStack"
+            case id = "id"
         }
     }
 
@@ -359,8 +359,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case stackId
+            case projectArn = "projectArn"
+            case stackId = "stackId"
         }
     }
 
@@ -379,7 +379,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn
+            case userArn = "userArn"
         }
     }
 
@@ -392,7 +392,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn
+            case userArn = "userArn"
         }
     }
 
@@ -411,7 +411,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -448,15 +448,15 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdTimeStamp
-            case description
-            case id
-            case name
-            case projectTemplateId
-            case stackId
-            case status
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdTimeStamp = "createdTimeStamp"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case projectTemplateId = "projectTemplateId"
+            case stackId = "stackId"
+            case status = "status"
         }
     }
 
@@ -475,7 +475,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn
+            case userArn = "userArn"
         }
     }
 
@@ -503,12 +503,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp
-            case displayName
-            case emailAddress
-            case lastModifiedTimestamp
-            case sshPublicKey
-            case userArn
+            case createdTimestamp = "createdTimestamp"
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 
@@ -533,8 +533,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId
-            case userArn
+            case projectId = "projectId"
+            case userArn = "userArn"
         }
     }
 
@@ -583,13 +583,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case issuesEnabled
-            case name
-            case owner
-            case privateRepository
-            case token
-            case type
+            case description = "description"
+            case issuesEnabled = "issuesEnabled"
+            case name = "name"
+            case owner = "owner"
+            case privateRepository = "privateRepository"
+            case token = "token"
+            case type = "type"
         }
     }
 
@@ -613,8 +613,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -630,8 +630,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -661,9 +661,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case projectId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectId = "projectId"
         }
     }
 
@@ -679,8 +679,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resources
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -710,9 +710,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case maxResults
-            case nextToken
+            case id = "id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -728,8 +728,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -759,9 +759,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case projectId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectId = "projectId"
         }
     }
 
@@ -777,8 +777,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case teamMembers
+            case nextToken = "nextToken"
+            case teamMembers = "teamMembers"
         }
     }
 
@@ -802,8 +802,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -819,8 +819,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case userProfiles
+            case nextToken = "nextToken"
+            case userProfiles = "userProfiles"
         }
     }
 
@@ -836,8 +836,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case state
+            case reason = "reason"
+            case state = "state"
         }
     }
 
@@ -853,8 +853,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case projectId
+            case projectArn = "projectArn"
+            case projectId = "projectId"
         }
     }
 
@@ -867,7 +867,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -888,8 +888,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketKey
-            case bucketName
+            case bucketKey = "bucketKey"
+            case bucketName = "bucketName"
         }
     }
 
@@ -918,8 +918,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case tags
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -932,7 +932,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -951,9 +951,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectRole
-            case remoteAccessAllowed
-            case userArn
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case userArn = "userArn"
         }
     }
 
@@ -987,9 +987,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case source
-            case stackParameters
+            case roleArn = "roleArn"
+            case source = "source"
+            case stackParameters = "stackParameters"
         }
     }
 
@@ -1006,7 +1006,7 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -1033,8 +1033,8 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case tags
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -1068,9 +1068,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case name
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1106,10 +1106,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId
-            case projectRole
-            case remoteAccessAllowed
-            case userArn
+            case projectId = "projectId"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case userArn = "userArn"
         }
     }
 
@@ -1128,9 +1128,9 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectRole
-            case remoteAccessAllowed
-            case userArn
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case userArn = "userArn"
         }
     }
 
@@ -1166,10 +1166,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case emailAddress
-            case sshPublicKey
-            case userArn
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 
@@ -1197,12 +1197,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp
-            case displayName
-            case emailAddress
-            case lastModifiedTimestamp
-            case sshPublicKey
-            case userArn
+            case createdTimestamp = "createdTimestamp"
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 
@@ -1224,10 +1224,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case emailAddress
-            case sshPublicKey
-            case userArn
+            case displayName = "displayName"
+            case emailAddress = "emailAddress"
+            case sshPublicKey = "sshPublicKey"
+            case userArn = "userArn"
         }
     }
 }

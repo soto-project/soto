@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,7 +22,7 @@ extension Lambda {
     // MARK: Enums
 
     public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
-        case arm64
+        case arm64 = "arm64"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
@@ -120,16 +120,16 @@ extension Lambda {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dotnet6
+        case dotnet6 = "dotnet6"
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
         case dotnetcore31 = "dotnetcore3.1"
         case go1x = "go1.x"
-        case java11
-        case java8
+        case java11 = "java11"
+        case java8 = "java8"
         case java8al2 = "java8.al2"
-        case nodejs
+        case nodejs = "nodejs"
         case nodejs10x = "nodejs10.x"
         case nodejs12x = "nodejs12.x"
         case nodejs14x = "nodejs14.x"
@@ -139,7 +139,7 @@ extension Lambda {
         case nodejs43edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
         case nodejs810 = "nodejs8.10"
-        case provided
+        case provided = "provided"
         case providedal2 = "provided.al2"
         case python27 = "python2.7"
         case python36 = "python3.6"
@@ -729,7 +729,7 @@ extension Lambda {
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
         /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
         public let amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig?
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -737,11 +737,11 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.
         public let eventSourceArn: String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
-        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
         /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
@@ -755,6 +755,8 @@ extension Lambda {
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
+        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
+        public let scalingConfig: ScalingConfig?
         /// The self-managed Apache Kafka cluster to receive records from.
         public let selfManagedEventSource: SelfManagedEventSource?
         /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -770,7 +772,7 @@ extension Lambda {
         /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
         public let tumblingWindowInSeconds: Int?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -785,6 +787,7 @@ extension Lambda {
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
+            self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -807,7 +810,7 @@ extension Lambda {
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
-            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
+            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
@@ -820,6 +823,7 @@ extension Lambda {
             }
             try self.validate(self.queues, name: "queues", parent: name, max: 1)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
+            try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.selfManagedEventSource?.validate(name: "\(name).selfManagedEventSource")
             try self.selfManagedKafkaEventSourceConfig?.validate(name: "\(name).selfManagedKafkaEventSourceConfig")
             try self.sourceAccessConfigurations?.forEach {
@@ -852,6 +856,7 @@ extension Lambda {
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
             case queues = "Queues"
+            case scalingConfig = "ScalingConfig"
             case selfManagedEventSource = "SelfManagedEventSource"
             case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -1455,6 +1460,8 @@ extension Lambda {
         public let parallelizationFactor: Int?
         ///  (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
+        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
+        public let scalingConfig: ScalingConfig?
         /// The self-managed Apache Kafka cluster for your event source.
         public let selfManagedEventSource: SelfManagedEventSource?
         /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -1476,7 +1483,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1492,6 +1499,7 @@ extension Lambda {
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
+            self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -1520,6 +1528,7 @@ extension Lambda {
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
             case queues = "Queues"
+            case scalingConfig = "ScalingConfig"
             case selfManagedEventSource = "SelfManagedEventSource"
             case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -1711,7 +1720,7 @@ extension Lambda {
         public let signingJobArn: String?
         /// The ARN of the signing profile version.
         public let signingProfileVersionArn: String?
-        /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see Reducing startup time with Lambda SnapStart.
+        /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see Improving startup performance with Lambda SnapStart.
         public let snapStart: SnapStartResponse?
         /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
         public let state: State?
@@ -2886,9 +2895,9 @@ extension Lambda {
             AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.    Amazon MQ - The ARN of the broker.
+        /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.
         public let eventSourceArn: String?
-        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
         /// A pagination token returned by a previous call.
         public let marker: String?
@@ -3820,6 +3829,24 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ScalingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
+        public let maximumConcurrency: Int?
+
+        public init(maximumConcurrency: Int? = nil) {
+            self.maximumConcurrency = maximumConcurrency
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumConcurrency, name: "maximumConcurrency", parent: name, max: 1000)
+            try self.validate(self.maximumConcurrency, name: "maximumConcurrency", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumConcurrency = "MaximumConcurrency"
+        }
+    }
+
     public struct SelfManagedEventSource: AWSEncodableShape & AWSDecodableShape {
         /// The list of bootstrap servers for your Kafka brokers in the following format: "KAFKA_BOOTSTRAP_SERVERS": ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"].
         public let endpoints: [EndPointType: [String]]?
@@ -3892,7 +3919,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET - (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP - (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST - (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.  This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH - (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM),  private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.  This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM),  private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -4090,7 +4117,7 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri("UUID"))
         ]
 
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 10,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-managed Apache Kafka - Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -4100,7 +4127,7 @@ extension Lambda {
         public let enabled: Bool?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
         public let filterCriteria: FilterCriteria?
-        /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
+        /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
         /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
@@ -4112,6 +4139,8 @@ extension Lambda {
         public let maximumRetryAttempts: Int?
         /// (Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
+        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
+        public let scalingConfig: ScalingConfig?
         /// An array of authentication protocols or VPC components required to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
         /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
@@ -4119,7 +4148,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -4131,6 +4160,7 @@ extension Lambda {
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
+            self.scalingConfig = scalingConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
             self.tumblingWindowInSeconds = tumblingWindowInSeconds
             self.uuid = uuid
@@ -4147,12 +4177,13 @@ extension Lambda {
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
-            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
+            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
+            try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
@@ -4173,6 +4204,7 @@ extension Lambda {
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
             case parallelizationFactor = "ParallelizationFactor"
+            case scalingConfig = "ScalingConfig"
             case sourceAccessConfigurations = "SourceAccessConfigurations"
             case tumblingWindowInSeconds = "TumblingWindowInSeconds"
         }
@@ -4596,15 +4628,15 @@ public struct LambdaErrorType: AWSErrorType {
     public static var ec2ThrottledException: Self { .init(.ec2ThrottledException) }
     /// Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
     public static var ec2UnexpectedException: Self { .init(.ec2UnexpectedException) }
-    /// The Lambda function couldn&#39;t make a network connection to the configured file system.
+    /// The Lambda function couldn't make a network connection to the configured file system.
     public static var efsMountConnectivityException: Self { .init(.efsMountConnectivityException) }
-    /// The Lambda function couldn&#39;t mount the configured file system due to a permission or configuration issue.
+    /// The Lambda function couldn't mount the configured file system due to a permission or configuration issue.
     public static var efsMountFailureException: Self { .init(.efsMountFailureException) }
     /// The Lambda function made a network connection to the configured file system, but the mount operation timed out.
     public static var efsMountTimeoutException: Self { .init(.efsMountTimeoutException) }
     /// An error occurred when reading from or writing to a connected file system.
     public static var efsioException: Self { .init(.efsioException) }
-    /// Lambda couldn&#39;t create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see Lambda quotas.
+    /// Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see Lambda quotas.
     public static var eniLimitReachedException: Self { .init(.eniLimitReachedException) }
     /// The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
     public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
@@ -4620,13 +4652,13 @@ public struct LambdaErrorType: AWSErrorType {
     public static var invalidSubnetIDException: Self { .init(.invalidSubnetIDException) }
     /// Lambda could not unzip the deployment package.
     public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
-    /// Lambda couldn&#39;t decrypt the environment variables because KMS access was denied. Check the Lambda function&#39;s KMS permissions.
+    /// Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
     public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
-    /// Lambda couldn&#39;t decrypt the environment variables because the KMS key used is disabled. Check the Lambda function&#39;s KMS key settings.
+    /// Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
     public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
-    /// Lambda couldn&#39;t decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function&#39;s KMS key settings.
+    /// Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
-    /// Lambda couldn&#39;t decrypt the environment variables because the KMS key was not found. Check the function&#39;s KMS key settings.
+    /// Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The permissions policy for the resource is too large. For more information, see Lambda quotas.
     public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
@@ -4638,7 +4670,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var requestTooLargeException: Self { .init(.requestTooLargeException) }
     /// The resource already exists, or another operation is in progress.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// The operation conflicts with the resource&#39;s availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
+    /// The operation conflicts with the resource's availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The resource specified in the request does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
@@ -4652,7 +4684,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var snapStartNotReadyException: Self { .init(.snapStartNotReadyException) }
     /// The runtime restore hook failed to complete within the timeout limit (2 seconds).
     public static var snapStartTimeoutException: Self { .init(.snapStartTimeoutException) }
-    /// Lambda couldn&#39;t set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
+    /// Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }
     /// The request throughput limit was exceeded. For more information, see Lambda quotas.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

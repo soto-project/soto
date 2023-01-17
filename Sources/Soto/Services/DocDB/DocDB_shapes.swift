@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,7 +22,7 @@ extension DocDB {
     // MARK: Enums
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case immediate
+        case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -3613,91 +3613,91 @@ public struct DocDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The specified CIDR IP or Amazon EC2 security group isn&#39;t authorized for the specified security group. Amazon DocumentDB also might not be authorized to perform necessary actions on your behalf using IAM.
+    /// The specified CIDR IP or Amazon EC2 security group isn't authorized for the specified security group. Amazon DocumentDB also might not be authorized to perform necessary actions on your behalf using IAM.
     public static var authorizationNotFoundFault: Self { .init(.authorizationNotFoundFault) }
-    ///  CertificateIdentifier doesn&#39;t refer to an existing certificate.
+    ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
     /// You already have a cluster with the given identifier.
     public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
-    ///  DBClusterIdentifier doesn&#39;t refer to an existing cluster.
+    ///  DBClusterIdentifier doesn't refer to an existing cluster.
     public static var dbClusterNotFoundFault: Self { .init(.dbClusterNotFoundFault) }
-    ///  DBClusterParameterGroupName doesn&#39;t refer to an existing cluster parameter group.
+    ///  DBClusterParameterGroupName doesn't refer to an existing cluster parameter group.
     public static var dbClusterParameterGroupNotFoundFault: Self { .init(.dbClusterParameterGroupNotFoundFault) }
-    /// The cluster can&#39;t be created because you have reached the maximum allowed quota of clusters.
+    /// The cluster can't be created because you have reached the maximum allowed quota of clusters.
     public static var dbClusterQuotaExceededFault: Self { .init(.dbClusterQuotaExceededFault) }
     /// You already have a cluster snapshot with the given identifier.
     public static var dbClusterSnapshotAlreadyExistsFault: Self { .init(.dbClusterSnapshotAlreadyExistsFault) }
-    ///  DBClusterSnapshotIdentifier doesn&#39;t refer to an existing cluster snapshot.
+    ///  DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
     public static var dbClusterSnapshotNotFoundFault: Self { .init(.dbClusterSnapshotNotFoundFault) }
     /// You already have a instance with the given identifier.
     public static var dbInstanceAlreadyExistsFault: Self { .init(.dbInstanceAlreadyExistsFault) }
-    ///  DBInstanceIdentifier doesn&#39;t refer to an existing instance.
+    ///  DBInstanceIdentifier doesn't refer to an existing instance.
     public static var dbInstanceNotFoundFault: Self { .init(.dbInstanceNotFoundFault) }
     /// A parameter group with the same name already exists.
     public static var dbParameterGroupAlreadyExistsFault: Self { .init(.dbParameterGroupAlreadyExistsFault) }
-    ///  DBParameterGroupName doesn&#39;t refer to an existing parameter group.
+    ///  DBParameterGroupName doesn't refer to an existing parameter group.
     public static var dbParameterGroupNotFoundFault: Self { .init(.dbParameterGroupNotFoundFault) }
     /// This request would cause you to exceed the allowed number of parameter groups.
     public static var dbParameterGroupQuotaExceededFault: Self { .init(.dbParameterGroupQuotaExceededFault) }
-    ///  DBSecurityGroupName doesn&#39;t refer to an existing security group.
+    ///  DBSecurityGroupName doesn't refer to an existing security group.
     public static var dbSecurityGroupNotFoundFault: Self { .init(.dbSecurityGroupNotFoundFault) }
     ///  DBSnapshotIdentifier is already being used by an existing snapshot.
     public static var dbSnapshotAlreadyExistsFault: Self { .init(.dbSnapshotAlreadyExistsFault) }
-    ///  DBSnapshotIdentifier doesn&#39;t refer to an existing snapshot.
+    ///  DBSnapshotIdentifier doesn't refer to an existing snapshot.
     public static var dbSnapshotNotFoundFault: Self { .init(.dbSnapshotNotFoundFault) }
     ///  DBSubnetGroupName is already being used by an existing subnet group.
     public static var dbSubnetGroupAlreadyExistsFault: Self { .init(.dbSubnetGroupAlreadyExistsFault) }
     /// Subnets in the subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     public static var dbSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dbSubnetGroupDoesNotCoverEnoughAZs) }
-    ///  DBSubnetGroupName doesn&#39;t refer to an existing subnet group.
+    ///  DBSubnetGroupName doesn't refer to an existing subnet group.
     public static var dbSubnetGroupNotFoundFault: Self { .init(.dbSubnetGroupNotFoundFault) }
     /// The request would cause you to exceed the allowed number of subnet groups.
     public static var dbSubnetGroupQuotaExceededFault: Self { .init(.dbSubnetGroupQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of subnets in a subnet group.
     public static var dbSubnetQuotaExceededFault: Self { .init(.dbSubnetQuotaExceededFault) }
-    /// The upgrade failed because a resource that the depends on can&#39;t be modified.
+    /// The upgrade failed because a resource that the depends on can't be modified.
     public static var dbUpgradeDependencyFailureFault: Self { .init(.dbUpgradeDependencyFailureFault) }
     /// You have reached the maximum number of event subscriptions.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
     /// The GlobalClusterIdentifier already exists. Choose a new global cluster identifier (unique name) to create a new global cluster.
     public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
-    /// The GlobalClusterIdentifier doesn&#39;t refer to an existing global cluster.
+    /// The GlobalClusterIdentifier doesn't refer to an existing global cluster.
     public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
     /// The number of global  clusters for this account is already at the maximum allowed.
     public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
-    /// The cluster doesn&#39;t have enough capacity for the current operation.
+    /// The cluster doesn't have enough capacity for the current operation.
     public static var insufficientDBClusterCapacityFault: Self { .init(.insufficientDBClusterCapacityFault) }
-    /// The specified instance class isn&#39;t available in the specified Availability Zone.
+    /// The specified instance class isn't available in the specified Availability Zone.
     public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
     /// There is not enough storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
     public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
-    /// The provided value isn&#39;t a valid cluster snapshot state.
+    /// The provided value isn't a valid cluster snapshot state.
     public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
-    /// The cluster isn&#39;t in a valid state.
+    /// The cluster isn't in a valid state.
     public static var invalidDBClusterStateFault: Self { .init(.invalidDBClusterStateFault) }
-    ///  The specified instance isn&#39;t in the available state.
+    ///  The specified instance isn't in the available state.
     public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
-    /// The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can&#39;t delete it when the parameter group is in this state.
+    /// The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
     public static var invalidDBParameterGroupStateFault: Self { .init(.invalidDBParameterGroupStateFault) }
-    /// The state of the security group doesn&#39;t allow deletion.
+    /// The state of the security group doesn't allow deletion.
     public static var invalidDBSecurityGroupStateFault: Self { .init(.invalidDBSecurityGroupStateFault) }
-    /// The state of the snapshot doesn&#39;t allow deletion.
+    /// The state of the snapshot doesn't allow deletion.
     public static var invalidDBSnapshotStateFault: Self { .init(.invalidDBSnapshotStateFault) }
-    /// The subnet group can&#39;t be deleted because it&#39;s in use.
+    /// The subnet group can't be deleted because it's in use.
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
-    ///  The subnet isn&#39;t in the available state.
+    ///  The subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// Someone else might be modifying a subscription. Wait a few seconds, and try again.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
-    /// The requested operation can&#39;t be performed while the cluster is in this state.
+    /// The requested operation can't be performed while the cluster is in this state.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     /// You cannot restore from a virtual private cloud (VPC) backup to a non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
     /// The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
-    /// The subnet group doesn&#39;t cover all Availability Zones after it is created because of changes that were made.
+    /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred when accessing an KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
@@ -3717,7 +3717,7 @@ public struct DocDBErrorType: AWSErrorType {
     public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// The request would cause you to exceed the allowed amount of storage available across all instances.
     public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
-    /// Storage of the specified StorageType can&#39;t be associated with the DB instance.
+    /// Storage of the specified StorageType can't be associated with the DB instance.
     public static var storageTypeNotSupportedFault: Self { .init(.storageTypeNotSupportedFault) }
     /// The subnet is already in use in the Availability Zone.
     public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }

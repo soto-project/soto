@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ extension MarketplaceCatalog {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MarketplaceCatalog {
-    ///  Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
+    /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -95,7 +95,7 @@ extension MarketplaceCatalog {
         )
     }
 
-    ///  Provides the list of entities of a given type.
+    /// Provides the list of entities of a given type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

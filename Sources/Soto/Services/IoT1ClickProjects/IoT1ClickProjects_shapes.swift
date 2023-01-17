@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -61,7 +61,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceId
+            case deviceId = "deviceId"
         }
     }
 
@@ -102,8 +102,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case placementName
+            case attributes = "attributes"
+            case placementName = "placementName"
         }
     }
 
@@ -145,10 +145,10 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case placementTemplate
-            case projectName
-            case tags
+            case description = "description"
+            case placementTemplate = "placementTemplate"
+            case projectName = "projectName"
+            case tags = "tags"
         }
     }
 
@@ -250,7 +250,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case placement
+            case placement = "placement"
         }
     }
 
@@ -284,7 +284,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -309,8 +309,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case callbackOverrides
-            case deviceType
+            case callbackOverrides = "callbackOverrides"
+            case deviceType = "deviceType"
         }
     }
 
@@ -390,7 +390,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
+            case devices = "devices"
         }
     }
 
@@ -439,8 +439,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case placements
+            case nextToken = "nextToken"
+            case placements = "placements"
         }
     }
 
@@ -482,8 +482,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -515,7 +515,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -540,11 +540,11 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case createdDate
-            case placementName
-            case projectName
-            case updatedDate
+            case attributes = "attributes"
+            case createdDate = "createdDate"
+            case placementName = "placementName"
+            case projectName = "projectName"
+            case updatedDate = "updatedDate"
         }
     }
 
@@ -566,10 +566,10 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case placementName
-            case projectName
-            case updatedDate
+            case createdDate = "createdDate"
+            case placementName = "placementName"
+            case projectName = "projectName"
+            case updatedDate = "updatedDate"
         }
     }
 
@@ -599,8 +599,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultAttributes
-            case deviceTemplates
+            case defaultAttributes = "defaultAttributes"
+            case deviceTemplates = "deviceTemplates"
         }
     }
 
@@ -631,13 +631,13 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdDate
-            case description
-            case placementTemplate
-            case projectName
-            case tags
-            case updatedDate
+            case arn = "arn"
+            case createdDate = "createdDate"
+            case description = "description"
+            case placementTemplate = "placementTemplate"
+            case projectName = "projectName"
+            case tags = "tags"
+            case updatedDate = "updatedDate"
         }
     }
 
@@ -662,11 +662,11 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdDate
-            case projectName
-            case tags
-            case updatedDate
+            case arn = "arn"
+            case createdDate = "createdDate"
+            case projectName = "projectName"
+            case tags = "tags"
+            case updatedDate = "updatedDate"
         }
     }
 
@@ -698,7 +698,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -774,7 +774,7 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -809,8 +809,8 @@ extension IoT1ClickProjects {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case placementTemplate
+            case description = "description"
+            case placementTemplate = "placementTemplate"
         }
     }
 

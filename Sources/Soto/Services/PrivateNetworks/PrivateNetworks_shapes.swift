@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -138,7 +138,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case orderArn
+            case orderArn = "orderArn"
         }
     }
 
@@ -151,7 +151,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case order
+            case order = "order"
         }
     }
 
@@ -173,8 +173,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case deviceIdentifierArn
+            case clientToken = "clientToken"
+            case deviceIdentifierArn = "deviceIdentifierArn"
         }
     }
 
@@ -190,8 +190,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceIdentifier
-            case tags
+            case deviceIdentifier = "deviceIdentifier"
+            case tags = "tags"
         }
     }
 
@@ -217,9 +217,9 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case networkSiteArn
-            case shippingAddress
+            case clientToken = "clientToken"
+            case networkSiteArn = "networkSiteArn"
+            case shippingAddress = "shippingAddress"
         }
     }
 
@@ -232,7 +232,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSite
+            case networkSite = "networkSite"
         }
     }
 
@@ -295,16 +295,16 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case company
-            case country
-            case name
-            case phoneNumber
-            case postalCode
-            case stateOrProvince
-            case street1
-            case street2
-            case street3
+            case city = "city"
+            case company = "company"
+            case country = "country"
+            case name = "name"
+            case phoneNumber = "phoneNumber"
+            case postalCode = "postalCode"
+            case stateOrProvince = "stateOrProvince"
+            case street1 = "street1"
+            case street2 = "street2"
+            case street3 = "street3"
         }
     }
 
@@ -336,12 +336,12 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointArn
-            case cpiSecretKey
-            case cpiUserId
-            case cpiUsername
-            case cpiUserPassword
-            case position
+            case accessPointArn = "accessPointArn"
+            case cpiSecretKey = "cpiSecretKey"
+            case cpiUserId = "cpiUserId"
+            case cpiUsername = "cpiUsername"
+            case cpiUserPassword = "cpiUserPassword"
+            case position = "position"
         }
     }
 
@@ -354,7 +354,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPoint
+            case accessPoint = "accessPoint"
         }
     }
 
@@ -394,10 +394,10 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case networkName
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case networkName = "networkName"
+            case tags = "tags"
         }
     }
 
@@ -413,8 +413,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case network
-            case tags
+            case network = "network"
+            case tags = "tags"
         }
     }
 
@@ -467,14 +467,14 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case availabilityZoneId
-            case clientToken
-            case description
-            case networkArn
-            case networkSiteName
-            case pendingPlan
-            case tags
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case clientToken = "clientToken"
+            case description = "description"
+            case networkArn = "networkArn"
+            case networkSiteName = "networkSiteName"
+            case pendingPlan = "pendingPlan"
+            case tags = "tags"
         }
     }
 
@@ -490,8 +490,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSite
-            case tags
+            case networkSite = "networkSite"
+            case tags = "tags"
         }
     }
 
@@ -513,8 +513,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case deviceIdentifierArn
+            case clientToken = "clientToken"
+            case deviceIdentifierArn = "deviceIdentifierArn"
         }
     }
 
@@ -527,7 +527,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceIdentifier
+            case deviceIdentifier = "deviceIdentifier"
         }
     }
 
@@ -565,7 +565,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case network
+            case network = "network"
         }
     }
 
@@ -603,7 +603,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSite
+            case networkSite = "networkSite"
         }
     }
 
@@ -641,15 +641,15 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case deviceIdentifierArn
-            case iccid
-            case imsi
-            case networkArn
-            case orderArn
-            case status
-            case trafficGroupArn
-            case vendor
+            case createdAt = "createdAt"
+            case deviceIdentifierArn = "deviceIdentifierArn"
+            case iccid = "iccid"
+            case imsi = "imsi"
+            case networkArn = "networkArn"
+            case orderArn = "orderArn"
+            case status = "status"
+            case trafficGroupArn = "trafficGroupArn"
+            case vendor = "vendor"
         }
     }
 
@@ -684,8 +684,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceIdentifier
-            case tags
+            case deviceIdentifier = "deviceIdentifier"
+            case tags = "tags"
         }
     }
 
@@ -739,8 +739,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkResource
-            case tags
+            case networkResource = "networkResource"
+            case tags = "tags"
         }
     }
 
@@ -756,8 +756,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case network
-            case tags
+            case network = "network"
+            case tags = "tags"
         }
     }
 
@@ -792,8 +792,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSite
-            case tags
+            case networkSite = "networkSite"
+            case tags = "tags"
         }
     }
 
@@ -828,8 +828,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case order
-            case tags
+            case order = "order"
+            case tags = "tags"
         }
     }
 
@@ -855,10 +855,10 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case networkArn
-            case startToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkArn = "networkArn"
+            case startToken = "startToken"
         }
     }
 
@@ -874,8 +874,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceIdentifiers
-            case nextToken
+            case deviceIdentifiers = "deviceIdentifiers"
+            case nextToken = "nextToken"
         }
     }
 
@@ -901,10 +901,10 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case networkArn
-            case startToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkArn = "networkArn"
+            case startToken = "startToken"
         }
     }
 
@@ -920,8 +920,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkResources
-            case nextToken
+            case networkResources = "networkResources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -947,10 +947,10 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case networkArn
-            case startToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkArn = "networkArn"
+            case startToken = "startToken"
         }
     }
 
@@ -966,8 +966,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSites
-            case nextToken
+            case networkSites = "networkSites"
+            case nextToken = "nextToken"
         }
     }
 
@@ -986,9 +986,9 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case startToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case startToken = "startToken"
         }
     }
 
@@ -1004,8 +1004,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networks
-            case nextToken
+            case networks = "networks"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1031,10 +1031,10 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case networkArn
-            case startToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkArn = "networkArn"
+            case startToken = "startToken"
         }
     }
 
@@ -1050,8 +1050,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case orders
+            case nextToken = "nextToken"
+            case orders = "orders"
         }
     }
 
@@ -1083,7 +1083,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1099,8 +1099,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1129,12 +1129,12 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case description
-            case networkArn
-            case networkName
-            case status
-            case statusReason
+            case createdAt = "createdAt"
+            case description = "description"
+            case networkArn = "networkArn"
+            case networkName = "networkName"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1190,21 +1190,21 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case createdAt
-            case description
-            case health
-            case model
-            case networkArn
-            case networkResourceArn
-            case networkSiteArn
-            case orderArn
-            case position
-            case serialNumber
-            case status
-            case statusReason
-            case type
-            case vendor
+            case attributes = "attributes"
+            case createdAt = "createdAt"
+            case description = "description"
+            case health = "health"
+            case model = "model"
+            case networkArn = "networkArn"
+            case networkResourceArn = "networkResourceArn"
+            case networkSiteArn = "networkSiteArn"
+            case orderArn = "orderArn"
+            case position = "position"
+            case serialNumber = "serialNumber"
+            case status = "status"
+            case statusReason = "statusReason"
+            case type = "type"
+            case vendor = "vendor"
         }
     }
 
@@ -1223,9 +1223,9 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case options
-            case type
+            case count = "count"
+            case options = "options"
+            case type = "type"
         }
     }
 
@@ -1269,17 +1269,17 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case availabilityZoneId
-            case createdAt
-            case currentPlan
-            case description
-            case networkArn
-            case networkSiteArn
-            case networkSiteName
-            case pendingPlan
-            case status
-            case statusReason
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case createdAt = "createdAt"
+            case currentPlan = "currentPlan"
+            case description = "description"
+            case networkArn = "networkArn"
+            case networkSiteArn = "networkSiteArn"
+            case networkSiteName = "networkSiteName"
+            case pendingPlan = "pendingPlan"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1311,13 +1311,13 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgmentStatus
-            case createdAt
-            case networkArn
-            case networkSiteArn
-            case orderArn
-            case shippingAddress
-            case trackingInformation
+            case acknowledgmentStatus = "acknowledgmentStatus"
+            case createdAt = "createdAt"
+            case networkArn = "networkArn"
+            case networkSiteArn = "networkSiteArn"
+            case orderArn = "orderArn"
+            case shippingAddress = "shippingAddress"
+            case trackingInformation = "trackingInformation"
         }
     }
 
@@ -1330,7 +1330,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -1355,11 +1355,11 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case elevation
-            case elevationReference
-            case elevationUnit
-            case latitude
-            case longitude
+            case elevation = "elevation"
+            case elevationReference = "elevationReference"
+            case elevationUnit = "elevationUnit"
+            case latitude = "latitude"
+            case longitude = "longitude"
         }
     }
 
@@ -1375,8 +1375,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case options
-            case resourceDefinitions
+            case options = "options"
+            case resourceDefinitions = "resourceDefinitions"
         }
     }
 
@@ -1409,7 +1409,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1426,7 +1426,7 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trackingNumber
+            case trackingNumber = "trackingNumber"
         }
     }
 
@@ -1485,9 +1485,9 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case networkSiteArn
-            case pendingPlan
+            case clientToken = "clientToken"
+            case networkSiteArn = "networkSiteArn"
+            case pendingPlan = "pendingPlan"
         }
     }
 
@@ -1513,9 +1513,9 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case networkSiteArn
+            case clientToken = "clientToken"
+            case description = "description"
+            case networkSiteArn = "networkSiteArn"
         }
     }
 
@@ -1531,8 +1531,8 @@ extension PrivateNetworks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkSite
-            case tags
+            case networkSite = "networkSite"
+            case tags = "tags"
         }
     }
 }

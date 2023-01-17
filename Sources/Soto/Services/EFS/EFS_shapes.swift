@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,17 +22,17 @@ extension EFS {
     // MARK: Enums
 
     public enum LifeCycleState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case creating
-        case deleted
-        case deleting
-        case error
-        case updating
+        case available = "available"
+        case creating = "creating"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case error = "error"
+        case updating = "updating"
         public var description: String { return self.rawValue }
     }
 
     public enum PerformanceMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case generalPurpose
+        case generalPurpose = "generalPurpose"
         case maxIo = "maxIO"
         public var description: String { return self.rawValue }
     }
@@ -66,9 +66,9 @@ extension EFS {
     }
 
     public enum ThroughputMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bursting
-        case elastic
-        case provisioned
+        case bursting = "bursting"
+        case elastic = "elastic"
+        case provisioned = "provisioned"
         public var description: String { return self.rawValue }
     }
 
@@ -379,9 +379,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4_294_967_295)
+            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4294967295)
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, min: 0)
-            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4_294_967_295)
+            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4294967295)
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, min: 0)
             try self.validate(self.permissions, name: "permissions", parent: name, max: 4)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 3)
@@ -1297,14 +1297,14 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
+            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
-                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
-            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
 
@@ -1671,7 +1671,7 @@ public struct EFSErrorType: AWSErrorType {
     public static var accessPointAlreadyExists: Self { .init(.accessPointAlreadyExists) }
     /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system. For more informaton, see https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region.
     public static var accessPointLimitExceeded: Self { .init(.accessPointLimitExceeded) }
-    /// Returned if the specified AccessPointId value doesn&#39;t exist in the requester&#39;s Amazon Web Services account.
+    /// Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
     public static var accessPointNotFound: Self { .init(.accessPointNotFound) }
     /// Returned if the Availability Zone that was specified for a mount target is  different from the Availability Zone that was specified for One Zone storage. For more information, see Regional and One Zone storage redundancy.
     public static var availabilityZonesMismatch: Self { .init(.availabilityZonesMismatch) }
@@ -1685,13 +1685,13 @@ public struct EFSErrorType: AWSErrorType {
     public static var fileSystemInUse: Self { .init(.fileSystemInUse) }
     /// Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
     public static var fileSystemLimitExceeded: Self { .init(.fileSystemLimitExceeded) }
-    /// Returned if the specified FileSystemId value doesn&#39;t exist in the requester&#39;s Amazon Web Services account.
+    /// Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
-    /// Returned if the file system&#39;s lifecycle state is not &quot;available&quot;.
+    /// Returned if the file system's lifecycle state is not "available".
     public static var incorrectFileSystemLifeCycleState: Self { .init(.incorrectFileSystemLifeCycleState) }
     /// Returned if the mount target is not in the correct state for the operation.
     public static var incorrectMountTargetState: Self { .init(.incorrectMountTargetState) }
-    /// Returned if there&#39;s not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
+    /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
     public static var insufficientThroughputCapacity: Self { .init(.insufficientThroughputCapacity) }
     /// Returned if an error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
@@ -1699,9 +1699,9 @@ public struct EFSErrorType: AWSErrorType {
     public static var invalidPolicyException: Self { .init(.invalidPolicyException) }
     /// Returned if the request specified an IpAddress that is already in use in the subnet.
     public static var ipAddressInUse: Self { .init(.ipAddressInUse) }
-    /// Returned if the mount target would violate one of the specified restrictions based on the file system&#39;s existing mount targets.
+    /// Returned if the mount target would violate one of the specified restrictions based on the file system's existing mount targets.
     public static var mountTargetConflict: Self { .init(.mountTargetConflict) }
-    /// Returned if there is no mount target with the specified ID found in the caller&#39;s Amazon Web Services account.
+    /// Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     public static var mountTargetNotFound: Self { .init(.mountTargetNotFound) }
     /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
     public static var networkInterfaceLimitExceeded: Self { .init(.networkInterfaceLimitExceeded) }
@@ -1713,13 +1713,13 @@ public struct EFSErrorType: AWSErrorType {
     public static var replicationNotFound: Self { .init(.replicationNotFound) }
     /// Returned if the size of SecurityGroups specified in the request is greater than five.
     public static var securityGroupLimitExceeded: Self { .init(.securityGroupLimitExceeded) }
-    /// Returned if one of the specified security groups doesn&#39;t exist in the subnet&#39;s virtual private cloud (VPC).
+    /// Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
     public static var securityGroupNotFound: Self { .init(.securityGroupNotFound) }
     /// Returned if there is no subnet with ID SubnetId provided in the request.
     public static var subnetNotFound: Self { .init(.subnetNotFound) }
     /// Returned when the CreateAccessPoint API action is called too quickly and  the number of Access Points on the file system is nearing the  limit of 120.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// Returned if the throughput mode or amount of provisioned throughput can&#39;t be changed because the throughput limit of 1024 MiB/s has been reached.
+    /// Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     public static var throughputLimitExceeded: Self { .init(.throughputLimitExceeded) }
     /// Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
     public static var tooManyRequests: Self { .init(.tooManyRequests) }

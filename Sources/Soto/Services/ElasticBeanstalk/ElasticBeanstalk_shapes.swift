@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -60,9 +60,9 @@ extension ElasticBeanstalk {
     }
 
     public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case deployed
-        case failed
-        case pending
+        case deployed = "deployed"
+        case failed = "failed"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -106,8 +106,8 @@ extension ElasticBeanstalk {
     }
 
     public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bundle
-        case tail
+        case bundle = "bundle"
+        case tail = "tail"
         public var description: String { return self.rawValue }
     }
 
@@ -181,8 +181,8 @@ extension ElasticBeanstalk {
     }
 
     public enum ValidationSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
-        case error
-        case warning
+        case error = "error"
+        case warning = "warning"
         public var description: String { return self.rawValue }
     }
 
@@ -3765,9 +3765,9 @@ public struct ElasticBeanstalkErrorType: AWSErrorType {
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
     /// You cannot delete the platform version because there are still environments running on it.
     public static var platformVersionStillReferencedException: Self { .init(.platformVersionStillReferencedException) }
-    /// A resource doesn&#39;t exist for the specified Amazon Resource Name (ARN).
+    /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The type of the specified Amazon Resource Name (ARN) isn&#39;t supported for this operation.
+    /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     public static var resourceTypeNotSupportedException: Self { .init(.resourceTypeNotSupportedException) }
     /// The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
     /// 	              IAD/us-east-1

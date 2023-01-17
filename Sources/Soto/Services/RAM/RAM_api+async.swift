@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -153,7 +153,7 @@ extension RAM {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RAM {
-    ///  Retrieves the resource policies for the specified resources that you own and have shared.
+    /// Retrieves the resource policies for the specified resources that you own and have shared.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -175,7 +175,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves the resource and principal associations for resource shares that you own.
+    /// Retrieves the resource and principal associations for resource shares that you own.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -197,7 +197,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves details about invitations that you have received for resource shares.
+    /// Retrieves details about invitations that you have received for resource shares.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -219,7 +219,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves details about the resource shares that you own or that are shared with you.
+    /// Retrieves details about the resource shares that you own or that are shared with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -241,7 +241,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -263,7 +263,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the available versions of the specified RAM permission.
+    /// Lists the available versions of the specified RAM permission.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -285,7 +285,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -307,7 +307,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the principals that you are sharing resources with or that are sharing resources with you.
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -329,7 +329,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the RAM permissions that are associated with a resource share.
+    /// Lists the RAM permissions that are associated with a resource share.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -351,7 +351,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resource types that can be shared by RAM.
+    /// Lists the resource types that can be shared by RAM.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -373,7 +373,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources that you added to a resource share or the resources that are shared with you.
+    /// Lists the resources that you added to a resource share or the resources that are shared with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

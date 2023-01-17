@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -63,9 +63,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterValues
-            case pipelineId
-            case startTimestamp
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case startTimestamp = "startTimestamp"
         }
     }
 
@@ -95,8 +95,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case tags
+            case pipelineId = "pipelineId"
+            case tags = "tags"
         }
     }
 
@@ -137,10 +137,10 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
-            case uniqueId
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case uniqueId = "uniqueId"
         }
     }
 
@@ -153,7 +153,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -175,8 +175,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancelActive
-            case pipelineId
+            case cancelActive = "cancelActive"
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -199,7 +199,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -234,10 +234,10 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluateExpressions
-            case marker
-            case objectIds
-            case pipelineId
+            case evaluateExpressions = "evaluateExpressions"
+            case marker = "marker"
+            case objectIds = "objectIds"
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -256,9 +256,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case marker
-            case pipelineObjects
+            case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
@@ -279,7 +279,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineIds
+            case pipelineIds = "pipelineIds"
         }
     }
 
@@ -292,7 +292,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineDescriptionList
+            case pipelineDescriptionList = "pipelineDescriptionList"
         }
     }
 
@@ -311,7 +311,7 @@ extension DataPipeline {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.expression, name: "expression", parent: name, max: 20_971_520)
+            try self.validate(self.expression, name: "expression", parent: name, max: 20971520)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.objectId, name: "objectId", parent: name, max: 1024)
             try self.validate(self.objectId, name: "objectId", parent: name, min: 1)
@@ -322,9 +322,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case objectId
-            case pipelineId
+            case expression = "expression"
+            case objectId = "objectId"
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -337,7 +337,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluatedExpression
+            case evaluatedExpression = "evaluatedExpression"
         }
     }
 
@@ -367,9 +367,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case refValue
-            case stringValue
+            case key = "key"
+            case refValue = "refValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -393,8 +393,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case version
+            case pipelineId = "pipelineId"
+            case version = "version"
         }
     }
 
@@ -413,9 +413,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
@@ -438,8 +438,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case signature
+            case document = "document"
+            case signature = "signature"
         }
     }
 
@@ -457,7 +457,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker
+            case marker = "marker"
         }
     }
 
@@ -476,9 +476,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case marker
-            case pipelineIdList
+            case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
+            case pipelineIdList = "pipelineIdList"
         }
     }
 
@@ -501,8 +501,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case values
+            case type = "type"
+            case values = "values"
         }
     }
 
@@ -526,8 +526,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case stringValue
+            case key = "key"
+            case stringValue = "stringValue"
         }
     }
 
@@ -552,8 +552,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case id
+            case attributes = "attributes"
+            case id = "id"
         }
     }
 
@@ -577,8 +577,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case stringValue
+            case id = "id"
+            case stringValue = "stringValue"
         }
     }
 
@@ -603,11 +603,11 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case fields
-            case name
-            case pipelineId
-            case tags
+            case description = "description"
+            case fields = "fields"
+            case name = "name"
+            case pipelineId = "pipelineId"
+            case tags = "tags"
         }
     }
 
@@ -623,8 +623,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -655,9 +655,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case id
-            case name
+            case fields = "fields"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -685,9 +685,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case instanceIdentity
-            case workerGroup
+            case hostname = "hostname"
+            case instanceIdentity = "instanceIdentity"
+            case workerGroup = "workerGroup"
         }
     }
 
@@ -700,7 +700,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskObject
+            case taskObject = "taskObject"
         }
     }
 
@@ -737,10 +737,10 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineId
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
@@ -759,9 +759,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case validationErrors
-            case validationWarnings
+            case errored = "errored"
+            case validationErrors = "validationErrors"
+            case validationWarnings = "validationWarnings"
         }
     }
 
@@ -780,7 +780,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case selectors
+            case selectors = "selectors"
         }
     }
 
@@ -816,11 +816,11 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case marker
-            case pipelineId
-            case query
-            case sphere
+            case limit = "limit"
+            case marker = "marker"
+            case pipelineId = "pipelineId"
+            case query = "query"
+            case sphere = "sphere"
         }
     }
 
@@ -839,9 +839,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case ids
-            case marker
+            case hasMoreResults = "hasMoreResults"
+            case ids = "ids"
+            case marker = "marker"
         }
     }
 
@@ -867,8 +867,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case tagKeys
+            case pipelineId = "pipelineId"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -897,8 +897,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case taskId
+            case fields = "fields"
+            case taskId = "taskId"
         }
     }
 
@@ -911,7 +911,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canceled
+            case canceled = "canceled"
         }
     }
 
@@ -941,9 +941,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case taskrunnerId
-            case workerGroup
+            case hostname = "hostname"
+            case taskrunnerId = "taskrunnerId"
+            case workerGroup = "workerGroup"
         }
     }
 
@@ -956,7 +956,7 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminate
+            case terminate = "terminate"
         }
     }
 
@@ -977,8 +977,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldName
-            case `operator`
+            case fieldName = "fieldName"
+            case `operator` = "operator"
         }
     }
 
@@ -1010,9 +1010,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectIds
-            case pipelineId
-            case status
+            case objectIds = "objectIds"
+            case pipelineId = "pipelineId"
+            case status = "status"
         }
     }
 
@@ -1047,11 +1047,11 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorId
-            case errorMessage
-            case errorStackTrace
-            case taskId
-            case taskStatus
+            case errorId = "errorId"
+            case errorMessage = "errorMessage"
+            case errorStackTrace = "errorStackTrace"
+            case taskId = "taskId"
+            case taskStatus = "taskStatus"
         }
     }
 
@@ -1077,8 +1077,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1100,10 +1100,10 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attemptId
-            case objects
-            case pipelineId
-            case taskId
+            case attemptId = "attemptId"
+            case objects = "objects"
+            case pipelineId = "pipelineId"
+            case taskId = "taskId"
         }
     }
 
@@ -1140,10 +1140,10 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineId
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
@@ -1162,9 +1162,9 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case validationErrors
-            case validationWarnings
+            case errored = "errored"
+            case validationErrors = "validationErrors"
+            case validationWarnings = "validationWarnings"
         }
     }
 
@@ -1180,8 +1180,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case id
+            case errors = "errors"
+            case id = "id"
         }
     }
 
@@ -1197,8 +1197,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case warnings
+            case id = "id"
+            case warnings = "warnings"
         }
     }
 }
@@ -1235,7 +1235,7 @@ public struct DataPipelineErrorType: AWSErrorType {
 
     /// An internal service error occurred.
     public static var internalServiceError: Self { .init(.internalServiceError) }
-    /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven&#39;t exceeded any of the service limits for your account.
+    /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The specified pipeline has been deleted.
     public static var pipelineDeletedException: Self { .init(.pipelineDeletedException) }

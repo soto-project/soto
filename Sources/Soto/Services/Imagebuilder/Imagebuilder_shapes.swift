@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -62,13 +62,13 @@ extension Imagebuilder {
     }
 
     public enum EbsVolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gp2
-        case gp3
-        case io1
-        case io2
-        case sc1
-        case st1
-        case standard
+        case gp2 = "gp2"
+        case gp3 = "gp3"
+        case io1 = "io1"
+        case io2 = "io2"
+        case sc1 = "sc1"
+        case st1 = "st1"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -151,8 +151,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case systemsManagerAgent
-            case userDataOverride
+            case systemsManagerAgent = "systemsManagerAgent"
+            case userDataOverride = "userDataOverride"
         }
     }
 
@@ -179,12 +179,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case description
-            case image
-            case name
-            case region
-            case state
+            case accountId = "accountId"
+            case description = "description"
+            case image = "image"
+            case name = "name"
+            case region = "region"
+            case state = "state"
         }
     }
 
@@ -237,12 +237,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiTags
-            case description
-            case kmsKeyId
-            case launchPermission
-            case name
-            case targetAccountIds
+            case amiTags = "amiTags"
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case launchPermission = "launchPermission"
+            case name = "name"
+            case targetAccountIds = "targetAccountIds"
         }
     }
 
@@ -264,8 +264,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageBuildVersionArn
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
         }
     }
 
@@ -284,9 +284,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageBuildVersionArn
-            case requestId
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -348,22 +348,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case changeDescription
-            case data
-            case dateCreated
-            case description
-            case encrypted
-            case kmsKeyId
-            case name
-            case owner
-            case parameters
-            case platform
-            case state
-            case supportedOsVersions
-            case tags
-            case type
-            case version
+            case arn = "arn"
+            case changeDescription = "changeDescription"
+            case data = "data"
+            case dateCreated = "dateCreated"
+            case description = "description"
+            case encrypted = "encrypted"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case owner = "owner"
+            case parameters = "parameters"
+            case platform = "platform"
+            case state = "state"
+            case supportedOsVersions = "supportedOsVersions"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -387,8 +387,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn
-            case parameters
+            case componentArn = "componentArn"
+            case parameters = "parameters"
         }
     }
 
@@ -413,8 +413,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -436,10 +436,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
-            case description
-            case name
-            case type
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -455,8 +455,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -505,18 +505,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case changeDescription
-            case dateCreated
-            case description
-            case name
-            case owner
-            case platform
-            case state
-            case supportedOsVersions
-            case tags
-            case type
-            case version
+            case arn = "arn"
+            case changeDescription = "changeDescription"
+            case dateCreated = "dateCreated"
+            case description = "description"
+            case name = "name"
+            case owner = "owner"
+            case platform = "platform"
+            case state = "state"
+            case supportedOsVersions = "supportedOsVersions"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -582,15 +582,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case description
-            case name
-            case owner
-            case platform
-            case supportedOsVersions
-            case type
-            case version
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case description = "description"
+            case name = "name"
+            case owner = "owner"
+            case platform = "platform"
+            case supportedOsVersions = "supportedOsVersions"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -606,8 +606,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageUris
-            case region
+            case imageUris = "imageUris"
+            case region = "region"
         }
     }
 
@@ -636,9 +636,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerTags
-            case description
-            case targetRepository
+            case containerTags = "containerTags"
+            case description = "description"
+            case targetRepository = "targetRepository"
         }
     }
 
@@ -725,23 +725,23 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case components
-            case containerType
-            case dateCreated
-            case description
-            case dockerfileTemplateData
-            case encrypted
-            case instanceConfiguration
-            case kmsKeyId
-            case name
-            case owner
-            case parentImage
-            case platform
-            case tags
-            case targetRepository
-            case version
-            case workingDirectory
+            case arn = "arn"
+            case components = "components"
+            case containerType = "containerType"
+            case dateCreated = "dateCreated"
+            case description = "description"
+            case dockerfileTemplateData = "dockerfileTemplateData"
+            case encrypted = "encrypted"
+            case instanceConfiguration = "instanceConfiguration"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case owner = "owner"
+            case parentImage = "parentImage"
+            case platform = "platform"
+            case tags = "tags"
+            case targetRepository = "targetRepository"
+            case version = "version"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -775,14 +775,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerType
-            case dateCreated
-            case name
-            case owner
-            case parentImage
-            case platform
-            case tags
+            case arn = "arn"
+            case containerType = "containerType"
+            case dateCreated = "dateCreated"
+            case name = "name"
+            case owner = "owner"
+            case parentImage = "parentImage"
+            case platform = "platform"
+            case tags = "tags"
         }
     }
 
@@ -874,17 +874,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeDescription
-            case clientToken
-            case data
-            case description
-            case kmsKeyId
-            case name
-            case platform
-            case semanticVersion
-            case supportedOsVersions
-            case tags
-            case uri
+            case changeDescription = "changeDescription"
+            case clientToken = "clientToken"
+            case data = "data"
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case platform = "platform"
+            case semanticVersion = "semanticVersion"
+            case supportedOsVersions = "supportedOsVersions"
+            case tags = "tags"
+            case uri = "uri"
         }
     }
 
@@ -903,9 +903,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case componentBuildVersionArn
-            case requestId
+            case clientToken = "clientToken"
+            case componentBuildVersionArn = "componentBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1007,22 +1007,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case components
-            case containerType
-            case description
-            case dockerfileTemplateData
-            case dockerfileTemplateUri
-            case imageOsVersionOverride
-            case instanceConfiguration
-            case kmsKeyId
-            case name
-            case parentImage
-            case platformOverride
-            case semanticVersion
-            case tags
-            case targetRepository
-            case workingDirectory
+            case clientToken = "clientToken"
+            case components = "components"
+            case containerType = "containerType"
+            case description = "description"
+            case dockerfileTemplateData = "dockerfileTemplateData"
+            case dockerfileTemplateUri = "dockerfileTemplateUri"
+            case imageOsVersionOverride = "imageOsVersionOverride"
+            case instanceConfiguration = "instanceConfiguration"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case parentImage = "parentImage"
+            case platformOverride = "platformOverride"
+            case semanticVersion = "semanticVersion"
+            case tags = "tags"
+            case targetRepository = "targetRepository"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -1041,9 +1041,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerRecipeArn
-            case requestId
+            case clientToken = "clientToken"
+            case containerRecipeArn = "containerRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1087,11 +1087,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case distributions
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case distributions = "distributions"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1111,9 +1111,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case distributionConfigurationArn
-            case requestId
+            case clientToken = "clientToken"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1186,18 +1186,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerRecipeArn
-            case description
-            case distributionConfigurationArn
-            case enhancedImageMetadataEnabled
-            case imageRecipeArn
-            case imageTestsConfiguration
-            case infrastructureConfigurationArn
-            case name
-            case schedule
-            case status
-            case tags
+            case clientToken = "clientToken"
+            case containerRecipeArn = "containerRecipeArn"
+            case description = "description"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
+            case imageRecipeArn = "imageRecipeArn"
+            case imageTestsConfiguration = "imageTestsConfiguration"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case name = "name"
+            case schedule = "schedule"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1216,9 +1216,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imagePipelineArn
-            case requestId
+            case clientToken = "clientToken"
+            case imagePipelineArn = "imagePipelineArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1302,16 +1302,16 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalInstanceConfiguration
-            case blockDeviceMappings
-            case clientToken
-            case components
-            case description
-            case name
-            case parentImage
-            case semanticVersion
-            case tags
-            case workingDirectory
+            case additionalInstanceConfiguration = "additionalInstanceConfiguration"
+            case blockDeviceMappings = "blockDeviceMappings"
+            case clientToken = "clientToken"
+            case components = "components"
+            case description = "description"
+            case name = "name"
+            case parentImage = "parentImage"
+            case semanticVersion = "semanticVersion"
+            case tags = "tags"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -1330,9 +1330,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageRecipeArn
-            case requestId
+            case clientToken = "clientToken"
+            case imageRecipeArn = "imageRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1389,14 +1389,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerRecipeArn
-            case distributionConfigurationArn
-            case enhancedImageMetadataEnabled
-            case imageRecipeArn
-            case imageTestsConfiguration
-            case infrastructureConfigurationArn
-            case tags
+            case clientToken = "clientToken"
+            case containerRecipeArn = "containerRecipeArn"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
+            case imageRecipeArn = "imageRecipeArn"
+            case imageTestsConfiguration = "imageTestsConfiguration"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case tags = "tags"
         }
     }
 
@@ -1415,9 +1415,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageBuildVersionArn
-            case requestId
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1518,20 +1518,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case instanceMetadataOptions
-            case instanceProfileName
-            case instanceTypes
-            case keyPair
-            case logging
-            case name
-            case resourceTags
-            case securityGroupIds
-            case snsTopicArn
-            case subnetId
-            case tags
-            case terminateInstanceOnFailure
+            case clientToken = "clientToken"
+            case description = "description"
+            case instanceMetadataOptions = "instanceMetadataOptions"
+            case instanceProfileName = "instanceProfileName"
+            case instanceTypes = "instanceTypes"
+            case keyPair = "keyPair"
+            case logging = "logging"
+            case name = "name"
+            case resourceTags = "resourceTags"
+            case securityGroupIds = "securityGroupIds"
+            case snsTopicArn = "snsTopicArn"
+            case subnetId = "subnetId"
+            case tags = "tags"
+            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
 
@@ -1551,9 +1551,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case infrastructureConfigurationArn
-            case requestId
+            case clientToken = "clientToken"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1588,8 +1588,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn
-            case requestId
+            case componentBuildVersionArn = "componentBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1624,8 +1624,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecipeArn
-            case requestId
+            case containerRecipeArn = "containerRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1660,8 +1660,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn
-            case requestId
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1696,8 +1696,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn
-            case requestId
+            case imagePipelineArn = "imagePipelineArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1732,8 +1732,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn
-            case requestId
+            case imageRecipeArn = "imageRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1768,8 +1768,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn
-            case requestId
+            case imageBuildVersionArn = "imageBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1804,8 +1804,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn
-            case requestId
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case requestId = "requestId"
         }
     }
 
@@ -1863,13 +1863,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiDistributionConfiguration
-            case containerDistributionConfiguration
-            case fastLaunchConfigurations
-            case launchTemplateConfigurations
-            case licenseConfigurationArns
-            case region
-            case s3ExportConfiguration
+            case amiDistributionConfiguration = "amiDistributionConfiguration"
+            case containerDistributionConfiguration = "containerDistributionConfiguration"
+            case fastLaunchConfigurations = "fastLaunchConfigurations"
+            case launchTemplateConfigurations = "launchTemplateConfigurations"
+            case licenseConfigurationArns = "licenseConfigurationArns"
+            case region = "region"
+            case s3ExportConfiguration = "s3ExportConfiguration"
         }
     }
 
@@ -1904,14 +1904,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case dateUpdated
-            case description
-            case distributions
-            case name
-            case tags
-            case timeoutMinutes
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case distributions = "distributions"
+            case name = "name"
+            case tags = "tags"
+            case timeoutMinutes = "timeoutMinutes"
         }
     }
 
@@ -1942,13 +1942,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case dateUpdated
-            case description
-            case name
-            case regions
-            case tags
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case name = "name"
+            case regions = "regions"
+            case tags = "tags"
         }
     }
 
@@ -1996,14 +1996,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteOnTermination
-            case encrypted
-            case iops
-            case kmsKeyId
-            case snapshotId
-            case throughput
-            case volumeSize
-            case volumeType
+            case deleteOnTermination = "deleteOnTermination"
+            case encrypted = "encrypted"
+            case iops = "iops"
+            case kmsKeyId = "kmsKeyId"
+            case snapshotId = "snapshotId"
+            case throughput = "throughput"
+            case volumeSize = "volumeSize"
+            case volumeType = "volumeType"
         }
     }
 
@@ -2042,11 +2042,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case enabled
-            case launchTemplate
-            case maxParallelLaunches
-            case snapshotConfiguration
+            case accountId = "accountId"
+            case enabled = "enabled"
+            case launchTemplate = "launchTemplate"
+            case maxParallelLaunches = "maxParallelLaunches"
+            case snapshotConfiguration = "snapshotConfiguration"
         }
     }
 
@@ -2073,9 +2073,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchTemplateId
-            case launchTemplateName
-            case launchTemplateVersion
+            case launchTemplateId = "launchTemplateId"
+            case launchTemplateName = "launchTemplateName"
+            case launchTemplateVersion = "launchTemplateVersion"
         }
     }
 
@@ -2094,7 +2094,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetResourceCount
+            case targetResourceCount = "targetResourceCount"
         }
     }
 
@@ -2119,8 +2119,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -2155,8 +2155,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case requestId
+            case policy = "policy"
+            case requestId = "requestId"
         }
     }
 
@@ -2192,8 +2192,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component
-            case requestId
+            case component = "component"
+            case requestId = "requestId"
         }
     }
 
@@ -2228,8 +2228,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case requestId
+            case policy = "policy"
+            case requestId = "requestId"
         }
     }
 
@@ -2264,8 +2264,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecipe
-            case requestId
+            case containerRecipe = "containerRecipe"
+            case requestId = "requestId"
         }
     }
 
@@ -2301,8 +2301,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfiguration
-            case requestId
+            case distributionConfiguration = "distributionConfiguration"
+            case requestId = "requestId"
         }
     }
 
@@ -2337,8 +2337,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipeline
-            case requestId
+            case imagePipeline = "imagePipeline"
+            case requestId = "requestId"
         }
     }
 
@@ -2373,8 +2373,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case requestId
+            case policy = "policy"
+            case requestId = "requestId"
         }
     }
 
@@ -2409,8 +2409,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case requestId
+            case policy = "policy"
+            case requestId = "requestId"
         }
     }
 
@@ -2445,8 +2445,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipe
-            case requestId
+            case imageRecipe = "imageRecipe"
+            case requestId = "requestId"
         }
     }
 
@@ -2481,8 +2481,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case image
-            case requestId
+            case image = "image"
+            case requestId = "requestId"
         }
     }
 
@@ -2518,8 +2518,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfiguration
-            case requestId
+            case infrastructureConfiguration = "infrastructureConfiguration"
+            case requestId = "requestId"
         }
     }
 
@@ -2626,25 +2626,25 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case buildType
-            case containerRecipe
-            case dateCreated
-            case distributionConfiguration
-            case enhancedImageMetadataEnabled
-            case imageRecipe
-            case imageTestsConfiguration
-            case infrastructureConfiguration
-            case name
-            case osVersion
-            case outputResources
-            case platform
-            case sourcePipelineArn
-            case sourcePipelineName
-            case state
-            case tags
-            case type
-            case version
+            case arn = "arn"
+            case buildType = "buildType"
+            case containerRecipe = "containerRecipe"
+            case dateCreated = "dateCreated"
+            case distributionConfiguration = "distributionConfiguration"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
+            case imageRecipe = "imageRecipe"
+            case imageTestsConfiguration = "imageTestsConfiguration"
+            case infrastructureConfiguration = "infrastructureConfiguration"
+            case name = "name"
+            case osVersion = "osVersion"
+            case outputResources = "outputResources"
+            case platform = "platform"
+            case sourcePipelineArn = "sourcePipelineArn"
+            case sourcePipelineName = "sourcePipelineName"
+            case state = "state"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -2660,8 +2660,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packageName
-            case packageVersion
+            case packageName = "packageName"
+            case packageVersion = "packageVersion"
         }
     }
 
@@ -2727,23 +2727,23 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerRecipeArn
-            case dateCreated
-            case dateLastRun
-            case dateNextRun
-            case dateUpdated
-            case description
-            case distributionConfigurationArn
-            case enhancedImageMetadataEnabled
-            case imageRecipeArn
-            case imageTestsConfiguration
-            case infrastructureConfigurationArn
-            case name
-            case platform
-            case schedule
-            case status
-            case tags
+            case arn = "arn"
+            case containerRecipeArn = "containerRecipeArn"
+            case dateCreated = "dateCreated"
+            case dateLastRun = "dateLastRun"
+            case dateNextRun = "dateNextRun"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
+            case imageRecipeArn = "imageRecipeArn"
+            case imageTestsConfiguration = "imageTestsConfiguration"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case name = "name"
+            case platform = "platform"
+            case schedule = "schedule"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -2799,20 +2799,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalInstanceConfiguration
-            case arn
-            case blockDeviceMappings
-            case components
-            case dateCreated
-            case description
-            case name
-            case owner
-            case parentImage
-            case platform
-            case tags
-            case type
-            case version
-            case workingDirectory
+            case additionalInstanceConfiguration = "additionalInstanceConfiguration"
+            case arn = "arn"
+            case blockDeviceMappings = "blockDeviceMappings"
+            case components = "components"
+            case dateCreated = "dateCreated"
+            case description = "description"
+            case name = "name"
+            case owner = "owner"
+            case parentImage = "parentImage"
+            case platform = "platform"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -2843,13 +2843,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case name
-            case owner
-            case parentImage
-            case platform
-            case tags
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case name = "name"
+            case owner = "owner"
+            case parentImage = "parentImage"
+            case platform = "platform"
+            case tags = "tags"
         }
     }
 
@@ -2865,8 +2865,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -2924,18 +2924,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case buildType
-            case dateCreated
-            case name
-            case osVersion
-            case outputResources
-            case owner
-            case platform
-            case state
-            case tags
-            case type
-            case version
+            case arn = "arn"
+            case buildType = "buildType"
+            case dateCreated = "dateCreated"
+            case name = "name"
+            case osVersion = "osVersion"
+            case outputResources = "outputResources"
+            case owner = "owner"
+            case platform = "platform"
+            case state = "state"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -2957,8 +2957,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageTestsEnabled
-            case timeoutMinutes
+            case imageTestsEnabled = "imageTestsEnabled"
+            case timeoutMinutes = "timeoutMinutes"
         }
     }
 
@@ -3033,15 +3033,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case buildType
-            case dateCreated
-            case name
-            case osVersion
-            case owner
-            case platform
-            case type
-            case version
+            case arn = "arn"
+            case buildType = "buildType"
+            case dateCreated = "dateCreated"
+            case name = "name"
+            case osVersion = "osVersion"
+            case owner = "owner"
+            case platform = "platform"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -3124,18 +3124,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeDescription
-            case clientToken
-            case data
-            case description
-            case format
-            case kmsKeyId
-            case name
-            case platform
-            case semanticVersion
-            case tags
-            case type
-            case uri
+            case changeDescription = "changeDescription"
+            case clientToken = "clientToken"
+            case data = "data"
+            case description = "description"
+            case format = "format"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case platform = "platform"
+            case semanticVersion = "semanticVersion"
+            case tags = "tags"
+            case type = "type"
+            case uri = "uri"
         }
     }
 
@@ -3154,9 +3154,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case componentBuildVersionArn
-            case requestId
+            case clientToken = "clientToken"
+            case componentBuildVersionArn = "componentBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -3224,14 +3224,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case osVersion
-            case platform
-            case semanticVersion
-            case tags
-            case vmImportTaskId
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case osVersion = "osVersion"
+            case platform = "platform"
+            case semanticVersion = "semanticVersion"
+            case tags = "tags"
+            case vmImportTaskId = "vmImportTaskId"
         }
     }
 
@@ -3252,9 +3252,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageArn
-            case requestId
+            case clientToken = "clientToken"
+            case imageArn = "imageArn"
+            case requestId = "requestId"
         }
     }
 
@@ -3318,22 +3318,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case dateUpdated
-            case description
-            case instanceMetadataOptions
-            case instanceProfileName
-            case instanceTypes
-            case keyPair
-            case logging
-            case name
-            case resourceTags
-            case securityGroupIds
-            case snsTopicArn
-            case subnetId
-            case tags
-            case terminateInstanceOnFailure
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case instanceMetadataOptions = "instanceMetadataOptions"
+            case instanceProfileName = "instanceProfileName"
+            case instanceTypes = "instanceTypes"
+            case keyPair = "keyPair"
+            case logging = "logging"
+            case name = "name"
+            case resourceTags = "resourceTags"
+            case securityGroupIds = "securityGroupIds"
+            case snsTopicArn = "snsTopicArn"
+            case subnetId = "subnetId"
+            case tags = "tags"
+            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
 
@@ -3370,15 +3370,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dateCreated
-            case dateUpdated
-            case description
-            case instanceProfileName
-            case instanceTypes
-            case name
-            case resourceTags
-            case tags
+            case arn = "arn"
+            case dateCreated = "dateCreated"
+            case dateUpdated = "dateUpdated"
+            case description = "description"
+            case instanceProfileName = "instanceProfileName"
+            case instanceTypes = "instanceTypes"
+            case name = "name"
+            case resourceTags = "resourceTags"
+            case tags = "tags"
         }
     }
 
@@ -3409,10 +3409,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case ebs
-            case noDevice
-            case virtualName
+            case deviceName = "deviceName"
+            case ebs = "ebs"
+            case noDevice = "noDevice"
+            case virtualName = "virtualName"
         }
     }
 
@@ -3437,8 +3437,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockDeviceMappings
-            case image
+            case blockDeviceMappings = "blockDeviceMappings"
+            case image = "image"
         }
     }
 
@@ -3472,8 +3472,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case httpPutResponseHopLimit
-            case httpTokens
+            case httpPutResponseHopLimit = "httpPutResponseHopLimit"
+            case httpTokens = "httpTokens"
         }
     }
 
@@ -3519,10 +3519,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationalUnitArns
-            case organizationArns
-            case userGroups
-            case userIds
+            case organizationalUnitArns = "organizationalUnitArns"
+            case organizationArns = "organizationArns"
+            case userGroups = "userGroups"
+            case userIds = "userIds"
         }
     }
 
@@ -3546,9 +3546,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case launchTemplateId
-            case setDefaultVersion
+            case accountId = "accountId"
+            case launchTemplateId = "launchTemplateId"
+            case setDefaultVersion = "setDefaultVersion"
         }
     }
 
@@ -3576,9 +3576,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersionArn
-            case maxResults
-            case nextToken
+            case componentVersionArn = "componentVersionArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3599,9 +3599,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentSummaryList
-            case nextToken
-            case requestId
+            case componentSummaryList = "componentSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3643,11 +3643,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case byName
-            case filters
-            case maxResults
-            case nextToken
-            case owner
+            case byName = "byName"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case owner = "owner"
         }
     }
 
@@ -3672,9 +3672,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersionList
-            case nextToken
-            case requestId
+            case componentVersionList = "componentVersionList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3709,10 +3709,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case owner
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case owner = "owner"
         }
     }
 
@@ -3731,9 +3731,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecipeSummaryList
-            case nextToken
-            case requestId
+            case containerRecipeSummaryList = "containerRecipeSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3765,9 +3765,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3788,9 +3788,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationSummaryList
-            case nextToken
-            case requestId
+            case distributionConfigurationSummaryList = "distributionConfigurationSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3827,10 +3827,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case imageVersionArn
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case imageVersionArn = "imageVersionArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3851,9 +3851,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageSummaryList
-            case nextToken
-            case requestId
+            case imageSummaryList = "imageSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3880,9 +3880,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn
-            case maxResults
-            case nextToken
+            case imageBuildVersionArn = "imageBuildVersionArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3901,9 +3901,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePackageList
-            case nextToken
-            case requestId
+            case imagePackageList = "imagePackageList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3940,10 +3940,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case imagePipelineArn
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case imagePipelineArn = "imagePipelineArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3964,9 +3964,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageSummaryList
-            case nextToken
-            case requestId
+            case imageSummaryList = "imageSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -3999,9 +3999,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4022,9 +4022,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipelineList
-            case nextToken
-            case requestId
+            case imagePipelineList = "imagePipelineList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -4063,10 +4063,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case owner
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case owner = "owner"
         }
     }
 
@@ -4087,9 +4087,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeSummaryList
-            case nextToken
-            case requestId
+            case imageRecipeSummaryList = "imageRecipeSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -4134,12 +4134,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case byName
-            case filters
-            case includeDeprecated
-            case maxResults
-            case nextToken
-            case owner
+            case byName = "byName"
+            case filters = "filters"
+            case includeDeprecated = "includeDeprecated"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case owner = "owner"
         }
     }
 
@@ -4168,9 +4168,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageVersionList
-            case nextToken
-            case requestId
+            case imageVersionList = "imageVersionList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -4202,9 +4202,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4225,9 +4225,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationSummaryList
-            case nextToken
-            case requestId
+            case infrastructureConfigurationSummaryList = "infrastructureConfigurationSummaryList"
+            case nextToken = "nextToken"
+            case requestId = "requestId"
         }
     }
 
@@ -4259,7 +4259,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4276,7 +4276,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Logs
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -4292,8 +4292,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amis
-            case containers
+            case amis = "amis"
+            case containers = "containers"
         }
     }
 
@@ -4315,8 +4315,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn
-            case policy
+            case componentArn = "componentArn"
+            case policy = "policy"
         }
     }
 
@@ -4332,8 +4332,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn
-            case requestId
+            case componentArn = "componentArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4355,8 +4355,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecipeArn
-            case policy
+            case containerRecipeArn = "containerRecipeArn"
+            case policy = "policy"
         }
     }
 
@@ -4372,8 +4372,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerRecipeArn
-            case requestId
+            case containerRecipeArn = "containerRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4395,8 +4395,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageArn
-            case policy
+            case imageArn = "imageArn"
+            case policy = "policy"
         }
     }
 
@@ -4412,8 +4412,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageArn
-            case requestId
+            case imageArn = "imageArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4435,8 +4435,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn
-            case policy
+            case imageRecipeArn = "imageRecipeArn"
+            case policy = "policy"
         }
     }
 
@@ -4452,8 +4452,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn
-            case requestId
+            case imageRecipeArn = "imageRecipeArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4496,10 +4496,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskImageFormat
-            case roleName
-            case s3Bucket
-            case s3Prefix
+            case diskImageFormat = "diskImageFormat"
+            case roleName = "roleName"
+            case s3Bucket = "s3Bucket"
+            case s3Prefix = "s3Prefix"
         }
     }
 
@@ -4522,8 +4522,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3BucketName
-            case s3KeyPrefix
+            case s3BucketName = "s3BucketName"
+            case s3KeyPrefix = "s3KeyPrefix"
         }
     }
 
@@ -4563,9 +4563,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionStartCondition
-            case scheduleExpression
-            case timezone
+            case pipelineExecutionStartCondition = "pipelineExecutionStartCondition"
+            case scheduleExpression = "scheduleExpression"
+            case timezone = "timezone"
         }
     }
 
@@ -4587,8 +4587,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imagePipelineArn
+            case clientToken = "clientToken"
+            case imagePipelineArn = "imagePipelineArn"
         }
     }
 
@@ -4607,9 +4607,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imageBuildVersionArn
-            case requestId
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4625,7 +4625,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uninstallAfterBuild
+            case uninstallAfterBuild = "uninstallAfterBuild"
         }
     }
 
@@ -4657,7 +4657,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4682,8 +4682,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
-            case service
+            case repositoryName = "repositoryName"
+            case service = "service"
         }
     }
 
@@ -4750,10 +4750,10 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case distributionConfigurationArn
-            case distributions
+            case clientToken = "clientToken"
+            case description = "description"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case distributions = "distributions"
         }
     }
 
@@ -4773,9 +4773,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case distributionConfigurationArn
-            case requestId
+            case clientToken = "clientToken"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4837,17 +4837,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerRecipeArn
-            case description
-            case distributionConfigurationArn
-            case enhancedImageMetadataEnabled
-            case imagePipelineArn
-            case imageRecipeArn
-            case imageTestsConfiguration
-            case infrastructureConfigurationArn
-            case schedule
-            case status
+            case clientToken = "clientToken"
+            case containerRecipeArn = "containerRecipeArn"
+            case description = "description"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
+            case imagePipelineArn = "imagePipelineArn"
+            case imageRecipeArn = "imageRecipeArn"
+            case imageTestsConfiguration = "imageTestsConfiguration"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case schedule = "schedule"
+            case status = "status"
         }
     }
 
@@ -4866,9 +4866,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case imagePipelineArn
-            case requestId
+            case clientToken = "clientToken"
+            case imagePipelineArn = "imagePipelineArn"
+            case requestId = "requestId"
         }
     }
 
@@ -4969,19 +4969,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case infrastructureConfigurationArn
-            case instanceMetadataOptions
-            case instanceProfileName
-            case instanceTypes
-            case keyPair
-            case logging
-            case resourceTags
-            case securityGroupIds
-            case snsTopicArn
-            case subnetId
-            case terminateInstanceOnFailure
+            case clientToken = "clientToken"
+            case description = "description"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case instanceMetadataOptions = "instanceMetadataOptions"
+            case instanceProfileName = "instanceProfileName"
+            case instanceTypes = "instanceTypes"
+            case keyPair = "keyPair"
+            case logging = "logging"
+            case resourceTags = "resourceTags"
+            case securityGroupIds = "securityGroupIds"
+            case snsTopicArn = "snsTopicArn"
+            case subnetId = "subnetId"
+            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
 
@@ -5001,9 +5001,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case infrastructureConfigurationArn
-            case requestId
+            case clientToken = "clientToken"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case requestId = "requestId"
         }
     }
 }
@@ -5053,7 +5053,7 @@ public struct ImagebuilderErrorType: AWSErrorType {
     /// You have exceeded the permitted request rate for the specific operation.
     public static var callRateLimitExceededException: Self { .init(.callRateLimitExceededException) }
     /// These errors are usually caused by a client action, such as using an action or resource on
-    /// 			behalf of a user that doesn&#39;t have permissions to use the action or resource, or specifying an
+    /// 			behalf of a user that doesn't have permissions to use the action or resource, or specifying an
     /// 			invalid resource identifier.
     public static var clientException: Self { .init(.clientException) }
     /// You are not authorized to perform the requested operation.

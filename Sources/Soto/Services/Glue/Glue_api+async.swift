@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1035,7 +1035,7 @@ extension Glue {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Glue {
-    ///  Retrieves the details of blueprint runs for a specified blueprint.
+    /// Retrieves the details of blueprint runs for a specified blueprint.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1057,7 +1057,7 @@ extension Glue {
         )
     }
 
-    ///  Lists all classifier objects in the Data Catalog.
+    /// Lists all classifier objects in the Data Catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1079,7 +1079,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves a list of connection definitions from the Data Catalog.
+    /// Retrieves a list of connection definitions from the Data Catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1101,7 +1101,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves metrics about specified crawlers.
+    /// Retrieves metrics about specified crawlers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1123,7 +1123,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves metadata for all crawlers defined in the customer account.
+    /// Retrieves metadata for all crawlers defined in the customer account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1145,7 +1145,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves all databases defined in a given Data Catalog.
+    /// Retrieves all databases defined in a given Data Catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1167,7 +1167,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves all the development endpoints in this Amazon Web Services account.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
+    /// Retrieves all the development endpoints in this Amazon Web Services account.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1189,7 +1189,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves metadata for all runs of a given job definition.
+    /// Retrieves metadata for all runs of a given job definition.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1211,7 +1211,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves all current job definitions.
+    /// Retrieves all current job definitions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1233,7 +1233,7 @@ extension Glue {
         )
     }
 
-    ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
+    /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1255,7 +1255,7 @@ extension Glue {
         )
     }
 
-    ///  Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
+    /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1277,7 +1277,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the partition indexes associated with a table.
+    /// Retrieves the partition indexes associated with a table.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1299,7 +1299,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves information about the partitions in a table.
+    /// Retrieves information about the partitions in a table.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1321,7 +1321,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
+    /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1343,7 +1343,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves a list of all security configurations.
+    /// Retrieves a list of all security configurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1365,7 +1365,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves a list of strings that identify available versions of a specified table.
+    /// Retrieves a list of strings that identify available versions of a specified table.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1387,7 +1387,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the definitions of some or all of the tables in a given Database.
+    /// Retrieves the definitions of some or all of the tables in a given Database.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1409,7 +1409,7 @@ extension Glue {
         )
     }
 
-    ///  Gets all the triggers associated with a job.
+    /// Gets all the triggers associated with a job.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1452,7 +1452,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves multiple function definitions from the Data Catalog.
+    /// Retrieves multiple function definitions from the Data Catalog.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1474,7 +1474,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves metadata for all runs of a given workflow.
+    /// Retrieves metadata for all runs of a given workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1496,7 +1496,7 @@ extension Glue {
         )
     }
 
-    ///  Lists all the blueprint names in an account.
+    /// Lists all the blueprint names in an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1518,7 +1518,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1540,7 +1540,7 @@ extension Glue {
         )
     }
 
-    ///  Lists all the custom patterns that have been created.
+    /// Lists all the custom patterns that have been created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1562,7 +1562,7 @@ extension Glue {
         )
     }
 
-    ///  Returns all data quality execution results for your account.
+    /// Returns all data quality execution results for your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1584,7 +1584,7 @@ extension Glue {
         )
     }
 
-    ///  Lists the recommendation runs meeting the filter criteria.
+    /// Lists the recommendation runs meeting the filter criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1606,7 +1606,7 @@ extension Glue {
         )
     }
 
-    ///  Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
+    /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1628,7 +1628,7 @@ extension Glue {
         )
     }
 
-    ///  Returns a paginated list of rulesets for the specified list of Glue tables.
+    /// Returns a paginated list of rulesets for the specified list of Glue tables.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1650,7 +1650,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1672,7 +1672,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1694,7 +1694,7 @@ extension Glue {
         )
     }
 
-    ///   Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
+    ///  Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1716,7 +1716,7 @@ extension Glue {
         )
     }
 
-    ///  Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
+    /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1738,7 +1738,7 @@ extension Glue {
         )
     }
 
-    ///  Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
+    /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1760,7 +1760,7 @@ extension Glue {
         )
     }
 
-    ///  Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
+    /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1782,7 +1782,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieve a list of sessions.
+    /// Retrieve a list of sessions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1804,7 +1804,7 @@ extension Glue {
         )
     }
 
-    ///  Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1826,7 +1826,7 @@ extension Glue {
         )
     }
 
-    ///  Lists names of workflows created in the account.
+    /// Lists names of workflows created in the account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1848,7 +1848,7 @@ extension Glue {
         )
     }
 
-    ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
+    /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

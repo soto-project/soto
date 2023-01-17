@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,15 +22,15 @@ extension SupportApp {
     // MARK: Enums
 
     public enum AccountType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case management
-        case member
+        case management = "management"
+        case member = "member"
         public var description: String { return self.rawValue }
     }
 
     public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case high
-        case none
+        case all = "all"
+        case high = "high"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
@@ -84,14 +84,14 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case channelName
-            case channelRoleArn
-            case notifyOnAddCorrespondenceToCase
-            case notifyOnCaseSeverity
-            case notifyOnCreateOrReopenCase
-            case notifyOnResolveCase
-            case teamId
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelRoleArn = "channelRoleArn"
+            case notifyOnAddCorrespondenceToCase = "notifyOnAddCorrespondenceToCase"
+            case notifyOnCaseSeverity = "notifyOnCaseSeverity"
+            case notifyOnCreateOrReopenCase = "notifyOnCreateOrReopenCase"
+            case notifyOnResolveCase = "notifyOnResolveCase"
+            case teamId = "teamId"
         }
     }
 
@@ -129,8 +129,8 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case teamId
+            case channelId = "channelId"
+            case teamId = "teamId"
         }
     }
 
@@ -154,7 +154,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case teamId
+            case teamId = "teamId"
         }
     }
 
@@ -175,7 +175,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAlias
+            case accountAlias = "accountAlias"
         }
     }
 
@@ -196,7 +196,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -212,8 +212,8 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case slackChannelConfigurations
+            case nextToken = "nextToken"
+            case slackChannelConfigurations = "slackChannelConfigurations"
         }
     }
 
@@ -234,7 +234,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -250,8 +250,8 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case slackWorkspaceConfigurations
+            case nextToken = "nextToken"
+            case slackWorkspaceConfigurations = "slackWorkspaceConfigurations"
         }
     }
 
@@ -270,7 +270,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAlias
+            case accountAlias = "accountAlias"
         }
     }
 
@@ -294,7 +294,7 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case teamId
+            case teamId = "teamId"
         }
     }
 
@@ -314,9 +314,9 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountType
-            case teamId
-            case teamName
+            case accountType = "accountType"
+            case teamId = "teamId"
+            case teamName = "teamName"
         }
     }
 
@@ -353,14 +353,14 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case channelName
-            case channelRoleArn
-            case notifyOnAddCorrespondenceToCase
-            case notifyOnCaseSeverity
-            case notifyOnCreateOrReopenCase
-            case notifyOnResolveCase
-            case teamId
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelRoleArn = "channelRoleArn"
+            case notifyOnAddCorrespondenceToCase = "notifyOnAddCorrespondenceToCase"
+            case notifyOnCaseSeverity = "notifyOnCaseSeverity"
+            case notifyOnCreateOrReopenCase = "notifyOnCreateOrReopenCase"
+            case notifyOnResolveCase = "notifyOnResolveCase"
+            case teamId = "teamId"
         }
     }
 
@@ -380,9 +380,9 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowOrganizationMemberAccount
-            case teamId
-            case teamName
+            case allowOrganizationMemberAccount = "allowOrganizationMemberAccount"
+            case teamId = "teamId"
+            case teamName = "teamName"
         }
     }
 
@@ -434,14 +434,14 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case channelName
-            case channelRoleArn
-            case notifyOnAddCorrespondenceToCase
-            case notifyOnCaseSeverity
-            case notifyOnCreateOrReopenCase
-            case notifyOnResolveCase
-            case teamId
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelRoleArn = "channelRoleArn"
+            case notifyOnAddCorrespondenceToCase = "notifyOnAddCorrespondenceToCase"
+            case notifyOnCaseSeverity = "notifyOnCaseSeverity"
+            case notifyOnCreateOrReopenCase = "notifyOnCreateOrReopenCase"
+            case notifyOnResolveCase = "notifyOnResolveCase"
+            case teamId = "teamId"
         }
     }
 
@@ -478,14 +478,14 @@ extension SupportApp {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case channelName
-            case channelRoleArn
-            case notifyOnAddCorrespondenceToCase
-            case notifyOnCaseSeverity
-            case notifyOnCreateOrReopenCase
-            case notifyOnResolveCase
-            case teamId
+            case channelId = "channelId"
+            case channelName = "channelName"
+            case channelRoleArn = "channelRoleArn"
+            case notifyOnAddCorrespondenceToCase = "notifyOnAddCorrespondenceToCase"
+            case notifyOnCaseSeverity = "notifyOnCaseSeverity"
+            case notifyOnCreateOrReopenCase = "notifyOnCreateOrReopenCase"
+            case notifyOnResolveCase = "notifyOnResolveCase"
+            case teamId = "teamId"
         }
     }
 }
@@ -521,17 +521,17 @@ public struct SupportAppErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient permission to perform this action.
+    /// You don't have sufficient permission to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Your request has a conflict. For example, you might receive this error if you try the following:   Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.   Add a Slack channel configuration that already exists in your Amazon Web Services account.   Delete a Slack channel configuration for a live chat channel.   Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.   Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn&#39;t belong to an organization.   Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn&#39;t registered that workspace yet for the organization.
+    /// Your request has a conflict. For example, you might receive this error if you try the following:   Add, update, or delete a Slack channel configuration before you add a Slack workspace to your Amazon Web Services account.   Add a Slack channel configuration that already exists in your Amazon Web Services account.   Delete a Slack channel configuration for a live chat channel.   Delete a Slack workspace from your Amazon Web Services account that has an active live chat channel.   Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.   Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
     public static var conflictException: Self { .init(.conflictException) }
     /// We can’t process your request right now because of a server issue. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The specified resource is missing or doesn&#39;t exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
+    /// The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// Your request input doesn&#39;t meet the constraints that the Amazon Web Services Support App specifies.
+    /// Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
     public static var validationException: Self { .init(.validationException) }
 }
 
