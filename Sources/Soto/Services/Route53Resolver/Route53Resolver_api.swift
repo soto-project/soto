@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -492,7 +492,7 @@ extension Route53Resolver {
 // MARK: Paginators
 
 extension Route53Resolver {
-    ///  Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.  A single call might return only a partial list of the configurations. For information, see MaxResults.
+    /// Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.  A single call might return only a partial list of the configurations. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -545,7 +545,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.  A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
+    /// Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.  A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -598,7 +598,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the domains that you have defined for the specified firewall domain list.   A single call might return only a partial list of the domains. For information, see MaxResults.
+    /// Retrieves the domains that you have defined for the specified firewall domain list.   A single call might return only a partial list of the domains. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -651,7 +651,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.  A single call might return only a partial list of the associations. For information, see MaxResults.
+    /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.  A single call might return only a partial list of the associations. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -704,7 +704,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the minimal high-level information for the rule groups that you have defined.   A single call might return only a partial list of the rule groups. For information, see MaxResults.
+    /// Retrieves the minimal high-level information for the rule groups that you have defined.   A single call might return only a partial list of the rule groups. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -757,7 +757,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -810,8 +810,8 @@ extension Route53Resolver {
         )
     }
 
-    ///  Retrieves the Resolver configurations that you have defined.
-    ///  			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
+    /// Retrieves the Resolver configurations that you have defined.
+    /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -864,7 +864,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
+    /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -917,7 +917,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Gets the IP addresses for a specified Resolver endpoint.
+    /// Gets the IP addresses for a specified Resolver endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -970,7 +970,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
+    /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1023,7 +1023,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists information about associations between Amazon VPCs and query logging configurations.
+    /// Lists information about associations between Amazon VPCs and query logging configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1076,8 +1076,8 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
-    ///  			DNS query logs and specifies the VPCs that you want to log queries for.
+    /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
+    /// 			DNS query logs and specifies the VPCs that you want to log queries for.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1130,7 +1130,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
+    /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1183,7 +1183,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the Resolver rules that were created using the current Amazon Web Services account.
+    /// Lists the Resolver rules that were created using the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1236,7 +1236,7 @@ extension Route53Resolver {
         )
     }
 
-    ///  Lists the tags that you associated with the specified resource.
+    /// Lists the tags that you associated with the specified resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

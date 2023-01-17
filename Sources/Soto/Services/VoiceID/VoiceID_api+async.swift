@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -133,7 +133,7 @@ extension VoiceID {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension VoiceID {
-    ///  Lists all the domains in the Amazon Web Services account.
+    /// Lists all the domains in the Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension VoiceID {
         )
     }
 
-    ///  Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
+    /// Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +177,7 @@ extension VoiceID {
         )
     }
 
-    ///  Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
+    /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -199,7 +199,7 @@ extension VoiceID {
         )
     }
 
-    ///  Lists all speakers in a specified domain.
+    /// Lists all speakers in a specified domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

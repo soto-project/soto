@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,63 +22,63 @@ extension CloudSearch {
     // MARK: Enums
 
     public enum AlgorithmicStemming: String, CustomStringConvertible, Codable, _SotoSendable {
-        case full
-        case light
-        case minimal
-        case none
+        case full = "full"
+        case light = "light"
+        case minimal = "minimal"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
     public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ar
-        case bg
-        case ca
-        case cs
-        case da
-        case de
-        case el
-        case en
-        case es
-        case eu
-        case fa
-        case fi
-        case fr
-        case ga
-        case gl
-        case he
-        case hi
-        case hu
-        case hy
-        case id
-        case it
-        case ja
-        case ko
-        case lv
-        case mul
-        case nl
-        case no
-        case pt
-        case ro
-        case ru
-        case sv
-        case th
-        case tr
+        case ar = "ar"
+        case bg = "bg"
+        case ca = "ca"
+        case cs = "cs"
+        case da = "da"
+        case de = "de"
+        case el = "el"
+        case en = "en"
+        case es = "es"
+        case eu = "eu"
+        case fa = "fa"
+        case fi = "fi"
+        case fr = "fr"
+        case ga = "ga"
+        case gl = "gl"
+        case he = "he"
+        case hi = "hi"
+        case hu = "hu"
+        case hy = "hy"
+        case id = "id"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case lv = "lv"
+        case mul = "mul"
+        case nl = "nl"
+        case no = "no"
+        case pt = "pt"
+        case ro = "ro"
+        case ru = "ru"
+        case sv = "sv"
+        case th = "th"
+        case tr = "tr"
         case zhHans = "zh-Hans"
         case zhHant = "zh-Hant"
         public var description: String { return self.rawValue }
     }
 
     public enum IndexFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case date
+        case date = "date"
         case dateArray = "date-array"
-        case double
+        case double = "double"
         case doubleArray = "double-array"
-        case int
+        case int = "int"
         case intArray = "int-array"
-        case latlon
-        case literal
+        case latlon = "latlon"
+        case literal = "literal"
         case literalArray = "literal-array"
-        case text
+        case text = "text"
         case textArray = "text-array"
         public var description: String { return self.rawValue }
     }
@@ -113,9 +113,9 @@ extension CloudSearch {
     }
 
     public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable, _SotoSendable {
-        case high
-        case low
-        case none
+        case high = "high"
+        case low = "low"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 

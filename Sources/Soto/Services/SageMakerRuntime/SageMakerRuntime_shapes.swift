@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -158,7 +158,7 @@ extension SageMakerRuntime {
         public func validate(name: String) throws {
             try self.validate(self.accept, name: "accept", parent: name, max: 1024)
             try self.validate(self.accept, name: "accept", parent: name, pattern: "^\\p{ASCII}*$")
-            try self.validate(self.body, name: "body", parent: name, max: 6_291_456)
+            try self.validate(self.body, name: "body", parent: name, max: 6291456)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^\\p{ASCII}*$")
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 1024)
@@ -256,7 +256,7 @@ public struct SageMakerRuntimeErrorType: AWSErrorType {
     public static var internalFailure: Self { .init(.internalFailure) }
     ///  Model (owned by the customer in the container) returned 4xx or 5xx error code.
     public static var modelError: Self { .init(.modelError) }
-    /// Either a serverless endpoint variant&#39;s resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
+    /// Either a serverless endpoint variant's resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
     public static var modelNotReadyException: Self { .init(.modelNotReadyException) }
     ///  The service is unavailable. Try your call again.
     public static var serviceUnavailable: Self { .init(.serviceUnavailable) }

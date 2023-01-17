@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,25 +22,25 @@ extension FIS {
     // MARK: Enums
 
     public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelled
-        case completed
-        case failed
-        case initiating
-        case pending
-        case running
-        case stopped
-        case stopping
+        case cancelled = "cancelled"
+        case completed = "completed"
+        case failed = "failed"
+        case initiating = "initiating"
+        case pending = "pending"
+        case running = "running"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ExperimentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case completed
-        case failed
-        case initiating
-        case pending
-        case running
-        case stopped
-        case stopping
+        case completed = "completed"
+        case failed = "failed"
+        case initiating = "initiating"
+        case pending = "pending"
+        case running = "running"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -67,11 +67,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case parameters
-            case tags
-            case targets
+            case description = "description"
+            case id = "id"
+            case parameters = "parameters"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -87,8 +87,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case required
+            case description = "description"
+            case required = "required"
         }
     }
 
@@ -110,10 +110,10 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case tags
-            case targets
+            case description = "description"
+            case id = "id"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -126,7 +126,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType
+            case resourceType = "resourceType"
         }
     }
 
@@ -174,11 +174,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
@@ -202,9 +202,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsConfiguration
-            case logSchemaVersion
-            case s3Configuration
+            case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
+            case logSchemaVersion = "logSchemaVersion"
+            case s3Configuration = "s3Configuration"
         }
     }
 
@@ -270,14 +270,14 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case clientToken
-            case description
-            case logConfiguration
-            case roleArn
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case clientToken = "clientToken"
+            case description = "description"
+            case logConfiguration = "logConfiguration"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -290,7 +290,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
@@ -314,8 +314,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
@@ -373,12 +373,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case parameters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case parameters = "parameters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
@@ -411,7 +411,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
@@ -457,18 +457,18 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case creationTime
-            case endTime
-            case experimentTemplateId
-            case id
-            case logConfiguration
-            case roleArn
-            case startTime
-            case state
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case experimentTemplateId = "experimentTemplateId"
+            case id = "id"
+            case logConfiguration = "logConfiguration"
+            case roleArn = "roleArn"
+            case startTime = "startTime"
+            case state = "state"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -502,14 +502,14 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case endTime
-            case parameters
-            case startAfter
-            case startTime
-            case state
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case endTime = "endTime"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case startTime = "startTime"
+            case state = "state"
+            case targets = "targets"
         }
     }
 
@@ -525,8 +525,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -539,7 +539,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupArn
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -558,9 +558,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsConfiguration
-            case logSchemaVersion
-            case s3Configuration
+            case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
+            case logSchemaVersion = "logSchemaVersion"
+            case s3Configuration = "s3Configuration"
         }
     }
 
@@ -576,8 +576,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case prefix
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
@@ -593,8 +593,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -610,8 +610,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
@@ -636,11 +636,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case experimentTemplateId
-            case id
-            case state
-            case tags
+            case creationTime = "creationTime"
+            case experimentTemplateId = "experimentTemplateId"
+            case id = "id"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -668,12 +668,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case parameters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case parameters = "parameters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
@@ -689,8 +689,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
@@ -730,16 +730,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case logConfiguration
-            case roleArn
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case logConfiguration = "logConfiguration"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
@@ -764,11 +764,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
@@ -781,7 +781,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupArn
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -800,7 +800,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupArn
+            case logGroupArn = "logGroupArn"
         }
     }
 
@@ -819,9 +819,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsConfiguration
-            case logSchemaVersion
-            case s3Configuration
+            case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
+            case logSchemaVersion = "logSchemaVersion"
+            case s3Configuration = "s3Configuration"
         }
     }
 
@@ -837,8 +837,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case prefix
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
@@ -863,8 +863,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case prefix
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
@@ -880,8 +880,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
@@ -906,11 +906,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case tags
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case tags = "tags"
         }
     }
 
@@ -938,12 +938,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case parameters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case parameters = "parameters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
@@ -959,8 +959,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
@@ -985,8 +985,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
@@ -1019,7 +1019,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
+            case action = "action"
         }
     }
 
@@ -1052,7 +1052,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1085,7 +1085,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
@@ -1118,7 +1118,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetResourceType
+            case targetResourceType = "targetResourceType"
         }
     }
 
@@ -1161,8 +1161,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case nextToken
+            case actions = "actions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1205,8 +1205,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplates
-            case nextToken
+            case experimentTemplates = "experimentTemplates"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1249,8 +1249,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiments
-            case nextToken
+            case experiments = "experiments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1284,7 +1284,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1327,8 +1327,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case targetResourceTypes
+            case nextToken = "nextToken"
+            case targetResourceTypes = "targetResourceTypes"
         }
     }
 
@@ -1362,9 +1362,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case experimentTemplateId
-            case tags
+            case clientToken = "clientToken"
+            case experimentTemplateId = "experimentTemplateId"
+            case tags = "tags"
         }
     }
 
@@ -1377,7 +1377,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1410,7 +1410,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1443,7 +1443,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1466,9 +1466,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case parameters
-            case resourceType
+            case description = "description"
+            case parameters = "parameters"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1484,8 +1484,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case required
+            case description = "description"
+            case required = "required"
         }
     }
 
@@ -1501,8 +1501,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case resourceType
+            case description = "description"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1583,11 +1583,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
@@ -1611,9 +1611,9 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsConfiguration
-            case logSchemaVersion
-            case s3Configuration
+            case cloudWatchLogsConfiguration = "cloudWatchLogsConfiguration"
+            case logSchemaVersion = "logSchemaVersion"
+            case s3Configuration = "s3Configuration"
         }
     }
 
@@ -1672,12 +1672,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case description
-            case logConfiguration
-            case roleArn
-            case stopConditions
-            case targets
+            case actions = "actions"
+            case description = "description"
+            case logConfiguration = "logConfiguration"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case targets = "targets"
         }
     }
 
@@ -1690,7 +1690,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
@@ -1714,8 +1714,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
@@ -1773,12 +1773,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case parameters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case parameters = "parameters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 }

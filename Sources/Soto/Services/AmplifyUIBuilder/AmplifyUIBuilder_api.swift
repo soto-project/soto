@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -186,7 +186,7 @@ extension AmplifyUIBuilder {
 // MARK: Paginators
 
 extension AmplifyUIBuilder {
-    ///  Exports component configurations to code that is ready to integrate into an Amplify app.
+    /// Exports component configurations to code that is ready to integrate into an Amplify app.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -239,7 +239,7 @@ extension AmplifyUIBuilder {
         )
     }
 
-    ///  Exports form configurations to code that is ready to integrate into an Amplify app.
+    /// Exports form configurations to code that is ready to integrate into an Amplify app.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -292,7 +292,7 @@ extension AmplifyUIBuilder {
         )
     }
 
-    ///  Exports theme configurations to code that is ready to integrate into an Amplify app.
+    /// Exports theme configurations to code that is ready to integrate into an Amplify app.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -345,7 +345,7 @@ extension AmplifyUIBuilder {
         )
     }
 
-    ///  Retrieves a list of components for a specified Amplify app and backend environment.
+    /// Retrieves a list of components for a specified Amplify app and backend environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -398,7 +398,7 @@ extension AmplifyUIBuilder {
         )
     }
 
-    ///  Retrieves a list of forms for a specified Amplify app and backend environment.
+    /// Retrieves a list of forms for a specified Amplify app and backend environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -451,7 +451,7 @@ extension AmplifyUIBuilder {
         )
     }
 
-    ///  Retrieves a list of themes for a specified Amplify app and backend environment.
+    /// Retrieves a list of themes for a specified Amplify app and backend environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -183,7 +183,7 @@ extension Billingconductor {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Billingconductor {
-    ///   This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
+    ///  This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -205,7 +205,7 @@ extension Billingconductor {
         )
     }
 
-    ///  A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
+    /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -227,7 +227,7 @@ extension Billingconductor {
         )
     }
 
-    ///  A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
+    /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -249,7 +249,7 @@ extension Billingconductor {
         )
     }
 
-    ///  A paginated call to get a list of all custom line item versions.
+    /// A paginated call to get a list of all custom line item versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -271,7 +271,7 @@ extension Billingconductor {
         )
     }
 
-    ///   A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
+    ///  A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -293,7 +293,7 @@ extension Billingconductor {
         )
     }
 
-    ///  A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
+    /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -315,7 +315,7 @@ extension Billingconductor {
         )
     }
 
-    ///   A list of the pricing plans that are associated with a pricing rule.
+    ///  A list of the pricing plans that are associated with a pricing rule.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -337,7 +337,7 @@ extension Billingconductor {
         )
     }
 
-    ///   Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
+    ///  Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -359,7 +359,7 @@ extension Billingconductor {
         )
     }
 
-    ///   Lists the pricing rules that are associated with a pricing plan.
+    ///  Lists the pricing rules that are associated with a pricing plan.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -381,7 +381,7 @@ extension Billingconductor {
         )
     }
 
-    ///   List the resources that are associated to a custom line item.
+    ///  List the resources that are associated to a custom line item.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

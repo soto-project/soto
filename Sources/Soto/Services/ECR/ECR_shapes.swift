@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -147,8 +147,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -167,9 +167,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationToken
-            case expiresAt
-            case proxyEndpoint
+            case authorizationToken = "authorizationToken"
+            case expiresAt = "expiresAt"
+            case proxyEndpoint = "proxyEndpoint"
         }
     }
 
@@ -203,14 +203,14 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case author
-            case imageHash
-            case imageTags
-            case platform
-            case pushedAt
-            case registry
-            case repositoryName
+            case architecture = "architecture"
+            case author = "author"
+            case imageHash = "imageHash"
+            case imageTags = "imageTags"
+            case platform = "platform"
+            case pushedAt = "pushedAt"
+            case registry = "registry"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -241,9 +241,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerDigests
-            case registryId
-            case repositoryName
+            case layerDigests = "layerDigests"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -259,8 +259,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case layers
+            case failures = "failures"
+            case layers = "layers"
         }
     }
 
@@ -291,9 +291,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageIds
-            case registryId
-            case repositoryName
+            case imageIds = "imageIds"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -309,8 +309,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case imageIds
+            case failures = "failures"
+            case imageIds = "imageIds"
         }
     }
 
@@ -346,10 +346,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceptedMediaTypes
-            case imageIds
-            case registryId
-            case repositoryName
+            case acceptedMediaTypes = "acceptedMediaTypes"
+            case imageIds = "imageIds"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -365,8 +365,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case images
+            case failures = "failures"
+            case images = "images"
         }
     }
 
@@ -389,7 +389,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryNames
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -405,8 +405,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case scanningConfigurations
+            case failures = "failures"
+            case scanningConfigurations = "scanningConfigurations"
         }
     }
 
@@ -441,10 +441,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerDigests
-            case registryId
-            case repositoryName
-            case uploadId
+            case layerDigests = "layerDigests"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
         }
     }
 
@@ -466,10 +466,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerDigest
-            case registryId
-            case repositoryName
-            case uploadId
+            case layerDigest = "layerDigest"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
         }
     }
 
@@ -495,9 +495,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrRepositoryPrefix
-            case registryId
-            case upstreamRegistryUrl
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
 
@@ -519,10 +519,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case ecrRepositoryPrefix
-            case registryId
-            case upstreamRegistryUrl
+            case createdAt = "createdAt"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
 
@@ -558,12 +558,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionConfiguration
-            case imageScanningConfiguration
-            case imageTagMutability
-            case registryId
-            case repositoryName
-            case tags
+            case encryptionConfiguration = "encryptionConfiguration"
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case tags = "tags"
         }
     }
 
@@ -576,7 +576,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -598,10 +598,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseScore
-            case scoringVector
-            case source
-            case version
+            case baseScore = "baseScore"
+            case scoringVector = "scoringVector"
+            case source = "source"
+            case version = "version"
         }
     }
 
@@ -617,8 +617,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metric
-            case reason
+            case metric = "metric"
+            case reason = "reason"
         }
     }
 
@@ -643,11 +643,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adjustments
-            case score
-            case scoreSource
-            case scoringVector
-            case version
+            case adjustments = "adjustments"
+            case score = "score"
+            case scoreSource = "scoreSource"
+            case scoringVector = "scoringVector"
+            case version = "version"
         }
     }
 
@@ -670,8 +670,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case repositoryName
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -693,10 +693,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastEvaluatedAt
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
+            case lastEvaluatedAt = "lastEvaluatedAt"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -719,8 +719,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrRepositoryPrefix
-            case registryId
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
         }
     }
 
@@ -742,10 +742,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case ecrRepositoryPrefix
-            case registryId
-            case upstreamRegistryUrl
+            case createdAt = "createdAt"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
 
@@ -765,8 +765,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
+            case policyText = "policyText"
+            case registryId = "registryId"
         }
     }
 
@@ -789,8 +789,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case repositoryName
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -809,9 +809,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
-            case repositoryName
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -837,9 +837,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case force
-            case registryId
-            case repositoryName
+            case force = "force"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -852,7 +852,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
@@ -878,9 +878,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -898,9 +898,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case replicationStatuses
-            case repositoryName
+            case imageId = "imageId"
+            case replicationStatuses = "replicationStatuses"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -934,11 +934,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case maxResults
-            case nextToken
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -965,12 +965,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case imageScanFindings
-            case imageScanStatus
-            case nextToken
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case imageScanFindings = "imageScanFindings"
+            case imageScanStatus = "imageScanStatus"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -983,7 +983,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagStatus
+            case tagStatus = "tagStatus"
         }
     }
 
@@ -1025,12 +1025,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case imageIds
-            case maxResults
-            case nextToken
-            case registryId
-            case repositoryName
+            case filter = "filter"
+            case imageIds = "imageIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1046,8 +1046,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageDetails
-            case nextToken
+            case imageDetails = "imageDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1082,10 +1082,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrRepositoryPrefixes
-            case maxResults
-            case nextToken
-            case registryId
+            case ecrRepositoryPrefixes = "ecrRepositoryPrefixes"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
         }
     }
 
@@ -1101,8 +1101,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pullThroughCacheRules
+            case nextToken = "nextToken"
+            case pullThroughCacheRules = "pullThroughCacheRules"
         }
     }
 
@@ -1122,8 +1122,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case replicationConfiguration
+            case registryId = "registryId"
+            case replicationConfiguration = "replicationConfiguration"
         }
     }
 
@@ -1158,10 +1158,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case registryId
-            case repositoryNames
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -1177,8 +1177,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
@@ -1199,8 +1199,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsKey
+            case encryptionType = "encryptionType"
+            case kmsKey = "kmsKey"
         }
     }
 
@@ -1255,21 +1255,21 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case description
-            case findingArn
-            case firstObservedAt
-            case lastObservedAt
-            case packageVulnerabilityDetails
-            case remediation
-            case resources
-            case score
-            case scoreDetails
-            case severity
-            case status
-            case title
-            case type
-            case updatedAt
+            case awsAccountId = "awsAccountId"
+            case description = "description"
+            case findingArn = "findingArn"
+            case firstObservedAt = "firstObservedAt"
+            case lastObservedAt = "lastObservedAt"
+            case packageVulnerabilityDetails = "packageVulnerabilityDetails"
+            case remediation = "remediation"
+            case resources = "resources"
+            case score = "score"
+            case scoreDetails = "scoreDetails"
+            case severity = "severity"
+            case status = "status"
+            case title = "title"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1295,7 +1295,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryIds
+            case registryIds = "registryIds"
         }
     }
 
@@ -1308,7 +1308,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationData
+            case authorizationData = "authorizationData"
         }
     }
 
@@ -1335,9 +1335,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerDigest
-            case registryId
-            case repositoryName
+            case layerDigest = "layerDigest"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1353,8 +1353,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case downloadUrl
-            case layerDigest
+            case downloadUrl = "downloadUrl"
+            case layerDigest = "layerDigest"
         }
     }
 
@@ -1396,12 +1396,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case imageIds
-            case maxResults
-            case nextToken
-            case registryId
-            case repositoryName
+            case filter = "filter"
+            case imageIds = "imageIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1432,13 +1432,13 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText
-            case nextToken
-            case previewResults
-            case registryId
-            case repositoryName
-            case status
-            case summary
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case nextToken = "nextToken"
+            case previewResults = "previewResults"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case status = "status"
+            case summary = "summary"
         }
     }
 
@@ -1461,8 +1461,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case repositoryName
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1484,10 +1484,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastEvaluatedAt
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
+            case lastEvaluatedAt = "lastEvaluatedAt"
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1507,8 +1507,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
+            case policyText = "policyText"
+            case registryId = "registryId"
         }
     }
 
@@ -1528,8 +1528,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case scanningConfiguration
+            case registryId = "registryId"
+            case scanningConfiguration = "scanningConfiguration"
         }
     }
 
@@ -1552,8 +1552,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case repositoryName
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1572,9 +1572,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
-            case repositoryName
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1599,11 +1599,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case imageManifest
-            case imageManifestMediaType
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1646,17 +1646,17 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactMediaType
-            case imageDigest
-            case imageManifestMediaType
-            case imagePushedAt
-            case imageScanFindingsSummary
-            case imageScanStatus
-            case imageSizeInBytes
-            case imageTags
-            case lastRecordedPullTime
-            case registryId
-            case repositoryName
+            case artifactMediaType = "artifactMediaType"
+            case imageDigest = "imageDigest"
+            case imageManifestMediaType = "imageManifestMediaType"
+            case imagePushedAt = "imagePushedAt"
+            case imageScanFindingsSummary = "imageScanFindingsSummary"
+            case imageScanStatus = "imageScanStatus"
+            case imageSizeInBytes = "imageSizeInBytes"
+            case imageTags = "imageTags"
+            case lastRecordedPullTime = "lastRecordedPullTime"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1675,9 +1675,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case failureReason
-            case imageId
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case imageId = "imageId"
         }
     }
 
@@ -1698,8 +1698,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageDigest
-            case imageTag
+            case imageDigest = "imageDigest"
+            case imageTag = "imageTag"
         }
     }
 
@@ -1721,10 +1721,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case region
-            case registryId
-            case status
+            case failureCode = "failureCode"
+            case region = "region"
+            case registryId = "registryId"
+            case status = "status"
         }
     }
 
@@ -1749,11 +1749,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case description
-            case name
-            case severity
-            case uri
+            case attributes = "attributes"
+            case description = "description"
+            case name = "name"
+            case severity = "severity"
+            case uri = "uri"
         }
     }
 
@@ -1778,11 +1778,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enhancedFindings
-            case findings
-            case findingSeverityCounts
-            case imageScanCompletedAt
-            case vulnerabilitySourceUpdatedAt
+            case enhancedFindings = "enhancedFindings"
+            case findings = "findings"
+            case findingSeverityCounts = "findingSeverityCounts"
+            case imageScanCompletedAt = "imageScanCompletedAt"
+            case vulnerabilitySourceUpdatedAt = "vulnerabilitySourceUpdatedAt"
         }
     }
 
@@ -1801,9 +1801,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingSeverityCounts
-            case imageScanCompletedAt
-            case vulnerabilitySourceUpdatedAt
+            case findingSeverityCounts = "findingSeverityCounts"
+            case imageScanCompletedAt = "imageScanCompletedAt"
+            case vulnerabilitySourceUpdatedAt = "vulnerabilitySourceUpdatedAt"
         }
     }
 
@@ -1819,8 +1819,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case status
+            case description = "description"
+            case status = "status"
         }
     }
 
@@ -1833,7 +1833,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scanOnPush
+            case scanOnPush = "scanOnPush"
         }
     }
 
@@ -1856,8 +1856,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryId
-            case repositoryName
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1873,8 +1873,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case partSize
-            case uploadId
+            case partSize = "partSize"
+            case uploadId = "uploadId"
         }
     }
 
@@ -1896,10 +1896,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerAvailability
-            case layerDigest
-            case layerSize
-            case mediaType
+            case layerAvailability = "layerAvailability"
+            case layerDigest = "layerDigest"
+            case layerSize = "layerSize"
+            case mediaType = "mediaType"
         }
     }
 
@@ -1918,9 +1918,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case failureReason
-            case layerDigest
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case layerDigest = "layerDigest"
         }
     }
 
@@ -1933,7 +1933,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagStatus
+            case tagStatus = "tagStatus"
         }
     }
 
@@ -1958,11 +1958,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case appliedRulePriority
-            case imageDigest
-            case imagePushedAt
-            case imageTags
+            case action = "action"
+            case appliedRulePriority = "appliedRulePriority"
+            case imageDigest = "imageDigest"
+            case imagePushedAt = "imagePushedAt"
+            case imageTags = "imageTags"
         }
     }
 
@@ -1975,7 +1975,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiringImageTotalCount
+            case expiringImageTotalCount = "expiringImageTotalCount"
         }
     }
 
@@ -1988,7 +1988,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -2001,7 +2001,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagStatus
+            case tagStatus = "tagStatus"
         }
     }
 
@@ -2035,11 +2035,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case registryId
-            case repositoryName
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2055,8 +2055,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageIds
-            case nextToken
+            case imageIds = "imageIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2069,7 +2069,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2082,7 +2082,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2122,16 +2122,16 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cvss
-            case referenceUrls
-            case relatedVulnerabilities
-            case source
-            case sourceUrl
-            case vendorCreatedAt
-            case vendorSeverity
-            case vendorUpdatedAt
-            case vulnerabilityId
-            case vulnerablePackages
+            case cvss = "cvss"
+            case referenceUrls = "referenceUrls"
+            case relatedVulnerabilities = "relatedVulnerabilities"
+            case source = "source"
+            case sourceUrl = "sourceUrl"
+            case vendorCreatedAt = "vendorCreatedAt"
+            case vendorSeverity = "vendorSeverity"
+            case vendorUpdatedAt = "vendorUpdatedAt"
+            case vulnerabilityId = "vulnerabilityId"
+            case vulnerablePackages = "vulnerablePackages"
         }
     }
 
@@ -2153,10 +2153,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case ecrRepositoryPrefix
-            case registryId
-            case upstreamRegistryUrl
+            case createdAt = "createdAt"
+            case ecrRepositoryPrefix = "ecrRepositoryPrefix"
+            case registryId = "registryId"
+            case upstreamRegistryUrl = "upstreamRegistryUrl"
         }
     }
 
@@ -2184,7 +2184,7 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageManifest, name: "imageManifest", parent: name, max: 4_194_304)
+            try self.validate(self.imageManifest, name: "imageManifest", parent: name, max: 4194304)
             try self.validate(self.imageManifest, name: "imageManifest", parent: name, min: 1)
             try self.validate(self.imageTag, name: "imageTag", parent: name, max: 300)
             try self.validate(self.imageTag, name: "imageTag", parent: name, min: 1)
@@ -2195,12 +2195,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageDigest
-            case imageManifest
-            case imageManifestMediaType
-            case imageTag
-            case registryId
-            case repositoryName
+            case imageDigest = "imageDigest"
+            case imageManifest = "imageManifest"
+            case imageManifestMediaType = "imageManifestMediaType"
+            case imageTag = "imageTag"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2213,7 +2213,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case image
+            case image = "image"
         }
     }
 
@@ -2239,9 +2239,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageScanningConfiguration
-            case registryId
-            case repositoryName
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2260,9 +2260,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageScanningConfiguration
-            case registryId
-            case repositoryName
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2288,9 +2288,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageTagMutability
-            case registryId
-            case repositoryName
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2309,9 +2309,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageTagMutability
-            case registryId
-            case repositoryName
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2339,9 +2339,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2360,9 +2360,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2379,7 +2379,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
+            case policyText = "policyText"
         }
     }
 
@@ -2395,8 +2395,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
+            case policyText = "policyText"
+            case registryId = "registryId"
         }
     }
 
@@ -2419,8 +2419,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rules
-            case scanType
+            case rules = "rules"
+            case scanType = "scanType"
         }
     }
 
@@ -2433,7 +2433,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryScanningConfiguration
+            case registryScanningConfiguration = "registryScanningConfiguration"
         }
     }
 
@@ -2450,7 +2450,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration
+            case replicationConfiguration = "replicationConfiguration"
         }
     }
 
@@ -2463,7 +2463,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration
+            case replicationConfiguration = "replicationConfiguration"
         }
     }
 
@@ -2479,8 +2479,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case url
+            case text = "text"
+            case url = "url"
         }
     }
 
@@ -2496,8 +2496,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rules
-            case scanType
+            case rules = "rules"
+            case scanType = "scanType"
         }
     }
 
@@ -2520,8 +2520,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryFilters
-            case scanFrequency
+            case repositoryFilters = "repositoryFilters"
+            case scanFrequency = "scanFrequency"
         }
     }
 
@@ -2534,7 +2534,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendation
+            case recommendation = "recommendation"
         }
     }
 
@@ -2554,7 +2554,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rules
+            case rules = "rules"
         }
     }
 
@@ -2577,8 +2577,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case region
-            case registryId
+            case region = "region"
+            case registryId = "registryId"
         }
     }
 
@@ -2606,8 +2606,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case repositoryFilters
+            case destinations = "destinations"
+            case repositoryFilters = "repositoryFilters"
         }
     }
 
@@ -2640,14 +2640,14 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case encryptionConfiguration
-            case imageScanningConfiguration
-            case imageTagMutability
-            case registryId
-            case repositoryArn
-            case repositoryName
-            case repositoryUri
+            case createdAt = "createdAt"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryArn = "repositoryArn"
+            case repositoryName = "repositoryName"
+            case repositoryUri = "repositoryUri"
         }
     }
 
@@ -2669,8 +2669,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case filterType
+            case filter = "filter"
+            case filterType = "filterType"
         }
     }
 
@@ -2695,11 +2695,11 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appliedScanFilters
-            case repositoryArn
-            case repositoryName
-            case scanFrequency
-            case scanOnPush
+            case appliedScanFilters = "appliedScanFilters"
+            case repositoryArn = "repositoryArn"
+            case repositoryName = "repositoryName"
+            case scanFrequency = "scanFrequency"
+            case scanOnPush = "scanOnPush"
         }
     }
 
@@ -2718,9 +2718,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case failureReason
-            case repositoryName
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2742,10 +2742,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case id
-            case tags
-            case type
+            case details = "details"
+            case id = "id"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -2758,7 +2758,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsEcrContainerImage
+            case awsEcrContainerImage = "awsEcrContainerImage"
         }
     }
 
@@ -2780,8 +2780,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case filterType
+            case filter = "filter"
+            case filterType = "filterType"
         }
     }
 
@@ -2794,7 +2794,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cvss
+            case cvss = "cvss"
         }
     }
 
@@ -2824,10 +2824,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case force
-            case policyText
-            case registryId
-            case repositoryName
+            case force = "force"
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2846,9 +2846,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyText
-            case registryId
-            case repositoryName
+            case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2874,9 +2874,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2897,10 +2897,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageId
-            case imageScanStatus
-            case registryId
-            case repositoryName
+            case imageId = "imageId"
+            case imageScanStatus = "imageScanStatus"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2928,9 +2928,9 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2952,10 +2952,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecyclePolicyText
-            case registryId
-            case repositoryName
-            case status
+            case lifecyclePolicyText = "lifecyclePolicyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case status = "status"
         }
     }
 
@@ -2988,8 +2988,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -3009,8 +3009,8 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -3042,7 +3042,7 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.layerPartBlob, name: "layerPartBlob", parent: name, max: 20_971_520)
+            try self.validate(self.layerPartBlob, name: "layerPartBlob", parent: name, max: 20971520)
             try self.validate(self.partFirstByte, name: "partFirstByte", parent: name, min: 0)
             try self.validate(self.partLastByte, name: "partLastByte", parent: name, min: 0)
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
@@ -3053,12 +3053,12 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layerPartBlob
-            case partFirstByte
-            case partLastByte
-            case registryId
-            case repositoryName
-            case uploadId
+            case layerPartBlob = "layerPartBlob"
+            case partFirstByte = "partFirstByte"
+            case partLastByte = "partLastByte"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
         }
     }
 
@@ -3080,10 +3080,10 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastByteReceived
-            case registryId
-            case repositoryName
-            case uploadId
+            case lastByteReceived = "lastByteReceived"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
         }
     }
 
@@ -3117,14 +3117,14 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arch
-            case epoch
-            case filePath
-            case name
-            case packageManager
-            case release
-            case sourceLayerHash
-            case version
+            case arch = "arch"
+            case epoch = "epoch"
+            case filePath = "filePath"
+            case name = "name"
+            case packageManager = "packageManager"
+            case release = "release"
+            case sourceLayerHash = "sourceLayerHash"
+            case version = "version"
         }
     }
 }
@@ -3229,7 +3229,7 @@ public struct ECRErrorType: AWSErrorType {
     public static var pullThroughCacheRuleNotFoundException: Self { .init(.pullThroughCacheRuleNotFoundException) }
     /// The manifest list is referencing an image that does not exist.
     public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }
-    /// The registry doesn&#39;t have an associated registry policy.
+    /// The registry doesn't have an associated registry policy.
     public static var registryPolicyNotFoundException: Self { .init(.registryPolicyNotFoundException) }
     /// The specified repository already exists in the specified registry.
     public static var repositoryAlreadyExistsException: Self { .init(.repositoryAlreadyExistsException) }
@@ -3247,7 +3247,7 @@ public struct ECRErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The image is of a type that cannot be scanned.
     public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
-    /// The specified upstream registry isn&#39;t supported.
+    /// The specified upstream registry isn't supported.
     public static var unsupportedUpstreamRegistryException: Self { .init(.unsupportedUpstreamRegistryException) }
     /// The upload could not be found, or the specified upload ID is not valid for this repository.
     public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }

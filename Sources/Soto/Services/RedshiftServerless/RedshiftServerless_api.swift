@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -277,7 +277,7 @@ extension RedshiftServerless {
 // MARK: Paginators
 
 extension RedshiftServerless {
-    ///  Returns an array of EndpointAccess objects and relevant information.
+    /// Returns an array of EndpointAccess objects and relevant information.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -330,7 +330,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Returns information about a list of specified namespaces.
+    /// Returns information about a list of specified namespaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -383,7 +383,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Returns an array of recovery points.
+    /// Returns an array of recovery points.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -436,7 +436,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Returns a list of snapshots.
+    /// Returns a list of snapshots.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -489,7 +489,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Returns information about an array of TableRestoreStatus objects.
+    /// Returns information about an array of TableRestoreStatus objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -542,7 +542,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Lists all usage limits within Amazon Redshift Serverless.
+    /// Lists all usage limits within Amazon Redshift Serverless.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -595,7 +595,7 @@ extension RedshiftServerless {
         )
     }
 
-    ///  Returns information about a list of specified workgroups.
+    /// Returns information about a list of specified workgroups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

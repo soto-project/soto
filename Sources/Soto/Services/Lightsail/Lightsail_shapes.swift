@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,14 +22,14 @@ extension Lightsail {
     // MARK: Enums
 
     public enum AccessDirection: String, CustomStringConvertible, Codable, _SotoSendable {
-        case inbound
-        case outbound
+        case inbound = "inbound"
+        case outbound = "outbound"
         public var description: String { return self.rawValue }
     }
 
     public enum AccessType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
-        case `public`
+        case `private` = "private"
+        case `public` = "public"
         public var description: String { return self.rawValue }
     }
 
@@ -76,8 +76,8 @@ extension Lightsail {
     }
 
     public enum BlueprintType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case app
-        case os
+        case app = "app"
+        case os = "os"
         public var description: String { return self.rawValue }
     }
 
@@ -151,12 +151,12 @@ extension Lightsail {
     }
 
     public enum ContainerServicePowerName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case large
-        case medium
-        case micro
-        case nano
-        case small
-        case xlarge
+        case large = "large"
+        case medium = "medium"
+        case micro = "micro"
+        case nano = "nano"
+        case small = "small"
+        case xlarge = "xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -193,19 +193,19 @@ extension Lightsail {
     }
 
     public enum DiskSnapshotState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case completed
-        case error
-        case pending
-        case unknown
+        case completed = "completed"
+        case error = "error"
+        case pending = "pending"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum DiskState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case error
+        case available = "available"
+        case error = "error"
         case inUse = "in-use"
-        case pending
-        case unknown
+        case pending = "pending"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -233,9 +233,9 @@ extension Lightsail {
     }
 
     public enum ForwardValues: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
+        case all = "all"
         case allowList = "allow-list"
-        case none
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
@@ -259,26 +259,26 @@ extension Lightsail {
     }
 
     public enum HttpEndpoint: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum HttpProtocolIpv6: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum HttpTokens: String, CustomStringConvertible, Codable, _SotoSendable {
-        case optional
-        case required
+        case optional = "optional"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case rdp
-        case ssh
+        case rdp = "rdp"
+        case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
@@ -298,18 +298,18 @@ extension Lightsail {
     }
 
     public enum InstanceHealthState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case draining
-        case healthy
-        case initial
-        case unavailable
-        case unhealthy
-        case unused
+        case draining = "draining"
+        case healthy = "healthy"
+        case initial = "initial"
+        case unavailable = "unavailable"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceMetadataState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case applied
-        case pending
+        case applied = "applied"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -333,15 +333,15 @@ extension Lightsail {
     }
 
     public enum InstanceSnapshotState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case error
-        case pending
+        case available = "available"
+        case error = "error"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
     public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dualstack
-        case ipv4
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
@@ -377,11 +377,11 @@ extension Lightsail {
     }
 
     public enum LoadBalancerState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case active
+        case active = "active"
         case activeImpaired = "active_impaired"
-        case failed
-        case provisioning
-        case unknown
+        case failed = "failed"
+        case provisioning = "provisioning"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -520,10 +520,10 @@ extension Lightsail {
     }
 
     public enum NetworkProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case icmp
-        case tcp
-        case udp
+        case all = "all"
+        case icmp = "icmp"
+        case tcp = "tcp"
+        case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
@@ -641,8 +641,8 @@ extension Lightsail {
     }
 
     public enum PortState: String, CustomStringConvertible, Codable, _SotoSendable {
-        case closed
-        case open
+        case closed = "closed"
+        case open = "open"
         public var description: String { return self.rawValue }
     }
 
@@ -681,7 +681,7 @@ extension Lightsail {
     }
 
     public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mysql
+        case mysql = "mysql"
         public var description: String { return self.rawValue }
     }
 
@@ -711,8 +711,8 @@ extension Lightsail {
     }
 
     public enum ResourceBucketAccess: String, CustomStringConvertible, Codable, _SotoSendable {
-        case allow
-        case deny
+        case allow = "allow"
+        case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
@@ -747,10 +747,10 @@ extension Lightsail {
     }
 
     public enum TreatMissingData: String, CustomStringConvertible, Codable, _SotoSendable {
-        case breaching
-        case ignore
-        case missing
-        case notBreaching
+        case breaching = "breaching"
+        case ignore = "ignore"
+        case missing = "missing"
+        case notBreaching = "notBreaching"
         public var description: String { return self.rawValue }
     }
 
@@ -761,14 +761,11 @@ extension Lightsail {
         public let accessKeyId: String?
         /// The timestamp when the access key was created.
         public let createdAt: Date?
-        /// An object that describes the last time the access key was used.
-        ///   This object does not include data in the response of a CreateBucketAccessKey action. If the access key has not been used, the region and serviceName values are N/A, and the lastUsedDate value is null.
+        /// An object that describes the last time the access key was used.  This object does not include data in the response of a CreateBucketAccessKey action. If the access key has not been used, the region and serviceName values are N/A, and the lastUsedDate value is null.
         public let lastUsed: AccessKeyLastUsed?
-        /// The secret access key used to sign requests.
-        ///  You should store the secret access key in a safe location. We recommend that you delete the access key if the secret access key is compromised.
+        /// The secret access key used to sign requests. You should store the secret access key in a safe location. We recommend that you delete the access key if the secret access key is compromised.
         public let secretAccessKey: String?
-        /// The status of the access key.
-        ///  A status of Active means that the key is valid, while Inactive means it is not.
+        /// The status of the access key. A status of Active means that the key is valid, while Inactive means it is not.
         public let status: StatusType?
 
         public init(accessKeyId: String? = nil, createdAt: Date? = nil, lastUsed: AccessKeyLastUsed? = nil, secretAccessKey: String? = nil, status: StatusType? = nil) {
@@ -780,11 +777,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case createdAt
-            case lastUsed
-            case secretAccessKey
-            case status
+            case accessKeyId = "accessKeyId"
+            case createdAt = "createdAt"
+            case lastUsed = "lastUsed"
+            case secretAccessKey = "secretAccessKey"
+            case status = "status"
         }
     }
 
@@ -803,21 +800,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUsedDate
-            case region
-            case serviceName
+            case lastUsedDate = "lastUsedDate"
+            case region = "region"
+            case serviceName = "serviceName"
         }
     }
 
     public struct AccessRules: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects override the getObject option that is currently specified.
-        ///  When this is true, you can use the PutObjectAcl Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL.
+        /// A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects override the getObject option that is currently specified. When this is true, you can use the PutObjectAcl Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL.
         public let allowPublicOverrides: Bool?
-        /// Specifies the anonymous access to all objects in a bucket.
-        ///  The following options can be specified:
-        ///     public - Sets all objects in the bucket to public (read-only), making them readable by anyone in the world.
-        ///  If the getObject value is set to public, then all objects in the bucket default to public regardless of the allowPublicOverrides value.    private - Sets all objects in the bucket to private, making them readable only by you or anyone you give access to.
-        ///  If the getObject value is set to private, and the allowPublicOverrides value is set to true, then all objects in the bucket default to private unless they are configured with a public-read ACL. Individual objects with a public-read ACL are readable by anyone in the world.
+        /// Specifies the anonymous access to all objects in a bucket. The following options can be specified:    public - Sets all objects in the bucket to public (read-only), making them readable by anyone in the world. If the getObject value is set to public, then all objects in the bucket default to public regardless of the allowPublicOverrides value.    private - Sets all objects in the bucket to private, making them readable only by you or anyone you give access to. If the getObject value is set to private, and the allowPublicOverrides value is set to true, then all objects in the bucket default to private unless they are configured with a public-read ACL. Individual objects with a public-read ACL are readable by anyone in the world.
         public let getObject: AccessType?
 
         public init(allowPublicOverrides: Bool? = nil, getObject: AccessType? = nil) {
@@ -826,8 +818,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowPublicOverrides
-            case getObject
+            case allowPublicOverrides = "allowPublicOverrides"
+            case getObject = "getObject"
         }
     }
 
@@ -836,11 +828,9 @@ extension Lightsail {
         public let bpaImpactsLightsail: Bool?
         /// The timestamp of when the account-level BPA configuration was last synchronized. This value is null when the account-level BPA configuration has not been synchronized.
         public let lastSyncedAt: Date?
-        /// A message that provides a reason for a Failed or Defaulted synchronization status.
-        ///  The following messages are possible:    SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.    DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
+        /// A message that provides a reason for a Failed or Defaulted synchronization status. The following messages are possible:    SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.    DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
         public let message: BPAStatusMessage?
-        /// The status of the account-level BPA synchronization.
-        ///  The following statuses are possible:    InSync - Account-level BPA is synchronized. The Amazon S3 account-level BPA configuration applies to your Lightsail buckets.    NeverSynced - Synchronization has not yet happened. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Failed - Synchronization failed. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Defaulted - Synchronization failed and account-level BPA for your Lightsail buckets is defaulted to active.    You might need to complete further actions if the status is Failed or Defaulted. The message parameter provides more information for those statuses.
+        /// The status of the account-level BPA synchronization. The following statuses are possible:    InSync - Account-level BPA is synchronized. The Amazon S3 account-level BPA configuration applies to your Lightsail buckets.    NeverSynced - Synchronization has not yet happened. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Failed - Synchronization failed. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Defaulted - Synchronization failed and account-level BPA for your Lightsail buckets is defaulted to active.    You might need to complete further actions if the status is Failed or Defaulted. The message parameter provides more information for those statuses.
         public let status: AccountLevelBpaSyncStatus?
 
         public init(bpaImpactsLightsail: Bool? = nil, lastSyncedAt: Date? = nil, message: BPAStatusMessage? = nil, status: AccountLevelBpaSyncStatus? = nil) {
@@ -851,10 +841,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bpaImpactsLightsail
-            case lastSyncedAt
-            case message
-            case status
+            case bpaImpactsLightsail = "bpaImpactsLightsail"
+            case lastSyncedAt = "lastSyncedAt"
+            case message = "message"
+            case status = "status"
         }
     }
 
@@ -876,10 +866,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case nextSnapshotTimeOfDay
-            case snapshotTimeOfDay
-            case status
+            case name = "name"
+            case nextSnapshotTimeOfDay = "nextSnapshotTimeOfDay"
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
+            case status = "status"
         }
     }
 
@@ -899,8 +889,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnType
-            case autoSnapshotAddOnRequest
+            case addOnType = "addOnType"
+            case autoSnapshotAddOnRequest = "autoSnapshotAddOnRequest"
         }
     }
 
@@ -970,26 +960,26 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case comparisonOperator
-            case contactProtocols
-            case createdAt
-            case datapointsToAlarm
-            case evaluationPeriods
-            case location
-            case metricName
-            case monitoredResourceInfo
-            case name
-            case notificationEnabled
-            case notificationTriggers
-            case period
-            case resourceType
-            case state
-            case statistic
-            case supportCode
-            case threshold
-            case treatMissingData
-            case unit
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case location = "location"
+            case metricName = "metricName"
+            case monitoredResourceInfo = "monitoredResourceInfo"
+            case name = "name"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case period = "period"
+            case resourceType = "resourceType"
+            case state = "state"
+            case statistic = "statistic"
+            case supportCode = "supportCode"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+            case unit = "unit"
         }
     }
 
@@ -1006,7 +996,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
@@ -1019,7 +1009,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -1040,8 +1030,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case distributionName
+            case certificateName = "certificateName"
+            case distributionName = "distributionName"
         }
     }
 
@@ -1054,7 +1044,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -1079,9 +1069,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case diskPath
-            case instanceName
+            case diskName = "diskName"
+            case diskPath = "diskPath"
+            case instanceName = "instanceName"
         }
     }
 
@@ -1094,7 +1084,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -1117,8 +1107,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case loadBalancerName
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -1131,7 +1121,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -1152,8 +1142,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case loadBalancerName
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -1166,7 +1156,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -1187,8 +1177,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case staticIpName
+            case instanceName = "instanceName"
+            case staticIpName = "staticIpName"
         }
     }
 
@@ -1201,7 +1191,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -1217,8 +1207,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case sizeInGb
+            case path = "path"
+            case sizeInGb = "sizeInGb"
         }
     }
 
@@ -1235,7 +1225,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotTimeOfDay
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
         }
     }
 
@@ -1257,10 +1247,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case date
-            case fromAttachedDisks
-            case status
+            case createdAt = "createdAt"
+            case date = "date"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case status = "status"
         }
     }
 
@@ -1276,8 +1266,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case zoneName
+            case state = "state"
+            case zoneName = "zoneName"
         }
     }
 
@@ -1323,25 +1313,23 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprintId
-            case description
-            case group
-            case isActive
-            case licenseUrl
-            case minPower
-            case name
-            case platform
-            case productUrl
-            case type
-            case version
-            case versionCode
+            case blueprintId = "blueprintId"
+            case description = "description"
+            case group = "group"
+            case isActive = "isActive"
+            case licenseUrl = "licenseUrl"
+            case minPower = "minPower"
+            case name = "name"
+            case platform = "platform"
+            case productUrl = "productUrl"
+            case type = "type"
+            case version = "version"
+            case versionCode = "versionCode"
         }
     }
 
     public struct Bucket: AWSDecodableShape {
-        /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle.
-        ///  You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle.
-        ///  Use the UpdateBucketBundle action to change a bucket's bundle.
+        /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. Use the UpdateBucketBundle action to change a bucket's bundle.
         public let ableToUpdateBundle: Bool?
         /// An object that describes the access log configuration for the bucket.
         public let accessLogConfig: BucketAccessLogConfig?
@@ -1349,9 +1337,7 @@ extension Lightsail {
         public let accessRules: AccessRules?
         /// The Amazon Resource Name (ARN) of the bucket.
         public let arn: String?
-        /// The ID of the bundle currently applied to the bucket.
-        ///  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket.
-        ///  Use the UpdateBucketBundle action to change the bundle of a bucket.
+        /// The ID of the bundle currently applied to the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the UpdateBucketBundle action to change the bundle of a bucket.
         public let bundleId: String?
         /// The timestamp when the distribution was created.
         public let createdAt: Date?
@@ -1359,13 +1345,11 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The name of the bucket.
         public let name: String?
-        /// Indicates whether object versioning is enabled for the bucket.
-        ///  The following options can be configured:    Enabled - Object versioning is enabled.    Suspended - Object versioning was previously enabled but is currently suspended. Existing object versions are retained.    NeverEnabled - Object versioning has never been enabled.
+        /// Indicates whether object versioning is enabled for the bucket. The following options can be configured:    Enabled - Object versioning is enabled.    Suspended - Object versioning was previously enabled but is currently suspended. Existing object versions are retained.    NeverEnabled - Object versioning has never been enabled.
         public let objectVersioning: String?
         /// An array of strings that specify the Amazon Web Services account IDs that have read-only access to the bucket.
         public let readonlyAccessAccounts: [String]?
-        /// An array of objects that describe Lightsail instances that have access to the bucket.
-        ///  Use the SetResourceAccessForBucket action to update the instances that have access to a bucket.
+        /// An array of objects that describe Lightsail instances that have access to the bucket. Use the SetResourceAccessForBucket action to update the instances that have access to a bucket.
         public let resourcesReceivingAccess: [ResourceReceivingAccess]?
         /// The Lightsail resource type of the bucket (for example, Bucket).
         public let resourceType: String?
@@ -1398,22 +1382,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ableToUpdateBundle
-            case accessLogConfig
-            case accessRules
-            case arn
-            case bundleId
-            case createdAt
-            case location
-            case name
-            case objectVersioning
-            case readonlyAccessAccounts
-            case resourcesReceivingAccess
-            case resourceType
-            case state
-            case supportCode
-            case tags
-            case url
+            case ableToUpdateBundle = "ableToUpdateBundle"
+            case accessLogConfig = "accessLogConfig"
+            case accessRules = "accessRules"
+            case arn = "arn"
+            case bundleId = "bundleId"
+            case createdAt = "createdAt"
+            case location = "location"
+            case name = "name"
+            case objectVersioning = "objectVersioning"
+            case readonlyAccessAccounts = "readonlyAccessAccounts"
+            case resourcesReceivingAccess = "resourcesReceivingAccess"
+            case resourceType = "resourceType"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case url = "url"
         }
     }
 
@@ -1441,9 +1425,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case enabled
-            case prefix
+            case destination = "destination"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -1471,19 +1455,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case isActive
-            case name
-            case price
-            case storagePerMonthInGb
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case isActive = "isActive"
+            case name = "name"
+            case price = "price"
+            case storagePerMonthInGb = "storagePerMonthInGb"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
     public struct BucketState: AWSDecodableShape {
-        /// The state code of the bucket.
-        ///  The following codes are possible:
-        ///     OK - The bucket is in a running state.    Unknown - Creation of the bucket might have timed-out. You might want to delete the bucket and create a new one.
+        /// The state code of the bucket. The following codes are possible:    OK - The bucket is in a running state.    Unknown - Creation of the bucket might have timed-out. You might want to delete the bucket and create a new one.
         public let code: String?
         /// A message that describes the state of the bucket.
         public let message: String?
@@ -1494,8 +1476,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1538,17 +1520,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cpuCount
-            case diskSizeInGb
-            case instanceType
-            case isActive
-            case name
-            case power
-            case price
-            case ramSizeInGb
-            case supportedPlatforms
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case instanceType = "instanceType"
+            case isActive = "isActive"
+            case name = "name"
+            case power = "power"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
+            case supportedPlatforms = "supportedPlatforms"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
@@ -1561,7 +1543,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case behavior
+            case behavior = "behavior"
         }
     }
 
@@ -1577,8 +1559,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case behavior
-            case path
+            case behavior = "behavior"
+            case path = "path"
         }
     }
 
@@ -1617,14 +1599,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedHTTPMethods
-            case cachedHTTPMethods
-            case defaultTTL
-            case forwardedCookies
-            case forwardedHeaders
-            case forwardedQueryStrings
-            case maximumTTL
-            case minimumTTL
+            case allowedHTTPMethods = "allowedHTTPMethods"
+            case cachedHTTPMethods = "cachedHTTPMethods"
+            case defaultTTL = "defaultTTL"
+            case forwardedCookies = "forwardedCookies"
+            case forwardedHeaders = "forwardedHeaders"
+            case forwardedQueryStrings = "forwardedQueryStrings"
+            case maximumTTL = "maximumTTL"
+            case minimumTTL = "minimumTTL"
         }
     }
 
@@ -1697,27 +1679,27 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainName
-            case domainValidationRecords
-            case eligibleToRenew
-            case inUseResourceCount
-            case issuedAt
-            case issuerCA
-            case keyAlgorithm
-            case name
-            case notAfter
-            case notBefore
-            case renewalSummary
-            case requestFailureReason
-            case revocationReason
-            case revokedAt
-            case serialNumber
-            case status
-            case subjectAlternativeNames
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case domainValidationRecords = "domainValidationRecords"
+            case eligibleToRenew = "eligibleToRenew"
+            case inUseResourceCount = "inUseResourceCount"
+            case issuedAt = "issuedAt"
+            case issuerCA = "issuerCA"
+            case keyAlgorithm = "keyAlgorithm"
+            case name = "name"
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
+            case renewalSummary = "renewalSummary"
+            case requestFailureReason = "requestFailureReason"
+            case revocationReason = "revocationReason"
+            case revokedAt = "revokedAt"
+            case serialNumber = "serialNumber"
+            case status = "status"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -1742,11 +1724,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case certificateDetail
-            case certificateName
-            case domainName
-            case tags
+            case certificateArn = "certificateArn"
+            case certificateDetail = "certificateDetail"
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case tags = "tags"
         }
     }
 
@@ -1767,8 +1749,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfo
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
@@ -1781,7 +1763,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -1815,14 +1797,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case destinationInfo
-            case location
-            case name
-            case resourceType
-            case sourceInfo
-            case state
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sourceInfo = "sourceInfo"
+            case state = "state"
         }
     }
 
@@ -1841,9 +1823,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case resourceType
+            case arn = "arn"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1880,15 +1862,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case contactEndpoint
-            case createdAt
-            case location
-            case name
-            case `protocol`
-            case resourceType
-            case status
-            case supportCode
+            case arn = "arn"
+            case contactEndpoint = "contactEndpoint"
+            case createdAt = "createdAt"
+            case location = "location"
+            case name = "name"
+            case `protocol` = "protocol"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
         }
     }
 
@@ -1897,9 +1879,7 @@ extension Lightsail {
         public let command: [String]?
         /// The environment variables of the container.
         public let environment: [String: String]?
-        /// The name of the image used for the container.
-        ///  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, if your container service name is container-service-1, the container image label is mystaticsite, and you want to use the third (3) version of the registered container image, then you should specify :container-service-1.mystaticsite.3. To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest). Lightsail will automatically use the highest numbered version of the registered container image.
-        ///  Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        /// The name of the image used for the container. Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, if your container service name is container-service-1, the container image label is mystaticsite, and you want to use the third (3) version of the registered container image, then you should specify :container-service-1.mystaticsite.3. To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest). Lightsail will automatically use the highest numbered version of the registered container image. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String?
         /// The open firewall ports of the container.
         public let ports: [String: ContainerServiceProtocol]?
@@ -1912,10 +1892,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case environment
-            case image
-            case ports
+            case command = "command"
+            case environment = "environment"
+            case image = "image"
+            case ports = "ports"
         }
     }
 
@@ -1934,9 +1914,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case digest
-            case image
+            case createdAt = "createdAt"
+            case digest = "digest"
+            case image = "image"
         }
     }
 
@@ -1953,33 +1933,23 @@ extension Lightsail {
         public let isDisabled: Bool?
         /// An object that describes the location of the container service, such as the Amazon Web Services Region and Availability Zone.
         public let location: ResourceLocation?
-        /// An object that describes the next deployment of the container service.
-        ///  This value is null when there is no deployment in a pending state.
+        /// An object that describes the next deployment of the container service. This value is null when there is no deployment in a pending state.
         public let nextDeployment: ContainerServiceDeployment?
-        /// The power specification of the container service.
-        ///  The power specifies the amount of RAM, the number of vCPUs, and the base price of the container service.
+        /// The power specification of the container service. The power specifies the amount of RAM, the number of vCPUs, and the base price of the container service.
         public let power: ContainerServicePowerName?
         /// The ID of the power of the container service.
         public let powerId: String?
-        /// The principal ARN of the container service.
-        ///  The principal ARN can be used to create a trust relationship between your standard Amazon Web Services account and your Lightsail container service. This allows you to give your service permission to access resources in your standard Amazon Web Services account.
+        /// The principal ARN of the container service. The principal ARN can be used to create a trust relationship between your standard Amazon Web Services account and your Lightsail container service. This allows you to give your service permission to access resources in your standard Amazon Web Services account.
         public let principalArn: String?
-        /// The private domain name of the container service.
-        ///  The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
+        /// The private domain name of the container service. The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
         public let privateDomainName: String?
-        /// An object that describes the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
-        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        /// An object that describes the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
         public let privateRegistryAccess: PrivateRegistryAccess?
-        /// The public domain name of the container service, such as example.com and www.example.com.
-        ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
-        ///  If you don't specify public domain names, then you can use the default domain of the container service.
-        ///   You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.
-        ///  See CreateContainerService or UpdateContainerService for information about how to specify public domain names for your Lightsail container service.
+        /// The public domain name of the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  See CreateContainerService or UpdateContainerService for information about how to specify public domain names for your Lightsail container service.
         public let publicDomainNames: [String: [String]]?
         /// The Lightsail resource type of the container service (i.e., ContainerService).
         public let resourceType: ResourceType?
-        /// The scale specification of the container service.
-        ///  The scale specifies the allocated compute nodes of the container service.
+        /// The scale specification of the container service. The scale specifies the allocated compute nodes of the container service.
         public let scale: Int?
         /// The current state of the container service. The following container service states are possible:    PENDING - The container service is being created.    READY - The container service is running but it does not have an active container deployment.    DEPLOYING - The container service is launching a container deployment.    RUNNING - The container service is running and it has an active container deployment.    UPDATING - The container service capacity or its custom domains are being updated.    DELETING - The container service is being deleted.    DISABLED - The container service is disabled, and its active deployment and containers, if any, are shut down.
         public let state: ContainerServiceState?
@@ -1987,8 +1957,7 @@ extension Lightsail {
         public let stateDetail: ContainerServiceStateDetail?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
-        /// The publicly accessible URL of the container service.
-        ///  If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
+        /// The publicly accessible URL of the container service. If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
         public let url: String?
 
         public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, privateRegistryAccess: PrivateRegistryAccess? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, stateDetail: ContainerServiceStateDetail? = nil, tags: [Tag]? = nil, url: String? = nil) {
@@ -2014,25 +1983,25 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerServiceName
-            case createdAt
-            case currentDeployment
-            case isDisabled
-            case location
-            case nextDeployment
-            case power
-            case powerId
-            case principalArn
-            case privateDomainName
-            case privateRegistryAccess
-            case publicDomainNames
-            case resourceType
-            case scale
-            case state
-            case stateDetail
-            case tags
-            case url
+            case arn = "arn"
+            case containerServiceName = "containerServiceName"
+            case createdAt = "createdAt"
+            case currentDeployment = "currentDeployment"
+            case isDisabled = "isDisabled"
+            case location = "location"
+            case nextDeployment = "nextDeployment"
+            case power = "power"
+            case powerId = "powerId"
+            case principalArn = "principalArn"
+            case privateDomainName = "privateDomainName"
+            case privateRegistryAccess = "privateRegistryAccess"
+            case publicDomainNames = "publicDomainNames"
+            case resourceType = "resourceType"
+            case scale = "scale"
+            case state = "state"
+            case stateDetail = "stateDetail"
+            case tags = "tags"
+            case url = "url"
         }
     }
 
@@ -2043,8 +2012,7 @@ extension Lightsail {
         public let createdAt: Date?
         /// An object that describes the endpoint of the deployment.
         public let publicEndpoint: ContainerServiceEndpoint?
-        /// The state of the deployment.
-        ///  A deployment can be in one of the following states:    Activating - The deployment is being created.    Active - The deployment was successfully created, and it's currently running on the container service. The container service can have only one deployment in an active state at a time.    Inactive - The deployment was previously successfully created, but it is not currently running on the container service.    Failed - The deployment failed. Use the GetContainerLog action to view the log events for the containers in the deployment to try to determine the reason for the failure.
+        /// The state of the deployment. A deployment can be in one of the following states:    Activating - The deployment is being created.    Active - The deployment was successfully created, and it's currently running on the container service. The container service can have only one deployment in an active state at a time.    Inactive - The deployment was previously successfully created, but it is not currently running on the container service.    Failed - The deployment failed. Use the GetContainerLog action to view the log events for the containers in the deployment to try to determine the reason for the failure.
         public let state: ContainerServiceDeploymentState?
         /// The version number of the deployment.
         public let version: Int?
@@ -2058,11 +2026,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case createdAt
-            case publicEndpoint
-            case state
-            case version
+            case containers = "containers"
+            case createdAt = "createdAt"
+            case publicEndpoint = "publicEndpoint"
+            case state = "state"
+            case version = "version"
         }
     }
 
@@ -2086,8 +2054,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case publicEndpoint
+            case containers = "containers"
+            case publicEndpoint = "publicEndpoint"
         }
     }
 
@@ -2103,8 +2071,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isActive
-            case principalArn
+            case isActive = "isActive"
+            case principalArn = "principalArn"
         }
     }
 
@@ -2117,7 +2085,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isActive
+            case isActive = "isActive"
         }
     }
 
@@ -2136,9 +2104,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case healthCheck
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case healthCheck = "healthCheck"
         }
     }
 
@@ -2166,12 +2134,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthyThreshold
-            case intervalSeconds
-            case path
-            case successCodes
-            case timeoutSeconds
-            case unhealthyThreshold
+            case healthyThreshold = "healthyThreshold"
+            case intervalSeconds = "intervalSeconds"
+            case path = "path"
+            case successCodes = "successCodes"
+            case timeoutSeconds = "timeoutSeconds"
+            case unhealthyThreshold = "unhealthyThreshold"
         }
     }
 
@@ -2187,8 +2155,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case message
+            case createdAt = "createdAt"
+            case message = "message"
         }
     }
 
@@ -2216,18 +2184,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case isActive
-            case name
-            case powerId
-            case price
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case isActive = "isActive"
+            case name = "name"
+            case powerId = "powerId"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
     public struct ContainerServiceRegistryLogin: AWSDecodableShape {
-        /// The timestamp of when the container image registry username and password expire.
-        ///  The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
+        /// The timestamp of when the container image registry username and password expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
         public let expiresAt: Date?
         /// The container service registry password to use to push container images to the container image registry of a Lightsail account
         public let password: String?
@@ -2244,10 +2211,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresAt
-            case password
-            case registry
-            case username
+            case expiresAt = "expiresAt"
+            case password = "password"
+            case registry = "registry"
+            case username = "username"
         }
     }
 
@@ -2263,8 +2230,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -2277,7 +2244,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerServices
+            case containerServices = "containerServices"
         }
     }
 
@@ -2293,8 +2260,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cookiesAllowList
-            case option
+            case cookiesAllowList = "cookiesAllowList"
+            case option = "option"
         }
     }
 
@@ -2327,12 +2294,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restoreDate
-            case sourceRegion
-            case sourceResourceName
-            case sourceSnapshotName
-            case targetSnapshotName
-            case useLatestRestorableAutoSnapshot
+            case restoreDate = "restoreDate"
+            case sourceRegion = "sourceRegion"
+            case sourceResourceName = "sourceResourceName"
+            case sourceSnapshotName = "sourceSnapshotName"
+            case targetSnapshotName = "targetSnapshotName"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
@@ -2345,7 +2312,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2364,7 +2331,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
+            case bucketName = "bucketName"
         }
     }
 
@@ -2380,25 +2347,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKey
-            case operations
+            case accessKey = "accessKey"
+            case operations = "operations"
         }
     }
 
     public struct CreateBucketRequest: AWSEncodableShape {
-        /// The name for the bucket.
-        ///  For more information about bucket names, see Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        /// The name for the bucket. For more information about bucket names, see Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide.
         public let bucketName: String
-        /// The ID of the bundle to use for the bucket.
-        ///  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket.
-        ///  Use the GetBucketBundles action to get a list of bundle IDs that you can specify.
-        ///  Use the UpdateBucketBundle action to change the bundle after the bucket is created.
+        /// The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action to change the bundle after the bucket is created.
         public let bundleId: String
-        /// A Boolean value that indicates whether to enable versioning of objects in the bucket.
-        ///  For more information about versioning, see Enabling and suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see Enabling and suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide.
         public let enableObjectVersioning: Bool?
-        /// The tag keys and optional values to add to the bucket during creation.
-        ///  Use the TagResource action to tag the bucket after it's created.
+        /// The tag keys and optional values to add to the bucket during creation. Use the TagResource action to tag the bucket after it's created.
         public let tags: [Tag]?
 
         public init(bucketName: String, bundleId: String, enableObjectVersioning: Bool? = nil, tags: [Tag]? = nil) {
@@ -2416,10 +2377,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bundleId
-            case enableObjectVersioning
-            case tags
+            case bucketName = "bucketName"
+            case bundleId = "bundleId"
+            case enableObjectVersioning = "enableObjectVersioning"
+            case tags = "tags"
         }
     }
 
@@ -2435,8 +2396,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case operations
+            case bucket = "bucket"
+            case operations = "operations"
         }
     }
 
@@ -2458,10 +2419,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case domainName
-            case subjectAlternativeNames
-            case tags
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case tags = "tags"
         }
     }
 
@@ -2477,8 +2438,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case operations
+            case certificate = "certificate"
+            case operations = "operations"
         }
     }
 
@@ -2497,7 +2458,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
+            case instances = "instances"
         }
     }
 
@@ -2510,7 +2471,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2531,8 +2492,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactEndpoint
-            case `protocol`
+            case contactEndpoint = "contactEndpoint"
+            case `protocol` = "protocol"
         }
     }
 
@@ -2545,7 +2506,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2579,8 +2540,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case publicEndpoint
+            case containers = "containers"
+            case publicEndpoint = "publicEndpoint"
         }
     }
 
@@ -2593,7 +2554,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
@@ -2610,34 +2571,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryLogin
+            case registryLogin = "registryLogin"
         }
     }
 
     public struct CreateContainerServiceRequest: AWSEncodableShape {
-        /// An object that describes a deployment for the container service.
-        ///  A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
+        /// An object that describes a deployment for the container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
         public let deployment: ContainerServiceDeploymentRequest?
-        /// The power specification for the container service.
-        ///  The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
-        ///  Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
+        /// The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
         public let power: ContainerServicePowerName
-        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
-        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
         public let privateRegistryAccess: PrivateRegistryAccessRequest?
-        /// The public domain names to use with the container service, such as example.com and www.example.com.
-        ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
-        ///  If you don't specify public domain names, then you can use the default domain of the container service.
-        ///   You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.
-        ///  You can specify public domain names using a string to array map as shown in the example later on this page.
+        /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
         public let publicDomainNames: [String: [String]]?
-        /// The scale specification for the container service.
-        ///  The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+        /// The scale specification for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
         public let scale: Int
-        /// The name for the container service.
-        ///  The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://...cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) Amazon Web Services Region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com
-        ///  The following are the requirements for container service names:
-        ///    Must be unique within each Amazon Web Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
+        /// The name for the container service. The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://...cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) Amazon Web Services Region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following are the requirements for container service names:   Must be unique within each Amazon Web Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
         public let serviceName: String
         /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
@@ -2662,13 +2611,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployment
-            case power
-            case privateRegistryAccess
-            case publicDomainNames
-            case scale
-            case serviceName
-            case tags
+            case deployment = "deployment"
+            case power = "power"
+            case privateRegistryAccess = "privateRegistryAccess"
+            case publicDomainNames = "publicDomainNames"
+            case scale = "scale"
+            case serviceName = "serviceName"
+            case tags = "tags"
         }
     }
 
@@ -2681,7 +2630,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
@@ -2727,15 +2676,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case diskName
-            case diskSnapshotName
-            case restoreDate
-            case sizeInGb
-            case sourceDiskName
-            case tags
-            case useLatestRestorableAutoSnapshot
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+            case restoreDate = "restoreDate"
+            case sizeInGb = "sizeInGb"
+            case sourceDiskName = "sourceDiskName"
+            case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
@@ -2748,7 +2697,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2781,11 +2730,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case diskName
-            case sizeInGb
-            case tags
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case diskName = "diskName"
+            case sizeInGb = "sizeInGb"
+            case tags = "tags"
         }
     }
 
@@ -2798,7 +2747,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2826,10 +2775,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case diskSnapshotName
-            case instanceName
-            case tags
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+            case instanceName = "instanceName"
+            case tags = "tags"
         }
     }
 
@@ -2842,7 +2791,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -2857,9 +2806,7 @@ extension Lightsail {
         public let defaultCacheBehavior: CacheBehavior
         /// The name for the distribution.
         public let distributionName: String
-        /// The IP address type for the distribution.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
-        ///  The default value is dualstack.
+        /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: InputOrigin
@@ -2884,14 +2831,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case defaultCacheBehavior
-            case distributionName
-            case ipAddressType
-            case origin
-            case tags
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case ipAddressType = "ipAddressType"
+            case origin = "origin"
+            case tags = "tags"
         }
     }
 
@@ -2907,8 +2854,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distribution
-            case operation
+            case distribution = "distribution"
+            case operation = "operation"
         }
     }
 
@@ -2928,8 +2875,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
@@ -2942,12 +2889,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain using Lightsail.
+        /// The domain name to manage (e.g., example.com).
         public let domainName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
@@ -2958,8 +2905,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case tags
+            case domainName = "domainName"
+            case tags = "tags"
         }
     }
 
@@ -2972,7 +2919,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -2996,9 +2943,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case instanceSnapshotName
-            case tags
+            case instanceName = "instanceName"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case tags = "tags"
         }
     }
 
@@ -3011,7 +2958,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3028,9 +2975,7 @@ extension Lightsail {
         public let instanceNames: [String]
         /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint:   This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
         public let instanceSnapshotName: String?
-        /// The IP address type for the instance.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
-        ///  The default value is dualstack.
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name for your key pair.
         public let keyPairName: String?
@@ -3074,19 +3019,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case attachedDiskMapping
-            case availabilityZone
-            case bundleId
-            case instanceNames
-            case instanceSnapshotName
-            case ipAddressType
-            case keyPairName
-            case restoreDate
-            case sourceInstanceName
-            case tags
-            case useLatestRestorableAutoSnapshot
-            case userData
+            case addOns = "addOns"
+            case attachedDiskMapping = "attachedDiskMapping"
+            case availabilityZone = "availabilityZone"
+            case bundleId = "bundleId"
+            case instanceNames = "instanceNames"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case ipAddressType = "ipAddressType"
+            case keyPairName = "keyPairName"
+            case restoreDate = "restoreDate"
+            case sourceInstanceName = "sourceInstanceName"
+            case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
+            case userData = "userData"
         }
     }
 
@@ -3099,7 +3044,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3116,9 +3061,7 @@ extension Lightsail {
         public let customImageName: String?
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
         public let instanceNames: [String]
-        /// The IP address type for the instance.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
-        ///  The default value is dualstack.
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name of your key pair.
         public let keyPairName: String?
@@ -3165,16 +3108,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case blueprintId
-            case bundleId
-            case customImageName
-            case instanceNames
-            case ipAddressType
-            case keyPairName
-            case tags
-            case userData
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case blueprintId = "blueprintId"
+            case bundleId = "bundleId"
+            case customImageName = "customImageName"
+            case instanceNames = "instanceNames"
+            case ipAddressType = "ipAddressType"
+            case keyPairName = "keyPairName"
+            case tags = "tags"
+            case userData = "userData"
         }
     }
 
@@ -3187,7 +3130,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3207,8 +3150,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
-            case tags
+            case keyPairName = "keyPairName"
+            case tags = "tags"
         }
     }
 
@@ -3230,10 +3173,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
-            case operation
-            case privateKeyBase64
-            case publicKeyBase64
+            case keyPair = "keyPair"
+            case operation = "operation"
+            case privateKeyBase64 = "privateKeyBase64"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
@@ -3248,17 +3191,13 @@ extension Lightsail {
         public let healthCheckPath: String?
         /// The instance port where you're creating your load balancer.
         public let instancePort: Int
-        /// The IP address type for the load balancer.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
-        ///  The default value is dualstack.
+        /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name of your load balancer.
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
-        /// The name of the TLS policy to apply to the load balancer.
-        ///  Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify.
-        ///  For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide.
+        /// The name of the TLS policy to apply to the load balancer. Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify. For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide.
         public let tlsPolicyName: String?
 
         public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int = 0, ipAddressType: IpAddressType? = nil, loadBalancerName: String, tags: [Tag]? = nil, tlsPolicyName: String? = nil) {
@@ -3281,15 +3220,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAlternativeNames
-            case certificateDomainName
-            case certificateName
-            case healthCheckPath
-            case instancePort
-            case ipAddressType
-            case loadBalancerName
-            case tags
-            case tlsPolicyName
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case certificateDomainName = "certificateDomainName"
+            case certificateName = "certificateName"
+            case healthCheckPath = "healthCheckPath"
+            case instancePort = "instancePort"
+            case ipAddressType = "ipAddressType"
+            case loadBalancerName = "loadBalancerName"
+            case tags = "tags"
+            case tlsPolicyName = "tlsPolicyName"
         }
     }
 
@@ -3302,7 +3241,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3332,11 +3271,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAlternativeNames
-            case certificateDomainName
-            case certificateName
-            case loadBalancerName
-            case tags
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case certificateDomainName = "certificateDomainName"
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
+            case tags = "tags"
         }
     }
 
@@ -3349,7 +3288,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3392,15 +3331,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case publiclyAccessible
-            case relationalDatabaseBundleId
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
-            case restoreTime
-            case sourceRelationalDatabaseName
-            case tags
-            case useLatestRestorableTime
+            case availabilityZone = "availabilityZone"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case restoreTime = "restoreTime"
+            case sourceRelationalDatabaseName = "sourceRelationalDatabaseName"
+            case tags = "tags"
+            case useLatestRestorableTime = "useLatestRestorableTime"
         }
     }
 
@@ -3413,7 +3352,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3460,17 +3399,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case masterDatabaseName
-            case masterUsername
-            case masterUserPassword
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseBlueprintId
-            case relationalDatabaseBundleId
-            case relationalDatabaseName
-            case tags
+            case availabilityZone = "availabilityZone"
+            case masterDatabaseName = "masterDatabaseName"
+            case masterUsername = "masterUsername"
+            case masterUserPassword = "masterUserPassword"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case tags = "tags"
         }
     }
 
@@ -3483,7 +3422,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3507,9 +3446,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
-            case tags
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case tags = "tags"
         }
     }
 
@@ -3522,7 +3461,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3539,7 +3478,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
+            case alarmName = "alarmName"
         }
     }
 
@@ -3552,7 +3491,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3573,8 +3512,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case date
-            case resourceName
+            case date = "date"
+            case resourceName = "resourceName"
         }
     }
 
@@ -3587,13 +3526,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteBucketAccessKeyRequest: AWSEncodableShape {
-        /// The ID of the access key to delete.
-        ///  Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify.
+        /// The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify.
         public let accessKeyId: String
         /// The name of the bucket that the access key belongs to.
         public let bucketName: String
@@ -3611,8 +3549,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case bucketName
+            case accessKeyId = "accessKeyId"
+            case bucketName = "bucketName"
         }
     }
 
@@ -3625,17 +3563,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteBucketRequest: AWSEncodableShape {
-        /// The name of the bucket to delete.
-        ///  Use the GetBuckets action to get a list of bucket names that you can specify.
+        /// The name of the bucket to delete. Use the GetBuckets action to get a list of bucket names that you can specify.
         public let bucketName: String
-        /// A Boolean value that indicates whether to force delete the bucket.
-        ///  You must force delete the bucket if it has one of the following conditions:   The bucket is the origin of a distribution.   The bucket has instances that were granted access to it using the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access keys.
-        ///   Force deleting a bucket might impact other resources that rely on the bucket, such as instances, distributions, or software that use the issued access keys.
+        /// A Boolean value that indicates whether to force delete the bucket. You must force delete the bucket if it has one of the following conditions:   The bucket is the origin of a distribution.   The bucket has instances that were granted access to it using the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access keys.    Force deleting a bucket might impact other resources that rely on the bucket, such as instances, distributions, or software that use the issued access keys.
         public let forceDelete: Bool?
 
         public init(bucketName: String, forceDelete: Bool? = nil) {
@@ -3650,8 +3585,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case forceDelete
+            case bucketName = "bucketName"
+            case forceDelete = "forceDelete"
         }
     }
 
@@ -3664,7 +3599,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3677,7 +3612,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
+            case certificateName = "certificateName"
         }
     }
 
@@ -3690,7 +3625,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3703,7 +3638,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol`
+            case `protocol` = "protocol"
         }
     }
 
@@ -3716,7 +3651,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3726,9 +3661,7 @@ extension Lightsail {
             AWSMemberEncoding(label: "serviceName", location: .uri("serviceName"))
         ]
 
-        /// The name of the container image to delete from the container service.
-        ///  Use the GetContainerImages action to get the name of the container images that are registered to a container service.
-        ///   Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String
         /// The name of the container service for which to delete a registered container image.
         public let serviceName: String
@@ -3779,7 +3712,7 @@ extension Lightsail {
     public struct DeleteDiskRequest: AWSEncodableShape {
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
-        /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+        /// A Boolean value to indicate whether to delete all add-ons for the disk.
         public let forceDeleteAddOns: Bool?
 
         public init(diskName: String, forceDeleteAddOns: Bool? = nil) {
@@ -3792,8 +3725,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case forceDeleteAddOns
+            case diskName = "diskName"
+            case forceDeleteAddOns = "forceDeleteAddOns"
         }
     }
 
@@ -3806,7 +3739,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3823,7 +3756,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName
+            case diskSnapshotName = "diskSnapshotName"
         }
     }
 
@@ -3836,7 +3769,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3853,7 +3786,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
@@ -3866,7 +3799,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -3886,8 +3819,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
@@ -3900,7 +3833,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -3913,7 +3846,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
@@ -3926,12 +3859,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
-        /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+        /// A Boolean value to indicate whether to delete all add-ons for the instance.
         public let forceDeleteAddOns: Bool?
         /// The name of the instance to delete.
         public let instanceName: String
@@ -3946,8 +3879,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forceDeleteAddOns
-            case instanceName
+            case forceDeleteAddOns = "forceDeleteAddOns"
+            case instanceName = "instanceName"
         }
     }
 
@@ -3960,7 +3893,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -3977,7 +3910,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
@@ -3990,7 +3923,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4010,8 +3943,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedFingerprint
-            case keyPairName
+            case expectedFingerprint = "expectedFingerprint"
+            case keyPairName = "keyPairName"
         }
     }
 
@@ -4024,7 +3957,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -4041,7 +3974,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -4054,7 +3987,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4071,7 +4004,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -4084,7 +4017,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4108,9 +4041,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case force
-            case loadBalancerName
+            case certificateName = "certificateName"
+            case force = "force"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -4123,7 +4056,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4147,9 +4080,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalRelationalDatabaseSnapshotName
-            case relationalDatabaseName
-            case skipFinalSnapshot
+            case finalRelationalDatabaseSnapshotName = "finalRelationalDatabaseSnapshotName"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case skipFinalSnapshot = "skipFinalSnapshot"
         }
     }
 
@@ -4162,7 +4095,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4179,7 +4112,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
@@ -4192,7 +4125,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4208,8 +4141,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case service
+            case id = "id"
+            case service = "service"
         }
     }
 
@@ -4226,7 +4159,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
@@ -4239,7 +4172,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -4256,7 +4189,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
+            case diskName = "diskName"
         }
     }
 
@@ -4269,7 +4202,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4292,8 +4225,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case loadBalancerName
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -4306,7 +4239,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4323,7 +4256,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
@@ -4336,7 +4269,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4356,8 +4289,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnType
-            case resourceName
+            case addOnType = "addOnType"
+            case resourceName = "resourceName"
         }
     }
 
@@ -4370,7 +4303,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4452,23 +4385,23 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case arn
-            case attachedTo
-            case attachmentState
-            case createdAt
-            case gbInUse
-            case iops
-            case isAttached
-            case isSystemDisk
-            case location
-            case name
-            case path
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case addOns = "addOns"
+            case arn = "arn"
+            case attachedTo = "attachedTo"
+            case attachmentState = "attachmentState"
+            case createdAt = "createdAt"
+            case gbInUse = "gbInUse"
+            case iops = "iops"
+            case isAttached = "isAttached"
+            case isSystemDisk = "isSystemDisk"
+            case location = "location"
+            case name = "name"
+            case path = "path"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -4490,10 +4423,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isSystemDisk
-            case name
-            case path
-            case sizeInGb
+            case isSystemDisk = "isSystemDisk"
+            case name = "name"
+            case path = "path"
+            case sizeInGb = "sizeInGb"
         }
     }
 
@@ -4514,8 +4447,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newDiskName
-            case originalDiskPath
+            case newDiskName = "newDiskName"
+            case originalDiskPath = "originalDiskPath"
         }
     }
 
@@ -4570,21 +4503,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fromDiskArn
-            case fromDiskName
-            case fromInstanceArn
-            case fromInstanceName
-            case isFromAutoSnapshot
-            case location
-            case name
-            case progress
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fromDiskArn = "fromDiskArn"
+            case fromDiskName = "fromDiskName"
+            case fromInstanceArn = "fromInstanceArn"
+            case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
+            case location = "location"
+            case name = "name"
+            case progress = "progress"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -4597,7 +4530,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGb
+            case sizeInGb = "sizeInGb"
         }
     }
 
@@ -4622,17 +4555,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case isActive
-            case name
-            case price
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case isActive = "isActive"
+            case name = "name"
+            case price = "price"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
     public struct DnsRecordCreationState: AWSDecodableShape {
-        /// The status code for the automated DNS record creation.
-        ///  Following are the possible values:    SUCCEEDED - The validation records were successfully added to the domain.    STARTED - The automatic DNS record creation has started.    FAILED - The validation records failed to be added to the domain.
+        /// The status code for the automated DNS record creation. Following are the possible values:    SUCCEEDED - The validation records were successfully added to the domain.    STARTED - The automatic DNS record creation has started.    FAILED - The validation records failed to be added to the domain.
         public let code: DnsRecordCreationStateCode?
         /// The message that describes the reason for the status code.
         public let message: String?
@@ -4643,8 +4575,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -4681,15 +4613,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainEntries
-            case location
-            case name
-            case registeredDomainDelegationInfo
-            case resourceType
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainEntries = "domainEntries"
+            case location = "location"
+            case name = "name"
+            case registeredDomainDelegationInfo = "registeredDomainDelegationInfo"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -4731,12 +4663,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case isAlias
-            case name
-            case options
-            case target
-            case type
+            case id = "id"
+            case isAlias = "isAlias"
+            case name = "name"
+            case options = "options"
+            case target = "target"
+            case type = "type"
         }
     }
 
@@ -4758,10 +4690,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsRecordCreationState
-            case domainName
-            case resourceRecord
-            case validationStatus
+            case dnsRecordCreationState = "dnsRecordCreationState"
+            case domainName = "domainName"
+            case resourceRecord = "resourceRecord"
+            case validationStatus = "validationStatus"
         }
     }
 
@@ -4784,9 +4716,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case privateKeyBase64
-            case publicKeyBase64
+            case createdAt = "createdAt"
+            case privateKeyBase64 = "privateKeyBase64"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
@@ -4807,8 +4739,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnRequest
-            case resourceName
+            case addOnRequest = "addOnRequest"
+            case resourceName = "resourceName"
         }
     }
 
@@ -4821,7 +4753,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4840,9 +4772,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case healthCheck
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case healthCheck = "healthCheck"
         }
     }
 
@@ -4876,14 +4808,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case destinationInfo
-            case location
-            case name
-            case resourceType
-            case sourceInfo
-            case state
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sourceInfo = "sourceInfo"
+            case state = "state"
         }
     }
 
@@ -4917,14 +4849,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case diskSnapshotInfo
-            case fromResourceArn
-            case fromResourceName
-            case instanceSnapshotInfo
-            case name
-            case resourceType
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case diskSnapshotInfo = "diskSnapshotInfo"
+            case fromResourceArn = "fromResourceArn"
+            case fromResourceName = "fromResourceName"
+            case instanceSnapshotInfo = "instanceSnapshotInfo"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
@@ -4941,7 +4873,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceSnapshotName
+            case sourceSnapshotName = "sourceSnapshotName"
         }
     }
 
@@ -4954,7 +4886,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -4967,7 +4899,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -4983,8 +4915,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeNames
-            case nextPageToken
+            case activeNames = "activeNames"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5008,9 +4940,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case monitoredResourceName
-            case pageToken
+            case alarmName = "alarmName"
+            case monitoredResourceName = "monitoredResourceName"
+            case pageToken = "pageToken"
         }
     }
 
@@ -5026,8 +4958,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case nextPageToken
+            case alarms = "alarms"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5044,7 +4976,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
@@ -5063,9 +4995,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoSnapshots
-            case resourceName
-            case resourceType
+            case autoSnapshots = "autoSnapshots"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -5081,8 +5013,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
-            case pageToken
+            case includeInactive = "includeInactive"
+            case pageToken = "pageToken"
         }
     }
 
@@ -5098,8 +5030,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprints
-            case nextPageToken
+            case blueprints = "blueprints"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5118,7 +5050,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
+            case bucketName = "bucketName"
         }
     }
 
@@ -5131,7 +5063,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeys
+            case accessKeys = "accessKeys"
         }
     }
 
@@ -5144,7 +5076,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
+            case includeInactive = "includeInactive"
         }
     }
 
@@ -5157,7 +5089,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
+            case bundles = "bundles"
         }
     }
 
@@ -5166,18 +5098,13 @@ extension Lightsail {
         public let bucketName: String
         /// The timestamp indicating the latest data to be returned.
         public let endTime: Date
-        /// The metric for which you want to return information.
-        ///  Valid bucket metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.
-        ///   These bucket metrics are reported once per day.
-        ///      BucketSizeBytes - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all objects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum. Unit: The published unit is Bytes.     NumberOfObjects - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average. Unit: The published unit is Count.
+        /// The metric for which you want to return information. Valid bucket metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.  These bucket metrics are reported once per day.      BucketSizeBytes - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all objects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum. Unit: The published unit is Bytes.     NumberOfObjects - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average. Unit: The published unit is Count.
         public let metricName: BucketMetricName
         /// The granularity, in seconds, of the returned data points.  Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day.
         public let period: Int
         /// The timestamp indicating the earliest data to be returned.
         public let startTime: Date
-        /// The statistic for the metric.
-        ///  The following statistics are available:
-        ///     Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
         /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
         public let unit: MetricUnit
@@ -5201,13 +5128,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case endTime
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case bucketName = "bucketName"
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
@@ -5223,19 +5150,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetBucketsRequest: AWSEncodableShape {
-        /// The name of the bucket for which to return information.
-        ///  When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made.
+        /// The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made.
         public let bucketName: String?
         /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
         public let includeConnectedResources: Bool?
-        /// The token to advance to the next page of results from your request.
-        ///  To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(bucketName: String? = nil, includeConnectedResources: Bool? = nil, pageToken: String? = nil) {
@@ -5251,21 +5176,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case includeConnectedResources
-            case pageToken
+            case bucketName = "bucketName"
+            case includeConnectedResources = "includeConnectedResources"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetBucketsResult: AWSDecodableShape {
-        /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets.
-        ///  For more information about this feature and how it affects Lightsail buckets, see Block public access for buckets in Amazon Lightsail.
+        /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets. For more information about this feature and how it affects Lightsail buckets, see Block public access for buckets in Amazon Lightsail.
         public let accountLevelBpaSync: AccountLevelBpaSync?
         /// An array of objects that describe buckets.
         public let buckets: [Bucket]?
-        /// The token to advance to the next page of results from your request.
-        ///  A next page token is not returned if there are no more results to display.
-        ///  To get the next page of results, perform another GetBuckets request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBuckets request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(accountLevelBpaSync: AccountLevelBpaSync? = nil, buckets: [Bucket]? = nil, nextPageToken: String? = nil) {
@@ -5275,9 +5197,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountLevelBpaSync
-            case buckets
-            case nextPageToken
+            case accountLevelBpaSync = "accountLevelBpaSync"
+            case buckets = "buckets"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5293,8 +5215,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
-            case pageToken
+            case includeInactive = "includeInactive"
+            case pageToken = "pageToken"
         }
     }
 
@@ -5310,8 +5232,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
-            case nextPageToken
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5330,9 +5252,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case certificateStatuses
-            case includeCertificateDetails
+            case certificateName = "certificateName"
+            case certificateStatuses = "certificateStatuses"
+            case includeCertificateDetails = "includeCertificateDetails"
         }
     }
 
@@ -5345,7 +5267,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificates
+            case certificates = "certificates"
         }
     }
 
@@ -5358,7 +5280,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -5374,8 +5296,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudFormationStackRecords
-            case nextPageToken
+            case cloudFormationStackRecords = "cloudFormationStackRecords"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5388,7 +5310,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case protocols
+            case protocols = "protocols"
         }
     }
 
@@ -5401,7 +5323,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactMethods
+            case contactMethods = "contactMethods"
         }
     }
 
@@ -5418,7 +5340,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
+            case metadata = "metadata"
         }
     }
 
@@ -5452,7 +5374,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerImages
+            case containerImages = "containerImages"
         }
     }
 
@@ -5468,25 +5390,15 @@ extension Lightsail {
 
         /// The name of the container that is either running or previously ran on the container service for which to return a log.
         public let containerName: String
-        /// The end of the time interval for which to get log data.
-        ///  Constraints:
-        ///    Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format.
-        ///  For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.
-        ///  You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The end of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let endTime: Date?
-        /// The pattern to use to filter the returned log events to a specific term.
-        ///  The following are a few examples of filter patterns that you can specify:   To return all log events, specify a filter pattern of "".   To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of "-ERROR".   To return log events that contain the ERROR term, specify a filter pattern of "ERROR".   To return log events that contain both the ERROR and Exception terms, specify a filter pattern of "ERROR Exception".   To return log events that contain the ERROR or the Exception term, specify a filter pattern of "?ERROR ?Exception".
+        /// The pattern to use to filter the returned log events to a specific term. The following are a few examples of filter patterns that you can specify:   To return all log events, specify a filter pattern of "".   To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of "-ERROR".   To return log events that contain the ERROR term, specify a filter pattern of "ERROR".   To return log events that contain both the ERROR and Exception terms, specify a filter pattern of "ERROR Exception".   To return log events that contain the ERROR or the Exception term, specify a filter pattern of "?ERROR ?Exception".
         public let filterPattern: String?
-        /// The token to advance to the next page of results from your request.
-        ///  To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of the container service for which to get a container log.
         public let serviceName: String
-        /// The start of the time interval for which to get log data.
-        ///  Constraints:
-        ///    Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format.
-        ///  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.
-        ///  You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+        /// The start of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
         public let startTime: Date?
 
         public init(containerName: String, endTime: Date? = nil, filterPattern: String? = nil, pageToken: String? = nil, serviceName: String, startTime: Date? = nil) {
@@ -5510,9 +5422,7 @@ extension Lightsail {
     public struct GetContainerLogResult: AWSDecodableShape {
         /// An array of objects that describe the log events of a container.
         public let logEvents: [ContainerServiceLogEvent]?
-        /// The token to advance to the next page of results from your request.
-        ///  A next page token is not returned if there are no more results to display.
-        ///  To get the next page of results, perform another GetContainerLog request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetContainerLog request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
         public init(logEvents: [ContainerServiceLogEvent]? = nil, nextPageToken: String? = nil) {
@@ -5521,8 +5431,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logEvents
-            case nextPageToken
+            case logEvents = "logEvents"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5556,7 +5466,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
+            case deployments = "deployments"
         }
     }
 
@@ -5572,20 +5482,15 @@ extension Lightsail {
 
         /// The end time of the time period.
         public let endTime: Date
-        /// The metric for which you want to return information.
-        ///  Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.
-        ///     CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
+        /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.    CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
         public let metricName: ContainerServiceMetricName
-        /// The granularity, in seconds, of the returned data points.
-        ///  All container service metric data is available in 5-minute (300 seconds) granularity.
+        /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
         /// The name of the container service for which to get metric data.
         public let serviceName: String
         /// The start time of the time period.
         public let startTime: Date
-        /// The statistic for the metric.
-        ///  The following statistics are available:
-        ///     Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
         public let statistics: [MetricStatistic]
 
         public init(endTime: Date, metricName: ContainerServiceMetricName, period: Int = 0, serviceName: String, startTime: Date, statistics: [MetricStatistic]) {
@@ -5620,8 +5525,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
@@ -5638,7 +5543,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case powers
+            case powers = "powers"
         }
     }
 
@@ -5647,8 +5552,7 @@ extension Lightsail {
             AWSMemberEncoding(label: "serviceName", location: .querystring("serviceName"))
         ]
 
-        /// The name of the container service for which to return information.
-        ///  When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made.
+        /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made.
         public let serviceName: String?
 
         public init(serviceName: String? = nil) {
@@ -5677,7 +5581,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
+            case diskName = "diskName"
         }
     }
 
@@ -5690,7 +5594,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disk
+            case disk = "disk"
         }
     }
 
@@ -5707,7 +5611,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName
+            case diskSnapshotName = "diskSnapshotName"
         }
     }
 
@@ -5720,7 +5624,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshot
+            case diskSnapshot = "diskSnapshot"
         }
     }
 
@@ -5733,7 +5637,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -5749,8 +5653,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshots
-            case nextPageToken
+            case diskSnapshots = "diskSnapshots"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5763,7 +5667,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -5779,8 +5683,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disks
-            case nextPageToken
+            case disks = "disks"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5797,7 +5701,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
+            case bundles = "bundles"
         }
     }
 
@@ -5814,7 +5718,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
@@ -5830,8 +5734,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case status
+            case createTime = "createTime"
+            case status = "status"
         }
     }
 
@@ -5868,13 +5772,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
-            case endTime
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case distributionName = "distributionName"
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
@@ -5890,13 +5794,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetDistributionsRequest: AWSEncodableShape {
-        /// The name of the distribution for which to return information.  When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made.
+        /// The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made.
         public let distributionName: String?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -5911,8 +5815,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
-            case pageToken
+            case distributionName = "distributionName"
+            case pageToken = "pageToken"
         }
     }
 
@@ -5928,8 +5832,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributions
-            case nextPageToken
+            case distributions = "distributions"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5942,7 +5846,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
@@ -5955,7 +5859,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
@@ -5968,7 +5872,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -5984,8 +5888,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains
-            case nextPageToken
+            case domains = "domains"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -5998,7 +5902,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6014,8 +5918,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportSnapshotRecords
-            case nextPageToken
+            case exportSnapshotRecords = "exportSnapshotRecords"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6035,8 +5939,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case `protocol`
+            case instanceName = "instanceName"
+            case `protocol` = "protocol"
         }
     }
 
@@ -6049,7 +5953,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDetails
+            case accessDetails = "accessDetails"
         }
     }
 
@@ -6058,7 +5962,7 @@ extension Lightsail {
         public let endTime: Date
         /// The name of the instance for which you want to get metrics data.
         public let instanceName: String
-        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.      MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
+        /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.     BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see Viewing instance burst capacity in Amazon Lightsail.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Seconds.     CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     NetworkIn - The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to the instance. The number reported is the number of bytes received during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkOut - The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic from the instance. The number reported is the number of bytes sent during the period. Because this metric is reported in 5-minute intervals, divide the reported number by 300 to find Bytes/second.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     StatusCheckFailed - Reports whether the instance passed or failed both the instance status check and the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_Instance - Reports whether the instance passed or failed the instance status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.
         public let metricName: InstanceMetricName
         /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
         public let period: Int
@@ -6086,13 +5990,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case instanceName
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case instanceName = "instanceName"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
@@ -6108,8 +6012,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
@@ -6126,7 +6030,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -6139,7 +6043,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portStates
+            case portStates = "portStates"
         }
     }
 
@@ -6156,7 +6060,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -6169,7 +6073,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instance
+            case instance = "instance"
         }
     }
 
@@ -6186,7 +6090,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
@@ -6199,7 +6103,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshot
+            case instanceSnapshot = "instanceSnapshot"
         }
     }
 
@@ -6212,7 +6116,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6228,8 +6132,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshots
-            case nextPageToken
+            case instanceSnapshots = "instanceSnapshots"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6246,7 +6150,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -6259,7 +6163,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -6272,7 +6176,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6288,8 +6192,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
-            case nextPageToken
+            case instances = "instances"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6306,7 +6210,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
+            case keyPairName = "keyPairName"
         }
     }
 
@@ -6319,7 +6223,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
+            case keyPair = "keyPair"
         }
     }
 
@@ -6335,8 +6239,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeDefaultKeyPair
-            case pageToken
+            case includeDefaultKeyPair = "includeDefaultKeyPair"
+            case pageToken = "pageToken"
         }
     }
 
@@ -6352,8 +6256,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairs
-            case nextPageToken
+            case keyPairs = "keyPairs"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6390,13 +6294,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case loadBalancerName
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case loadBalancerName = "loadBalancerName"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
@@ -6412,8 +6316,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
@@ -6430,7 +6334,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -6443,7 +6347,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancer
+            case loadBalancer = "loadBalancer"
         }
     }
 
@@ -6460,7 +6364,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -6473,13 +6377,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tlsCertificates
+            case tlsCertificates = "tlsCertificates"
         }
     }
 
     public struct GetLoadBalancerTlsPoliciesRequest: AWSEncodableShape {
-        /// The token to advance to the next page of results from your request.
-        ///  To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
         public init(pageToken: String? = nil) {
@@ -6487,14 +6390,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetLoadBalancerTlsPoliciesResult: AWSDecodableShape {
-        /// The token to advance to the next page of results from your request.
-        ///  A next page token is not returned if there are no more results to display.
-        ///  To get the next page of results, perform another GetLoadBalancerTlsPolicies request and specify the next page token using the pageToken parameter.
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancerTlsPolicies request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of objects that describe the TLS security policies that are available.
         public let tlsPolicies: [LoadBalancerTlsPolicy]?
@@ -6505,8 +6406,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case tlsPolicies
+            case nextPageToken = "nextPageToken"
+            case tlsPolicies = "tlsPolicies"
         }
     }
 
@@ -6519,7 +6420,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6535,8 +6436,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancers
-            case nextPageToken
+            case loadBalancers = "loadBalancers"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6553,7 +6454,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationId
+            case operationId = "operationId"
         }
     }
 
@@ -6566,7 +6467,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -6586,8 +6487,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
-            case resourceName
+            case pageToken = "pageToken"
+            case resourceName = "resourceName"
         }
     }
 
@@ -6613,9 +6514,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageCount
-            case nextPageToken
-            case operations
+            case nextPageCount = "nextPageCount"
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
         }
     }
 
@@ -6628,7 +6529,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6644,8 +6545,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case operations
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
         }
     }
 
@@ -6661,8 +6562,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeAvailabilityZones
-            case includeRelationalDatabaseAvailabilityZones
+            case includeAvailabilityZones = "includeAvailabilityZones"
+            case includeRelationalDatabaseAvailabilityZones = "includeRelationalDatabaseAvailabilityZones"
         }
     }
 
@@ -6675,7 +6576,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regions
+            case regions = "regions"
         }
     }
 
@@ -6688,7 +6589,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -6704,8 +6605,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprints
-            case nextPageToken
+            case blueprints = "blueprints"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6721,8 +6622,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
-            case pageToken
+            case includeInactive = "includeInactive"
+            case pageToken = "pageToken"
         }
     }
 
@@ -6738,8 +6639,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
-            case nextPageToken
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
         }
     }
 
@@ -6762,9 +6663,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInMinutes
-            case pageToken
-            case relationalDatabaseName
+            case durationInMinutes = "durationInMinutes"
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -6780,8 +6681,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabaseEvents
+            case nextPageToken = "nextPageToken"
+            case relationalDatabaseEvents = "relationalDatabaseEvents"
         }
     }
 
@@ -6813,12 +6714,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case logStreamName
-            case pageToken
-            case relationalDatabaseName
-            case startFromHead
-            case startTime
+            case endTime = "endTime"
+            case logStreamName = "logStreamName"
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case startFromHead = "startFromHead"
+            case startTime = "startTime"
         }
     }
 
@@ -6837,9 +6738,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextBackwardToken
-            case nextForwardToken
-            case resourceLogEvents
+            case nextBackwardToken = "nextBackwardToken"
+            case nextForwardToken = "nextForwardToken"
+            case resourceLogEvents = "resourceLogEvents"
         }
     }
 
@@ -6856,7 +6757,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -6869,7 +6770,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreams
+            case logStreams = "logStreams"
         }
     }
 
@@ -6889,8 +6790,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordVersion
-            case relationalDatabaseName
+            case passwordVersion = "passwordVersion"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -6906,8 +6807,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case masterUserPassword
+            case createdAt = "createdAt"
+            case masterUserPassword = "masterUserPassword"
         }
     }
 
@@ -6944,13 +6845,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case metricName
-            case period
-            case relationalDatabaseName
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
@@ -6966,8 +6867,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
@@ -6987,8 +6888,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
-            case relationalDatabaseName
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -7004,8 +6905,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case parameters
+            case nextPageToken = "nextPageToken"
+            case parameters = "parameters"
         }
     }
 
@@ -7022,7 +6923,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -7035,7 +6936,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabase
+            case relationalDatabase = "relationalDatabase"
         }
     }
 
@@ -7052,7 +6953,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
@@ -7065,7 +6966,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshot
+            case relationalDatabaseSnapshot = "relationalDatabaseSnapshot"
         }
     }
 
@@ -7078,7 +6979,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -7094,8 +6995,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabaseSnapshots
+            case nextPageToken = "nextPageToken"
+            case relationalDatabaseSnapshots = "relationalDatabaseSnapshots"
         }
     }
 
@@ -7108,7 +7009,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -7124,8 +7025,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabases
+            case nextPageToken = "nextPageToken"
+            case relationalDatabases = "relationalDatabases"
         }
     }
 
@@ -7142,7 +7043,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
@@ -7155,7 +7056,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIp
+            case staticIp = "staticIp"
         }
     }
 
@@ -7168,7 +7069,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
@@ -7184,8 +7085,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case staticIps
+            case nextPageToken = "nextPageToken"
+            case staticIps = "staticIps"
         }
     }
 
@@ -7201,8 +7102,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headersAllowList
-            case option
+            case headersAllowList = "headersAllowList"
+            case option = "option"
         }
     }
 
@@ -7233,13 +7134,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case fingerprintSHA1
-            case fingerprintSHA256
-            case notValidAfter
-            case notValidBefore
-            case publicKey
-            case witnessedAt
+            case algorithm = "algorithm"
+            case fingerprintSHA1 = "fingerprintSHA1"
+            case fingerprintSHA256 = "fingerprintSHA256"
+            case notValidAfter = "notValidAfter"
+            case notValidBefore = "notValidBefore"
+            case publicKey = "publicKey"
+            case witnessedAt = "witnessedAt"
         }
     }
 
@@ -7259,8 +7160,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
-            case publicKeyBase64
+            case keyPairName = "keyPairName"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
@@ -7273,7 +7174,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -7296,9 +7197,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case protocolPolicy
-            case regionName
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
         }
     }
 
@@ -7317,8 +7218,7 @@ extension Lightsail {
         public let createdAt: Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
-        /// The IP address type of the instance.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// The IPv6 addresses of the instance.
         public let ipv6Addresses: [String]?
@@ -7375,28 +7275,28 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case arn
-            case blueprintId
-            case blueprintName
-            case bundleId
-            case createdAt
-            case hardware
-            case ipAddressType
-            case ipv6Addresses
-            case isStaticIp
-            case location
-            case metadataOptions
-            case name
-            case networking
-            case privateIpAddress
-            case publicIpAddress
-            case resourceType
-            case sshKeyName
-            case state
-            case supportCode
-            case tags
-            case username
+            case addOns = "addOns"
+            case arn = "arn"
+            case blueprintId = "blueprintId"
+            case blueprintName = "blueprintName"
+            case bundleId = "bundleId"
+            case createdAt = "createdAt"
+            case hardware = "hardware"
+            case ipAddressType = "ipAddressType"
+            case ipv6Addresses = "ipv6Addresses"
+            case isStaticIp = "isStaticIp"
+            case location = "location"
+            case metadataOptions = "metadataOptions"
+            case name = "name"
+            case networking = "networking"
+            case privateIpAddress = "privateIpAddress"
+            case publicIpAddress = "publicIpAddress"
+            case resourceType = "resourceType"
+            case sshKeyName = "sshKeyName"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case username = "username"
         }
     }
 
@@ -7436,16 +7336,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certKey
-            case expiresAt
-            case hostKeys
-            case instanceName
-            case ipAddress
-            case password
-            case passwordData
-            case privateKey
-            case `protocol`
-            case username
+            case certKey = "certKey"
+            case expiresAt = "expiresAt"
+            case hostKeys = "hostKeys"
+            case instanceName = "instanceName"
+            case ipAddress = "ipAddress"
+            case password = "password"
+            case passwordData = "passwordData"
+            case privateKey = "privateKey"
+            case `protocol` = "protocol"
+            case username = "username"
         }
     }
 
@@ -7454,7 +7354,7 @@ extension Lightsail {
         public let availabilityZone: String
         /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
         public let instanceType: String
-        /// The port configuration to use for the new Amazon EC2 instance.  The following configuration options are available:    DEFAULT - Use the default firewall settings from the Lightsail instance blueprint. If this is specified, then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2.    INSTANCE - Use the configured firewall settings from the source Lightsail instance. If this is specified, the new instance that is created in Amazon EC2 will be configured to match the configuration of the source Lightsail instance. For example, if the source instance is configured for dual-stack (IPv4 and IPv6), then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. If the source instance is configured for IPv4 only, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    NONE - Use the default Amazon EC2 security group. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    CLOSED - All ports closed. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your instance, that configuration is not carried over to your new Amazon EC2 instance.
+        /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:    DEFAULT - Use the default firewall settings from the Lightsail instance blueprint. If this is specified, then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2.    INSTANCE - Use the configured firewall settings from the source Lightsail instance. If this is specified, the new instance that is created in Amazon EC2 will be configured to match the configuration of the source Lightsail instance. For example, if the source instance is configured for dual-stack (IPv4 and IPv6), then IPv4 and IPv6 will be configured for the new instance that is created in Amazon EC2. If the source instance is configured for IPv4 only, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    NONE - Use the default Amazon EC2 security group. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    CLOSED - All ports closed. If this is specified, then only IPv4 will be configured for the new instance that is created in Amazon EC2.    If you configured lightsail-connect as a cidrListAliases on your instance, or if you chose to allow the Lightsail browser-based SSH or RDP clients to connect to your instance, that configuration is not carried over to your new Amazon EC2 instance.
         public let portInfoSource: PortInfoSourceType
         /// The name of the export snapshot record, which contains the exported Lightsail instance snapshot that will be used as the source of the new Amazon EC2 instance. Use the get export snapshot records operation to get a list of export snapshot records that you can use to create a CloudFormation stack.
         public let sourceName: String
@@ -7475,11 +7375,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case instanceType
-            case portInfoSource
-            case sourceName
-            case userData
+            case availabilityZone = "availabilityZone"
+            case instanceType = "instanceType"
+            case portInfoSource = "portInfoSource"
+            case sourceName = "sourceName"
+            case userData = "userData"
         }
     }
 
@@ -7498,9 +7398,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case disks
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case disks = "disks"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
@@ -7519,24 +7419,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceHealth
-            case instanceHealthReason
-            case instanceName
+            case instanceHealth = "instanceHealth"
+            case instanceHealthReason = "instanceHealthReason"
+            case instanceName = "instanceName"
         }
     }
 
     public struct InstanceMetadataOptions: AWSDecodableShape {
-        /// Indicates whether the HTTP metadata endpoint on your instances is enabled or disabled.
-        ///  If the value is disabled, you cannot access your instance metadata.
+        /// Indicates whether the HTTP metadata endpoint on your instances is enabled or disabled. If the value is disabled, you cannot access your instance metadata.
         public let httpEndpoint: HttpEndpoint?
         /// Indicates whether the IPv6 endpoint for the instance metadata service is enabled or disabled.
         public let httpProtocolIpv6: HttpProtocolIpv6?
         /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther.
         public let httpPutResponseHopLimit: Int?
-        /// The state of token usage for your instance metadata requests.
-        ///  If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned.
-        ///  If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.
-        ///   Not all instance blueprints in Lightsail support version 2.0 credentials. Use the MetadataNoToken instance metric to track the number of calls to the instance metadata service that are using version 1.0 credentials. For more information, see Viewing instance metrics in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.  Not all instance blueprints in Lightsail support version 2.0 credentials. Use the MetadataNoToken instance metric to track the number of calls to the instance metadata service that are using version 1.0 credentials. For more information, see Viewing instance metrics in Amazon Lightsail in the Amazon Lightsail Developer Guide.
         public let httpTokens: HttpTokens?
         /// The state of the metadata option changes. The following states are possible:    pending - The metadata options are being updated. The instance is not yet ready to process metadata traffic with the new selection.    applied - The metadata options have been successfully applied to the instance.
         public let state: InstanceMetadataState?
@@ -7550,11 +7446,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case httpEndpoint
-            case httpProtocolIpv6
-            case httpPutResponseHopLimit
-            case httpTokens
-            case state
+            case httpEndpoint = "httpEndpoint"
+            case httpProtocolIpv6 = "httpProtocolIpv6"
+            case httpPutResponseHopLimit = "httpPutResponseHopLimit"
+            case httpTokens = "httpTokens"
+            case state = "state"
         }
     }
 
@@ -7570,8 +7466,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case monthlyTransfer
-            case ports
+            case monthlyTransfer = "monthlyTransfer"
+            case ports = "ports"
         }
     }
 
@@ -7611,16 +7507,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDirection
-            case accessFrom
-            case accessType
-            case cidrListAliases
-            case cidrs
-            case commonName
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case toPort
+            case accessDirection = "accessDirection"
+            case accessFrom = "accessFrom"
+            case accessType = "accessType"
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case commonName = "commonName"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
@@ -7651,13 +7547,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrListAliases
-            case cidrs
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case state
-            case toPort
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case state = "state"
+            case toPort = "toPort"
         }
     }
 
@@ -7715,22 +7611,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fromAttachedDisks
-            case fromBlueprintId
-            case fromBundleId
-            case fromInstanceArn
-            case fromInstanceName
-            case isFromAutoSnapshot
-            case location
-            case name
-            case progress
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case fromBlueprintId = "fromBlueprintId"
+            case fromBundleId = "fromBundleId"
+            case fromInstanceArn = "fromInstanceArn"
+            case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
+            case location = "location"
+            case name = "name"
+            case progress = "progress"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -7749,9 +7645,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromBlueprintId
-            case fromBundleId
-            case fromDiskInfo
+            case fromBlueprintId = "fromBlueprintId"
+            case fromBundleId = "fromBundleId"
+            case fromDiskInfo = "fromDiskInfo"
         }
     }
 
@@ -7767,8 +7663,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -7785,7 +7681,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isPeered
+            case isPeered = "isPeered"
         }
     }
 
@@ -7819,14 +7715,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fingerprint
-            case location
-            case name
-            case resourceType
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fingerprint = "fingerprint"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -7851,8 +7747,7 @@ extension Lightsail {
         public let defaultCacheBehavior: CacheBehavior?
         /// The domain name of the distribution.
         public let domainName: String?
-        /// The IP address type of the distribution.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// Indicates whether the distribution is enabled.
         public let isEnabled: Bool?
@@ -7897,26 +7792,26 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ableToUpdateBundle
-            case alternativeDomainNames
-            case arn
-            case bundleId
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case certificateName
-            case createdAt
-            case defaultCacheBehavior
-            case domainName
-            case ipAddressType
-            case isEnabled
-            case location
-            case name
-            case origin
-            case originPublicDNS
-            case resourceType
-            case status
-            case supportCode
-            case tags
+            case ableToUpdateBundle = "ableToUpdateBundle"
+            case alternativeDomainNames = "alternativeDomainNames"
+            case arn = "arn"
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case certificateName = "certificateName"
+            case createdAt = "createdAt"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case domainName = "domainName"
+            case ipAddressType = "ipAddressType"
+            case isEnabled = "isEnabled"
+            case location = "location"
+            case name = "name"
+            case origin = "origin"
+            case originPublicDNS = "originPublicDNS"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -7937,8 +7832,7 @@ extension Lightsail {
         public let instanceHealthSummary: [InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
         public let instancePort: Int?
-        /// The IP address type of the load balancer.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public let location: ResourceLocation?
@@ -7984,25 +7878,25 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case configurationOptions
-            case createdAt
-            case dnsName
-            case healthCheckPath
-            case httpsRedirectionEnabled
-            case instanceHealthSummary
-            case instancePort
-            case ipAddressType
-            case location
-            case name
-            case `protocol`
-            case publicPorts
-            case resourceType
-            case state
-            case supportCode
-            case tags
-            case tlsCertificateSummaries
-            case tlsPolicyName
+            case arn = "arn"
+            case configurationOptions = "configurationOptions"
+            case createdAt = "createdAt"
+            case dnsName = "dnsName"
+            case healthCheckPath = "healthCheckPath"
+            case httpsRedirectionEnabled = "httpsRedirectionEnabled"
+            case instanceHealthSummary = "instanceHealthSummary"
+            case instancePort = "instancePort"
+            case ipAddressType = "ipAddressType"
+            case location = "location"
+            case name = "name"
+            case `protocol` = "protocol"
+            case publicPorts = "publicPorts"
+            case resourceType = "resourceType"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case tlsCertificateSummaries = "tlsCertificateSummaries"
+            case tlsPolicyName = "tlsPolicyName"
         }
     }
 
@@ -8015,8 +7909,7 @@ extension Lightsail {
         public let domainName: String?
         /// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing the records.
         public let domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]?
-        /// The validation failure reason, if any, of the certificate.
-        ///  The following failure reasons are possible:     NO_AVAILABLE_CONTACTS - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.
+        /// The validation failure reason, if any, of the certificate. The following failure reasons are possible:     NO_AVAILABLE_CONTACTS - This failure applies to email validation, which is not available for Lightsail certificates.     ADDITIONAL_VERIFICATION_REQUIRED - Lightsail requires additional information to process this certificate request. This can happen as a fraud-protection measure, such as when the domain ranks within the Alexa top 1000 websites. To provide the required information, use the AWS Support Center to contact AWS Support.  You cannot request a certificate for Amazon-owned domain names such as those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.      DOMAIN_NOT_ALLOWED - One or more of the domain names in the certificate request was reported as an unsafe domain by VirusTotal. To correct the problem, search for your domain name on the VirusTotal website. If your domain is reported as suspicious, see Google Help for Hacked Websites to learn what you can do. If you believe that the result is a false positive, notify the organization that is reporting the domain. VirusTotal is an aggregate of several antivirus and URL scanners and cannot remove your domain from a block list itself. After you correct the problem and the VirusTotal registry has been updated, request a new certificate. If you see this error and your domain is not included in the VirusTotal list, visit the AWS Support Center and create a case.     INVALID_PUBLIC_DOMAIN - One or more of the domain names in the certificate request is not valid. Typically, this is because a domain name in the request is not a valid top-level domain. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request, and ensure that all domain names in the request are for valid top-level domains. For example, you cannot request a certificate for example.invalidpublicdomain because invalidpublicdomain is not a valid top-level domain.     OTHER - Typically, this failure occurs when there is a typographical error in one or more of the domain names in the certificate request. Try to request a certificate again, correcting any spelling errors or typos that were in the failed request.
         public let failureReason: LoadBalancerTlsCertificateFailureReason?
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
@@ -8088,37 +7981,36 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainName
-            case domainValidationRecords
-            case failureReason
-            case isAttached
-            case issuedAt
-            case issuer
-            case keyAlgorithm
-            case loadBalancerName
-            case location
-            case name
-            case notAfter
-            case notBefore
-            case renewalSummary
-            case resourceType
-            case revocationReason
-            case revokedAt
-            case serial
-            case signatureAlgorithm
-            case status
-            case subject
-            case subjectAlternativeNames
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case domainValidationRecords = "domainValidationRecords"
+            case failureReason = "failureReason"
+            case isAttached = "isAttached"
+            case issuedAt = "issuedAt"
+            case issuer = "issuer"
+            case keyAlgorithm = "keyAlgorithm"
+            case loadBalancerName = "loadBalancerName"
+            case location = "location"
+            case name = "name"
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
+            case renewalSummary = "renewalSummary"
+            case resourceType = "resourceType"
+            case revocationReason = "revocationReason"
+            case revokedAt = "revokedAt"
+            case serial = "serial"
+            case signatureAlgorithm = "signatureAlgorithm"
+            case status = "status"
+            case subject = "subject"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct LoadBalancerTlsCertificateDnsRecordCreationState: AWSDecodableShape {
-        /// The status code for the automated DNS record creation.
-        ///  Following are the possible values:    SUCCEEDED - The validation records were successfully added.    STARTED - The automatic DNS record creation has started.    FAILED - The validation record addition failed.
+        /// The status code for the automated DNS record creation. Following are the possible values:    SUCCEEDED - The validation records were successfully added.    STARTED - The automatic DNS record creation has started.    FAILED - The validation record addition failed.
         public let code: LoadBalancerTlsCertificateDnsRecordCreationStateCode?
         /// The message that describes the reason for the status code.
         public let message: String?
@@ -8129,8 +8021,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -8146,8 +8038,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case validationStatus
+            case domainName = "domainName"
+            case validationStatus = "validationStatus"
         }
     }
 
@@ -8175,12 +8067,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsRecordCreationState
-            case domainName
-            case name
-            case type
-            case validationStatus
-            case value
+            case dnsRecordCreationState = "dnsRecordCreationState"
+            case domainName = "domainName"
+            case name = "name"
+            case type = "type"
+            case validationStatus = "validationStatus"
+            case value = "value"
         }
     }
 
@@ -8196,8 +8088,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainValidationOptions
-            case renewalStatus
+            case domainValidationOptions = "domainValidationOptions"
+            case renewalStatus = "renewalStatus"
         }
     }
 
@@ -8213,8 +8105,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isAttached
-            case name
+            case isAttached = "isAttached"
+            case name = "name"
         }
     }
 
@@ -8239,11 +8131,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ciphers
-            case description
-            case isDefault
-            case name
-            case protocols
+            case ciphers = "ciphers"
+            case description = "description"
+            case isDefault = "isDefault"
+            case name = "name"
+            case protocols = "protocols"
         }
     }
 
@@ -8259,8 +8151,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case message
+            case createdAt = "createdAt"
+            case message = "message"
         }
     }
 
@@ -8291,13 +8183,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case maximum
-            case minimum
-            case sampleCount
-            case sum
-            case timestamp
-            case unit
+            case average = "average"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case sampleCount = "sampleCount"
+            case sum = "sum"
+            case timestamp = "timestamp"
+            case unit = "unit"
         }
     }
 
@@ -8316,9 +8208,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case resourceType
+            case arn = "arn"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
@@ -8331,13 +8223,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gbPerMonthAllocated
+            case gbPerMonthAllocated = "gbPerMonthAllocated"
         }
     }
 
     public struct NameServersUpdateState: AWSDecodableShape {
-        /// The status code for the name servers update.
-        ///  Following are the possible values:    SUCCEEDED - The name server records were successfully updated.    PENDING - The name server record update is in progress.    FAILED - The name server record update failed.    STARTED - The automatic name server record update started.
+        /// The status code for the name servers update. Following are the possible values:    SUCCEEDED - The name server records were successfully updated.    PENDING - The name server record update is in progress.    FAILED - The name server record update failed.    STARTED - The automatic name server record update started.
         public let code: NameServersUpdateStateCode?
         /// The message that describes the reason for the status code.
         public let message: String?
@@ -8348,8 +8239,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -8370,8 +8261,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfo
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
@@ -8384,7 +8275,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -8430,18 +8321,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case errorCode
-            case errorDetails
-            case id
-            case isTerminal
-            case location
-            case operationDetails
-            case operationType
-            case resourceName
-            case resourceType
-            case status
-            case statusChangedAt
+            case createdAt = "createdAt"
+            case errorCode = "errorCode"
+            case errorDetails = "errorDetails"
+            case id = "id"
+            case isTerminal = "isTerminal"
+            case location = "location"
+            case operationDetails = "operationDetails"
+            case operationType = "operationType"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case status = "status"
+            case statusChangedAt = "statusChangedAt"
         }
     }
 
@@ -8463,10 +8354,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case protocolPolicy
-            case regionName
-            case resourceType
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -8482,8 +8373,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ciphertext
-            case keyPairName
+            case ciphertext = "ciphertext"
+            case keyPairName = "keyPairName"
         }
     }
 
@@ -8500,7 +8391,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -8519,9 +8410,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case currentApplyDate
-            case description
+            case action = "action"
+            case currentApplyDate = "currentApplyDate"
+            case description = "description"
         }
     }
 
@@ -8540,9 +8431,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupRetentionEnabled
-            case engineVersion
-            case masterUserPassword
+            case backupRetentionEnabled = "backupRetentionEnabled"
+            case engineVersion = "engineVersion"
+            case masterUserPassword = "masterUserPassword"
         }
     }
 
@@ -8577,12 +8468,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrListAliases
-            case cidrs
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case toPort
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
@@ -8595,7 +8486,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrImagePullerRole
+            case ecrImagePullerRole = "ecrImagePullerRole"
         }
     }
 
@@ -8608,7 +8499,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ecrImagePullerRole
+            case ecrImagePullerRole = "ecrImagePullerRole"
         }
     }
 
@@ -8656,17 +8547,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case comparisonOperator
-            case contactProtocols
-            case datapointsToAlarm
-            case evaluationPeriods
-            case metricName
-            case monitoredResourceName
-            case notificationEnabled
-            case notificationTriggers
-            case threshold
-            case treatMissingData
+            case alarmName = "alarmName"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case metricName = "metricName"
+            case monitoredResourceName = "monitoredResourceName"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
         }
     }
 
@@ -8679,7 +8570,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -8702,8 +8593,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfos
+            case instanceName = "instanceName"
+            case portInfos = "portInfos"
         }
     }
 
@@ -8716,7 +8607,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -8732,14 +8623,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case option
-            case queryStringsAllowList
+            case option = "option"
+            case queryStringsAllowList = "queryStringsAllowList"
         }
     }
 
     public struct R53HostedZoneDeletionState: AWSDecodableShape {
-        /// The status code for the deletion state.
-        ///  Following are the possible values:    SUCCEEDED - The hosted zone was successfully deleted.    PENDING - The hosted zone deletion is in progress.    FAILED - The hosted zone deletion failed.    STARTED - The hosted zone deletion started.
+        /// The status code for the deletion state. Following are the possible values:    SUCCEEDED - The hosted zone was successfully deleted.    PENDING - The hosted zone deletion is in progress.    FAILED - The hosted zone deletion failed.    STARTED - The hosted zone deletion started.
         public let code: R53HostedZoneDeletionStateCode?
         /// The message that describes the reason for the status code.
         public let message: String?
@@ -8750,8 +8640,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -8768,7 +8658,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -8781,7 +8671,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -8798,7 +8688,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -8811,7 +8701,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -8839,12 +8729,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case continentCode
-            case description
-            case displayName
-            case name
-            case relationalDatabaseAvailabilityZones
+            case availabilityZones = "availabilityZones"
+            case continentCode = "continentCode"
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case relationalDatabaseAvailabilityZones = "relationalDatabaseAvailabilityZones"
         }
     }
 
@@ -8855,11 +8745,7 @@ extension Lightsail {
 
         /// The digest of the container image to be registered.
         public let digest: String
-        /// The label for the container image when it's registered to the container service.
-        ///  Use a descriptive label that you can use to track the different versions of your registered container images.
-        ///  Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the  portion of the following image name example:    :container-service-1..1
-        ///  If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1.
-        ///  The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
+        /// The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the  portion of the following image name example:    :container-service-1..1    If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1. The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
         public let label: String
         /// The name of the container service for which to register a container image.
         public let serviceName: String
@@ -8880,8 +8766,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case digest
-            case label
+            case digest = "digest"
+            case label = "label"
         }
     }
 
@@ -8894,7 +8780,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerImage
+            case containerImage = "containerImage"
         }
     }
 
@@ -8909,8 +8795,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nameServersUpdateState
-            case r53HostedZoneDeletionState
+            case nameServersUpdateState = "nameServersUpdateState"
+            case r53HostedZoneDeletionState = "r53HostedZoneDeletionState"
         }
     }
 
@@ -8998,32 +8884,32 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case backupRetentionEnabled
-            case caCertificateIdentifier
-            case createdAt
-            case engine
-            case engineVersion
-            case hardware
-            case latestRestorableTime
-            case location
-            case masterDatabaseName
-            case masterEndpoint
-            case masterUsername
-            case name
-            case parameterApplyStatus
-            case pendingMaintenanceActions
-            case pendingModifiedValues
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseBlueprintId
-            case relationalDatabaseBundleId
-            case resourceType
-            case secondaryAvailabilityZone
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case backupRetentionEnabled = "backupRetentionEnabled"
+            case caCertificateIdentifier = "caCertificateIdentifier"
+            case createdAt = "createdAt"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case hardware = "hardware"
+            case latestRestorableTime = "latestRestorableTime"
+            case location = "location"
+            case masterDatabaseName = "masterDatabaseName"
+            case masterEndpoint = "masterEndpoint"
+            case masterUsername = "masterUsername"
+            case name = "name"
+            case parameterApplyStatus = "parameterApplyStatus"
+            case pendingMaintenanceActions = "pendingMaintenanceActions"
+            case pendingModifiedValues = "pendingModifiedValues"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case resourceType = "resourceType"
+            case secondaryAvailabilityZone = "secondaryAvailabilityZone"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -9051,12 +8937,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprintId
-            case engine
-            case engineDescription
-            case engineVersion
-            case engineVersionDescription
-            case isEngineDefault
+            case blueprintId = "blueprintId"
+            case engine = "engine"
+            case engineDescription = "engineDescription"
+            case engineVersion = "engineVersion"
+            case engineVersionDescription = "engineVersionDescription"
+            case isEngineDefault = "isEngineDefault"
         }
     }
 
@@ -9093,15 +8979,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cpuCount
-            case diskSizeInGb
-            case isActive
-            case isEncrypted
-            case name
-            case price
-            case ramSizeInGb
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case isActive = "isActive"
+            case isEncrypted = "isEncrypted"
+            case name = "name"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
@@ -9117,8 +9003,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address
-            case port
+            case address = "address"
+            case port = "port"
         }
     }
 
@@ -9140,10 +9026,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case eventCategories
-            case message
-            case resource
+            case createdAt = "createdAt"
+            case eventCategories = "eventCategories"
+            case message = "message"
+            case resource = "resource"
         }
     }
 
@@ -9162,9 +9048,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case diskSizeInGb
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
@@ -9198,14 +9084,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case applyMethod
-            case applyType
-            case dataType
-            case description
-            case isModifiable
-            case parameterName
-            case parameterValue
+            case allowedValues = "allowedValues"
+            case applyMethod = "applyMethod"
+            case applyType = "applyType"
+            case dataType = "dataType"
+            case description = "description"
+            case isModifiable = "isModifiable"
+            case parameterName = "parameterName"
+            case parameterValue = "parameterValue"
         }
     }
 
@@ -9260,21 +9146,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case engine
-            case engineVersion
-            case fromRelationalDatabaseArn
-            case fromRelationalDatabaseBlueprintId
-            case fromRelationalDatabaseBundleId
-            case fromRelationalDatabaseName
-            case location
-            case name
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case fromRelationalDatabaseArn = "fromRelationalDatabaseArn"
+            case fromRelationalDatabaseBlueprintId = "fromRelationalDatabaseBlueprintId"
+            case fromRelationalDatabaseBundleId = "fromRelationalDatabaseBundleId"
+            case fromRelationalDatabaseName = "fromRelationalDatabaseName"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -9291,7 +9177,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
@@ -9304,7 +9190,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9326,10 +9212,10 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainValidationRecords
-            case renewalStatus
-            case renewalStatusReason
-            case updatedAt
+            case domainValidationRecords = "domainValidationRecords"
+            case renewalStatus = "renewalStatus"
+            case renewalStatusReason = "renewalStatusReason"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -9346,7 +9232,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
@@ -9365,9 +9251,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case operation
-            case status
+            case createTime = "createTime"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -9383,8 +9269,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case regionName
+            case availabilityZone = "availabilityZone"
+            case regionName = "regionName"
         }
     }
 
@@ -9400,8 +9286,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case resourceType
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
@@ -9420,9 +9306,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
-            case value
+            case name = "name"
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -9435,7 +9321,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol`
+            case `protocol` = "protocol"
         }
     }
 
@@ -9448,13 +9334,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct SetIpAddressTypeRequest: AWSEncodableShape {
-        /// The IP address type to set for the specified resource.
-        ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType
         /// The name of the resource for which to set the IP address type.
         public let resourceName: String
@@ -9472,9 +9357,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressType
-            case resourceName
-            case resourceType
+            case ipAddressType = "ipAddressType"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -9487,14 +9372,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct SetResourceAccessForBucketRequest: AWSEncodableShape {
-        /// The access setting.
-        ///  The following access settings are available:
-        ///     allow - Allows access to the bucket and its objects.    deny - Denies access to the bucket and its objects. Use this setting to remove access for a resource previously set to allow.
+        /// The access setting. The following access settings are available:    allow - Allows access to the bucket and its objects.    deny - Denies access to the bucket and its objects. Use this setting to remove access for a resource previously set to allow.
         public let access: ResourceBucketAccess
         /// The name of the bucket for which to set access to another Lightsail resource.
         public let bucketName: String
@@ -9515,9 +9398,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case access
-            case bucketName
-            case resourceName
+            case access = "access"
+            case bucketName = "bucketName"
+            case resourceName = "resourceName"
         }
     }
 
@@ -9530,7 +9413,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9547,7 +9430,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
@@ -9560,7 +9443,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9577,7 +9460,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -9590,7 +9473,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9627,15 +9510,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attachedTo
-            case createdAt
-            case ipAddress
-            case isAttached
-            case location
-            case name
-            case resourceType
-            case supportCode
+            case arn = "arn"
+            case attachedTo = "attachedTo"
+            case createdAt = "createdAt"
+            case ipAddress = "ipAddress"
+            case isAttached = "isAttached"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
         }
     }
 
@@ -9655,8 +9538,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case force
-            case instanceName
+            case force = "force"
+            case instanceName = "instanceName"
         }
     }
 
@@ -9669,7 +9552,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9690,8 +9573,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
@@ -9704,7 +9587,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9720,8 +9603,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -9745,9 +9628,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceName
-            case tags
+            case resourceArn = "resourceArn"
+            case resourceName = "resourceName"
+            case tags = "tags"
         }
     }
 
@@ -9760,7 +9643,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9780,8 +9663,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case state
+            case alarmName = "alarmName"
+            case state = "state"
         }
     }
 
@@ -9794,7 +9677,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9811,7 +9694,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -9835,9 +9718,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceName
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case resourceName = "resourceName"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -9850,15 +9733,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateBucketBundleRequest: AWSEncodableShape {
         /// The name of the bucket for which to update the bundle.
         public let bucketName: String
-        /// The ID of the new bundle to apply to the bucket.
-        ///  Use the GetBucketBundles action to get a list of bundle IDs that you can specify.
+        /// The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify.
         public let bundleId: String
 
         public init(bucketName: String, bundleId: String) {
@@ -9874,8 +9756,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bundleId
+            case bucketName = "bucketName"
+            case bundleId = "bundleId"
         }
     }
 
@@ -9888,7 +9770,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -9899,11 +9781,9 @@ extension Lightsail {
         public let accessRules: AccessRules?
         /// The name of the bucket to update.
         public let bucketName: String
-        /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket.
-        ///  You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
+        /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket. You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
         public let readonlyAccessAccounts: [String]?
-        /// Specifies whether to enable or suspend versioning of objects in the bucket.
-        ///  The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
+        /// Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
         public let versioning: String?
 
         public init(accessLogConfig: BucketAccessLogConfig? = nil, accessRules: AccessRules? = nil, bucketName: String, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
@@ -9927,11 +9807,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogConfig
-            case accessRules
-            case bucketName
-            case readonlyAccessAccounts
-            case versioning
+            case accessLogConfig = "accessLogConfig"
+            case accessRules = "accessRules"
+            case bucketName = "bucketName"
+            case readonlyAccessAccounts = "readonlyAccessAccounts"
+            case versioning = "versioning"
         }
     }
 
@@ -9947,8 +9827,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case operations
+            case bucket = "bucket"
+            case operations = "operations"
         }
     }
 
@@ -9959,21 +9839,13 @@ extension Lightsail {
 
         /// A Boolean value to indicate whether the container service is disabled.
         public let isDisabled: Bool?
-        /// The power for the container service.
-        ///  The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
-        ///  Use the GetContainerServicePowers action to view the specifications of each power option.
+        /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
         public let power: ContainerServicePowerName?
-        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
-        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
         public let privateRegistryAccess: PrivateRegistryAccessRequest?
-        /// The public domain names to use with the container service, such as example.com and www.example.com.
-        ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
-        ///  If you don't specify public domain names, then you can use the default domain of the container service.
-        ///   You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.
-        ///  You can specify public domain names using a string to array map as shown in the example later on this page.
+        /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
         public let publicDomainNames: [String: [String]]?
-        /// The scale for the container service.
-        ///  The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+        /// The scale for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
         public let scale: Int?
         /// The name of the container service to update.
         public let serviceName: String
@@ -9996,11 +9868,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isDisabled
-            case power
-            case privateRegistryAccess
-            case publicDomainNames
-            case scale
+            case isDisabled = "isDisabled"
+            case power = "power"
+            case privateRegistryAccess = "privateRegistryAccess"
+            case publicDomainNames = "publicDomainNames"
+            case scale = "scale"
         }
     }
 
@@ -10013,7 +9885,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
@@ -10033,8 +9905,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case distributionName
+            case bundleId = "bundleId"
+            case distributionName = "distributionName"
         }
     }
 
@@ -10047,7 +9919,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -10081,12 +9953,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case defaultCacheBehavior
-            case distributionName
-            case isEnabled
-            case origin
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case isEnabled = "isEnabled"
+            case origin = "origin"
         }
     }
 
@@ -10099,7 +9971,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -10119,8 +9991,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
@@ -10133,22 +10005,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateInstanceMetadataOptionsRequest: AWSEncodableShape {
-        /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained.
-        ///  If you specify a value of disabled, you cannot access your instance metadata.
+        /// Enables or disables the HTTP metadata endpoint on your instances. If this parameter is not specified, the existing state is maintained. If you specify a value of disabled, you cannot access your instance metadata.
         public let httpEndpoint: HttpEndpoint?
-        /// Enables or disables the IPv6 endpoint for the instance metadata service. This setting applies only when the HTTP metadata endpoint is enabled.
-        ///   This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1).
+        /// Enables or disables the IPv6 endpoint for the instance metadata service. This setting applies only when the HTTP metadata endpoint is enabled.  This parameter is available only for instances in the Europe (Stockholm) Amazon Web Services Region (eu-north-1).
         public let httpProtocolIpv6: HttpProtocolIpv6?
         /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther. If no parameter is specified, the existing state is maintained.
         public let httpPutResponseHopLimit: Int?
-        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional.
-        ///  If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned.
-        ///  If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.
+        /// The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available.
         public let httpTokens: HttpTokens?
         /// The name of the instance for which to update metadata parameters.
         public let instanceName: String
@@ -10166,11 +10034,11 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case httpEndpoint
-            case httpProtocolIpv6
-            case httpPutResponseHopLimit
-            case httpTokens
-            case instanceName
+            case httpEndpoint = "httpEndpoint"
+            case httpProtocolIpv6 = "httpProtocolIpv6"
+            case httpPutResponseHopLimit = "httpPutResponseHopLimit"
+            case httpTokens = "httpTokens"
+            case instanceName = "instanceName"
         }
     }
 
@@ -10182,7 +10050,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
@@ -10207,9 +10075,9 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case attributeValue
-            case loadBalancerName
+            case attributeName = "attributeName"
+            case attributeValue = "attributeValue"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
@@ -10222,7 +10090,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -10242,8 +10110,8 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
-            case relationalDatabaseName
+            case parameters = "parameters"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
@@ -10256,7 +10124,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
@@ -10300,16 +10168,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applyImmediately
-            case caCertificateIdentifier
-            case disableBackupRetention
-            case enableBackupRetention
-            case masterUserPassword
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseName
-            case rotateMasterUserPassword
+            case applyImmediately = "applyImmediately"
+            case caCertificateIdentifier = "caCertificateIdentifier"
+            case disableBackupRetention = "disableBackupRetention"
+            case enableBackupRetention = "enableBackupRetention"
+            case masterUserPassword = "masterUserPassword"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case rotateMasterUserPassword = "rotateMasterUserPassword"
         }
     }
 
@@ -10322,7 +10190,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 }

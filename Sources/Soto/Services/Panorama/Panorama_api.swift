@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -246,7 +246,7 @@ extension Panorama {
 // MARK: Paginators
 
 extension Panorama {
-    ///  Returns a list of application instance dependencies.
+    /// Returns a list of application instance dependencies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -299,7 +299,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of application node instances.
+    /// Returns a list of application node instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -352,7 +352,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of application instances.
+    /// Returns a list of application instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -405,7 +405,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of devices.
+    /// Returns a list of devices.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -458,7 +458,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of jobs.
+    /// Returns a list of jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -511,7 +511,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of camera stream node jobs.
+    /// Returns a list of camera stream node jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -564,7 +564,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of nodes.
+    /// Returns a list of nodes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +617,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of package import jobs.
+    /// Returns a list of package import jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -670,7 +670,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of packages.
+    /// Returns a list of packages.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

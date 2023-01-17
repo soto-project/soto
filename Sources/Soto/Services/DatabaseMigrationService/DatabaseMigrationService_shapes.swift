@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,34 +22,34 @@ extension DatabaseMigrationService {
     // MARK: Enums
 
     public enum AuthMechanismValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `default`
+        case `default` = "default"
         case mongodbCr = "mongodb_cr"
         case scramSha1 = "scram_sha_1"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case no
-        case password
+        case no = "no"
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
     public enum CannedAclForObjectsValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case none
+        case none = "none"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
     }
 
     public enum CharLengthSemantics: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `default`
-        case byte
-        case char
+        case `default` = "default"
+        case byte = "byte"
+        case char = "char"
         public var description: String { return self.rawValue }
     }
 
@@ -60,14 +60,14 @@ extension DatabaseMigrationService {
     }
 
     public enum CompressionTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gzip
-        case none
+        case gzip = "gzip"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
     public enum DataFormatValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case csv
-        case parquet
+        case csv = "csv"
+        case parquet = "parquet"
         public var description: String { return self.rawValue }
     }
 
@@ -89,15 +89,15 @@ extension DatabaseMigrationService {
     }
 
     public enum DmsSslModeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case none
-        case require
+        case none = "none"
+        case require = "require"
         case verifyCa = "verify-ca"
         case verifyFull = "verify-full"
         public var description: String { return self.rawValue }
     }
 
     public enum EncodingTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case plain
+        case plain = "plain"
         case plainDictionary = "plain-dictionary"
         case rleDictionary = "rle-dictionary"
         public var description: String { return self.rawValue }
@@ -110,15 +110,15 @@ extension DatabaseMigrationService {
     }
 
     public enum EndpointSettingTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `enum`
-        case boolean
-        case integer
-        case string
+        case `enum` = "enum"
+        case boolean = "boolean"
+        case integer = "integer"
+        case string = "string"
         public var description: String { return self.rawValue }
     }
 
     public enum KafkaSecurityProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case plaintext
+        case plaintext = "plaintext"
         case saslSsl = "sasl-ssl"
         case sslAuthentication = "ssl-authentication"
         case sslEncryption = "ssl-encryption"
@@ -126,21 +126,21 @@ extension DatabaseMigrationService {
     }
 
     public enum MessageFormatValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case json
+        case json = "json"
         case jsonUnformatted = "json-unformatted"
         public var description: String { return self.rawValue }
     }
 
     public enum MigrationTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cdc
+        case cdc = "cdc"
         case fullLoad = "full-load"
         case fullLoadAndCdc = "full-load-and-cdc"
         public var description: String { return self.rawValue }
     }
 
     public enum NestingLevelValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case none
-        case one
+        case none = "none"
+        case one = "one"
         public var description: String { return self.rawValue }
     }
 
@@ -152,7 +152,7 @@ extension DatabaseMigrationService {
 
     public enum PluginNameValue: String, CustomStringConvertible, Codable, _SotoSendable {
         case noPreference = "no-preference"
-        case pglogical
+        case pglogical = "pglogical"
         case testDecoding = "test-decoding"
         public var description: String { return self.rawValue }
     }
@@ -160,19 +160,19 @@ extension DatabaseMigrationService {
     public enum RedisAuthTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
         case authRole = "auth-role"
         case authToken = "auth-token"
-        case none
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
     public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case failed
-        case refreshing
-        case successful
+        case failed = "failed"
+        case refreshing = "refreshing"
+        case successful = "successful"
         public var description: String { return self.rawValue }
     }
 
     public enum ReleaseStatusValues: String, CustomStringConvertible, Codable, _SotoSendable {
-        case beta
+        case beta = "beta"
         public var description: String { return self.rawValue }
     }
 
@@ -183,8 +183,8 @@ extension DatabaseMigrationService {
     }
 
     public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case source
-        case target
+        case source = "source"
+        case target = "target"
         public var description: String { return self.rawValue }
     }
 
@@ -201,7 +201,7 @@ extension DatabaseMigrationService {
     }
 
     public enum SslSecurityProtocolValue: String, CustomStringConvertible, Codable, _SotoSendable {
-        case plaintext
+        case plaintext = "plaintext"
         case sslEncryption = "ssl-encryption"
         public var description: String { return self.rawValue }
     }
@@ -5741,29 +5741,29 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
 
     /// DMS was denied access to the endpoint. Check that the  role is correctly configured.
     public static var accessDeniedFault: Self { .init(.accessDeniedFault) }
-    /// The specified collector doesn&#39;t exist.
+    /// The specified collector doesn't exist.
     public static var collectorNotFoundFault: Self { .init(.collectorNotFoundFault) }
     /// There are not enough resources allocated to the database migration.
     public static var insufficientResourceCapacityFault: Self { .init(.insufficientResourceCapacityFault) }
     /// The certificate was not valid.
     public static var invalidCertificateFault: Self { .init(.invalidCertificateFault) }
-    /// The action or operation requested isn&#39;t valid.
+    /// The action or operation requested isn't valid.
     public static var invalidOperationFault: Self { .init(.invalidOperationFault) }
     /// The resource is in a state that prevents it from being used for database migration.
     public static var invalidResourceStateFault: Self { .init(.invalidResourceStateFault) }
     /// The subnet provided is invalid.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
-    /// The ciphertext references a key that doesn&#39;t exist or that the DMS account doesn&#39;t have access to.
+    /// The ciphertext references a key that doesn't exist or that the DMS account doesn't have access to.
     public static var kmsAccessDeniedFault: Self { .init(.kmsAccessDeniedFault) }
-    /// The specified KMS key isn&#39;t enabled.
+    /// The specified KMS key isn't enabled.
     public static var kmsDisabledFault: Self { .init(.kmsDisabledFault) }
     /// An Key Management Service (KMS) error is preventing access to KMS.
     public static var kmsFault: Self { .init(.kmsFault) }
-    /// The state of the specified KMS resource isn&#39;t valid for this request.
+    /// The state of the specified KMS resource isn't valid for this request.
     public static var kmsInvalidStateFault: Self { .init(.kmsInvalidStateFault) }
     /// DMS cannot access the KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
-    /// The specified KMS entity or resource can&#39;t be found.
+    /// The specified KMS entity or resource can't be found.
     public static var kmsNotFoundFault: Self { .init(.kmsNotFoundFault) }
     /// This request triggered KMS request throttling.
     public static var kmsThrottlingFault: Self { .init(.kmsThrottlingFault) }
@@ -5777,7 +5777,7 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     public static var resourceQuotaExceededFault: Self { .init(.resourceQuotaExceededFault) }
     /// Insufficient privileges are preventing access to an Amazon S3 object.
     public static var s3AccessDeniedFault: Self { .init(.s3AccessDeniedFault) }
-    /// A specified Amazon S3 bucket, bucket folder, or other object can&#39;t be found.
+    /// A specified Amazon S3 bucket, bucket folder, or other object can't be found.
     public static var s3ResourceNotFoundFault: Self { .init(.s3ResourceNotFoundFault) }
     /// The SNS topic is invalid.
     public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -232,7 +232,7 @@ extension MachineLearning {
 // MARK: Paginators
 
 extension MachineLearning {
-    ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
+    /// Returns a list of BatchPrediction operations that match the search criteria in the request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of DataSource that match the search criteria in the request.
+    /// Returns a list of DataSource that match the search criteria in the request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
+    /// Returns a list of DescribeEvaluations that match the search criteria in the request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -391,7 +391,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of MLModel that match the search criteria in the request.
+    /// Returns a list of MLModel that match the search criteria in the request.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

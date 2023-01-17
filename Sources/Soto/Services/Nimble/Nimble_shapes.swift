@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -384,10 +384,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeDirectoryConfiguration
-            case computeFarmConfiguration
-            case licenseServiceConfiguration
-            case sharedFileSystemConfiguration
+            case activeDirectoryConfiguration = "activeDirectoryConfiguration"
+            case computeFarmConfiguration = "computeFarmConfiguration"
+            case licenseServiceConfiguration = "licenseServiceConfiguration"
+            case sharedFileSystemConfiguration = "sharedFileSystemConfiguration"
         }
     }
 
@@ -418,7 +418,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eulaIds
+            case eulaIds = "eulaIds"
         }
     }
 
@@ -431,7 +431,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eulaAcceptances
+            case eulaAcceptances = "eulaAcceptances"
         }
     }
 
@@ -454,8 +454,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -483,9 +483,9 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computerAttributes
-            case directoryId
-            case organizationalUnitDistinguishedName
+            case computerAttributes = "computerAttributes"
+            case directoryId = "directoryId"
+            case organizationalUnitDistinguishedName = "organizationalUnitDistinguishedName"
         }
     }
 
@@ -501,8 +501,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeDirectoryUser
-            case endpoint
+            case activeDirectoryUser = "activeDirectoryUser"
+            case endpoint = "endpoint"
         }
     }
 
@@ -560,13 +560,13 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case ec2SubnetIds
-            case launchProfileProtocolVersions
-            case name
-            case streamConfiguration
-            case studioComponentIds
-            case tags
+            case description = "description"
+            case ec2SubnetIds = "ec2SubnetIds"
+            case launchProfileProtocolVersions = "launchProfileProtocolVersions"
+            case name = "name"
+            case streamConfiguration = "streamConfiguration"
+            case studioComponentIds = "studioComponentIds"
+            case tags = "tags"
         }
     }
 
@@ -579,7 +579,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfile
+            case launchProfile = "launchProfile"
         }
     }
 
@@ -620,10 +620,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case ec2ImageId
-            case name
-            case tags
+            case description = "description"
+            case ec2ImageId = "ec2ImageId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -636,7 +636,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamingImage
+            case streamingImage = "streamingImage"
         }
     }
 
@@ -679,11 +679,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2InstanceType
-            case launchProfileId
-            case ownedBy
-            case streamingImageId
-            case tags
+            case ec2InstanceType = "ec2InstanceType"
+            case launchProfileId = "launchProfileId"
+            case ownedBy = "ownedBy"
+            case streamingImageId = "streamingImageId"
+            case tags = "tags"
         }
     }
 
@@ -696,7 +696,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -731,7 +731,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expirationInSeconds
+            case expirationInSeconds = "expirationInSeconds"
         }
     }
 
@@ -744,7 +744,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stream
+            case stream = "stream"
         }
     }
 
@@ -816,17 +816,17 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case description
-            case ec2SecurityGroupIds
-            case initializationScripts
-            case name
-            case runtimeRoleArn
-            case scriptParameters
-            case secureInitializationRoleArn
-            case subtype
-            case tags
-            case type
+            case configuration = "configuration"
+            case description = "description"
+            case ec2SecurityGroupIds = "ec2SecurityGroupIds"
+            case initializationScripts = "initializationScripts"
+            case name = "name"
+            case runtimeRoleArn = "runtimeRoleArn"
+            case scriptParameters = "scriptParameters"
+            case secureInitializationRoleArn = "secureInitializationRoleArn"
+            case subtype = "subtype"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -839,7 +839,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studioComponent
+            case studioComponent = "studioComponent"
         }
     }
 
@@ -886,12 +886,12 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminRoleArn
-            case displayName
-            case studioEncryptionConfiguration
-            case studioName
-            case tags
-            case userRoleArn
+            case adminRoleArn = "adminRoleArn"
+            case displayName = "displayName"
+            case studioEncryptionConfiguration = "studioEncryptionConfiguration"
+            case studioName = "studioName"
+            case tags = "tags"
+            case userRoleArn = "userRoleArn"
         }
     }
 
@@ -904,7 +904,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studio
+            case studio = "studio"
         }
     }
 
@@ -981,7 +981,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfile
+            case launchProfile = "launchProfile"
         }
     }
 
@@ -1022,7 +1022,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamingImage
+            case streamingImage = "streamingImage"
         }
     }
 
@@ -1063,7 +1063,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -1104,7 +1104,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studioComponent
+            case studioComponent = "studioComponent"
         }
     }
 
@@ -1173,7 +1173,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studio
+            case studio = "studio"
         }
     }
 
@@ -1200,11 +1200,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case createdAt
-            case eulaId
-            case name
-            case updatedAt
+            case content = "content"
+            case createdAt = "createdAt"
+            case eulaId = "eulaId"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1230,11 +1230,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceptedAt
-            case acceptedBy
-            case accepteeId
-            case eulaAcceptanceId
-            case eulaId
+            case acceptedAt = "acceptedAt"
+            case acceptedBy = "acceptedBy"
+            case accepteeId = "accepteeId"
+            case eulaAcceptanceId = "eulaAcceptanceId"
+            case eulaId = "eulaId"
         }
     }
 
@@ -1262,7 +1262,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eula
+            case eula = "eula"
         }
     }
 
@@ -1300,9 +1300,9 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfile
-            case streamingImages
-            case studioComponentSummaries
+            case launchProfile = "launchProfile"
+            case streamingImages = "streamingImages"
+            case studioComponentSummaries = "studioComponentSummaries"
         }
     }
 
@@ -1346,7 +1346,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfileInitialization
+            case launchProfileInitialization = "launchProfileInitialization"
         }
     }
 
@@ -1382,7 +1382,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case member
+            case member = "member"
         }
     }
 
@@ -1414,7 +1414,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfile
+            case launchProfile = "launchProfile"
         }
     }
 
@@ -1446,7 +1446,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamingImage
+            case streamingImage = "streamingImage"
         }
     }
 
@@ -1478,7 +1478,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamingSessionBackup
+            case streamingSessionBackup = "streamingSessionBackup"
         }
     }
 
@@ -1510,7 +1510,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -1546,7 +1546,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stream
+            case stream = "stream"
         }
     }
 
@@ -1578,7 +1578,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studioComponent
+            case studioComponent = "studioComponent"
         }
     }
 
@@ -1610,7 +1610,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case member
+            case member = "member"
         }
     }
 
@@ -1638,7 +1638,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studio
+            case studio = "studio"
         }
     }
 
@@ -1701,23 +1701,23 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case createdBy
-            case description
-            case ec2SubnetIds
-            case launchProfileId
-            case launchProfileProtocolVersions
-            case name
-            case state
-            case statusCode
-            case statusMessage
-            case streamConfiguration
-            case studioComponentIds
-            case tags
-            case updatedAt
-            case updatedBy
-            case validationResults
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case ec2SubnetIds = "ec2SubnetIds"
+            case launchProfileId = "launchProfileId"
+            case launchProfileProtocolVersions = "launchProfileProtocolVersions"
+            case name = "name"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case streamConfiguration = "streamConfiguration"
+            case studioComponentIds = "studioComponentIds"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+            case validationResults = "validationResults"
         }
     }
 
@@ -1754,15 +1754,15 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeDirectory
-            case ec2SecurityGroupIds
-            case launchProfileId
-            case launchProfileProtocolVersion
-            case launchPurpose
-            case name
-            case platform
-            case systemInitializationScripts
-            case userInitializationScripts
+            case activeDirectory = "activeDirectory"
+            case ec2SecurityGroupIds = "ec2SecurityGroupIds"
+            case launchProfileId = "launchProfileId"
+            case launchProfileProtocolVersion = "launchProfileProtocolVersion"
+            case launchPurpose = "launchPurpose"
+            case name = "name"
+            case platform = "platform"
+            case systemInitializationScripts = "systemInitializationScripts"
+            case userInitializationScripts = "userInitializationScripts"
         }
     }
 
@@ -1793,13 +1793,13 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computerAttributes
-            case directoryId
-            case directoryName
-            case dnsIpAddresses
-            case organizationalUnitDistinguishedName
-            case studioComponentId
-            case studioComponentName
+            case computerAttributes = "computerAttributes"
+            case directoryId = "directoryId"
+            case directoryName = "directoryName"
+            case dnsIpAddresses = "dnsIpAddresses"
+            case organizationalUnitDistinguishedName = "organizationalUnitDistinguishedName"
+            case studioComponentId = "studioComponentId"
+            case studioComponentName = "studioComponentName"
         }
     }
 
@@ -1824,11 +1824,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case runtimeRoleArn
-            case script
-            case secureInitializationRoleArn
-            case studioComponentId
-            case studioComponentName
+            case runtimeRoleArn = "runtimeRoleArn"
+            case script = "script"
+            case secureInitializationRoleArn = "secureInitializationRoleArn"
+            case studioComponentId = "studioComponentId"
+            case studioComponentName = "studioComponentName"
         }
     }
 
@@ -1850,10 +1850,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityStoreId
-            case persona
-            case principalId
-            case sid
+            case identityStoreId = "identityStoreId"
+            case persona = "persona"
+            case principalId = "principalId"
+            case sid = "sid"
         }
     }
 
@@ -1866,7 +1866,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -1905,8 +1905,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eulaAcceptances
-            case nextToken
+            case eulaAcceptances = "eulaAcceptances"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1941,8 +1941,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eulas
-            case nextToken
+            case eulas = "eulas"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1990,8 +1990,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2043,8 +2043,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfiles
-            case nextToken
+            case launchProfiles = "launchProfiles"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2083,8 +2083,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case streamingImages
+            case nextToken = "nextToken"
+            case streamingImages = "streamingImages"
         }
     }
 
@@ -2123,8 +2123,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case streamingSessionBackups
+            case nextToken = "nextToken"
+            case streamingSessionBackups = "streamingSessionBackups"
         }
     }
 
@@ -2171,8 +2171,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sessions
+            case nextToken = "nextToken"
+            case sessions = "sessions"
         }
     }
 
@@ -2224,8 +2224,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case studioComponents
+            case nextToken = "nextToken"
+            case studioComponents = "studioComponents"
         }
     }
 
@@ -2269,8 +2269,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2301,8 +2301,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case studios
+            case nextToken = "nextToken"
+            case studios = "studios"
         }
     }
 
@@ -2330,7 +2330,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2346,8 +2346,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case persona
-            case principalId
+            case persona = "persona"
+            case principalId = "principalId"
         }
     }
 
@@ -2363,8 +2363,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case persona
-            case principalId
+            case persona = "persona"
+            case principalId = "principalId"
         }
     }
 
@@ -2402,8 +2402,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityStoreId
-            case members
+            case identityStoreId = "identityStoreId"
+            case members = "members"
         }
     }
 
@@ -2441,8 +2441,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityStoreId
-            case members
+            case identityStoreId = "identityStoreId"
+            case members = "members"
         }
     }
 
@@ -2470,8 +2470,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2502,11 +2502,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
-            case fileSystemId
-            case linuxMountPoint
-            case shareName
-            case windowsMountDrive
+            case endpoint = "endpoint"
+            case fileSystemId = "fileSystemId"
+            case linuxMountPoint = "linuxMountPoint"
+            case shareName = "shareName"
+            case windowsMountDrive = "windowsMountDrive"
         }
     }
 
@@ -2539,7 +2539,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupId
+            case backupId = "backupId"
         }
     }
 
@@ -2551,7 +2551,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -2588,7 +2588,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studio
+            case studio = "studio"
         }
     }
 
@@ -2621,7 +2621,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumeRetentionMode
+            case volumeRetentionMode = "volumeRetentionMode"
         }
     }
 
@@ -2633,7 +2633,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -2673,16 +2673,16 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automaticTerminationMode
-            case clipboardMode
-            case ec2InstanceTypes
-            case maxSessionLengthInMinutes
-            case maxStoppedSessionLengthInMinutes
-            case sessionBackup
-            case sessionPersistenceMode
-            case sessionStorage
-            case streamingImageIds
-            case volumeConfiguration
+            case automaticTerminationMode = "automaticTerminationMode"
+            case clipboardMode = "clipboardMode"
+            case ec2InstanceTypes = "ec2InstanceTypes"
+            case maxSessionLengthInMinutes = "maxSessionLengthInMinutes"
+            case maxStoppedSessionLengthInMinutes = "maxStoppedSessionLengthInMinutes"
+            case sessionBackup = "sessionBackup"
+            case sessionPersistenceMode = "sessionPersistenceMode"
+            case sessionStorage = "sessionStorage"
+            case streamingImageIds = "streamingImageIds"
+            case volumeConfiguration = "volumeConfiguration"
         }
     }
 
@@ -2740,16 +2740,16 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automaticTerminationMode
-            case clipboardMode
-            case ec2InstanceTypes
-            case maxSessionLengthInMinutes
-            case maxStoppedSessionLengthInMinutes
-            case sessionBackup
-            case sessionPersistenceMode
-            case sessionStorage
-            case streamingImageIds
-            case volumeConfiguration
+            case automaticTerminationMode = "automaticTerminationMode"
+            case clipboardMode = "clipboardMode"
+            case ec2InstanceTypes = "ec2InstanceTypes"
+            case maxSessionLengthInMinutes = "maxSessionLengthInMinutes"
+            case maxStoppedSessionLengthInMinutes = "maxStoppedSessionLengthInMinutes"
+            case sessionBackup = "sessionBackup"
+            case sessionPersistenceMode = "sessionPersistenceMode"
+            case sessionStorage = "sessionStorage"
+            case streamingImageIds = "streamingImageIds"
+            case volumeConfiguration = "volumeConfiguration"
         }
     }
 
@@ -2770,8 +2770,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxBackupsToRetain
-            case mode
+            case maxBackupsToRetain = "maxBackupsToRetain"
+            case mode = "mode"
         }
     }
 
@@ -2792,8 +2792,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mode
-            case root
+            case mode = "mode"
+            case root = "root"
         }
     }
 
@@ -2842,19 +2842,19 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case ec2ImageId
-            case encryptionConfiguration
-            case eulaIds
-            case name
-            case owner
-            case platform
-            case state
-            case statusCode
-            case statusMessage
-            case streamingImageId
-            case tags
+            case arn = "arn"
+            case description = "description"
+            case ec2ImageId = "ec2ImageId"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case eulaIds = "eulaIds"
+            case name = "name"
+            case owner = "owner"
+            case platform = "platform"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case streamingImageId = "streamingImageId"
+            case tags = "tags"
         }
     }
 
@@ -2870,8 +2870,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyArn
-            case keyType
+            case keyArn = "keyArn"
+            case keyType = "keyType"
         }
     }
 
@@ -2968,33 +2968,33 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case automaticTerminationMode
-            case backupMode
-            case createdAt
-            case createdBy
-            case ec2InstanceType
-            case launchProfileId
-            case maxBackupsToRetain
-            case ownedBy
-            case sessionId
-            case sessionPersistenceMode
-            case startedAt
-            case startedBy
-            case startedFromBackupId
-            case state
-            case statusCode
-            case statusMessage
-            case stopAt
-            case stoppedAt
-            case stoppedBy
-            case streamingImageId
-            case tags
-            case terminateAt
-            case updatedAt
-            case updatedBy
-            case volumeConfiguration
-            case volumeRetentionMode
+            case arn = "arn"
+            case automaticTerminationMode = "automaticTerminationMode"
+            case backupMode = "backupMode"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case ec2InstanceType = "ec2InstanceType"
+            case launchProfileId = "launchProfileId"
+            case maxBackupsToRetain = "maxBackupsToRetain"
+            case ownedBy = "ownedBy"
+            case sessionId = "sessionId"
+            case sessionPersistenceMode = "sessionPersistenceMode"
+            case startedAt = "startedAt"
+            case startedBy = "startedBy"
+            case startedFromBackupId = "startedFromBackupId"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case stopAt = "stopAt"
+            case stoppedAt = "stoppedAt"
+            case stoppedBy = "stoppedBy"
+            case streamingImageId = "streamingImageId"
+            case tags = "tags"
+            case terminateAt = "terminateAt"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+            case volumeConfiguration = "volumeConfiguration"
+            case volumeRetentionMode = "volumeRetentionMode"
         }
     }
 
@@ -3034,16 +3034,16 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case backupId
-            case createdAt
-            case launchProfileId
-            case ownedBy
-            case sessionId
-            case state
-            case statusCode
-            case statusMessage
-            case tags
+            case arn = "arn"
+            case backupId = "backupId"
+            case createdAt = "createdAt"
+            case launchProfileId = "launchProfileId"
+            case ownedBy = "ownedBy"
+            case sessionId = "sessionId"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
         }
     }
 
@@ -3068,8 +3068,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case linux
-            case windows
+            case linux = "linux"
+            case windows = "windows"
         }
     }
 
@@ -3105,14 +3105,14 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case createdBy
-            case expiresAt
-            case ownedBy
-            case state
-            case statusCode
-            case streamId
-            case url
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case expiresAt = "expiresAt"
+            case ownedBy = "ownedBy"
+            case state = "state"
+            case statusCode = "statusCode"
+            case streamId = "streamId"
+            case url = "url"
         }
     }
 
@@ -3172,22 +3172,22 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminRoleArn
-            case arn
-            case createdAt
-            case displayName
-            case homeRegion
-            case ssoClientId
-            case state
-            case statusCode
-            case statusMessage
-            case studioEncryptionConfiguration
-            case studioId
-            case studioName
-            case studioUrl
-            case tags
-            case updatedAt
-            case userRoleArn
+            case adminRoleArn = "adminRoleArn"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case displayName = "displayName"
+            case homeRegion = "homeRegion"
+            case ssoClientId = "ssoClientId"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case studioEncryptionConfiguration = "studioEncryptionConfiguration"
+            case studioId = "studioId"
+            case studioName = "studioName"
+            case studioUrl = "studioUrl"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+            case userRoleArn = "userRoleArn"
         }
     }
 
@@ -3259,26 +3259,26 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case configuration
-            case createdAt
-            case createdBy
-            case description
-            case ec2SecurityGroupIds
-            case initializationScripts
-            case name
-            case runtimeRoleArn
-            case scriptParameters
-            case secureInitializationRoleArn
-            case state
-            case statusCode
-            case statusMessage
-            case studioComponentId
-            case subtype
-            case tags
-            case type
-            case updatedAt
-            case updatedBy
+            case arn = "arn"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case ec2SecurityGroupIds = "ec2SecurityGroupIds"
+            case initializationScripts = "initializationScripts"
+            case name = "name"
+            case runtimeRoleArn = "runtimeRoleArn"
+            case scriptParameters = "scriptParameters"
+            case secureInitializationRoleArn = "secureInitializationRoleArn"
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case studioComponentId = "studioComponentId"
+            case subtype = "subtype"
+            case tags = "tags"
+            case type = "type"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -3307,10 +3307,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfileProtocolVersion
-            case platform
-            case runContext
-            case script
+            case launchProfileProtocolVersion = "launchProfileProtocolVersion"
+            case platform = "platform"
+            case runContext = "runContext"
+            case script = "script"
         }
     }
 
@@ -3349,15 +3349,15 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case createdBy
-            case description
-            case name
-            case studioComponentId
-            case subtype
-            case type
-            case updatedAt
-            case updatedBy
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case name = "name"
+            case studioComponentId = "studioComponentId"
+            case subtype = "subtype"
+            case type = "type"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -3378,8 +3378,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyArn
-            case keyType
+            case keyArn = "keyArn"
+            case keyType = "keyType"
         }
     }
 
@@ -3401,10 +3401,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityStoreId
-            case persona
-            case principalId
-            case sid
+            case identityStoreId = "identityStoreId"
+            case persona = "persona"
+            case principalId = "principalId"
+            case sid = "sid"
         }
     }
 
@@ -3424,7 +3424,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3488,7 +3488,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case persona
+            case persona = "persona"
         }
     }
 
@@ -3501,7 +3501,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case member
+            case member = "member"
         }
     }
 
@@ -3556,11 +3556,11 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case launchProfileProtocolVersions
-            case name
-            case streamConfiguration
-            case studioComponentIds
+            case description = "description"
+            case launchProfileProtocolVersions = "launchProfileProtocolVersions"
+            case name = "name"
+            case streamConfiguration = "streamConfiguration"
+            case studioComponentIds = "studioComponentIds"
         }
     }
 
@@ -3573,7 +3573,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchProfile
+            case launchProfile = "launchProfile"
         }
     }
 
@@ -3611,8 +3611,8 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -3624,7 +3624,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamingImage
+            case streamingImage = "streamingImage"
         }
     }
 
@@ -3697,16 +3697,16 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case description
-            case ec2SecurityGroupIds
-            case initializationScripts
-            case name
-            case runtimeRoleArn
-            case scriptParameters
-            case secureInitializationRoleArn
-            case subtype
-            case type
+            case configuration = "configuration"
+            case description = "description"
+            case ec2SecurityGroupIds = "ec2SecurityGroupIds"
+            case initializationScripts = "initializationScripts"
+            case name = "name"
+            case runtimeRoleArn = "runtimeRoleArn"
+            case scriptParameters = "scriptParameters"
+            case secureInitializationRoleArn = "secureInitializationRoleArn"
+            case subtype = "subtype"
+            case type = "type"
         }
     }
 
@@ -3719,7 +3719,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studioComponent
+            case studioComponent = "studioComponent"
         }
     }
 
@@ -3757,9 +3757,9 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminRoleArn
-            case displayName
-            case userRoleArn
+            case adminRoleArn = "adminRoleArn"
+            case displayName = "displayName"
+            case userRoleArn = "userRoleArn"
         }
     }
 
@@ -3772,7 +3772,7 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case studio
+            case studio = "studio"
         }
     }
 
@@ -3794,10 +3794,10 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case statusCode
-            case statusMessage
-            case type
+            case state = "state"
+            case statusCode = "statusCode"
+            case statusMessage = "statusMessage"
+            case type = "type"
         }
     }
 
@@ -3825,9 +3825,9 @@ extension Nimble {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iops
-            case size
-            case throughput
+            case iops = "iops"
+            case size = "size"
+            case throughput = "throughput"
         }
     }
 }

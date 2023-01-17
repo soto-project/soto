@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -203,7 +203,7 @@ extension EKS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EKS {
-    ///  Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
+    /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -225,7 +225,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the available add-ons.
+    /// Lists the available add-ons.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -247,7 +247,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
+    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -269,7 +269,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
+    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -291,7 +291,7 @@ extension EKS {
         )
     }
 
-    ///  A list of identity provider configurations.
+    /// A list of identity provider configurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -313,7 +313,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
+    /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -335,7 +335,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
+    /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

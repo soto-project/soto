@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -130,7 +130,7 @@ extension SageMakerGeospatial {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMakerGeospatial {
-    ///  Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
+    /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -152,7 +152,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Use this operation to get raster data collections.
+    /// Use this operation to get raster data collections.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -174,7 +174,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Retrieves a list of vector enrichment jobs.
+    /// Retrieves a list of vector enrichment jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -196,7 +196,7 @@ extension SageMakerGeospatial {
         )
     }
 
-    ///  Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
+    /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

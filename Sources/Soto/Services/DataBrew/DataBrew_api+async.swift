@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -250,7 +250,7 @@ extension DataBrew {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataBrew {
-    ///  Lists all of the DataBrew datasets.
+    /// Lists all of the DataBrew datasets.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -272,7 +272,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the previous runs of a particular DataBrew job.
+    /// Lists all of the previous runs of a particular DataBrew job.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -294,7 +294,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew jobs that are defined.
+    /// Lists all of the DataBrew jobs that are defined.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -316,7 +316,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew projects that are defined.
+    /// Lists all of the DataBrew projects that are defined.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -338,7 +338,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
+    /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -360,7 +360,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew recipes that are defined.
+    /// Lists all of the DataBrew recipes that are defined.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -382,7 +382,7 @@ extension DataBrew {
         )
     }
 
-    ///  List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
+    /// List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -404,7 +404,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists the DataBrew schedules that are defined.
+    /// Lists the DataBrew schedules that are defined.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

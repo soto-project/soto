@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -133,7 +133,7 @@ extension Synthetics {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Synthetics {
-    ///  This operation returns a list of the canaries in your account, along with full details about each canary. This operation supports resource-level authorization using an IAM policy and  the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
+    /// This operation returns a list of the canaries in your account, along with full details about each canary. This operation supports resource-level authorization using an IAM policy and  the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension Synthetics {
         )
     }
 
-    ///  Use this operation to see information from the most recent run of each canary that you have created.  This operation supports resource-level authorization using an IAM policy and  the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
+    /// Use this operation to see information from the most recent run of each canary that you have created.  This operation supports resource-level authorization using an IAM policy and  the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -177,7 +177,7 @@ extension Synthetics {
         )
     }
 
-    ///  Returns a list of Synthetics canary runtime versions. For more information,  see  Canary Runtime Versions.
+    /// Returns a list of Synthetics canary runtime versions. For more information,  see  Canary Runtime Versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -199,7 +199,7 @@ extension Synthetics {
         )
     }
 
-    ///  Retrieves a list of runs for a specified canary.
+    /// Retrieves a list of runs for a specified canary.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +221,7 @@ extension Synthetics {
         )
     }
 
-    ///  Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region.
+    /// Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -243,7 +243,7 @@ extension Synthetics {
         )
     }
 
-    ///  This operation returns a list of the ARNs of the canaries that are associated with the specified group.
+    /// This operation returns a list of the ARNs of the canaries that are associated with the specified group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -265,7 +265,7 @@ extension Synthetics {
         )
     }
 
-    ///  Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups from all Regions are returned.
+    /// Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups from all Regions are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

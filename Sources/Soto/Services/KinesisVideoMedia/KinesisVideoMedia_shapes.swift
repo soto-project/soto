@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -161,7 +161,7 @@ public struct KinesisVideoMediaErrorType: AWSErrorType {
     public static var connectionLimitExceededException: Self { .init(.connectionLimitExceededException) }
     /// The value for this input parameter is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
-    ///  Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to &quot;READ&quot; and use the endpoint Kinesis Video returns in the next GetMedia call.
+    ///  Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
     /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }

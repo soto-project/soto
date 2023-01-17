@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -534,7 +534,7 @@ extension CloudFormation {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")
             try self.loggingConfig?.validate(name: "\(name).loggingConfig")
-            try self.validate(self.majorVersion, name: "majorVersion", parent: name, max: 100_000)
+            try self.validate(self.majorVersion, name: "majorVersion", parent: name, max: 100000)
             try self.validate(self.majorVersion, name: "majorVersion", parent: name, min: 1)
             try self.validate(self.publicTypeArn, name: "publicTypeArn", parent: name, max: 1024)
             try self.validate(self.publicTypeArn, name: "publicTypeArn", parent: name, pattern: "^arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}::type/.+/[0-9a-zA-Z]{12,40}/.+$")
@@ -4221,7 +4221,7 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.configuration, name: "configuration", parent: name, max: 204_800)
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 204800)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
             try self.validate(self.configuration, name: "configuration", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.configurationAlias, name: "configurationAlias", parent: name, max: 256)
@@ -6153,17 +6153,17 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// An error occurred during a CloudFormation registry operation.
     public static var cfnRegistryException: Self { .init(.cfnRegistryException) }
-    /// The specified change set name or ID doesn&#39;t exit. To view valid change sets for a stack, use the ListChangeSets operation.
+    /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
     public static var changeSetNotFoundException: Self { .init(.changeSetNotFoundException) }
     /// The specified resource exists, but has been changed.
     public static var createdButModifiedException: Self { .init(.createdButModifiedException) }
-    /// The template contains resources with capabilities that weren&#39;t specified in the Capabilities parameter.
+    /// The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     public static var insufficientCapabilitiesException: Self { .init(.insufficientCapabilitiesException) }
-    /// The specified change set can&#39;t be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
+    /// The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
     public static var invalidChangeSetStatusException: Self { .init(.invalidChangeSetStatusException) }
-    /// The specified operation isn&#39;t valid.
+    /// The specified operation isn't valid.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
-    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn&#39;t return this error to users.
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn't return this error to users.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
     /// The quota for the resource has already been reached. For information about resource and stack limitations, see CloudFormation quotas in the CloudFormation User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -6173,25 +6173,25 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var operationIdAlreadyExistsException: Self { .init(.operationIdAlreadyExistsException) }
     /// Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
-    /// The specified ID refers to an operation that doesn&#39;t exist.
+    /// The specified ID refers to an operation that doesn't exist.
     public static var operationNotFoundException: Self { .init(.operationNotFoundException) }
-    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn&#39;t return this error to users.
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn't return this error to users.
     public static var operationStatusCheckFailedException: Self { .init(.operationStatusCheckFailedException) }
-    /// The specified stack instance doesn&#39;t exist.
+    /// The specified stack instance doesn't exist.
     public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
-    /// The specified stack ARN doesn&#39;t exist or stack doesn&#39;t exist corresponding to the ARN in input.
+    /// The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
     public static var stackNotFoundException: Self { .init(.stackNotFoundException) }
-    /// You can&#39;t yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
+    /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
     public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
-    /// The specified stack set doesn&#39;t exist.
+    /// The specified stack set doesn't exist.
     public static var stackSetNotFoundException: Self { .init(.stackSetNotFoundException) }
     /// Another operation has been performed on this stack set since the specified operation was performed.
     public static var staleRequestException: Self { .init(.staleRequestException) }
     /// A client request token already exists.
     public static var tokenAlreadyExistsException: Self { .init(.tokenAlreadyExistsException) }
-    /// The specified extension configuration can&#39;t be found.
+    /// The specified extension configuration can't be found.
     public static var typeConfigurationNotFoundException: Self { .init(.typeConfigurationNotFoundException) }
-    /// The specified extension doesn&#39;t exist in the CloudFormation registry.
+    /// The specified extension doesn't exist in the CloudFormation registry.
     public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
 }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -166,7 +166,7 @@ extension Connect {
     }
 
     /// Deletes a flow for the specified Amazon Connect instance.
-    public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+    public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteContactFlowResponse {
         return try await self.client.execute(operation: "DeleteContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
@@ -708,12 +708,12 @@ extension Connect {
     }
 
     /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language.
-    public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+    public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContactFlowContentResponse {
         return try await self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates metadata about specified flow.
-    public func updateContactFlowMetadata(_ input: UpdateContactFlowMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+    public func updateContactFlowMetadata(_ input: UpdateContactFlowMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContactFlowMetadataResponse {
         return try await self.client.execute(operation: "UpdateContactFlowMetadata", path: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
@@ -728,7 +728,7 @@ extension Connect {
     }
 
     /// The name of the flow. You can also create and update flows using the Amazon Connect Flow language.
-    public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
+    public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateContactFlowNameResponse {
         return try await self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
@@ -877,7 +877,7 @@ extension Connect {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Connect {
-    ///  Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
+    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -899,7 +899,7 @@ extension Connect {
         )
     }
 
-    ///  Gets the real-time active user data from the specified Amazon Connect instance.
+    /// Gets the real-time active user data from the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -921,7 +921,7 @@ extension Connect {
         )
     }
 
-    ///  Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
+    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -943,7 +943,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
+    /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -965,7 +965,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -987,7 +987,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1009,7 +1009,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the flow modules for the specified Amazon Connect instance.
+    /// Provides information about the flow modules for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1031,7 +1031,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
+    /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1053,7 +1053,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1075,7 +1075,7 @@ extension Connect {
         )
     }
 
-    ///  Lists the default vocabularies for the specified Amazon Connect instance.
+    /// Lists the default vocabularies for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1097,7 +1097,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
+    /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1119,7 +1119,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1141,7 +1141,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1163,7 +1163,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1185,7 +1185,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
+    /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1207,7 +1207,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1229,7 +1229,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1251,7 +1251,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1273,7 +1273,7 @@ extension Connect {
         )
     }
 
-    ///  Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1295,7 +1295,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the prompts for the specified Amazon Connect instance.
+    /// Provides information about the prompts for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1317,7 +1317,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
+    /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1339,7 +1339,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
+    /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1361,7 +1361,7 @@ extension Connect {
         )
     }
 
-    ///  Provides information about the quick connects for the specified Amazon Connect instance.
+    /// Provides information about the quick connects for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1383,7 +1383,7 @@ extension Connect {
         )
     }
 
-    ///  Lists the queues associated with a routing profile.
+    /// Lists the queues associated with a routing profile.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1405,7 +1405,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1427,7 +1427,7 @@ extension Connect {
         )
     }
 
-    ///  List all rules for the specified Amazon Connect instance.
+    /// List all rules for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1449,7 +1449,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1471,7 +1471,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1493,7 +1493,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1515,7 +1515,7 @@ extension Connect {
         )
     }
 
-    ///  Lists task templates for the specified Amazon Connect instance.
+    /// Lists task templates for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1537,7 +1537,7 @@ extension Connect {
         )
     }
 
-    ///  Lists traffic distribution groups.
+    /// Lists traffic distribution groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1559,7 +1559,7 @@ extension Connect {
         )
     }
 
-    ///  Lists the use cases for the integration association.
+    /// Lists the use cases for the integration association.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1581,7 +1581,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1603,7 +1603,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the users for the specified Amazon Connect instance.
+    /// Provides summary information about the users for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1625,7 +1625,7 @@ extension Connect {
         )
     }
 
-    ///  Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
+    /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1647,7 +1647,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
+    /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1669,7 +1669,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1691,7 +1691,7 @@ extension Connect {
         )
     }
 
-    ///  This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1713,7 +1713,7 @@ extension Connect {
         )
     }
 
-    ///  Searches users in an Amazon Connect instance, with optional filtering.   AfterContactWorkTimeLimit is returned in milliseconds.
+    /// Searches users in an Amazon Connect instance, with optional filtering.   AfterContactWorkTimeLimit is returned in milliseconds.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1735,7 +1735,7 @@ extension Connect {
         )
     }
 
-    ///  Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -194,8 +194,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsSourceType
-            case customSourceType
+            case awsSourceType = "awsSourceType"
+            case customSourceType = "customSourceType"
         }
     }
 
@@ -219,10 +219,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case account
-            case eventClass
-            case logsStatus
-            case sourceType
+            case account = "account"
+            case eventClass = "eventClass"
+            case logsStatus = "logsStatus"
+            case sourceType = "sourceType"
         }
     }
 
@@ -238,8 +238,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case region
-            case sources
+            case region = "region"
+            case sources = "sources"
         }
     }
 
@@ -267,10 +267,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableAllDimensions
-            case enableSingleDimension
-            case enableTwoDimensions
-            case inputOrder
+            case enableAllDimensions = "enableAllDimensions"
+            case enableSingleDimension = "enableSingleDimension"
+            case enableTwoDimensions = "enableTwoDimensions"
+            case inputOrder = "inputOrder"
         }
     }
 
@@ -286,8 +286,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case processing
+            case failed = "failed"
+            case processing = "processing"
         }
     }
 
@@ -317,10 +317,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customSourceName
-            case eventClass
-            case glueInvocationRoleArn
-            case logProviderAccountId
+            case customSourceName = "customSourceName"
+            case eventClass = "eventClass"
+            case glueInvocationRoleArn = "glueInvocationRoleArn"
+            case logProviderAccountId = "logProviderAccountId"
         }
     }
 
@@ -345,11 +345,11 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataLocation
-            case glueCrawlerName
-            case glueDatabaseName
-            case glueTableName
-            case logProviderAccessRoleArn
+            case customDataLocation = "customDataLocation"
+            case glueCrawlerName = "glueCrawlerName"
+            case glueDatabaseName = "glueDatabaseName"
+            case glueTableName = "glueTableName"
+            case logProviderAccessRoleArn = "logProviderAccessRoleArn"
         }
     }
 
@@ -362,7 +362,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationForNewAccounts
+            case configurationForNewAccounts = "configurationForNewAccounts"
         }
     }
 
@@ -383,7 +383,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case account
+            case account = "account"
         }
     }
 
@@ -407,8 +407,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationEndpoint
-            case subscriptionProtocol
+            case notificationEndpoint = "notificationEndpoint"
+            case subscriptionProtocol = "subscriptionProtocol"
         }
     }
 
@@ -441,10 +441,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
-            case enableAll
-            case metaStoreManagerRoleArn
-            case regions
+            case configurations = "configurations"
+            case enableAll = "enableAll"
+            case metaStoreManagerRoleArn = "metaStoreManagerRoleArn"
+            case regions = "regions"
         }
     }
 
@@ -487,12 +487,12 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessTypes
-            case accountId
-            case externalId
-            case sourceTypes
-            case subscriberDescription
-            case subscriberName
+            case accessTypes = "accessTypes"
+            case accountId = "accountId"
+            case externalId = "externalId"
+            case sourceTypes = "sourceTypes"
+            case subscriberDescription = "subscriberDescription"
+            case subscriberName = "subscriberName"
         }
     }
 
@@ -514,10 +514,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case s3BucketArn
-            case snsArn
-            case subscriptionId
+            case roleArn = "roleArn"
+            case s3BucketArn = "s3BucketArn"
+            case snsArn = "snsArn"
+            case subscriptionId = "subscriptionId"
         }
     }
 
@@ -557,12 +557,12 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createSqs
-            case httpsApiKeyName
-            case httpsApiKeyValue
-            case httpsMethod
-            case roleArn
-            case subscriptionEndpoint
+            case createSqs = "createSqs"
+            case httpsApiKeyName = "httpsApiKeyName"
+            case httpsApiKeyValue = "httpsApiKeyValue"
+            case httpsMethod = "httpsMethod"
+            case roleArn = "roleArn"
+            case subscriptionEndpoint = "subscriptionEndpoint"
         }
     }
 
@@ -575,7 +575,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queueArn
+            case queueArn = "queueArn"
         }
     }
 
@@ -603,10 +603,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disableAllDimensions
-            case disableSingleDimension
-            case disableTwoDimensions
-            case inputOrder
+            case disableAllDimensions = "disableAllDimensions"
+            case disableSingleDimension = "disableSingleDimension"
+            case disableTwoDimensions = "disableTwoDimensions"
+            case inputOrder = "inputOrder"
         }
     }
 
@@ -622,8 +622,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case processing
+            case failed = "failed"
+            case processing = "processing"
         }
     }
 
@@ -651,7 +651,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataLocation
+            case customDataLocation = "customDataLocation"
         }
     }
 
@@ -664,7 +664,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case removeFromConfigurationForNewAccounts
+            case removeFromConfigurationForNewAccounts = "removeFromConfigurationForNewAccounts"
         }
     }
 
@@ -708,7 +708,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -777,9 +777,9 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exceptionMessage
-            case remediation
-            case timestamp
+            case exceptionMessage = "exceptionMessage"
+            case remediation = "remediation"
+            case timestamp = "timestamp"
         }
     }
 
@@ -795,8 +795,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case region
+            case failures = "failures"
+            case region = "region"
         }
     }
 
@@ -813,7 +813,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnableNewAccounts
+            case autoEnableNewAccounts = "autoEnableNewAccounts"
         }
     }
 
@@ -830,7 +830,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exceptionMessageExpiry
+            case exceptionMessageExpiry = "exceptionMessageExpiry"
         }
     }
 
@@ -847,7 +847,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case protocolAndNotificationEndpoint
+            case protocolAndNotificationEndpoint = "protocolAndNotificationEndpoint"
         }
     }
 
@@ -864,7 +864,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
+            case configurations = "configurations"
         }
     }
 
@@ -890,9 +890,9 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSet
-            case maxAccountResults
-            case nextToken
+            case accountSet = "accountSet"
+            case maxAccountResults = "maxAccountResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -908,8 +908,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSourcesList
-            case nextToken
+            case accountSourcesList = "accountSourcesList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -937,7 +937,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriber
+            case subscriber = "subscriber"
         }
     }
 
@@ -966,11 +966,11 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
-            case replicationDestinationRegions
-            case replicationRoleArn
-            case retentionSettings
-            case tagsMap
+            case encryptionKey = "encryptionKey"
+            case replicationDestinationRegions = "replicationDestinationRegions"
+            case replicationRoleArn = "replicationRoleArn"
+            case retentionSettings = "retentionSettings"
+            case tagsMap = "tagsMap"
         }
     }
 
@@ -1001,13 +1001,13 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
-            case replicationDestinationRegions
-            case replicationRoleArn
-            case retentionSettings
-            case s3BucketArn
-            case status
-            case tagsMap
+            case encryptionKey = "encryptionKey"
+            case replicationDestinationRegions = "replicationDestinationRegions"
+            case replicationRoleArn = "replicationRoleArn"
+            case retentionSettings = "retentionSettings"
+            case s3BucketArn = "s3BucketArn"
+            case status = "status"
+            case tagsMap = "tagsMap"
         }
     }
 
@@ -1030,9 +1030,9 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxFailures
-            case nextToken
-            case regionSet
+            case maxFailures = "maxFailures"
+            case nextToken = "nextToken"
+            case regionSet = "regionSet"
         }
     }
 
@@ -1048,8 +1048,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case nonRetryableFailures
+            case nextToken = "nextToken"
+            case nonRetryableFailures = "nonRetryableFailures"
         }
     }
 
@@ -1084,12 +1084,12 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputOrder
-            case listAllDimensions
-            case listSingleDimension
-            case listTwoDimensions
-            case maxResults
-            case nextToken
+            case inputOrder = "inputOrder"
+            case listAllDimensions = "listAllDimensions"
+            case listSingleDimension = "listSingleDimension"
+            case listTwoDimensions = "listTwoDimensions"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1105,8 +1105,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case regionSourceTypesAccountsList
+            case nextToken = "nextToken"
+            case regionSourceTypesAccountsList = "regionSourceTypesAccountsList"
         }
     }
 
@@ -1141,8 +1141,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case subscribers
+            case nextToken = "nextToken"
+            case subscribers = "subscribers"
         }
     }
 
@@ -1158,8 +1158,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthStatus
-            case pathToLogs
+            case healthStatus = "healthStatus"
+            case pathToLogs = "pathToLogs"
         }
     }
 
@@ -1175,8 +1175,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
-            case `protocol`
+            case endpoint = "endpoint"
+            case `protocol` = "protocol"
         }
     }
 
@@ -1192,8 +1192,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case retentionPeriod
-            case storageClass
+            case retentionPeriod = "retentionPeriod"
+            case storageClass = "storageClass"
         }
     }
 
@@ -1248,21 +1248,21 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessTypes
-            case accountId
-            case createdAt
-            case externalId
-            case roleArn
-            case s3BucketArn
-            case snsArn
-            case sourceTypes
-            case subscriberDescription
-            case subscriberName
-            case subscriptionEndpoint
-            case subscriptionId
-            case subscriptionProtocol
-            case subscriptionStatus
-            case updatedAt
+            case accessTypes = "accessTypes"
+            case accountId = "accountId"
+            case createdAt = "createdAt"
+            case externalId = "externalId"
+            case roleArn = "roleArn"
+            case s3BucketArn = "s3BucketArn"
+            case snsArn = "snsArn"
+            case sourceTypes = "sourceTypes"
+            case subscriberDescription = "subscriberDescription"
+            case subscriberName = "subscriberName"
+            case subscriptionEndpoint = "subscriptionEndpoint"
+            case subscriptionId = "subscriptionId"
+            case subscriptionProtocol = "subscriptionProtocol"
+            case subscriptionStatus = "subscriptionStatus"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1275,7 +1275,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exceptionMessageExpiry
+            case exceptionMessageExpiry = "exceptionMessageExpiry"
         }
     }
 
@@ -1299,8 +1299,8 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationEndpoint
-            case subscriptionProtocol
+            case notificationEndpoint = "notificationEndpoint"
+            case subscriptionProtocol = "subscriptionProtocol"
         }
     }
 
@@ -1323,7 +1323,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
+            case configurations = "configurations"
         }
     }
 
@@ -1365,10 +1365,10 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalId
-            case sourceTypes
-            case subscriberDescription
-            case subscriberName
+            case externalId = "externalId"
+            case sourceTypes = "sourceTypes"
+            case subscriberDescription = "subscriberDescription"
+            case subscriberName = "subscriberName"
         }
     }
 
@@ -1381,7 +1381,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subscriber
+            case subscriber = "subscriber"
         }
     }
 
@@ -1421,12 +1421,12 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createSqs
-            case httpsApiKeyName
-            case httpsApiKeyValue
-            case httpsMethod
-            case roleArn
-            case subscriptionEndpoint
+            case createSqs = "createSqs"
+            case httpsApiKeyName = "httpsApiKeyName"
+            case httpsApiKeyValue = "httpsApiKeyValue"
+            case httpsMethod = "httpsMethod"
+            case roleArn = "roleArn"
+            case subscriptionEndpoint = "subscriptionEndpoint"
         }
     }
 
@@ -1439,7 +1439,7 @@ extension SecurityLake {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queueArn
+            case queueArn = "queueArn"
         }
     }
 }
@@ -1486,7 +1486,7 @@ public struct SecurityLakeErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action. Access denied errors appear when Amazon Security Lake explicitly or implicitly denies an authorization request. An explicit denial occurs when a policy contains a Deny statement for the specific Amazon Web Services action. An implicit denial occurs when there is no applicable Deny statement and also no applicable Allow statement.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Amazon Security Lake cannot find an Amazon Web Services account with the accountID that you specified, or the account whose credentials you used to make this request isn&#39;t a member of an organization.
+    /// Amazon Security Lake cannot find an Amazon Web Services account with the accountID that you specified, or the account whose credentials you used to make this request isn't a member of an organization.
     public static var accountNotFoundException: Self { .init(.accountNotFoundException) }
     /// Amazon Security Lake  generally returns 404 errors if the requested object is missing from the bucket.
     public static var bucketNotFoundException: Self { .init(.bucketNotFoundException) }
@@ -1502,7 +1502,7 @@ public struct SecurityLakeErrorType: AWSErrorType {
     public static var eventBridgeException: Self { .init(.eventBridgeException) }
     /// Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The request was rejected because a value that&#39;s not valid or is out of range was supplied for an input parameter.
+    /// The request was rejected because a value that's not valid or is out of range was supplied for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

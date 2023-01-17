@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -47,7 +47,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccountId
+            case memberAccountId = "memberAccountId"
         }
     }
 
@@ -70,8 +70,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccountId
-            case s3Resources
+            case memberAccountId = "memberAccountId"
+            case s3Resources = "s3Resources"
         }
     }
 
@@ -84,7 +84,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedS3Resources
+            case failedS3Resources = "failedS3Resources"
         }
     }
 
@@ -100,8 +100,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continuous
-            case oneTime
+            case continuous = "continuous"
+            case oneTime = "oneTime"
         }
     }
 
@@ -117,8 +117,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continuous
-            case oneTime
+            case continuous = "continuous"
+            case oneTime = "oneTime"
         }
     }
 
@@ -135,7 +135,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccountId
+            case memberAccountId = "memberAccountId"
         }
     }
 
@@ -158,8 +158,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedS3Resources
-            case memberAccountId
+            case associatedS3Resources = "associatedS3Resources"
+            case memberAccountId = "memberAccountId"
         }
     }
 
@@ -172,7 +172,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedS3Resources
+            case failedS3Resources = "failedS3Resources"
         }
     }
 
@@ -191,9 +191,9 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case failedItem
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case failedItem = "failedItem"
         }
     }
 
@@ -214,8 +214,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -231,8 +231,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccounts
-            case nextToken
+            case memberAccounts = "memberAccounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -257,9 +257,9 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case memberAccountId
-            case nextToken
+            case maxResults = "maxResults"
+            case memberAccountId = "memberAccountId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -275,8 +275,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case s3Resources
+            case nextToken = "nextToken"
+            case s3Resources = "s3Resources"
         }
     }
 
@@ -289,7 +289,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -310,8 +310,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case prefix
+            case bucketName = "bucketName"
+            case prefix = "prefix"
         }
     }
 
@@ -335,9 +335,9 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case classificationType
-            case prefix
+            case bucketName = "bucketName"
+            case classificationType = "classificationType"
+            case prefix = "prefix"
         }
     }
 
@@ -361,9 +361,9 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case classificationTypeUpdate
-            case prefix
+            case bucketName = "bucketName"
+            case classificationTypeUpdate = "classificationTypeUpdate"
+            case prefix = "prefix"
         }
     }
 
@@ -386,8 +386,8 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccountId
-            case s3ResourcesUpdate
+            case memberAccountId = "memberAccountId"
+            case s3ResourcesUpdate = "s3ResourcesUpdate"
         }
     }
 
@@ -400,7 +400,7 @@ extension Macie {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedS3Resources
+            case failedS3Resources = "failedS3Resources"
         }
     }
 }

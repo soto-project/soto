@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -27,9 +27,9 @@ extension Kendra {
     }
 
     public enum AlfrescoEntity: String, CustomStringConvertible, Codable, _SotoSendable {
-        case blog
-        case documentLibrary
-        case wiki
+        case blog = "blog"
+        case documentLibrary = "documentLibrary"
+        case wiki = "wiki"
         public var description: String { return self.rawValue }
     }
 
@@ -113,11 +113,18 @@ extension Kendra {
     }
 
     public enum ContentType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case csv = "CSV"
         case html = "HTML"
+        case json = "JSON"
+        case md = "MD"
+        case msExcel = "MS_EXCEL"
         case msWord = "MS_WORD"
         case pdf = "PDF"
         case plainText = "PLAIN_TEXT"
         case ppt = "PPT"
+        case rtf = "RTF"
+        case xml = "XML"
+        case xslt = "XSLT"
         public var description: String { return self.rawValue }
     }
 
@@ -2832,7 +2839,7 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32535158400000)
             try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
         }
 
@@ -4958,7 +4965,7 @@ extension Kendra {
     }
 
     public struct JiraConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or  field names of Jira attachments to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to Jira fields.  For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
         public let attachmentFieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira comments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
         public let commentFieldMappings: [DataSourceToIndexFieldMapping]?
@@ -4972,19 +4979,19 @@ extension Kendra {
         public let issueSubEntityFilter: [IssueSubEntity]?
         /// Specify which issue types to crawl in your Jira data source. You can specify one or more of these options to crawl.
         public let issueType: [String]?
-        /// The URL of the Jira account. For example, company.atlassian.net or https://jira.company.com. You can find your Jira account URL in the URL of your profile page for Jira desktop.
+        /// The URL of the Jira account. For example, company.atlassian.net.
         public let jiraAccountUrl: String
         /// Specify which projects to crawl in your Jira data source. You can specify one or more Jira project IDs.
         public let project: [String]?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira projects to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
         public let projectFieldMappings: [DataSourceToIndexFieldMapping]?
-        /// The Amazon Resource Name (ARN) of a secret in Secrets Manager contains the key-value pairs required to connect to your Jira data source. The secret must contain a JSON structure with the following keys:   jiraId—The Jira username.   jiraCredentials—The Jira API token. For more information on creating an API token in Jira, see  Using a Jira data source.
+        /// The Amazon Resource Name (ARN) of a secret in Secrets Manager contains the key-value pairs required to connect to your Jira data source. The secret must contain a JSON structure with the following keys:   jiraId—The Jira user name or email.   jiraCredentials—The Jira API token. For more information, see Using a Jira data source.
         public let secretArn: String
         /// Specify which statuses to crawl in your Jira data source. You can specify one or more of these options to crawl.
         public let status: [String]?
-        ///  TRUE to use the Jira change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents in Jira.
+        ///  TRUE to use the Jira change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for  Amazon Kendra to use the change log than to scan all of your documents in Jira.
         public let useChangeLog: Bool?
-        /// Configuration information for an Amazon Virtual Private Cloud to connect to your Jira. Your Jira account must reside inside your VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your Jira. For  more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira work logs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
         public let workLogFieldMappings: [DataSourceToIndexFieldMapping]?
@@ -5555,7 +5562,7 @@ extension Kendra {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32535158400000)
             try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
         }
 
@@ -5840,7 +5847,7 @@ extension Kendra {
         public let inclusionPatterns: [String]?
         /// A list of user accounts whose documents should be indexed.
         public let oneDriveUsers: OneDriveUsers
-        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
+        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the user name and password to connect to OneDrive. The user name should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
         public let secretArn: String
         /// The Azure Active Directory domain of the organization.
         public let tenantDomain: String
@@ -6044,7 +6051,7 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32535158400000)
             try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -8234,7 +8241,7 @@ extension Kendra {
             }
             try self.validate(self.groups, name: "groups", parent: name, max: 2048)
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
-            try self.validate(self.token, name: "token", parent: name, max: 100_000)
+            try self.validate(self.token, name: "token", parent: name, max: 100000)
             try self.validate(self.token, name: "token", parent: name, min: 1)
             try self.validate(self.token, name: "token", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.userId, name: "userId", parent: name, max: 200)
@@ -8481,7 +8488,7 @@ public struct KendraErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// You don't have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A conflict occurred with the request. Please fix any inconsistences with your resources and try again.
     public static var conflictException: Self { .init(.conflictException) }
@@ -8495,7 +8502,7 @@ public struct KendraErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The resource you want to use isn&#39;t available. Please check you have provided the correct resource and try again.
+    /// The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
     /// You have exceeded the set limits for your Amazon Kendra service. Please see Quotas[hyperlink Kendra Quotas pg] for more information, or contact  Support to inquire about an increase of limits.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

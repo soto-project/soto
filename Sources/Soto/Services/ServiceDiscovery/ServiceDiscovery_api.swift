@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -250,7 +250,7 @@ extension ServiceDiscovery {
 // MARK: Paginators
 
 extension ServiceDiscovery {
-    ///  Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service.  There's a brief delay between when you register an instance and when the health status for the instance is available.
+    /// Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service.  There's a brief delay between when you register an instance and when the health status for the instance is available.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -303,7 +303,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists summary information about the instances that you registered by using a specified service.
+    /// Lists summary information about the instances that you registered by using a specified service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -356,7 +356,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists summary information about the namespaces that were created by the current Amazon Web Services account.
+    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -409,7 +409,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists operations that match the criteria that you specify.
+    /// Lists operations that match the criteria that you specify.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -462,7 +462,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists summary information for all the services that are associated with one or more specified namespaces.
+    /// Lists summary information for all the services that are associated with one or more specified namespaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

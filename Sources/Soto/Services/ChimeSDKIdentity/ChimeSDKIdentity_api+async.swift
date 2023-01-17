@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -150,7 +150,7 @@ extension ChimeSDKIdentity {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ChimeSDKIdentity {
-    ///  Returns a list of the administrators in the AppInstance.
+    /// Returns a list of the administrators in the AppInstance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -172,7 +172,7 @@ extension ChimeSDKIdentity {
         )
     }
 
-    ///  Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
+    /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -194,7 +194,7 @@ extension ChimeSDKIdentity {
         )
     }
 
-    ///  List all AppInstanceUsers created under a single AppInstance.
+    /// List all AppInstanceUsers created under a single AppInstance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -216,7 +216,7 @@ extension ChimeSDKIdentity {
         )
     }
 
-    ///  Lists all Amazon Chime AppInstances created under a single AWS account.
+    /// Lists all Amazon Chime AppInstances created under a single AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

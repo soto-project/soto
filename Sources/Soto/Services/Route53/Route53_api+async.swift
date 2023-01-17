@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1182,7 +1182,7 @@ extension Route53 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53 {
-    ///  Returns a paginated list of location objects and their CIDR blocks.
+    /// Returns a paginated list of location objects and their CIDR blocks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1204,8 +1204,8 @@ extension Route53 {
         )
     }
 
-    ///  Returns a paginated list of CIDR collections in the Amazon Web Services account
-    ///  			(metadata only).
+    /// Returns a paginated list of CIDR collections in the Amazon Web Services account
+    /// 			(metadata only).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1227,8 +1227,8 @@ extension Route53 {
         )
     }
 
-    ///  Returns a paginated list of CIDR locations for the given collection (metadata only,
-    ///  			does not include CIDR blocks).
+    /// Returns a paginated list of CIDR locations for the given collection (metadata only,
+    /// 			does not include CIDR blocks).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1250,7 +1250,7 @@ extension Route53 {
         )
     }
 
-    ///  Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
+    /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1272,12 +1272,12 @@ extension Route53 {
         )
     }
 
-    ///  Retrieves a list of the public and private hosted zones that are associated with the
-    ///  			current Amazon Web Services account. The response includes a HostedZones
-    ///  			child element for each hosted zone.
-    ///  		       Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
-    ///  			hosted zones, you can use the maxitems parameter to list them in groups of
-    ///  			up to 100.
+    /// Retrieves a list of the public and private hosted zones that are associated with the
+    /// 			current Amazon Web Services account. The response includes a HostedZones
+    /// 			child element for each hosted zone.
+    /// 		       Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
+    /// 			hosted zones, you can use the maxitems parameter to list them in groups of
+    /// 			up to 100.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1299,12 +1299,12 @@ extension Route53 {
         )
     }
 
-    ///  Lists the configurations for DNS query logging that are associated with the current
-    ///  				Amazon Web Services account or the configuration that is associated with a specified
-    ///  			hosted zone.
-    ///  		       For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of
-    ///  			DNS query logs, appears in Logging DNS Queries in
-    ///  			the Amazon Route 53 Developer Guide.
+    /// Lists the configurations for DNS query logging that are associated with the current
+    /// 				Amazon Web Services account or the configuration that is associated with a specified
+    /// 			hosted zone.
+    /// 		       For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of
+    /// 			DNS query logs, appears in Logging DNS Queries in
+    /// 			the Amazon Route 53 Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

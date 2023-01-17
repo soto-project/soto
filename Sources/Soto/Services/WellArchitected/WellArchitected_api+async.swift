@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -238,7 +238,7 @@ extension WellArchitected {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WellArchitected {
-    ///  List of answers.
+    /// List of answers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -260,7 +260,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List of Trusted Advisor check details by account related to the workload.
+    /// List of Trusted Advisor check details by account related to the workload.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -282,7 +282,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List of Trusted Advisor checks summarized for all accounts related to the workload.
+    /// List of Trusted Advisor checks summarized for all accounts related to the workload.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -304,7 +304,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens review improvements.
+    /// List lens review improvements.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -326,7 +326,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens reviews.
+    /// List lens reviews.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -348,7 +348,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the lens shares associated with the lens.
+    /// List the lens shares associated with the lens.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -370,7 +370,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the available lenses.
+    /// List the available lenses.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -392,7 +392,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List all milestones for an existing workload.
+    /// List all milestones for an existing workload.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -414,7 +414,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List lens notifications.
+    /// List lens notifications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -436,7 +436,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List  the workload invitations.
+    /// List  the workload invitations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -458,7 +458,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List the workload shares associated with the workload.
+    /// List the workload shares associated with the workload.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -480,7 +480,7 @@ extension WellArchitected {
         )
     }
 
-    ///  List workloads. Paginated.
+    /// List workloads. Paginated.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

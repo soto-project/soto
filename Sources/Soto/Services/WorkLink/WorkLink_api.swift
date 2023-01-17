@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -274,7 +274,7 @@ extension WorkLink {
 // MARK: Paginators
 
 extension WorkLink {
-    ///  Retrieves a list of devices registered with the specified fleet.
+    /// Retrieves a list of devices registered with the specified fleet.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -329,7 +329,7 @@ extension WorkLink {
         )
     }
 
-    ///  Retrieves a list of domains associated to a specified fleet.
+    /// Retrieves a list of domains associated to a specified fleet.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -384,7 +384,7 @@ extension WorkLink {
         )
     }
 
-    ///  Retrieves a list of fleets for the current account and Region.
+    /// Retrieves a list of fleets for the current account and Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -439,7 +439,7 @@ extension WorkLink {
         )
     }
 
-    ///  Retrieves a list of website authorization providers associated with a specified fleet.
+    /// Retrieves a list of website authorization providers associated with a specified fleet.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -494,7 +494,7 @@ extension WorkLink {
         )
     }
 
-    ///  Retrieves a list of certificate authorities added for the current account and Region.
+    /// Retrieves a list of certificate authorities added for the current account and Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,6 +93,12 @@ extension AuditManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeleteResources: String, CustomStringConvertible, Codable, _SotoSendable {
+        case `default` = "DEFAULT"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvidenceFinderBackfillStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case completed = "COMPLETED"
         case inProgress = "IN_PROGRESS"
@@ -138,6 +144,7 @@ extension AuditManager {
         case all = "ALL"
         case defaultAssessmentReportsDestination = "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
         case defaultProcessOwners = "DEFAULT_PROCESS_OWNERS"
+        case deregistrationPolicy = "DEREGISTRATION_POLICY"
         case evidenceFinderEnablement = "EVIDENCE_FINDER_ENABLEMENT"
         case isAwsOrgEnabled = "IS_AWS_ORG_ENABLED"
         case snsTopic = "SNS_TOPIC"
@@ -220,9 +227,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailAddress
-            case id
-            case name
+            case emailAddress = "emailAddress"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -241,7 +248,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
@@ -266,11 +273,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case awsAccount
-            case framework
-            case metadata
-            case tags
+            case arn = "arn"
+            case awsAccount = "awsAccount"
+            case framework = "framework"
+            case metadata = "metadata"
+            case tags = "tags"
         }
     }
 
@@ -281,7 +288,7 @@ extension AuditManager {
         public let comments: [ControlComment]?
         ///  The description of the control.
         public let description: String?
-        ///  The amount of evidence that's generated for the control.
+        ///  The amount of evidence that's collected for the control.
         public let evidenceCount: Int?
         ///  The list of data sources for the evidence.
         public let evidenceSources: [String]?
@@ -307,15 +314,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportEvidenceCount
-            case comments
-            case description
-            case evidenceCount
-            case evidenceSources
-            case id
-            case name
-            case response
-            case status
+            case assessmentReportEvidenceCount = "assessmentReportEvidenceCount"
+            case comments = "comments"
+            case description = "description"
+            case evidenceCount = "evidenceCount"
+            case evidenceSources = "evidenceSources"
+            case id = "id"
+            case name = "name"
+            case response = "response"
+            case status = "status"
         }
     }
 
@@ -332,7 +339,7 @@ extension AuditManager {
         public let manualEvidenceCount: Int?
         ///  The roles that are associated with the control set.
         public let roles: [Role]?
-        ///  Specifies the current status of the control set.
+        ///  The current status of the control set.
         public let status: ControlSetStatus?
         ///  The total number of evidence objects that are retrieved automatically for the control set.
         public let systemEvidenceCount: Int?
@@ -349,14 +356,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case delegations
-            case description
-            case id
-            case manualEvidenceCount
-            case roles
-            case status
-            case systemEvidenceCount
+            case controls = "controls"
+            case delegations = "delegations"
+            case description = "description"
+            case id = "id"
+            case manualEvidenceCount = "manualEvidenceCount"
+            case roles = "roles"
+            case status = "status"
+            case systemEvidenceCount = "systemEvidenceCount"
         }
     }
 
@@ -420,24 +427,24 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentReportSelectionCount
-            case author
-            case controlId
-            case controlName
-            case controlSetId
-            case dataSource
-            case date
-            case evidenceAwsServiceSourceCount
-            case evidenceByTypeComplianceCheckCount
-            case evidenceByTypeComplianceCheckIssuesCount
-            case evidenceByTypeConfigurationDataCount
-            case evidenceByTypeManualCount
-            case evidenceByTypeUserActivityCount
-            case evidenceResourcesIncludedCount
-            case id
-            case name
-            case totalEvidence
+            case assessmentId = "assessmentId"
+            case assessmentReportSelectionCount = "assessmentReportSelectionCount"
+            case author = "author"
+            case controlId = "controlId"
+            case controlName = "controlName"
+            case controlSetId = "controlSetId"
+            case dataSource = "dataSource"
+            case date = "date"
+            case evidenceAwsServiceSourceCount = "evidenceAwsServiceSourceCount"
+            case evidenceByTypeComplianceCheckCount = "evidenceByTypeComplianceCheckCount"
+            case evidenceByTypeComplianceCheckIssuesCount = "evidenceByTypeComplianceCheckIssuesCount"
+            case evidenceByTypeConfigurationDataCount = "evidenceByTypeConfigurationDataCount"
+            case evidenceByTypeManualCount = "evidenceByTypeManualCount"
+            case evidenceByTypeUserActivityCount = "evidenceByTypeUserActivityCount"
+            case evidenceResourcesIncludedCount = "evidenceResourcesIncludedCount"
+            case id = "id"
+            case name = "name"
+            case totalEvidence = "totalEvidence"
         }
     }
 
@@ -458,10 +465,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case controlSets
-            case id
-            case metadata
+            case arn = "arn"
+            case controlSets = "controlSets"
+            case id = "id"
+            case metadata = "metadata"
         }
     }
 
@@ -474,13 +481,13 @@ extension AuditManager {
         public let controlsCount: Int?
         ///  The number of control sets that are associated with the framework.
         public let controlSetsCount: Int?
-        ///  Specifies when the framework was created.
+        ///  The time when the framework was created.
         public let createdAt: Date?
         ///  The description of the framework.
         public let description: String?
         ///  The unique identifier for the framework.
         public let id: String?
-        ///  Specifies when the framework was most recently updated.
+        ///  The time when the framework was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The logo that's associated with the framework.
         public let logo: String?
@@ -504,17 +511,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case complianceType
-            case controlsCount
-            case controlSetsCount
-            case createdAt
-            case description
-            case id
-            case lastUpdatedAt
-            case logo
-            case name
-            case type
+            case arn = "arn"
+            case complianceType = "complianceType"
+            case controlsCount = "controlsCount"
+            case controlSetsCount = "controlSetsCount"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case logo = "logo"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -569,21 +576,21 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case complianceType
-            case creationTime
-            case customControlsCount
-            case destinationAccount
-            case destinationRegion
-            case expirationTime
-            case frameworkDescription
-            case frameworkId
-            case frameworkName
-            case id
-            case lastUpdated
-            case sourceAccount
-            case standardControlsCount
-            case status
+            case comment = "comment"
+            case complianceType = "complianceType"
+            case creationTime = "creationTime"
+            case customControlsCount = "customControlsCount"
+            case destinationAccount = "destinationAccount"
+            case destinationRegion = "destinationRegion"
+            case expirationTime = "expirationTime"
+            case frameworkDescription = "frameworkDescription"
+            case frameworkId = "frameworkId"
+            case frameworkName = "frameworkName"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case sourceAccount = "sourceAccount"
+            case standardControlsCount = "standardControlsCount"
+            case status = "status"
         }
     }
 
@@ -626,17 +633,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportsDestination
-            case complianceType
-            case creationTime
-            case delegations
-            case description
-            case id
-            case lastUpdated
-            case name
-            case roles
-            case scope
-            case status
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case complianceType = "complianceType"
+            case creationTime = "creationTime"
+            case delegations = "delegations"
+            case description = "description"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case roles = "roles"
+            case scope = "scope"
+            case status = "status"
         }
     }
 
@@ -670,14 +677,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case creationTime
-            case delegations
-            case id
-            case lastUpdated
-            case name
-            case roles
-            case status
+            case complianceType = "complianceType"
+            case creationTime = "creationTime"
+            case delegations = "delegations"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case roles = "roles"
+            case status = "status"
         }
     }
 
@@ -714,15 +721,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case author
-            case awsAccountId
-            case creationTime
-            case description
-            case id
-            case name
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case author = "author"
+            case awsAccountId = "awsAccountId"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -741,9 +748,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case evidenceId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case evidenceId = "evidenceId"
         }
     }
 
@@ -777,14 +784,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case author
-            case creationTime
-            case description
-            case id
-            case name
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -806,8 +813,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationType
+            case destination = "destination"
+            case destinationType = "destinationType"
         }
     }
 
@@ -836,7 +843,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
+            case evidenceFolderId = "evidenceFolderId"
         }
     }
 
@@ -878,8 +885,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
-            case evidenceIds
+            case evidenceFolderId = "evidenceFolderId"
+            case evidenceIds = "evidenceIds"
         }
     }
 
@@ -895,8 +902,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case evidenceIds
+            case errors = "errors"
+            case evidenceIds = "evidenceIds"
         }
     }
 
@@ -915,9 +922,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDelegationRequest
-            case errorCode
-            case errorMessage
+            case createDelegationRequest = "createDelegationRequest"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -948,7 +955,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDelegationRequests
+            case createDelegationRequests = "createDelegationRequests"
         }
     }
 
@@ -964,8 +971,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegations
-            case errors
+            case delegations = "delegations"
+            case errors = "errors"
         }
     }
 
@@ -984,9 +991,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegationId
-            case errorCode
-            case errorMessage
+            case delegationId = "delegationId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -1019,7 +1026,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegationIds
+            case delegationIds = "delegationIds"
         }
     }
 
@@ -1032,7 +1039,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1070,8 +1077,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
-            case evidenceIds
+            case evidenceFolderId = "evidenceFolderId"
+            case evidenceIds = "evidenceIds"
         }
     }
 
@@ -1087,8 +1094,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case evidenceIds
+            case errors = "errors"
+            case evidenceIds = "evidenceIds"
         }
     }
 
@@ -1107,9 +1114,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case manualEvidence
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case manualEvidence = "manualEvidence"
         }
     }
 
@@ -1154,7 +1161,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manualEvidence
+            case manualEvidence = "manualEvidence"
         }
     }
 
@@ -1167,7 +1174,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1192,11 +1199,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case createdAt
-            case createdBy
-            case objectName
-            case objectType
+            case action = "action"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case objectName = "objectName"
+            case objectType = "objectType"
         }
     }
 
@@ -1211,7 +1218,7 @@ extension AuditManager {
         public let controlMappingSources: [ControlMappingSource]?
         ///  The data source types that determine where Audit Manager collects evidence from for the control.
         public let controlSources: String?
-        ///  Specifies when the control was created.
+        ///  The time when the control was created.
         public let createdAt: Date?
         ///  The IAM user or role that created the control.
         public let createdBy: String?
@@ -1219,7 +1226,7 @@ extension AuditManager {
         public let description: String?
         ///  The unique identifier for the control.
         public let id: String?
-        ///  Specifies when the control was most recently updated.
+        ///  The time when the control was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The IAM user or role that most recently updated the control.
         public let lastUpdatedBy: String?
@@ -1251,21 +1258,21 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case arn
-            case controlMappingSources
-            case controlSources
-            case createdAt
-            case createdBy
-            case description
-            case id
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case name
-            case tags
-            case testingInformation
-            case type
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case arn = "arn"
+            case controlMappingSources = "controlMappingSources"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case tags = "tags"
+            case testingInformation = "testingInformation"
+            case type = "type"
         }
     }
 
@@ -1284,9 +1291,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commentBody
-            case postedDate
+            case authorName = "authorName"
+            case commentBody = "commentBody"
+            case postedDate = "postedDate"
         }
     }
 
@@ -1314,12 +1321,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlsCountByNoncompliantEvidence
-            case evidenceInsights
-            case id
-            case lastUpdated
-            case name
-            case totalControlsCount
+            case controlsCountByNoncompliantEvidence = "controlsCountByNoncompliantEvidence"
+            case evidenceInsights = "evidenceInsights"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case totalControlsCount = "totalControlsCount"
         }
     }
 
@@ -1344,11 +1351,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlSetName
-            case evidenceInsights
-            case id
-            case lastUpdated
-            case name
+            case controlSetName = "controlSetName"
+            case evidenceInsights = "evidenceInsights"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
         }
     }
 
@@ -1370,10 +1377,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceInsights
-            case id
-            case lastUpdated
-            case name
+            case evidenceInsights = "evidenceInsights"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
         }
     }
 
@@ -1389,7 +1396,7 @@ extension AuditManager {
         public let sourceName: String?
         ///  The setup option for the data source. This option reflects if the evidence collection is automated or manual.
         public let sourceSetUpOption: SourceSetUpOption?
-        ///  Specifies one of the five types of data sources for evidence collection.
+        ///  Specifies one of the five data source types for evidence collection.
         public let sourceType: SourceType?
         ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
@@ -1419,14 +1426,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceDescription
-            case sourceFrequency
-            case sourceId
-            case sourceKeyword
-            case sourceName
-            case sourceSetUpOption
-            case sourceType
-            case troubleshootingText
+            case sourceDescription = "sourceDescription"
+            case sourceFrequency = "sourceFrequency"
+            case sourceId = "sourceId"
+            case sourceKeyword = "sourceKeyword"
+            case sourceName = "sourceName"
+            case sourceSetUpOption = "sourceSetUpOption"
+            case sourceType = "sourceType"
+            case troubleshootingText = "troubleshootingText"
         }
     }
 
@@ -1435,11 +1442,11 @@ extension AuditManager {
         public let arn: String?
         ///  The data source that determines where Audit Manager collects evidence from for the control.
         public let controlSources: String?
-        ///  Specifies when the control was created.
+        ///  The time when the control was created.
         public let createdAt: Date?
         ///  The unique identifier for the control.
         public let id: String?
-        ///  Specifies when the control was most recently updated.
+        ///  The time when the control was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The name of the control.
         public let name: String?
@@ -1454,12 +1461,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case controlSources
-            case createdAt
-            case id
-            case lastUpdatedAt
-            case name
+            case arn = "arn"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
         }
     }
 
@@ -1478,9 +1485,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case id
-            case name
+            case controls = "controls"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1499,7 +1506,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1525,8 +1532,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case name
+            case controls = "controls"
+            case name = "name"
         }
     }
 
@@ -1574,11 +1581,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case controlSets
-            case description
-            case name
-            case tags
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1591,7 +1598,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
@@ -1606,7 +1613,7 @@ extension AuditManager {
         public let description: String?
         ///  The name of the new assessment report.
         public let name: String
-        /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually added to a report using the console, or associated with a report using the API.  To use this parameter, the enablementStatus of evidence finder must be ENABLED.  For examples and help resolving queryStatement validation exceptions, see Troubleshooting evidence finder issues in the AWS Audit Manager User Guide.
+        /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually added to a report using the console, or associated with a report using the API.  To use this parameter, the enablementStatus of evidence finder must be ENABLED.  For examples and help resolving queryStatement validation exceptions, see Troubleshooting evidence finder issues in the Audit Manager User Guide.
         public let queryStatement: String?
 
         public init(assessmentId: String, description: String? = nil, name: String, queryStatement: String? = nil) {
@@ -1631,9 +1638,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case queryStatement
+            case description = "description"
+            case name = "name"
+            case queryStatement = "queryStatement"
         }
     }
 
@@ -1646,7 +1653,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReport
+            case assessmentReport = "assessmentReport"
         }
     }
 
@@ -1700,13 +1707,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportsDestination
-            case description
-            case frameworkId
-            case name
-            case roles
-            case scope
-            case tags
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case description = "description"
+            case frameworkId = "frameworkId"
+            case name = "name"
+            case roles = "roles"
+            case scope = "scope"
+            case tags = "tags"
         }
     }
 
@@ -1718,7 +1725,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -1758,13 +1765,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceDescription
-            case sourceFrequency
-            case sourceKeyword
-            case sourceName
-            case sourceSetUpOption
-            case sourceType
-            case troubleshootingText
+            case sourceDescription = "sourceDescription"
+            case sourceFrequency = "sourceFrequency"
+            case sourceKeyword = "sourceKeyword"
+            case sourceName = "sourceName"
+            case sourceSetUpOption = "sourceSetUpOption"
+            case sourceType = "sourceType"
+            case troubleshootingText = "troubleshootingText"
         }
     }
 
@@ -1821,13 +1828,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case controlMappingSources
-            case description
-            case name
-            case tags
-            case testingInformation
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case controlMappingSources = "controlMappingSources"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case testingInformation = "testingInformation"
         }
     }
 
@@ -1840,7 +1847,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
@@ -1873,10 +1880,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case controlSetId
-            case roleArn
-            case roleType
+            case comment = "comment"
+            case controlSetId = "controlSetId"
+            case roleArn = "roleArn"
+            case roleType = "roleType"
         }
     }
 
@@ -1919,17 +1926,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case comment
-            case controlSetId
-            case createdBy
-            case creationTime
-            case id
-            case lastUpdated
-            case roleArn
-            case roleType
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case comment = "comment"
+            case controlSetId = "controlSetId"
+            case createdBy = "createdBy"
+            case creationTime = "creationTime"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case roleArn = "roleArn"
+            case roleType = "roleType"
+            case status = "status"
         }
     }
 
@@ -1960,13 +1967,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case controlSetName
-            case creationTime
-            case id
-            case roleArn
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case controlSetName = "controlSetName"
+            case creationTime = "creationTime"
+            case id = "id"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -2119,7 +2126,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2138,12 +2145,25 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
     public struct DeregisterOrganizationAdminAccountResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeregistrationPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies which Audit Manager data will be deleted when you deregister Audit Manager.   If you set the value to ALL, all of your data is deleted within seven days of deregistration.   If you set the value to DEFAULT, none of your data is deleted at the time of deregistration. However, keep in mind that the Audit Manager data retention policy still applies. As a result, any evidence data will be deleted two years after its creation date. Your other Audit Manager resources will continue to exist indefinitely.
+        public let deleteResources: DeleteResources?
+
+        public init(deleteResources: DeleteResources? = nil) {
+            self.deleteResources = deleteResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteResources = "deleteResources"
+        }
     }
 
     public struct DisassociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
@@ -2171,7 +2191,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
+            case evidenceFolderId = "evidenceFolderId"
         }
     }
 
@@ -2230,28 +2250,28 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportSelection
-            case attributes
-            case awsAccountId
-            case awsOrganization
-            case complianceCheck
-            case dataSource
-            case eventName
-            case eventSource
-            case evidenceAwsAccountId
-            case evidenceByType
-            case evidenceFolderId
-            case iamId
-            case id
-            case resourcesIncluded
-            case time
+            case assessmentReportSelection = "assessmentReportSelection"
+            case attributes = "attributes"
+            case awsAccountId = "awsAccountId"
+            case awsOrganization = "awsOrganization"
+            case complianceCheck = "complianceCheck"
+            case dataSource = "dataSource"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case evidenceAwsAccountId = "evidenceAwsAccountId"
+            case evidenceByType = "evidenceByType"
+            case evidenceFolderId = "evidenceFolderId"
+            case iamId = "iamId"
+            case id = "id"
+            case resourcesIncluded = "resourcesIncluded"
+            case time = "time"
         }
     }
 
     public struct EvidenceFinderEnablement: AWSDecodableShape {
-        /// The current status of the evidence data backfill process.  The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past evidence data so that your evidence can be queried.    NOT_STARTED means that the backfill hasn’t started yet.     IN_PROGRESS means that the backfill is in progress. This can take up to 24 hours to complete, depending on the amount of evidence data.     COMPLETED means that the backfill is complete. All of your past evidence is now queryable.
+        /// The current status of the evidence data backfill process.  The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past two years’ worth of evidence data so that your evidence can be queried.    NOT_STARTED means that the backfill hasn’t started yet.     IN_PROGRESS means that the backfill is in progress. This can take up to 7 days to complete, depending on the amount of evidence data.     COMPLETED means that the backfill is complete. All of your past evidence is now queryable.
         public let backfillStatus: EvidenceFinderBackfillStatus?
-        /// The current status of the evidence finder feature and the related event data store.     ENABLE_IN_PROGRESS means that you requested to enable evidence finder. An event data store is currently being created to support evidence finder queries.    ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 24 hours until the event data store is backfilled with your past evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.    DISABLE_IN_PROGRESS means that you requested to disable evidence finder, and your request is pending the deletion of the event data store.    DISABLED means that you have permanently disabled evidence finder and the event data store has been deleted. You can't re-enable evidence finder after this point.
+        /// The current status of the evidence finder feature and the related event data store.     ENABLE_IN_PROGRESS means that you requested to enable evidence finder. An event data store is currently being created to support evidence finder queries.    ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 7 days until the event data store is backfilled with your past two years’ worth of evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.    DISABLE_IN_PROGRESS means that you requested to disable evidence finder, and your request is pending the deletion of the event data store.    DISABLED means that you have permanently disabled evidence finder and the event data store has been deleted. You can't re-enable evidence finder after this point.
         public let enablementStatus: EvidenceFinderEnablementStatus?
         /// Represents any errors that occurred when enabling or disabling evidence finder.
         public let error: String?
@@ -2266,10 +2286,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backfillStatus
-            case enablementStatus
-            case error
-            case eventDataStoreArn
+            case backfillStatus = "backfillStatus"
+            case enablementStatus = "enablementStatus"
+            case error = "error"
+            case eventDataStoreArn = "eventDataStoreArn"
         }
     }
 
@@ -2288,9 +2308,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compliantEvidenceCount
-            case inconclusiveEvidenceCount
-            case noncompliantEvidenceCount
+            case compliantEvidenceCount = "compliantEvidenceCount"
+            case inconclusiveEvidenceCount = "inconclusiveEvidenceCount"
+            case noncompliantEvidenceCount = "noncompliantEvidenceCount"
         }
     }
 
@@ -2303,7 +2323,7 @@ extension AuditManager {
         public let controlSets: [ControlSet]?
         ///  The sources that Audit Manager collects evidence from for the control.
         public let controlSources: String?
-        ///  Specifies when the framework was created.
+        ///  The time when the framework was created.
         public let createdAt: Date?
         ///  The IAM user or role that created the framework.
         public let createdBy: String?
@@ -2311,7 +2331,7 @@ extension AuditManager {
         public let description: String?
         ///  The unique identifier for the framework.
         public let id: String?
-        ///  Specifies when the framework was most recently updated.
+        ///  The time when the framework was most recently updated.
         public let lastUpdatedAt: Date?
         ///  The IAM user or role that most recently updated the framework.
         public let lastUpdatedBy: String?
@@ -2342,20 +2362,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case complianceType
-            case controlSets
-            case controlSources
-            case createdAt
-            case createdBy
-            case description
-            case id
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case logo
-            case name
-            case tags
-            case type
+            case arn = "arn"
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case logo = "logo"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -2377,10 +2397,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case description
-            case logo
-            case name
+            case complianceType = "complianceType"
+            case description = "description"
+            case logo = "logo"
+            case name = "name"
         }
     }
 
@@ -2397,7 +2417,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2431,7 +2451,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
@@ -2471,7 +2491,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preSignedUrl
+            case preSignedUrl = "preSignedUrl"
         }
     }
 
@@ -2506,8 +2526,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
-            case userRole
+            case assessment = "assessment"
+            case userRole = "userRole"
         }
     }
 
@@ -2571,8 +2591,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeLogs
-            case nextToken
+            case changeLogs = "changeLogs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2606,7 +2626,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
@@ -2649,8 +2669,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegations
-            case nextToken
+            case delegations = "delegations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2714,8 +2734,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidence
-            case nextToken
+            case evidence = "evidence"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2763,7 +2783,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolder
+            case evidenceFolder = "evidenceFolder"
         }
     }
 
@@ -2827,8 +2847,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolders
-            case nextToken
+            case evidenceFolders = "evidenceFolders"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2878,8 +2898,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolders
-            case nextToken
+            case evidenceFolders = "evidenceFolders"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2926,7 +2946,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceResponse: AWSDecodableShape {
-        ///  The evidence that the GetEvidenceResponse API returned.
+        ///  The evidence that the GetEvidence API returned.
         public let evidence: Evidence?
 
         public init(evidence: Evidence? = nil) {
@@ -2934,7 +2954,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidence
+            case evidence = "evidence"
         }
     }
 
@@ -2968,7 +2988,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case insights
+            case insights = "insights"
         }
     }
 
@@ -2985,7 +3005,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case insights
+            case insights = "insights"
         }
     }
 
@@ -3005,8 +3025,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case organizationId
+            case adminAccountId = "adminAccountId"
+            case organizationId = "organizationId"
         }
     }
 
@@ -3023,7 +3043,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceMetadata
+            case serviceMetadata = "serviceMetadata"
         }
     }
 
@@ -3032,7 +3052,7 @@ extension AuditManager {
             AWSMemberEncoding(label: "attribute", location: .uri("attribute"))
         ]
 
-        ///  The list of SettingAttribute enum values.
+        ///  The list of setting attribute enum values.
         public let attribute: SettingAttribute
 
         public init(attribute: SettingAttribute) {
@@ -3051,7 +3071,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case settings
+            case settings = "settings"
         }
     }
 
@@ -3082,13 +3102,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeAssessmentsCount
-            case assessmentControlsCountByNoncompliantEvidence
-            case compliantEvidenceCount
-            case inconclusiveEvidenceCount
-            case lastUpdated
-            case noncompliantEvidenceCount
-            case totalAssessmentControlsCount
+            case activeAssessmentsCount = "activeAssessmentsCount"
+            case assessmentControlsCountByNoncompliantEvidence = "assessmentControlsCountByNoncompliantEvidence"
+            case compliantEvidenceCount = "compliantEvidenceCount"
+            case inconclusiveEvidenceCount = "inconclusiveEvidenceCount"
+            case lastUpdated = "lastUpdated"
+            case noncompliantEvidenceCount = "noncompliantEvidenceCount"
+            case totalAssessmentControlsCount = "totalAssessmentControlsCount"
         }
     }
 
@@ -3116,12 +3136,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentControlsCountByNoncompliantEvidence
-            case compliantEvidenceCount
-            case inconclusiveEvidenceCount
-            case lastUpdated
-            case noncompliantEvidenceCount
-            case totalAssessmentControlsCount
+            case assessmentControlsCountByNoncompliantEvidence = "assessmentControlsCountByNoncompliantEvidence"
+            case compliantEvidenceCount = "compliantEvidenceCount"
+            case inconclusiveEvidenceCount = "inconclusiveEvidenceCount"
+            case lastUpdated = "lastUpdated"
+            case noncompliantEvidenceCount = "noncompliantEvidenceCount"
+            case totalAssessmentControlsCount = "totalAssessmentControlsCount"
         }
     }
 
@@ -3178,8 +3198,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlInsightsByAssessment
-            case nextToken
+            case controlInsightsByAssessment = "controlInsightsByAssessment"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3226,8 +3246,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentFrameworkShareRequests
-            case nextToken
+            case assessmentFrameworkShareRequests = "assessmentFrameworkShareRequests"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3274,8 +3294,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameworkMetadataList
-            case nextToken
+            case frameworkMetadataList = "frameworkMetadataList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3318,8 +3338,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReports
-            case nextToken
+            case assessmentReports = "assessmentReports"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3366,8 +3386,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentMetadata
-            case nextToken
+            case assessmentMetadata = "assessmentMetadata"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3417,8 +3437,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlDomainInsights
-            case nextToken
+            case controlDomainInsights = "controlDomainInsights"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3461,8 +3481,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlDomainInsights
-            case nextToken
+            case controlDomainInsights = "controlDomainInsights"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3512,8 +3532,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlInsightsMetadata
-            case nextToken
+            case controlInsightsMetadata = "controlInsightsMetadata"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3560,8 +3580,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlMetadataList
-            case nextToken
+            case controlMetadataList = "controlMetadataList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3608,8 +3628,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keywords
-            case nextToken
+            case keywords = "keywords"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3652,8 +3672,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case notifications
+            case nextToken = "nextToken"
+            case notifications = "notifications"
         }
     }
 
@@ -3687,7 +3707,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3706,7 +3726,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3ResourcePath
+            case s3ResourcePath = "s3ResourcePath"
         }
     }
 
@@ -3740,14 +3760,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case controlSetId
-            case controlSetName
-            case description
-            case eventTime
-            case id
-            case source
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case controlSetId = "controlSetId"
+            case controlSetName = "controlSetName"
+            case description = "description"
+            case eventTime = "eventTime"
+            case id = "id"
+            case source = "source"
         }
     }
 
@@ -3772,8 +3792,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccount
-            case kmsKey
+            case delegatedAdminAccount = "delegatedAdminAccount"
+            case kmsKey = "kmsKey"
         }
     }
 
@@ -3786,7 +3806,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -3805,7 +3825,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
@@ -3821,8 +3841,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case organizationId
+            case adminAccountId = "adminAccountId"
+            case organizationId = "organizationId"
         }
     }
 
@@ -3841,9 +3861,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case complianceCheck
-            case value
+            case arn = "arn"
+            case complianceCheck = "complianceCheck"
+            case value = "value"
         }
     }
 
@@ -3865,8 +3885,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case roleType
+            case roleArn = "roleArn"
+            case roleType = "roleType"
         }
     }
 
@@ -3891,8 +3911,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccounts
-            case awsServices
+            case awsAccounts = "awsAccounts"
+            case awsServices = "awsServices"
         }
     }
 
@@ -3914,10 +3934,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case displayName
-            case name
+            case category = "category"
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -3926,6 +3946,8 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  The designated default audit owners.
         public let defaultProcessOwners: [Role]?
+        /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
+        public let deregistrationPolicy: DeregistrationPolicy?
         /// The current evidence finder status and event data store details.
         public let evidenceFinderEnablement: EvidenceFinderEnablement?
         ///  Specifies whether Organizations is enabled.
@@ -3935,9 +3957,10 @@ extension AuditManager {
         ///  The designated Amazon Simple Notification Service (Amazon SNS) topic.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnablement: EvidenceFinderEnablement? = nil, isAwsOrgEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnablement = evidenceFinderEnablement
             self.isAwsOrgEnabled = isAwsOrgEnabled
             self.kmsKey = kmsKey
@@ -3945,12 +3968,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultAssessmentReportsDestination
-            case defaultProcessOwners
-            case evidenceFinderEnablement
-            case isAwsOrgEnabled
-            case kmsKey
-            case snsTopic
+            case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultProcessOwners = "defaultProcessOwners"
+            case deregistrationPolicy = "deregistrationPolicy"
+            case evidenceFinderEnablement = "evidenceFinderEnablement"
+            case isAwsOrgEnabled = "isAwsOrgEnabled"
+            case kmsKey = "kmsKey"
+            case snsTopic = "snsTopic"
         }
     }
 
@@ -3972,8 +3996,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keywordInputType
-            case keywordValue
+            case keywordInputType = "keywordInputType"
+            case keywordValue = "keywordValue"
         }
     }
 
@@ -4011,9 +4035,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case destinationAccount
-            case destinationRegion
+            case comment = "comment"
+            case destinationAccount = "destinationAccount"
+            case destinationRegion = "destinationRegion"
         }
     }
 
@@ -4026,7 +4050,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentFrameworkShareRequest
+            case assessmentFrameworkShareRequest = "assessmentFrameworkShareRequest"
         }
     }
 
@@ -4060,7 +4084,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4080,8 +4104,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hyperlinkName
-            case link
+            case hyperlinkName = "hyperlinkName"
+            case link = "link"
         }
     }
 
@@ -4162,8 +4186,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentBody
-            case controlStatus
+            case commentBody = "commentBody"
+            case controlStatus = "controlStatus"
         }
     }
 
@@ -4176,7 +4200,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
@@ -4213,8 +4237,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case status
+            case comment = "comment"
+            case status = "status"
         }
     }
 
@@ -4227,7 +4251,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlSet
+            case controlSet = "controlSet"
         }
     }
 
@@ -4259,9 +4283,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case id
-            case name
+            case controls = "controls"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -4308,10 +4332,10 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case controlSets
-            case description
-            case name
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -4324,7 +4348,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
@@ -4353,8 +4377,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case requestType
+            case action = "action"
+            case requestType = "requestType"
         }
     }
 
@@ -4367,7 +4391,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentFrameworkShareRequest
+            case assessmentFrameworkShareRequest = "assessmentFrameworkShareRequest"
         }
     }
 
@@ -4415,16 +4439,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentDescription
-            case assessmentName
-            case assessmentReportsDestination
-            case roles
-            case scope
+            case assessmentDescription = "assessmentDescription"
+            case assessmentName = "assessmentName"
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case roles = "roles"
+            case scope = "scope"
         }
     }
 
     public struct UpdateAssessmentResponse: AWSDecodableShape {
-        ///  The response object for the UpdateAssessmentRequest API. This is the name of the updated assessment.
+        ///  The response object for the UpdateAssessment API. This is the name of the updated assessment.
         public let assessment: Assessment?
 
         public init(assessment: Assessment? = nil) {
@@ -4432,7 +4456,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -4458,7 +4482,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -4471,7 +4495,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -4527,12 +4551,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case controlMappingSources
-            case description
-            case name
-            case testingInformation
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case controlMappingSources = "controlMappingSources"
+            case description = "description"
+            case name = "name"
+            case testingInformation = "testingInformation"
         }
     }
 
@@ -4545,7 +4569,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
@@ -4554,16 +4578,19 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  A list of the default audit owners.
         public let defaultProcessOwners: [Role]?
-        /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder.  When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to deregister and then re-register Audit Manager.  Disabling evidence finder is permanent, so consider this decision carefully before you proceed. If you’re using Audit Manager as a delegated administrator, keep in mind that this action applies to all member accounts in your organization.
+        /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
+        public let deregistrationPolicy: DeregistrationPolicy?
+        /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder.  When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to deregister and then re-register Audit Manager.
         public let evidenceFinderEnabled: Bool?
         ///  The KMS key details.
         public let kmsKey: String?
         ///  The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
         public let snsTopic: String?
 
-        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
+        public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, deregistrationPolicy: DeregistrationPolicy? = nil, evidenceFinderEnabled: Bool? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnabled = evidenceFinderEnabled
             self.kmsKey = kmsKey
             self.snsTopic = snsTopic
@@ -4583,11 +4610,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultAssessmentReportsDestination
-            case defaultProcessOwners
-            case evidenceFinderEnabled
-            case kmsKey
-            case snsTopic
+            case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultProcessOwners = "defaultProcessOwners"
+            case deregistrationPolicy = "deregistrationPolicy"
+            case evidenceFinderEnabled = "evidenceFinderEnabled"
+            case kmsKey = "kmsKey"
+            case snsTopic = "snsTopic"
         }
     }
 
@@ -4600,7 +4628,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case settings
+            case settings = "settings"
         }
     }
 
@@ -4619,7 +4647,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3RelativePath
+            case s3RelativePath = "s3RelativePath"
         }
     }
 
@@ -4644,11 +4672,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case signatureAlgorithm
-            case signatureDateTime
-            case signatureKeyId
-            case signatureValid
-            case validationErrors
+            case signatureAlgorithm = "signatureAlgorithm"
+            case signatureDateTime = "signatureDateTime"
+            case signatureKeyId = "signatureKeyId"
+            case signatureValid = "signatureValid"
+            case validationErrors = "validationErrors"
         }
     }
 }
@@ -4684,13 +4712,13 @@ public struct AuditManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  Your account isn&#39;t registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
+    ///  Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  An internal service error occurred during the processing of your request. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    ///  The resource that&#39;s specified in the request can&#39;t be found.
+    ///  The resource that's specified in the request can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// You&#39;ve reached your account quota for this resource type. To perform the requested action, delete some existing resources or request a quota increase from the Service Quotas console. For a list of Audit Manager service quotas, see Quotas and restrictions for Audit Manager.
+    /// You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or request a quota increase from the Service Quotas console. For a list of Audit Manager service quotas, see Quotas and restrictions for Audit Manager.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

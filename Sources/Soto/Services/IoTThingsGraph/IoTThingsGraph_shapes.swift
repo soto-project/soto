@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -156,9 +156,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case namespaceVersion
-            case thingName
+            case entityId = "entityId"
+            case namespaceVersion = "namespaceVersion"
+            case thingName = "thingName"
         }
     }
 
@@ -182,8 +182,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
         }
     }
 
@@ -196,7 +196,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -236,13 +236,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case flowActionsRoleArn
-            case greengrassGroupName
-            case metricsConfiguration
-            case s3BucketName
-            case tags
-            case target
+            case definition = "definition"
+            case flowActionsRoleArn = "flowActionsRoleArn"
+            case greengrassGroupName = "greengrassGroupName"
+            case metricsConfiguration = "metricsConfiguration"
+            case s3BucketName = "s3BucketName"
+            case tags = "tags"
+            case target = "target"
         }
     }
 
@@ -255,7 +255,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -275,8 +275,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
         }
     }
 
@@ -289,7 +289,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -305,12 +305,12 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.text, name: "text", parent: name, max: 1_048_576)
+            try self.validate(self.text, name: "text", parent: name, max: 1048576)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
-            case text
+            case language = "language"
+            case text = "text"
         }
     }
 
@@ -328,7 +328,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -352,8 +352,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceArn
-            case namespaceName
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
         }
     }
 
@@ -371,7 +371,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -393,7 +393,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -413,8 +413,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
@@ -432,7 +432,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -448,8 +448,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case greengrassDeploymentId
-            case summary
+            case greengrassDeploymentId = "greengrassDeploymentId"
+            case summary = "summary"
         }
     }
 
@@ -467,7 +467,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -489,7 +489,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -510,7 +510,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
+            case namespaceName = "namespaceName"
         }
     }
 
@@ -535,11 +535,11 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceArn
-            case namespaceName
-            case namespaceVersion
-            case trackingNamespaceName
-            case trackingNamespaceVersion
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case namespaceVersion = "namespaceVersion"
+            case trackingNamespaceName = "trackingNamespaceName"
+            case trackingNamespaceVersion = "trackingNamespaceVersion"
         }
     }
 
@@ -561,8 +561,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityType
-            case thingName
+            case entityType = "entityType"
+            case thingName = "thingName"
         }
     }
 
@@ -591,11 +591,11 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case definition
-            case id
-            case type
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case definition = "definition"
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -611,8 +611,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -634,10 +634,10 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventType
-            case messageId
-            case payload
-            case timestamp
+            case eventType = "eventType"
+            case messageId = "messageId"
+            case payload = "payload"
+            case timestamp = "timestamp"
         }
     }
 
@@ -665,12 +665,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case flowExecutionId
-            case flowTemplateId
-            case status
-            case systemInstanceId
-            case updatedAt
+            case createdAt = "createdAt"
+            case flowExecutionId = "flowExecutionId"
+            case flowTemplateId = "flowTemplateId"
+            case status = "status"
+            case systemInstanceId = "systemInstanceId"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -689,9 +689,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case summary
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case summary = "summary"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
@@ -713,8 +713,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -736,10 +736,10 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case revisionNumber
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
@@ -763,8 +763,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case namespaceVersion
+            case ids = "ids"
+            case namespaceVersion = "namespaceVersion"
         }
     }
 
@@ -777,7 +777,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
+            case descriptions = "descriptions"
         }
     }
 
@@ -798,8 +798,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
@@ -812,7 +812,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -838,9 +838,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case maxResults
-            case nextToken
+            case id = "id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -856,8 +856,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -886,11 +886,11 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case namespaceArn
-            case namespaceName
-            case status
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case status = "status"
         }
     }
 
@@ -908,7 +908,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -921,7 +921,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -942,8 +942,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
@@ -956,7 +956,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -982,9 +982,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case maxResults
-            case nextToken
+            case id = "id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1000,8 +1000,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -1019,7 +1019,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uploadId
+            case uploadId = "uploadId"
         }
     }
 
@@ -1050,13 +1050,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case failureReason
-            case namespaceArn
-            case namespaceName
-            case namespaceVersion
-            case uploadId
-            case uploadStatus
+            case createdDate = "createdDate"
+            case failureReason = "failureReason"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case namespaceVersion = "namespaceVersion"
+            case uploadId = "uploadId"
+            case uploadStatus = "uploadStatus"
         }
     }
 
@@ -1080,9 +1080,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowExecutionId
-            case maxResults
-            case nextToken
+            case flowExecutionId = "flowExecutionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1098,8 +1098,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
-            case nextToken
+            case messages = "messages"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1125,9 +1125,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1143,8 +1143,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -1165,8 +1165,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudMetricEnabled
-            case metricRuleRoleArn
+            case cloudMetricEnabled = "cloudMetricEnabled"
+            case metricRuleRoleArn = "metricRuleRoleArn"
         }
     }
 
@@ -1196,11 +1196,11 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityTypes
-            case filters
-            case maxResults
-            case namespaceVersion
-            case nextToken
+            case entityTypes = "entityTypes"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case namespaceVersion = "namespaceVersion"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1216,8 +1216,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
-            case nextToken
+            case descriptions = "descriptions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1252,12 +1252,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case flowExecutionId
-            case maxResults
-            case nextToken
-            case startTime
-            case systemInstanceId
+            case endTime = "endTime"
+            case flowExecutionId = "flowExecutionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+            case systemInstanceId = "systemInstanceId"
         }
     }
 
@@ -1273,8 +1273,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -1301,9 +1301,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1319,8 +1319,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -1344,9 +1344,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1362,8 +1362,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -1390,9 +1390,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1408,8 +1408,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
@@ -1438,10 +1438,10 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case maxResults
-            case namespaceVersion
-            case nextToken
+            case entityId = "entityId"
+            case maxResults = "maxResults"
+            case namespaceVersion = "namespaceVersion"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1457,8 +1457,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case things
+            case nextToken = "nextToken"
+            case things = "things"
         }
     }
 
@@ -1487,13 +1487,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case flowActionsRoleArn
-            case metricsConfiguration
-            case s3BucketName
-            case summary
-            case validatedDependencyRevisions
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case flowActionsRoleArn = "flowActionsRoleArn"
+            case metricsConfiguration = "metricsConfiguration"
+            case s3BucketName = "s3BucketName"
+            case summary = "summary"
+            case validatedDependencyRevisions = "validatedDependencyRevisions"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
@@ -1509,8 +1509,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1547,15 +1547,15 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case greengrassGroupId
-            case greengrassGroupName
-            case greengrassGroupVersionId
-            case id
-            case status
-            case target
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case greengrassGroupId = "greengrassGroupId"
+            case greengrassGroupName = "greengrassGroupName"
+            case greengrassGroupVersionId = "greengrassGroupVersionId"
+            case id = "id"
+            case status = "status"
+            case target = "target"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1574,9 +1574,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case summary
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case summary = "summary"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
@@ -1598,8 +1598,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1621,10 +1621,10 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case revisionNumber
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
@@ -1648,8 +1648,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1674,8 +1674,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -1695,8 +1695,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingArn
-            case thingName
+            case thingArn = "thingArn"
+            case thingName = "thingName"
         }
     }
 
@@ -1714,7 +1714,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1727,7 +1727,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -1755,8 +1755,8 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -1785,9 +1785,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
-            case id
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
+            case id = "id"
         }
     }
 
@@ -1800,7 +1800,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -1825,9 +1825,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
-            case id
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
+            case id = "id"
         }
     }
 
@@ -1840,7 +1840,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
@@ -1863,9 +1863,9 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deprecateExistingEntities
-            case document
-            case syncWithPublicNamespace
+            case deprecateExistingEntities = "deprecateExistingEntities"
+            case document = "document"
+            case syncWithPublicNamespace = "syncWithPublicNamespace"
         }
     }
 
@@ -1878,7 +1878,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uploadId
+            case uploadId = "uploadId"
         }
     }
 }

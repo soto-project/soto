@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -56,10 +56,10 @@ extension SES {
     }
 
     public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable, _SotoSendable {
-        case deliveryOptions
-        case eventDestinations
-        case reputationOptions
-        case trackingOptions
+        case deliveryOptions = "deliveryOptions"
+        case eventDestinations = "eventDestinations"
+        case reputationOptions = "reputationOptions"
+        case trackingOptions = "trackingOptions"
         public var description: String { return self.rawValue }
     }
 
@@ -72,30 +72,30 @@ extension SES {
     }
 
     public enum DimensionValueSource: String, CustomStringConvertible, Codable, _SotoSendable {
-        case emailHeader
-        case linkTag
-        case messageTag
+        case emailHeader = "emailHeader"
+        case linkTag = "linkTag"
+        case messageTag = "messageTag"
         public var description: String { return self.rawValue }
     }
 
     public enum DsnAction: String, CustomStringConvertible, Codable, _SotoSendable {
-        case delayed
-        case delivered
-        case expanded
-        case failed
-        case relayed
+        case delayed = "delayed"
+        case delivered = "delivered"
+        case expanded = "expanded"
+        case failed = "failed"
+        case relayed = "relayed"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bounce
-        case click
-        case complaint
-        case delivery
-        case open
-        case reject
-        case renderingFailure
-        case send
+        case bounce = "bounce"
+        case click = "click"
+        case complaint = "complaint"
+        case delivery = "delivery"
+        case open = "open"
+        case reject = "reject"
+        case renderingFailure = "renderingFailure"
+        case send = "send"
         public var description: String { return self.rawValue }
     }
 
@@ -255,7 +255,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.replacementTemplateData, name: "replacementTemplateData", parent: name, max: 262_144)
+            try self.validate(self.replacementTemplateData, name: "replacementTemplateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2095,7 +2095,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.defaultTemplateData, name: "defaultTemplateData", parent: name, max: 262_144)
+            try self.validate(self.defaultTemplateData, name: "defaultTemplateData", parent: name, max: 262144)
             try self.destinations.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
@@ -2351,7 +2351,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2612,7 +2612,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {

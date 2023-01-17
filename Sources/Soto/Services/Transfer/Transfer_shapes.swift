@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2264,7 +2264,7 @@ extension Transfer {
             try self.validate(self.certificate, name: "certificate", parent: name, max: 16384)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
             try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
@@ -3327,14 +3327,14 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
+            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
-                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
-            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
 
@@ -4459,7 +4459,7 @@ public struct TransferErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server&#39;s VpcEndpointID is not in the available state.
+    /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
     public static var conflictException: Self { .init(.conflictException) }
     /// This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
     public static var internalServiceError: Self { .init(.internalServiceError) }

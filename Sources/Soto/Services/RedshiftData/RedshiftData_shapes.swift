@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -88,12 +88,12 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobValue
-            case booleanValue
-            case doubleValue
-            case isNull
-            case longValue
-            case stringValue
+            case blobValue = "blobValue"
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case isNull = "isNull"
+            case longValue = "longValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -267,19 +267,19 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnDefault
-            case isCaseSensitive
-            case isCurrency
-            case isSigned
-            case label
-            case length
-            case name
-            case nullable
-            case precision
-            case scale
-            case schemaName
-            case tableName
-            case typeName
+            case columnDefault = "columnDefault"
+            case isCaseSensitive = "isCaseSensitive"
+            case isCurrency = "isCurrency"
+            case isSigned = "isSigned"
+            case label = "label"
+            case length = "length"
+            case name = "name"
+            case nullable = "nullable"
+            case precision = "precision"
+            case scale = "scale"
+            case schemaName = "schemaName"
+            case tableName = "tableName"
+            case typeName = "typeName"
         }
     }
 
@@ -883,8 +883,8 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1005,9 +1005,9 @@ extension RedshiftData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case schema
-            case type
+            case name = "name"
+            case schema = "schema"
+            case type = "type"
         }
     }
 }

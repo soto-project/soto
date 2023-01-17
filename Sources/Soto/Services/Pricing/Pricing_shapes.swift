@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -271,7 +271,7 @@ public struct PricingErrorType: AWSErrorType {
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// One or more parameters had an invalid value.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// The requested resource can&#39;t be found.
+    /// The requested resource can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

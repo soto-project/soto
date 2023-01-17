@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -187,8 +187,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url
-            case xml
+            case url = "url"
+            case xml = "xml"
         }
     }
 
@@ -233,12 +233,12 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case email
-            case groups
-            case login
-            case name
-            case org
-            case role
+            case email = "email"
+            case groups = "groups"
+            case login = "login"
+            case name = "name"
+            case org = "org"
+            case role = "role"
         }
     }
 
@@ -274,7 +274,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -293,9 +293,9 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsSso
-            case providers
-            case saml
+            case awsSso = "awsSso"
+            case providers = "providers"
+            case saml = "saml"
         }
     }
 
@@ -311,8 +311,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case providers
-            case samlConfigurationStatus
+            case providers = "providers"
+            case samlConfigurationStatus = "samlConfigurationStatus"
         }
     }
 
@@ -325,7 +325,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ssoClientId
+            case ssoClientId = "ssoClientId"
         }
     }
 
@@ -357,9 +357,9 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyName
-            case keyRole
-            case secondsToLive
+            case keyName = "keyName"
+            case keyRole = "keyRole"
+            case secondsToLive = "secondsToLive"
         }
     }
 
@@ -378,9 +378,9 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case keyName
-            case workspaceId
+            case key = "key"
+            case keyName = "keyName"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -454,21 +454,21 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAccessType
-            case authenticationProviders
-            case clientToken
-            case configuration
-            case organizationRoleName
-            case permissionType
-            case stackSetName
-            case tags
-            case vpcConfiguration
-            case workspaceDataSources
-            case workspaceDescription
-            case workspaceName
-            case workspaceNotificationDestinations
-            case workspaceOrganizationalUnits
-            case workspaceRoleArn
+            case accountAccessType = "accountAccessType"
+            case authenticationProviders = "authenticationProviders"
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case organizationRoleName = "organizationRoleName"
+            case permissionType = "permissionType"
+            case stackSetName = "stackSetName"
+            case tags = "tags"
+            case vpcConfiguration = "vpcConfiguration"
+            case workspaceDataSources = "workspaceDataSources"
+            case workspaceDescription = "workspaceDescription"
+            case workspaceName = "workspaceName"
+            case workspaceNotificationDestinations = "workspaceNotificationDestinations"
+            case workspaceOrganizationalUnits = "workspaceOrganizationalUnits"
+            case workspaceRoleArn = "workspaceRoleArn"
         }
     }
 
@@ -481,7 +481,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -522,8 +522,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyName
-            case workspaceId
+            case keyName = "keyName"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -555,7 +555,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -587,7 +587,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication
+            case authentication = "authentication"
         }
     }
 
@@ -619,7 +619,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -651,7 +651,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -687,7 +687,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -746,8 +746,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissions
+            case nextToken = "nextToken"
+            case permissions = "permissions"
         }
     }
 
@@ -775,7 +775,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -810,8 +810,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workspaces
+            case nextToken = "nextToken"
+            case workspaces = "workspaces"
         }
     }
 
@@ -827,8 +827,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case role
-            case user
+            case role = "role"
+            case user = "user"
         }
     }
 
@@ -855,8 +855,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case admin
-            case editor
+            case admin = "admin"
+            case editor = "editor"
         }
     }
 
@@ -872,8 +872,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case status
+            case configuration = "configuration"
+            case status = "status"
         }
     }
 
@@ -908,11 +908,11 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedOrganizations
-            case assertionAttributes
-            case idpMetadata
-            case loginValidityDuration
-            case roleValues
+            case allowedOrganizations = "allowedOrganizations"
+            case assertionAttributes = "assertionAttributes"
+            case idpMetadata = "idpMetadata"
+            case loginValidityDuration = "loginValidityDuration"
+            case roleValues = "roleValues"
         }
     }
 
@@ -941,7 +941,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -994,9 +994,9 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case causedBy
-            case code
-            case message
+            case causedBy = "causedBy"
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1021,9 +1021,9 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case role
-            case users
+            case action = "action"
+            case role = "role"
+            case users = "users"
         }
     }
 
@@ -1051,7 +1051,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateInstructionBatch
+            case updateInstructionBatch = "updateInstructionBatch"
         }
     }
 
@@ -1064,7 +1064,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -1092,8 +1092,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationProviders
-            case samlConfiguration
+            case authenticationProviders = "authenticationProviders"
+            case samlConfiguration = "samlConfiguration"
         }
     }
 
@@ -1106,7 +1106,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication
+            case authentication = "authentication"
         }
     }
 
@@ -1132,7 +1132,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -1200,18 +1200,18 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAccessType
-            case organizationRoleName
-            case permissionType
-            case removeVpcConfiguration
-            case stackSetName
-            case vpcConfiguration
-            case workspaceDataSources
-            case workspaceDescription
-            case workspaceName
-            case workspaceNotificationDestinations
-            case workspaceOrganizationalUnits
-            case workspaceRoleArn
+            case accountAccessType = "accountAccessType"
+            case organizationRoleName = "organizationRoleName"
+            case permissionType = "permissionType"
+            case removeVpcConfiguration = "removeVpcConfiguration"
+            case stackSetName = "stackSetName"
+            case vpcConfiguration = "vpcConfiguration"
+            case workspaceDataSources = "workspaceDataSources"
+            case workspaceDescription = "workspaceDescription"
+            case workspaceName = "workspaceName"
+            case workspaceNotificationDestinations = "workspaceNotificationDestinations"
+            case workspaceOrganizationalUnits = "workspaceOrganizationalUnits"
+            case workspaceRoleArn = "workspaceRoleArn"
         }
     }
 
@@ -1224,7 +1224,7 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workspace
+            case workspace = "workspace"
         }
     }
 
@@ -1245,8 +1245,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -1275,8 +1275,8 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -1355,29 +1355,29 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountAccessType
-            case authentication
-            case created
-            case dataSources
-            case description
-            case endpoint
-            case freeTrialConsumed
-            case freeTrialExpiration
-            case grafanaVersion
-            case id
-            case licenseExpiration
-            case licenseType
-            case modified
-            case name
-            case notificationDestinations
-            case organizationalUnits
-            case organizationRoleName
-            case permissionType
-            case stackSetName
-            case status
-            case tags
-            case vpcConfiguration
-            case workspaceRoleArn
+            case accountAccessType = "accountAccessType"
+            case authentication = "authentication"
+            case created = "created"
+            case dataSources = "dataSources"
+            case description = "description"
+            case endpoint = "endpoint"
+            case freeTrialConsumed = "freeTrialConsumed"
+            case freeTrialExpiration = "freeTrialExpiration"
+            case grafanaVersion = "grafanaVersion"
+            case id = "id"
+            case licenseExpiration = "licenseExpiration"
+            case licenseType = "licenseType"
+            case modified = "modified"
+            case name = "name"
+            case notificationDestinations = "notificationDestinations"
+            case organizationalUnits = "organizationalUnits"
+            case organizationRoleName = "organizationRoleName"
+            case permissionType = "permissionType"
+            case stackSetName = "stackSetName"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfiguration = "vpcConfiguration"
+            case workspaceRoleArn = "workspaceRoleArn"
         }
     }
 
@@ -1420,17 +1420,17 @@ extension Grafana {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication
-            case created
-            case description
-            case endpoint
-            case grafanaVersion
-            case id
-            case modified
-            case name
-            case notificationDestinations
-            case status
-            case tags
+            case authentication = "authentication"
+            case created = "created"
+            case description = "description"
+            case endpoint = "endpoint"
+            case grafanaVersion = "grafanaVersion"
+            case id = "id"
+            case modified = "modified"
+            case name = "name"
+            case notificationDestinations = "notificationDestinations"
+            case status = "status"
+            case tags = "tags"
         }
     }
 }

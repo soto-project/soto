@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -40,7 +40,7 @@ extension TranscribeStreaming {
     }
 
     public enum ContentRedactionOutput: String, CustomStringConvertible, Codable, _SotoSendable {
-        case redacted
+        case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
@@ -51,8 +51,8 @@ extension TranscribeStreaming {
     }
 
     public enum ItemType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case pronunciation
-        case punctuation
+        case pronunciation = "pronunciation"
+        case punctuation = "punctuation"
         public var description: String { return self.rawValue }
     }
 
@@ -75,9 +75,9 @@ extension TranscribeStreaming {
     }
 
     public enum MediaEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
-        case flac
+        case flac = "flac"
         case oggOpus = "ogg-opus"
-        case pcm
+        case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
@@ -87,9 +87,9 @@ extension TranscribeStreaming {
     }
 
     public enum PartialResultsStability: String, CustomStringConvertible, Codable, _SotoSendable {
-        case high
-        case low
-        case medium
+        case high = "high"
+        case low = "low"
+        case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
@@ -118,9 +118,9 @@ extension TranscribeStreaming {
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mask
-        case remove
-        case tag
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 

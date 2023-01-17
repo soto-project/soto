@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -89,7 +89,7 @@ extension Textract {
     }
 
     public enum ValueType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case date = "DATE"
+        case date = "Date"
         public var description: String { return self.rawValue }
     }
 
@@ -400,7 +400,7 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bytes, name: "bytes", parent: name, max: 10_485_760)
+            try self.validate(self.bytes, name: "bytes", parent: name, max: 10485760)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
         }
@@ -1760,11 +1760,11 @@ public struct TextractErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You aren&#39;t authorized to perform the action. Use the Amazon Resource Name (ARN)  of an authorized user or IAM role to perform the operation.
+    /// You aren't authorized to perform the action. Use the Amazon Resource Name (ARN)  of an authorized user or IAM role to perform the operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Amazon Textract isn&#39;t able to read the document. For more information on the document limits in Amazon Textract, see limits.
+    /// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see limits.
     public static var badDocumentException: Self { .init(.badDocumentException) }
-    /// The document can&#39;t be processed because it&#39;s too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
+    /// The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     public static var documentTooLargeException: Self { .init(.documentTooLargeException) }
     /// Indicates you have exceeded the maximum number of active human in the loop workflows available
     public static var humanLoopQuotaExceededException: Self { .init(.humanLoopQuotaExceededException) }
@@ -1778,7 +1778,7 @@ public struct TextractErrorType: AWSErrorType {
     public static var invalidKMSKeyException: Self { .init(.invalidKMSKeyException) }
     /// An input parameter violated a constraint. For example, in synchronous operations,  an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// Amazon Textract is unable to access the S3 object that&#39;s specified in the request. for more information, Configure Access to Amazon S3 For troubleshooting information, see Troubleshooting Amazon S3
+    /// Amazon Textract is unable to access the S3 object that's specified in the request. for more information, Configure Access to Amazon S3 For troubleshooting information, see Troubleshooting Amazon S3
     public static var invalidS3ObjectException: Self { .init(.invalidS3ObjectException) }
     /// An Amazon Textract service limit was exceeded. For example, if you start too many asynchronous jobs concurrently, calls to start operations (StartDocumentTextDetection, for example) raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Textract service limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -1786,7 +1786,7 @@ public struct TextractErrorType: AWSErrorType {
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
     /// Amazon Textract is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The format of the input document isn&#39;t supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
+    /// The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     public static var unsupportedDocumentException: Self { .init(.unsupportedDocumentException) }
 }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -256,7 +256,7 @@ extension Kafka {
 // MARK: Paginators
 
 extension Kafka {
-    ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
+    /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -309,7 +309,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK clusters in the current Region.
+    /// Returns a list of all the MSK clusters in the current Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -362,7 +362,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK clusters in the current Region.
+    /// Returns a list of all the MSK clusters in the current Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -415,7 +415,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK configurations in this Region.
+    /// Returns a list of all the MSK configurations in this Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -468,7 +468,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of all the MSK configurations in this Region.
+    /// Returns a list of all the MSK configurations in this Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -521,7 +521,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of Apache Kafka versions.
+    /// Returns a list of Apache Kafka versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -574,7 +574,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of the broker nodes in the cluster.
+    /// Returns a list of the broker nodes in the cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -627,7 +627,7 @@ extension Kafka {
         )
     }
 
-    ///  Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

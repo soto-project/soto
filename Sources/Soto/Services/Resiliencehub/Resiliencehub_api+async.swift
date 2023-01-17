@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -223,7 +223,7 @@ extension Resiliencehub {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Resiliencehub {
-    ///  Lists the alarm recommendations for a AWS Resilience Hub application.
+    /// Lists the alarm recommendations for a AWS Resilience Hub application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -245,7 +245,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the assessments for an AWS Resilience Hub application. You can use request parameters to refine the results for the response object.
+    /// Lists the assessments for an AWS Resilience Hub application. You can use request parameters to refine the results for the response object.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -267,7 +267,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the compliances for an AWS Resilience Hub component.
+    /// Lists the compliances for an AWS Resilience Hub component.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -289,7 +289,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the recommendations for an AWS Resilience Hub component.
+    /// Lists the recommendations for an AWS Resilience Hub component.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -311,7 +311,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
+    /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -333,7 +333,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists all the resources in an application version.
+    /// Lists all the resources in an application version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -355,7 +355,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the different versions for the Resilience Hub applications.
+    /// Lists the different versions for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -377,7 +377,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists your Resilience Hub applications.
+    /// Lists your Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -399,7 +399,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the recommendation templates for the Resilience Hub applications.
+    /// Lists the recommendation templates for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -421,7 +421,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the resiliency policies for the Resilience Hub applications.
+    /// Lists the resiliency policies for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -443,7 +443,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
+    /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -465,7 +465,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the suggested resiliency policies for the Resilience Hub applications.
+    /// Lists the suggested resiliency policies for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -487,7 +487,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the test recommendations for the Resilience Hub application.
+    /// Lists the test recommendations for the Resilience Hub application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -509,7 +509,7 @@ extension Resiliencehub {
         )
     }
 
-    ///  Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
+    /// Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

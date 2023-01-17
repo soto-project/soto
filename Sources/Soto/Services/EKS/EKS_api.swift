@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -280,7 +280,7 @@ extension EKS {
 // MARK: Paginators
 
 extension EKS {
-    ///  Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
+    /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -333,7 +333,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the available add-ons.
+    /// Lists the available add-ons.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -386,7 +386,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
+    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -439,7 +439,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
+    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -492,7 +492,7 @@ extension EKS {
         )
     }
 
-    ///  A list of identity provider configurations.
+    /// A list of identity provider configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -545,7 +545,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
+    /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -598,7 +598,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
+    /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -238,7 +238,7 @@ extension PinpointEmail {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension PinpointEmail {
-    ///  List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
+    /// List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -260,7 +260,7 @@ extension PinpointEmail {
         )
     }
 
-    ///  List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
+    /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -282,7 +282,7 @@ extension PinpointEmail {
         )
     }
 
-    ///  List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
+    /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -304,7 +304,7 @@ extension PinpointEmail {
         )
     }
 
-    ///  Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
+    /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -326,7 +326,7 @@ extension PinpointEmail {
         )
     }
 
-    ///  Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
+    /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -348,7 +348,7 @@ extension PinpointEmail {
         )
     }
 
-    ///  Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
+    /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

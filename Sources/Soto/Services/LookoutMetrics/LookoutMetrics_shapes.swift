@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -948,7 +948,7 @@ extension LookoutMetrics {
             try self.validate(self.metricSetName, name: "metricSetName", parent: name, min: 1)
             try self.validate(self.metricSetName, name: "metricSetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
             try self.metricSource.validate(name: "\(name).metricSource")
-            try self.validate(self.offset, name: "offset", parent: name, max: 432_000)
+            try self.validate(self.offset, name: "offset", parent: name, max: 432000)
             try self.validate(self.offset, name: "offset", parent: name, min: 0)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2743,7 +2743,7 @@ extension LookoutMetrics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3001,7 +3001,7 @@ extension LookoutMetrics {
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, min: 1)
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, pattern: "\\S")
             try self.metricSource?.validate(name: "\(name).metricSource")
-            try self.validate(self.offset, name: "offset", parent: name, max: 432_000)
+            try self.validate(self.offset, name: "offset", parent: name, max: 432000)
             try self.validate(self.offset, name: "offset", parent: name, min: 0)
             try self.timestampColumn?.validate(name: "\(name).timestampColumn")
         }
@@ -3102,7 +3102,7 @@ public struct LookoutMetricsErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource cannot be found. Check the ARN of the resource and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request exceeded the service&#39;s quotas. Check the service quotas and try again.
+    /// The request exceeded the service's quotas. Check the service quotas and try again.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to too many requests being submitted at the same time.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

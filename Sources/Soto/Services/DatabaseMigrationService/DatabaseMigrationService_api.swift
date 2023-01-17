@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -418,7 +418,7 @@ extension DatabaseMigrationService {
 // MARK: Paginators
 
 extension DatabaseMigrationService {
-    ///  Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
+    /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -471,7 +471,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Provides a description of the certificate.
+    /// Provides a description of the certificate.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -524,7 +524,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
+    /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -577,7 +577,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
+    /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -630,7 +630,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the type of endpoints available.
+    /// Returns information about the type of endpoints available.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -683,7 +683,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the endpoints for your account in the current region.
+    /// Returns information about the endpoints for your account in the current region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -736,7 +736,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
+    /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -789,7 +789,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
+    ///  Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -842,7 +842,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns a list of the Fleet Advisor collectors in your account.
+    /// Returns a list of the Fleet Advisor collectors in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -895,7 +895,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns a list of Fleet Advisor databases in your account.
+    /// Returns a list of Fleet Advisor databases in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -948,7 +948,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1001,7 +1001,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1054,7 +1054,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1107,7 +1107,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the replication instance types that can be created in the specified region.
+    /// Returns information about the replication instance types that can be created in the specified region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1160,7 +1160,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  For internal use only
+    /// For internal use only
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1213,7 +1213,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the task logs for the specified task.
+    /// Returns information about the task logs for the specified task.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1266,7 +1266,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about replication instances for your account in the current region.
+    /// Returns information about replication instances for your account in the current region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1319,7 +1319,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the replication subnet groups.
+    /// Returns information about the replication subnet groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1372,7 +1372,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
+    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1425,7 +1425,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
+    /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1478,7 +1478,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
+    /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1531,7 +1531,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about replication tasks for your account in the current region.
+    /// Returns information about replication tasks for your account in the current region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1584,7 +1584,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns information about the schema for the specified endpoint.
+    /// Returns information about the schema for the specified endpoint.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1638,7 +1638,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
+    /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -188,7 +188,7 @@ extension Inspector2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Inspector2 {
-    ///  Lists the permissions an account has to configure Amazon Inspector.
+    /// Lists the permissions an account has to configure Amazon Inspector.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -210,7 +210,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists coverage details for you environment.
+    /// Lists coverage details for you environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -232,7 +232,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists Amazon Inspector coverage statistics for your environment.
+    /// Lists Amazon Inspector coverage statistics for your environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -254,7 +254,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists information about the Amazon Inspector delegated administrator of your organization.
+    /// Lists information about the Amazon Inspector delegated administrator of your organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -276,7 +276,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists the filters associated with your account.
+    /// Lists the filters associated with your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -298,7 +298,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists aggregated finding data for your environment based on specific criteria.
+    /// Lists aggregated finding data for your environment based on specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -320,7 +320,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists findings for your environment.
+    /// Lists findings for your environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -342,7 +342,7 @@ extension Inspector2 {
         )
     }
 
-    ///  List members associated with the Amazon Inspector delegated administrator for your organization.
+    /// List members associated with the Amazon Inspector delegated administrator for your organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -364,7 +364,7 @@ extension Inspector2 {
         )
     }
 
-    ///  Lists the Amazon Inspector usage totals over the last 30 days.
+    /// Lists the Amazon Inspector usage totals over the last 30 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

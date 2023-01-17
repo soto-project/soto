@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -78,7 +78,7 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case execution
+            case execution = "execution"
         }
     }
 
@@ -115,8 +115,8 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inProgressJobs
-            case queuedJobs
+            case inProgressJobs = "inProgressJobs"
+            case queuedJobs = "queuedJobs"
         }
     }
 
@@ -159,17 +159,17 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateSecondsBeforeTimedOut
-            case executionNumber
-            case jobDocument
-            case jobId
-            case lastUpdatedAt
-            case queuedAt
-            case startedAt
-            case status
-            case statusDetails
-            case thingName
-            case versionNumber
+            case approximateSecondsBeforeTimedOut = "approximateSecondsBeforeTimedOut"
+            case executionNumber = "executionNumber"
+            case jobDocument = "jobDocument"
+            case jobId = "jobId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case queuedAt = "queuedAt"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case thingName = "thingName"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -188,9 +188,9 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusDetails
-            case versionNumber
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -218,12 +218,12 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionNumber
-            case jobId
-            case lastUpdatedAt
-            case queuedAt
-            case startedAt
-            case versionNumber
+            case executionNumber = "executionNumber"
+            case jobId = "jobId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case queuedAt = "queuedAt"
+            case startedAt = "startedAt"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -260,8 +260,8 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusDetails
-            case stepTimeoutInMinutes
+            case statusDetails = "statusDetails"
+            case stepTimeoutInMinutes = "stepTimeoutInMinutes"
         }
     }
 
@@ -274,7 +274,7 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case execution
+            case execution = "execution"
         }
     }
 
@@ -333,13 +333,13 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionNumber
-            case expectedVersion
-            case includeJobDocument
-            case includeJobExecutionState
-            case status
-            case statusDetails
-            case stepTimeoutInMinutes
+            case executionNumber = "executionNumber"
+            case expectedVersion = "expectedVersion"
+            case includeJobDocument = "includeJobDocument"
+            case includeJobExecutionState = "includeJobExecutionState"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case stepTimeoutInMinutes = "stepTimeoutInMinutes"
         }
     }
 
@@ -355,8 +355,8 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionState
-            case jobDocument
+            case executionState = "executionState"
+            case jobDocument = "jobDocument"
         }
     }
 }
@@ -397,7 +397,7 @@ public struct IoTJobsDataPlaneErrorType: AWSErrorType {
     public static var certificateValidationException: Self { .init(.certificateValidationException) }
     /// The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// An update attempted to change the job execution to a state that is invalid because of the job execution&#39;s current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
+    /// An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

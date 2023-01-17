@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -110,7 +110,7 @@ extension SecurityHub {
     }
 
     public enum Partition: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aws
+        case aws = "aws"
         case awsCn = "aws-cn"
         case awsUsGov = "aws-us-gov"
         public var description: String { return self.rawValue }
@@ -9900,7 +9900,7 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
-            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131_072)
+            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131072)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, min: 1)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+$")
             try self.validate(self.createDate, name: "createDate", parent: name, pattern: "\\S")
@@ -10068,7 +10068,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131_072)
+            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131072)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, min: 1)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+$")
             try self.attachedManagedPolicies?.forEach {
@@ -21811,11 +21811,11 @@ public struct SecurityHubErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have permission to perform the action specified in the request.
+    /// You don't have permission to perform the action specified in the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Internal server error.
     public static var internalException: Self { .init(.internalException) }
-    /// The account doesn&#39;t have permission to perform this action.
+    /// The account doesn't have permission to perform this action.
     public static var invalidAccessException: Self { .init(.invalidAccessException) }
     /// The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
@@ -21823,7 +21823,7 @@ public struct SecurityHubErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource specified in the request conflicts with an existing resource.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// The request was rejected because we can&#39;t find the specified resource.
+    /// The request was rejected because we can't find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

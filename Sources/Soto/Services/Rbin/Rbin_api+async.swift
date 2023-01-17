@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -78,7 +78,7 @@ extension Rbin {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Rbin {
-    ///  Lists the Recycle Bin retention rules in the Region.
+    /// Lists the Recycle Bin retention rules in the Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

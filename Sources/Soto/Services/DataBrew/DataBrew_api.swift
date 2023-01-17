@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -306,7 +306,7 @@ extension DataBrew {
 // MARK: Paginators
 
 extension DataBrew {
-    ///  Lists all of the DataBrew datasets.
+    /// Lists all of the DataBrew datasets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -359,7 +359,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the previous runs of a particular DataBrew job.
+    /// Lists all of the previous runs of a particular DataBrew job.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -412,7 +412,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew jobs that are defined.
+    /// Lists all of the DataBrew jobs that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -465,7 +465,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew projects that are defined.
+    /// Lists all of the DataBrew projects that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -518,7 +518,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
+    /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -571,7 +571,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists all of the DataBrew recipes that are defined.
+    /// Lists all of the DataBrew recipes that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -624,7 +624,7 @@ extension DataBrew {
         )
     }
 
-    ///  List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
+    /// List all rulesets available in the current account or rulesets associated  with a specific resource (dataset).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -677,7 +677,7 @@ extension DataBrew {
         )
     }
 
-    ///  Lists the DataBrew schedules that are defined.
+    /// Lists the DataBrew schedules that are defined.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

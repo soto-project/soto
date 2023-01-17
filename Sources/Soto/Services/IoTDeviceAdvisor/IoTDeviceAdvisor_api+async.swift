@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -98,7 +98,7 @@ extension IoTDeviceAdvisor {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTDeviceAdvisor {
-    ///  Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
+    /// Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -120,7 +120,7 @@ extension IoTDeviceAdvisor {
         )
     }
 
-    ///  Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
+    /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

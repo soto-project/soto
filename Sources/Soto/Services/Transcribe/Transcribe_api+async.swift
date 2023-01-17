@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -223,7 +223,7 @@ extension Transcribe {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Transcribe {
-    ///  Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the  operation.
+    /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -245,7 +245,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the  operation.
+    /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -267,7 +267,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the  operation.
+    /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -289,7 +289,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the  operation.
+    /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -311,7 +311,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the  operation.
+    /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -333,7 +333,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the  operation.
+    /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -355,7 +355,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the  operation.
+    /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -377,7 +377,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the  operation.
+    /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the  operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -98,9 +98,9 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case parameters
-            case timeToLive
+            case name = "name"
+            case parameters = "parameters"
+            case timeToLive = "timeToLive"
         }
     }
 
@@ -123,8 +123,8 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeToLiveInSeconds
-            case turnsToLive
+            case timeToLiveInSeconds = "timeToLiveInSeconds"
+            case turnsToLive = "turnsToLive"
         }
     }
 
@@ -140,8 +140,8 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case value
+            case text = "text"
+            case value = "value"
         }
     }
 
@@ -192,10 +192,10 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAlias
-            case botName
-            case sessionId
-            case userId
+            case botAlias = "botAlias"
+            case botName = "botName"
+            case sessionId = "sessionId"
+            case userId = "userId"
         }
     }
 
@@ -231,13 +231,13 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fulfillmentState
-            case intentName
-            case message
-            case messageFormat
-            case slots
-            case slotToElicit
-            case type
+            case fulfillmentState = "fulfillmentState"
+            case intentName = "intentName"
+            case message = "message"
+            case messageFormat = "messageFormat"
+            case slots = "slots"
+            case slotToElicit = "slotToElicit"
+            case type = "type"
         }
     }
 
@@ -262,11 +262,11 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentLinkUrl
-            case buttons
-            case imageUrl
-            case subTitle
-            case title
+            case attachmentLinkUrl = "attachmentLinkUrl"
+            case buttons = "buttons"
+            case imageUrl = "imageUrl"
+            case subTitle = "subTitle"
+            case title = "title"
         }
     }
 
@@ -327,11 +327,11 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case dialogAction
-            case recentIntentSummaryView
-            case sessionAttributes
-            case sessionId
+            case activeContexts = "activeContexts"
+            case dialogAction = "dialogAction"
+            case recentIntentSummaryView = "recentIntentSummaryView"
+            case sessionAttributes = "sessionAttributes"
+            case sessionId = "sessionId"
         }
     }
 
@@ -344,7 +344,7 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case score
+            case score = "score"
         }
     }
 
@@ -381,13 +381,13 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkpointLabel
-            case confirmationStatus
-            case dialogActionType
-            case fulfillmentState
-            case intentName
-            case slots
-            case slotToElicit
+            case checkpointLabel = "checkpointLabel"
+            case confirmationStatus = "confirmationStatus"
+            case dialogActionType = "dialogActionType"
+            case fulfillmentState = "fulfillmentState"
+            case intentName = "intentName"
+            case slots = "slots"
+            case slotToElicit = "slotToElicit"
         }
     }
 
@@ -553,7 +553,7 @@ extension LexRuntimeService {
         private enum CodingKeys: String, CodingKey {
             case activeContexts = "x-amz-lex-active-contexts"
             case alternativeIntents = "x-amz-lex-alternative-intents"
-            case audioStream
+            case audioStream = "audioStream"
             case botVersion = "x-amz-lex-bot-version"
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"
@@ -617,10 +617,10 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case inputText
-            case requestAttributes
-            case sessionAttributes
+            case activeContexts = "activeContexts"
+            case inputText = "inputText"
+            case requestAttributes = "requestAttributes"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
@@ -673,20 +673,20 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case alternativeIntents
-            case botVersion
-            case dialogState
-            case intentName
-            case message
-            case messageFormat
-            case nluIntentConfidence
-            case responseCard
-            case sentimentResponse
-            case sessionAttributes
-            case sessionId
-            case slots
-            case slotToElicit
+            case activeContexts = "activeContexts"
+            case alternativeIntents = "alternativeIntents"
+            case botVersion = "botVersion"
+            case dialogState = "dialogState"
+            case intentName = "intentName"
+            case message = "message"
+            case messageFormat = "messageFormat"
+            case nluIntentConfidence = "nluIntentConfidence"
+            case responseCard = "responseCard"
+            case sentimentResponse = "sentimentResponse"
+            case sessionAttributes = "sessionAttributes"
+            case sessionId = "sessionId"
+            case slots = "slots"
+            case slotToElicit = "slotToElicit"
         }
     }
 
@@ -705,9 +705,9 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intentName
-            case nluIntentConfidence
-            case slots
+            case intentName = "intentName"
+            case nluIntentConfidence = "nluIntentConfidence"
+            case slots = "slots"
         }
     }
 
@@ -763,10 +763,10 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case dialogAction
-            case recentIntentSummaryView
-            case sessionAttributes
+            case activeContexts = "activeContexts"
+            case dialogAction = "dialogAction"
+            case recentIntentSummaryView = "recentIntentSummaryView"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
@@ -846,7 +846,7 @@ extension LexRuntimeService {
 
         private enum CodingKeys: String, CodingKey {
             case activeContexts = "x-amz-lex-active-contexts"
-            case audioStream
+            case audioStream = "audioStream"
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"
             case encodedMessage = "x-amz-lex-encoded-message"
@@ -875,9 +875,9 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case genericAttachments
-            case version
+            case contentType = "contentType"
+            case genericAttachments = "genericAttachments"
+            case version = "version"
         }
     }
 
@@ -893,8 +893,8 @@ extension LexRuntimeService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sentimentLabel
-            case sentimentScore
+            case sentimentLabel = "sentimentLabel"
+            case sentimentScore = "sentimentScore"
         }
     }
 }

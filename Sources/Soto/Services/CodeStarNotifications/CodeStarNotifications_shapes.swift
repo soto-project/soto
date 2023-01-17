@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -819,9 +819,9 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// AWS CodeStar Notifications can&#39;t create the notification rule because you do not have sufficient permissions.
+    /// AWS CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// AWS CodeStar Notifications can&#39;t complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// Some or all of the configuration is incomplete, missing, or not valid.
     public static var configurationException: Self { .init(.configurationException) }
@@ -831,7 +831,7 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// AWS CodeStar Notifications can&#39;t find a resource that matches the provided ARN.
+    /// AWS CodeStar Notifications can't find a resource that matches the provided ARN.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// One or more parameter values are not valid.
     public static var validationException: Self { .init(.validationException) }

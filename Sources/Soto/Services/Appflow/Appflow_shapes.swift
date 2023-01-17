@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -584,8 +584,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregationType
-            case targetFileSize
+            case aggregationType = "aggregationType"
+            case targetFileSize = "targetFileSize"
         }
     }
 
@@ -608,8 +608,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
-            case secretKey
+            case apiKey = "apiKey"
+            case secretKey = "secretKey"
         }
     }
 
@@ -635,7 +635,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -658,8 +658,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
-            case apiSecretKey
+            case apiKey = "apiKey"
+            case apiSecretKey = "apiSecretKey"
         }
     }
 
@@ -687,12 +687,12 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorSuppliedValues
-            case description
-            case isRequired
-            case isSensitiveField
-            case key
-            case label
+            case connectorSuppliedValues = "connectorSuppliedValues"
+            case description = "description"
+            case isRequired = "isRequired"
+            case isSensitiveField = "isSensitiveField"
+            case key = "key"
+            case label = "label"
         }
     }
 
@@ -720,12 +720,12 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customAuthConfigs
-            case isApiKeyAuthSupported
-            case isBasicAuthSupported
-            case isCustomAuthSupported
-            case isOAuth2Supported
-            case oAuth2Defaults
+            case customAuthConfigs = "customAuthConfigs"
+            case isApiKeyAuthSupported = "isApiKeyAuthSupported"
+            case isBasicAuthSupported = "isBasicAuthSupported"
+            case isCustomAuthSupported = "isCustomAuthSupported"
+            case isOAuth2Supported = "isOAuth2Supported"
+            case oAuth2Defaults = "oAuth2Defaults"
         }
     }
 
@@ -748,8 +748,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password
-            case username
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -837,32 +837,32 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationConfig
-            case canUseAsDestination
-            case canUseAsSource
-            case connectorArn
-            case connectorDescription
-            case connectorLabel
-            case connectorMetadata
-            case connectorModes
-            case connectorName
-            case connectorOwner
-            case connectorProvisioningConfig
-            case connectorProvisioningType
-            case connectorRuntimeSettings
-            case connectorType
-            case connectorVersion
-            case isPrivateLinkEnabled
-            case isPrivateLinkEndpointUrlRequired
-            case logoURL
-            case registeredAt
-            case registeredBy
-            case supportedApiVersions
-            case supportedDestinationConnectors
-            case supportedOperators
-            case supportedSchedulingFrequencies
-            case supportedTriggerTypes
-            case supportedWriteOperations
+            case authenticationConfig = "authenticationConfig"
+            case canUseAsDestination = "canUseAsDestination"
+            case canUseAsSource = "canUseAsSource"
+            case connectorArn = "connectorArn"
+            case connectorDescription = "connectorDescription"
+            case connectorLabel = "connectorLabel"
+            case connectorMetadata = "connectorMetadata"
+            case connectorModes = "connectorModes"
+            case connectorName = "connectorName"
+            case connectorOwner = "connectorOwner"
+            case connectorProvisioningConfig = "connectorProvisioningConfig"
+            case connectorProvisioningType = "connectorProvisioningType"
+            case connectorRuntimeSettings = "connectorRuntimeSettings"
+            case connectorType = "connectorType"
+            case connectorVersion = "connectorVersion"
+            case isPrivateLinkEnabled = "isPrivateLinkEnabled"
+            case isPrivateLinkEndpointUrlRequired = "isPrivateLinkEndpointUrlRequired"
+            case logoURL = "logoURL"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
+            case supportedApiVersions = "supportedApiVersions"
+            case supportedDestinationConnectors = "supportedDestinationConnectors"
+            case supportedOperators = "supportedOperators"
+            case supportedSchedulingFrequencies = "supportedSchedulingFrequencies"
+            case supportedTriggerTypes = "supportedTriggerTypes"
+            case supportedWriteOperations = "supportedWriteOperations"
         }
     }
 
@@ -905,17 +905,17 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationType
-            case connectorDescription
-            case connectorLabel
-            case connectorModes
-            case connectorName
-            case connectorOwner
-            case connectorProvisioningType
-            case connectorType
-            case connectorVersion
-            case registeredAt
-            case registeredBy
+            case applicationType = "applicationType"
+            case connectorDescription = "connectorDescription"
+            case connectorLabel = "connectorLabel"
+            case connectorModes = "connectorModes"
+            case connectorName = "connectorName"
+            case connectorOwner = "connectorOwner"
+            case connectorProvisioningType = "connectorProvisioningType"
+            case connectorType = "connectorType"
+            case connectorVersion = "connectorVersion"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
         }
     }
 
@@ -934,9 +934,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasNestedEntities
-            case label
-            case name
+            case hasNestedEntities = "hasNestedEntities"
+            case label = "label"
+            case name = "name"
         }
     }
 
@@ -979,17 +979,17 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customProperties
-            case defaultValue
-            case description
-            case destinationProperties
-            case identifier
-            case isDeprecated
-            case isPrimaryKey
-            case label
-            case parentIdentifier
-            case sourceProperties
-            case supportedFieldTypeDetails
+            case customProperties = "customProperties"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case destinationProperties = "destinationProperties"
+            case identifier = "identifier"
+            case isDeprecated = "isDeprecated"
+            case isPrimaryKey = "isPrimaryKey"
+            case label = "label"
+            case parentIdentifier = "parentIdentifier"
+            case sourceProperties = "sourceProperties"
+            case supportedFieldTypeDetails = "supportedFieldTypeDetails"
         }
     }
 
@@ -1104,8 +1104,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authCode
-            case redirectUri
+            case authCode = "authCode"
+            case redirectUri = "redirectUri"
         }
     }
 
@@ -1218,16 +1218,16 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionMode
-            case connectorLabel
-            case connectorProfileArn
-            case connectorProfileName
-            case connectorProfileProperties
-            case connectorType
-            case createdAt
-            case credentialsArn
-            case lastUpdatedAt
-            case privateConnectionProvisioningState
+            case connectionMode = "connectionMode"
+            case connectorLabel = "connectorLabel"
+            case connectorProfileArn = "connectorProfileArn"
+            case connectorProfileName = "connectorProfileName"
+            case connectorProfileProperties = "connectorProfileProperties"
+            case connectorType = "connectorType"
+            case createdAt = "createdAt"
+            case credentialsArn = "credentialsArn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case privateConnectionProvisioningState = "privateConnectionProvisioningState"
         }
     }
 
@@ -1248,8 +1248,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorProfileCredentials
-            case connectorProfileProperties
+            case connectorProfileCredentials = "connectorProfileCredentials"
+            case connectorProfileProperties = "connectorProfileProperties"
         }
     }
 
@@ -1462,7 +1462,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambda
+            case lambda = "lambda"
         }
     }
 
@@ -1493,13 +1493,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorSuppliedValueOptions
-            case dataType
-            case description
-            case isRequired
-            case key
-            case label
-            case scope
+            case connectorSuppliedValueOptions = "connectorSuppliedValueOptions"
+            case dataType = "dataType"
+            case description = "description"
+            case isRequired = "isRequired"
+            case key = "key"
+            case label = "label"
+            case scope = "scope"
         }
     }
 
@@ -1538,12 +1538,12 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionMode
-            case connectorLabel
-            case connectorProfileConfig
-            case connectorProfileName
-            case connectorType
-            case kmsArn
+            case connectionMode = "connectionMode"
+            case connectorLabel = "connectorLabel"
+            case connectorProfileConfig = "connectorProfileConfig"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case kmsArn = "kmsArn"
         }
     }
 
@@ -1556,7 +1556,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorProfileArn
+            case connectorProfileArn = "connectorProfileArn"
         }
     }
 
@@ -1620,15 +1620,15 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case destinationFlowConfigList
-            case flowName
-            case kmsArn
-            case metadataCatalogConfig
-            case sourceFlowConfig
-            case tags
-            case tasks
-            case triggerConfig
+            case description = "description"
+            case destinationFlowConfigList = "destinationFlowConfigList"
+            case flowName = "flowName"
+            case kmsArn = "kmsArn"
+            case metadataCatalogConfig = "metadataCatalogConfig"
+            case sourceFlowConfig = "sourceFlowConfig"
+            case tags = "tags"
+            case tasks = "tasks"
+            case triggerConfig = "triggerConfig"
         }
     }
 
@@ -1644,8 +1644,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case flowStatus
+            case flowArn = "flowArn"
+            case flowStatus = "flowStatus"
         }
     }
 
@@ -1661,8 +1661,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authParameters
-            case customAuthenticationType
+            case authParameters = "authParameters"
+            case customAuthenticationType = "customAuthenticationType"
         }
     }
 
@@ -1691,8 +1691,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialsMap
-            case customAuthenticationType
+            case credentialsMap = "credentialsMap"
+            case customAuthenticationType = "customAuthenticationType"
         }
     }
 
@@ -1735,11 +1735,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customProperties
-            case entityName
-            case errorHandlingConfig
-            case idFieldNames
-            case writeOperationType
+            case customProperties = "customProperties"
+            case entityName = "entityName"
+            case errorHandlingConfig = "errorHandlingConfig"
+            case idFieldNames = "idFieldNames"
+            case writeOperationType = "writeOperationType"
         }
     }
 
@@ -1771,11 +1771,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
-            case authenticationType
-            case basic
-            case custom
-            case oauth2
+            case apiKey = "apiKey"
+            case authenticationType = "authenticationType"
+            case basic = "basic"
+            case custom = "custom"
+            case oauth2 = "oauth2"
         }
     }
 
@@ -1802,8 +1802,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuth2Properties
-            case profileProperties
+            case oAuth2Properties = "oAuth2Properties"
+            case profileProperties = "profileProperties"
         }
     }
 
@@ -1832,8 +1832,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customProperties
-            case entityName
+            case customProperties = "customProperties"
+            case entityName = "entityName"
         }
     }
 
@@ -1856,8 +1856,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case objectTypeName
+            case domainName = "domainName"
+            case objectTypeName = "objectTypeName"
         }
     }
 
@@ -1884,8 +1884,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
-            case applicationKey
+            case apiKey = "apiKey"
+            case applicationKey = "applicationKey"
         }
     }
 
@@ -1903,7 +1903,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -1925,7 +1925,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -1946,8 +1946,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorProfileName
-            case forceDelete
+            case connectorProfileName = "connectorProfileName"
+            case forceDelete = "forceDelete"
         }
     }
 
@@ -1972,8 +1972,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowName
-            case forceDelete
+            case flowName = "flowName"
+            case forceDelete = "forceDelete"
         }
     }
 
@@ -2008,10 +2008,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiVersion
-            case connectorEntityName
-            case connectorProfileName
-            case connectorType
+            case apiVersion = "apiVersion"
+            case connectorEntityName = "connectorEntityName"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
         }
     }
 
@@ -2024,7 +2024,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorEntityFields
+            case connectorEntityFields = "connectorEntityFields"
         }
     }
 
@@ -2063,11 +2063,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorLabel
-            case connectorProfileNames
-            case connectorType
-            case maxResults
-            case nextToken
+            case connectorLabel = "connectorLabel"
+            case connectorProfileNames = "connectorProfileNames"
+            case connectorType = "connectorType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2083,8 +2083,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorProfileDetails
-            case nextToken
+            case connectorProfileDetails = "connectorProfileDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2105,8 +2105,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorLabel
-            case connectorType
+            case connectorLabel = "connectorLabel"
+            case connectorType = "connectorType"
         }
     }
 
@@ -2119,7 +2119,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorConfiguration
+            case connectorConfiguration = "connectorConfiguration"
         }
     }
 
@@ -2146,9 +2146,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorTypes
-            case maxResults
-            case nextToken
+            case connectorTypes = "connectorTypes"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2167,9 +2167,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorConfigurations
-            case connectors
-            case nextToken
+            case connectorConfigurations = "connectorConfigurations"
+            case connectors = "connectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2197,9 +2197,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowName
-            case maxResults
-            case nextToken
+            case flowName = "flowName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2215,8 +2215,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowExecutions
-            case nextToken
+            case flowExecutions = "flowExecutions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2234,7 +2234,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowName
+            case flowName = "flowName"
         }
     }
 
@@ -2301,25 +2301,25 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case createdBy
-            case description
-            case destinationFlowConfigList
-            case flowArn
-            case flowName
-            case flowStatus
-            case flowStatusMessage
-            case kmsArn
-            case lastRunExecutionDetails
-            case lastRunMetadataCatalogDetails
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case metadataCatalogConfig
-            case schemaVersion
-            case sourceFlowConfig
-            case tags
-            case tasks
-            case triggerConfig
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case destinationFlowConfigList = "destinationFlowConfigList"
+            case flowArn = "flowArn"
+            case flowName = "flowName"
+            case flowStatus = "flowStatus"
+            case flowStatusMessage = "flowStatusMessage"
+            case kmsArn = "kmsArn"
+            case lastRunExecutionDetails = "lastRunExecutionDetails"
+            case lastRunMetadataCatalogDetails = "lastRunMetadataCatalogDetails"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case metadataCatalogConfig = "metadataCatalogConfig"
+            case schemaVersion = "schemaVersion"
+            case sourceFlowConfig = "sourceFlowConfig"
+            case tags = "tags"
+            case tasks = "tasks"
+            case triggerConfig = "triggerConfig"
         }
     }
 
@@ -2423,12 +2423,12 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isCreatable
-            case isDefaultedOnCreate
-            case isNullable
-            case isUpdatable
-            case isUpsertable
-            case supportedWriteOperations
+            case isCreatable = "isCreatable"
+            case isDefaultedOnCreate = "isDefaultedOnCreate"
+            case isNullable = "isNullable"
+            case isUpdatable = "isUpdatable"
+            case isUpsertable = "isUpsertable"
+            case supportedWriteOperations = "supportedWriteOperations"
         }
     }
 
@@ -2458,10 +2458,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiVersion
-            case connectorProfileName
-            case connectorType
-            case destinationConnectorProperties
+            case apiVersion = "apiVersion"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case destinationConnectorProperties = "destinationConnectorProperties"
         }
     }
 
@@ -2479,7 +2479,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiToken
+            case apiToken = "apiToken"
         }
     }
 
@@ -2497,7 +2497,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -2519,7 +2519,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -2546,9 +2546,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
-            case failOnFirstDestinationError
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case failOnFirstDestinationError = "failOnFirstDestinationError"
         }
     }
 
@@ -2564,8 +2564,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionMessage
-            case putFailuresCount
+            case executionMessage = "executionMessage"
+            case putFailuresCount = "putFailuresCount"
         }
     }
 
@@ -2586,8 +2586,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorHandlingConfig
-            case object
+            case errorHandlingConfig = "errorHandlingConfig"
+            case object = "object"
         }
     }
 
@@ -2610,9 +2610,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mostRecentExecutionMessage
-            case mostRecentExecutionStatus
-            case mostRecentExecutionTime
+            case mostRecentExecutionMessage = "mostRecentExecutionMessage"
+            case mostRecentExecutionStatus = "mostRecentExecutionStatus"
+            case mostRecentExecutionTime = "mostRecentExecutionTime"
         }
     }
 
@@ -2646,14 +2646,14 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataPullEndTime
-            case dataPullStartTime
-            case executionId
-            case executionResult
-            case executionStatus
-            case lastUpdatedAt
-            case metadataCatalogDetails
-            case startedAt
+            case dataPullEndTime = "dataPullEndTime"
+            case dataPullStartTime = "dataPullStartTime"
+            case executionId = "executionId"
+            case executionResult = "executionResult"
+            case executionStatus = "executionStatus"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case metadataCatalogDetails = "metadataCatalogDetails"
+            case startedAt = "startedAt"
         }
     }
 
@@ -2675,10 +2675,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytesProcessed
-            case bytesWritten
-            case errorInfo
-            case recordsProcessed
+            case bytesProcessed = "bytesProcessed"
+            case bytesWritten = "bytesWritten"
+            case errorInfo = "errorInfo"
+            case recordsProcessed = "recordsProcessed"
         }
     }
 
@@ -2709,13 +2709,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldLengthRange
-            case fieldType
-            case fieldValueRange
-            case filterOperators
-            case supportedDateFormat
-            case supportedValues
-            case valueRegexPattern
+            case fieldLengthRange = "fieldLengthRange"
+            case fieldType = "fieldType"
+            case fieldValueRange = "fieldValueRange"
+            case filterOperators = "filterOperators"
+            case supportedDateFormat = "supportedDateFormat"
+            case supportedValues = "supportedValues"
+            case valueRegexPattern = "valueRegexPattern"
         }
     }
 
@@ -2770,21 +2770,21 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case createdBy
-            case description
-            case destinationConnectorLabel
-            case destinationConnectorType
-            case flowArn
-            case flowName
-            case flowStatus
-            case lastRunExecutionDetails
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case sourceConnectorLabel
-            case sourceConnectorType
-            case tags
-            case triggerType
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case destinationConnectorLabel = "destinationConnectorLabel"
+            case destinationConnectorType = "destinationConnectorType"
+            case flowArn = "flowArn"
+            case flowName = "flowName"
+            case flowStatus = "flowStatus"
+            case lastRunExecutionDetails = "lastRunExecutionDetails"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case sourceConnectorLabel = "sourceConnectorLabel"
+            case sourceConnectorType = "sourceConnectorType"
+            case tags = "tags"
+            case triggerType = "triggerType"
         }
     }
 
@@ -2812,9 +2812,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName
-            case roleArn
-            case tablePrefix
+            case databaseName = "databaseName"
+            case roleArn = "roleArn"
+            case tablePrefix = "tablePrefix"
         }
     }
 
@@ -2851,11 +2851,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
-            case refreshToken
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -2872,7 +2872,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuthScopes
+            case oAuthScopes = "oAuthScopes"
         }
     }
 
@@ -2890,7 +2890,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -2916,9 +2916,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case oAuthRequest
-            case refreshToken
+            case accessToken = "accessToken"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -2943,8 +2943,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorHandlingConfig
-            case object
+            case errorHandlingConfig = "errorHandlingConfig"
+            case object = "object"
         }
     }
 
@@ -2957,7 +2957,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuthScopes
+            case oAuthScopes = "oAuthScopes"
         }
     }
 
@@ -2975,7 +2975,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datetimeTypeFieldName
+            case datetimeTypeFieldName = "datetimeTypeFieldName"
         }
     }
 
@@ -3008,10 +3008,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case datakey
-            case secretAccessKey
-            case userId
+            case accessKeyId = "accessKeyId"
+            case datakey = "datakey"
+            case secretAccessKey = "secretAccessKey"
+            case userId = "userId"
         }
     }
 
@@ -3029,7 +3029,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -3051,7 +3051,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -3069,7 +3069,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaArn
+            case lambdaArn = "lambdaArn"
         }
     }
 
@@ -3110,12 +3110,12 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiVersion
-            case connectorProfileName
-            case connectorType
-            case entitiesPath
-            case maxResults
-            case nextToken
+            case apiVersion = "apiVersion"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case entitiesPath = "entitiesPath"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3131,8 +3131,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorEntityMap
-            case nextToken
+            case connectorEntityMap = "connectorEntityMap"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3155,8 +3155,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3172,8 +3172,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectors
-            case nextToken
+            case connectors = "connectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3196,8 +3196,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3213,8 +3213,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flows
-            case nextToken
+            case flows = "flows"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3247,7 +3247,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3283,10 +3283,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
         }
     }
 
@@ -3304,7 +3304,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -3325,8 +3325,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorHandlingConfig
-            case object
+            case errorHandlingConfig = "errorHandlingConfig"
+            case object = "object"
         }
     }
 
@@ -3348,7 +3348,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -3365,7 +3365,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case glueDataCatalog
+            case glueDataCatalog = "glueDataCatalog"
         }
     }
 
@@ -3387,10 +3387,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case catalogType
-            case partitionRegistrationOutput
-            case tableName
-            case tableRegistrationOutput
+            case catalogType = "catalogType"
+            case partitionRegistrationOutput = "partitionRegistrationOutput"
+            case tableName = "tableName"
+            case tableRegistrationOutput = "tableRegistrationOutput"
         }
     }
 
@@ -3426,11 +3426,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
-            case refreshToken
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -3461,13 +3461,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorSuppliedValues
-            case description
-            case isRequired
-            case isSensitiveField
-            case key
-            case label
-            case type
+            case connectorSuppliedValues = "connectorSuppliedValues"
+            case description = "description"
+            case isRequired = "isRequired"
+            case isSensitiveField = "isSensitiveField"
+            case key = "key"
+            case label = "label"
+            case type = "type"
         }
     }
 
@@ -3492,11 +3492,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authCodeUrls
-            case oauth2CustomProperties
-            case oauth2GrantTypesSupported
-            case oauthScopes
-            case tokenUrls
+            case authCodeUrls = "authCodeUrls"
+            case oauth2CustomProperties = "oauth2CustomProperties"
+            case oauth2GrantTypesSupported = "oauth2GrantTypesSupported"
+            case oauthScopes = "oauthScopes"
+            case tokenUrls = "tokenUrls"
         }
     }
 
@@ -3528,9 +3528,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuth2GrantType
-            case tokenUrl
-            case tokenUrlCustomProperties
+            case oAuth2GrantType = "oAuth2GrantType"
+            case tokenUrl = "tokenUrl"
+            case tokenUrlCustomProperties = "tokenUrlCustomProperties"
         }
     }
 
@@ -3567,11 +3567,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
-            case refreshToken
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -3601,9 +3601,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authCodeUrl
-            case oAuthScopes
-            case tokenUrl
+            case authCodeUrl = "authCodeUrl"
+            case oAuthScopes = "oAuthScopes"
+            case tokenUrl = "tokenUrl"
         }
     }
 
@@ -3622,9 +3622,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pathPrefixHierarchy
-            case prefixFormat
-            case prefixType
+            case pathPrefixHierarchy = "pathPrefixHierarchy"
+            case prefixFormat = "prefixFormat"
+            case prefixType = "prefixType"
         }
     }
 
@@ -3643,9 +3643,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCause
-            case failureMessage
-            case status
+            case failureCause = "failureCause"
+            case failureMessage = "failureMessage"
+            case status = "status"
         }
     }
 
@@ -3661,8 +3661,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximum
-            case minimum
+            case maximum = "maximum"
+            case minimum = "minimum"
         }
     }
 
@@ -3685,8 +3685,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password
-            case username
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -3743,15 +3743,15 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
-            case clusterIdentifier
-            case dataApiRoleArn
-            case databaseName
-            case databaseUrl
-            case isRedshiftServerless
-            case roleArn
-            case workgroupName
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case clusterIdentifier = "clusterIdentifier"
+            case dataApiRoleArn = "dataApiRoleArn"
+            case databaseName = "databaseName"
+            case databaseUrl = "databaseUrl"
+            case isRedshiftServerless = "isRedshiftServerless"
+            case roleArn = "roleArn"
+            case workgroupName = "workgroupName"
         }
     }
 
@@ -3784,10 +3784,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketPrefix
-            case errorHandlingConfig
-            case intermediateBucketName
-            case object
+            case bucketPrefix = "bucketPrefix"
+            case errorHandlingConfig = "errorHandlingConfig"
+            case intermediateBucketName = "intermediateBucketName"
+            case object = "object"
         }
     }
 
@@ -3821,10 +3821,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorLabel
-            case connectorProvisioningConfig
-            case connectorProvisioningType
-            case description
+            case connectorLabel = "connectorLabel"
+            case connectorProvisioningConfig = "connectorProvisioningConfig"
+            case connectorProvisioningType = "connectorProvisioningType"
+            case description = "description"
         }
     }
 
@@ -3837,7 +3837,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorArn
+            case connectorArn = "connectorArn"
         }
     }
 
@@ -3856,9 +3856,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case result
-            case status
+            case message = "message"
+            case result = "result"
+            case status = "status"
         }
     }
 
@@ -3884,9 +3884,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
-            case s3OutputFormatConfig
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case s3OutputFormatConfig = "s3OutputFormatConfig"
         }
     }
 
@@ -3899,7 +3899,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3InputFileType
+            case s3InputFileType = "s3InputFileType"
         }
     }
 
@@ -3924,10 +3924,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregationConfig
-            case fileType
-            case prefixConfig
-            case preserveSourceDataTyping
+            case aggregationConfig = "aggregationConfig"
+            case fileType = "fileType"
+            case prefixConfig = "prefixConfig"
+            case preserveSourceDataTyping = "preserveSourceDataTyping"
         }
     }
 
@@ -3953,9 +3953,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
-            case s3InputFormatConfig
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case s3InputFormatConfig = "s3InputFormatConfig"
         }
     }
 
@@ -3976,8 +3976,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basicAuthCredentials
-            case oAuthCredentials
+            case basicAuthCredentials = "basicAuthCredentials"
+            case oAuthCredentials = "oAuthCredentials"
         }
     }
 
@@ -4025,13 +4025,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationHostUrl
-            case applicationServicePath
-            case clientNumber
-            case logonLanguage
-            case oAuthProperties
-            case portNumber
-            case privateLinkServiceName
+            case applicationHostUrl = "applicationHostUrl"
+            case applicationServicePath = "applicationServicePath"
+            case clientNumber = "clientNumber"
+            case logonLanguage = "logonLanguage"
+            case oAuthProperties = "oAuthProperties"
+            case portNumber = "portNumber"
+            case privateLinkServiceName = "privateLinkServiceName"
         }
     }
 
@@ -4064,11 +4064,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorHandlingConfig
-            case idFieldNames
-            case objectPath
-            case successResponseHandlingConfig
-            case writeOperationType
+            case errorHandlingConfig = "errorHandlingConfig"
+            case idFieldNames = "idFieldNames"
+            case objectPath = "objectPath"
+            case successResponseHandlingConfig = "successResponseHandlingConfig"
+            case writeOperationType = "writeOperationType"
         }
     }
 
@@ -4090,7 +4090,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectPath
+            case objectPath = "objectPath"
         }
     }
 
@@ -4123,10 +4123,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientCredentialsArn
-            case oAuthRequest
-            case refreshToken
+            case accessToken = "accessToken"
+            case clientCredentialsArn = "clientCredentialsArn"
+            case oAuthRequest = "oAuthRequest"
+            case refreshToken = "refreshToken"
         }
     }
 
@@ -4147,8 +4147,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
-            case isSandboxEnvironment
+            case instanceUrl = "instanceUrl"
+            case isSandboxEnvironment = "isSandboxEnvironment"
         }
     }
 
@@ -4183,11 +4183,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferApi
-            case errorHandlingConfig
-            case idFieldNames
-            case object
-            case writeOperationType
+            case dataTransferApi = "dataTransferApi"
+            case errorHandlingConfig = "errorHandlingConfig"
+            case idFieldNames = "idFieldNames"
+            case object = "object"
+            case writeOperationType = "writeOperationType"
         }
     }
 
@@ -4203,8 +4203,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferApis
-            case oAuthScopes
+            case dataTransferApis = "dataTransferApis"
+            case oAuthScopes = "oAuthScopes"
         }
     }
 
@@ -4231,10 +4231,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferApi
-            case enableDynamicFieldUpdate
-            case includeDeletedRecords
-            case object
+            case dataTransferApi = "dataTransferApi"
+            case enableDynamicFieldUpdate = "enableDynamicFieldUpdate"
+            case includeDeletedRecords = "includeDeletedRecords"
+            case object = "object"
         }
     }
 
@@ -4279,14 +4279,14 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataPullMode
-            case firstExecutionFrom
-            case flowErrorDeactivationThreshold
-            case scheduleEndTime
-            case scheduleExpression
-            case scheduleOffset
-            case scheduleStartTime
-            case timezone
+            case dataPullMode = "dataPullMode"
+            case firstExecutionFrom = "firstExecutionFrom"
+            case flowErrorDeactivationThreshold = "flowErrorDeactivationThreshold"
+            case scheduleEndTime = "scheduleEndTime"
+            case scheduleExpression = "scheduleExpression"
+            case scheduleOffset = "scheduleOffset"
+            case scheduleStartTime = "scheduleStartTime"
+            case timezone = "timezone"
         }
     }
 
@@ -4309,8 +4309,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password
-            case username
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -4328,7 +4328,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -4350,7 +4350,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -4368,7 +4368,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
+            case apiKey = "apiKey"
         }
     }
 
@@ -4394,7 +4394,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -4426,10 +4426,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
         }
     }
 
@@ -4447,7 +4447,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -4460,7 +4460,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuthScopes
+            case oAuthScopes = "oAuthScopes"
         }
     }
 
@@ -4478,7 +4478,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -4501,8 +4501,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password
-            case username
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -4551,13 +4551,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountName
-            case bucketName
-            case bucketPrefix
-            case privateLinkServiceName
-            case region
-            case stage
-            case warehouse
+            case accountName = "accountName"
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case privateLinkServiceName = "privateLinkServiceName"
+            case region = "region"
+            case stage = "stage"
+            case warehouse = "warehouse"
         }
     }
 
@@ -4590,10 +4590,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketPrefix
-            case errorHandlingConfig
-            case intermediateBucketName
-            case object
+            case bucketPrefix = "bucketPrefix"
+            case errorHandlingConfig = "errorHandlingConfig"
+            case intermediateBucketName = "intermediateBucketName"
+            case object = "object"
         }
     }
 
@@ -4606,7 +4606,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case supportedRegions
+            case supportedRegions = "supportedRegions"
         }
     }
 
@@ -4715,9 +4715,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isQueryable
-            case isRetrievable
-            case isTimestampFieldForIncrementalQueries
+            case isQueryable = "isQueryable"
+            case isRetrievable = "isRetrievable"
+            case isTimestampFieldForIncrementalQueries = "isTimestampFieldForIncrementalQueries"
         }
     }
 
@@ -4751,11 +4751,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiVersion
-            case connectorProfileName
-            case connectorType
-            case incrementalPullConfig
-            case sourceConnectorProperties
+            case apiVersion = "apiVersion"
+            case connectorProfileName = "connectorProfileName"
+            case connectorType = "connectorType"
+            case incrementalPullConfig = "incrementalPullConfig"
+            case sourceConnectorProperties = "sourceConnectorProperties"
         }
     }
 
@@ -4773,7 +4773,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowName
+            case flowName = "flowName"
         }
     }
 
@@ -4792,9 +4792,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionId
-            case flowArn
-            case flowStatus
+            case executionId = "executionId"
+            case flowArn = "flowArn"
+            case flowStatus = "flowStatus"
         }
     }
 
@@ -4812,7 +4812,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowName
+            case flowName = "flowName"
         }
     }
 
@@ -4828,8 +4828,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case flowStatus
+            case flowArn = "flowArn"
+            case flowStatus = "flowStatus"
         }
     }
 
@@ -4853,8 +4853,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
         }
     }
 
@@ -4867,7 +4867,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case v1
+            case v1 = "v1"
         }
     }
 
@@ -4900,7 +4900,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4942,11 +4942,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorOperator
-            case destinationField
-            case sourceFields
-            case taskProperties
-            case taskType
+            case connectorOperator = "connectorOperator"
+            case destinationField = "destinationField"
+            case sourceFields = "sourceFields"
+            case taskProperties = "taskProperties"
+            case taskType = "taskType"
         }
     }
 
@@ -4964,7 +4964,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiSecretKey
+            case apiSecretKey = "apiSecretKey"
         }
     }
 
@@ -4990,7 +4990,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 
@@ -5010,8 +5010,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerProperties
-            case triggerType
+            case triggerProperties = "triggerProperties"
+            case triggerType = "triggerType"
         }
     }
 
@@ -5049,8 +5049,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorLabel
-            case forceDelete
+            case connectorLabel = "connectorLabel"
+            case forceDelete = "forceDelete"
         }
     }
 
@@ -5113,9 +5113,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionMode
-            case connectorProfileConfig
-            case connectorProfileName
+            case connectionMode = "connectionMode"
+            case connectorProfileConfig = "connectorProfileConfig"
+            case connectorProfileName = "connectorProfileName"
         }
     }
 
@@ -5128,7 +5128,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorProfileArn
+            case connectorProfileArn = "connectorProfileArn"
         }
     }
 
@@ -5154,9 +5154,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorLabel
-            case connectorProvisioningConfig
-            case description
+            case connectorLabel = "connectorLabel"
+            case connectorProvisioningConfig = "connectorProvisioningConfig"
+            case description = "description"
         }
     }
 
@@ -5169,7 +5169,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorArn
+            case connectorArn = "connectorArn"
         }
     }
 
@@ -5215,13 +5215,13 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case destinationFlowConfigList
-            case flowName
-            case metadataCatalogConfig
-            case sourceFlowConfig
-            case tasks
-            case triggerConfig
+            case description = "description"
+            case destinationFlowConfigList = "destinationFlowConfigList"
+            case flowName = "flowName"
+            case metadataCatalogConfig = "metadataCatalogConfig"
+            case sourceFlowConfig = "sourceFlowConfig"
+            case tasks = "tasks"
+            case triggerConfig = "triggerConfig"
         }
     }
 
@@ -5234,7 +5234,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowStatus
+            case flowStatus = "flowStatus"
         }
     }
 
@@ -5261,9 +5261,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case bucketPrefix
-            case s3OutputFormatConfig
+            case bucketName = "bucketName"
+            case bucketPrefix = "bucketPrefix"
+            case s3OutputFormatConfig = "s3OutputFormatConfig"
         }
     }
 
@@ -5284,9 +5284,9 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregationConfig
-            case fileType
-            case prefixConfig
+            case aggregationConfig = "aggregationConfig"
+            case fileType = "fileType"
+            case prefixConfig = "prefixConfig"
         }
     }
 
@@ -5309,8 +5309,8 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case password
-            case username
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -5328,7 +5328,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -5364,11 +5364,11 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case documentType
-            case includeAllVersions
-            case includeRenditions
-            case includeSourceFiles
-            case object
+            case documentType = "documentType"
+            case includeAllVersions = "includeAllVersions"
+            case includeRenditions = "includeRenditions"
+            case includeSourceFiles = "includeSourceFiles"
+            case object = "object"
         }
     }
 
@@ -5400,10 +5400,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case clientId
-            case clientSecret
-            case oAuthRequest
+            case accessToken = "accessToken"
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case oAuthRequest = "oAuthRequest"
         }
     }
 
@@ -5421,7 +5421,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceUrl
+            case instanceUrl = "instanceUrl"
         }
     }
 
@@ -5450,10 +5450,10 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorHandlingConfig
-            case idFieldNames
-            case object
-            case writeOperationType
+            case errorHandlingConfig = "errorHandlingConfig"
+            case idFieldNames = "idFieldNames"
+            case object = "object"
+            case writeOperationType = "writeOperationType"
         }
     }
 
@@ -5466,7 +5466,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oAuthScopes
+            case oAuthScopes = "oAuthScopes"
         }
     }
 
@@ -5484,7 +5484,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case object
+            case object = "object"
         }
     }
 }

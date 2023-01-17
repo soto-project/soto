@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -123,7 +123,7 @@ extension EMRContainers {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EMRContainers {
-    ///  Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
+    /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -145,7 +145,7 @@ extension EMRContainers {
         )
     }
 
-    ///  Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
+    /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -167,7 +167,7 @@ extension EMRContainers {
         )
     }
 
-    ///  Lists managed endpoints based on a set of parameters. A managed endpoint  is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio  can communicate with your virtual cluster.
+    /// Lists managed endpoints based on a set of parameters. A managed endpoint  is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio  can communicate with your virtual cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -189,7 +189,7 @@ extension EMRContainers {
         )
     }
 
-    ///  Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -126,8 +126,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToCreate
+            case clientRequestToken = "clientRequestToken"
+            case rowsToCreate = "rowsToCreate"
         }
     }
 
@@ -146,9 +146,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdRows
-            case failedBatchItems
-            case workbookCursor
+            case createdRows = "createdRows"
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -194,8 +194,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowIds
+            case clientRequestToken = "clientRequestToken"
+            case rowIds = "rowIds"
         }
     }
 
@@ -211,8 +211,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -256,8 +256,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToUpdate
+            case clientRequestToken = "clientRequestToken"
+            case rowsToUpdate = "rowsToUpdate"
         }
     }
 
@@ -273,8 +273,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -316,8 +316,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToUpsert
+            case clientRequestToken = "clientRequestToken"
+            case rowsToUpsert = "rowsToUpsert"
         }
     }
 
@@ -336,9 +336,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case rows
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -363,11 +363,11 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case formattedValue
-            case formattedValues
-            case formula
-            case rawValue
+            case format = "format"
+            case formattedValue = "formattedValue"
+            case formattedValues = "formattedValues"
+            case formula = "formula"
+            case rawValue = "rawValue"
         }
     }
 
@@ -393,8 +393,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fact
-            case facts
+            case fact = "fact"
+            case facts = "facts"
         }
     }
 
@@ -410,8 +410,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case name
+            case format = "format"
+            case name = "name"
         }
     }
 
@@ -441,8 +441,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchItemId
-            case cellsToCreate
+            case batchItemId = "batchItemId"
+            case cellsToCreate = "cellsToCreate"
         }
     }
 
@@ -461,9 +461,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case formattedValue
-            case overrideFormat
-            case rawValue
+            case formattedValue = "formattedValue"
+            case overrideFormat = "overrideFormat"
+            case rawValue = "rawValue"
         }
     }
 
@@ -491,10 +491,10 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataCharacterEncoding
-            case delimiter
-            case hasHeaderRow
-            case ignoreEmptyRows
+            case dataCharacterEncoding = "dataCharacterEncoding"
+            case delimiter = "delimiter"
+            case hasHeaderRow = "hasHeaderRow"
+            case ignoreEmptyRows = "ignoreEmptyRows"
         }
     }
 
@@ -551,10 +551,10 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case jobMetadata
-            case jobStatus
-            case message
+            case errorCode = "errorCode"
+            case jobMetadata = "jobMetadata"
+            case jobStatus = "jobStatus"
+            case message = "message"
         }
     }
 
@@ -577,7 +577,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnMap
+            case columnMap = "columnMap"
         }
     }
 
@@ -593,8 +593,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case id
+            case errorMessage = "errorMessage"
+            case id = "id"
         }
     }
 
@@ -618,8 +618,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contextRowId
-            case formula
+            case contextRowId = "contextRowId"
+            case formula = "formula"
         }
     }
 
@@ -670,12 +670,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case maxResults
-            case nextToken
-            case screenId
-            case variables
-            case workbookId
+            case appId = "appId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case screenId = "screenId"
+            case variables = "variables"
+            case workbookId = "workbookId"
         }
     }
 
@@ -694,9 +694,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case results
-            case workbookCursor
+            case nextToken = "nextToken"
+            case results = "results"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -713,7 +713,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceConfig
+            case dataSourceConfig = "dataSourceConfig"
         }
     }
 
@@ -732,7 +732,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceUrl
+            case dataSourceUrl = "dataSourceUrl"
         }
     }
 
@@ -748,8 +748,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case email
-            case userArn
+            case email = "email"
+            case userArn = "userArn"
         }
     }
 
@@ -770,8 +770,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delimitedTextOptions
-            case destinationOptions
+            case delimitedTextOptions = "delimitedTextOptions"
+            case destinationOptions = "destinationOptions"
         }
     }
 
@@ -836,9 +836,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowId
-            case variables
+            case clientRequestToken = "clientRequestToken"
+            case rowId = "rowId"
+            case variables = "variables"
         }
     }
 
@@ -851,7 +851,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workbookCursor
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -905,9 +905,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tableColumns
-            case workbookCursor
+            case nextToken = "nextToken"
+            case tableColumns = "tableColumns"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -958,9 +958,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case rowIds
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case rowIds = "rowIds"
         }
     }
 
@@ -985,11 +985,11 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIds
-            case nextToken
-            case rowIdsNotFound
-            case rows
-            case workbookCursor
+            case columnIds = "columnIds"
+            case nextToken = "nextToken"
+            case rowIdsNotFound = "rowIdsNotFound"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -1042,9 +1042,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tables
-            case workbookCursor
+            case nextToken = "nextToken"
+            case tables = "tables"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -1078,7 +1078,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1123,9 +1123,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterFormula
-            case maxResults
-            case nextToken
+            case filterFormula = "filterFormula"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1147,10 +1147,10 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIds
-            case nextToken
-            case rows
-            case workbookCursor
+            case columnIds = "columnIds"
+            case nextToken = "nextToken"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
@@ -1166,8 +1166,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataItems
-            case rowId
+            case dataItems = "dataItems"
+            case rowId = "rowId"
         }
     }
 
@@ -1183,8 +1183,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headers
-            case rows
+            case headers = "headers"
+            case rows = "rows"
         }
     }
 
@@ -1201,7 +1201,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIndex
+            case columnIndex = "columnIndex"
         }
     }
 
@@ -1248,10 +1248,10 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case dataFormat
-            case dataSource
-            case importOptions
+            case clientRequestToken = "clientRequestToken"
+            case dataFormat = "dataFormat"
+            case dataSource = "dataSource"
+            case importOptions = "importOptions"
         }
     }
 
@@ -1267,8 +1267,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case jobStatus
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
         }
     }
 
@@ -1284,8 +1284,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableId
-            case tableName
+            case tableId = "tableId"
+            case tableName = "tableName"
         }
     }
 
@@ -1304,9 +1304,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case tableColumnId
-            case tableColumnName
+            case format = "format"
+            case tableColumnId = "tableColumnId"
+            case tableColumnName = "tableColumnName"
         }
     }
 
@@ -1328,10 +1328,10 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case importOptions
-            case submitter
-            case submitTime
+            case dataSource = "dataSource"
+            case importOptions = "importOptions"
+            case submitter = "submitter"
+            case submitTime = "submitTime"
         }
     }
 
@@ -1347,8 +1347,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case rowId
+            case cells = "cells"
+            case rowId = "rowId"
         }
     }
 
@@ -1383,7 +1383,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1452,8 +1452,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellsToUpdate
-            case rowId
+            case cellsToUpdate = "cellsToUpdate"
+            case rowId = "rowId"
         }
     }
 
@@ -1487,9 +1487,9 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchItemId
-            case cellsToUpdate
-            case filter
+            case batchItemId = "batchItemId"
+            case cellsToUpdate = "cellsToUpdate"
+            case filter = "filter"
         }
     }
 
@@ -1505,8 +1505,8 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rowIds
-            case upsertAction
+            case rowIds = "rowIds"
+            case upsertAction = "upsertAction"
         }
     }
 
@@ -1524,7 +1524,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawValue
+            case rawValue = "rawValue"
         }
     }
 }

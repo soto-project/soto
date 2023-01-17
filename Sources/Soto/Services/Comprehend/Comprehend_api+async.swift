@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -393,7 +393,7 @@ extension Comprehend {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Comprehend {
-    ///  Gets a list of the documentation classification jobs that you have submitted.
+    /// Gets a list of the documentation classification jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -415,7 +415,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of summaries of the document classifiers that you have created
+    /// Gets a list of summaries of the document classifiers that you have created
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -437,7 +437,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the document classifiers that you have created.
+    /// Gets a list of the document classifiers that you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -459,7 +459,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the dominant language detection jobs that you have submitted.
+    /// Gets a list of the dominant language detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -481,7 +481,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of all existing endpoints that you've created. For information about endpoints, see Managing endpoints.
+    /// Gets a list of all existing endpoints that you've created. For information about endpoints, see Managing endpoints.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -503,7 +503,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the entity detection jobs that you have submitted.
+    /// Gets a list of the entity detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -525,7 +525,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of summaries for the entity recognizers that you have created.
+    /// Gets a list of summaries for the entity recognizers that you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -547,7 +547,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
+    /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -569,7 +569,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the events detection jobs that you have submitted.
+    /// Gets a list of the events detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -591,7 +591,7 @@ extension Comprehend {
         )
     }
 
-    ///  Get a list of key phrase detection jobs that you have submitted.
+    /// Get a list of key phrase detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -613,7 +613,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the PII entity detection jobs that you have submitted.
+    /// Gets a list of the PII entity detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -635,7 +635,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of sentiment detection jobs that you have submitted.
+    /// Gets a list of sentiment detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -657,7 +657,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of targeted sentiment detection jobs that you have submitted.
+    /// Gets a list of targeted sentiment detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -679,7 +679,7 @@ extension Comprehend {
         )
     }
 
-    ///  Gets a list of the topic detection jobs that you have submitted.
+    /// Gets a list of the topic detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

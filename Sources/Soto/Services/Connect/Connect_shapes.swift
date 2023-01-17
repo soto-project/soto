@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -88,7 +88,9 @@ extension Connect {
     public enum ContactInitiationMethod: String, CustomStringConvertible, Codable, _SotoSendable {
         case api = "API"
         case callback = "CALLBACK"
+        case disconnect = "DISCONNECT"
         case inbound = "INBOUND"
+        case monitor = "MONITOR"
         case outbound = "OUTBOUND"
         case queueTransfer = "QUEUE_TRANSFER"
         case transfer = "TRANSFER"
@@ -1868,7 +1870,7 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
-            try self.validate(self.content, name: "content", parent: name, max: 256_000)
+            try self.validate(self.content, name: "content", parent: name, max: 256000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
@@ -3204,6 +3206,10 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactFlowResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
@@ -6131,7 +6137,7 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131_070)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -6616,7 +6622,7 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.phoneNumberCountryCodes, name: "phoneNumberCountryCodes", parent: name, max: 10)
             try self.validate(self.phoneNumberPrefix, name: "phoneNumberPrefix", parent: name, pattern: "^\\\\+?[0-9]{1,11}$")
@@ -7183,7 +7189,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -8570,7 +8576,7 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100_000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.phoneNumberPrefix, name: "phoneNumberPrefix", parent: name, pattern: "^\\\\+?[0-9]{1,11}$")
         }
@@ -8878,7 +8884,7 @@ extension Connect {
             try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, max: 140)
             try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, min: 1)
             try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131_070)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
         }
@@ -9643,7 +9649,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -10167,6 +10173,10 @@ extension Connect {
         }
     }
 
+    public struct UpdateContactFlowContentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateContactFlowMetadataRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowId", location: .uri("ContactFlowId")),
@@ -10206,6 +10216,10 @@ extension Connect {
         }
     }
 
+    public struct UpdateContactFlowMetadataResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateContactFlowModuleContentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowModuleId", location: .uri("ContactFlowModuleId")),
@@ -10228,7 +10242,7 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
             try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
-            try self.validate(self.content, name: "content", parent: name, max: 256_000)
+            try self.validate(self.content, name: "content", parent: name, max: 256000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -10324,6 +10338,10 @@ extension Connect {
             case description = "Description"
             case name = "Name"
         }
+    }
+
+    public struct UpdateContactFlowNameResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateContactRequest: AWSEncodableShape {

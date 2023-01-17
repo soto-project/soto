@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -176,10 +176,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationType
-            case lambdaAuthorizerConfig
-            case openIDConnectConfig
-            case userPoolConfig
+            case authenticationType = "authenticationType"
+            case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case userPoolConfig = "userPoolConfig"
         }
     }
 
@@ -201,10 +201,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case associationStatus
-            case deploymentDetail
-            case domainName
+            case apiId = "apiId"
+            case associationStatus = "associationStatus"
+            case deploymentDetail = "deploymentDetail"
+            case domainName = "domainName"
         }
     }
 
@@ -232,12 +232,12 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCachingBehavior
-            case atRestEncryptionEnabled
-            case status
-            case transitEncryptionEnabled
-            case ttl
-            case type
+            case apiCachingBehavior = "apiCachingBehavior"
+            case atRestEncryptionEnabled = "atRestEncryptionEnabled"
+            case status = "status"
+            case transitEncryptionEnabled = "transitEncryptionEnabled"
+            case ttl = "ttl"
+            case type = "type"
         }
     }
 
@@ -259,10 +259,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletes
-            case description
-            case expires
-            case id
+            case deletes = "deletes"
+            case description = "description"
+            case expires = "expires"
+            case id = "id"
         }
     }
 
@@ -278,8 +278,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case runtimeVersion
+            case name = "name"
+            case runtimeVersion = "runtimeVersion"
         }
     }
 
@@ -305,7 +305,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
+            case apiId = "apiId"
         }
     }
 
@@ -318,7 +318,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAssociation
+            case apiAssociation = "apiAssociation"
         }
     }
 
@@ -334,8 +334,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationType
-            case awsIamConfig
+            case authorizationType = "authorizationType"
+            case awsIamConfig = "awsIamConfig"
         }
     }
 
@@ -351,8 +351,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case signingRegion
-            case signingServiceName
+            case signingRegion = "signingRegion"
+            case signingServiceName = "signingServiceName"
         }
     }
 
@@ -368,8 +368,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cachingKeys
-            case ttl
+            case cachingKeys = "cachingKeys"
+            case ttl = "ttl"
         }
     }
 
@@ -388,9 +388,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorType
-            case location
-            case value
+            case errorType = "errorType"
+            case location = "location"
+            case value = "value"
         }
     }
 
@@ -409,9 +409,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case column
-            case line
-            case span
+            case column = "column"
+            case line = "line"
+            case span = "span"
         }
     }
 
@@ -430,9 +430,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIdClientRegex
-            case awsRegion
-            case userPoolId
+            case appIdClientRegex = "appIdClientRegex"
+            case awsRegion = "awsRegion"
+            case userPoolId = "userPoolId"
         }
     }
 
@@ -464,11 +464,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCachingBehavior
-            case atRestEncryptionEnabled
-            case transitEncryptionEnabled
-            case ttl
-            case type
+            case apiCachingBehavior = "apiCachingBehavior"
+            case atRestEncryptionEnabled = "atRestEncryptionEnabled"
+            case transitEncryptionEnabled = "transitEncryptionEnabled"
+            case ttl = "ttl"
+            case type = "type"
         }
     }
 
@@ -481,7 +481,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCache
+            case apiCache = "apiCache"
         }
     }
 
@@ -504,8 +504,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case expires
+            case description = "description"
+            case expires = "expires"
         }
     }
 
@@ -518,7 +518,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
+            case apiKey = "apiKey"
         }
     }
 
@@ -571,16 +571,16 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dynamodbConfig
-            case elasticsearchConfig
-            case httpConfig
-            case lambdaConfig
-            case name
-            case openSearchServiceConfig
-            case relationalDatabaseConfig
-            case serviceRoleArn
-            case type
+            case description = "description"
+            case dynamodbConfig = "dynamodbConfig"
+            case elasticsearchConfig = "elasticsearchConfig"
+            case httpConfig = "httpConfig"
+            case lambdaConfig = "lambdaConfig"
+            case name = "name"
+            case openSearchServiceConfig = "openSearchServiceConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case serviceRoleArn = "serviceRoleArn"
+            case type = "type"
         }
     }
 
@@ -593,7 +593,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
+            case dataSource = "dataSource"
         }
     }
 
@@ -623,9 +623,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case description
-            case domainName
+            case certificateArn = "certificateArn"
+            case description = "description"
+            case domainName = "domainName"
         }
     }
 
@@ -638,7 +638,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfig
+            case domainNameConfig = "domainNameConfig"
         }
     }
 
@@ -702,16 +702,16 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case dataSourceName
-            case description
-            case functionVersion
-            case maxBatchSize
-            case name
-            case requestMappingTemplate
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case description = "description"
+            case functionVersion = "functionVersion"
+            case maxBatchSize = "maxBatchSize"
+            case name = "name"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
         }
     }
 
@@ -724,7 +724,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionConfiguration
+            case functionConfiguration = "functionConfiguration"
         }
     }
 
@@ -777,15 +777,15 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalAuthenticationProviders
-            case authenticationType
-            case lambdaAuthorizerConfig
-            case logConfig
-            case name
-            case openIDConnectConfig
-            case tags
-            case userPoolConfig
-            case xrayEnabled
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
+            case authenticationType = "authenticationType"
+            case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
+            case logConfig = "logConfig"
+            case name = "name"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case tags = "tags"
+            case userPoolConfig = "userPoolConfig"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -798,7 +798,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case graphqlApi
+            case graphqlApi = "graphqlApi"
         }
     }
 
@@ -873,17 +873,17 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cachingConfig
-            case code
-            case dataSourceName
-            case fieldName
-            case kind
-            case maxBatchSize
-            case pipelineConfig
-            case requestMappingTemplate
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
+            case cachingConfig = "cachingConfig"
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case fieldName = "fieldName"
+            case kind = "kind"
+            case maxBatchSize = "maxBatchSize"
+            case pipelineConfig = "pipelineConfig"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
         }
     }
 
@@ -896,7 +896,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolver
+            case resolver = "resolver"
         }
     }
 
@@ -919,8 +919,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case format
+            case definition = "definition"
+            case format = "format"
         }
     }
 
@@ -933,7 +933,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -976,17 +976,17 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceArn
-            case description
-            case dynamodbConfig
-            case elasticsearchConfig
-            case httpConfig
-            case lambdaConfig
-            case name
-            case openSearchServiceConfig
-            case relationalDatabaseConfig
-            case serviceRoleArn
-            case type
+            case dataSourceArn = "dataSourceArn"
+            case description = "description"
+            case dynamodbConfig = "dynamodbConfig"
+            case elasticsearchConfig = "elasticsearchConfig"
+            case httpConfig = "httpConfig"
+            case lambdaConfig = "lambdaConfig"
+            case name = "name"
+            case openSearchServiceConfig = "openSearchServiceConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case serviceRoleArn = "serviceRoleArn"
+            case type = "type"
         }
     }
 
@@ -1214,9 +1214,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseTableTTL
-            case deltaSyncTableName
-            case deltaSyncTableTTL
+            case baseTableTTL = "baseTableTTL"
+            case deltaSyncTableName = "deltaSyncTableName"
+            case deltaSyncTableTTL = "deltaSyncTableTTL"
         }
     }
 
@@ -1266,11 +1266,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appsyncDomainName
-            case certificateArn
-            case description
-            case domainName
-            case hostedZoneId
+            case appsyncDomainName = "appsyncDomainName"
+            case certificateArn = "certificateArn"
+            case description = "description"
+            case domainName = "domainName"
+            case hostedZoneId = "hostedZoneId"
         }
     }
 
@@ -1295,11 +1295,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case deltaSyncConfig
-            case tableName
-            case useCallerCredentials
-            case versioned
+            case awsRegion = "awsRegion"
+            case deltaSyncConfig = "deltaSyncConfig"
+            case tableName = "tableName"
+            case useCallerCredentials = "useCallerCredentials"
+            case versioned = "versioned"
         }
     }
 
@@ -1315,8 +1315,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case endpoint
+            case awsRegion = "awsRegion"
+            case endpoint = "endpoint"
         }
     }
 
@@ -1329,7 +1329,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -1345,8 +1345,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeErrors
-            case message
+            case codeErrors = "codeErrors"
+            case message = "message"
         }
     }
 
@@ -1376,10 +1376,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case context
-            case function
-            case runtime
+            case code = "code"
+            case context = "context"
+            case function = "function"
+            case runtime = "runtime"
         }
     }
 
@@ -1398,9 +1398,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case evaluationResult
-            case logs
+            case error = "error"
+            case evaluationResult = "evaluationResult"
+            case logs = "logs"
         }
     }
 
@@ -1425,8 +1425,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case context
-            case template
+            case context = "context"
+            case template = "template"
         }
     }
 
@@ -1445,9 +1445,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case evaluationResult
-            case logs
+            case error = "error"
+            case evaluationResult = "evaluationResult"
+            case logs = "logs"
         }
     }
 
@@ -1510,18 +1510,18 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case dataSourceName
-            case description
-            case functionArn
-            case functionId
-            case functionVersion
-            case maxBatchSize
-            case name
-            case requestMappingTemplate
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case description = "description"
+            case functionArn = "functionArn"
+            case functionId = "functionId"
+            case functionVersion = "functionVersion"
+            case maxBatchSize = "maxBatchSize"
+            case name = "name"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
         }
     }
 
@@ -1555,7 +1555,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAssociation
+            case apiAssociation = "apiAssociation"
         }
     }
 
@@ -1583,7 +1583,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCache
+            case apiCache = "apiCache"
         }
     }
 
@@ -1621,7 +1621,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
+            case dataSource = "dataSource"
         }
     }
 
@@ -1655,7 +1655,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfig
+            case domainNameConfig = "domainNameConfig"
         }
     }
 
@@ -1693,7 +1693,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionConfiguration
+            case functionConfiguration = "functionConfiguration"
         }
     }
 
@@ -1721,7 +1721,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case graphqlApi
+            case graphqlApi = "graphqlApi"
         }
     }
 
@@ -1752,7 +1752,6 @@ extension AppSync {
         /// The key for the payload
         public static let _payloadPath: String = "schema"
         public static let _options: AWSShapeOptions = [.rawPayload]
-
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
         public let schema: AWSPayload?
 
@@ -1761,7 +1760,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schema
+            case schema = "schema"
         }
     }
 
@@ -1806,7 +1805,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolver
+            case resolver = "resolver"
         }
     }
 
@@ -1837,8 +1836,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case status
+            case details = "details"
+            case status = "status"
         }
     }
 
@@ -1880,7 +1879,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -1929,19 +1928,19 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalAuthenticationProviders
-            case apiId
-            case arn
-            case authenticationType
-            case lambdaAuthorizerConfig
-            case logConfig
-            case name
-            case openIDConnectConfig
-            case tags
-            case uris
-            case userPoolConfig
-            case wafWebAclArn
-            case xrayEnabled
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
+            case apiId = "apiId"
+            case arn = "arn"
+            case authenticationType = "authenticationType"
+            case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
+            case logConfig = "logConfig"
+            case name = "name"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case tags = "tags"
+            case uris = "uris"
+            case userPoolConfig = "userPoolConfig"
+            case wafWebAclArn = "wafWebAclArn"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -1957,8 +1956,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case endpoint
+            case authorizationConfig = "authorizationConfig"
+            case endpoint = "endpoint"
         }
     }
 
@@ -1982,9 +1981,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerResultTtlInSeconds
-            case authorizerUri
-            case identityValidationExpression
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerUri = "authorizerUri"
+            case identityValidationExpression = "identityValidationExpression"
         }
     }
 
@@ -1997,7 +1996,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaConflictHandlerArn
+            case lambdaConflictHandlerArn = "lambdaConflictHandlerArn"
         }
     }
 
@@ -2010,7 +2009,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionArn
+            case lambdaFunctionArn = "lambdaFunctionArn"
         }
     }
 
@@ -2057,8 +2056,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeys
-            case nextToken
+            case apiKeys = "apiKeys"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2105,8 +2104,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSources
-            case nextToken
+            case dataSources = "dataSources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2149,8 +2148,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfigs
-            case nextToken
+            case domainNameConfigs = "domainNameConfigs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2197,8 +2196,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functions
-            case nextToken
+            case functions = "functions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2241,8 +2240,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case graphqlApis
-            case nextToken
+            case graphqlApis = "graphqlApis"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2293,8 +2292,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resolvers
+            case nextToken = "nextToken"
+            case resolvers = "resolvers"
         }
     }
 
@@ -2345,8 +2344,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resolvers
+            case nextToken = "nextToken"
+            case resolvers = "resolvers"
         }
     }
 
@@ -2380,7 +2379,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2431,8 +2430,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case types
+            case nextToken = "nextToken"
+            case types = "types"
         }
     }
 
@@ -2451,9 +2450,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsRoleArn
-            case excludeVerboseContent
-            case fieldLogLevel
+            case cloudWatchLogsRoleArn = "cloudWatchLogsRoleArn"
+            case excludeVerboseContent = "excludeVerboseContent"
+            case fieldLogLevel = "fieldLogLevel"
         }
     }
 
@@ -2475,10 +2474,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authTTL
-            case clientId
-            case iatTTL
-            case issuer
+            case authTTL = "authTTL"
+            case clientId = "clientId"
+            case iatTTL = "iatTTL"
+            case issuer = "issuer"
         }
     }
 
@@ -2494,8 +2493,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case endpoint
+            case awsRegion = "awsRegion"
+            case endpoint = "endpoint"
         }
     }
 
@@ -2508,7 +2507,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functions
+            case functions = "functions"
         }
     }
 
@@ -2533,11 +2532,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case awsSecretStoreArn
-            case databaseName
-            case dbClusterIdentifier
-            case schema
+            case awsRegion = "awsRegion"
+            case awsSecretStoreArn = "awsSecretStoreArn"
+            case databaseName = "databaseName"
+            case dbClusterIdentifier = "dbClusterIdentifier"
+            case schema = "schema"
         }
     }
 
@@ -2553,8 +2552,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rdsHttpEndpointConfig
-            case relationalDatabaseSourceType
+            case rdsHttpEndpointConfig = "rdsHttpEndpointConfig"
+            case relationalDatabaseSourceType = "relationalDatabaseSourceType"
         }
     }
 
@@ -2602,19 +2601,19 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cachingConfig
-            case code
-            case dataSourceName
-            case fieldName
-            case kind
-            case maxBatchSize
-            case pipelineConfig
-            case requestMappingTemplate
-            case resolverArn
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
-            case typeName
+            case cachingConfig = "cachingConfig"
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case fieldName = "fieldName"
+            case kind = "kind"
+            case maxBatchSize = "maxBatchSize"
+            case pipelineConfig = "pipelineConfig"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case resolverArn = "resolverArn"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
+            case typeName = "typeName"
         }
     }
 
@@ -2634,7 +2633,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
+            case definition = "definition"
         }
     }
 
@@ -2647,7 +2646,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2666,9 +2665,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetection
-            case conflictHandler
-            case lambdaConflictHandlerConfig
+            case conflictDetection = "conflictDetection"
+            case conflictHandler = "conflictHandler"
+            case lambdaConflictHandlerConfig = "lambdaConflictHandlerConfig"
         }
     }
 
@@ -2703,7 +2702,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2732,11 +2731,11 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case definition
-            case description
-            case format
-            case name
+            case arn = "arn"
+            case definition = "definition"
+            case description = "description"
+            case format = "format"
+            case name = "name"
         }
     }
 
@@ -2798,9 +2797,9 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCachingBehavior
-            case ttl
-            case type
+            case apiCachingBehavior = "apiCachingBehavior"
+            case ttl = "ttl"
+            case type = "type"
         }
     }
 
@@ -2813,7 +2812,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCache
+            case apiCache = "apiCache"
         }
     }
 
@@ -2840,8 +2839,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case expires
+            case description = "description"
+            case expires = "expires"
         }
     }
 
@@ -2854,7 +2853,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKey
+            case apiKey = "apiKey"
         }
     }
 
@@ -2908,15 +2907,15 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dynamodbConfig
-            case elasticsearchConfig
-            case httpConfig
-            case lambdaConfig
-            case openSearchServiceConfig
-            case relationalDatabaseConfig
-            case serviceRoleArn
-            case type
+            case description = "description"
+            case dynamodbConfig = "dynamodbConfig"
+            case elasticsearchConfig = "elasticsearchConfig"
+            case httpConfig = "httpConfig"
+            case lambdaConfig = "lambdaConfig"
+            case openSearchServiceConfig = "openSearchServiceConfig"
+            case relationalDatabaseConfig = "relationalDatabaseConfig"
+            case serviceRoleArn = "serviceRoleArn"
+            case type = "type"
         }
     }
 
@@ -2929,7 +2928,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
+            case dataSource = "dataSource"
         }
     }
 
@@ -2957,7 +2956,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -2970,7 +2969,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfig
+            case domainNameConfig = "domainNameConfig"
         }
     }
 
@@ -3041,16 +3040,16 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case dataSourceName
-            case description
-            case functionVersion
-            case maxBatchSize
-            case name
-            case requestMappingTemplate
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case description = "description"
+            case functionVersion = "functionVersion"
+            case maxBatchSize = "maxBatchSize"
+            case name = "name"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
         }
     }
 
@@ -3063,7 +3062,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case functionConfiguration
+            case functionConfiguration = "functionConfiguration"
         }
     }
 
@@ -3111,14 +3110,14 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalAuthenticationProviders
-            case authenticationType
-            case lambdaAuthorizerConfig
-            case logConfig
-            case name
-            case openIDConnectConfig
-            case userPoolConfig
-            case xrayEnabled
+            case additionalAuthenticationProviders = "additionalAuthenticationProviders"
+            case authenticationType = "authenticationType"
+            case lambdaAuthorizerConfig = "lambdaAuthorizerConfig"
+            case logConfig = "logConfig"
+            case name = "name"
+            case openIDConnectConfig = "openIDConnectConfig"
+            case userPoolConfig = "userPoolConfig"
+            case xrayEnabled = "xrayEnabled"
         }
     }
 
@@ -3131,7 +3130,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case graphqlApi
+            case graphqlApi = "graphqlApi"
         }
     }
 
@@ -3207,16 +3206,16 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cachingConfig
-            case code
-            case dataSourceName
-            case kind
-            case maxBatchSize
-            case pipelineConfig
-            case requestMappingTemplate
-            case responseMappingTemplate
-            case runtime
-            case syncConfig
+            case cachingConfig = "cachingConfig"
+            case code = "code"
+            case dataSourceName = "dataSourceName"
+            case kind = "kind"
+            case maxBatchSize = "maxBatchSize"
+            case pipelineConfig = "pipelineConfig"
+            case requestMappingTemplate = "requestMappingTemplate"
+            case responseMappingTemplate = "responseMappingTemplate"
+            case runtime = "runtime"
+            case syncConfig = "syncConfig"
         }
     }
 
@@ -3229,7 +3228,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolver
+            case resolver = "resolver"
         }
     }
 
@@ -3262,8 +3261,8 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case format
+            case definition = "definition"
+            case format = "format"
         }
     }
 
@@ -3276,7 +3275,7 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -3298,10 +3297,10 @@ extension AppSync {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIdClientRegex
-            case awsRegion
-            case defaultAction
-            case userPoolId
+            case appIdClientRegex = "appIdClientRegex"
+            case awsRegion = "awsRegion"
+            case defaultAction = "defaultAction"
+            case userPoolId = "userPoolId"
         }
     }
 }
@@ -3342,7 +3341,7 @@ public struct AppSyncErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have access to perform this operation on this resource.
+    /// You don't have access to perform this operation on this resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The API key exceeded a limit. Try your request again.
     public static var apiKeyLimitExceededException: Self { .init(.apiKeyLimitExceededException) }
@@ -3362,7 +3361,7 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource specified in the request was not found. Check the resource, and then try again.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// You aren&#39;t authorized to perform this operation.
+    /// You aren't authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

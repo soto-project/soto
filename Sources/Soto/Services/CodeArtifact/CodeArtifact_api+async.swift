@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -216,7 +216,7 @@ extension CodeArtifact {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeArtifact {
-    ///   Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
+    ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -238,7 +238,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  AssetSummary  objects for assets in a package version.
+    ///  Returns a list of  AssetSummary  objects for assets in a package version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -260,7 +260,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -282,7 +282,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
+    ///  Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -304,7 +304,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
+    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -326,7 +326,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
+    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

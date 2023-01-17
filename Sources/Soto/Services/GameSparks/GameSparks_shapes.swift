@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1078,7 +1078,7 @@ extension GameSparks {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.file, name: "file", parent: name, max: 1_024_000)
+            try self.validate(self.file, name: "file", parent: name, max: 1024000)
             try self.validate(self.file, name: "file", parent: name, min: 10)
         }
 
@@ -1481,7 +1481,7 @@ extension GameSparks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1884,7 +1884,7 @@ extension GameSparks {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 

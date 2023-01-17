@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -222,7 +222,7 @@ extension ConnectCases {
 // MARK: Paginators
 
 extension ConnectCases {
-    ///  Returns information about a specific case if it exists.
+    /// Returns information about a specific case if it exists.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -275,7 +275,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists cases for a given contact.
+    /// Lists cases for a given contact.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -328,7 +328,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
+    /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -381,7 +381,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists all of the field options for a field identifier in the domain.
+    /// Lists all of the field options for a field identifier in the domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -434,7 +434,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists all fields in a Cases domain.
+    /// Lists all fields in a Cases domain.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -487,7 +487,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
+    /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -540,7 +540,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
+    /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -593,7 +593,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
+    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -646,7 +646,7 @@ extension ConnectCases {
         )
     }
 
-    ///  Searches for related items that are associated with a case.  If no filters are provided, this returns all related items associated with a case.
+    /// Searches for related items that are associated with a case.  If no filters are provided, this returns all related items associated with a case.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

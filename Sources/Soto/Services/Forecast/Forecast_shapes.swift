@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,11 +22,11 @@ extension Forecast {
     // MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case float
-        case geolocation
-        case integer
-        case string
-        case timestamp
+        case float = "float"
+        case geolocation = "geolocation"
+        case integer = "integer"
+        case string = "string"
+        case timestamp = "timestamp"
         public var description: String { return self.rawValue }
     }
 
@@ -80,7 +80,7 @@ extension Forecast {
     }
 
     public enum FeaturizationMethodName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case filling
+        case filling = "filling"
         public var description: String { return self.rawValue }
     }
 
@@ -5042,7 +5042,7 @@ public struct ForecastErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// We can&#39;t process the request because it includes an invalid value or a value that exceeds the valid range.
+    /// We can't process the request because it includes an invalid value or a value that exceeds the valid range.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The token is not valid. Tokens expire after 24 hours.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
@@ -5052,7 +5052,7 @@ public struct ForecastErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// We can&#39;t find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
+    /// We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

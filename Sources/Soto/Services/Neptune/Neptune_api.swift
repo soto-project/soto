@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -442,7 +442,7 @@ extension Neptune {
 // MARK: Paginators
 
 extension Neptune {
-    ///  Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    /// Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -495,7 +495,7 @@ extension Neptune {
         )
     }
 
-    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
+    ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -548,7 +548,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group.
+    /// Returns the detailed parameter list for a particular DB cluster parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -601,7 +601,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination.
+    /// Returns information about DB cluster snapshots. This API action supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -654,8 +654,8 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about provisioned DB clusters, and supports pagination.
-    ///    This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    /// Returns information about provisioned DB clusters, and supports pagination.
+    ///   This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -708,7 +708,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of the available DB engines.
+    /// Returns a list of the available DB engines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -761,8 +761,8 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about provisioned instances, and supports pagination.
-    ///    This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
+    /// Returns information about provisioned instances, and supports pagination.
+    ///   This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -815,7 +815,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -868,7 +868,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB parameter group.
+    /// Returns the detailed parameter list for a particular DB parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -921,7 +921,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
+    /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -974,7 +974,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the default engine and system parameter information for the specified database engine.
+    /// Returns the default engine and system parameter information for the specified database engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1027,7 +1027,7 @@ extension Neptune {
         )
     }
 
-    ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1080,7 +1080,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    /// Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1133,7 +1133,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about Neptune global database clusters. This API supports pagination.
+    /// Returns information about Neptune global database clusters. This API supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1186,7 +1186,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of orderable DB instance options for the specified engine.
+    /// Returns a list of orderable DB instance options for the specified engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1239,7 +1239,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

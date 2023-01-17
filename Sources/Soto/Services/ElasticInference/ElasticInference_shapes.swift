@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -24,7 +24,7 @@ extension ElasticInference {
     public enum LocationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
-        case region
+        case region = "region"
         public var description: String { return self.rawValue }
     }
 
@@ -45,9 +45,9 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypeName
-            case memoryInfo
-            case throughputInfo
+            case acceleratorTypeName = "acceleratorTypeName"
+            case memoryInfo = "memoryInfo"
+            case throughputInfo = "throughputInfo"
         }
     }
 
@@ -66,9 +66,9 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorType
-            case location
-            case locationType
+            case acceleratorType = "acceleratorType"
+            case location = "location"
+            case locationType = "locationType"
         }
     }
 
@@ -93,8 +93,8 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypes
-            case locationType
+            case acceleratorTypes = "acceleratorTypes"
+            case locationType = "locationType"
         }
     }
 
@@ -107,7 +107,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypeOfferings
+            case acceleratorTypeOfferings = "acceleratorTypeOfferings"
         }
     }
 
@@ -124,7 +124,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypes
+            case acceleratorTypes = "acceleratorTypes"
         }
     }
 
@@ -164,10 +164,10 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorIds
-            case filters
-            case maxResults
-            case nextToken
+            case acceleratorIds = "acceleratorIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -183,8 +183,8 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorSet
-            case nextToken
+            case acceleratorSet = "acceleratorSet"
+            case nextToken = "nextToken"
         }
     }
 
@@ -209,11 +209,11 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorHealth
-            case acceleratorId
-            case acceleratorType
-            case attachedResource
-            case availabilityZone
+            case acceleratorHealth = "acceleratorHealth"
+            case acceleratorId = "acceleratorId"
+            case acceleratorType = "acceleratorType"
+            case attachedResource = "attachedResource"
+            case availabilityZone = "availabilityZone"
         }
     }
 
@@ -226,7 +226,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -246,15 +246,15 @@ extension ElasticInference {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, max: 500_000)
+                try validate($0, name: "values[]", parent: name, max: 500000)
                 try validate($0, name: "values[]", parent: name, pattern: "^.*$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
@@ -270,8 +270,8 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -305,7 +305,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -318,7 +318,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInMiB
+            case sizeInMiB = "sizeInMiB"
         }
     }
 
@@ -352,7 +352,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 

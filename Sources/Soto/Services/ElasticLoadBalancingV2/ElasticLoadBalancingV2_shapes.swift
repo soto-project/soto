@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -25,49 +25,49 @@ extension ElasticLoadBalancingV2 {
         case authenticateCognito = "authenticate-cognito"
         case authenticateOidc = "authenticate-oidc"
         case fixedResponse = "fixed-response"
-        case forward
-        case redirect
+        case forward = "forward"
+        case redirect = "redirect"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case allow
-        case authenticate
-        case deny
+        case allow = "allow"
+        case authenticate = "authenticate"
+        case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case allow
-        case authenticate
-        case deny
+        case allow = "allow"
+        case authenticate = "authenticate"
+        case deny = "deny"
         public var description: String { return self.rawValue }
     }
 
     public enum IpAddressType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case dualstack
-        case ipv4
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `internal`
+        case `internal` = "internal"
         case internetFacing = "internet-facing"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case active
+        case active = "active"
         case activeImpaired = "active_impaired"
-        case failed
-        case provisioning
+        case failed = "failed"
+        case provisioning = "provisioning"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case application
-        case gateway
-        case network
+        case application = "application"
+        case gateway = "gateway"
+        case network = "network"
         public var description: String { return self.rawValue }
     }
 
@@ -89,8 +89,8 @@ extension ElasticLoadBalancingV2 {
     }
 
     public enum TargetGroupIpAddressTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ipv4
-        case ipv6
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
@@ -111,20 +111,20 @@ extension ElasticLoadBalancingV2 {
     }
 
     public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case draining
-        case healthy
-        case initial
-        case unavailable
-        case unhealthy
-        case unused
+        case draining = "draining"
+        case healthy = "healthy"
+        case initial = "initial"
+        case unavailable = "unavailable"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case alb
-        case instance
-        case ip
-        case lambda
+        case alb = "alb"
+        case instance = "instance"
+        case ip = "ip"
+        case lambda = "lambda"
         public var description: String { return self.rawValue }
     }
 
@@ -2674,29 +2674,29 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var sslPolicyNotFoundException: Self { .init(.sslPolicyNotFoundException) }
     /// The specified subnet does not exist.
     public static var subnetNotFoundException: Self { .init(.subnetNotFoundException) }
-    /// You&#39;ve reached the limit on the number of load balancers per target group.
+    /// You've reached the limit on the number of load balancers per target group.
     public static var targetGroupAssociationLimitException: Self { .init(.targetGroupAssociationLimitException) }
     /// The specified target group does not exist.
     public static var targetGroupNotFoundException: Self { .init(.targetGroupNotFoundException) }
-    /// You&#39;ve reached the limit on the number of actions per rule.
+    /// You've reached the limit on the number of actions per rule.
     public static var tooManyActionsException: Self { .init(.tooManyActionsException) }
-    /// You&#39;ve reached the limit on the number of certificates per load balancer.
+    /// You've reached the limit on the number of certificates per load balancer.
     public static var tooManyCertificatesException: Self { .init(.tooManyCertificatesException) }
-    /// You&#39;ve reached the limit on the number of listeners per load balancer.
+    /// You've reached the limit on the number of listeners per load balancer.
     public static var tooManyListenersException: Self { .init(.tooManyListenersException) }
-    /// You&#39;ve reached the limit on the number of load balancers for your Amazon Web Services account.
+    /// You've reached the limit on the number of load balancers for your Amazon Web Services account.
     public static var tooManyLoadBalancersException: Self { .init(.tooManyLoadBalancersException) }
-    /// You&#39;ve reached the limit on the number of times a target can be registered with a load balancer.
+    /// You've reached the limit on the number of times a target can be registered with a load balancer.
     public static var tooManyRegistrationsForTargetIdException: Self { .init(.tooManyRegistrationsForTargetIdException) }
-    /// You&#39;ve reached the limit on the number of rules per load balancer.
+    /// You've reached the limit on the number of rules per load balancer.
     public static var tooManyRulesException: Self { .init(.tooManyRulesException) }
-    /// You&#39;ve reached the limit on the number of tags per load balancer.
+    /// You've reached the limit on the number of tags per load balancer.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// You&#39;ve reached the limit on the number of target groups for your Amazon Web Services account.
+    /// You've reached the limit on the number of target groups for your Amazon Web Services account.
     public static var tooManyTargetGroupsException: Self { .init(.tooManyTargetGroupsException) }
-    /// You&#39;ve reached the limit on the number of targets.
+    /// You've reached the limit on the number of targets.
     public static var tooManyTargetsException: Self { .init(.tooManyTargetsException) }
-    /// You&#39;ve reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
+    /// You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     public static var tooManyUniqueTargetGroupsPerLoadBalancerException: Self { .init(.tooManyUniqueTargetGroupsPerLoadBalancerException) }
     /// The specified protocol is not supported.
     public static var unsupportedProtocolException: Self { .init(.unsupportedProtocolException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -249,25 +249,25 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case creationTime
-            case description
-            case importedAppId
-            case lastModified
-            case latestReplicationTime
-            case launchConfigurationStatus
-            case launchDetails
-            case launchStatus
-            case launchStatusMessage
-            case name
-            case replicationConfigurationStatus
-            case replicationStatus
-            case replicationStatusMessage
-            case roleName
-            case status
-            case statusMessage
-            case totalServerGroups
-            case totalServers
+            case appId = "appId"
+            case creationTime = "creationTime"
+            case description = "description"
+            case importedAppId = "importedAppId"
+            case lastModified = "lastModified"
+            case latestReplicationTime = "latestReplicationTime"
+            case launchConfigurationStatus = "launchConfigurationStatus"
+            case launchDetails = "launchDetails"
+            case launchStatus = "launchStatus"
+            case launchStatusMessage = "launchStatusMessage"
+            case name = "name"
+            case replicationConfigurationStatus = "replicationConfigurationStatus"
+            case replicationStatus = "replicationStatus"
+            case replicationStatusMessage = "replicationStatusMessage"
+            case roleName = "roleName"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case totalServerGroups = "totalServerGroups"
+            case totalServers = "totalServers"
         }
     }
 
@@ -297,10 +297,10 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationStrategy
-            case name
-            case ssmValidationParameters
-            case validationId
+            case appValidationStrategy = "appValidationStrategy"
+            case name = "name"
+            case ssmValidationParameters = "ssmValidationParameters"
+            case validationId = "validationId"
         }
     }
 
@@ -313,7 +313,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ssmOutput
+            case ssmOutput = "ssmOutput"
         }
     }
 
@@ -353,16 +353,16 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedOn
-            case capabilityList
-            case connectorId
-            case ipAddress
-            case macAddress
-            case status
-            case version
-            case vmManagerId
-            case vmManagerName
-            case vmManagerType
+            case associatedOn = "associatedOn"
+            case capabilityList = "capabilityList"
+            case connectorId = "connectorId"
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
+            case status = "status"
+            case version = "version"
+            case vmManagerId = "vmManagerId"
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
         }
     }
 
@@ -390,12 +390,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case roleName
-            case serverGroups
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
@@ -414,9 +414,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
@@ -456,16 +456,16 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case numberOfRecentAmisToKeep
-            case roleName
-            case runOnce
-            case seedReplicationTime
-            case serverId
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
         }
     }
 
@@ -478,7 +478,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -491,7 +491,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -508,7 +508,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -531,9 +531,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case forceStopAppReplication
-            case forceTerminateApp
+            case appId = "appId"
+            case forceStopAppReplication = "forceStopAppReplication"
+            case forceTerminateApp = "forceTerminateApp"
         }
     }
 
@@ -554,7 +554,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -571,7 +571,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -596,7 +596,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorId
+            case connectorId = "connectorId"
         }
     }
 
@@ -616,8 +616,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case changesetFormat
+            case appId = "appId"
+            case changesetFormat = "changesetFormat"
         }
     }
 
@@ -630,7 +630,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -646,8 +646,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case templateFormat
+            case appId = "appId"
+            case templateFormat = "templateFormat"
         }
     }
 
@@ -660,7 +660,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -673,7 +673,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -695,10 +695,10 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case autoLaunch
-            case roleName
-            case serverGroupLaunchConfigurations
+            case appId = "appId"
+            case autoLaunch = "autoLaunch"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
     }
 
@@ -711,7 +711,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -724,7 +724,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupReplicationConfigurations
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
         }
     }
 
@@ -737,7 +737,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -756,9 +756,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
@@ -775,7 +775,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -791,8 +791,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationConfigurations
-            case serverGroupValidationConfigurations
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
         }
     }
 
@@ -809,7 +809,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -822,7 +822,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case validationOutputList
+            case validationOutputList = "validationOutputList"
         }
     }
 
@@ -838,8 +838,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -855,8 +855,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorList
-            case nextToken
+            case connectorList = "connectorList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -875,9 +875,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationJobId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -893,8 +893,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case replicationJobList
+            case nextToken = "nextToken"
+            case replicationJobList = "replicationJobList"
         }
     }
 
@@ -913,9 +913,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationJobId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -934,9 +934,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case replicationJob
-            case replicationRunList
+            case nextToken = "nextToken"
+            case replicationJob = "replicationJob"
+            case replicationRunList = "replicationRunList"
         }
     }
 
@@ -955,9 +955,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case vmServerAddressList
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case vmServerAddressList = "vmServerAddressList"
         }
     }
 
@@ -979,10 +979,10 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedOn
-            case nextToken
-            case serverCatalogStatus
-            case serverList
+            case lastModifiedOn = "lastModifiedOn"
+            case nextToken = "nextToken"
+            case serverCatalogStatus = "serverCatalogStatus"
+            case serverList = "serverList"
         }
     }
 
@@ -995,7 +995,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleName
+            case roleName = "roleName"
         }
     }
 
@@ -1020,7 +1020,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -1043,9 +1043,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestLaunchTime
-            case stackId
-            case stackName
+            case latestLaunchTime = "latestLaunchTime"
+            case stackId = "stackId"
+            case stackName = "stackName"
         }
     }
 
@@ -1064,9 +1064,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIds
-            case maxResults
-            case nextToken
+            case appIds = "appIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1082,8 +1082,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apps
-            case nextToken
+            case apps = "apps"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1107,9 +1107,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusMessage
-            case validationId
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
         }
     }
 
@@ -1130,8 +1130,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case notificationContext
+            case appId = "appId"
+            case notificationContext = "notificationContext"
         }
     }
 
@@ -1163,10 +1163,10 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case autoLaunch
-            case roleName
-            case serverGroupLaunchConfigurations
+            case appId = "appId"
+            case autoLaunch = "autoLaunch"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
     }
 
@@ -1186,8 +1186,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case serverGroupReplicationConfigurations
+            case appId = "appId"
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
         }
     }
 
@@ -1220,9 +1220,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case appValidationConfigurations
-            case serverGroupValidationConfigurations
+            case appId = "appId"
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
         }
     }
 
@@ -1290,24 +1290,24 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case latestAmiId
-            case licenseType
-            case nextReplicationRunStartTime
-            case numberOfRecentAmisToKeep
-            case replicationJobId
-            case replicationRunList
-            case roleName
-            case runOnce
-            case seedReplicationTime
-            case serverId
-            case serverType
-            case state
-            case statusMessage
-            case vmServer
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case latestAmiId = "latestAmiId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case replicationRunList = "replicationRunList"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case vmServer = "vmServer"
         }
     }
 
@@ -1350,17 +1350,17 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiId
-            case completedTime
-            case description
-            case encrypted
-            case kmsKeyId
-            case replicationRunId
-            case scheduledStartTime
-            case stageDetails
-            case state
-            case statusMessage
-            case type
+            case amiId = "amiId"
+            case completedTime = "completedTime"
+            case description = "description"
+            case encrypted = "encrypted"
+            case kmsKeyId = "kmsKeyId"
+            case replicationRunId = "replicationRunId"
+            case scheduledStartTime = "scheduledStartTime"
+            case stageDetails = "stageDetails"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case type = "type"
         }
     }
 
@@ -1376,8 +1376,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stage
-            case stageProgress
+            case stage = "stage"
+            case stageProgress = "stageProgress"
         }
     }
 
@@ -1399,8 +1399,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
@@ -1412,7 +1412,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -1449,12 +1449,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case executionTimeoutSeconds
-            case instanceId
-            case outputS3BucketName
-            case scriptType
-            case source
+            case command = "command"
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case instanceId = "instanceId"
+            case outputS3BucketName = "outputS3BucketName"
+            case scriptType = "scriptType"
+            case source = "source"
         }
     }
 
@@ -1479,11 +1479,11 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
-            case replicationJobTerminated
-            case serverId
-            case serverType
-            case vmServer
+            case replicationJobId = "replicationJobId"
+            case replicationJobTerminated = "replicationJobTerminated"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case vmServer = "vmServer"
         }
     }
 
@@ -1502,9 +1502,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case serverGroupId
-            case serverList
+            case name = "name"
+            case serverGroupId = "serverGroupId"
+            case serverList = "serverList"
         }
     }
 
@@ -1529,9 +1529,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchOrder
-            case serverGroupId
-            case serverLaunchConfigurations
+            case launchOrder = "launchOrder"
+            case serverGroupId = "serverGroupId"
+            case serverLaunchConfigurations = "serverLaunchConfigurations"
         }
     }
 
@@ -1547,8 +1547,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupId
-            case serverReplicationConfigurations
+            case serverGroupId = "serverGroupId"
+            case serverReplicationConfigurations = "serverReplicationConfigurations"
         }
     }
 
@@ -1570,8 +1570,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupId
-            case serverValidationConfigurations
+            case serverGroupId = "serverGroupId"
+            case serverValidationConfigurations = "serverValidationConfigurations"
         }
     }
 
@@ -1621,18 +1621,18 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatePublicIpAddress
-            case configureScript
-            case configureScriptType
-            case ec2KeyName
-            case iamInstanceProfileName
-            case instanceType
-            case logicalId
-            case securityGroup
-            case server
-            case subnet
-            case userData
-            case vpc
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case configureScript = "configureScript"
+            case configureScriptType = "configureScriptType"
+            case ec2KeyName = "ec2KeyName"
+            case iamInstanceProfileName = "iamInstanceProfileName"
+            case instanceType = "instanceType"
+            case logicalId = "logicalId"
+            case securityGroup = "securityGroup"
+            case server = "server"
+            case subnet = "subnet"
+            case userData = "userData"
+            case vpc = "vpc"
         }
     }
 
@@ -1648,8 +1648,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server
-            case serverReplicationParameters
+            case server = "server"
+            case serverReplicationParameters = "serverReplicationParameters"
         }
     }
 
@@ -1680,13 +1680,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case numberOfRecentAmisToKeep
-            case runOnce
-            case seedTime
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case runOnce = "runOnce"
+            case seedTime = "seedTime"
         }
     }
 
@@ -1718,11 +1718,11 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case server
-            case serverValidationStrategy
-            case userDataValidationParameters
-            case validationId
+            case name = "name"
+            case server = "server"
+            case serverValidationStrategy = "serverValidationStrategy"
+            case userDataValidationParameters = "userDataValidationParameters"
+            case validationId = "validationId"
         }
     }
 
@@ -1734,7 +1734,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server
+            case server = "server"
         }
     }
 
@@ -1750,7 +1750,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -1763,7 +1763,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -1783,8 +1783,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case description
+            case appId = "appId"
+            case description = "description"
         }
     }
 
@@ -1804,8 +1804,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case replicationJobId
+            case description = "description"
+            case replicationJobId = "replicationJobId"
         }
     }
 
@@ -1818,7 +1818,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationRunId
+            case replicationRunId = "replicationRunId"
         }
     }
 
@@ -1831,7 +1831,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -1851,8 +1851,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1865,7 +1865,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
@@ -1897,12 +1897,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case description
-            case name
-            case roleName
-            case serverGroups
-            case tags
+            case appId = "appId"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
@@ -1921,9 +1921,9 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
@@ -1960,15 +1960,15 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case nextReplicationRunStartTime
-            case numberOfRecentAmisToKeep
-            case replicationJobId
-            case roleName
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case roleName = "roleName"
         }
     }
 
@@ -1989,7 +1989,7 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -2009,8 +2009,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scriptType
-            case source
+            case scriptType = "scriptType"
+            case source = "source"
         }
     }
 
@@ -2041,13 +2041,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationOutput
-            case latestValidationTime
-            case name
-            case serverValidationOutput
-            case status
-            case statusMessage
-            case validationId
+            case appValidationOutput = "appValidationOutput"
+            case latestValidationTime = "latestValidationTime"
+            case name = "name"
+            case serverValidationOutput = "serverValidationOutput"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
         }
     }
 
@@ -2072,11 +2072,11 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vmManagerName
-            case vmManagerType
-            case vmName
-            case vmPath
-            case vmServerAddress
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
+            case vmName = "vmName"
+            case vmPath = "vmPath"
+            case vmServerAddress = "vmServerAddress"
         }
     }
 
@@ -2092,8 +2092,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vmId
-            case vmManagerId
+            case vmId = "vmId"
+            case vmManagerId = "vmManagerId"
         }
     }
 }

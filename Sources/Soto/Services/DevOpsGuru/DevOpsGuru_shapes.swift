@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -51,9 +51,9 @@ extension DevOpsGuru {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case p50
-        case p90
-        case p99
+        case p50 = "p50"
+        case p90 = "p90"
+        case p99 = "p99"
         case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
@@ -4147,7 +4147,7 @@ public struct DevOpsGuruErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  You don&#39;t have permissions to perform the requested operation. The user or role that
+    ///  You don't have permissions to perform the requested operation. The user or role that
     /// 			is making the request must have at least one IAM permissions policy attached that grants
     /// 			the required permissions. For more information, see Access Management in the
     /// 				IAM User Guide.

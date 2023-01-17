@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1884,15 +1884,15 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case codingMode
-            case inputType
-            case profile
-            case rateControlMode
-            case rawFormat
-            case sampleRate
-            case spec
-            case vbrQuality
+            case bitrate = "bitrate"
+            case codingMode = "codingMode"
+            case inputType = "inputType"
+            case profile = "profile"
+            case rateControlMode = "rateControlMode"
+            case rawFormat = "rawFormat"
+            case sampleRate = "sampleRate"
+            case spec = "spec"
+            case vbrQuality = "vbrQuality"
         }
     }
 
@@ -1928,13 +1928,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dialnorm
-            case drcProfile
-            case lfeFilter
-            case metadataControl
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialnorm = "dialnorm"
+            case drcProfile = "drcProfile"
+            case lfeFilter = "lfeFilter"
+            case metadataControl = "metadataControl"
         }
     }
 
@@ -1971,7 +1971,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceAncillaryChannelNumber
+            case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
         }
     }
 
@@ -1983,7 +1983,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveS3Settings
+            case archiveS3Settings = "archiveS3Settings"
         }
     }
 
@@ -2001,8 +2001,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case m2tsSettings
-            case rawSettings
+            case m2tsSettings = "m2tsSettings"
+            case rawSettings = "rawSettings"
         }
     }
 
@@ -2025,9 +2025,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveCdnSettings
-            case destination
-            case rolloverInterval
+            case archiveCdnSettings = "archiveCdnSettings"
+            case destination = "destination"
+            case rolloverInterval = "rolloverInterval"
         }
     }
 
@@ -2050,9 +2050,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerSettings
-            case `extension`
-            case nameModifier
+            case containerSettings = "containerSettings"
+            case `extension` = "extension"
+            case nameModifier = "nameModifier"
         }
     }
 
@@ -2065,7 +2065,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cannedAcl
+            case cannedAcl = "cannedAcl"
         }
     }
 
@@ -2097,8 +2097,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputChannelLevels
-            case outputChannel
+            case inputChannelLevels = "inputChannelLevels"
+            case outputChannel = "outputChannel"
         }
     }
 
@@ -2128,13 +2128,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aacSettings
-            case ac3Settings
-            case eac3AtmosSettings
-            case eac3Settings
-            case mp2Settings
-            case passThroughSettings
-            case wavSettings
+            case aacSettings = "aacSettings"
+            case ac3Settings = "ac3Settings"
+            case eac3AtmosSettings = "eac3AtmosSettings"
+            case eac3Settings = "eac3Settings"
+            case mp2Settings = "mp2Settings"
+            case passThroughSettings = "passThroughSettings"
+            case wavSettings = "wavSettings"
         }
     }
 
@@ -2187,17 +2187,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioNormalizationSettings
-            case audioSelectorName
-            case audioType
-            case audioTypeControl
-            case audioWatermarkingSettings
-            case codecSettings
-            case languageCode
-            case languageCodeControl
-            case name
-            case remixSettings
-            case streamName
+            case audioNormalizationSettings = "audioNormalizationSettings"
+            case audioSelectorName = "audioSelectorName"
+            case audioType = "audioType"
+            case audioTypeControl = "audioTypeControl"
+            case audioWatermarkingSettings = "audioWatermarkingSettings"
+            case codecSettings = "codecSettings"
+            case languageCode = "languageCode"
+            case languageCodeControl = "languageCodeControl"
+            case name = "name"
+            case remixSettings = "remixSettings"
+            case streamName = "streamName"
         }
     }
 
@@ -2210,7 +2210,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case programSelection
+            case programSelection = "programSelection"
         }
     }
 
@@ -2231,8 +2231,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId
-            case name
+            case groupId = "groupId"
+            case name = "name"
         }
     }
 
@@ -2248,8 +2248,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case languageCode
-            case languageSelectionPolicy
+            case languageCode = "languageCode"
+            case languageSelectionPolicy = "languageSelectionPolicy"
         }
     }
 
@@ -2268,9 +2268,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case algorithmControl
-            case targetLkfs
+            case algorithm = "algorithm"
+            case algorithmControl = "algorithmControl"
+            case targetLkfs = "targetLkfs"
         }
     }
 
@@ -2305,10 +2305,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioGroupId
-            case audioOnlyImage
-            case audioTrackType
-            case segmentType
+            case audioGroupId = "audioGroupId"
+            case audioOnlyImage = "audioOnlyImage"
+            case audioTrackType = "audioTrackType"
+            case segmentType = "segmentType"
         }
     }
 
@@ -2326,7 +2326,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pid
+            case pid = "pid"
         }
     }
 
@@ -2347,8 +2347,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case selectorSettings
+            case name = "name"
+            case selectorSettings = "selectorSettings"
         }
     }
 
@@ -2372,10 +2372,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioHlsRenditionSelection
-            case audioLanguageSelection
-            case audioPidSelection
-            case audioTrackSelection
+            case audioHlsRenditionSelection = "audioHlsRenditionSelection"
+            case audioLanguageSelection = "audioLanguageSelection"
+            case audioPidSelection = "audioPidSelection"
+            case audioTrackSelection = "audioTrackSelection"
         }
     }
 
@@ -2395,8 +2395,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorName
-            case audioSilenceThresholdMsec
+            case audioSelectorName = "audioSelectorName"
+            case audioSilenceThresholdMsec = "audioSilenceThresholdMsec"
         }
     }
 
@@ -2413,7 +2413,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case track
+            case track = "track"
         }
     }
 
@@ -2435,8 +2435,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dolbyEDecode
-            case tracks
+            case dolbyEDecode = "dolbyEDecode"
+            case tracks = "tracks"
         }
     }
 
@@ -2453,7 +2453,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nielsenWatermarksSettings
+            case nielsenWatermarksSettings = "nielsenWatermarksSettings"
         }
     }
 
@@ -2482,10 +2482,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorClearTimeMsec
-            case failoverConditions
-            case inputPreference
-            case secondaryInputId
+            case errorClearTimeMsec = "errorClearTimeMsec"
+            case failoverConditions = "failoverConditions"
+            case inputPreference = "inputPreference"
+            case secondaryInputId = "secondaryInputId"
         }
     }
 
@@ -2505,8 +2505,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availBlankingImage
-            case state
+            case availBlankingImage = "availBlankingImage"
+            case state = "state"
         }
     }
 
@@ -2523,7 +2523,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availSettings
+            case availSettings = "availSettings"
         }
     }
 
@@ -2545,9 +2545,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case esam
-            case scte35SpliceInsert
-            case scte35TimeSignalApos
+            case esam = "esam"
+            case scte35SpliceInsert = "scte35SpliceInsert"
+            case scte35TimeSignalApos = "scte35TimeSignalApos"
         }
     }
 
@@ -2569,10 +2569,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelIds
-            case inputIds
-            case inputSecurityGroupIds
-            case multiplexIds
+            case channelIds = "channelIds"
+            case inputIds = "inputIds"
+            case inputSecurityGroupIds = "inputSecurityGroupIds"
+            case multiplexIds = "multiplexIds"
         }
     }
 
@@ -2588,8 +2588,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case successful
+            case failed = "failed"
+            case successful = "successful"
         }
     }
 
@@ -2611,10 +2611,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case code
-            case id
-            case message
+            case arn = "arn"
+            case code = "code"
+            case id = "id"
+            case message = "message"
         }
     }
 
@@ -2633,7 +2633,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduleActions
+            case scheduleActions = "scheduleActions"
         }
     }
 
@@ -2646,7 +2646,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduleActions
+            case scheduleActions = "scheduleActions"
         }
     }
 
@@ -2659,7 +2659,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionNames
+            case actionNames = "actionNames"
         }
     }
 
@@ -2672,7 +2672,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scheduleActions
+            case scheduleActions = "scheduleActions"
         }
     }
 
@@ -2688,8 +2688,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelIds
-            case multiplexIds
+            case channelIds = "channelIds"
+            case multiplexIds = "multiplexIds"
         }
     }
 
@@ -2705,8 +2705,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case successful
+            case failed = "failed"
+            case successful = "successful"
         }
     }
 
@@ -2722,8 +2722,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelIds
-            case multiplexIds
+            case channelIds = "channelIds"
+            case multiplexIds = "multiplexIds"
         }
     }
 
@@ -2739,8 +2739,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case successful
+            case failed = "failed"
+            case successful = "successful"
         }
     }
 
@@ -2759,9 +2759,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case state
+            case arn = "arn"
+            case id = "id"
+            case state = "state"
         }
     }
 
@@ -2788,8 +2788,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creates
-            case deletes
+            case creates = "creates"
+            case deletes = "deletes"
         }
     }
 
@@ -2805,8 +2805,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creates
-            case deletes
+            case creates = "creates"
+            case deletes = "deletes"
         }
     }
 
@@ -2838,11 +2838,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blackoutSlateImage
-            case networkEndBlackout
-            case networkEndBlackoutImage
-            case networkId
-            case state
+            case blackoutSlateImage = "blackoutSlateImage"
+            case networkEndBlackout = "networkEndBlackout"
+            case networkEndBlackoutImage = "networkEndBlackoutImage"
+            case networkId = "networkId"
+            case state = "state"
         }
     }
 
@@ -2919,23 +2919,23 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case backgroundColor
-            case backgroundOpacity
-            case font
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontSize
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case teletextGridControl
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case font = "font"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontSize = "fontSize"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case teletextGridControl = "teletextGridControl"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
@@ -2986,12 +2986,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessibility
-            case captionSelectorName
-            case destinationSettings
-            case languageCode
-            case languageDescription
-            case name
+            case accessibility = "accessibility"
+            case captionSelectorName = "captionSelectorName"
+            case destinationSettings = "destinationSettings"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
+            case name = "name"
         }
     }
 
@@ -3033,19 +3033,19 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aribDestinationSettings
-            case burnInDestinationSettings
-            case dvbSubDestinationSettings
-            case ebuTtDDestinationSettings
-            case embeddedDestinationSettings
-            case embeddedPlusScte20DestinationSettings
-            case rtmpCaptionInfoDestinationSettings
-            case scte20PlusEmbeddedDestinationSettings
-            case scte27DestinationSettings
-            case smpteTtDestinationSettings
-            case teletextDestinationSettings
-            case ttmlDestinationSettings
-            case webvttDestinationSettings
+            case aribDestinationSettings = "aribDestinationSettings"
+            case burnInDestinationSettings = "burnInDestinationSettings"
+            case dvbSubDestinationSettings = "dvbSubDestinationSettings"
+            case ebuTtDDestinationSettings = "ebuTtDDestinationSettings"
+            case embeddedDestinationSettings = "embeddedDestinationSettings"
+            case embeddedPlusScte20DestinationSettings = "embeddedPlusScte20DestinationSettings"
+            case rtmpCaptionInfoDestinationSettings = "rtmpCaptionInfoDestinationSettings"
+            case scte20PlusEmbeddedDestinationSettings = "scte20PlusEmbeddedDestinationSettings"
+            case scte27DestinationSettings = "scte27DestinationSettings"
+            case smpteTtDestinationSettings = "smpteTtDestinationSettings"
+            case teletextDestinationSettings = "teletextDestinationSettings"
+            case ttmlDestinationSettings = "ttmlDestinationSettings"
+            case webvttDestinationSettings = "webvttDestinationSettings"
         }
     }
 
@@ -3072,9 +3072,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionChannel
-            case languageCode
-            case languageDescription
+            case captionChannel = "captionChannel"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
@@ -3105,10 +3105,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case leftOffset
-            case topOffset
-            case width
+            case height = "height"
+            case leftOffset = "leftOffset"
+            case topOffset = "topOffset"
+            case width = "width"
         }
     }
 
@@ -3132,9 +3132,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case languageCode
-            case name
-            case selectorSettings
+            case languageCode = "languageCode"
+            case name = "name"
+            case selectorSettings = "selectorSettings"
         }
     }
 
@@ -3166,13 +3166,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ancillarySourceSettings
-            case aribSourceSettings
-            case dvbSubSourceSettings
-            case embeddedSourceSettings
-            case scte20SourceSettings
-            case scte27SourceSettings
-            case teletextSourceSettings
+            case ancillarySourceSettings = "ancillarySourceSettings"
+            case aribSourceSettings = "aribSourceSettings"
+            case dvbSubSourceSettings = "dvbSubSourceSettings"
+            case embeddedSourceSettings = "embeddedSourceSettings"
+            case scte20SourceSettings = "scte20SourceSettings"
+            case scte27SourceSettings = "scte27SourceSettings"
+            case teletextSourceSettings = "teletextSourceSettings"
         }
     }
 
@@ -3185,7 +3185,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolution
+            case resolution = "resolution"
         }
     }
 
@@ -3249,24 +3249,24 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case encoderSettings
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelineDetails
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case encoderSettings = "encoderSettings"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelineDetails = "pipelineDetails"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -3279,7 +3279,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIp
+            case sourceIp = "sourceIp"
         }
     }
 
@@ -3338,22 +3338,22 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -3366,7 +3366,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -3454,20 +3454,20 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case encoderSettings
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case requestId
-            case reserved
-            case roleArn
-            case tags
-            case vpc
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case encoderSettings = "encoderSettings"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case requestId = "requestId"
+            case reserved = "reserved"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -3479,7 +3479,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
+            case channel = "channel"
         }
     }
 
@@ -3525,17 +3525,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case inputDevices
-            case inputSecurityGroups
-            case mediaConnectFlows
-            case name
-            case requestId
-            case roleArn
-            case sources
-            case tags
-            case type
-            case vpc
+            case destinations = "destinations"
+            case inputDevices = "inputDevices"
+            case inputSecurityGroups = "inputSecurityGroups"
+            case mediaConnectFlows = "mediaConnectFlows"
+            case name = "name"
+            case requestId = "requestId"
+            case roleArn = "roleArn"
+            case sources = "sources"
+            case tags = "tags"
+            case type = "type"
+            case vpc = "vpc"
         }
     }
 
@@ -3547,7 +3547,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
+            case input = "input"
         }
     }
 
@@ -3563,8 +3563,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case whitelistRules
+            case tags = "tags"
+            case whitelistRules = "whitelistRules"
         }
     }
 
@@ -3576,7 +3576,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroup
+            case securityGroup = "securityGroup"
         }
     }
 
@@ -3607,9 +3607,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexProgramSettings
-            case programName
-            case requestId
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case programName = "programName"
+            case requestId = "requestId"
         }
     }
 
@@ -3622,7 +3622,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexProgram
+            case multiplexProgram = "multiplexProgram"
         }
     }
 
@@ -3652,11 +3652,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case multiplexSettings
-            case name
-            case requestId
-            case tags
+            case availabilityZones = "availabilityZones"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case requestId = "requestId"
+            case tags = "tags"
         }
     }
 
@@ -3669,7 +3669,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplex
+            case multiplex = "multiplex"
         }
     }
 
@@ -3693,8 +3693,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestId
-            case tags
+            case requestId = "requestId"
+            case tags = "tags"
         }
     }
 
@@ -3706,7 +3706,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
+            case input = "input"
         }
     }
 
@@ -3724,7 +3724,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3803,24 +3803,24 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case encoderSettings
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelineDetails
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case encoderSettings = "encoderSettings"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelineDetails = "pipelineDetails"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -3902,11 +3902,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case multiplexProgramSettings
-            case packetIdentifiersMap
-            case pipelineDetails
-            case programName
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case pipelineDetails = "pipelineDetails"
+            case programName = "programName"
         }
     }
 
@@ -3961,16 +3961,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case destinations
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -4052,25 +4052,25 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case currencyCode
-            case duration
-            case durationUnits
-            case end
-            case fixedPrice
-            case name
-            case offeringDescription
-            case offeringId
-            case offeringType
-            case region
-            case renewalSettings
-            case reservationId
-            case resourceSpecification
-            case start
-            case state
-            case tags
-            case usagePrice
+            case arn = "arn"
+            case count = "count"
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case fixedPrice = "fixedPrice"
+            case name = "name"
+            case offeringDescription = "offeringDescription"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case region = "region"
+            case renewalSettings = "renewalSettings"
+            case reservationId = "reservationId"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
+            case state = "state"
+            case tags = "tags"
+            case usagePrice = "usagePrice"
         }
     }
 
@@ -4186,24 +4186,24 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case encoderSettings
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelineDetails
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case encoderSettings = "encoderSettings"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelineDetails = "pipelineDetails"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -4264,18 +4264,18 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectionState
-            case deviceSettingsSyncState
-            case deviceUpdateStatus
-            case hdDeviceSettings
-            case id
-            case macAddress
-            case name
-            case networkSettings
-            case serialNumber
-            case type
-            case uhdDeviceSettings
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case deviceUpdateStatus = "deviceUpdateStatus"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case type = "type"
+            case uhdDeviceSettings = "uhdDeviceSettings"
         }
     }
 
@@ -4330,7 +4330,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
             case contentLength = "Content-Length"
             case contentType = "Content-Type"
             case eTag = "ETag"
@@ -4407,22 +4407,22 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attachedChannels
-            case destinations
-            case id
-            case inputClass
-            case inputDevices
-            case inputPartnerIds
-            case inputSourceType
-            case mediaConnectFlows
-            case name
-            case roleArn
-            case securityGroups
-            case sources
-            case state
-            case tags
-            case type
+            case arn = "arn"
+            case attachedChannels = "attachedChannels"
+            case destinations = "destinations"
+            case id = "id"
+            case inputClass = "inputClass"
+            case inputDevices = "inputDevices"
+            case inputPartnerIds = "inputPartnerIds"
+            case inputSourceType = "inputSourceType"
+            case mediaConnectFlows = "mediaConnectFlows"
+            case name = "name"
+            case roleArn = "roleArn"
+            case securityGroups = "securityGroups"
+            case sources = "sources"
+            case state = "state"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -4465,12 +4465,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case inputs
-            case state
-            case tags
-            case whitelistRules
+            case arn = "arn"
+            case id = "id"
+            case inputs = "inputs"
+            case state = "state"
+            case tags = "tags"
+            case whitelistRules = "whitelistRules"
         }
     }
 
@@ -4514,11 +4514,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case multiplexProgramSettings
-            case packetIdentifiersMap
-            case pipelineDetails
-            case programName
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case pipelineDetails = "pipelineDetails"
+            case programName = "programName"
         }
     }
 
@@ -4573,16 +4573,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case destinations
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -4640,17 +4640,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case currencyCode
-            case duration
-            case durationUnits
-            case fixedPrice
-            case offeringDescription
-            case offeringId
-            case offeringType
-            case region
-            case resourceSpecification
-            case usagePrice
+            case arn = "arn"
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case fixedPrice = "fixedPrice"
+            case offeringDescription = "offeringDescription"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case region = "region"
+            case resourceSpecification = "resourceSpecification"
+            case usagePrice = "usagePrice"
         }
     }
 
@@ -4732,25 +4732,25 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case currencyCode
-            case duration
-            case durationUnits
-            case end
-            case fixedPrice
-            case name
-            case offeringDescription
-            case offeringId
-            case offeringType
-            case region
-            case renewalSettings
-            case reservationId
-            case resourceSpecification
-            case start
-            case state
-            case tags
-            case usagePrice
+            case arn = "arn"
+            case count = "count"
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case fixedPrice = "fixedPrice"
+            case name = "name"
+            case offeringDescription = "offeringDescription"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case region = "region"
+            case renewalSettings = "renewalSettings"
+            case reservationId = "reservationId"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
+            case state = "state"
+            case tags = "tags"
+            case usagePrice = "usagePrice"
         }
     }
 
@@ -4792,8 +4792,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case scheduleActions
+            case nextToken = "nextToken"
+            case scheduleActions = "scheduleActions"
         }
     }
 
@@ -4825,9 +4825,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkId
-            case networkName
-            case repInterval
+            case networkId = "networkId"
+            case networkName = "networkName"
+            case repInterval = "repInterval"
         }
     }
 
@@ -4858,10 +4858,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputSdt
-            case repInterval
-            case serviceName
-            case serviceProviderName
+            case outputSdt = "outputSdt"
+            case repInterval = "repInterval"
+            case serviceName = "serviceName"
+            case serviceProviderName = "serviceProviderName"
         }
     }
 
@@ -4938,23 +4938,23 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case backgroundColor
-            case backgroundOpacity
-            case font
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontSize
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case teletextGridControl
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case font = "font"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontSize = "fontSize"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case teletextGridControl = "teletextGridControl"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
@@ -4975,8 +4975,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ocrLanguage
-            case pid
+            case ocrLanguage = "ocrLanguage"
+            case pid = "pid"
         }
     }
 
@@ -4994,7 +4994,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repInterval
+            case repInterval = "repInterval"
         }
     }
 
@@ -5031,13 +5031,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case codingMode
-            case dialnorm
-            case drcLine
-            case drcRf
-            case heightTrim
-            case surroundTrim
+            case bitrate = "bitrate"
+            case codingMode = "codingMode"
+            case dialnorm = "dialnorm"
+            case drcLine = "drcLine"
+            case drcRf = "drcRf"
+            case heightTrim = "heightTrim"
+            case surroundTrim = "surroundTrim"
         }
     }
 
@@ -5112,26 +5112,26 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attenuationControl
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dcFilter
-            case dialnorm
-            case drcLine
-            case drcRf
-            case lfeControl
-            case lfeFilter
-            case loRoCenterMixLevel
-            case loRoSurroundMixLevel
-            case ltRtCenterMixLevel
-            case ltRtSurroundMixLevel
-            case metadataControl
-            case passthroughControl
-            case phaseControl
-            case stereoDownmix
-            case surroundExMode
-            case surroundMode
+            case attenuationControl = "attenuationControl"
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dcFilter = "dcFilter"
+            case dialnorm = "dialnorm"
+            case drcLine = "drcLine"
+            case drcRf = "drcRf"
+            case lfeControl = "lfeControl"
+            case lfeFilter = "lfeFilter"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case metadataControl = "metadataControl"
+            case passthroughControl = "passthroughControl"
+            case phaseControl = "phaseControl"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
+            case surroundMode = "surroundMode"
         }
     }
 
@@ -5164,10 +5164,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case copyrightHolder
-            case fillLineGap
-            case fontFamily
-            case styleControl
+            case copyrightHolder = "copyrightHolder"
+            case fillLineGap = "fillLineGap"
+            case fontFamily = "fontFamily"
+            case styleControl = "styleControl"
         }
     }
 
@@ -5204,10 +5204,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case scte20Detection
-            case source608ChannelNumber
-            case source608TrackNumber
+            case convert608To708 = "convert608To708"
+            case scte20Detection = "scte20Detection"
+            case source608ChannelNumber = "source608ChannelNumber"
+            case source608TrackNumber = "source608TrackNumber"
         }
     }
 
@@ -5270,18 +5270,18 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptions
-            case availBlanking
-            case availConfiguration
-            case blackoutSlate
-            case captionDescriptions
-            case featureActivations
-            case globalConfiguration
-            case motionGraphicsConfiguration
-            case nielsenConfiguration
-            case outputGroups
-            case timecodeConfig
-            case videoDescriptions
+            case audioDescriptions = "audioDescriptions"
+            case availBlanking = "availBlanking"
+            case availConfiguration = "availConfiguration"
+            case blackoutSlate = "blackoutSlate"
+            case captionDescriptions = "captionDescriptions"
+            case featureActivations = "featureActivations"
+            case globalConfiguration = "globalConfiguration"
+            case motionGraphicsConfiguration = "motionGraphicsConfiguration"
+            case nielsenConfiguration = "nielsenConfiguration"
+            case outputGroups = "outputGroups"
+            case timecodeConfig = "timecodeConfig"
+            case videoDescriptions = "videoDescriptions"
         }
     }
 
@@ -5317,12 +5317,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acquisitionPointId
-            case adAvailOffset
-            case passwordParam
-            case poisEndpoint
-            case username
-            case zoneIdentity
+            case acquisitionPointId = "acquisitionPointId"
+            case adAvailOffset = "adAvailOffset"
+            case passwordParam = "passwordParam"
+            case poisEndpoint = "poisEndpoint"
+            case username = "username"
+            case zoneIdentity = "zoneIdentity"
         }
     }
 
@@ -5339,7 +5339,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failoverConditionSettings
+            case failoverConditionSettings = "failoverConditionSettings"
         }
     }
 
@@ -5364,9 +5364,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSilenceSettings
-            case inputLossSettings
-            case videoBlackSettings
+            case audioSilenceSettings = "audioSilenceSettings"
+            case inputLossSettings = "inputLossSettings"
+            case videoBlackSettings = "videoBlackSettings"
         }
     }
 
@@ -5380,7 +5380,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputPrepareScheduleActions
+            case inputPrepareScheduleActions = "inputPrepareScheduleActions"
         }
     }
 
@@ -5406,9 +5406,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnDepth
-            case includeFec
-            case rowLength
+            case columnDepth = "columnDepth"
+            case includeFec = "includeFec"
+            case rowLength = "rowLength"
         }
     }
 
@@ -5421,7 +5421,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case time
+            case time = "time"
         }
     }
 
@@ -5440,9 +5440,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioRenditionSets
-            case nielsenId3Behavior
-            case timedMetadataBehavior
+            case audioRenditionSets = "audioRenditionSets"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case timedMetadataBehavior = "timedMetadataBehavior"
         }
     }
 
@@ -5458,8 +5458,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case followPoint
-            case referenceActionName
+            case followPoint = "followPoint"
+            case referenceActionName = "referenceActionName"
         }
     }
 
@@ -5471,7 +5471,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameCaptureS3Settings
+            case frameCaptureS3Settings = "frameCaptureS3Settings"
         }
     }
 
@@ -5487,8 +5487,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case frameCaptureCdnSettings
+            case destination = "destination"
+            case frameCaptureCdnSettings = "frameCaptureCdnSettings"
         }
     }
 
@@ -5505,7 +5505,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nameModifier
+            case nameModifier = "nameModifier"
         }
     }
 
@@ -5518,7 +5518,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cannedAcl
+            case cannedAcl = "cannedAcl"
         }
     }
 
@@ -5537,15 +5537,15 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.captureInterval, name: "captureInterval", parent: name, max: 3_600_000)
+            try self.validate(self.captureInterval, name: "captureInterval", parent: name, max: 3600000)
             try self.validate(self.captureInterval, name: "captureInterval", parent: name, min: 1)
             try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captureInterval
-            case captureIntervalUnits
-            case timecodeBurninSettings
+            case captureInterval = "captureInterval"
+            case captureIntervalUnits = "captureIntervalUnits"
+            case timecodeBurninSettings = "timecodeBurninSettings"
         }
     }
 
@@ -5581,12 +5581,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initialAudioGain
-            case inputEndAction
-            case inputLossBehavior
-            case outputLockingMode
-            case outputTimingSource
-            case supportLowFramerateInputs
+            case initialAudioGain = "initialAudioGain"
+            case inputEndAction = "inputEndAction"
+            case inputLossBehavior = "inputLossBehavior"
+            case outputLockingMode = "outputLockingMode"
+            case outputTimingSource = "outputTimingSource"
+            case supportLowFramerateInputs = "supportLowFramerateInputs"
         }
     }
 
@@ -5602,9 +5602,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case colorSpacePassthroughSettings
-            case rec601Settings
-            case rec709Settings
+            case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
+            case rec601Settings = "rec601Settings"
+            case rec709Settings = "rec709Settings"
         }
     }
 
@@ -5616,7 +5616,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case temporalFilterSettings
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
@@ -5803,48 +5803,48 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case afdSignaling
-            case bitrate
-            case bufFillPct
-            case bufSize
-            case colorMetadata
-            case colorSpaceSettings
-            case entropyEncoding
-            case filterSettings
-            case fixedAfd
-            case flickerAq
-            case forceFieldPictures
-            case framerateControl
-            case framerateDenominator
-            case framerateNumerator
-            case gopBReference
-            case gopClosedCadence
-            case gopNumBFrames
-            case gopSize
-            case gopSizeUnits
-            case level
-            case lookAheadRateControl
-            case maxBitrate
-            case minIInterval
-            case numRefFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case profile
-            case qualityLevel
-            case qvbrQualityLevel
-            case rateControlMode
-            case scanType
-            case sceneChangeDetect
-            case slices
-            case softness
-            case spatialAq
-            case subgopLength
-            case syntax
-            case temporalAq
-            case timecodeBurninSettings
-            case timecodeInsertion
+            case adaptiveQuantization = "adaptiveQuantization"
+            case afdSignaling = "afdSignaling"
+            case bitrate = "bitrate"
+            case bufFillPct = "bufFillPct"
+            case bufSize = "bufSize"
+            case colorMetadata = "colorMetadata"
+            case colorSpaceSettings = "colorSpaceSettings"
+            case entropyEncoding = "entropyEncoding"
+            case filterSettings = "filterSettings"
+            case fixedAfd = "fixedAfd"
+            case flickerAq = "flickerAq"
+            case forceFieldPictures = "forceFieldPictures"
+            case framerateControl = "framerateControl"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopNumBFrames = "gopNumBFrames"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case level = "level"
+            case lookAheadRateControl = "lookAheadRateControl"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numRefFrames = "numRefFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case profile = "profile"
+            case qualityLevel = "qualityLevel"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case rateControlMode = "rateControlMode"
+            case scanType = "scanType"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case softness = "softness"
+            case spatialAq = "spatialAq"
+            case subgopLength = "subgopLength"
+            case syntax = "syntax"
+            case temporalAq = "temporalAq"
+            case timecodeBurninSettings = "timecodeBurninSettings"
+            case timecodeInsertion = "timecodeInsertion"
         }
     }
 
@@ -5868,11 +5868,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case colorSpacePassthroughSettings
-            case dolbyVision81Settings
-            case hdr10Settings
-            case rec601Settings
-            case rec709Settings
+            case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
+            case dolbyVision81Settings = "dolbyVision81Settings"
+            case hdr10Settings = "hdr10Settings"
+            case rec601Settings = "rec601Settings"
+            case rec709Settings = "rec709Settings"
         }
     }
 
@@ -5884,7 +5884,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case temporalFilterSettings
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
@@ -5999,17 +5999,17 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 40_000_000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 100_000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 80_000_000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 100_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 40000000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 100000)
+            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 80000000)
+            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 100000)
             try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 40_000_000)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 40000000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
@@ -6022,36 +6022,36 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case afdSignaling
-            case alternativeTransferFunction
-            case bitrate
-            case bufSize
-            case colorMetadata
-            case colorSpaceSettings
-            case filterSettings
-            case fixedAfd
-            case flickerAq
-            case framerateDenominator
-            case framerateNumerator
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case level
-            case lookAheadRateControl
-            case maxBitrate
-            case minIInterval
-            case parDenominator
-            case parNumerator
-            case profile
-            case qvbrQualityLevel
-            case rateControlMode
-            case scanType
-            case sceneChangeDetect
-            case slices
-            case tier
-            case timecodeBurninSettings
-            case timecodeInsertion
+            case adaptiveQuantization = "adaptiveQuantization"
+            case afdSignaling = "afdSignaling"
+            case alternativeTransferFunction = "alternativeTransferFunction"
+            case bitrate = "bitrate"
+            case bufSize = "bufSize"
+            case colorMetadata = "colorMetadata"
+            case colorSpaceSettings = "colorSpaceSettings"
+            case filterSettings = "filterSettings"
+            case fixedAfd = "fixedAfd"
+            case flickerAq = "flickerAq"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case level = "level"
+            case lookAheadRateControl = "lookAheadRateControl"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case profile = "profile"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case rateControlMode = "rateControlMode"
+            case scanType = "scanType"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case tier = "tier"
+            case timecodeBurninSettings = "timecodeBurninSettings"
+            case timecodeInsertion = "timecodeInsertion"
         }
     }
 
@@ -6078,8 +6078,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxCll
-            case maxFall
+            case maxCll = "maxCll"
+            case maxFall = "maxFall"
         }
     }
 
@@ -6119,13 +6119,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval
-            case filecacheDuration
-            case httpTransferMode
-            case numRetries
-            case restartDelay
-            case salt
-            case token
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case httpTransferMode = "httpTransferMode"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
+            case salt = "salt"
+            case token = "token"
         }
     }
 
@@ -6156,10 +6156,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval
-            case filecacheDuration
-            case numRetries
-            case restartDelay
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
         }
     }
 
@@ -6186,11 +6186,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsAkamaiSettings
-            case hlsBasicPutSettings
-            case hlsMediaStoreSettings
-            case hlsS3Settings
-            case hlsWebdavSettings
+            case hlsAkamaiSettings = "hlsAkamaiSettings"
+            case hlsBasicPutSettings = "hlsBasicPutSettings"
+            case hlsMediaStoreSettings = "hlsMediaStoreSettings"
+            case hlsS3Settings = "hlsS3Settings"
+            case hlsWebdavSettings = "hlsWebdavSettings"
         }
     }
 
@@ -6369,49 +6369,49 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adMarkers
-            case baseUrlContent
-            case baseUrlContent1
-            case baseUrlManifest
-            case baseUrlManifest1
-            case captionLanguageMappings
-            case captionLanguageSetting
-            case clientCache
-            case codecSpecification
-            case constantIv
-            case destination
-            case directoryStructure
-            case discontinuityTags
-            case encryptionType
-            case hlsCdnSettings
-            case hlsId3SegmentTagging
-            case iFrameOnlyPlaylists
-            case incompleteSegmentBehavior
-            case indexNSegments
-            case inputLossAction
-            case ivInManifest
-            case ivSource
-            case keepSegments
-            case keyFormat
-            case keyFormatVersions
-            case keyProviderSettings
-            case manifestCompression
-            case manifestDurationFormat
-            case minSegmentLength
-            case mode
-            case outputSelection
-            case programDateTime
-            case programDateTimeClock
-            case programDateTimePeriod
-            case redundantManifest
-            case segmentationMode
-            case segmentLength
-            case segmentsPerSubdirectory
-            case streamInfResolution
-            case timedMetadataId3Frame
-            case timedMetadataId3Period
-            case timestampDeltaMilliseconds
-            case tsFileMode
+            case adMarkers = "adMarkers"
+            case baseUrlContent = "baseUrlContent"
+            case baseUrlContent1 = "baseUrlContent1"
+            case baseUrlManifest = "baseUrlManifest"
+            case baseUrlManifest1 = "baseUrlManifest1"
+            case captionLanguageMappings = "captionLanguageMappings"
+            case captionLanguageSetting = "captionLanguageSetting"
+            case clientCache = "clientCache"
+            case codecSpecification = "codecSpecification"
+            case constantIv = "constantIv"
+            case destination = "destination"
+            case directoryStructure = "directoryStructure"
+            case discontinuityTags = "discontinuityTags"
+            case encryptionType = "encryptionType"
+            case hlsCdnSettings = "hlsCdnSettings"
+            case hlsId3SegmentTagging = "hlsId3SegmentTagging"
+            case iFrameOnlyPlaylists = "iFrameOnlyPlaylists"
+            case incompleteSegmentBehavior = "incompleteSegmentBehavior"
+            case indexNSegments = "indexNSegments"
+            case inputLossAction = "inputLossAction"
+            case ivInManifest = "ivInManifest"
+            case ivSource = "ivSource"
+            case keepSegments = "keepSegments"
+            case keyFormat = "keyFormat"
+            case keyFormatVersions = "keyFormatVersions"
+            case keyProviderSettings = "keyProviderSettings"
+            case manifestCompression = "manifestCompression"
+            case manifestDurationFormat = "manifestDurationFormat"
+            case minSegmentLength = "minSegmentLength"
+            case mode = "mode"
+            case outputSelection = "outputSelection"
+            case programDateTime = "programDateTime"
+            case programDateTimeClock = "programDateTimeClock"
+            case programDateTimePeriod = "programDateTimePeriod"
+            case redundantManifest = "redundantManifest"
+            case segmentationMode = "segmentationMode"
+            case segmentLength = "segmentLength"
+            case segmentsPerSubdirectory = "segmentsPerSubdirectory"
+            case streamInfResolution = "streamInfResolution"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case timestampDeltaMilliseconds = "timestampDeltaMilliseconds"
+            case tsFileMode = "tsFileMode"
         }
     }
 
@@ -6424,7 +6424,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tag
+            case tag = "tag"
         }
     }
 
@@ -6456,11 +6456,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth
-            case bufferSegments
-            case retries
-            case retryInterval
-            case scte35Source
+            case bandwidth = "bandwidth"
+            case bufferSegments = "bufferSegments"
+            case retries = "retries"
+            case retryInterval = "retryInterval"
+            case scte35Source = "scte35Source"
         }
     }
 
@@ -6494,11 +6494,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval
-            case filecacheDuration
-            case mediaStoreStorageClass
-            case numRetries
-            case restartDelay
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case mediaStoreStorageClass = "mediaStoreStorageClass"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
         }
     }
 
@@ -6526,10 +6526,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case h265PackagingType
-            case hlsSettings
-            case nameModifier
-            case segmentModifier
+            case h265PackagingType = "h265PackagingType"
+            case hlsSettings = "hlsSettings"
+            case nameModifier = "nameModifier"
+            case segmentModifier = "segmentModifier"
         }
     }
 
@@ -6542,7 +6542,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cannedAcl
+            case cannedAcl = "cannedAcl"
         }
     }
 
@@ -6565,10 +6565,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioOnlyHlsSettings
-            case fmp4HlsSettings
-            case frameCaptureHlsSettings
-            case standardHlsSettings
+            case audioOnlyHlsSettings = "audioOnlyHlsSettings"
+            case fmp4HlsSettings = "fmp4HlsSettings"
+            case frameCaptureHlsSettings = "frameCaptureHlsSettings"
+            case standardHlsSettings = "standardHlsSettings"
         }
     }
 
@@ -6581,7 +6581,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id3
+            case id3 = "id3"
         }
     }
 
@@ -6615,11 +6615,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionRetryInterval
-            case filecacheDuration
-            case httpTransferMode
-            case numRetries
-            case restartDelay
+            case connectionRetryInterval = "connectionRetryInterval"
+            case filecacheDuration = "filecacheDuration"
+            case httpTransferMode = "httpTransferMode"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
         }
     }
 
@@ -6685,22 +6685,22 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attachedChannels
-            case destinations
-            case id
-            case inputClass
-            case inputDevices
-            case inputPartnerIds
-            case inputSourceType
-            case mediaConnectFlows
-            case name
-            case roleArn
-            case securityGroups
-            case sources
-            case state
-            case tags
-            case type
+            case arn = "arn"
+            case attachedChannels = "attachedChannels"
+            case destinations = "destinations"
+            case id = "id"
+            case inputClass = "inputClass"
+            case inputDevices = "inputDevices"
+            case inputPartnerIds = "inputPartnerIds"
+            case inputSourceType = "inputSourceType"
+            case mediaConnectFlows = "mediaConnectFlows"
+            case name = "name"
+            case roleArn = "roleArn"
+            case securityGroups = "securityGroups"
+            case sources = "sources"
+            case state = "state"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -6727,10 +6727,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automaticInputFailoverSettings
-            case inputAttachmentName
-            case inputId
-            case inputSettings
+            case automaticInputFailoverSettings = "automaticInputFailoverSettings"
+            case inputAttachmentName = "inputAttachmentName"
+            case inputId = "inputId"
+            case inputSettings = "inputSettings"
         }
     }
 
@@ -6753,8 +6753,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gain
-            case inputChannel
+            case gain = "gain"
+            case inputChannel = "inputChannel"
         }
     }
 
@@ -6773,9 +6773,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputTimecodeSource
-            case startTimecode
-            case stopTimecode
+            case inputTimecodeSource = "inputTimecodeSource"
+            case startTimecode = "startTimecode"
+            case stopTimecode = "stopTimecode"
         }
     }
 
@@ -6798,10 +6798,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ip
-            case port
-            case url
-            case vpc
+            case ip = "ip"
+            case port = "port"
+            case url = "url"
+            case vpc = "vpc"
         }
     }
 
@@ -6815,7 +6815,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamName
+            case streamName = "streamName"
         }
     }
 
@@ -6831,8 +6831,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case networkInterfaceId
+            case availabilityZone = "availabilityZone"
+            case networkInterfaceId = "networkInterfaceId"
         }
     }
 
@@ -6851,9 +6851,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuredInput
-            case latencyMs
-            case maxBitrate
+            case configuredInput = "configuredInput"
+            case latencyMs = "latencyMs"
+            case maxBitrate = "maxBitrate"
         }
     }
 
@@ -6890,15 +6890,15 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeInput
-            case configuredInput
-            case deviceState
-            case framerate
-            case height
-            case latencyMs
-            case maxBitrate
-            case scanType
-            case width
+            case activeInput = "activeInput"
+            case configuredInput = "configuredInput"
+            case deviceState = "deviceState"
+            case framerate = "framerate"
+            case height = "height"
+            case latencyMs = "latencyMs"
+            case maxBitrate = "maxBitrate"
+            case scanType = "scanType"
+            case width = "width"
         }
     }
 
@@ -6923,11 +6923,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsAddresses
-            case gateway
-            case ipAddress
-            case ipScheme
-            case subnetMask
+            case dnsAddresses = "dnsAddresses"
+            case gateway = "gateway"
+            case ipAddress = "ipAddress"
+            case ipScheme = "ipScheme"
+            case subnetMask = "subnetMask"
         }
     }
 
@@ -6940,7 +6940,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -6953,7 +6953,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -6999,18 +6999,18 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectionState
-            case deviceSettingsSyncState
-            case deviceUpdateStatus
-            case hdDeviceSettings
-            case id
-            case macAddress
-            case name
-            case networkSettings
-            case serialNumber
-            case type
-            case uhdDeviceSettings
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case deviceUpdateStatus = "deviceUpdateStatus"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case type = "type"
+            case uhdDeviceSettings = "uhdDeviceSettings"
         }
     }
 
@@ -7047,15 +7047,15 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeInput
-            case configuredInput
-            case deviceState
-            case framerate
-            case height
-            case latencyMs
-            case maxBitrate
-            case scanType
-            case width
+            case activeInput = "activeInput"
+            case configuredInput = "configuredInput"
+            case deviceState = "deviceState"
+            case framerate = "framerate"
+            case height = "height"
+            case latencyMs = "latencyMs"
+            case maxBitrate = "maxBitrate"
+            case scanType = "scanType"
+            case width = "width"
         }
     }
 
@@ -7078,9 +7078,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordParam
-            case uri
-            case username
+            case passwordParam = "passwordParam"
+            case uri = "uri"
+            case username = "username"
         }
     }
 
@@ -7105,21 +7105,21 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, max: 1_000_000)
+            try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, max: 1000000)
             try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, min: 0)
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, max: 6)
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, min: 6)
             try self.inputLossImageSlate?.validate(name: "\(name).inputLossImageSlate")
-            try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, max: 1_000_000)
+            try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, max: 1000000)
             try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blackFrameMsec
-            case inputLossImageColor
-            case inputLossImageSlate
-            case inputLossImageType
-            case repeatFrameMsec
+            case blackFrameMsec = "blackFrameMsec"
+            case inputLossImageColor = "inputLossImageColor"
+            case inputLossImageSlate = "inputLossImageSlate"
+            case inputLossImageType = "inputLossImageType"
+            case repeatFrameMsec = "repeatFrameMsec"
         }
     }
 
@@ -7136,7 +7136,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputLossThresholdMsec
+            case inputLossThresholdMsec = "inputLossThresholdMsec"
         }
     }
 
@@ -7155,9 +7155,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputAttachmentNameReference
-            case inputClippingSettings
-            case urlPath
+            case inputAttachmentNameReference = "inputAttachmentNameReference"
+            case inputClippingSettings = "inputClippingSettings"
+            case urlPath = "urlPath"
         }
     }
 
@@ -7185,12 +7185,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case inputs
-            case state
-            case tags
-            case whitelistRules
+            case arn = "arn"
+            case id = "id"
+            case inputs = "inputs"
+            case state = "state"
+            case tags = "tags"
+            case whitelistRules = "whitelistRules"
         }
     }
 
@@ -7253,17 +7253,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectors
-            case captionSelectors
-            case deblockFilter
-            case denoiseFilter
-            case filterStrength
-            case inputFilter
-            case networkInputSettings
-            case scte35Pid
-            case smpte2038DataPreference
-            case sourceEndBehavior
-            case videoSelector
+            case audioSelectors = "audioSelectors"
+            case captionSelectors = "captionSelectors"
+            case deblockFilter = "deblockFilter"
+            case denoiseFilter = "denoiseFilter"
+            case filterStrength = "filterStrength"
+            case inputFilter = "inputFilter"
+            case networkInputSettings = "networkInputSettings"
+            case scte35Pid = "scte35Pid"
+            case smpte2038DataPreference = "smpte2038DataPreference"
+            case sourceEndBehavior = "sourceEndBehavior"
+            case videoSelector = "videoSelector"
         }
     }
 
@@ -7283,9 +7283,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordParam
-            case url
-            case username
+            case passwordParam = "passwordParam"
+            case url = "url"
+            case username = "username"
         }
     }
 
@@ -7305,9 +7305,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordParam
-            case url
-            case username
+            case passwordParam = "passwordParam"
+            case url = "url"
+            case username = "username"
         }
     }
 
@@ -7326,9 +7326,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codec
-            case maximumBitrate
-            case resolution
+            case codec = "codec"
+            case maximumBitrate = "maximumBitrate"
+            case resolution = "resolution"
         }
     }
 
@@ -7347,9 +7347,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputAttachmentNameReference
-            case inputClippingSettings
-            case urlPath
+            case inputAttachmentNameReference = "inputAttachmentNameReference"
+            case inputClippingSettings = "inputClippingSettings"
+            case urlPath = "urlPath"
         }
     }
 
@@ -7367,8 +7367,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -7381,7 +7381,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidr
+            case cidr = "cidr"
         }
     }
 
@@ -7394,7 +7394,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidr
+            case cidr = "cidr"
         }
     }
 
@@ -7410,7 +7410,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticKeySettings
+            case staticKeySettings = "staticKeySettings"
         }
     }
 
@@ -7446,8 +7446,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case nextToken
+            case channels = "channels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7488,8 +7488,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputDeviceTransfers
-            case nextToken
+            case inputDeviceTransfers = "inputDeviceTransfers"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7527,8 +7527,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputDevices
-            case nextToken
+            case inputDevices = "inputDevices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7565,8 +7565,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputSecurityGroups
-            case nextToken
+            case inputSecurityGroups = "inputSecurityGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7602,8 +7602,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputs
-            case nextToken
+            case inputs = "inputs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7647,8 +7647,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexPrograms
-            case nextToken
+            case multiplexPrograms = "multiplexPrograms"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7688,8 +7688,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexes
-            case nextToken
+            case multiplexes = "multiplexes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -7767,8 +7767,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offerings
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
@@ -7838,8 +7838,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reservations
+            case nextToken = "nextToken"
+            case reservations = "reservations"
         }
     }
 
@@ -7865,7 +7865,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -8038,53 +8038,53 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absentInputAudioBehavior
-            case arib
-            case aribCaptionsPid
-            case aribCaptionsPidControl
-            case audioBufferModel
-            case audioFramesPerPes
-            case audioPids
-            case audioStreamType
-            case bitrate
-            case bufferModel
-            case ccDescriptor
-            case dvbNitSettings
-            case dvbSdtSettings
-            case dvbSubPids
-            case dvbTdtSettings
-            case dvbTeletextPid
-            case ebif
-            case ebpAudioInterval
-            case ebpLookaheadMs
-            case ebpPlacement
-            case ecmPid
-            case esRateInPes
-            case etvPlatformPid
-            case etvSignalPid
-            case fragmentTime
-            case klv
-            case klvDataPids
-            case nielsenId3Behavior
-            case nullPacketBitrate
-            case patInterval
-            case pcrControl
-            case pcrPeriod
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case programNum
-            case rateMode
-            case scte27Pids
-            case scte35Control
-            case scte35Pid
-            case segmentationMarkers
-            case segmentationStyle
-            case segmentationTime
-            case timedMetadataBehavior
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case absentInputAudioBehavior = "absentInputAudioBehavior"
+            case arib = "arib"
+            case aribCaptionsPid = "aribCaptionsPid"
+            case aribCaptionsPidControl = "aribCaptionsPidControl"
+            case audioBufferModel = "audioBufferModel"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case audioStreamType = "audioStreamType"
+            case bitrate = "bitrate"
+            case bufferModel = "bufferModel"
+            case ccDescriptor = "ccDescriptor"
+            case dvbNitSettings = "dvbNitSettings"
+            case dvbSdtSettings = "dvbSdtSettings"
+            case dvbSubPids = "dvbSubPids"
+            case dvbTdtSettings = "dvbTdtSettings"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case ebif = "ebif"
+            case ebpAudioInterval = "ebpAudioInterval"
+            case ebpLookaheadMs = "ebpLookaheadMs"
+            case ebpPlacement = "ebpPlacement"
+            case ecmPid = "ecmPid"
+            case esRateInPes = "esRateInPes"
+            case etvPlatformPid = "etvPlatformPid"
+            case etvSignalPid = "etvSignalPid"
+            case fragmentTime = "fragmentTime"
+            case klv = "klv"
+            case klvDataPids = "klvDataPids"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case nullPacketBitrate = "nullPacketBitrate"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPeriod = "pcrPeriod"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case programNum = "programNum"
+            case rateMode = "rateMode"
+            case scte27Pids = "scte27Pids"
+            case scte35Control = "scte35Control"
+            case scte35Pid = "scte35Pid"
+            case segmentationMarkers = "segmentationMarkers"
+            case segmentationStyle = "segmentationStyle"
+            case segmentationTime = "segmentationTime"
+            case timedMetadataBehavior = "timedMetadataBehavior"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
@@ -8159,23 +8159,23 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioFramesPerPes
-            case audioPids
-            case ecmPid
-            case nielsenId3Behavior
-            case patInterval
-            case pcrControl
-            case pcrPeriod
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case programNum
-            case scte35Behavior
-            case scte35Pid
-            case timedMetadataBehavior
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case ecmPid = "ecmPid"
+            case nielsenId3Behavior = "nielsenId3Behavior"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPeriod = "pcrPeriod"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case programNum = "programNum"
+            case scte35Behavior = "scte35Behavior"
+            case scte35Pid = "scte35Pid"
+            case timedMetadataBehavior = "timedMetadataBehavior"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
@@ -8195,8 +8195,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceStartTime
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceStartTime = "maintenanceStartTime"
         }
     }
 
@@ -8218,10 +8218,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceDeadline
-            case maintenanceScheduledDate
-            case maintenanceStartTime
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceDeadline = "maintenanceDeadline"
+            case maintenanceScheduledDate = "maintenanceScheduledDate"
+            case maintenanceStartTime = "maintenanceStartTime"
         }
     }
 
@@ -8244,9 +8244,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maintenanceDay
-            case maintenanceScheduledDate
-            case maintenanceStartTime
+            case maintenanceDay = "maintenanceDay"
+            case maintenanceScheduledDate = "maintenanceScheduledDate"
+            case maintenanceStartTime = "maintenanceStartTime"
         }
     }
 
@@ -8259,7 +8259,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
+            case flowArn = "flowArn"
         }
     }
 
@@ -8272,7 +8272,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
+            case flowArn = "flowArn"
         }
     }
 
@@ -8285,7 +8285,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
+            case destination = "destination"
         }
     }
 
@@ -8302,7 +8302,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
+            case channelId = "channelId"
         }
     }
 
@@ -8328,15 +8328,15 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 86_400_000)
+            try self.validate(self.duration, name: "duration", parent: name, max: 86400000)
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case passwordParam
-            case url
-            case username
+            case duration = "duration"
+            case passwordParam = "passwordParam"
+            case url = "url"
+            case username = "username"
         }
     }
 
@@ -8351,8 +8351,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case motionGraphicsInsertion
-            case motionGraphicsSettings
+            case motionGraphicsInsertion = "motionGraphicsInsertion"
+            case motionGraphicsSettings = "motionGraphicsSettings"
         }
     }
 
@@ -8368,7 +8368,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case htmlMotionGraphicsSettings
+            case htmlMotionGraphicsSettings = "htmlMotionGraphicsSettings"
         }
     }
 
@@ -8387,9 +8387,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case codingMode
-            case sampleRate
+            case bitrate = "bitrate"
+            case codingMode = "codingMode"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -8401,7 +8401,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case temporalFilterSettings
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
@@ -8484,23 +8484,23 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case afdSignaling
-            case colorMetadata
-            case colorSpace
-            case displayAspectRatio
-            case filterSettings
-            case fixedAfd
-            case framerateDenominator
-            case framerateNumerator
-            case gopClosedCadence
-            case gopNumBFrames
-            case gopSize
-            case gopSizeUnits
-            case scanType
-            case subgopLength
-            case timecodeBurninSettings
-            case timecodeInsertion
+            case adaptiveQuantization = "adaptiveQuantization"
+            case afdSignaling = "afdSignaling"
+            case colorMetadata = "colorMetadata"
+            case colorSpace = "colorSpace"
+            case displayAspectRatio = "displayAspectRatio"
+            case filterSettings = "filterSettings"
+            case fixedAfd = "fixedAfd"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopNumBFrames = "gopNumBFrames"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case scanType = "scanType"
+            case subgopLength = "subgopLength"
+            case timecodeBurninSettings = "timecodeBurninSettings"
+            case timecodeInsertion = "timecodeInsertion"
         }
     }
 
@@ -8587,25 +8587,25 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acquisitionPointId
-            case audioOnlyTimecodeControl
-            case certificateMode
-            case connectionRetryInterval
-            case destination
-            case eventId
-            case eventIdMode
-            case eventStopBehavior
-            case filecacheDuration
-            case fragmentLength
-            case inputLossAction
-            case numRetries
-            case restartDelay
-            case segmentationMode
-            case sendDelayMs
-            case sparseTrackType
-            case streamManifestBehavior
-            case timestampOffset
-            case timestampOffsetMode
+            case acquisitionPointId = "acquisitionPointId"
+            case audioOnlyTimecodeControl = "audioOnlyTimecodeControl"
+            case certificateMode = "certificateMode"
+            case connectionRetryInterval = "connectionRetryInterval"
+            case destination = "destination"
+            case eventId = "eventId"
+            case eventIdMode = "eventIdMode"
+            case eventStopBehavior = "eventStopBehavior"
+            case filecacheDuration = "filecacheDuration"
+            case fragmentLength = "fragmentLength"
+            case inputLossAction = "inputLossAction"
+            case numRetries = "numRetries"
+            case restartDelay = "restartDelay"
+            case segmentationMode = "segmentationMode"
+            case sendDelayMs = "sendDelayMs"
+            case sparseTrackType = "sparseTrackType"
+            case streamManifestBehavior = "streamManifestBehavior"
+            case timestampOffset = "timestampOffset"
+            case timestampOffsetMode = "timestampOffsetMode"
         }
     }
 
@@ -8622,8 +8622,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case h265PackagingType
-            case nameModifier
+            case h265PackagingType = "h265PackagingType"
+            case nameModifier = "nameModifier"
         }
     }
 
@@ -8663,16 +8663,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case destinations
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -8689,7 +8689,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlementArn
+            case entitlementArn = "entitlementArn"
         }
     }
 
@@ -8702,7 +8702,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mediaConnectSettings
+            case mediaConnectSettings = "mediaConnectSettings"
         }
     }
 
@@ -8715,7 +8715,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
+            case destination = "destination"
         }
     }
 
@@ -8740,11 +8740,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case multiplexProgramSettings
-            case packetIdentifiersMap
-            case pipelineDetails
-            case programName
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case pipelineDetails = "pipelineDetails"
+            case programName = "programName"
         }
     }
 
@@ -8766,8 +8766,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexId
-            case programName
+            case multiplexId = "multiplexId"
+            case programName = "programName"
         }
     }
 
@@ -8803,19 +8803,19 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioPids
-            case dvbSubPids
-            case dvbTeletextPid
-            case etvPlatformPid
-            case etvSignalPid
-            case klvDataPids
-            case pcrPid
-            case pmtPid
-            case privateMetadataPid
-            case scte27Pids
-            case scte35Pid
-            case timedMetadataPid
-            case videoPid
+            case audioPids = "audioPids"
+            case dvbSubPids = "dvbSubPids"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case etvPlatformPid = "etvPlatformPid"
+            case etvSignalPid = "etvSignalPid"
+            case klvDataPids = "klvDataPids"
+            case pcrPid = "pcrPid"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case scte27Pids = "scte27Pids"
+            case scte35Pid = "scte35Pid"
+            case timedMetadataPid = "timedMetadataPid"
+            case videoPid = "videoPid"
         }
     }
 
@@ -8831,8 +8831,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeChannelPipeline
-            case pipelineId
+            case activeChannelPipeline = "activeChannelPipeline"
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -8853,8 +8853,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case providerName
-            case serviceName
+            case providerName = "providerName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -8883,10 +8883,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preferredChannelPipeline
-            case programNumber
-            case serviceDescriptor
-            case videoSettings
+            case preferredChannelPipeline = "preferredChannelPipeline"
+            case programNumber = "programNumber"
+            case serviceDescriptor = "serviceDescriptor"
+            case videoSettings = "videoSettings"
         }
     }
 
@@ -8902,8 +8902,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelId
-            case programName
+            case channelId = "channelId"
+            case programName = "programName"
         }
     }
 
@@ -8927,19 +8927,19 @@ extension MediaLive {
         public func validate(name: String) throws {
             try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, max: 3000)
             try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, min: 800)
-            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, min: 1_000_000)
+            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, max: 100000000)
+            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, min: 1000000)
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
-            try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, max: 100_000_000)
+            try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, max: 100000000)
             try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumVideoBufferDelayMilliseconds
-            case transportStreamBitrate
-            case transportStreamId
-            case transportStreamReservedBitrate
+            case maximumVideoBufferDelayMilliseconds = "maximumVideoBufferDelayMilliseconds"
+            case transportStreamBitrate = "transportStreamBitrate"
+            case transportStreamId = "transportStreamId"
+            case transportStreamReservedBitrate = "transportStreamReservedBitrate"
         }
     }
 
@@ -8952,7 +8952,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transportStreamBitrate
+            case transportStreamBitrate = "transportStreamBitrate"
         }
     }
 
@@ -8971,18 +8971,18 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, min: 100_000)
-            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, min: 100_000)
+            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, max: 100000000)
+            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, min: 100000)
+            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, max: 100000000)
+            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, min: 100000)
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: -5)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumBitrate
-            case minimumBitrate
-            case priority
+            case maximumBitrate = "maximumBitrate"
+            case minimumBitrate = "minimumBitrate"
+            case priority = "priority"
         }
     }
 
@@ -9019,15 +9019,15 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -9045,14 +9045,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, max: 100_000_000)
-            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, min: 100_000)
+            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, max: 100000000)
+            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, min: 100000)
             try self.statmuxSettings?.validate(name: "\(name).statmuxSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantBitrate
-            case statmuxSettings
+            case constantBitrate = "constantBitrate"
+            case statmuxSettings = "statmuxSettings"
         }
     }
 
@@ -9072,8 +9072,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsInputSettings
-            case serverValidation
+            case hlsInputSettings = "hlsInputSettings"
+            case serverValidation = "serverValidation"
         }
     }
 
@@ -9099,9 +9099,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cbetCheckDigitString
-            case cbetStepaside
-            case csid
+            case cbetCheckDigitString = "cbetCheckDigitString"
+            case cbetStepaside = "cbetStepaside"
+            case csid = "csid"
         }
     }
 
@@ -9117,8 +9117,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributorId
-            case nielsenPcmToId3Tagging
+            case distributorId = "distributorId"
+            case nielsenPcmToId3Tagging = "nielsenPcmToId3Tagging"
         }
     }
 
@@ -9139,8 +9139,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkDigitString
-            case sid
+            case checkDigitString = "checkDigitString"
+            case sid = "sid"
         }
     }
 
@@ -9166,9 +9166,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nielsenCbetSettings
-            case nielsenDistributionType
-            case nielsenNaesIiNwSettings
+            case nielsenCbetSettings = "nielsenCbetSettings"
+            case nielsenDistributionType = "nielsenDistributionType"
+            case nielsenNaesIiNwSettings = "nielsenNaesIiNwSettings"
         }
     }
 
@@ -9211,17 +9211,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case currencyCode
-            case duration
-            case durationUnits
-            case fixedPrice
-            case offeringDescription
-            case offeringId
-            case offeringType
-            case region
-            case resourceSpecification
-            case usagePrice
+            case arn = "arn"
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case fixedPrice = "fixedPrice"
+            case offeringDescription = "offeringDescription"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case region = "region"
+            case resourceSpecification = "resourceSpecification"
+            case usagePrice = "usagePrice"
         }
     }
 
@@ -9252,11 +9252,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptionNames
-            case captionDescriptionNames
-            case outputName
-            case outputSettings
-            case videoDescriptionName
+            case audioDescriptionNames = "audioDescriptionNames"
+            case captionDescriptionNames = "captionDescriptionNames"
+            case outputName = "outputName"
+            case outputSettings = "outputSettings"
+            case videoDescriptionName = "videoDescriptionName"
         }
     }
 
@@ -9285,10 +9285,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case mediaPackageSettings
-            case multiplexSettings
-            case settings
+            case id = "id"
+            case mediaPackageSettings = "mediaPackageSettings"
+            case multiplexSettings = "multiplexSettings"
+            case settings = "settings"
         }
     }
 
@@ -9310,10 +9310,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordParam
-            case streamName
-            case url
-            case username
+            case passwordParam = "passwordParam"
+            case streamName = "streamName"
+            case url = "url"
+            case username = "username"
         }
     }
 
@@ -9339,9 +9339,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case outputGroupSettings
-            case outputs
+            case name = "name"
+            case outputGroupSettings = "outputGroupSettings"
+            case outputs = "outputs"
         }
     }
 
@@ -9375,14 +9375,14 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveGroupSettings
-            case frameCaptureGroupSettings
-            case hlsGroupSettings
-            case mediaPackageGroupSettings
-            case msSmoothGroupSettings
-            case multiplexGroupSettings
-            case rtmpGroupSettings
-            case udpGroupSettings
+            case archiveGroupSettings = "archiveGroupSettings"
+            case frameCaptureGroupSettings = "frameCaptureGroupSettings"
+            case hlsGroupSettings = "hlsGroupSettings"
+            case mediaPackageGroupSettings = "mediaPackageGroupSettings"
+            case msSmoothGroupSettings = "msSmoothGroupSettings"
+            case multiplexGroupSettings = "multiplexGroupSettings"
+            case rtmpGroupSettings = "rtmpGroupSettings"
+            case udpGroupSettings = "udpGroupSettings"
         }
     }
 
@@ -9394,7 +9394,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationRefId
+            case destinationRefId = "destinationRefId"
         }
     }
 
@@ -9427,14 +9427,14 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveOutputSettings
-            case frameCaptureOutputSettings
-            case hlsOutputSettings
-            case mediaPackageOutputSettings
-            case msSmoothOutputSettings
-            case multiplexOutputSettings
-            case rtmpOutputSettings
-            case udpOutputSettings
+            case archiveOutputSettings = "archiveOutputSettings"
+            case frameCaptureOutputSettings = "frameCaptureOutputSettings"
+            case hlsOutputSettings = "hlsOutputSettings"
+            case mediaPackageOutputSettings = "mediaPackageOutputSettings"
+            case msSmoothOutputSettings = "msSmoothOutputSettings"
+            case multiplexOutputSettings = "multiplexOutputSettings"
+            case rtmpOutputSettings = "rtmpOutputSettings"
+            case udpOutputSettings = "udpOutputSettings"
         }
     }
 
@@ -9450,7 +9450,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelines
+            case pipelines = "pipelines"
         }
     }
 
@@ -9475,11 +9475,11 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeInputAttachmentName
-            case activeInputSwitchActionName
-            case activeMotionGraphicsActionName
-            case activeMotionGraphicsUri
-            case pipelineId
+            case activeInputAttachmentName = "activeInputAttachmentName"
+            case activeInputSwitchActionName = "activeInputSwitchActionName"
+            case activeMotionGraphicsActionName = "activeMotionGraphicsActionName"
+            case activeMotionGraphicsUri = "activeMotionGraphicsUri"
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -9492,7 +9492,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
+            case pipelineId = "pipelineId"
         }
     }
 
@@ -9532,12 +9532,12 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case name
-            case renewalSettings
-            case requestId
-            case start
-            case tags
+            case count = "count"
+            case name = "name"
+            case renewalSettings = "renewalSettings"
+            case requestId = "requestId"
+            case start = "start"
+            case tags = "tags"
         }
     }
 
@@ -9549,7 +9549,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
@@ -9573,7 +9573,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case force
+            case force = "force"
         }
     }
 
@@ -9634,9 +9634,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelMappings
-            case channelsIn
-            case channelsOut
+            case channelMappings = "channelMappings"
+            case channelsIn = "channelsIn"
+            case channelsOut = "channelsOut"
         }
     }
 
@@ -9656,8 +9656,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case automaticRenewal
-            case renewalCount
+            case automaticRenewal = "automaticRenewal"
+            case renewalCount = "renewalCount"
         }
     }
 
@@ -9724,25 +9724,25 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case currencyCode
-            case duration
-            case durationUnits
-            case end
-            case fixedPrice
-            case name
-            case offeringDescription
-            case offeringId
-            case offeringType
-            case region
-            case renewalSettings
-            case reservationId
-            case resourceSpecification
-            case start
-            case state
-            case tags
-            case usagePrice
+            case arn = "arn"
+            case count = "count"
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case fixedPrice = "fixedPrice"
+            case name = "name"
+            case offeringDescription = "offeringDescription"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case region = "region"
+            case renewalSettings = "renewalSettings"
+            case reservationId = "reservationId"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
+            case state = "state"
+            case tags = "tags"
+            case usagePrice = "usagePrice"
         }
     }
 
@@ -9776,14 +9776,14 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelClass
-            case codec
-            case maximumBitrate
-            case maximumFramerate
-            case resolution
-            case resourceType
-            case specialFeature
-            case videoQuality
+            case channelClass = "channelClass"
+            case codec = "codec"
+            case maximumBitrate = "maximumBitrate"
+            case maximumFramerate = "maximumFramerate"
+            case resolution = "resolution"
+            case resourceType = "resourceType"
+            case specialFeature = "specialFeature"
+            case videoQuality = "videoQuality"
         }
     }
 
@@ -9825,13 +9825,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adMarkers
-            case authenticationScheme
-            case cacheFullBehavior
-            case cacheLength
-            case captionData
-            case inputLossAction
-            case restartDelay
+            case adMarkers = "adMarkers"
+            case authenticationScheme = "authenticationScheme"
+            case cacheFullBehavior = "cacheFullBehavior"
+            case cacheLength = "cacheLength"
+            case captionData = "captionData"
+            case inputLossAction = "inputLossAction"
+            case restartDelay = "restartDelay"
         }
     }
 
@@ -9858,10 +9858,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateMode
-            case connectionRetryInterval
-            case destination
-            case numRetries
+            case certificateMode = "certificateMode"
+            case connectionRetryInterval = "connectionRetryInterval"
+            case destination = "destination"
+            case numRetries = "numRetries"
         }
     }
 
@@ -9884,9 +9884,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case scheduleActionSettings
-            case scheduleActionStartSettings
+            case actionName = "actionName"
+            case scheduleActionSettings = "scheduleActionSettings"
+            case scheduleActionStartSettings = "scheduleActionStartSettings"
         }
     }
 
@@ -9944,19 +9944,19 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsId3SegmentTaggingSettings
-            case hlsTimedMetadataSettings
-            case inputPrepareSettings
-            case inputSwitchSettings
-            case motionGraphicsImageActivateSettings
-            case motionGraphicsImageDeactivateSettings
-            case pauseStateSettings
-            case scte35InputSettings
-            case scte35ReturnToNetworkSettings
-            case scte35SpliceInsertSettings
-            case scte35TimeSignalSettings
-            case staticImageActivateSettings
-            case staticImageDeactivateSettings
+            case hlsId3SegmentTaggingSettings = "hlsId3SegmentTaggingSettings"
+            case hlsTimedMetadataSettings = "hlsTimedMetadataSettings"
+            case inputPrepareSettings = "inputPrepareSettings"
+            case inputSwitchSettings = "inputSwitchSettings"
+            case motionGraphicsImageActivateSettings = "motionGraphicsImageActivateSettings"
+            case motionGraphicsImageDeactivateSettings = "motionGraphicsImageDeactivateSettings"
+            case pauseStateSettings = "pauseStateSettings"
+            case scte35InputSettings = "scte35InputSettings"
+            case scte35ReturnToNetworkSettings = "scte35ReturnToNetworkSettings"
+            case scte35SpliceInsertSettings = "scte35SpliceInsertSettings"
+            case scte35TimeSignalSettings = "scte35TimeSignalSettings"
+            case staticImageActivateSettings = "staticImageActivateSettings"
+            case staticImageDeactivateSettings = "staticImageDeactivateSettings"
         }
     }
 
@@ -9975,9 +9975,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fixedModeScheduleActionStartSettings
-            case followModeScheduleActionStartSettings
-            case immediateModeScheduleActionStartSettings
+            case fixedModeScheduleActionStartSettings = "fixedModeScheduleActionStartSettings"
+            case followModeScheduleActionStartSettings = "followModeScheduleActionStartSettings"
+            case immediateModeScheduleActionStartSettings = "immediateModeScheduleActionStartSettings"
         }
     }
 
@@ -10002,8 +10002,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case source608ChannelNumber
+            case convert608To708 = "convert608To708"
+            case source608ChannelNumber = "source608ChannelNumber"
         }
     }
 
@@ -10028,8 +10028,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ocrLanguage
-            case pid
+            case ocrLanguage = "ocrLanguage"
+            case pid = "pid"
         }
     }
 
@@ -10051,10 +10051,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveAllowedFlag
-            case deviceRestrictions
-            case noRegionalBlackoutFlag
-            case webDeliveryAllowedFlag
+            case archiveAllowedFlag = "archiveAllowedFlag"
+            case deviceRestrictions = "deviceRestrictions"
+            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
+            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
         }
     }
 
@@ -10071,7 +10071,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scte35DescriptorSettings
+            case scte35DescriptorSettings = "scte35DescriptorSettings"
         }
     }
 
@@ -10088,7 +10088,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case segmentationDescriptorScte35DescriptorSettings
+            case segmentationDescriptorScte35DescriptorSettings = "segmentationDescriptorScte35DescriptorSettings"
         }
     }
 
@@ -10104,8 +10104,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputAttachmentNameReference
-            case mode
+            case inputAttachmentNameReference = "inputAttachmentNameReference"
+            case mode = "mode"
         }
     }
 
@@ -10118,12 +10118,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4_294_967_295)
+            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4294967295)
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spliceEventId
+            case spliceEventId = "spliceEventId"
         }
     }
 
@@ -10166,9 +10166,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, max: 1_099_511_627_775)
+            try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, max: 1099511627775)
             try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, min: 0)
-            try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, max: 4_294_967_295)
+            try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, max: 4294967295)
             try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, min: 0)
             try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, max: 255)
             try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, min: 0)
@@ -10185,17 +10185,17 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryRestrictions
-            case segmentationCancelIndicator
-            case segmentationDuration
-            case segmentationEventId
-            case segmentationTypeId
-            case segmentationUpid
-            case segmentationUpidType
-            case segmentNum
-            case segmentsExpected
-            case subSegmentNum
-            case subSegmentsExpected
+            case deliveryRestrictions = "deliveryRestrictions"
+            case segmentationCancelIndicator = "segmentationCancelIndicator"
+            case segmentationDuration = "segmentationDuration"
+            case segmentationEventId = "segmentationEventId"
+            case segmentationTypeId = "segmentationTypeId"
+            case segmentationUpid = "segmentationUpid"
+            case segmentationUpidType = "segmentationUpidType"
+            case segmentNum = "segmentNum"
+            case segmentsExpected = "segmentsExpected"
+            case subSegmentNum = "subSegmentNum"
+            case subSegmentsExpected = "subSegmentsExpected"
         }
     }
 
@@ -10219,9 +10219,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case noRegionalBlackoutFlag
-            case webDeliveryAllowedFlag
+            case adAvailOffset = "adAvailOffset"
+            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
+            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
         }
     }
 
@@ -10237,15 +10237,15 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 8_589_934_591)
+            try self.validate(self.duration, name: "duration", parent: name, max: 8589934591)
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4_294_967_295)
+            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4294967295)
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case spliceEventId
+            case duration = "duration"
+            case spliceEventId = "spliceEventId"
         }
     }
 
@@ -10269,9 +10269,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case noRegionalBlackoutFlag
-            case webDeliveryAllowedFlag
+            case adAvailOffset = "adAvailOffset"
+            case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
+            case webDeliveryAllowedFlag = "webDeliveryAllowedFlag"
         }
     }
 
@@ -10290,7 +10290,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scte35Descriptors
+            case scte35Descriptors = "scte35Descriptors"
         }
     }
 
@@ -10313,8 +10313,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioRenditionSets
-            case m3u8Settings
+            case audioRenditionSets = "audioRenditionSets"
+            case m3u8Settings = "m3u8Settings"
         }
     }
 
@@ -10393,24 +10393,24 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case encoderSettings
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelineDetails
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case encoderSettings = "encoderSettings"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelineDetails = "pipelineDetails"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -10484,16 +10484,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case destinations
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -10506,7 +10506,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timecode
+            case timecode = "timecode"
         }
     }
 
@@ -10561,16 +10561,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case fadeIn
-            case fadeOut
-            case height
-            case image
-            case imageX
-            case imageY
-            case layer
-            case opacity
-            case width
+            case duration = "duration"
+            case fadeIn = "fadeIn"
+            case fadeOut = "fadeOut"
+            case height = "height"
+            case image = "image"
+            case imageX = "imageX"
+            case imageY = "imageY"
+            case layer = "layer"
+            case opacity = "opacity"
+            case width = "width"
         }
     }
 
@@ -10592,8 +10592,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fadeOut
-            case layer
+            case fadeOut = "fadeOut"
+            case layer = "layer"
         }
     }
 
@@ -10615,8 +10615,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyProviderServer
-            case staticKeyValue
+            case keyProviderServer = "keyProviderServer"
+            case staticKeyValue = "staticKeyValue"
         }
     }
 
@@ -10695,24 +10695,24 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case cdiInputSpecification
-            case channelClass
-            case destinations
-            case egressEndpoints
-            case encoderSettings
-            case id
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case pipelineDetails
-            case pipelinesRunningCount
-            case roleArn
-            case state
-            case tags
-            case vpc
+            case arn = "arn"
+            case cdiInputSpecification = "cdiInputSpecification"
+            case channelClass = "channelClass"
+            case destinations = "destinations"
+            case egressEndpoints = "egressEndpoints"
+            case encoderSettings = "encoderSettings"
+            case id = "id"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case pipelineDetails = "pipelineDetails"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+            case vpc = "vpc"
         }
     }
 
@@ -10767,16 +10767,16 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZones
-            case destinations
-            case id
-            case multiplexSettings
-            case name
-            case pipelinesRunningCount
-            case programCount
-            case state
-            case tags
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -10792,8 +10792,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastFrameClippingBehavior
-            case timecode
+            case lastFrameClippingBehavior = "lastFrameClippingBehavior"
+            case timecode = "timecode"
         }
     }
 
@@ -10813,8 +10813,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputRectangle
-            case pageNumber
+            case outputRectangle = "outputRectangle"
+            case pageNumber = "pageNumber"
         }
     }
 
@@ -10832,8 +10832,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case postFilterSharpening
-            case strength
+            case postFilterSharpening = "postFilterSharpening"
+            case strength = "strength"
         }
     }
 
@@ -10856,9 +10856,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fontSize
-            case position
-            case prefix
+            case fontSize = "fontSize"
+            case position = "position"
+            case prefix = "prefix"
         }
     }
 
@@ -10877,13 +10877,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, max: 1_000_000)
+            try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, max: 1000000)
             try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case syncThreshold
+            case source = "source"
+            case syncThreshold = "syncThreshold"
         }
     }
 
@@ -10909,9 +10909,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetCustomerId
-            case targetRegion
-            case transferMessage
+            case targetCustomerId = "targetCustomerId"
+            case targetRegion = "targetRegion"
+            case transferMessage = "transferMessage"
         }
     }
 
@@ -10937,10 +10937,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case message
-            case targetCustomerId
-            case transferType
+            case id = "id"
+            case message = "message"
+            case targetCustomerId = "targetCustomerId"
+            case transferType = "transferType"
         }
     }
 
@@ -10953,7 +10953,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case styleControl
+            case styleControl = "styleControl"
         }
     }
 
@@ -10969,7 +10969,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case m2tsSettings
+            case m2tsSettings = "m2tsSettings"
         }
     }
 
@@ -10992,9 +10992,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputLossAction
-            case timedMetadataId3Frame
-            case timedMetadataId3Period
+            case inputLossAction = "inputLossAction"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
         }
     }
 
@@ -11022,10 +11022,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bufferMsec
-            case containerSettings
-            case destination
-            case fecOutputSettings
+            case bufferMsec = "bufferMsec"
+            case containerSettings = "containerSettings"
+            case destination = "destination"
+            case fecOutputSettings = "fecOutputSettings"
         }
     }
 
@@ -11054,8 +11054,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelClass
-            case destinations
+            case channelClass = "channelClass"
+            case destinations = "destinations"
         }
     }
 
@@ -11067,7 +11067,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
+            case channel = "channel"
         }
     }
 
@@ -11121,15 +11121,15 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cdiInputSpecification
-            case destinations
-            case encoderSettings
-            case inputAttachments
-            case inputSpecification
-            case logLevel
-            case maintenance
-            case name
-            case roleArn
+            case cdiInputSpecification = "cdiInputSpecification"
+            case destinations = "destinations"
+            case encoderSettings = "encoderSettings"
+            case inputAttachments = "inputAttachments"
+            case inputSpecification = "inputSpecification"
+            case logLevel = "logLevel"
+            case maintenance = "maintenance"
+            case name = "name"
+            case roleArn = "roleArn"
         }
     }
 
@@ -11141,7 +11141,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
+            case channel = "channel"
         }
     }
 
@@ -11167,9 +11167,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hdDeviceSettings
-            case name
-            case uhdDeviceSettings
+            case hdDeviceSettings = "hdDeviceSettings"
+            case name = "name"
+            case uhdDeviceSettings = "uhdDeviceSettings"
         }
     }
 
@@ -11215,18 +11215,18 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectionState
-            case deviceSettingsSyncState
-            case deviceUpdateStatus
-            case hdDeviceSettings
-            case id
-            case macAddress
-            case name
-            case networkSettings
-            case serialNumber
-            case type
-            case uhdDeviceSettings
+            case arn = "arn"
+            case connectionState = "connectionState"
+            case deviceSettingsSyncState = "deviceSettingsSyncState"
+            case deviceUpdateStatus = "deviceUpdateStatus"
+            case hdDeviceSettings = "hdDeviceSettings"
+            case id = "id"
+            case macAddress = "macAddress"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case serialNumber = "serialNumber"
+            case type = "type"
+            case uhdDeviceSettings = "uhdDeviceSettings"
         }
     }
 
@@ -11268,13 +11268,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case inputDevices
-            case inputSecurityGroups
-            case mediaConnectFlows
-            case name
-            case roleArn
-            case sources
+            case destinations = "destinations"
+            case inputDevices = "inputDevices"
+            case inputSecurityGroups = "inputSecurityGroups"
+            case mediaConnectFlows = "mediaConnectFlows"
+            case name = "name"
+            case roleArn = "roleArn"
+            case sources = "sources"
         }
     }
 
@@ -11286,7 +11286,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
+            case input = "input"
         }
     }
 
@@ -11309,8 +11309,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case whitelistRules
+            case tags = "tags"
+            case whitelistRules = "whitelistRules"
         }
     }
 
@@ -11322,7 +11322,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroup
+            case securityGroup = "securityGroup"
         }
     }
 
@@ -11350,7 +11350,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexProgramSettings
+            case multiplexProgramSettings = "multiplexProgramSettings"
         }
     }
 
@@ -11363,7 +11363,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexProgram
+            case multiplexProgram = "multiplexProgram"
         }
     }
 
@@ -11390,8 +11390,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplexSettings
-            case name
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
         }
     }
 
@@ -11404,7 +11404,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case multiplex
+            case multiplex = "multiplex"
         }
     }
 
@@ -11431,8 +11431,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case renewalSettings
+            case name = "name"
+            case renewalSettings = "renewalSettings"
         }
     }
 
@@ -11444,7 +11444,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
@@ -11464,8 +11464,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blackDetectThreshold
-            case videoBlackThresholdMsec
+            case blackDetectThreshold = "blackDetectThreshold"
+            case videoBlackThresholdMsec = "videoBlackThresholdMsec"
         }
     }
 
@@ -11490,10 +11490,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameCaptureSettings
-            case h264Settings
-            case h265Settings
-            case mpeg2Settings
+            case frameCaptureSettings = "frameCaptureSettings"
+            case h264Settings = "h264Settings"
+            case h265Settings = "h265Settings"
+            case mpeg2Settings = "mpeg2Settings"
         }
     }
 
@@ -11533,13 +11533,13 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codecSettings
-            case height
-            case name
-            case respondToAfd
-            case scalingBehavior
-            case sharpness
-            case width
+            case codecSettings = "codecSettings"
+            case height = "height"
+            case name = "name"
+            case respondToAfd = "respondToAfd"
+            case scalingBehavior = "scalingBehavior"
+            case sharpness = "sharpness"
+            case width = "width"
         }
     }
 
@@ -11566,10 +11566,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case colorSpace
-            case colorSpaceSettings
-            case colorSpaceUsage
-            case selectorSettings
+            case colorSpace = "colorSpace"
+            case colorSpaceSettings = "colorSpaceSettings"
+            case colorSpaceUsage = "colorSpaceUsage"
+            case selectorSettings = "selectorSettings"
         }
     }
 
@@ -11585,7 +11585,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hdr10Settings
+            case hdr10Settings = "hdr10Settings"
         }
     }
 
@@ -11603,7 +11603,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pid
+            case pid = "pid"
         }
     }
 
@@ -11621,7 +11621,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case programId
+            case programId = "programId"
         }
     }
 
@@ -11640,8 +11640,8 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case videoSelectorPid
-            case videoSelectorProgramId
+            case videoSelectorPid = "videoSelectorPid"
+            case videoSelectorProgramId = "videoSelectorProgramId"
         }
     }
 
@@ -11663,9 +11663,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publicAddressAllocationIds
-            case securityGroupIds
-            case subnetIds
+            case publicAddressAllocationIds = "publicAddressAllocationIds"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -11690,10 +11690,10 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case networkInterfaceIds
-            case securityGroupIds
-            case subnetIds
+            case availabilityZones = "availabilityZones"
+            case networkInterfaceIds = "networkInterfaceIds"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -11712,9 +11712,9 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitDepth
-            case codingMode
-            case sampleRate
+            case bitDepth = "bitDepth"
+            case codingMode = "codingMode"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -11727,7 +11727,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case styleControl
+            case styleControl = "styleControl"
         }
     }
 }

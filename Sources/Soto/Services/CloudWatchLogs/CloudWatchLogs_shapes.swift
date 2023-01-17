@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -114,8 +114,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case logGroupName
+            case kmsKeyId = "kmsKeyId"
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -133,7 +133,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId
+            case taskId = "taskId"
         }
     }
 
@@ -179,13 +179,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationPrefix
-            case from
-            case logGroupName
-            case logStreamNamePrefix
-            case taskName
-            case to
+            case destination = "destination"
+            case destinationPrefix = "destinationPrefix"
+            case from = "from"
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case taskName = "taskName"
+            case to = "to"
         }
     }
 
@@ -198,7 +198,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId
+            case taskId = "taskId"
         }
     }
 
@@ -233,9 +233,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case logGroupName
-            case tags
+            case kmsKeyId = "kmsKeyId"
+            case logGroupName = "logGroupName"
+            case tags = "tags"
         }
     }
 
@@ -260,8 +260,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logStreamName
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
         }
     }
 
@@ -280,7 +280,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupIdentifier
+            case logGroupIdentifier = "logGroupIdentifier"
         }
     }
 
@@ -299,7 +299,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName
+            case destinationName = "destinationName"
         }
     }
 
@@ -318,7 +318,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -343,8 +343,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logStreamName
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
         }
     }
 
@@ -369,8 +369,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName
-            case logGroupName
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -387,7 +387,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryDefinitionId
+            case queryDefinitionId = "queryDefinitionId"
         }
     }
 
@@ -400,7 +400,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case success
+            case success = "success"
         }
     }
 
@@ -413,7 +413,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName
+            case policyName = "policyName"
         }
     }
 
@@ -432,7 +432,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -457,8 +457,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName
-            case logGroupName
+            case filterName = "filterName"
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -487,8 +487,8 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case destinationNamePrefix = "DestinationNamePrefix"
-            case limit
-            case nextToken
+            case limit = "limit"
+            case nextToken = "nextToken"
         }
     }
 
@@ -503,8 +503,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case nextToken
+            case destinations = "destinations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -534,10 +534,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case nextToken
-            case statusCode
-            case taskId
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case statusCode = "statusCode"
+            case taskId = "taskId"
         }
     }
 
@@ -552,16 +552,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportTasks
-            case nextToken
+            case exportTasks = "exportTasks"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeLogGroupsRequest: AWSEncodableShape {
         /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
         public let accountIdentifiers: [String]?
-        /// If you are using a monitoring account, set this to True to have the operation return log groups in  the accounts listed in accountIdentifiers.
-        ///   If this parameter is set to true and accountIdentifiers
+        /// If you are using a monitoring account, set this to True to have the operation return log groups in  the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers
         ///  contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.   If you specify includeLinkedAccounts in your request, then metricFilterCount, retentionInDays, and storedBytes are not included in the response.
         public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -569,7 +568,7 @@ extension CloudWatchLogs {
         /// If you specify a string for this parameter, the operation returns only log groups that have names
         /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
         /// named FooBar, aws/Foo, and GroupFoo would match, but foo,
-        /// F/o/o and Froo would not match.      logGroupNamePattern and logGroupNamePrefix are mutually exclusive.  Only one  of these parameters can be passed.
+        /// F/o/o and Froo would not match.   logGroupNamePattern and logGroupNamePrefix are mutually exclusive.  Only one  of these parameters can be passed.
         public let logGroupNamePattern: String?
         /// The prefix to match.   logGroupNamePrefix and logGroupNamePattern are mutually exclusive.  Only one  of these parameters can be passed.
         public let logGroupNamePrefix: String?
@@ -603,12 +602,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIdentifiers
-            case includeLinkedAccounts
-            case limit
-            case logGroupNamePattern
-            case logGroupNamePrefix
-            case nextToken
+            case accountIdentifiers = "accountIdentifiers"
+            case includeLinkedAccounts = "includeLinkedAccounts"
+            case limit = "limit"
+            case logGroupNamePattern = "logGroupNamePattern"
+            case logGroupNamePrefix = "logGroupNamePrefix"
+            case nextToken = "nextToken"
         }
     }
 
@@ -623,8 +622,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroups
-            case nextToken
+            case logGroups = "logGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -633,18 +632,18 @@ extension CloudWatchLogs {
         public let descending: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupIdentifier: String?
         /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
-        public let logGroupName: String
-        /// The prefix to match.  If orderBy is LastEventTime, you cannot specify this parameter.
+        public let logGroupName: String?
+        /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
         public let logStreamNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time.  The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.  lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimestamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let orderBy: OrderBy?
 
-        public init(descending: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
+        public init(descending: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
             self.descending = descending
             self.limit = limit
             self.logGroupIdentifier = logGroupIdentifier
@@ -670,13 +669,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descending
-            case limit
-            case logGroupIdentifier
-            case logGroupName
-            case logStreamNamePrefix
-            case nextToken
-            case orderBy
+            case descending = "descending"
+            case limit = "limit"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case nextToken = "nextToken"
+            case orderBy = "orderBy"
         }
     }
 
@@ -691,8 +690,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreams
-            case nextToken
+            case logStreams = "logStreams"
+            case nextToken = "nextToken"
         }
     }
 
@@ -736,12 +735,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNamePrefix
-            case limit
-            case logGroupName
-            case metricName
-            case metricNamespace
-            case nextToken
+            case filterNamePrefix = "filterNamePrefix"
+            case limit = "limit"
+            case logGroupName = "logGroupName"
+            case metricName = "metricName"
+            case metricNamespace = "metricNamespace"
+            case nextToken = "nextToken"
         }
     }
 
@@ -756,8 +755,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricFilters
-            case nextToken
+            case metricFilters = "metricFilters"
+            case nextToken = "nextToken"
         }
     }
 
@@ -787,10 +786,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case maxResults
-            case nextToken
-            case status
+            case logGroupName = "logGroupName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
@@ -805,8 +804,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case queries
+            case nextToken = "nextToken"
+            case queries = "queries"
         }
     }
 
@@ -833,9 +832,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case queryDefinitionNamePrefix
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryDefinitionNamePrefix = "queryDefinitionNamePrefix"
         }
     }
 
@@ -850,8 +849,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case queryDefinitions
+            case nextToken = "nextToken"
+            case queryDefinitions = "queryDefinitions"
         }
     }
 
@@ -872,8 +871,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case nextToken
+            case limit = "limit"
+            case nextToken = "nextToken"
         }
     }
 
@@ -888,8 +887,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourcePolicies
+            case nextToken = "nextToken"
+            case resourcePolicies = "resourcePolicies"
         }
     }
 
@@ -923,10 +922,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNamePrefix
-            case limit
-            case logGroupName
-            case nextToken
+            case filterNamePrefix = "filterNamePrefix"
+            case limit = "limit"
+            case logGroupName = "logGroupName"
+            case nextToken = "nextToken"
         }
     }
 
@@ -941,8 +940,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case subscriptionFilters
+            case nextToken = "nextToken"
+            case subscriptionFilters = "subscriptionFilters"
         }
     }
 
@@ -970,12 +969,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicy
-            case arn
-            case creationTime
-            case destinationName
-            case roleArn
-            case targetArn
+            case accessPolicy = "accessPolicy"
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case destinationName = "destinationName"
+            case roleArn = "roleArn"
+            case targetArn = "targetArn"
         }
     }
 
@@ -994,7 +993,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -1031,15 +1030,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationPrefix
-            case executionInfo
-            case from
-            case logGroupName
-            case status
-            case taskId
-            case taskName
-            case to
+            case destination = "destination"
+            case destinationPrefix = "destinationPrefix"
+            case executionInfo = "executionInfo"
+            case from = "from"
+            case logGroupName = "logGroupName"
+            case status = "status"
+            case taskId = "taskId"
+            case taskName = "taskName"
+            case to = "to"
         }
     }
 
@@ -1055,8 +1054,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
         }
     }
 
@@ -1072,8 +1071,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1086,10 +1085,10 @@ extension CloudWatchLogs {
         public let interleaved: Bool?
         /// The maximum number of events to return. The default is 10,000 events.
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupIdentifier: String?
         /// The name of the log group to search.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
-        public let logGroupName: String
+        public let logGroupName: String?
         /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
         public let logStreamNamePrefix: String?
         /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
@@ -1101,7 +1100,7 @@ extension CloudWatchLogs {
         /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
         public let unmask: Bool?
 
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = nil
@@ -1116,7 +1115,7 @@ extension CloudWatchLogs {
         }
 
         @available(*, deprecated, message: "Members interleaved have been deprecated")
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = interleaved
@@ -1156,17 +1155,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case filterPattern
-            case interleaved
-            case limit
-            case logGroupIdentifier
-            case logGroupName
-            case logStreamNamePrefix
-            case logStreamNames
-            case nextToken
-            case startTime
-            case unmask
+            case endTime = "endTime"
+            case filterPattern = "filterPattern"
+            case interleaved = "interleaved"
+            case limit = "limit"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
+            case logStreamNames = "logStreamNames"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+            case unmask = "unmask"
         }
     }
 
@@ -1185,9 +1184,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
-            case searchedLogStreams
+            case events = "events"
+            case nextToken = "nextToken"
+            case searchedLogStreams = "searchedLogStreams"
         }
     }
 
@@ -1212,11 +1211,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case ingestionTime
-            case logStreamName
-            case message
-            case timestamp
+            case eventId = "eventId"
+            case ingestionTime = "ingestionTime"
+            case logStreamName = "logStreamName"
+            case message = "message"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1235,7 +1234,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupIdentifier
+            case logGroupIdentifier = "logGroupIdentifier"
         }
     }
 
@@ -1254,9 +1253,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime
-            case logGroupIdentifier
-            case policyDocument
+            case lastUpdatedTime = "lastUpdatedTime"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case policyDocument = "policyDocument"
         }
     }
 
@@ -1265,10 +1264,10 @@ extension CloudWatchLogs {
         public let endTime: Int64?
         /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events).
         public let limit: Int?
-        /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupIdentifier: String?
         /// The name of the log group.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
-        public let logGroupName: String
+        public let logGroupName: String?
         /// The name of the log stream.
         public let logStreamName: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1280,7 +1279,7 @@ extension CloudWatchLogs {
         /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
         public let unmask: Bool?
 
-        public init(endTime: Int64? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
+        public init(endTime: Int64? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamName: String, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.limit = limit
             self.logGroupIdentifier = logGroupIdentifier
@@ -1310,15 +1309,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case limit
-            case logGroupIdentifier
-            case logGroupName
-            case logStreamName
-            case nextToken
-            case startFromHead
-            case startTime
-            case unmask
+            case endTime = "endTime"
+            case limit = "limit"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
+            case nextToken = "nextToken"
+            case startFromHead = "startFromHead"
+            case startTime = "startTime"
+            case unmask = "unmask"
         }
     }
 
@@ -1337,21 +1336,21 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextBackwardToken
-            case nextForwardToken
+            case events = "events"
+            case nextBackwardToken = "nextBackwardToken"
+            case nextForwardToken = "nextForwardToken"
         }
     }
 
     public struct GetLogGroupFieldsRequest: AWSEncodableShape {
-        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+        /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
         public let logGroupIdentifier: String?
-        /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-        public let logGroupName: String
+        /// The name of the log group to search.   If you specify values for both logGroupName and logGroupIdentifier,  the action returns an InvalidParameterException error.
+        public let logGroupName: String?
         /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
 
-        public init(logGroupIdentifier: String? = nil, logGroupName: String, time: Int64? = nil) {
+        public init(logGroupIdentifier: String? = nil, logGroupName: String? = nil, time: Int64? = nil) {
             self.logGroupIdentifier = logGroupIdentifier
             self.logGroupName = logGroupName
             self.time = time
@@ -1368,9 +1367,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupIdentifier
-            case logGroupName
-            case time
+            case logGroupIdentifier = "logGroupIdentifier"
+            case logGroupName = "logGroupName"
+            case time = "time"
         }
     }
 
@@ -1383,7 +1382,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupFields
+            case logGroupFields = "logGroupFields"
         }
     }
 
@@ -1399,8 +1398,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logRecordPointer
-            case unmask
+            case logRecordPointer = "logRecordPointer"
+            case unmask = "unmask"
         }
     }
 
@@ -1413,7 +1412,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logRecord
+            case logRecord = "logRecord"
         }
     }
 
@@ -1430,7 +1429,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId
+            case queryId = "queryId"
         }
     }
 
@@ -1449,9 +1448,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case results
-            case statistics
-            case status
+            case results = "results"
+            case statistics = "statistics"
+            case status = "status"
         }
     }
 
@@ -1472,8 +1471,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case timestamp
+            case message = "message"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1492,7 +1491,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1505,7 +1504,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1524,7 +1523,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -1537,7 +1536,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1570,14 +1569,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case dataProtectionStatus
-            case kmsKeyId
-            case logGroupName
-            case metricFilterCount
-            case retentionInDays
-            case storedBytes
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case dataProtectionStatus = "dataProtectionStatus"
+            case kmsKeyId = "kmsKeyId"
+            case logGroupName = "logGroupName"
+            case metricFilterCount = "metricFilterCount"
+            case retentionInDays = "retentionInDays"
+            case storedBytes = "storedBytes"
         }
     }
 
@@ -1593,8 +1592,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case percent
+            case name = "name"
+            case percent = "percent"
         }
     }
 
@@ -1607,13 +1606,13 @@ extension CloudWatchLogs {
         public let firstEventTimestamp: Int64?
         /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let lastEventTimestamp: Int64?
-        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC The lastIngestionTime value updates on an eventual consistency basis. It  typically updates in less than an hour after ingestion, but in rare situations might take longer.
         public let lastIngestionTime: Int64?
         /// The name of the log stream.
         public let logStreamName: String?
         /// The number of bytes stored.  Important: As of June 17, 2019, this parameter is no longer supported for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
         public let storedBytes: Int64?
-        /// The sequence token.
+        /// The sequence token.  The sequence token is now ignored in  PutLogEvents actions. PutLogEvents actions are always accepted regardless of receiving an invalid sequence token.  You don't need to obtain uploadSequenceToken to use a PutLogEvents action.
         public let uploadSequenceToken: String?
 
         public init(arn: String? = nil, creationTime: Int64? = nil, firstEventTimestamp: Int64? = nil, lastEventTimestamp: Int64? = nil, lastIngestionTime: Int64? = nil, logStreamName: String? = nil, uploadSequenceToken: String? = nil) {
@@ -1640,14 +1639,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case firstEventTimestamp
-            case lastEventTimestamp
-            case lastIngestionTime
-            case logStreamName
-            case storedBytes
-            case uploadSequenceToken
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case firstEventTimestamp = "firstEventTimestamp"
+            case lastEventTimestamp = "lastEventTimestamp"
+            case lastIngestionTime = "lastIngestionTime"
+            case logStreamName = "logStreamName"
+            case storedBytes = "storedBytes"
+            case uploadSequenceToken = "uploadSequenceToken"
         }
     }
 
@@ -1671,11 +1670,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case filterName
-            case filterPattern
-            case logGroupName
-            case metricTransformations
+            case creationTime = "creationTime"
+            case filterName = "filterName"
+            case filterPattern = "filterPattern"
+            case logGroupName = "logGroupName"
+            case metricTransformations = "metricTransformations"
         }
     }
 
@@ -1694,9 +1693,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventMessage
-            case eventNumber
-            case extractedValues
+            case eventMessage = "eventMessage"
+            case eventNumber = "eventNumber"
+            case extractedValues = "extractedValues"
         }
     }
 
@@ -1736,12 +1735,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
-            case dimensions
-            case metricName
-            case metricNamespace
-            case metricValue
-            case unit
+            case defaultValue = "defaultValue"
+            case dimensions = "dimensions"
+            case metricName = "metricName"
+            case metricNamespace = "metricNamespace"
+            case metricValue = "metricValue"
+            case unit = "unit"
         }
     }
 
@@ -1760,9 +1759,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ingestionTime
-            case message
-            case timestamp
+            case ingestionTime = "ingestionTime"
+            case message = "message"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1784,8 +1783,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupIdentifier
-            case policyDocument
+            case logGroupIdentifier = "logGroupIdentifier"
+            case policyDocument = "policyDocument"
         }
     }
 
@@ -1804,9 +1803,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime
-            case logGroupIdentifier
-            case policyDocument
+            case lastUpdatedTime = "lastUpdatedTime"
+            case logGroupIdentifier = "logGroupIdentifier"
+            case policyDocument = "policyDocument"
         }
     }
 
@@ -1832,9 +1831,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicy
-            case destinationName
-            case forceUpdate
+            case accessPolicy = "accessPolicy"
+            case destinationName = "destinationName"
+            case forceUpdate = "forceUpdate"
         }
     }
 
@@ -1873,10 +1872,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName
-            case roleArn
-            case tags
-            case targetArn
+            case destinationName = "destinationName"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case targetArn = "targetArn"
         }
     }
 
@@ -1889,7 +1888,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
+            case destination = "destination"
         }
     }
 
@@ -1900,7 +1899,7 @@ extension CloudWatchLogs {
         public let logGroupName: String
         /// The name of the log stream.
         public let logStreamName: String
-        /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams. If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls might be successful or one might be rejected.
+        /// The sequence token obtained from the response of the previous PutLogEvents call.  The sequenceToken parameter is now ignored in PutLogEvents actions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid.
         public let sequenceToken: String?
 
         public init(logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
@@ -1926,15 +1925,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logEvents
-            case logGroupName
-            case logStreamName
-            case sequenceToken
+            case logEvents = "logEvents"
+            case logGroupName = "logGroupName"
+            case logStreamName = "logStreamName"
+            case sequenceToken = "sequenceToken"
         }
     }
 
     public struct PutLogEventsResponse: AWSDecodableShape {
-        /// The next sequence token.
+        /// The next sequence token.  This field has been deprecated. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream and you do not need to wait for the response of a previous PutLogEvents action to obtain  the nextSequenceToken value.
         public let nextSequenceToken: String?
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
@@ -1945,8 +1944,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextSequenceToken
-            case rejectedLogEventsInfo
+            case nextSequenceToken = "nextSequenceToken"
+            case rejectedLogEventsInfo = "rejectedLogEventsInfo"
         }
     }
 
@@ -1983,10 +1982,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName
-            case filterPattern
-            case logGroupName
-            case metricTransformations
+            case filterName = "filterName"
+            case filterPattern = "filterPattern"
+            case logGroupName = "logGroupName"
+            case metricTransformations = "metricTransformations"
         }
     }
 
@@ -2022,10 +2021,10 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupNames
-            case name
-            case queryDefinitionId
-            case queryString
+            case logGroupNames = "logGroupNames"
+            case name = "name"
+            case queryDefinitionId = "queryDefinitionId"
+            case queryString = "queryString"
         }
     }
 
@@ -2038,7 +2037,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryDefinitionId
+            case queryDefinitionId = "queryDefinitionId"
         }
     }
 
@@ -2061,8 +2060,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyDocument
-            case policyName
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
         }
     }
 
@@ -2075,7 +2074,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcePolicy
+            case resourcePolicy = "resourcePolicy"
         }
     }
 
@@ -2096,8 +2095,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case retentionInDays
+            case logGroupName = "logGroupName"
+            case retentionInDays = "retentionInDays"
         }
     }
 
@@ -2137,12 +2136,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn
-            case distribution
-            case filterName
-            case filterPattern
-            case logGroupName
-            case roleArn
+            case destinationArn = "destinationArn"
+            case distribution = "distribution"
+            case filterName = "filterName"
+            case filterPattern = "filterPattern"
+            case logGroupName = "logGroupName"
+            case roleArn = "roleArn"
         }
     }
 
@@ -2167,11 +2166,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModified
-            case logGroupNames
-            case name
-            case queryDefinitionId
-            case queryString
+            case lastModified = "lastModified"
+            case logGroupNames = "logGroupNames"
+            case name = "name"
+            case queryDefinitionId = "queryDefinitionId"
+            case queryString = "queryString"
         }
     }
 
@@ -2196,11 +2195,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case logGroupName
-            case queryId
-            case queryString
-            case status
+            case createTime = "createTime"
+            case logGroupName = "logGroupName"
+            case queryId = "queryId"
+            case queryString = "queryString"
+            case status = "status"
         }
     }
 
@@ -2219,9 +2218,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytesScanned
-            case recordsMatched
-            case recordsScanned
+            case bytesScanned = "bytesScanned"
+            case recordsMatched = "recordsMatched"
+            case recordsScanned = "recordsScanned"
         }
     }
 
@@ -2240,9 +2239,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiredLogEventEndIndex
-            case tooNewLogEventStartIndex
-            case tooOldLogEventEndIndex
+            case expiredLogEventEndIndex = "expiredLogEventEndIndex"
+            case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
+            case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
         }
     }
 
@@ -2261,9 +2260,9 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime
-            case policyDocument
-            case policyName
+            case lastUpdatedTime = "lastUpdatedTime"
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
         }
     }
 
@@ -2279,8 +2278,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case value
+            case field = "field"
+            case value = "value"
         }
     }
 
@@ -2296,8 +2295,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreamName
-            case searchedCompletely
+            case logStreamName = "logStreamName"
+            case searchedCompletely = "searchedCompletely"
         }
     }
 
@@ -2349,13 +2348,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case limit
-            case logGroupIdentifiers
-            case logGroupName
-            case logGroupNames
-            case queryString
-            case startTime
+            case endTime = "endTime"
+            case limit = "limit"
+            case logGroupIdentifiers = "logGroupIdentifiers"
+            case logGroupName = "logGroupName"
+            case logGroupNames = "logGroupNames"
+            case queryString = "queryString"
+            case startTime = "startTime"
         }
     }
 
@@ -2368,7 +2367,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId
+            case queryId = "queryId"
         }
     }
 
@@ -2385,7 +2384,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId
+            case queryId = "queryId"
         }
     }
 
@@ -2398,7 +2397,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case success
+            case success = "success"
         }
     }
 
@@ -2426,13 +2425,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case destinationArn
-            case distribution
-            case filterName
-            case filterPattern
-            case logGroupName
-            case roleArn
+            case creationTime = "creationTime"
+            case destinationArn = "destinationArn"
+            case distribution = "distribution"
+            case filterName = "filterName"
+            case filterPattern = "filterPattern"
+            case logGroupName = "logGroupName"
+            case roleArn = "roleArn"
         }
     }
 
@@ -2463,8 +2462,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case tags
+            case logGroupName = "logGroupName"
+            case tags = "tags"
         }
     }
 
@@ -2495,8 +2494,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -2520,8 +2519,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterPattern
-            case logEventMessages
+            case filterPattern = "filterPattern"
+            case logEventMessages = "logEventMessages"
         }
     }
 
@@ -2534,7 +2533,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matches
+            case matches = "matches"
         }
     }
 
@@ -2562,8 +2561,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case tags
+            case logGroupName = "logGroupName"
+            case tags = "tags"
         }
     }
 
@@ -2591,8 +2590,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 }
@@ -2634,13 +2633,13 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The event was already logged.
+    /// The event was already logged.   PutLogEvents actions are now always accepted and never return DataAlreadyAcceptedException regardless of whether a given batch of log events has already been accepted.
     public static var dataAlreadyAcceptedException: Self { .init(.dataAlreadyAcceptedException) }
     /// The operation is not valid on the specified resource.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// A parameter is specified incorrectly.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
-    /// The sequence token is not valid. You can get the correct sequence token in  the expectedSequenceToken field in the InvalidSequenceTokenException message.
+    /// The sequence token is not valid. You can get the correct sequence token in  the expectedSequenceToken field in the InvalidSequenceTokenException message.    PutLogEvents actions are now always accepted and never return InvalidSequenceTokenException regardless of receiving an invalid sequence token.
     public static var invalidSequenceTokenException: Self { .init(.invalidSequenceTokenException) }
     /// You have reached the maximum number of resources that can be created.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -2656,7 +2655,7 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// A resource can have no more than 50 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The most likely cause is an Amazon Web Services access key ID or secret key that&#39;s not valid.
+    /// The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
 }
 

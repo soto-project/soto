@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -142,7 +142,7 @@ extension CodeStarNotifications {
 // MARK: Paginators
 
 extension CodeStarNotifications {
-    ///  Returns information about the event types available for configuring notifications.
+    /// Returns information about the event types available for configuring notifications.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -195,7 +195,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rules for an Amazon Web Services account.
+    /// Returns a list of the notification rules for an Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -248,7 +248,7 @@ extension CodeStarNotifications {
         )
     }
 
-    ///  Returns a list of the notification rule targets for an Amazon Web Services account.
+    /// Returns a list of the notification rule targets for an Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -302,6 +302,7 @@ extension SSM {
         case policy = "Policy"
         case problemAnalysis = "ProblemAnalysis"
         case problemAnalysisTemplate = "ProblemAnalysisTemplate"
+        case quickSetup = "QuickSetup"
         case session = "Session"
         public var description: String { return self.rawValue }
     }
@@ -346,8 +347,8 @@ extension SSM {
     }
 
     public enum InventoryAttributeDataType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case number
-        case string
+        case number = "number"
+        case string = "string"
         public var description: String { return self.rawValue }
     }
 
@@ -968,8 +969,7 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
-        /// The version of the document used in the association. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
-        ///   State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
+        /// The version of the document used in the association. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.  State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
         public let documentVersion: String?
         /// The managed node ID.
         public let instanceId: String?
@@ -1294,8 +1294,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2081,8 +2081,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4071,8 +4071,7 @@ extension SSM {
     }
 
     public struct DescribeAvailablePatchesRequest: AWSEncodableShape {
-        /// Each element in the array is a structure containing a key-value pair.  Windows Server  Supported keys for Windows Server managed node patches include the following:     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values: WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample values: Windows | Office      MSRC_SEVERITY   Sample values: ServicePacks | Important | Moderate      CLASSIFICATION   Sample values: ServicePacks | SecurityUpdates | DefinitionUpdates      PATCH_ID   Sample values: KB123456 | KB4516046
-        ///   Linux   When specifying filters for Linux patches, you must specify a key-pair for PRODUCT. For example, using the Command Line Interface (CLI), the following command fails:  aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615  However, the following command succeeds:  aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux managed node patches include the following:     PRODUCT   Sample values: AmazonLinux2018.03 | AmazonLinux2.0      NAME   Sample values: kernel-headers | samba-python | php      SEVERITY   Sample values: Critical | Important | Medium | Low      EPOCH   Sample values: 0 | 1      VERSION   Sample values: 78.6.1 | 4.10.16      RELEASE   Sample values: 9.56.amzn1 | 1.amzn2      ARCH   Sample values: i686 | x86_64      REPOSITORY   Sample values: Core | Updates      ADVISORY_ID   Sample values: ALAS-2018-1058 | ALAS2-2021-1594      CVE_ID   Sample values: CVE-2018-3615 | CVE-2020-1472      BUGZILLA_ID   Sample values: 1463241
+        /// Each element in the array is a structure containing a key-value pair.  Windows Server  Supported keys for Windows Server managed node patches include the following:     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values: WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample values: Windows | Office      MSRC_SEVERITY   Sample values: ServicePacks | Important | Moderate      CLASSIFICATION   Sample values: ServicePacks | SecurityUpdates | DefinitionUpdates      PATCH_ID   Sample values: KB123456 | KB4516046     Linux   When specifying filters for Linux patches, you must specify a key-pair for PRODUCT. For example, using the Command Line Interface (CLI), the following command fails:  aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615  However, the following command succeeds:  aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux managed node patches include the following:     PRODUCT   Sample values: AmazonLinux2018.03 | AmazonLinux2.0      NAME   Sample values: kernel-headers | samba-python | php      SEVERITY   Sample values: Critical | Important | Medium | Low      EPOCH   Sample values: 0 | 1      VERSION   Sample values: 78.6.1 | 4.10.16      RELEASE   Sample values: 9.56.amzn1 | 1.amzn2      ARCH   Sample values: i686 | x86_64      REPOSITORY   Sample values: Core | Updates      ADVISORY_ID   Sample values: ALAS-2018-1058 | ALAS2-2021-1594      CVE_ID   Sample values: CVE-2018-3615 | CVE-2020-1472      BUGZILLA_ID   Sample values: 1463241
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patches to return (per page).
         public let maxResults: Int?
@@ -5593,8 +5592,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -5734,22 +5733,33 @@ extension SSM {
     public struct DocumentRequires: AWSEncodableShape & AWSDecodableShape {
         /// The name of the required SSM document. The name can be an Amazon Resource Name (ARN).
         public let name: String
+        /// The document type of the required SSM document.
+        public let requireType: String?
         /// The document version required by the current document.
         public let version: String?
+        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+        public let versionName: String?
 
-        public init(name: String, version: String? = nil) {
+        public init(name: String, requireType: String? = nil, version: String? = nil, versionName: String? = nil) {
             self.name = name
+            self.requireType = requireType
             self.version = version
+            self.versionName = versionName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.validate(self.requireType, name: "requireType", parent: name, max: 128)
+            try self.validate(self.requireType, name: "requireType", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
             try self.validate(self.version, name: "version", parent: name, pattern: "^([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)$")
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case requireType = "RequireType"
             case version = "Version"
+            case versionName = "VersionName"
         }
     }
 
@@ -7681,8 +7691,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case valueSet
+            case key = "key"
+            case valueSet = "valueSet"
         }
     }
 
@@ -9053,7 +9063,7 @@ extension SSM {
     public struct MaintenanceWindowAutomationParameters: AWSEncodableShape & AWSDecodableShape {
         /// The version of an Automation runbook to use during task execution.
         public let documentVersion: String?
-        /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. For AUTOMATION task types, Amazon Web Services Systems Manager ignores any values specified for these parameters.
+        /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. For AUTOMATION task types, Amazon Web Services Systems Manager ignores any values specified for these parameters.
         public let parameters: [String: [String]]?
 
         public init(documentVersion: String? = nil, parameters: [String: [String]]? = nil) {
@@ -9392,7 +9402,7 @@ extension SSM {
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, max: 63)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, min: 3)
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, max: 500)
-            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2_592_000)
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2592000)
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 30)
         }
 
@@ -11241,7 +11251,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the managed nodes to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using managed node IDs, resource group names, or tags that have been applied to managed nodes.  Example 1: Specify managed node IDs  Key=InstanceIds,Values=,,   Example 2: Use tag key-pairs applied to managed nodes  Key=tag:,Values=,   Example 3: Use tag-keys applied to managed nodes  Key=tag-key,Values=,    Example 4: Use resource group names  Key=resource-groups:Name,Values=   Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=,   For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the Amazon Web Services Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the managed nodes to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using managed node IDs, resource group names, or tags that have been applied to managed nodes.  Example 1: Specify managed node IDs  Key=InstanceIds,Values=,,   Example 2: Use tag key-pairs applied to managed nodes  Key=tag:,Values=,   Example 3: Use tag-keys applied to managed nodes  Key=tag-key,Values=,   Example 4: Use resource group names  Key=resource-groups:Name,Values=   Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=,   For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC   For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -11318,7 +11328,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using  service-linked roles for Systems Manager      Should I use a service-linked role or a custom service role to run maintenance window tasks?
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using  service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.  Specify managed nodes using the following format:   Key=InstanceIds,Values=,  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=,
         public let targets: [Target]?
@@ -12156,7 +12166,7 @@ extension SSM {
                 try $0.validate(name: "\(name).targets[]")
             }
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
-            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2_592_000)
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2592000)
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 30)
         }
 
@@ -12298,8 +12308,8 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -12818,7 +12828,6 @@ extension SSM {
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
@@ -12983,8 +12992,7 @@ extension SSM {
 
     public struct UpdateAssociationRequest: AWSEncodableShape {
         public let alarmConfiguration: AlarmConfiguration?
-        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions.
-        ///  If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
         public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update.
         public let associationId: String
@@ -13540,7 +13548,7 @@ extension SSM {
         public let priority: Int?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using  service-linked roles for Systems Manager      Should I use a service-linked role or a custom service role to run maintenance window tasks?
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using  service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
@@ -14256,9 +14264,9 @@ public struct SSMErrorType: AWSErrorType {
     public static var associatedInstances: Self { .init(.associatedInstances) }
     /// The specified association already exists.
     public static var associationAlreadyExists: Self { .init(.associationAlreadyExists) }
-    /// The specified association doesn&#39;t exist.
+    /// The specified association doesn't exist.
     public static var associationDoesNotExist: Self { .init(.associationDoesNotExist) }
-    /// The specified execution ID doesn&#39;t exist. Verify the ID number and try again.
+    /// The specified execution ID doesn't exist. Verify the ID number and try again.
     public static var associationExecutionDoesNotExist: Self { .init(.associationExecutionDoesNotExist) }
     /// You can have at most 2,000 active associations.
     public static var associationLimitExceeded: Self { .init(.associationLimitExceeded) }
@@ -14266,15 +14274,15 @@ public struct SSMErrorType: AWSErrorType {
     public static var associationVersionLimitExceeded: Self { .init(.associationVersionLimitExceeded) }
     /// Indicates that the Change Manager change template used in the change request was rejected or is still in a pending state.
     public static var automationDefinitionNotApprovedException: Self { .init(.automationDefinitionNotApprovedException) }
-    /// An Automation runbook with the specified name couldn&#39;t be found.
+    /// An Automation runbook with the specified name couldn't be found.
     public static var automationDefinitionNotFoundException: Self { .init(.automationDefinitionNotFoundException) }
-    /// An Automation runbook with the specified name and version couldn&#39;t be found.
+    /// An Automation runbook with the specified name and version couldn't be found.
     public static var automationDefinitionVersionNotFoundException: Self { .init(.automationDefinitionVersionNotFoundException) }
     /// The number of simultaneously running Automation executions exceeded the allowable limit.
     public static var automationExecutionLimitExceededException: Self { .init(.automationExecutionLimitExceededException) }
     /// There is no automation execution information for the requested automation execution ID.
     public static var automationExecutionNotFoundException: Self { .init(.automationExecutionNotFoundException) }
-    /// The specified step name and execution ID don&#39;t exist. Verify the information and try again.
+    /// The specified step name and execution ID don't exist. Verify the information and try again.
     public static var automationStepNotFoundException: Self { .init(.automationStepNotFoundException) }
     /// You specified too many custom compliance types. You can specify a maximum of 10 different types.
     public static var complianceTypeCountLimitExceededException: Self { .init(.complianceTypeCountLimitExceededException) }
@@ -14284,131 +14292,129 @@ public struct SSMErrorType: AWSErrorType {
     public static var documentAlreadyExists: Self { .init(.documentAlreadyExists) }
     /// You can have at most 500 active SSM documents.
     public static var documentLimitExceeded: Self { .init(.documentLimitExceeded) }
-    /// The document can&#39;t be shared with more Amazon Web Services user accounts. You can specify a maximum of 20 accounts per API operation to share a private document.
-    ///  By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents.
-    ///  If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
+    /// The document can't be shared with more Amazon Web Services user accounts. You can specify a maximum of 20 accounts per API operation to share a private document. By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents. If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
     public static var documentPermissionLimit: Self { .init(.documentPermissionLimit) }
     /// The document has too many versions. Delete one or more document versions and try again.
     public static var documentVersionLimitExceeded: Self { .init(.documentVersionLimitExceeded) }
-    /// Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn&#39;t exist. For information about resource quotas in Amazon Web Services Systems Manager, see Systems Manager service quotas in the Amazon Web Services General Reference.
+    /// Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see Systems Manager service quotas in the Amazon Web Services General Reference.
     public static var doesNotExistException: Self { .init(.doesNotExistException) }
     /// The content of the association document matches another document. Change the content of the document and try again.
     public static var duplicateDocumentContent: Self { .init(.duplicateDocumentContent) }
     /// The version name has already been used in this document. Specify a different version name, and then try again.
     public static var duplicateDocumentVersionName: Self { .init(.duplicateDocumentVersionName) }
-    /// You can&#39;t specify a managed node ID in more than one association.
+    /// You can't specify a managed node ID in more than one association.
     public static var duplicateInstanceId: Self { .init(.duplicateInstanceId) }
-    /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding service isn&#39;t available.
+    /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding service isn't available.
     public static var featureNotAvailableException: Self { .init(.featureNotAvailableException) }
     /// A hierarchy can have a maximum of 15 levels. For more information, see Requirements and constraints for parameter names in the Amazon Web Services Systems Manager User Guide.
     public static var hierarchyLevelLimitExceededException: Self { .init(.hierarchyLevelLimitExceededException) }
-    /// Parameter Store doesn&#39;t support changing a parameter type in a hierarchy. For example, you can&#39;t change a parameter from a String type to a SecureString type. You must create a new, unique parameter.
+    /// Parameter Store doesn't support changing a parameter type in a hierarchy. For example, you can't change a parameter from a String type to a SecureString type. You must create a new, unique parameter.
     public static var hierarchyTypeMismatchException: Self { .init(.hierarchyTypeMismatchException) }
-    /// Error returned when an idempotent operation is retried and the parameters don&#39;t match the original call to the API with the same idempotency token.
+    /// Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     public static var idempotentParameterMismatch: Self { .init(.idempotentParameterMismatch) }
-    /// There is a conflict in the policies specified for this parameter. You can&#39;t, for example, specify two Expiration policies for a parameter. Review your policies, and try again.
+    /// There is a conflict in the policies specified for this parameter. You can't, for example, specify two Expiration policies for a parameter. Review your policies, and try again.
     public static var incompatiblePolicyException: Self { .init(.incompatiblePolicyException) }
     /// An error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// The activation isn&#39;t valid. The activation might have been deleted, or the ActivationId and the ActivationCode don&#39;t match.
+    /// The activation isn't valid. The activation might have been deleted, or the ActivationId and the ActivationCode don't match.
     public static var invalidActivation: Self { .init(.invalidActivation) }
-    /// The activation ID isn&#39;t valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
+    /// The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
     public static var invalidActivationId: Self { .init(.invalidActivationId) }
-    /// The specified aggregator isn&#39;t valid for inventory groups. Verify that the aggregator uses a valid inventory type such as AWS:Application or AWS:InstanceInformation.
+    /// The specified aggregator isn't valid for inventory groups. Verify that the aggregator uses a valid inventory type such as AWS:Application or AWS:InstanceInformation.
     public static var invalidAggregatorException: Self { .init(.invalidAggregatorException) }
-    /// The request doesn&#39;t meet the regular expression requirement.
+    /// The request doesn't meet the regular expression requirement.
     public static var invalidAllowedPatternException: Self { .init(.invalidAllowedPatternException) }
-    /// The association isn&#39;t valid or doesn&#39;t exist.
+    /// The association isn't valid or doesn't exist.
     public static var invalidAssociation: Self { .init(.invalidAssociation) }
-    /// The version you specified isn&#39;t valid. Use ListAssociationVersions to view all versions of an association according to the association ID. Or, use the $LATEST parameter to view the latest version of the association.
+    /// The version you specified isn't valid. Use ListAssociationVersions to view all versions of an association according to the association ID. Or, use the $LATEST parameter to view the latest version of the association.
     public static var invalidAssociationVersion: Self { .init(.invalidAssociationVersion) }
     /// The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
     public static var invalidAutomationExecutionParametersException: Self { .init(.invalidAutomationExecutionParametersException) }
-    /// The signal isn&#39;t valid for the current Automation execution.
+    /// The signal isn't valid for the current Automation execution.
     public static var invalidAutomationSignalException: Self { .init(.invalidAutomationSignalException) }
-    /// The specified update status operation isn&#39;t valid.
+    /// The specified update status operation isn't valid.
     public static var invalidAutomationStatusUpdateException: Self { .init(.invalidAutomationStatusUpdateException) }
-    /// The specified command ID isn&#39;t valid. Verify the ID and try again.
+    /// The specified command ID isn't valid. Verify the ID and try again.
     public static var invalidCommandId: Self { .init(.invalidCommandId) }
-    /// One or more of the parameters specified for the delete operation isn&#39;t valid. Verify all parameters and try again.
+    /// One or more of the parameters specified for the delete operation isn't valid. Verify all parameters and try again.
     public static var invalidDeleteInventoryParametersException: Self { .init(.invalidDeleteInventoryParametersException) }
-    /// The ID specified for the delete operation doesn&#39;t exist or isn&#39;t valid. Verify the ID and try again.
+    /// The ID specified for the delete operation doesn't exist or isn't valid. Verify the ID and try again.
     public static var invalidDeletionIdException: Self { .init(.invalidDeletionIdException) }
-    /// The specified SSM document doesn&#39;t exist.
+    /// The specified SSM document doesn't exist.
     public static var invalidDocument: Self { .init(.invalidDocument) }
-    /// The content for the document isn&#39;t valid.
+    /// The content for the document isn't valid.
     public static var invalidDocumentContent: Self { .init(.invalidDocumentContent) }
     /// You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     public static var invalidDocumentOperation: Self { .init(.invalidDocumentOperation) }
-    /// The version of the document schema isn&#39;t supported.
+    /// The version of the document schema isn't supported.
     public static var invalidDocumentSchemaVersion: Self { .init(.invalidDocumentSchemaVersion) }
-    /// The SSM document type isn&#39;t valid. Valid document types are described in the DocumentType property.
+    /// The SSM document type isn't valid. Valid document types are described in the DocumentType property.
     public static var invalidDocumentType: Self { .init(.invalidDocumentType) }
-    /// The document version isn&#39;t valid or doesn&#39;t exist.
+    /// The document version isn't valid or doesn't exist.
     public static var invalidDocumentVersion: Self { .init(.invalidDocumentVersion) }
-    /// The filter name isn&#39;t valid. Verify the you entered the correct name and try again.
+    /// The filter name isn't valid. Verify the you entered the correct name and try again.
     public static var invalidFilter: Self { .init(.invalidFilter) }
-    /// The specified key isn&#39;t valid.
+    /// The specified key isn't valid.
     public static var invalidFilterKey: Self { .init(.invalidFilterKey) }
-    /// The specified filter option isn&#39;t valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
+    /// The specified filter option isn't valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
     public static var invalidFilterOption: Self { .init(.invalidFilterOption) }
-    /// The filter value isn&#39;t valid. Verify the value and try again.
+    /// The filter value isn't valid. Verify the value and try again.
     public static var invalidFilterValue: Self { .init(.invalidFilterValue) }
-    /// The following problems can cause this exception:   You don&#39;t have permission to access the managed node.   Amazon Web Services Systems Manager Agent(SSM Agent) isn&#39;t running. Verify that SSM Agent is running.   SSM Agent isn&#39;t registered with the SSM endpoint. Try reinstalling SSM Agent.   The managed node isn&#39;t in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// The following problems can cause this exception:   You don't have permission to access the managed node.   Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.   SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.   The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public static var invalidInstanceId: Self { .init(.invalidInstanceId) }
-    /// The specified filter value isn&#39;t valid.
+    /// The specified filter value isn't valid.
     public static var invalidInstanceInformationFilterValue: Self { .init(.invalidInstanceInformationFilterValue) }
-    /// The specified inventory group isn&#39;t valid.
+    /// The specified inventory group isn't valid.
     public static var invalidInventoryGroupException: Self { .init(.invalidInventoryGroupException) }
     /// You specified invalid keys or values in the Context attribute for InventoryItem. Verify the keys and values, and try again.
     public static var invalidInventoryItemContextException: Self { .init(.invalidInventoryItemContextException) }
-    /// The request isn&#39;t valid.
+    /// The request isn't valid.
     public static var invalidInventoryRequestException: Self { .init(.invalidInventoryRequestException) }
-    /// One or more content items isn&#39;t valid.
+    /// One or more content items isn't valid.
     public static var invalidItemContentException: Self { .init(.invalidItemContentException) }
-    /// The query key ID isn&#39;t valid.
+    /// The query key ID isn't valid.
     public static var invalidKeyId: Self { .init(.invalidKeyId) }
-    /// The specified token isn&#39;t valid.
+    /// The specified token isn't valid.
     public static var invalidNextToken: Self { .init(.invalidNextToken) }
-    /// One or more configuration items isn&#39;t valid. Verify that a valid Amazon Resource Name (ARN) was provided for an Amazon Simple Notification Service topic.
+    /// One or more configuration items isn't valid. Verify that a valid Amazon Resource Name (ARN) was provided for an Amazon Simple Notification Service topic.
     public static var invalidNotificationConfig: Self { .init(.invalidNotificationConfig) }
-    /// The delete inventory option specified isn&#39;t valid. Verify the option and try again.
+    /// The delete inventory option specified isn't valid. Verify the option and try again.
     public static var invalidOptionException: Self { .init(.invalidOptionException) }
-    /// The S3 bucket doesn&#39;t exist.
+    /// The S3 bucket doesn't exist.
     public static var invalidOutputFolder: Self { .init(.invalidOutputFolder) }
-    /// The output location isn&#39;t valid or doesn&#39;t exist.
+    /// The output location isn't valid or doesn't exist.
     public static var invalidOutputLocation: Self { .init(.invalidOutputLocation) }
     /// You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
     public static var invalidParameters: Self { .init(.invalidParameters) }
-    /// The permission type isn&#39;t supported. Share is the only supported permission type.
+    /// The permission type isn't supported. Share is the only supported permission type.
     public static var invalidPermissionType: Self { .init(.invalidPermissionType) }
-    /// The plugin name isn&#39;t valid.
+    /// The plugin name isn't valid.
     public static var invalidPluginName: Self { .init(.invalidPluginName) }
     /// A policy attribute or its value is invalid.
     public static var invalidPolicyAttributeException: Self { .init(.invalidPolicyAttributeException) }
-    /// The policy type isn&#39;t supported. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
+    /// The policy type isn't supported. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
     public static var invalidPolicyTypeException: Self { .init(.invalidPolicyTypeException) }
-    /// The resource ID isn&#39;t valid. Verify that you entered the correct ID and try again.
+    /// The resource ID isn't valid. Verify that you entered the correct ID and try again.
     public static var invalidResourceId: Self { .init(.invalidResourceId) }
-    /// The resource type isn&#39;t valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
+    /// The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     public static var invalidResourceType: Self { .init(.invalidResourceType) }
-    /// The specified inventory item result attribute isn&#39;t valid.
+    /// The specified inventory item result attribute isn't valid.
     public static var invalidResultAttributeException: Self { .init(.invalidResultAttributeException) }
-    /// The role name can&#39;t contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see Configuring Amazon SNS Notifications for Run Command in the Amazon Web Services Systems Manager User Guide.
+    /// The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see Configuring Amazon SNS Notifications for Run Command in the Amazon Web Services Systems Manager User Guide.
     public static var invalidRole: Self { .init(.invalidRole) }
     /// The schedule is invalid. Verify your cron or rate expression and try again.
     public static var invalidSchedule: Self { .init(.invalidSchedule) }
-    /// The specified tag key or value isn&#39;t valid.
+    /// The specified tag key or value isn't valid.
     public static var invalidTag: Self { .init(.invalidTag) }
-    /// The target isn&#39;t valid or doesn&#39;t exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
+    /// The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     public static var invalidTarget: Self { .init(.invalidTarget) }
-    /// TargetMap parameter isn&#39;t valid.
+    /// TargetMap parameter isn't valid.
     public static var invalidTargetMaps: Self { .init(.invalidTargetMaps) }
-    /// The parameter type name isn&#39;t valid.
+    /// The parameter type name isn't valid.
     public static var invalidTypeNameException: Self { .init(.invalidTypeNameException) }
-    /// The update isn&#39;t valid.
+    /// The update isn't valid.
     public static var invalidUpdate: Self { .init(.invalidUpdate) }
-    /// The command ID and managed node ID you specified didn&#39;t match any invocations. Verify the command ID and the managed node ID and try again.
+    /// The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
     public static var invocationDoesNotExist: Self { .init(.invocationDoesNotExist) }
     /// The inventory item has invalid content.
     public static var itemContentMismatchException: Self { .init(.itemContentMismatchException) }
@@ -14416,19 +14422,19 @@ public struct SSMErrorType: AWSErrorType {
     public static var itemSizeLimitExceededException: Self { .init(.itemSizeLimitExceededException) }
     /// The size limit of a document is 64 KB.
     public static var maxDocumentSizeExceeded: Self { .init(.maxDocumentSizeExceeded) }
-    /// You don&#39;t have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
+    /// You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
     public static var opsItemAccessDeniedException: Self { .init(.opsItemAccessDeniedException) }
     /// The OpsItem already exists.
     public static var opsItemAlreadyExistsException: Self { .init(.opsItemAlreadyExistsException) }
-    /// A specified parameter argument isn&#39;t valid. Verify the available arguments and try again.
+    /// A specified parameter argument isn't valid. Verify the available arguments and try again.
     public static var opsItemInvalidParameterException: Self { .init(.opsItemInvalidParameterException) }
     /// The request caused OpsItems to exceed one or more quotas. For information about OpsItem quotas, see What are the resource limits for OpsCenter?.
     public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
-    /// The specified OpsItem ID doesn&#39;t exist. Verify the ID and try again.
+    /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
     public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }
     /// The Amazon Resource Name (ARN) is already associated with the OpsItem.
     public static var opsItemRelatedItemAlreadyExistsException: Self { .init(.opsItemRelatedItemAlreadyExistsException) }
-    /// The association wasn&#39;t found using the parameters you specified in the call. Verify the information and try again.
+    /// The association wasn't found using the parameters you specified in the call. Verify the information and try again.
     public static var opsItemRelatedItemAssociationNotFoundException: Self { .init(.opsItemRelatedItemAssociationNotFoundException) }
     /// An OpsMetadata object already exists for the selected resource.
     public static var opsMetadataAlreadyExistsException: Self { .init(.opsMetadataAlreadyExistsException) }
@@ -14438,23 +14444,23 @@ public struct SSMErrorType: AWSErrorType {
     public static var opsMetadataKeyLimitExceededException: Self { .init(.opsMetadataKeyLimitExceededException) }
     /// Your account reached the maximum number of OpsMetadata objects allowed by Application Manager. The maximum is 200 OpsMetadata objects. Delete one or more OpsMetadata object and try again.
     public static var opsMetadataLimitExceededException: Self { .init(.opsMetadataLimitExceededException) }
-    /// The OpsMetadata object doesn&#39;t exist.
+    /// The OpsMetadata object doesn't exist.
     public static var opsMetadataNotFoundException: Self { .init(.opsMetadataNotFoundException) }
     /// The system is processing too many concurrent updates. Wait a few moments and try again.
     public static var opsMetadataTooManyUpdatesException: Self { .init(.opsMetadataTooManyUpdatesException) }
-    /// The parameter already exists. You can&#39;t create duplicate parameters.
+    /// The parameter already exists. You can't create duplicate parameters.
     public static var parameterAlreadyExists: Self { .init(.parameterAlreadyExists) }
     /// You have exceeded the number of parameters for this Amazon Web Services account. Delete one or more parameters and try again.
     public static var parameterLimitExceeded: Self { .init(.parameterLimitExceeded) }
-    /// Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a label attached to it, Parameter Store won&#39;t delete the version and instead presents this error message:  An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of parameter-name by calling the PutParameter API with the overwrite flag. Version version-number, the oldest version, can&#39;t be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.  This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see Move a parameter label (console) or Move a parameter label (CLI) in the Amazon Web Services Systems Manager User Guide.
+    /// Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a label attached to it, Parameter Store won't delete the version and instead presents this error message:  An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of parameter-name by calling the PutParameter API with the overwrite flag. Version version-number, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.  This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see Move a parameter label (console) or Move a parameter label (CLI) in the Amazon Web Services Systems Manager User Guide.
     public static var parameterMaxVersionLimitExceeded: Self { .init(.parameterMaxVersionLimitExceeded) }
-    /// The parameter couldn&#39;t be found. Verify the name and try again.
+    /// The parameter couldn't be found. Verify the name and try again.
     public static var parameterNotFound: Self { .init(.parameterNotFound) }
-    /// The parameter name isn&#39;t valid.
+    /// The parameter name isn't valid.
     public static var parameterPatternMismatchException: Self { .init(.parameterPatternMismatchException) }
     /// A parameter version can have a maximum of ten labels.
     public static var parameterVersionLabelLimitExceeded: Self { .init(.parameterVersionLabelLimitExceeded) }
-    /// The specified parameter version wasn&#39;t found. Verify the parameter name and version, and try again.
+    /// The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     public static var parameterVersionNotFound: Self { .init(.parameterVersionNotFound) }
     /// You specified more than the maximum number of allowed policies for the parameter. The maximum is 10.
     public static var policiesLimitExceededException: Self { .init(.policiesLimitExceededException) }
@@ -14466,19 +14472,19 @@ public struct SSMErrorType: AWSErrorType {
     public static var resourceDataSyncCountExceededException: Self { .init(.resourceDataSyncCountExceededException) }
     /// The specified sync configuration is invalid.
     public static var resourceDataSyncInvalidConfigurationException: Self { .init(.resourceDataSyncInvalidConfigurationException) }
-    /// The specified sync name wasn&#39;t found.
+    /// The specified sync name wasn't found.
     public static var resourceDataSyncNotFoundException: Self { .init(.resourceDataSyncNotFoundException) }
     /// Error returned if an attempt is made to delete a patch baseline that is registered for a patch group.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see Systems Manager service quotas in the Amazon Web Services General Reference.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
-    /// The hash provided in the call doesn&#39;t match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
+    /// The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
     public static var resourcePolicyConflictException: Self { .init(.resourcePolicyConflictException) }
-    /// One or more parameters specified for the call aren&#39;t valid. Verify the parameters and their values and try again.
+    /// One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
     public static var resourcePolicyInvalidParameterException: Self { .init(.resourcePolicyInvalidParameterException) }
-    /// The PutResourcePolicy API action enforces two limits. A policy can&#39;t be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
+    /// The PutResourcePolicy API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
     public static var resourcePolicyLimitExceededException: Self { .init(.resourcePolicyLimitExceededException) }
-    /// The specified service setting wasn&#39;t found. Either the service name or the setting hasn&#39;t been provisioned by the Amazon Web Services service team.
+    /// The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     public static var serviceSettingNotFound: Self { .init(.serviceSettingNotFound) }
     /// The updated status is the same as the current status.
     public static var statusUnchanged: Self { .init(.statusUnchanged) }
@@ -14486,7 +14492,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var subTypeCountLimitExceededException: Self { .init(.subTypeCountLimitExceededException) }
     /// You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
     public static var targetInUseException: Self { .init(.targetInUseException) }
-    /// The specified target managed node for the session isn&#39;t fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
+    /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
     public static var targetNotConnected: Self { .init(.targetNotConnected) }
     /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     public static var tooManyTagsError: Self { .init(.tooManyTagsError) }
@@ -14494,19 +14500,19 @@ public struct SSMErrorType: AWSErrorType {
     public static var tooManyUpdates: Self { .init(.tooManyUpdates) }
     /// The size of inventory data has exceeded the total size limit for the resource.
     public static var totalSizeLimitExceededException: Self { .init(.totalSizeLimitExceededException) }
-    /// The calendar entry contained in the specified SSM document isn&#39;t supported.
+    /// The calendar entry contained in the specified SSM document isn't supported.
     public static var unsupportedCalendarException: Self { .init(.unsupportedCalendarException) }
     /// Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see Enabling the advanced-instances tier in the Amazon Web Services Systems Manager User Guide.
     public static var unsupportedFeatureRequiredException: Self { .init(.unsupportedFeatureRequiredException) }
-    /// The Context attribute that you specified for the InventoryItem isn&#39;t allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
+    /// The Context attribute that you specified for the InventoryItem isn't allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
     public static var unsupportedInventoryItemContextException: Self { .init(.unsupportedInventoryItemContextException) }
     /// Inventory item type schema version has to match supported versions in the service. Check output of GetInventorySchema to see the available schema version for each type.
     public static var unsupportedInventorySchemaVersionException: Self { .init(.unsupportedInventorySchemaVersionException) }
-    /// The operating systems you specified isn&#39;t supported, or the operation isn&#39;t supported for the operating system.
+    /// The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
     public static var unsupportedOperatingSystem: Self { .init(.unsupportedOperatingSystem) }
-    /// The parameter type isn&#39;t supported.
+    /// The parameter type isn't supported.
     public static var unsupportedParameterType: Self { .init(.unsupportedParameterType) }
-    /// The document doesn&#39;t support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
+    /// The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
     public static var unsupportedPlatformType: Self { .init(.unsupportedPlatformType) }
 }
 

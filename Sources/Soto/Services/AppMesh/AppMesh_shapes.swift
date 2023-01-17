@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -34,8 +34,8 @@ extension AppMesh {
     }
 
     public enum DurationUnit: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ms
-        case s
+        case ms = "ms"
+        case s = "s"
         public var description: String { return self.rawValue }
     }
 
@@ -53,11 +53,11 @@ extension AppMesh {
     }
 
     public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable, _SotoSendable {
-        case cancelled
+        case cancelled = "cancelled"
         case deadlineExceeded = "deadline-exceeded"
-        case `internal`
+        case `internal` = "internal"
         case resourceExhausted = "resource-exhausted"
-        case unavailable
+        case unavailable = "unavailable"
         public var description: String { return self.rawValue }
     }
 
@@ -75,8 +75,8 @@ extension AppMesh {
     }
 
     public enum HttpScheme: String, CustomStringConvertible, Codable, _SotoSendable {
-        case http
-        case https
+        case http = "http"
+        case https = "https"
         public var description: String { return self.rawValue }
     }
 
@@ -103,10 +103,10 @@ extension AppMesh {
     }
 
     public enum PortProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case grpc
-        case http
-        case http2
-        case tcp
+        case grpc = "grpc"
+        case http = "http"
+        case http2 = "http2"
+        case tcp = "tcp"
         public var description: String { return self.rawValue }
     }
 
@@ -130,9 +130,9 @@ extension AppMesh {
     }
 
     public enum VirtualGatewayPortProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case grpc
-        case http
-        case http2
+        case grpc = "grpc"
+        case http = "http"
+        case http2 = "http2"
         public var description: String { return self.rawValue }
     }
 
@@ -209,8 +209,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case sds
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -289,11 +289,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
-            case prefix
-            case range
-            case regex
-            case suffix
+            case exact = "exact"
+            case prefix = "prefix"
+            case range = "range"
+            case regex = "regex"
+            case suffix = "suffix"
         }
     }
 
@@ -373,11 +373,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
-            case prefix
-            case range
-            case regex
-            case suffix
+            case exact = "exact"
+            case prefix = "prefix"
+            case range = "range"
+            case regex = "regex"
+            case suffix = "suffix"
         }
     }
 
@@ -457,11 +457,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
-            case prefix
-            case range
-            case regex
-            case suffix
+            case exact = "exact"
+            case prefix = "prefix"
+            case range = "range"
+            case regex = "regex"
+            case suffix = "suffix"
         }
     }
 
@@ -528,10 +528,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpc
-            case http
-            case http2
-            case tcp
+            case grpc = "grpc"
+            case http = "http"
+            case http2 = "http2"
+            case tcp = "tcp"
         }
     }
 
@@ -587,9 +587,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acm
-            case file
-            case sds
+            case acm = "acm"
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -638,8 +638,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case sds
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -689,8 +689,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case json
-            case text
+            case json = "json"
+            case text = "text"
         }
     }
 
@@ -739,8 +739,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsCloudMap
-            case dns
+            case awsCloudMap = "awsCloudMap"
+            case dns = "dns"
         }
     }
 
@@ -798,9 +798,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acm
-            case file
-            case sds
+            case acm = "acm"
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -849,8 +849,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case sds
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -908,9 +908,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpc
-            case http
-            case http2
+            case grpc = "grpc"
+            case http = "http"
+            case http2 = "http2"
         }
     }
 
@@ -966,9 +966,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acm
-            case file
-            case sds
+            case acm = "acm"
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -1017,8 +1017,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case sds
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -1076,9 +1076,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acm
-            case file
-            case sds
+            case acm = "acm"
+            case file = "file"
+            case sds = "sds"
         }
     }
 
@@ -1145,10 +1145,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpc
-            case http
-            case http2
-            case tcp
+            case grpc = "grpc"
+            case http = "http"
+            case http2 = "http2"
+            case tcp = "tcp"
         }
     }
 
@@ -1197,8 +1197,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNode
-            case virtualRouter
+            case virtualNode = "virtualNode"
+            case virtualRouter = "virtualRouter"
         }
     }
 
@@ -1225,8 +1225,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -1258,10 +1258,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case ipPreference
-            case namespaceName
-            case serviceName
+            case attributes = "attributes"
+            case ipPreference = "ipPreference"
+            case namespaceName = "namespaceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1278,7 +1278,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientPolicy
+            case clientPolicy = "clientPolicy"
         }
     }
 
@@ -1295,7 +1295,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tls
+            case tls = "tls"
         }
     }
 
@@ -1326,10 +1326,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case enforce
-            case ports
-            case validation
+            case certificate = "certificate"
+            case enforce = "enforce"
+            case ports = "ports"
+            case validation = "validation"
         }
     }
 
@@ -1383,17 +1383,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case gatewayRouteName
-            case spec
-            case tags
+            case clientToken = "clientToken"
+            case gatewayRouteName = "gatewayRouteName"
+            case spec = "spec"
+            case tags = "tags"
         }
     }
 
     public struct CreateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "gatewayRoute"
-
         /// The full description of your gateway route following the create call.
         public let gatewayRoute: GatewayRouteData
 
@@ -1402,7 +1401,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRoute
+            case gatewayRoute = "gatewayRoute"
         }
     }
 
@@ -1434,17 +1433,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case meshName
-            case spec
-            case tags
+            case clientToken = "clientToken"
+            case meshName = "meshName"
+            case spec = "spec"
+            case tags = "tags"
         }
     }
 
     public struct CreateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "mesh"
-
         /// The full description of your service mesh following the create call.
         public let mesh: MeshData
 
@@ -1453,7 +1451,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mesh
+            case mesh = "mesh"
         }
     }
 
@@ -1507,17 +1505,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case routeName
-            case spec
-            case tags
+            case clientToken = "clientToken"
+            case routeName = "routeName"
+            case spec = "spec"
+            case tags = "tags"
         }
     }
 
     public struct CreateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "route"
-
         /// The full description of your mesh following the create call.
         public let route: RouteData
 
@@ -1526,7 +1523,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case route
+            case route = "route"
         }
     }
 
@@ -1574,17 +1571,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
-            case tags
-            case virtualGatewayName
+            case clientToken = "clientToken"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualGatewayName = "virtualGatewayName"
         }
     }
 
     public struct CreateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualGateway"
-
         /// The full description of your virtual gateway following the create call.
         public let virtualGateway: VirtualGatewayData
 
@@ -1593,7 +1589,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateway
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -1641,17 +1637,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
-            case tags
-            case virtualNodeName
+            case clientToken = "clientToken"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualNodeName = "virtualNodeName"
         }
     }
 
     public struct CreateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualNode"
-
         /// The full description of your virtual node following the create call.
         public let virtualNode: VirtualNodeData
 
@@ -1660,7 +1655,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNode
+            case virtualNode = "virtualNode"
         }
     }
 
@@ -1708,17 +1703,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
-            case tags
-            case virtualRouterName
+            case clientToken = "clientToken"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
     public struct CreateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualRouter"
-
         /// The full description of your virtual router following the create call.
         public let virtualRouter: VirtualRouterData
 
@@ -1727,7 +1721,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualRouter
+            case virtualRouter = "virtualRouter"
         }
     }
 
@@ -1773,17 +1767,16 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
-            case tags
-            case virtualServiceName
+            case clientToken = "clientToken"
+            case spec = "spec"
+            case tags = "tags"
+            case virtualServiceName = "virtualServiceName"
         }
     }
 
     public struct CreateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualService"
-
         /// The full description of your virtual service following the create call.
         public let virtualService: VirtualServiceData
 
@@ -1792,7 +1785,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualService
+            case virtualService = "virtualService"
         }
     }
 
@@ -1837,7 +1830,6 @@ extension AppMesh {
     public struct DeleteGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "gatewayRoute"
-
         /// The gateway route that was deleted.
         public let gatewayRoute: GatewayRouteData
 
@@ -1846,7 +1838,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRoute
+            case gatewayRoute = "gatewayRoute"
         }
     }
 
@@ -1873,7 +1865,6 @@ extension AppMesh {
     public struct DeleteMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "mesh"
-
         /// The service mesh that was deleted.
         public let mesh: MeshData
 
@@ -1882,7 +1873,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mesh
+            case mesh = "mesh"
         }
     }
 
@@ -1927,7 +1918,6 @@ extension AppMesh {
     public struct DeleteRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "route"
-
         /// The route that was deleted.
         public let route: RouteData
 
@@ -1936,7 +1926,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case route
+            case route = "route"
         }
     }
 
@@ -1975,7 +1965,6 @@ extension AppMesh {
     public struct DeleteVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualGateway"
-
         /// The virtual gateway that was deleted.
         public let virtualGateway: VirtualGatewayData
 
@@ -1984,7 +1973,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateway
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -2023,7 +2012,6 @@ extension AppMesh {
     public struct DeleteVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualNode"
-
         /// The virtual node that was deleted.
         public let virtualNode: VirtualNodeData
 
@@ -2032,7 +2020,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNode
+            case virtualNode = "virtualNode"
         }
     }
 
@@ -2071,7 +2059,6 @@ extension AppMesh {
     public struct DeleteVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualRouter"
-
         /// The virtual router that was deleted.
         public let virtualRouter: VirtualRouterData
 
@@ -2080,7 +2067,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualRouter
+            case virtualRouter = "virtualRouter"
         }
     }
 
@@ -2117,7 +2104,6 @@ extension AppMesh {
     public struct DeleteVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualService"
-
         /// The virtual service that was deleted.
         public let virtualService: VirtualServiceData
 
@@ -2126,7 +2112,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualService
+            case virtualService = "virtualService"
         }
     }
 
@@ -2171,7 +2157,6 @@ extension AppMesh {
     public struct DescribeGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "gatewayRoute"
-
         /// The full description of your gateway route.
         public let gatewayRoute: GatewayRouteData
 
@@ -2180,7 +2165,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRoute
+            case gatewayRoute = "gatewayRoute"
         }
     }
 
@@ -2213,7 +2198,6 @@ extension AppMesh {
     public struct DescribeMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "mesh"
-
         /// The full description of your service mesh.
         public let mesh: MeshData
 
@@ -2222,7 +2206,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mesh
+            case mesh = "mesh"
         }
     }
 
@@ -2267,7 +2251,6 @@ extension AppMesh {
     public struct DescribeRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "route"
-
         /// The full description of your route.
         public let route: RouteData
 
@@ -2276,7 +2259,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case route
+            case route = "route"
         }
     }
 
@@ -2315,7 +2298,6 @@ extension AppMesh {
     public struct DescribeVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualGateway"
-
         /// The full description of your virtual gateway.
         public let virtualGateway: VirtualGatewayData
 
@@ -2324,7 +2306,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateway
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -2363,7 +2345,6 @@ extension AppMesh {
     public struct DescribeVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualNode"
-
         /// The full description of your virtual node.
         public let virtualNode: VirtualNodeData
 
@@ -2372,7 +2353,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNode
+            case virtualNode = "virtualNode"
         }
     }
 
@@ -2411,7 +2392,6 @@ extension AppMesh {
     public struct DescribeVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualRouter"
-
         /// The full description of your virtual router.
         public let virtualRouter: VirtualRouterData
 
@@ -2420,7 +2400,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualRouter
+            case virtualRouter = "virtualRouter"
         }
     }
 
@@ -2457,7 +2437,6 @@ extension AppMesh {
     public struct DescribeVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualService"
-
         /// The full description of your virtual service.
         public let virtualService: VirtualServiceData
 
@@ -2466,7 +2445,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualService
+            case virtualService = "virtualService"
         }
     }
 
@@ -2485,9 +2464,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case ipPreference
-            case responseType
+            case hostname = "hostname"
+            case ipPreference = "ipPreference"
+            case responseType = "responseType"
         }
     }
 
@@ -2507,8 +2486,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unit
-            case value
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -2521,7 +2500,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -2543,8 +2522,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case path
+            case format = "format"
+            case path = "path"
         }
     }
 
@@ -2571,12 +2550,12 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRouteName
-            case meshName
-            case metadata
-            case spec
-            case status
-            case virtualGatewayName
+            case gatewayRouteName = "gatewayRouteName"
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualGatewayName = "virtualGatewayName"
         }
     }
 
@@ -2599,8 +2578,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
-            case suffix
+            case exact = "exact"
+            case suffix = "suffix"
         }
     }
 
@@ -2613,7 +2592,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultTargetHostname
+            case defaultTargetHostname = "defaultTargetHostname"
         }
     }
 
@@ -2650,15 +2629,15 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case gatewayRouteName
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
-            case virtualGatewayName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case gatewayRouteName = "gatewayRouteName"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualGatewayName = "virtualGatewayName"
         }
     }
 
@@ -2688,10 +2667,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpcRoute
-            case http2Route
-            case httpRoute
-            case priority
+            case grpcRoute = "grpcRoute"
+            case http2Route = "http2Route"
+            case httpRoute = "httpRoute"
+            case priority = "priority"
         }
     }
 
@@ -2704,7 +2683,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2726,8 +2705,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case virtualService
+            case port = "port"
+            case virtualService = "virtualService"
         }
     }
 
@@ -2745,7 +2724,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualServiceName
+            case virtualServiceName = "virtualServiceName"
         }
     }
 
@@ -2766,8 +2745,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case match
+            case action = "action"
+            case match = "match"
         }
     }
 
@@ -2787,8 +2766,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rewrite
-            case target
+            case rewrite = "rewrite"
+            case target = "target"
         }
     }
 
@@ -2821,10 +2800,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case metadata
-            case port
-            case serviceName
+            case hostname = "hostname"
+            case metadata = "metadata"
+            case port = "port"
+            case serviceName = "serviceName"
         }
     }
 
@@ -2849,9 +2828,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invert
-            case match
-            case name
+            case invert = "invert"
+            case match = "match"
+            case name = "name"
         }
     }
 
@@ -2864,7 +2843,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
+            case hostname = "hostname"
         }
     }
 
@@ -2904,11 +2883,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpcRetryEvents
-            case httpRetryEvents
-            case maxRetries
-            case perRetryTimeout
-            case tcpRetryEvents
+            case grpcRetryEvents = "grpcRetryEvents"
+            case httpRetryEvents = "httpRetryEvents"
+            case maxRetries = "maxRetries"
+            case perRetryTimeout = "perRetryTimeout"
+            case tcpRetryEvents = "tcpRetryEvents"
         }
     }
 
@@ -2937,10 +2916,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case match
-            case retryPolicy
-            case timeout
+            case action = "action"
+            case match = "match"
+            case retryPolicy = "retryPolicy"
+            case timeout = "timeout"
         }
     }
 
@@ -2961,7 +2940,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case weightedTargets
+            case weightedTargets = "weightedTargets"
         }
     }
 
@@ -2995,10 +2974,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
-            case methodName
-            case port
-            case serviceName
+            case metadata = "metadata"
+            case methodName = "methodName"
+            case port = "port"
+            case serviceName = "serviceName"
         }
     }
 
@@ -3023,9 +3002,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invert
-            case match
-            case name
+            case invert = "invert"
+            case match = "match"
+            case name = "name"
         }
     }
 
@@ -3046,8 +3025,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case idle
-            case perRequest
+            case idle = "idle"
+            case perRequest = "perRequest"
         }
     }
 
@@ -3080,7 +3059,7 @@ extension AppMesh {
         public func validate(name: String) throws {
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, max: 10)
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, min: 2)
-            try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, max: 300_000)
+            try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, max: 300000)
             try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, min: 5000)
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
@@ -3091,13 +3070,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthyThreshold
-            case intervalMillis
-            case path
-            case port
-            case `protocol`
-            case timeoutMillis
-            case unhealthyThreshold
+            case healthyThreshold = "healthyThreshold"
+            case intervalMillis = "intervalMillis"
+            case path = "path"
+            case port = "port"
+            case `protocol` = "protocol"
+            case timeoutMillis = "timeoutMillis"
+            case unhealthyThreshold = "unhealthyThreshold"
         }
     }
 
@@ -3118,8 +3097,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case match
+            case action = "action"
+            case match = "match"
         }
     }
 
@@ -3140,8 +3119,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rewrite
-            case target
+            case rewrite = "rewrite"
+            case target = "target"
         }
     }
 
@@ -3166,9 +3145,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invert
-            case match
-            case name
+            case invert = "invert"
+            case match = "match"
+            case name = "name"
         }
     }
 
@@ -3213,13 +3192,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headers
-            case hostname
-            case method
-            case path
-            case port
-            case prefix
-            case queryParameters
+            case headers = "headers"
+            case hostname = "hostname"
+            case method = "method"
+            case path = "path"
+            case port = "port"
+            case prefix = "prefix"
+            case queryParameters = "queryParameters"
         }
     }
 
@@ -3237,7 +3216,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
+            case exact = "exact"
         }
     }
 
@@ -3258,8 +3237,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultPrefix
-            case value
+            case defaultPrefix = "defaultPrefix"
+            case value = "value"
         }
     }
 
@@ -3283,9 +3262,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case path
-            case prefix
+            case hostname = "hostname"
+            case path = "path"
+            case prefix = "prefix"
         }
     }
 
@@ -3308,8 +3287,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
-            case regex
+            case exact = "exact"
+            case regex = "regex"
         }
     }
 
@@ -3325,8 +3304,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case match
-            case name
+            case match = "match"
+            case name = "name"
         }
     }
 
@@ -3361,10 +3340,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case httpRetryEvents
-            case maxRetries
-            case perRetryTimeout
-            case tcpRetryEvents
+            case httpRetryEvents = "httpRetryEvents"
+            case maxRetries = "maxRetries"
+            case perRetryTimeout = "perRetryTimeout"
+            case tcpRetryEvents = "tcpRetryEvents"
         }
     }
 
@@ -3393,10 +3372,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case match
-            case retryPolicy
-            case timeout
+            case action = "action"
+            case match = "match"
+            case retryPolicy = "retryPolicy"
+            case timeout = "timeout"
         }
     }
 
@@ -3417,7 +3396,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case weightedTargets
+            case weightedTargets = "weightedTargets"
         }
     }
 
@@ -3442,9 +3421,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invert
-            case match
-            case name
+            case invert = "invert"
+            case match = "match"
+            case name = "name"
         }
     }
 
@@ -3488,13 +3467,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headers
-            case method
-            case path
-            case port
-            case prefix
-            case queryParameters
-            case scheme
+            case headers = "headers"
+            case method = "method"
+            case path = "path"
+            case port = "port"
+            case prefix = "prefix"
+            case queryParameters = "queryParameters"
+            case scheme = "scheme"
         }
     }
 
@@ -3515,8 +3494,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case idle
-            case perRequest
+            case idle = "idle"
+            case perRequest = "perRequest"
         }
     }
 
@@ -3539,8 +3518,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3598,8 +3577,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRoutes
-            case nextToken
+            case gatewayRoutes = "gatewayRoutes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3639,8 +3618,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshes
-            case nextToken
+            case meshes = "meshes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3698,8 +3677,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case routes
+            case nextToken = "nextToken"
+            case routes = "routes"
         }
     }
 
@@ -3743,8 +3722,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -3796,8 +3775,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualGateways
+            case nextToken = "nextToken"
+            case virtualGateways = "virtualGateways"
         }
     }
 
@@ -3849,8 +3828,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualNodes
+            case nextToken = "nextToken"
+            case virtualNodes = "virtualNodes"
         }
     }
 
@@ -3902,8 +3881,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualRouters
+            case nextToken = "nextToken"
+            case virtualRouters = "virtualRouters"
         }
     }
 
@@ -3955,8 +3934,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualServices
+            case nextToken = "nextToken"
+            case virtualServices = "virtualServices"
         }
     }
 
@@ -3993,12 +3972,12 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionPool
-            case healthCheck
-            case outlierDetection
-            case portMapping
-            case timeout
-            case tls
+            case connectionPool = "connectionPool"
+            case healthCheck = "healthCheck"
+            case outlierDetection = "outlierDetection"
+            case portMapping = "portMapping"
+            case timeout = "timeout"
+            case tls = "tls"
         }
     }
 
@@ -4022,9 +4001,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case mode
-            case validation
+            case certificate = "certificate"
+            case mode = "mode"
+            case validation = "validation"
         }
     }
 
@@ -4037,7 +4016,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
+            case certificateArn = "certificateArn"
         }
     }
 
@@ -4060,8 +4039,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateChain
-            case privateKey
+            case certificateChain = "certificateChain"
+            case privateKey = "privateKey"
         }
     }
 
@@ -4074,7 +4053,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretName
+            case secretName = "secretName"
         }
     }
 
@@ -4095,8 +4074,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subjectAlternativeNames
-            case trust
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case trust = "trust"
         }
     }
 
@@ -4113,7 +4092,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLog
+            case accessLog = "accessLog"
         }
     }
 
@@ -4129,8 +4108,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
+            case end = "end"
+            case start = "start"
         }
     }
 
@@ -4152,10 +4131,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case spec
-            case status
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
         }
     }
 
@@ -4186,13 +4165,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
         }
     }
 
@@ -4205,7 +4184,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipPreference
+            case ipPreference = "ipPreference"
         }
     }
 
@@ -4220,8 +4199,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case egressFilter
-            case serviceDiscovery
+            case egressFilter = "egressFilter"
+            case serviceDiscovery = "serviceDiscovery"
         }
     }
 
@@ -4234,7 +4213,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -4264,10 +4243,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseEjectionDuration
-            case interval
-            case maxEjectionPercent
-            case maxServerErrors
+            case baseEjectionDuration = "baseEjectionDuration"
+            case interval = "interval"
+            case maxEjectionPercent = "maxEjectionPercent"
+            case maxServerErrors = "maxServerErrors"
         }
     }
 
@@ -4288,8 +4267,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case `protocol`
+            case port = "port"
+            case `protocol` = "protocol"
         }
     }
 
@@ -4302,7 +4281,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
+            case exact = "exact"
         }
     }
 
@@ -4333,13 +4312,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshOwner
-            case resourceOwner
-            case uid
-            case version
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case uid = "uid"
+            case version = "version"
         }
     }
 
@@ -4367,12 +4346,12 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case routeName
-            case spec
-            case status
-            case virtualRouterName
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case routeName = "routeName"
+            case spec = "spec"
+            case status = "status"
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -4409,15 +4388,15 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case routeName
-            case version
-            case virtualRouterName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case routeName = "routeName"
+            case version = "version"
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -4451,11 +4430,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case grpcRoute
-            case http2Route
-            case httpRoute
-            case priority
-            case tcpRoute
+            case grpcRoute = "grpcRoute"
+            case http2Route = "http2Route"
+            case httpRoute = "httpRoute"
+            case priority = "priority"
+            case tcpRoute = "tcpRoute"
         }
     }
 
@@ -4468,7 +4447,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -4488,7 +4467,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exact
+            case exact = "exact"
         }
     }
 
@@ -4505,7 +4484,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case match
+            case match = "match"
         }
     }
 
@@ -4527,8 +4506,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4555,7 +4534,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4584,9 +4563,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case match
-            case timeout
+            case action = "action"
+            case match = "match"
+            case timeout = "timeout"
         }
     }
 
@@ -4607,7 +4586,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case weightedTargets
+            case weightedTargets = "weightedTargets"
         }
     }
 
@@ -4625,7 +4604,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
+            case port = "port"
         }
     }
 
@@ -4642,7 +4621,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case idle
+            case idle = "idle"
         }
     }
 
@@ -4663,8 +4642,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subjectAlternativeNames
-            case trust
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case trust = "trust"
         }
     }
 
@@ -4682,7 +4661,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArns
+            case certificateAuthorityArns = "certificateAuthorityArns"
         }
     }
 
@@ -4700,7 +4679,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateChain
+            case certificateChain = "certificateChain"
         }
     }
 
@@ -4713,7 +4692,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretName
+            case secretName = "secretName"
         }
     }
 
@@ -4741,7 +4720,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4793,15 +4772,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "gatewayRoute"
-
         /// A full description of the gateway route that was updated.
         public let gatewayRoute: GatewayRouteData
 
@@ -4810,7 +4788,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayRoute
+            case gatewayRoute = "gatewayRoute"
         }
     }
 
@@ -4839,15 +4817,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "mesh"
-
         public let mesh: MeshData
 
         public init(mesh: MeshData) {
@@ -4855,7 +4832,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mesh
+            case mesh = "mesh"
         }
     }
 
@@ -4903,15 +4880,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "route"
-
         /// A full description of the route that was updated.
         public let route: RouteData
 
@@ -4920,7 +4896,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case route
+            case route = "route"
         }
     }
 
@@ -4962,15 +4938,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualGateway"
-
         /// A full description of the virtual gateway that was updated.
         public let virtualGateway: VirtualGatewayData
 
@@ -4979,7 +4954,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateway
+            case virtualGateway = "virtualGateway"
         }
     }
 
@@ -5021,15 +4996,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualNode"
-
         /// A full description of the virtual node that was updated.
         public let virtualNode: VirtualNodeData
 
@@ -5038,7 +5012,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNode
+            case virtualNode = "virtualNode"
         }
     }
 
@@ -5080,15 +5054,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualRouter"
-
         /// A full description of the virtual router that was updated.
         public let virtualRouter: VirtualRouterData
 
@@ -5097,7 +5070,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualRouter
+            case virtualRouter = "virtualRouter"
         }
     }
 
@@ -5137,15 +5110,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case spec
+            case clientToken = "clientToken"
+            case spec = "spec"
         }
     }
 
     public struct UpdateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "virtualService"
-
         /// A full description of the virtual service that was updated.
         public let virtualService: VirtualServiceData
 
@@ -5154,7 +5126,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualService
+            case virtualService = "virtualService"
         }
     }
 
@@ -5171,7 +5143,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientPolicy
+            case clientPolicy = "clientPolicy"
         }
     }
 
@@ -5188,7 +5160,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tls
+            case tls = "tls"
         }
     }
 
@@ -5219,10 +5191,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case enforce
-            case ports
-            case validation
+            case certificate = "certificate"
+            case enforce = "enforce"
+            case ports = "ports"
+            case validation = "validation"
         }
     }
 
@@ -5246,11 +5218,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case spec
-            case status
-            case virtualGatewayName
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualGatewayName = "virtualGatewayName"
         }
     }
 
@@ -5272,8 +5244,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case path
+            case format = "format"
+            case path = "path"
         }
     }
 
@@ -5290,7 +5262,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRequests
+            case maxRequests = "maxRequests"
         }
     }
 
@@ -5323,7 +5295,7 @@ extension AppMesh {
         public func validate(name: String) throws {
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, max: 10)
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, min: 2)
-            try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, max: 300_000)
+            try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, max: 300000)
             try self.validate(self.intervalMillis, name: "intervalMillis", parent: name, min: 5000)
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
@@ -5334,13 +5306,13 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthyThreshold
-            case intervalMillis
-            case path
-            case port
-            case `protocol`
-            case timeoutMillis
-            case unhealthyThreshold
+            case healthyThreshold = "healthyThreshold"
+            case intervalMillis = "intervalMillis"
+            case path = "path"
+            case port = "port"
+            case `protocol` = "protocol"
+            case timeoutMillis = "timeoutMillis"
+            case unhealthyThreshold = "unhealthyThreshold"
         }
     }
 
@@ -5357,7 +5329,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRequests
+            case maxRequests = "maxRequests"
         }
     }
 
@@ -5378,8 +5350,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxConnections
-            case maxPendingRequests
+            case maxConnections = "maxConnections"
+            case maxPendingRequests = "maxPendingRequests"
         }
     }
 
@@ -5408,10 +5380,10 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionPool
-            case healthCheck
-            case portMapping
-            case tls
+            case connectionPool = "connectionPool"
+            case healthCheck = "healthCheck"
+            case portMapping = "portMapping"
+            case tls = "tls"
         }
     }
 
@@ -5435,9 +5407,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case mode
-            case validation
+            case certificate = "certificate"
+            case mode = "mode"
+            case validation = "validation"
         }
     }
 
@@ -5450,7 +5422,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
+            case certificateArn = "certificateArn"
         }
     }
 
@@ -5473,8 +5445,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateChain
-            case privateKey
+            case certificateChain = "certificateChain"
+            case privateKey = "privateKey"
         }
     }
 
@@ -5487,7 +5459,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretName
+            case secretName = "secretName"
         }
     }
 
@@ -5508,8 +5480,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subjectAlternativeNames
-            case trust
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case trust = "trust"
         }
     }
 
@@ -5526,7 +5498,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLog
+            case accessLog = "accessLog"
         }
     }
 
@@ -5547,8 +5519,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case `protocol`
+            case port = "port"
+            case `protocol` = "protocol"
         }
     }
 
@@ -5582,14 +5554,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
-            case virtualGatewayName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualGatewayName = "virtualGatewayName"
         }
     }
 
@@ -5615,9 +5587,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendDefaults
-            case listeners
-            case logging
+            case backendDefaults = "backendDefaults"
+            case listeners = "listeners"
+            case logging = "logging"
         }
     }
 
@@ -5630,7 +5602,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -5651,8 +5623,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case subjectAlternativeNames
-            case trust
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case trust = "trust"
         }
     }
 
@@ -5670,7 +5642,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAuthorityArns
+            case certificateAuthorityArns = "certificateAuthorityArns"
         }
     }
 
@@ -5688,7 +5660,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateChain
+            case certificateChain = "certificateChain"
         }
     }
 
@@ -5701,7 +5673,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case secretName
+            case secretName = "secretName"
         }
     }
 
@@ -5726,11 +5698,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case spec
-            case status
-            case virtualNodeName
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualNodeName = "virtualNodeName"
         }
     }
 
@@ -5747,7 +5719,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRequests
+            case maxRequests = "maxRequests"
         }
     }
 
@@ -5764,7 +5736,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxRequests
+            case maxRequests = "maxRequests"
         }
     }
 
@@ -5785,8 +5757,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxConnections
-            case maxPendingRequests
+            case maxConnections = "maxConnections"
+            case maxPendingRequests = "maxPendingRequests"
         }
     }
 
@@ -5820,14 +5792,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
-            case virtualNodeName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualNodeName = "virtualNodeName"
         }
     }
 
@@ -5845,7 +5817,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualNodeName
+            case virtualNodeName = "virtualNodeName"
         }
     }
 
@@ -5882,11 +5854,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendDefaults
-            case backends
-            case listeners
-            case logging
-            case serviceDiscovery
+            case backendDefaults = "backendDefaults"
+            case backends = "backends"
+            case listeners = "listeners"
+            case logging = "logging"
+            case serviceDiscovery = "serviceDiscovery"
         }
     }
 
@@ -5899,7 +5871,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -5916,7 +5888,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxConnections
+            case maxConnections = "maxConnections"
         }
     }
 
@@ -5941,11 +5913,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case spec
-            case status
-            case virtualRouterName
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -5961,7 +5933,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portMapping
+            case portMapping = "portMapping"
         }
     }
 
@@ -5995,14 +5967,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
-            case virtualRouterName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -6020,7 +5992,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualRouterName
+            case virtualRouterName = "virtualRouterName"
         }
     }
 
@@ -6039,7 +6011,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listeners
+            case listeners = "listeners"
         }
     }
 
@@ -6052,7 +6024,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -6072,8 +6044,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientPolicy
-            case virtualServiceName
+            case clientPolicy = "clientPolicy"
+            case virtualServiceName = "virtualServiceName"
         }
     }
 
@@ -6097,11 +6069,11 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case meshName
-            case metadata
-            case spec
-            case status
-            case virtualServiceName
+            case meshName = "meshName"
+            case metadata = "metadata"
+            case spec = "spec"
+            case status = "status"
+            case virtualServiceName = "virtualServiceName"
         }
     }
 
@@ -6135,14 +6107,14 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case meshName
-            case meshOwner
-            case resourceOwner
-            case version
-            case virtualServiceName
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case meshName = "meshName"
+            case meshOwner = "meshOwner"
+            case resourceOwner = "resourceOwner"
+            case version = "version"
+            case virtualServiceName = "virtualServiceName"
         }
     }
 
@@ -6159,7 +6131,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case provider
+            case provider = "provider"
         }
     }
 
@@ -6172,7 +6144,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -6200,9 +6172,9 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case port
-            case virtualNode
-            case weight
+            case port = "port"
+            case virtualNode = "virtualNode"
+            case weight = "weight"
         }
     }
 
@@ -6219,7 +6191,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
+            case file = "file"
         }
     }
 
@@ -6236,7 +6208,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualService
+            case virtualService = "virtualService"
         }
     }
 
@@ -6253,7 +6225,7 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
+            case file = "file"
         }
     }
 }
@@ -6297,15 +6269,15 @@ public struct AppMeshErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
     public static var conflictException: Self { .init(.conflictException) }
-    /// You don&#39;t have permissions to perform this action.
+    /// You don't have permissions to perform this action.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// The request processing has failed because of an unknown error, exception, or failure.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// You have exceeded a service limit for your account. For more information, see Service Limits in the App Mesh User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The specified resource doesn&#39;t exist. Check your request syntax and try again.
+    /// The specified resource doesn't exist. Check your request syntax and try again.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// You can&#39;t delete the specified resource because it&#39;s in use or required by another resource.
+    /// You can't delete the specified resource because it's in use or required by another resource.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The request has failed due to a temporary failure of the service.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

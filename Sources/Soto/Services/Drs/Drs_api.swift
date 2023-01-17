@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -251,7 +251,7 @@ extension Drs {
 // MARK: Paginators
 
 extension Drs {
-    ///  Retrieves a detailed Job log with pagination.
+    /// Retrieves a detailed Job log with pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -304,7 +304,7 @@ extension Drs {
         )
     }
 
-    ///  Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -357,7 +357,7 @@ extension Drs {
         )
     }
 
-    ///  Lists all Recovery Instances or multiple Recovery Instances by ID.
+    /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -410,7 +410,7 @@ extension Drs {
         )
     }
 
-    ///  Lists all Recovery Snapshots for a single Source Server.
+    /// Lists all Recovery Snapshots for a single Source Server.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -463,7 +463,7 @@ extension Drs {
         )
     }
 
-    ///  Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -516,7 +516,7 @@ extension Drs {
         )
     }
 
-    ///  Lists all Source Servers or multiple Source Servers filtered by ID.
+    /// Lists all Source Servers or multiple Source Servers filtered by ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -569,7 +569,7 @@ extension Drs {
         )
     }
 
-    ///  Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
+    /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -622,7 +622,7 @@ extension Drs {
         )
     }
 
-    ///  Returns an array of staging accounts for existing extended source servers.
+    /// Returns an array of staging accounts for existing extended source servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

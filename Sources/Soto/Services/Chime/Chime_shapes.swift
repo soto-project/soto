@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -318,7 +318,7 @@ extension Chime {
 
     public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, _SotoSendable {
         case apSoutheast2 = "ap-southeast-2"
-        case auto
+        case auto = "auto"
         case caCentral1 = "ca-central-1"
         case euWest1 = "eu-west-1"
         case usEast1 = "us-east-1"
@@ -344,9 +344,9 @@ extension Chime {
     }
 
     public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, _SotoSendable {
-        case high
-        case low
-        case medium
+        case high = "high"
+        case low = "low"
+        case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
@@ -354,7 +354,7 @@ extension Chime {
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSoutheast2 = "ap-southeast-2"
-        case auto
+        case auto = "auto"
         case caCentral1 = "ca-central-1"
         case euCentral1 = "eu-central-1"
         case euWest1 = "eu-west-1"
@@ -367,9 +367,9 @@ extension Chime {
     }
 
     public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mask
-        case remove
-        case tag
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -491,16 +491,16 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case country
-            case postalCode
-            case postalCodePlus4
-            case postDirectional
-            case preDirectional
-            case state
-            case streetName
-            case streetNumber
-            case streetSuffix
+            case city = "city"
+            case country = "country"
+            case postalCode = "postalCode"
+            case postalCodePlus4 = "postalCodePlus4"
+            case postDirectional = "postDirectional"
+            case preDirectional = "preDirectional"
+            case state = "state"
+            case streetName = "streetName"
+            case streetNumber = "streetNumber"
+            case streetSuffix = "streetSuffix"
         }
     }
 
@@ -1387,13 +1387,13 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case city
-            case country
-            case postalCode
-            case postalCodePlus4
-            case state
-            case streetInfo
-            case streetNumber
+            case city = "city"
+            case country = "country"
+            case postalCode = "postalCode"
+            case postalCodePlus4 = "postalCodePlus4"
+            case state = "state"
+            case streetInfo = "streetInfo"
+            case streetNumber = "streetNumber"
         }
     }
 
@@ -10626,9 +10626,9 @@ public struct ChimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have permissions to perform the requested operation.
+    /// You don't have permissions to perform the requested operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The input parameters don&#39;t match the service&#39;s restrictions.
+    /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }

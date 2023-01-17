@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -71,8 +71,8 @@ extension CodeCommit {
     }
 
     public enum OrderEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ascending
-        case descending
+        case ascending = "ascending"
+        case descending = "descending"
         public var description: String { return self.rawValue }
     }
 
@@ -116,16 +116,16 @@ extension CodeCommit {
     }
 
     public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case all
-        case createReference
-        case deleteReference
-        case updateReference
+        case all = "all"
+        case createReference = "createReference"
+        case deleteReference = "deleteReference"
+        case updateReference = "updateReference"
         public var description: String { return self.rawValue }
     }
 
     public enum SortByEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case lastModifiedDate
-        case repositoryName
+        case lastModifiedDate = "lastModifiedDate"
+        case repositoryName = "repositoryName"
         public var description: String { return self.rawValue }
     }
 
@@ -143,8 +143,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalState
-            case userArn
+            case approvalState = "approvalState"
+            case userArn = "userArn"
         }
     }
 
@@ -178,14 +178,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleContent
-            case approvalRuleId
-            case approvalRuleName
-            case creationDate
-            case lastModifiedDate
-            case lastModifiedUser
-            case originApprovalRuleTemplate
-            case ruleContentSha256
+            case approvalRuleContent = "approvalRuleContent"
+            case approvalRuleId = "approvalRuleId"
+            case approvalRuleName = "approvalRuleName"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case lastModifiedUser = "lastModifiedUser"
+            case originApprovalRuleTemplate = "originApprovalRuleTemplate"
+            case ruleContentSha256 = "ruleContentSha256"
         }
     }
 
@@ -204,9 +204,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleContent
-            case approvalRuleId
-            case approvalRuleName
+            case approvalRuleContent = "approvalRuleContent"
+            case approvalRuleId = "approvalRuleId"
+            case approvalRuleName = "approvalRuleName"
         }
     }
 
@@ -222,8 +222,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overrideStatus
-            case revisionId
+            case overrideStatus = "overrideStatus"
+            case revisionId = "revisionId"
         }
     }
 
@@ -257,14 +257,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateContent
-            case approvalRuleTemplateDescription
-            case approvalRuleTemplateId
-            case approvalRuleTemplateName
-            case creationDate
-            case lastModifiedDate
-            case lastModifiedUser
-            case ruleContentSha256
+            case approvalRuleTemplateContent = "approvalRuleTemplateContent"
+            case approvalRuleTemplateDescription = "approvalRuleTemplateDescription"
+            case approvalRuleTemplateId = "approvalRuleTemplateId"
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case lastModifiedUser = "lastModifiedUser"
+            case ruleContentSha256 = "ruleContentSha256"
         }
     }
 
@@ -280,8 +280,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalStatus
-            case revisionId
+            case approvalStatus = "approvalStatus"
+            case revisionId = "revisionId"
         }
     }
 
@@ -305,8 +305,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case repositoryName
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -325,9 +325,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case repositoryName
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -353,8 +353,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case repositoryNames
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -370,8 +370,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedRepositoryNames
-            case errors
+            case associatedRepositoryNames = "associatedRepositoryNames"
+            case errors = "errors"
         }
     }
 
@@ -390,9 +390,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exceptionName
-            case filePath
-            case message
+            case exceptionName = "exceptionName"
+            case filePath = "filePath"
+            case message = "message"
         }
     }
 
@@ -438,16 +438,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetailLevel
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case filePaths
-            case maxConflictFiles
-            case maxMergeHunks
-            case mergeOption
-            case nextToken
-            case repositoryName
-            case sourceCommitSpecifier
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case filePaths = "filePaths"
+            case maxConflictFiles = "maxConflictFiles"
+            case maxMergeHunks = "maxMergeHunks"
+            case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -475,12 +475,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCommitId
-            case conflicts
-            case destinationCommitId
-            case errors
-            case nextToken
-            case sourceCommitId
+            case baseCommitId = "baseCommitId"
+            case conflicts = "conflicts"
+            case destinationCommitId = "destinationCommitId"
+            case errors = "errors"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -499,9 +499,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case repositoryName
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -527,8 +527,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case repositoryNames
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -544,8 +544,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disassociatedRepositoryNames
-            case errors
+            case disassociatedRepositoryNames = "disassociatedRepositoryNames"
+            case errors = "errors"
         }
     }
 
@@ -564,9 +564,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case errorCode
-            case errorMessage
+            case commitId = "commitId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -588,8 +588,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitIds
-            case repositoryName
+            case commitIds = "commitIds"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -605,8 +605,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commits
-            case errors
+            case commits = "commits"
+            case errors = "errors"
         }
     }
 
@@ -627,7 +627,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryNames
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -643,8 +643,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositories
-            case repositoriesNotFound
+            case repositories = "repositories"
+            case repositoriesNotFound = "repositoriesNotFound"
         }
     }
 
@@ -663,9 +663,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobId
-            case mode
-            case path
+            case blobId = "blobId"
+            case mode = "mode"
+            case path = "path"
         }
     }
 
@@ -681,8 +681,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case commitId
+            case branchName = "branchName"
+            case commitId = "commitId"
         }
     }
 
@@ -722,16 +722,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorArn
-            case callerReactions
-            case clientRequestToken
-            case commentId
-            case content
-            case creationDate
-            case deleted
-            case inReplyTo
-            case lastModifiedDate
-            case reactionCounts
+            case authorArn = "authorArn"
+            case callerReactions = "callerReactions"
+            case clientRequestToken = "clientRequestToken"
+            case commentId = "commentId"
+            case content = "content"
+            case creationDate = "creationDate"
+            case deleted = "deleted"
+            case inReplyTo = "inReplyTo"
+            case lastModifiedDate = "lastModifiedDate"
+            case reactionCounts = "reactionCounts"
         }
     }
 
@@ -762,13 +762,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterBlobId
-            case afterCommitId
-            case beforeBlobId
-            case beforeCommitId
-            case comments
-            case location
-            case repositoryName
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comments = "comments"
+            case location = "location"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -802,14 +802,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterBlobId
-            case afterCommitId
-            case beforeBlobId
-            case beforeCommitId
-            case comments
-            case location
-            case pullRequestId
-            case repositoryName
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comments = "comments"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -840,13 +840,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalData
-            case author
-            case commitId
-            case committer
-            case message
-            case parents
-            case treeId
+            case additionalData = "additionalData"
+            case author = "author"
+            case commitId = "commitId"
+            case committer = "committer"
+            case message = "message"
+            case parents = "parents"
+            case treeId = "treeId"
         }
     }
 
@@ -862,8 +862,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictMetadata
-            case mergeHunks
+            case conflictMetadata = "conflictMetadata"
+            case mergeHunks = "mergeHunks"
         }
     }
 
@@ -903,16 +903,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentConflict
-            case fileModeConflict
-            case fileModes
-            case filePath
-            case fileSizes
-            case isBinaryFile
-            case mergeOperations
-            case numberOfConflicts
-            case objectTypeConflict
-            case objectTypes
+            case contentConflict = "contentConflict"
+            case fileModeConflict = "fileModeConflict"
+            case fileModes = "fileModes"
+            case filePath = "filePath"
+            case fileSizes = "fileSizes"
+            case isBinaryFile = "isBinaryFile"
+            case mergeOperations = "mergeOperations"
+            case numberOfConflicts = "numberOfConflicts"
+            case objectTypeConflict = "objectTypeConflict"
+            case objectTypes = "objectTypes"
         }
     }
 
@@ -937,9 +937,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteFiles
-            case replaceContents
-            case setFileModes
+            case deleteFiles = "deleteFiles"
+            case replaceContents = "replaceContents"
+            case setFileModes = "setFileModes"
         }
     }
 
@@ -966,9 +966,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateContent
-            case approvalRuleTemplateDescription
-            case approvalRuleTemplateName
+            case approvalRuleTemplateContent = "approvalRuleTemplateContent"
+            case approvalRuleTemplateDescription = "approvalRuleTemplateDescription"
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
         }
     }
 
@@ -981,7 +981,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplate
+            case approvalRuleTemplate = "approvalRuleTemplate"
         }
     }
 
@@ -1008,9 +1008,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case commitId
-            case repositoryName
+            case branchName = "branchName"
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1061,16 +1061,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case branchName
-            case commitMessage
-            case deleteFiles
-            case email
-            case keepEmptyFolders
-            case parentCommitId
-            case putFiles
-            case repositoryName
-            case setFileModes
+            case authorName = "authorName"
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case deleteFiles = "deleteFiles"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case parentCommitId = "parentCommitId"
+            case putFiles = "putFiles"
+            case repositoryName = "repositoryName"
+            case setFileModes = "setFileModes"
         }
     }
 
@@ -1095,11 +1095,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case filesAdded
-            case filesDeleted
-            case filesUpdated
-            case treeId
+            case commitId = "commitId"
+            case filesAdded = "filesAdded"
+            case filesDeleted = "filesDeleted"
+            case filesUpdated = "filesUpdated"
+            case treeId = "treeId"
         }
     }
 
@@ -1125,9 +1125,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleContent
-            case approvalRuleName
-            case pullRequestId
+            case approvalRuleContent = "approvalRuleContent"
+            case approvalRuleName = "approvalRuleName"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -1140,7 +1140,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRule
+            case approvalRule = "approvalRule"
         }
     }
 
@@ -1170,10 +1170,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case description
-            case targets
-            case title
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case targets = "targets"
+            case title = "title"
         }
     }
 
@@ -1186,7 +1186,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -1217,9 +1217,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryDescription
-            case repositoryName
-            case tags
+            case repositoryDescription = "repositoryDescription"
+            case repositoryName = "repositoryName"
+            case tags = "tags"
         }
     }
 
@@ -1232,7 +1232,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryMetadata
+            case repositoryMetadata = "repositoryMetadata"
         }
     }
 
@@ -1282,17 +1282,17 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commitMessage
-            case conflictDetailLevel
-            case conflictResolution
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case email
-            case keepEmptyFolders
-            case mergeOption
-            case repositoryName
-            case sourceCommitSpecifier
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case mergeOption = "mergeOption"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -1308,8 +1308,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case treeId
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -1327,7 +1327,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
         }
     }
 
@@ -1340,7 +1340,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateId
+            case approvalRuleTemplateId = "approvalRuleTemplateId"
         }
     }
 
@@ -1364,8 +1364,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case repositoryName
+            case branchName = "branchName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1378,7 +1378,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deletedBranch
+            case deletedBranch = "deletedBranch"
         }
     }
 
@@ -1391,7 +1391,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentId
+            case commentId = "commentId"
         }
     }
 
@@ -1404,7 +1404,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
+            case comment = "comment"
         }
     }
 
@@ -1417,7 +1417,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePath
+            case filePath = "filePath"
         }
     }
 
@@ -1459,14 +1459,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case commitMessage
-            case email
-            case filePath
-            case keepEmptyFolders
-            case name
-            case parentCommitId
-            case repositoryName
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case email = "email"
+            case filePath = "filePath"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case name = "name"
+            case parentCommitId = "parentCommitId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1488,10 +1488,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobId
-            case commitId
-            case filePath
-            case treeId
+            case blobId = "blobId"
+            case commitId = "commitId"
+            case filePath = "filePath"
+            case treeId = "treeId"
         }
     }
 
@@ -1512,8 +1512,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleName
-            case pullRequestId
+            case approvalRuleName = "approvalRuleName"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -1526,7 +1526,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleId
+            case approvalRuleId = "approvalRuleId"
         }
     }
 
@@ -1545,7 +1545,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1558,7 +1558,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryId
+            case repositoryId = "repositoryId"
         }
     }
 
@@ -1601,15 +1601,15 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetailLevel
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case filePath
-            case maxMergeHunks
-            case mergeOption
-            case nextToken
-            case repositoryName
-            case sourceCommitSpecifier
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case filePath = "filePath"
+            case maxMergeHunks = "maxMergeHunks"
+            case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -1637,12 +1637,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCommitId
-            case conflictMetadata
-            case destinationCommitId
-            case mergeHunks
-            case nextToken
-            case sourceCommitId
+            case baseCommitId = "baseCommitId"
+            case conflictMetadata = "conflictMetadata"
+            case destinationCommitId = "destinationCommitId"
+            case mergeHunks = "mergeHunks"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -1667,11 +1667,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actorArn
-            case maxResults
-            case nextToken
-            case pullRequestEventType
-            case pullRequestId
+            case actorArn = "actorArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pullRequestEventType = "pullRequestEventType"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -1687,8 +1687,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pullRequestEvents
+            case nextToken = "nextToken"
+            case pullRequestEvents = "pullRequestEvents"
         }
     }
 
@@ -1707,9 +1707,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterBlob
-            case beforeBlob
-            case changeType
+            case afterBlob = "afterBlob"
+            case beforeBlob = "beforeBlob"
+            case changeType = "changeType"
         }
     }
 
@@ -1733,8 +1733,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case repositoryName
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1750,8 +1750,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case revisionId
+            case pullRequestId = "pullRequestId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -1764,7 +1764,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluation
+            case evaluation = "evaluation"
         }
     }
 
@@ -1786,10 +1786,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRulesNotSatisfied
-            case approvalRulesSatisfied
-            case approved
-            case overridden
+            case approvalRulesNotSatisfied = "approvalRulesNotSatisfied"
+            case approvalRulesSatisfied = "approvalRulesSatisfied"
+            case approved = "approved"
+            case overridden = "overridden"
         }
     }
 
@@ -1811,10 +1811,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath
-            case blobId
-            case fileMode
-            case relativePath
+            case absolutePath = "absolutePath"
+            case blobId = "blobId"
+            case fileMode = "fileMode"
+            case relativePath = "relativePath"
         }
     }
 
@@ -1833,9 +1833,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath
-            case blobId
-            case fileMode
+            case absolutePath = "absolutePath"
+            case blobId = "blobId"
+            case fileMode = "fileMode"
         }
     }
 
@@ -1854,9 +1854,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case destination
-            case source
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -1875,9 +1875,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case destination
-            case source
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -1896,9 +1896,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath
-            case relativePath
-            case treeId
+            case absolutePath = "absolutePath"
+            case relativePath = "relativePath"
+            case treeId = "treeId"
         }
     }
 
@@ -1916,7 +1916,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
         }
     }
 
@@ -1929,7 +1929,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplate
+            case approvalRuleTemplate = "approvalRuleTemplate"
         }
     }
 
@@ -1951,8 +1951,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobId
-            case repositoryName
+            case blobId = "blobId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1965,7 +1965,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
+            case content = "content"
         }
     }
 
@@ -1989,8 +1989,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case repositoryName
+            case branchName = "branchName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2003,7 +2003,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
+            case branch = "branch"
         }
     }
 
@@ -2016,7 +2016,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentId
+            case commentId = "commentId"
         }
     }
 
@@ -2029,7 +2029,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
+            case comment = "comment"
         }
     }
 
@@ -2051,10 +2051,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentId
-            case maxResults
-            case nextToken
-            case reactionUserArn
+            case commentId = "commentId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reactionUserArn = "reactionUserArn"
         }
     }
 
@@ -2070,8 +2070,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reactionsForComment
+            case nextToken = "nextToken"
+            case reactionsForComment = "reactionsForComment"
         }
     }
 
@@ -2102,11 +2102,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitId
-            case beforeCommitId
-            case maxResults
-            case nextToken
-            case repositoryName
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2122,8 +2122,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentsForComparedCommitData
-            case nextToken
+            case commentsForComparedCommitData = "commentsForComparedCommitData"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2157,12 +2157,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitId
-            case beforeCommitId
-            case maxResults
-            case nextToken
-            case pullRequestId
-            case repositoryName
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2178,8 +2178,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentsForPullRequestData
-            case nextToken
+            case commentsForPullRequestData = "commentsForPullRequestData"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2201,8 +2201,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case repositoryName
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2215,7 +2215,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commit
+            case commit = "commit"
         }
     }
 
@@ -2252,13 +2252,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitSpecifier
-            case afterPath
-            case beforeCommitSpecifier
-            case beforePath
+            case afterCommitSpecifier = "afterCommitSpecifier"
+            case afterPath = "afterPath"
+            case beforeCommitSpecifier = "beforeCommitSpecifier"
+            case beforePath = "beforePath"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2274,7 +2274,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case differences
+            case differences = "differences"
             case nextToken = "NextToken"
         }
     }
@@ -2300,9 +2300,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitSpecifier
-            case filePath
-            case repositoryName
+            case commitSpecifier = "commitSpecifier"
+            case filePath = "filePath"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2330,12 +2330,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobId
-            case commitId
-            case fileContent
-            case fileMode
-            case filePath
-            case fileSize
+            case blobId = "blobId"
+            case commitId = "commitId"
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case fileSize = "fileSize"
         }
     }
 
@@ -2360,9 +2360,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitSpecifier
-            case folderPath
-            case repositoryName
+            case commitSpecifier = "commitSpecifier"
+            case folderPath = "folderPath"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2393,13 +2393,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case files
-            case folderPath
-            case subFolders
-            case subModules
-            case symbolicLinks
-            case treeId
+            case commitId = "commitId"
+            case files = "files"
+            case folderPath = "folderPath"
+            case subFolders = "subFolders"
+            case subModules = "subModules"
+            case symbolicLinks = "symbolicLinks"
+            case treeId = "treeId"
         }
     }
 
@@ -2430,11 +2430,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetailLevel
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case repositoryName
-            case sourceCommitSpecifier
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -2456,10 +2456,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCommitId
-            case destinationCommitId
-            case mergedCommitId
-            case sourceCommitId
+            case baseCommitId = "baseCommitId"
+            case destinationCommitId = "destinationCommitId"
+            case mergedCommitId = "mergedCommitId"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -2499,14 +2499,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetailLevel
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case maxConflictFiles
-            case mergeOption
-            case nextToken
-            case repositoryName
-            case sourceCommitSpecifier
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case maxConflictFiles = "maxConflictFiles"
+            case mergeOption = "mergeOption"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -2534,12 +2534,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCommitId
-            case conflictMetadataList
-            case destinationCommitId
-            case mergeable
-            case nextToken
-            case sourceCommitId
+            case baseCommitId = "baseCommitId"
+            case conflictMetadataList = "conflictMetadataList"
+            case destinationCommitId = "destinationCommitId"
+            case mergeable = "mergeable"
+            case nextToken = "nextToken"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -2570,11 +2570,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conflictDetailLevel
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case repositoryName
-            case sourceCommitSpecifier
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
         }
     }
 
@@ -2596,10 +2596,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseCommitId
-            case destinationCommitId
-            case mergeOptions
-            case sourceCommitId
+            case baseCommitId = "baseCommitId"
+            case destinationCommitId = "destinationCommitId"
+            case mergeOptions = "mergeOptions"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -2615,8 +2615,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case revisionId
+            case pullRequestId = "pullRequestId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -2629,7 +2629,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvals
+            case approvals = "approvals"
         }
     }
 
@@ -2642,7 +2642,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -2655,7 +2655,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -2671,8 +2671,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case revisionId
+            case pullRequestId = "pullRequestId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -2688,8 +2688,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overridden
-            case overrider
+            case overridden = "overridden"
+            case overrider = "overrider"
         }
     }
 
@@ -2708,7 +2708,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2721,7 +2721,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryMetadata
+            case repositoryMetadata = "repositoryMetadata"
         }
     }
 
@@ -2740,7 +2740,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2756,8 +2756,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case triggers
+            case configurationId = "configurationId"
+            case triggers = "triggers"
         }
     }
 
@@ -2776,9 +2776,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case destination
-            case source
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -2794,8 +2794,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2811,8 +2811,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateNames
-            case nextToken
+            case approvalRuleTemplateNames = "approvalRuleTemplateNames"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2837,9 +2837,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case repositoryName
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2855,8 +2855,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateNames
-            case nextToken
+            case approvalRuleTemplateNames = "approvalRuleTemplateNames"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2878,8 +2878,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositoryName
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2895,8 +2895,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branches
-            case nextToken
+            case branches = "branches"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2927,11 +2927,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorArn
-            case maxResults
-            case nextToken
-            case pullRequestStatus
-            case repositoryName
+            case authorArn = "authorArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pullRequestStatus = "pullRequestStatus"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -2947,8 +2947,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pullRequestIds
+            case nextToken = "nextToken"
+            case pullRequestIds = "pullRequestIds"
         }
     }
 
@@ -2972,9 +2972,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case maxResults
-            case nextToken
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2990,8 +2990,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositoryNames
+            case nextToken = "nextToken"
+            case repositoryNames = "repositoryNames"
         }
     }
 
@@ -3010,9 +3010,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case order
-            case sortBy
+            case nextToken = "nextToken"
+            case order = "order"
+            case sortBy = "sortBy"
         }
     }
 
@@ -3028,8 +3028,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
@@ -3045,8 +3045,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceArn
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -3062,8 +3062,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -3082,9 +3082,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePath
-            case filePosition
-            case relativeFileVersion
+            case filePath = "filePath"
+            case filePosition = "filePosition"
+            case relativeFileVersion = "relativeFileVersion"
         }
     }
 
@@ -3114,10 +3114,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationCommitSpecifier
-            case repositoryName
-            case sourceCommitSpecifier
-            case targetBranch
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
         }
     }
 
@@ -3133,8 +3133,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case treeId
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -3186,17 +3186,17 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commitMessage
-            case conflictDetailLevel
-            case conflictResolution
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case email
-            case keepEmptyFolders
-            case repositoryName
-            case sourceCommitSpecifier
-            case targetBranch
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
         }
     }
 
@@ -3212,8 +3212,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case treeId
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -3265,17 +3265,17 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commitMessage
-            case conflictDetailLevel
-            case conflictResolution
-            case conflictResolutionStrategy
-            case destinationCommitSpecifier
-            case email
-            case keepEmptyFolders
-            case repositoryName
-            case sourceCommitSpecifier
-            case targetBranch
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case destinationCommitSpecifier = "destinationCommitSpecifier"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case repositoryName = "repositoryName"
+            case sourceCommitSpecifier = "sourceCommitSpecifier"
+            case targetBranch = "targetBranch"
         }
     }
 
@@ -3291,8 +3291,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case treeId
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -3314,10 +3314,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case destination
-            case isConflict
-            case source
+            case base = "base"
+            case destination = "destination"
+            case isConflict = "isConflict"
+            case source = "source"
         }
     }
 
@@ -3336,9 +3336,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endLine
-            case hunkContent
-            case startLine
+            case endLine = "endLine"
+            case hunkContent = "hunkContent"
+            case startLine = "startLine"
         }
     }
 
@@ -3360,10 +3360,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isMerged
-            case mergeCommitId
-            case mergedBy
-            case mergeOption
+            case isMerged = "isMerged"
+            case mergeCommitId = "mergeCommitId"
+            case mergedBy = "mergedBy"
+            case mergeOption = "mergeOption"
         }
     }
 
@@ -3379,8 +3379,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case source
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -3405,9 +3405,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case repositoryName
-            case sourceCommitId
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -3420,7 +3420,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -3467,16 +3467,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commitMessage
-            case conflictDetailLevel
-            case conflictResolution
-            case conflictResolutionStrategy
-            case email
-            case keepEmptyFolders
-            case pullRequestId
-            case repositoryName
-            case sourceCommitId
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -3488,7 +3488,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -3535,16 +3535,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commitMessage
-            case conflictDetailLevel
-            case conflictResolution
-            case conflictResolutionStrategy
-            case email
-            case keepEmptyFolders
-            case pullRequestId
-            case repositoryName
-            case sourceCommitId
+            case authorName = "authorName"
+            case commitMessage = "commitMessage"
+            case conflictDetailLevel = "conflictDetailLevel"
+            case conflictResolution = "conflictResolution"
+            case conflictResolutionStrategy = "conflictResolutionStrategy"
+            case email = "email"
+            case keepEmptyFolders = "keepEmptyFolders"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -3556,7 +3556,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -3575,9 +3575,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case destination
-            case source
+            case base = "base"
+            case destination = "destination"
+            case source = "source"
         }
     }
 
@@ -3593,8 +3593,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateId
-            case approvalRuleTemplateName
+            case approvalRuleTemplateId = "approvalRuleTemplateId"
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
         }
     }
 
@@ -3613,9 +3613,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case overrideStatus
-            case pullRequestId
-            case revisionId
+            case overrideStatus = "overrideStatus"
+            case pullRequestId = "pullRequestId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -3649,12 +3649,12 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitId
-            case beforeCommitId
-            case clientRequestToken
-            case content
-            case location
-            case repositoryName
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case location = "location"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3685,13 +3685,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterBlobId
-            case afterCommitId
-            case beforeBlobId
-            case beforeCommitId
-            case comment
-            case location
-            case repositoryName
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comment = "comment"
+            case location = "location"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3728,13 +3728,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitId
-            case beforeCommitId
-            case clientRequestToken
-            case content
-            case location
-            case pullRequestId
-            case repositoryName
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3768,14 +3768,14 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterBlobId
-            case afterCommitId
-            case beforeBlobId
-            case beforeCommitId
-            case comment
-            case location
-            case pullRequestId
-            case repositoryName
+            case afterBlobId = "afterBlobId"
+            case afterCommitId = "afterCommitId"
+            case beforeBlobId = "beforeBlobId"
+            case beforeCommitId = "beforeCommitId"
+            case comment = "comment"
+            case location = "location"
+            case pullRequestId = "pullRequestId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3794,9 +3794,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case content
-            case inReplyTo
+            case clientRequestToken = "clientRequestToken"
+            case content = "content"
+            case inReplyTo = "inReplyTo"
         }
     }
 
@@ -3809,7 +3809,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
+            case comment = "comment"
         }
     }
 
@@ -3852,17 +3852,17 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRules
-            case authorArn
-            case clientRequestToken
-            case creationDate
-            case description
-            case lastActivityDate
-            case pullRequestId
-            case pullRequestStatus
-            case pullRequestTargets
-            case revisionId
-            case title
+            case approvalRules = "approvalRules"
+            case authorArn = "authorArn"
+            case clientRequestToken = "clientRequestToken"
+            case creationDate = "creationDate"
+            case description = "description"
+            case lastActivityDate = "lastActivityDate"
+            case pullRequestId = "pullRequestId"
+            case pullRequestStatus = "pullRequestStatus"
+            case pullRequestTargets = "pullRequestTargets"
+            case revisionId = "revisionId"
+            case title = "title"
         }
     }
 
@@ -3884,10 +3884,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationCommitId
-            case mergeBase
-            case repositoryName
-            case sourceCommitId
+            case destinationCommitId = "destinationCommitId"
+            case mergeBase = "mergeBase"
+            case repositoryName = "repositoryName"
+            case sourceCommitId = "sourceCommitId"
         }
     }
 
@@ -3930,17 +3930,17 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actorArn
-            case approvalRuleEventMetadata
-            case approvalRuleOverriddenEventMetadata
-            case approvalStateChangedEventMetadata
-            case eventDate
-            case pullRequestCreatedEventMetadata
-            case pullRequestEventType
-            case pullRequestId
-            case pullRequestMergedStateChangedEventMetadata
-            case pullRequestSourceReferenceUpdatedEventMetadata
-            case pullRequestStatusChangedEventMetadata
+            case actorArn = "actorArn"
+            case approvalRuleEventMetadata = "approvalRuleEventMetadata"
+            case approvalRuleOverriddenEventMetadata = "approvalRuleOverriddenEventMetadata"
+            case approvalStateChangedEventMetadata = "approvalStateChangedEventMetadata"
+            case eventDate = "eventDate"
+            case pullRequestCreatedEventMetadata = "pullRequestCreatedEventMetadata"
+            case pullRequestEventType = "pullRequestEventType"
+            case pullRequestId = "pullRequestId"
+            case pullRequestMergedStateChangedEventMetadata = "pullRequestMergedStateChangedEventMetadata"
+            case pullRequestSourceReferenceUpdatedEventMetadata = "pullRequestSourceReferenceUpdatedEventMetadata"
+            case pullRequestStatusChangedEventMetadata = "pullRequestStatusChangedEventMetadata"
         }
     }
 
@@ -3959,9 +3959,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationReference
-            case mergeMetadata
-            case repositoryName
+            case destinationReference = "destinationReference"
+            case mergeMetadata = "mergeMetadata"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3983,10 +3983,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterCommitId
-            case beforeCommitId
-            case mergeBase
-            case repositoryName
+            case afterCommitId = "afterCommitId"
+            case beforeCommitId = "beforeCommitId"
+            case mergeBase = "mergeBase"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -3999,7 +3999,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestStatus
+            case pullRequestStatus = "pullRequestStatus"
         }
     }
 
@@ -4030,13 +4030,13 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationCommit
-            case destinationReference
-            case mergeBase
-            case mergeMetadata
-            case repositoryName
-            case sourceCommit
-            case sourceReference
+            case destinationCommit = "destinationCommit"
+            case destinationReference = "destinationReference"
+            case mergeBase = "mergeBase"
+            case mergeMetadata = "mergeMetadata"
+            case repositoryName = "repositoryName"
+            case sourceCommit = "sourceCommit"
+            case sourceReference = "sourceReference"
         }
     }
 
@@ -4052,8 +4052,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentId
-            case reactionValue
+            case commentId = "commentId"
+            case reactionValue = "reactionValue"
         }
     }
 
@@ -4075,14 +4075,14 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6_291_456)
+            try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6291456)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileContent
-            case fileMode
-            case filePath
-            case sourceFile
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case sourceFile = "sourceFile"
         }
     }
 
@@ -4121,22 +4121,22 @@ extension CodeCommit {
         public func validate(name: String) throws {
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
-            try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6_291_456)
+            try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6291456)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case commitMessage
-            case email
-            case fileContent
-            case fileMode
-            case filePath
-            case name
-            case parentCommitId
-            case repositoryName
+            case branchName = "branchName"
+            case commitMessage = "commitMessage"
+            case email = "email"
+            case fileContent = "fileContent"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case name = "name"
+            case parentCommitId = "parentCommitId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -4155,9 +4155,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blobId
-            case commitId
-            case treeId
+            case blobId = "blobId"
+            case commitId = "commitId"
+            case treeId = "treeId"
         }
     }
 
@@ -4182,8 +4182,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
-            case triggers
+            case repositoryName = "repositoryName"
+            case triggers = "triggers"
         }
     }
 
@@ -4196,7 +4196,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
+            case configurationId = "configurationId"
         }
     }
 
@@ -4215,9 +4215,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reaction
-            case reactionsFromDeletedUsersCount
-            case reactionUsers
+            case reaction = "reaction"
+            case reactionsFromDeletedUsersCount = "reactionsFromDeletedUsersCount"
+            case reactionUsers = "reactionUsers"
         }
     }
 
@@ -4236,9 +4236,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emoji
-            case shortCode
-            case unicode
+            case emoji = "emoji"
+            case shortCode = "shortCode"
+            case unicode = "unicode"
         }
     }
 
@@ -4260,14 +4260,14 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 6_291_456)
+            try self.validate(self.content, name: "content", parent: name, max: 6291456)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case fileMode
-            case filePath
-            case replacementType
+            case content = "content"
+            case fileMode = "fileMode"
+            case filePath = "filePath"
+            case replacementType = "replacementType"
         }
     }
 
@@ -4307,16 +4307,16 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
             case arn = "Arn"
-            case cloneUrlHttp
-            case cloneUrlSsh
-            case creationDate
-            case defaultBranch
-            case lastModifiedDate
-            case repositoryDescription
-            case repositoryId
-            case repositoryName
+            case cloneUrlHttp = "cloneUrlHttp"
+            case cloneUrlSsh = "cloneUrlSsh"
+            case creationDate = "creationDate"
+            case defaultBranch = "defaultBranch"
+            case lastModifiedDate = "lastModifiedDate"
+            case repositoryDescription = "repositoryDescription"
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -4332,8 +4332,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryId
-            case repositoryName
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -4365,11 +4365,11 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branches
-            case customData
-            case destinationArn
-            case events
-            case name
+            case branches = "branches"
+            case customData = "customData"
+            case destinationArn = "destinationArn"
+            case events = "events"
+            case name = "name"
         }
     }
 
@@ -4385,8 +4385,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureMessage
-            case trigger
+            case failureMessage = "failureMessage"
+            case trigger = "trigger"
         }
     }
 
@@ -4402,8 +4402,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileMode
-            case filePath
+            case fileMode = "fileMode"
+            case filePath = "filePath"
         }
     }
 
@@ -4419,8 +4419,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filePath
-            case isMove
+            case filePath = "filePath"
+            case isMove = "isMove"
         }
     }
 
@@ -4439,9 +4439,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath
-            case commitId
-            case relativePath
+            case absolutePath = "absolutePath"
+            case commitId = "commitId"
+            case relativePath = "relativePath"
         }
     }
 
@@ -4463,10 +4463,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case absolutePath
-            case blobId
-            case fileMode
-            case relativePath
+            case absolutePath = "absolutePath"
+            case blobId = "blobId"
+            case fileMode = "fileMode"
+            case relativePath = "relativePath"
         }
     }
 
@@ -4490,8 +4490,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -4516,9 +4516,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationReference
-            case repositoryName
-            case sourceReference
+            case destinationReference = "destinationReference"
+            case repositoryName = "repositoryName"
+            case sourceReference = "sourceReference"
         }
     }
 
@@ -4543,8 +4543,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
-            case triggers
+            case repositoryName = "repositoryName"
+            case triggers = "triggers"
         }
     }
 
@@ -4560,8 +4560,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedExecutions
-            case successfulExecutions
+            case failedExecutions = "failedExecutions"
+            case successfulExecutions = "successfulExecutions"
         }
     }
 
@@ -4584,8 +4584,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -4611,9 +4611,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateName
-            case existingRuleContentSha256
-            case newRuleContent
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
+            case existingRuleContentSha256 = "existingRuleContentSha256"
+            case newRuleContent = "newRuleContent"
         }
     }
 
@@ -4625,7 +4625,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplate
+            case approvalRuleTemplate = "approvalRuleTemplate"
         }
     }
 
@@ -4647,8 +4647,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplateDescription
-            case approvalRuleTemplateName
+            case approvalRuleTemplateDescription = "approvalRuleTemplateDescription"
+            case approvalRuleTemplateName = "approvalRuleTemplateName"
         }
     }
 
@@ -4661,7 +4661,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplate
+            case approvalRuleTemplate = "approvalRuleTemplate"
         }
     }
 
@@ -4684,8 +4684,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newApprovalRuleTemplateName
-            case oldApprovalRuleTemplateName
+            case newApprovalRuleTemplateName = "newApprovalRuleTemplateName"
+            case oldApprovalRuleTemplateName = "oldApprovalRuleTemplateName"
         }
     }
 
@@ -4698,7 +4698,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleTemplate
+            case approvalRuleTemplate = "approvalRuleTemplate"
         }
     }
 
@@ -4714,8 +4714,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentId
-            case content
+            case commentId = "commentId"
+            case content = "content"
         }
     }
 
@@ -4728,7 +4728,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
+            case comment = "comment"
         }
     }
 
@@ -4752,8 +4752,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultBranchName
-            case repositoryName
+            case defaultBranchName = "defaultBranchName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -4782,10 +4782,10 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRuleName
-            case existingRuleContentSha256
-            case newRuleContent
-            case pullRequestId
+            case approvalRuleName = "approvalRuleName"
+            case existingRuleContentSha256 = "existingRuleContentSha256"
+            case newRuleContent = "newRuleContent"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -4798,7 +4798,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalRule
+            case approvalRule = "approvalRule"
         }
     }
 
@@ -4817,9 +4817,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvalState
-            case pullRequestId
-            case revisionId
+            case approvalState = "approvalState"
+            case pullRequestId = "pullRequestId"
+            case revisionId = "revisionId"
         }
     }
 
@@ -4839,8 +4839,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case pullRequestId
+            case description = "description"
+            case pullRequestId = "pullRequestId"
         }
     }
 
@@ -4853,7 +4853,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -4869,8 +4869,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case pullRequestStatus
+            case pullRequestId = "pullRequestId"
+            case pullRequestStatus = "pullRequestStatus"
         }
     }
 
@@ -4883,7 +4883,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -4903,8 +4903,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequestId
-            case title
+            case pullRequestId = "pullRequestId"
+            case title = "title"
         }
     }
 
@@ -4917,7 +4917,7 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pullRequest
+            case pullRequest = "pullRequest"
         }
     }
 
@@ -4940,8 +4940,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryDescription
-            case repositoryName
+            case repositoryDescription = "repositoryDescription"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -4966,8 +4966,8 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newName
-            case oldName
+            case newName = "newName"
+            case oldName = "oldName"
         }
     }
 
@@ -4986,9 +4986,9 @@ extension CodeCommit {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case date
-            case email
-            case name
+            case date = "date"
+            case email = "email"
+            case name = "name"
         }
     }
 }

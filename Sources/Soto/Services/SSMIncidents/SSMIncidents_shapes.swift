@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -115,8 +115,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case integerValues
-            case stringValues
+            case integerValues = "integerValues"
+            case stringValues = "stringValues"
         }
     }
 
@@ -169,8 +169,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case chatbotSns
-            case empty
+            case chatbotSns = "chatbotSns"
+            case empty = "empty"
         }
     }
 
@@ -204,9 +204,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case after
-            case before
-            case equals
+            case after = "after"
+            case before = "before"
+            case equals = "equals"
         }
     }
 
@@ -257,8 +257,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relatedItemId
-            case resource
+            case relatedItemId = "relatedItemId"
+            case resource = "resource"
         }
     }
 
@@ -326,10 +326,10 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case metricDefinition
-            case pagerDutyIncidentDetail
-            case url
+            case arn = "arn"
+            case metricDefinition = "metricDefinition"
+            case pagerDutyIncidentDetail = "pagerDutyIncidentDetail"
+            case url = "url"
         }
     }
 
@@ -359,8 +359,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemToAdd
-            case itemToRemove
+            case itemToAdd = "itemToAdd"
+            case itemToRemove = "itemToRemove"
         }
     }
 
@@ -390,8 +390,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addRegionAction
-            case deleteRegionAction
+            case addRegionAction = "addRegionAction"
+            case deleteRegionAction = "deleteRegionAction"
         }
     }
 
@@ -414,8 +414,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regionName
-            case sseKmsKeyId
+            case regionName = "regionName"
+            case sseKmsKeyId = "sseKmsKeyId"
         }
     }
 
@@ -453,9 +453,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case regions
-            case tags
+            case clientToken = "clientToken"
+            case regions = "regions"
+            case tags = "tags"
         }
     }
 
@@ -468,7 +468,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -534,15 +534,15 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case chatChannel
-            case clientToken
-            case displayName
-            case engagements
-            case incidentTemplate
-            case integrations
-            case name
-            case tags
+            case actions = "actions"
+            case chatChannel = "chatChannel"
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case engagements = "engagements"
+            case incidentTemplate = "incidentTemplate"
+            case integrations = "integrations"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -555,7 +555,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -595,12 +595,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case eventData
-            case eventReferences
-            case eventTime
-            case eventType
-            case incidentRecordArn
+            case clientToken = "clientToken"
+            case eventData = "eventData"
+            case eventReferences = "eventReferences"
+            case eventTime = "eventTime"
+            case eventType = "eventType"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -616,8 +616,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case incidentRecordArn
+            case eventId = "eventId"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -635,7 +635,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -656,7 +656,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regionName
+            case regionName = "regionName"
         }
     }
 
@@ -702,8 +702,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyId
-            case resourceArn
+            case policyId = "policyId"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -725,7 +725,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -751,8 +751,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case incidentRecordArn
+            case eventId = "eventId"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -788,12 +788,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case eventReferences
-            case eventTime
-            case eventType
-            case eventUpdatedTime
-            case incidentRecordArn
+            case eventId = "eventId"
+            case eventReferences = "eventReferences"
+            case eventTime = "eventTime"
+            case eventType = "eventType"
+            case eventUpdatedTime = "eventUpdatedTime"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -813,8 +813,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case key
+            case condition = "condition"
+            case key = "key"
         }
     }
 
@@ -847,7 +847,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case incidentRecord
+            case incidentRecord = "incidentRecord"
         }
     }
 
@@ -880,7 +880,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationSet
+            case replicationSet = "replicationSet"
         }
     }
 
@@ -911,8 +911,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -928,8 +928,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourcePolicies
+            case nextToken = "nextToken"
+            case resourcePolicies = "resourcePolicies"
         }
     }
 
@@ -983,14 +983,14 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case arn
-            case chatChannel
-            case displayName
-            case engagements
-            case incidentTemplate
-            case integrations
-            case name
+            case actions = "actions"
+            case arn = "arn"
+            case chatChannel = "chatChannel"
+            case displayName = "displayName"
+            case engagements = "engagements"
+            case incidentTemplate = "incidentTemplate"
+            case integrations = "integrations"
+            case name = "name"
         }
     }
 
@@ -1028,7 +1028,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
+            case event = "event"
         }
     }
 
@@ -1080,20 +1080,20 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case automationExecutions
-            case chatChannel
-            case creationTime
-            case dedupeString
-            case impact
-            case incidentRecordSource
-            case lastModifiedBy
-            case lastModifiedTime
-            case notificationTargets
-            case resolvedTime
-            case status
-            case summary
-            case title
+            case arn = "arn"
+            case automationExecutions = "automationExecutions"
+            case chatChannel = "chatChannel"
+            case creationTime = "creationTime"
+            case dedupeString = "dedupeString"
+            case impact = "impact"
+            case incidentRecordSource = "incidentRecordSource"
+            case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedTime = "lastModifiedTime"
+            case notificationTargets = "notificationTargets"
+            case resolvedTime = "resolvedTime"
+            case status = "status"
+            case summary = "summary"
+            case title = "title"
         }
     }
 
@@ -1115,10 +1115,10 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdBy
-            case invokedBy
-            case resourceArn
-            case source
+            case createdBy = "createdBy"
+            case invokedBy = "invokedBy"
+            case resourceArn = "resourceArn"
+            case source = "source"
         }
     }
 
@@ -1149,13 +1149,13 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case impact
-            case incidentRecordSource
-            case resolvedTime
-            case status
-            case title
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case impact = "impact"
+            case incidentRecordSource = "incidentRecordSource"
+            case resolvedTime = "resolvedTime"
+            case status = "status"
+            case title = "title"
         }
     }
 
@@ -1204,12 +1204,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dedupeString
-            case impact
-            case incidentTags
-            case notificationTargets
-            case summary
-            case title
+            case dedupeString = "dedupeString"
+            case impact = "impact"
+            case incidentTags = "incidentTags"
+            case notificationTargets = "notificationTargets"
+            case summary = "summary"
+            case title = "title"
         }
     }
 
@@ -1229,8 +1229,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -1259,9 +1259,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1277,8 +1277,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case incidentRecordSummaries
-            case nextToken
+            case incidentRecordSummaries = "incidentRecordSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1305,9 +1305,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case incidentRecordArn
-            case maxResults
-            case nextToken
+            case incidentRecordArn = "incidentRecordArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1323,8 +1323,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case relatedItems
+            case nextToken = "nextToken"
+            case relatedItems = "relatedItems"
         }
     }
 
@@ -1346,8 +1346,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1363,8 +1363,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case replicationSetArns
+            case nextToken = "nextToken"
+            case replicationSetArns = "replicationSetArns"
         }
     }
 
@@ -1386,8 +1386,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1403,8 +1403,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case responsePlanSummaries
+            case nextToken = "nextToken"
+            case responsePlanSummaries = "responsePlanSummaries"
         }
     }
 
@@ -1432,7 +1432,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1472,12 +1472,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case incidentRecordArn
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case filters = "filters"
+            case incidentRecordArn = "incidentRecordArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1493,8 +1493,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventSummaries
-            case nextToken
+            case eventSummaries = "eventSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1513,9 +1513,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case pagerDutyIncidentConfiguration
-            case secretId
+            case name = "name"
+            case pagerDutyIncidentConfiguration = "pagerDutyIncidentConfiguration"
+            case secretId = "secretId"
         }
     }
 
@@ -1528,7 +1528,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceId
+            case serviceId = "serviceId"
         }
     }
 
@@ -1547,9 +1547,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoResolve
-            case id
-            case secretId
+            case autoResolve = "autoResolve"
+            case id = "id"
+            case secretId = "secretId"
         }
     }
 
@@ -1571,8 +1571,8 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
+            case policy = "policy"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1585,7 +1585,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyId
+            case policyId = "policyId"
         }
     }
 
@@ -1607,10 +1607,10 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sseKmsKeyId
-            case status
-            case statusMessage
-            case statusUpdateDateTime
+            case sseKmsKeyId = "sseKmsKeyId"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case statusUpdateDateTime = "statusUpdateDateTime"
         }
     }
 
@@ -1627,7 +1627,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sseKmsKeyId
+            case sseKmsKeyId = "sseKmsKeyId"
         }
     }
 
@@ -1652,9 +1652,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generatedId
-            case identifier
-            case title
+            case generatedId = "generatedId"
+            case identifier = "identifier"
+            case title = "title"
         }
     }
 
@@ -1688,14 +1688,14 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdBy
-            case createdTime
-            case deletionProtected
-            case lastModifiedBy
-            case lastModifiedTime
-            case regionMap
-            case status
+            case arn = "arn"
+            case createdBy = "createdBy"
+            case createdTime = "createdTime"
+            case deletionProtected = "deletionProtected"
+            case lastModifiedBy = "lastModifiedBy"
+            case lastModifiedTime = "lastModifiedTime"
+            case regionMap = "regionMap"
+            case status = "status"
         }
     }
 
@@ -1714,9 +1714,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyDocument
-            case policyId
-            case ramResourceShareRegion
+            case policyDocument = "policyDocument"
+            case policyId = "policyId"
+            case ramResourceShareRegion = "ramResourceShareRegion"
         }
     }
 
@@ -1735,9 +1735,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case displayName
-            case name
+            case arn = "arn"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -1777,12 +1777,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case documentName
-            case documentVersion
-            case dynamicParameters
-            case parameters
-            case roleArn
-            case targetAccount
+            case documentName = "documentName"
+            case documentVersion = "documentVersion"
+            case dynamicParameters = "dynamicParameters"
+            case parameters = "parameters"
+            case roleArn = "roleArn"
+            case targetAccount = "targetAccount"
         }
     }
 
@@ -1824,12 +1824,12 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case impact
-            case relatedItems
-            case responsePlanArn
-            case title
-            case triggerDetails
+            case clientToken = "clientToken"
+            case impact = "impact"
+            case relatedItems = "relatedItems"
+            case responsePlanArn = "responsePlanArn"
+            case title = "title"
+            case triggerDetails = "triggerDetails"
         }
     }
 
@@ -1842,7 +1842,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case incidentRecordArn
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -1874,7 +1874,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1909,13 +1909,13 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventData
-            case eventId
-            case eventReferences
-            case eventTime
-            case eventType
-            case eventUpdatedTime
-            case incidentRecordArn
+            case eventData = "eventData"
+            case eventId = "eventId"
+            case eventReferences = "eventReferences"
+            case eventTime = "eventTime"
+            case eventType = "eventType"
+            case eventUpdatedTime = "eventUpdatedTime"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -1944,10 +1944,10 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawData
-            case source
-            case timestamp
-            case triggerArn
+            case rawData = "rawData"
+            case source = "source"
+            case timestamp = "timestamp"
+            case triggerArn = "triggerArn"
         }
     }
 
@@ -2005,9 +2005,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientToken
-            case deletionProtected
+            case arn = "arn"
+            case clientToken = "clientToken"
+            case deletionProtected = "deletionProtected"
         }
     }
 
@@ -2060,14 +2060,14 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case chatChannel
-            case clientToken
-            case impact
-            case notificationTargets
-            case status
-            case summary
-            case title
+            case arn = "arn"
+            case chatChannel = "chatChannel"
+            case clientToken = "clientToken"
+            case impact = "impact"
+            case notificationTargets = "notificationTargets"
+            case status = "status"
+            case summary = "summary"
+            case title = "title"
         }
     }
 
@@ -2097,9 +2097,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case incidentRecordArn
-            case relatedItemsUpdate
+            case clientToken = "clientToken"
+            case incidentRecordArn = "incidentRecordArn"
+            case relatedItemsUpdate = "relatedItemsUpdate"
         }
     }
 
@@ -2131,9 +2131,9 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case arn
-            case clientToken
+            case actions = "actions"
+            case arn = "arn"
+            case clientToken = "clientToken"
         }
     }
 
@@ -2221,19 +2221,19 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case arn
-            case chatChannel
-            case clientToken
-            case displayName
-            case engagements
-            case incidentTemplateDedupeString
-            case incidentTemplateImpact
-            case incidentTemplateNotificationTargets
-            case incidentTemplateSummary
-            case incidentTemplateTags
-            case incidentTemplateTitle
-            case integrations
+            case actions = "actions"
+            case arn = "arn"
+            case chatChannel = "chatChannel"
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case engagements = "engagements"
+            case incidentTemplateDedupeString = "incidentTemplateDedupeString"
+            case incidentTemplateImpact = "incidentTemplateImpact"
+            case incidentTemplateNotificationTargets = "incidentTemplateNotificationTargets"
+            case incidentTemplateSummary = "incidentTemplateSummary"
+            case incidentTemplateTags = "incidentTemplateTags"
+            case incidentTemplateTitle = "incidentTemplateTitle"
+            case integrations = "integrations"
         }
     }
 
@@ -2281,13 +2281,13 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case eventData
-            case eventId
-            case eventReferences
-            case eventTime
-            case eventType
-            case incidentRecordArn
+            case clientToken = "clientToken"
+            case eventData = "eventData"
+            case eventId = "eventId"
+            case eventReferences = "eventReferences"
+            case eventTime = "eventTime"
+            case eventType = "eventType"
+            case incidentRecordArn = "incidentRecordArn"
         }
     }
 
@@ -2308,7 +2308,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ssmAutomation
+            case ssmAutomation = "ssmAutomation"
         }
     }
 
@@ -2321,7 +2321,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ssmExecutionArn
+            case ssmExecutionArn = "ssmExecutionArn"
         }
     }
 
@@ -2334,7 +2334,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case variable
+            case variable = "variable"
         }
     }
 
@@ -2347,7 +2347,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pagerDutyConfiguration
+            case pagerDutyConfiguration = "pagerDutyConfiguration"
         }
     }
 
@@ -2365,7 +2365,7 @@ extension SSMIncidents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snsTopicArn
+            case snsTopicArn = "snsTopicArn"
         }
     }
 }
@@ -2402,13 +2402,13 @@ public struct SSMIncidentsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient access to perform this operation.
+    /// You don't have sufficient access to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Updating or deleting a resource causes an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Request references a resource which doesn&#39;t exist.
+    /// Request references a resource which doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

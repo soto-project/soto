@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -165,13 +165,13 @@ extension Signer {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Signer {
-    ///  Lists all your signing jobs. You can use the maxResults parameter to
-    ///  			limit the number of signing jobs that are returned in the response. If additional jobs
-    ///  			remain to be listed, code signing returns a nextToken value. Use this value in
-    ///  			subsequent calls to ListSigningJobs to fetch the remaining values. You can
-    ///  			continue calling ListSigningJobs with your maxResults
-    ///  			parameter and with new values that code signing returns in the nextToken
-    ///  			parameter until all of your signing jobs have been returned.
+    /// Lists all your signing jobs. You can use the maxResults parameter to
+    /// 			limit the number of signing jobs that are returned in the response. If additional jobs
+    /// 			remain to be listed, code signing returns a nextToken value. Use this value in
+    /// 			subsequent calls to ListSigningJobs to fetch the remaining values. You can
+    /// 			continue calling ListSigningJobs with your maxResults
+    /// 			parameter and with new values that code signing returns in the nextToken
+    /// 			parameter until all of your signing jobs have been returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -193,13 +193,13 @@ extension Signer {
         )
     }
 
-    ///  Lists all signing platforms available in code signing that match the request parameters. If
-    ///  			additional jobs remain to be listed, code signing returns a nextToken value. Use
-    ///  			this value in subsequent calls to ListSigningJobs to fetch the remaining
-    ///  			values. You can continue calling ListSigningJobs with your
-    ///  				maxResults parameter and with new values that code signing returns in the
-    ///  				nextToken parameter until all of your signing jobs have been
-    ///  			returned.
+    /// Lists all signing platforms available in code signing that match the request parameters. If
+    /// 			additional jobs remain to be listed, code signing returns a nextToken value. Use
+    /// 			this value in subsequent calls to ListSigningJobs to fetch the remaining
+    /// 			values. You can continue calling ListSigningJobs with your
+    /// 				maxResults parameter and with new values that code signing returns in the
+    /// 				nextToken parameter until all of your signing jobs have been
+    /// 			returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,14 +221,14 @@ extension Signer {
         )
     }
 
-    ///  Lists all available signing profiles in your AWS account. Returns only profiles with
-    ///  			an ACTIVE status unless the includeCanceled request field is
-    ///  			set to true. If additional jobs remain to be listed, code signing returns a
-    ///  				nextToken value. Use this value in subsequent calls to
-    ///  				ListSigningJobs to fetch the remaining values. You can continue calling
-    ///  				ListSigningJobs with your maxResults parameter and with
-    ///  			new values that code signing returns in the nextToken parameter until all of your
-    ///  			signing jobs have been returned.
+    /// Lists all available signing profiles in your AWS account. Returns only profiles with
+    /// 			an ACTIVE status unless the includeCanceled request field is
+    /// 			set to true. If additional jobs remain to be listed, code signing returns a
+    /// 				nextToken value. Use this value in subsequent calls to
+    /// 				ListSigningJobs to fetch the remaining values. You can continue calling
+    /// 				ListSigningJobs with your maxResults parameter and with
+    /// 			new values that code signing returns in the nextToken parameter until all of your
+    /// 			signing jobs have been returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

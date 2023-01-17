@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -362,7 +362,7 @@ extension Personalize {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Personalize {
-    ///  Gets a list of the batch inference jobs that have been performed off of a solution version.
+    /// Gets a list of the batch inference jobs that have been performed off of a solution version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -384,7 +384,7 @@ extension Personalize {
         )
     }
 
-    ///  Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
+    /// Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -406,7 +406,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see CreateCampaign.
+    /// Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see CreateCampaign.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -428,7 +428,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see CreateDataset.
+    /// Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see CreateDataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -450,7 +450,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see CreateDatasetGroup.
+    /// Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see CreateDatasetGroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -472,7 +472,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of dataset import jobs that use the given dataset. When a dataset is not specified, all the dataset import jobs associated with the account are listed. The response provides the properties for each dataset import job, including the Amazon Resource Name (ARN). For more information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see CreateDataset.
+    /// Returns a list of dataset import jobs that use the given dataset. When a dataset is not specified, all the dataset import jobs associated with the account are listed. The response provides the properties for each dataset import job, including the Amazon Resource Name (ARN). For more information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see CreateDataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -494,7 +494,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns the list of datasets contained in the given dataset group. The response provides the properties for each dataset, including the Amazon Resource Name (ARN). For more information on datasets, see CreateDataset.
+    /// Returns the list of datasets contained in the given dataset group. The response provides the properties for each dataset, including the Amazon Resource Name (ARN). For more information on datasets, see CreateDataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -516,7 +516,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see CreateEventTracker.
+    /// Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see CreateEventTracker.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -538,7 +538,7 @@ extension Personalize {
         )
     }
 
-    ///  Lists all filters that belong to a given dataset group.
+    /// Lists all filters that belong to a given dataset group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -560,7 +560,7 @@ extension Personalize {
         )
     }
 
-    ///  Lists the metrics for the metric attribution.
+    /// Lists the metrics for the metric attribution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -582,7 +582,7 @@ extension Personalize {
         )
     }
 
-    ///  Lists metric attributions.
+    /// Lists metric attributions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -604,7 +604,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
+    /// Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -626,7 +626,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see CreateRecommender.
+    /// Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see CreateRecommender.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -648,7 +648,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see CreateSchema.
+    /// Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see CreateSchema.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -670,7 +670,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of solution versions for the given solution. When a solution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solution version, including the Amazon Resource Name (ARN).
+    /// Returns a list of solution versions for the given solution. When a solution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solution version, including the Amazon Resource Name (ARN).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -692,7 +692,7 @@ extension Personalize {
         )
     }
 
-    ///  Returns a list of solutions that use the given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
+    /// Returns a list of solutions that use the given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

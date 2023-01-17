@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4798,12 +4798,12 @@ extension DynamoDB {
                 try validate($0.key, name: "scanFilter.key", parent: name, max: 65535)
                 try $0.value.validate(name: "\(name).scanFilter[\"\($0.key)\"]")
             }
-            try self.validate(self.segment, name: "segment", parent: name, max: 999_999)
+            try self.validate(self.segment, name: "segment", parent: name, max: 999999)
             try self.validate(self.segment, name: "segment", parent: name, min: 0)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
-            try self.validate(self.totalSegments, name: "totalSegments", parent: name, max: 1_000_000)
+            try self.validate(self.totalSegments, name: "totalSegments", parent: name, max: 1000000)
             try self.validate(self.totalSegments, name: "totalSegments", parent: name, min: 1)
         }
 
@@ -6058,7 +6058,7 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var replicaNotFoundException: Self { .init(.replicaNotFoundException) }
     /// Throughput exceeds the current throughput quota for your account. Please contact Amazon Web Services Support to request a quota increase.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
-    /// The operation conflicts with the resource&#39;s availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
+    /// The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
@@ -6066,7 +6066,7 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var tableAlreadyExistsException: Self { .init(.tableAlreadyExistsException) }
     /// A target table with the specified name is either being created or deleted.
     public static var tableInUseException: Self { .init(.tableInUseException) }
-    /// A source table with the name TableName does not currently exist within the subscriber&#39;s account or the subscriber is operating in the wrong Amazon Web Services Region.
+    /// A source table with the name TableName does not currently exist within the subscriber's account or the subscriber is operating in the wrong Amazon Web Services Region.
     public static var tableNotFoundException: Self { .init(.tableNotFoundException) }
     /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.
     ///  DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.

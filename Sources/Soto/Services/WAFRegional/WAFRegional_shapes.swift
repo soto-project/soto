@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -789,7 +789,7 @@ extension WAFRegional {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
+            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -3705,7 +3705,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
@@ -4155,7 +4155,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
+            try self.validate(self.size, name: "size", parent: name, max: 21474836480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
         }
 
@@ -4660,7 +4660,7 @@ extension WAFRegional {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
+            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
@@ -5364,18 +5364,18 @@ public struct WAFRegionalErrorType: AWSErrorType {
     public static var wafBadRequestException: Self { .init(.wafBadRequestException) }
     /// The name specified is invalid.
     public static var wafDisallowedNameException: Self { .init(.wafDisallowedNameException) }
-    /// The operation failed due to a problem with the migration. The failure cause is provided in the exception, in the MigrationErrorType:     ENTITY_NOT_SUPPORTED - The web ACL has an unsupported entity but the IgnoreUnsupportedType is not set to true.    ENTITY_NOT_FOUND - The web ACL doesn&#39;t exist.      S3_BUCKET_NO_PERMISSION - You don&#39;t have permission to perform the PutObject action to the specified Amazon S3 bucket.    S3_BUCKET_NOT_ACCESSIBLE - The bucket policy doesn&#39;t allow AWS WAF to perform the PutObject action in the bucket.    S3_BUCKET_NOT_FOUND - The S3 bucket doesn&#39;t exist.     S3_BUCKET_INVALID_REGION - The S3 bucket is not in the same Region as the web ACL.    S3_INTERNAL_ERROR - AWS WAF failed to create the template in the S3 bucket for another reason.
+    /// The operation failed due to a problem with the migration. The failure cause is provided in the exception, in the MigrationErrorType:     ENTITY_NOT_SUPPORTED - The web ACL has an unsupported entity but the IgnoreUnsupportedType is not set to true.    ENTITY_NOT_FOUND - The web ACL doesn't exist.      S3_BUCKET_NO_PERMISSION - You don't have permission to perform the PutObject action to the specified Amazon S3 bucket.    S3_BUCKET_NOT_ACCESSIBLE - The bucket policy doesn't allow AWS WAF to perform the PutObject action in the bucket.    S3_BUCKET_NOT_FOUND - The S3 bucket doesn't exist.     S3_BUCKET_INVALID_REGION - The S3 bucket is not in the same Region as the web ACL.    S3_INTERNAL_ERROR - AWS WAF failed to create the template in the S3 bucket for another reason.
     public static var wafEntityMigrationException: Self { .init(.wafEntityMigrationException) }
     /// The operation failed because of a system problem, even though the request was valid. Retry your request.
     public static var wafInternalErrorException: Self { .init(.wafInternalErrorException) }
     /// The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public static var wafInvalidAccountException: Self { .init(.wafInvalidAccountException) }
     /// The operation failed because there was nothing to do. For example:
-    /// 			        You tried to remove a Rule from a WebACL, but the Rule isn&#39;t in the specified WebACL.   You tried to remove an IP address from an IPSet, but the IP address isn&#39;t in the specified IPSet.   You tried to remove a ByteMatchTuple from a ByteMatchSet, but the ByteMatchTuple
-    /// 					isn&#39;t in the specified WebACL.   You tried to add a Rule to a WebACL, but the Rule already exists in the
+    /// 			        You tried to remove a Rule from a WebACL, but the Rule isn't in the specified WebACL.   You tried to remove an IP address from an IPSet, but the IP address isn't in the specified IPSet.   You tried to remove a ByteMatchTuple from a ByteMatchSet, but the ByteMatchTuple
+    /// 					isn't in the specified WebACL.   You tried to add a Rule to a WebACL, but the Rule already exists in the
     /// 					specified WebACL.   You tried to add a ByteMatchTuple to a ByteMatchSet, but the ByteMatchTuple  already exists in the specified WebACL.
     public static var wafInvalidOperationException: Self { .init(.wafInvalidOperationException) }
-    /// The operation failed because AWS WAF didn&#39;t recognize a parameter in the request. For example:
+    /// The operation failed because AWS WAF didn't recognize a parameter in the request. For example:
     /// 			        You specified an invalid parameter name.   You specified an invalid value.   You tried to update an object (ByteMatchSet, IPSet, Rule, or WebACL)
     /// 					using an action other than INSERT or DELETE.   You tried to create a WebACL with a DefaultAction  Type other than
     /// 					ALLOW, BLOCK, or COUNT.
@@ -5395,15 +5395,15 @@ public struct WAFRegionalErrorType: AWSErrorType {
     /// 			for an AWS account. For more information, see
     /// 			Limits in the AWS WAF Developer Guide.
     public static var wafLimitsExceededException: Self { .init(.wafLimitsExceededException) }
-    /// The operation failed because you tried to delete an object that isn&#39;t empty. For example:
+    /// The operation failed because you tried to delete an object that isn't empty. For example:
     /// 		         You tried to delete a WebACL that still contains one or more Rule objects.   You tried to delete a Rule that still contains one or more ByteMatchSet objects
     /// 				or other predicates.   You tried to delete a ByteMatchSet that contains one or more ByteMatchTuple objects.   You tried to delete an IPSet that references one or more IP addresses.
     public static var wafNonEmptyEntityException: Self { .init(.wafNonEmptyEntityException) }
-    /// The operation failed because you tried to add an object to or delete an object from another object that doesn&#39;t exist. For example:
-    /// 		         You tried to add a Rule to or delete a Rule from a WebACL that doesn&#39;t exist.   You tried to add a ByteMatchSet to or delete a ByteMatchSet from a Rule that doesn&#39;t exist.   You tried to add an IP address to or delete an IP address from an IPSet that doesn&#39;t exist.   You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet
-    /// 				that doesn&#39;t exist.
+    /// The operation failed because you tried to add an object to or delete an object from another object that doesn't exist. For example:
+    /// 		         You tried to add a Rule to or delete a Rule from a WebACL that doesn't exist.   You tried to add a ByteMatchSet to or delete a ByteMatchSet from a Rule that doesn't exist.   You tried to add an IP address to or delete an IP address from an IPSet that doesn't exist.   You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet
+    /// 				that doesn't exist.
     public static var wafNonexistentContainerException: Self { .init(.wafNonexistentContainerException) }
-    /// The operation failed because the referenced object doesn&#39;t exist.
+    /// The operation failed because the referenced object doesn't exist.
     public static var wafNonexistentItemException: Self { .init(.wafNonexistentItemException) }
     /// The operation failed because you tried to delete an object that is still in use. For example:
     /// 		         You tried to delete a ByteMatchSet that is still referenced by a Rule.   You tried to delete a Rule that is still referenced by a WebACL.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -41,29 +41,29 @@ extension ElastiCache {
     }
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case iam
+        case iam = "iam"
         case noPassword = "no-password"
-        case password
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
     public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
         public var description: String { return self.rawValue }
     }
 
     public enum ChangeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case immediate
+        case immediate = "immediate"
         case requiresReboot = "requires-reboot"
         public var description: String { return self.rawValue }
     }
 
     public enum DataTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -74,30 +74,30 @@ extension ElastiCache {
     }
 
     public enum InputAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case iam
+        case iam = "iam"
         case noPassword = "no-password-required"
-        case password
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
     public enum IpDiscovery: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ipv4
-        case ipv6
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
     public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case active
-        case disabling
-        case enabling
-        case error
-        case modifying
+        case active = "active"
+        case disabling = "disabling"
+        case enabling = "enabling"
+        case error = "error"
+        case modifying = "modifying"
         public var description: String { return self.rawValue }
     }
 
     public enum LogFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case json
-        case text
+        case json = "json"
+        case text = "text"
         public var description: String { return self.rawValue }
     }
 
@@ -108,30 +108,30 @@ extension ElastiCache {
     }
 
     public enum MultiAZStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkType: String, CustomStringConvertible, Codable, _SotoSendable {
         case dualStack = "dual_stack"
-        case ipv4
-        case ipv6
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
     public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable, _SotoSendable {
-        case customer
-        case system
+        case customer = "customer"
+        case system = "system"
         public var description: String { return self.rawValue }
     }
 
     public enum NodeUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case complete
+        case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "not-applied"
-        case stopped
-        case stopping
+        case stopped = "stopped"
+        case stopping = "stopping"
         case waitingToStart = "waiting-to-start"
         public var description: String { return self.rawValue }
     }
@@ -143,23 +143,23 @@ extension ElastiCache {
     }
 
     public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable, _SotoSendable {
-        case critical
-        case important
-        case low
-        case medium
+        case critical = "critical"
+        case important = "important"
+        case low = "low"
+        case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case available
-        case cancelled
-        case expired
+        case available = "available"
+        case cancelled = "cancelled"
+        case expired = "expired"
         public var description: String { return self.rawValue }
     }
 
@@ -170,8 +170,8 @@ extension ElastiCache {
 
     public enum SlaMet: String, CustomStringConvertible, Codable, _SotoSendable {
         case na = "n/a"
-        case no
-        case yes
+        case no = "no"
+        case yes = "yes"
         public var description: String { return self.rawValue }
     }
 
@@ -181,26 +181,26 @@ extension ElastiCache {
         case cacheSecurityGroup = "cache-security-group"
         case cacheSubnetGroup = "cache-subnet-group"
         case replicationGroup = "replication-group"
-        case user
+        case user = "user"
         case userGroup = "user-group"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case preferred
-        case required
+        case preferred = "preferred"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateActionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case complete
+        case complete = "complete"
         case inProgress = "in-progress"
         case notApplicable = "not-applicable"
         case notApplied = "not-applied"
-        case scheduled
-        case scheduling
-        case stopped
-        case stopping
+        case scheduled = "scheduled"
+        case scheduling = "scheduling"
+        case stopped = "stopped"
+        case stopping = "stopping"
         case waitingToStart = "waiting-to-start"
         public var description: String { return self.rawValue }
     }
@@ -5806,13 +5806,13 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var reservedCacheNodeAlreadyExistsFault: Self { .init(.reservedCacheNodeAlreadyExistsFault) }
     /// The requested reserved cache node was not found.
     public static var reservedCacheNodeNotFoundFault: Self { .init(.reservedCacheNodeNotFoundFault) }
-    /// The request cannot be processed because it would exceed the user&#39;s cache node quota.
+    /// The request cannot be processed because it would exceed the user's cache node quota.
     public static var reservedCacheNodeQuotaExceededFault: Self { .init(.reservedCacheNodeQuotaExceededFault) }
     /// The requested cache node offering does not exist.
     public static var reservedCacheNodesOfferingNotFoundFault: Self { .init(.reservedCacheNodesOfferingNotFoundFault) }
     /// The specified service linked role (SLR) was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
-    /// The service update doesn&#39;t exist
+    /// The service update doesn't exist
     public static var serviceUpdateNotFoundFault: Self { .init(.serviceUpdateNotFoundFault) }
     /// You already have a snapshot with the given name.
     public static var snapshotAlreadyExistsFault: Self { .init(.snapshotAlreadyExistsFault) }

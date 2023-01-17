@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -376,8 +376,8 @@ extension Route53Domains {
 // MARK: Paginators
 
 extension Route53Domains {
-    ///  This operation returns all the domain names registered with Amazon Route 53 for the
-    ///  			current Amazon Web Services account if no filtering conditions are used.
+    /// This operation returns all the domain names registered with Amazon Route 53 for the
+    /// 			current Amazon Web Services account if no filtering conditions are used.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -430,8 +430,8 @@ extension Route53Domains {
         )
     }
 
-    ///  Returns information about all of the operations that return an operation ID and that
-    ///  			have ever been performed on domains that were registered by the current account.  This command runs only in the us-east-1 Region.
+    /// Returns information about all of the operations that return an operation ID and that
+    /// 			have ever been performed on domains that were registered by the current account.  This command runs only in the us-east-1 Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -484,8 +484,8 @@ extension Route53Domains {
         )
     }
 
-    ///  Lists the following prices for either all the TLDs supported by Route 53, or
-    ///  			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    /// Lists the following prices for either all the TLDs supported by Route 53, or
+    /// 			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -538,7 +538,7 @@ extension Route53Domains {
         )
     }
 
-    ///  Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+    /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

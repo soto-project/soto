@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -83,8 +83,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedAt
-            case status
+            case lastUpdatedAt = "lastUpdatedAt"
+            case status = "status"
         }
     }
 
@@ -116,7 +116,7 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tunnel
+            case tunnel = "tunnel"
         }
     }
 
@@ -147,8 +147,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case services
-            case thingName
+            case services = "services"
+            case thingName = "thingName"
         }
     }
 
@@ -181,7 +181,7 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -231,8 +231,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tunnelSummaries
+            case nextToken = "nextToken"
+            case tunnelSummaries = "tunnelSummaries"
         }
     }
 
@@ -265,10 +265,10 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case destinationConfig
-            case tags
-            case timeoutConfig
+            case description = "description"
+            case destinationConfig = "destinationConfig"
+            case tags = "tags"
+            case timeoutConfig = "timeoutConfig"
         }
     }
 
@@ -292,10 +292,10 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationAccessToken
-            case sourceAccessToken
-            case tunnelArn
-            case tunnelId
+            case destinationAccessToken = "destinationAccessToken"
+            case sourceAccessToken = "sourceAccessToken"
+            case tunnelArn = "tunnelArn"
+            case tunnelId = "tunnelId"
         }
     }
 
@@ -323,8 +323,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientMode
-            case destinationConfig
+            case clientMode = "clientMode"
+            case destinationConfig = "destinationConfig"
         }
     }
 
@@ -345,9 +345,9 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationAccessToken
-            case sourceAccessToken
-            case tunnelArn
+            case destinationAccessToken = "destinationAccessToken"
+            case sourceAccessToken = "sourceAccessToken"
+            case tunnelArn = "tunnelArn"
         }
     }
 
@@ -371,8 +371,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -398,8 +398,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -423,7 +423,7 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxLifetimeTimeoutMinutes
+            case maxLifetimeTimeoutMinutes = "maxLifetimeTimeoutMinutes"
         }
     }
 
@@ -468,17 +468,17 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case description
-            case destinationConfig
-            case destinationConnectionState
-            case lastUpdatedAt
-            case sourceConnectionState
-            case status
-            case tags
-            case timeoutConfig
-            case tunnelArn
-            case tunnelId
+            case createdAt = "createdAt"
+            case description = "description"
+            case destinationConfig = "destinationConfig"
+            case destinationConnectionState = "destinationConnectionState"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case sourceConnectionState = "sourceConnectionState"
+            case status = "status"
+            case tags = "tags"
+            case timeoutConfig = "timeoutConfig"
+            case tunnelArn = "tunnelArn"
+            case tunnelId = "tunnelId"
         }
     }
 
@@ -506,12 +506,12 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case description
-            case lastUpdatedAt
-            case status
-            case tunnelArn
-            case tunnelId
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case status = "status"
+            case tunnelArn = "tunnelArn"
+            case tunnelId = "tunnelId"
         }
     }
 
@@ -538,8 +538,8 @@ extension IoTSecureTunneling {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 

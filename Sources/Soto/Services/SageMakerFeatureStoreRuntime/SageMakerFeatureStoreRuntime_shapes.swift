@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -79,7 +79,7 @@ extension SageMakerFeatureStoreRuntime {
             }
             try self.validate(self.featureNames, name: "featureNames", parent: name, min: 1)
             try self.recordIdentifiersValueAsString.forEach {
-                try validate($0, name: "recordIdentifiersValueAsString[]", parent: name, max: 358_400)
+                try validate($0, name: "recordIdentifiersValueAsString[]", parent: name, max: 358400)
                 try validate($0, name: "recordIdentifiersValueAsString[]", parent: name, pattern: ".*")
             }
             try self.validate(self.recordIdentifiersValueAsString, name: "recordIdentifiersValueAsString", parent: name, max: 100)
@@ -181,12 +181,12 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventTime, name: "eventTime", parent: name, max: 358_400)
+            try self.validate(self.eventTime, name: "eventTime", parent: name, max: 358400)
             try self.validate(self.eventTime, name: "eventTime", parent: name, pattern: ".*")
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
-            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358_400)
+            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
             try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
             try self.validate(self.targetStores, name: "targetStores", parent: name, min: 1)
@@ -210,7 +210,7 @@ extension SageMakerFeatureStoreRuntime {
             try self.validate(self.featureName, name: "featureName", parent: name, max: 64)
             try self.validate(self.featureName, name: "featureName", parent: name, min: 1)
             try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
-            try self.validate(self.valueAsString, name: "valueAsString", parent: name, max: 358_400)
+            try self.validate(self.valueAsString, name: "valueAsString", parent: name, max: 358400)
             try self.validate(self.valueAsString, name: "valueAsString", parent: name, pattern: ".*")
         }
 
@@ -250,7 +250,7 @@ extension SageMakerFeatureStoreRuntime {
                 try validate($0, name: "featureNames[]", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63}$")
             }
             try self.validate(self.featureNames, name: "featureNames", parent: name, min: 1)
-            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358_400)
+            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
         }
 

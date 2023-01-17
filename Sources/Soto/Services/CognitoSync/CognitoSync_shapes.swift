@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -30,8 +30,8 @@ extension CognitoSync {
     }
 
     public enum Operation: String, CustomStringConvertible, Codable, _SotoSendable {
-        case remove
-        case replace
+        case remove = "remove"
+        case replace = "replace"
         public var description: String { return self.rawValue }
     }
 
@@ -781,7 +781,7 @@ extension CognitoSync {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, max: 1_048_575)
+            try self.validate(self.value, name: "value", parent: name, max: 1048575)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1141,9 +1141,9 @@ public struct CognitoSyncErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Thrown when a user is not authorized to access the requested resource.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
-    /// Thrown if an update can&#39;t be applied because the resource was changed by another call and this would result in a conflict.
+    /// Thrown if an update can't be applied because the resource was changed by another call and this would result in a conflict.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// Thrown if the resource doesn&#39;t exist.
+    /// Thrown if the resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Thrown if the request is throttled.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

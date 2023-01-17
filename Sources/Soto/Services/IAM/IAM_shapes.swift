@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -35,18 +35,18 @@ extension IAM {
     }
 
     public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, _SotoSendable {
-        case binary
-        case binaryList
-        case boolean
-        case booleanList
-        case date
-        case dateList
-        case ip
-        case ipList
-        case numeric
-        case numericList
-        case string
-        case stringList
+        case binary = "binary"
+        case binaryList = "binaryList"
+        case boolean = "boolean"
+        case booleanList = "booleanList"
+        case date = "date"
+        case dateList = "dateList"
+        case ip = "ip"
+        case ipList = "ipList"
+        case numeric = "numeric"
+        case numericList = "numericList"
+        case string = "string"
+        case stringList = "stringList"
         public var description: String { return self.rawValue }
     }
 
@@ -74,8 +74,8 @@ extension IAM {
     }
 
     public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable, _SotoSendable {
-        case v1Token
-        case v2Token
+        case v1Token = "v1Token"
+        case v2Token = "v2Token"
         public var description: String { return self.rawValue }
     }
 
@@ -92,9 +92,9 @@ extension IAM {
     }
 
     public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case allowed
-        case explicitDeny
-        case implicitDeny
+        case allowed = "allowed"
+        case explicitDeny = "explicitDeny"
+        case implicitDeny = "implicitDeny"
         public var description: String { return self.rawValue }
     }
 
@@ -114,12 +114,12 @@ extension IAM {
 
     public enum PolicySourceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsManaged = "aws-managed"
-        case group
+        case group = "group"
         case iamPolicy = "IAM Policy"
-        case none
-        case resource
-        case role
-        case user
+        case none = "none"
+        case resource = "resource"
+        case role = "role"
+        case user = "user"
         case userManaged = "user-managed"
         public var description: String { return self.rawValue }
     }
@@ -809,7 +809,7 @@ extension IAM {
             try self.validate(self.path, name: "path", parent: name, max: 512)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "^((/[A-Za-z0-9\\.,\\+@=_-]+)*)/$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
@@ -860,7 +860,7 @@ extension IAM {
         public func validate(name: String) throws {
             try self.validate(self.policyArn, name: "policyArn", parent: name, max: 2048)
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 20)
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
         }
@@ -913,7 +913,7 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131_072)
+            try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, max: 131072)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, min: 1)
             try self.validate(self.assumeRolePolicyDocument, name: "assumeRolePolicyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
@@ -977,7 +977,7 @@ extension IAM {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w._-]+$")
-            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10_000_000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10000000)
             try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, min: 1000)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2173,7 +2173,7 @@ extension IAM {
 
         public func validate(name: String) throws {
             try self.policyInputList.forEach {
-                try validate($0, name: "policyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
                 try validate($0, name: "policyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
@@ -2212,7 +2212,7 @@ extension IAM {
 
         public func validate(name: String) throws {
             try self.policyInputList?.forEach {
-                try validate($0, name: "policyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
                 try validate($0, name: "policyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
@@ -5395,7 +5395,7 @@ extension IAM {
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[\\w+=,.@-]+$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
@@ -5450,7 +5450,7 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
@@ -5509,7 +5509,7 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
@@ -6237,12 +6237,12 @@ extension IAM {
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.permissionsBoundaryPolicyInputList?.forEach {
-                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
             try self.policyInputList.forEach {
-                try validate($0, name: "policyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
                 try validate($0, name: "policyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
@@ -6254,7 +6254,7 @@ extension IAM {
             try self.validate(self.resourceHandlingOption, name: "resourceHandlingOption", parent: name, min: 1)
             try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, max: 2048)
             try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, min: 1)
-            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 131_072)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 131072)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
         }
@@ -6358,12 +6358,12 @@ extension IAM {
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.permissionsBoundaryPolicyInputList?.forEach {
-                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
             try self.policyInputList?.forEach {
-                try validate($0, name: "policyInputList[]", parent: name, max: 131_072)
+                try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
                 try validate($0, name: "policyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
@@ -6377,7 +6377,7 @@ extension IAM {
             try self.validate(self.resourceHandlingOption, name: "resourceHandlingOption", parent: name, min: 1)
             try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, max: 2048)
             try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, min: 1)
-            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 131_072)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 131072)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
         }
@@ -7026,7 +7026,7 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131_072)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 131072)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.roleName, name: "roleName", parent: name, max: 64)
@@ -7215,7 +7215,7 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10_000_000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10000000)
             try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, min: 1000)
             try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
             try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
@@ -7463,7 +7463,7 @@ extension IAM {
             try self.validate(self.certificateBody, name: "certificateBody", parent: name, max: 16384)
             try self.validate(self.certificateBody, name: "certificateBody", parent: name, min: 1)
             try self.validate(self.certificateBody, name: "certificateBody", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.path, name: "path", parent: name, max: 512)

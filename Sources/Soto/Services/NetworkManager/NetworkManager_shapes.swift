@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1508,7 +1508,7 @@ extension NetworkManager {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
             try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, pattern: "^[\\s\\S]*$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10000000)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -5028,7 +5028,7 @@ extension NetworkManager {
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10000000)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\s\\S]*$")
         }
 
@@ -5069,7 +5069,7 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10_000_000)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 10000000)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\s\\S]*$")
@@ -5523,9 +5523,9 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 10_000_000)
+            try self.validate(self.key, name: "key", parent: name, max: 10000000)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\s\\S]*$")
-            try self.validate(self.value, name: "value", parent: name, max: 10_000_000)
+            try self.validate(self.value, name: "value", parent: name, max: 10000000)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[\\s\\S]*$")
         }
 
@@ -5695,7 +5695,7 @@ extension NetworkManager {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[\\s\\S]*$")
             try self.tagKeys.forEach {
-                try validate($0, name: "tagKeys[]", parent: name, max: 10_000_000)
+                try validate($0, name: "tagKeys[]", parent: name, max: 10000000)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\s\\S]*$")
             }
         }

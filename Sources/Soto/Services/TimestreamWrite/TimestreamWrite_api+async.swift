@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,7 +103,7 @@ extension TimestreamWrite {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension TimestreamWrite {
-    ///  Returns a list of your Timestream databases.   Service quotas apply. See  code sample for details.
+    /// Returns a list of your Timestream databases.   Service quotas apply. See  code sample for details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -125,7 +125,7 @@ extension TimestreamWrite {
         )
     }
 
-    ///  A list of tables, along with the name, status and retention properties of each table. See  code sample for details.
+    /// A list of tables, along with the name, status and retention properties of each table. See  code sample for details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

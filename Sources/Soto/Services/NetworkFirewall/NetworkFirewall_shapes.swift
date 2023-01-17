@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -114,6 +114,7 @@ extension NetworkFirewall {
         case alert = "ALERT"
         case drop = "DROP"
         case pass = "PASS"
+        case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
@@ -591,7 +592,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 2000000)
             try self.sourceMetadata?.validate(name: "\(name).sourceMetadata")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1908,7 +1909,7 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "\\S")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
@@ -2162,7 +2163,7 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 2_000_000)
+            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 2000000)
             try self.statefulRules?.forEach {
                 try $0.validate(name: "\(name).statefulRules[]")
             }
@@ -2242,7 +2243,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRule: AWSEncodableShape & AWSDecodableShape {
-        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
+        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.    REJECT - Drops TCP traffic that matches the conditions of the stateful rule, and sends a TCP reset packet back to sender of the packet. A TCP reset packet is a packet with no payload and a RST bit contained in the TCP header flags. Also sends an alert log mesage if alert logging is configured in the Firewall LoggingConfiguration.  REJECT isn't currently available for use with IMAP and FTP protocols.
         public let action: StatefulAction
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
         public let header: Header
@@ -2953,7 +2954,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 2000000)
             try self.sourceMetadata?.validate(name: "\(name).sourceMetadata")
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
@@ -3091,17 +3092,17 @@ public struct NetworkFirewallErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Amazon Web Services doesn&#39;t currently have enough available capacity to fulfill your request. Try your request later.
+    /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
     public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
     /// Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// The operation failed because it&#39;s not valid. For example, you might have tried to delete a rule group or firewall policy that&#39;s in use.
+    /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
-    /// The operation failed because of a problem with your request. Examples include:    You specified an unsupported parameter name or value.   You tried to update a property with a value that isn&#39;t among the available types.   Your request references an ARN that is malformed, or corresponds to a resource that isn&#39;t valid in the context of the request.
+    /// The operation failed because of a problem with your request. Examples include:    You specified an unsupported parameter name or value.   You tried to update a property with a value that isn't among the available types.   Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The policy statement failed validation.
     public static var invalidResourcePolicyException: Self { .init(.invalidResourcePolicyException) }
-    /// The token you provided is stale or isn&#39;t valid for the operation.
+    /// The token you provided is stale or isn't valid for the operation.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
     /// Unable to perform the operation because doing so would violate a limit setting.
     public static var limitExceededException: Self { .init(.limitExceededException) }
@@ -3109,11 +3110,11 @@ public struct NetworkFirewallErrorType: AWSErrorType {
     public static var logDestinationPermissionException: Self { .init(.logDestinationPermissionException) }
     /// Unable to locate a resource using the parameters that you provided.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// Unable to change the resource because your account doesn&#39;t own it.
+    /// Unable to change the resource because your account doesn't own it.
     public static var resourceOwnerCheckException: Self { .init(.resourceOwnerCheckException) }
     /// Unable to process the request due to throttling limitations.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The operation you requested isn&#39;t supported by Network Firewall.
+    /// The operation you requested isn't supported by Network Firewall.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 

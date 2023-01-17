@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1360,7 +1360,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500_000)
+            try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500000)
             try self.validate(self.jsonString, name: "jsonString", parent: name, min: 2)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)

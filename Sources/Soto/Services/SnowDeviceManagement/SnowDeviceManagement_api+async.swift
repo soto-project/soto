@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,7 +93,7 @@ extension SnowDeviceManagement {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SnowDeviceManagement {
-    ///  Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
+    /// Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -115,7 +115,7 @@ extension SnowDeviceManagement {
         )
     }
 
-    ///  Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
+    /// Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -137,7 +137,7 @@ extension SnowDeviceManagement {
         )
     }
 
-    ///  Returns the status of tasks for one or more target devices.
+    /// Returns the status of tasks for one or more target devices.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -159,7 +159,7 @@ extension SnowDeviceManagement {
         )
     }
 
-    ///  Returns a list of tasks that can be filtered by state.
+    /// Returns a list of tasks that can be filtered by state.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

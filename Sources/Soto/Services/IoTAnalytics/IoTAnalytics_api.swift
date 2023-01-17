@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -248,7 +248,7 @@ extension IoTAnalytics {
 // MARK: Paginators
 
 extension IoTAnalytics {
-    ///  Retrieves a list of channels.
+    /// Retrieves a list of channels.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -301,7 +301,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Lists information about dataset contents that have been created.
+    /// Lists information about dataset contents that have been created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -354,7 +354,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves information about datasets.
+    /// Retrieves information about datasets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -407,7 +407,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves a list of data stores.
+    /// Retrieves a list of data stores.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -460,7 +460,7 @@ extension IoTAnalytics {
         )
     }
 
-    ///  Retrieves a list of pipelines.
+    /// Retrieves a list of pipelines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -168,7 +168,7 @@ extension MigrationHubOrchestrator {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MigrationHubOrchestrator {
-    ///  List AWS Migration Hub Orchestrator plugins.
+    /// List AWS Migration Hub Orchestrator plugins.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -190,7 +190,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the step groups in a template.
+    /// List the step groups in a template.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -212,7 +212,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the steps in a template.
+    /// List the steps in a template.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -234,7 +234,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the templates available in Migration Hub Orchestrator to create a migration workflow.
+    /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -256,7 +256,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the step groups in a migration workflow.
+    /// List the step groups in a migration workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -278,7 +278,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the steps in a workflow.
+    /// List the steps in a workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -300,7 +300,7 @@ extension MigrationHubOrchestrator {
         )
     }
 
-    ///  List the migration workflows.
+    /// List the migration workflows.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -106,11 +106,11 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValues
-            case booleanValues
-            case doubleValues
-            case longValues
-            case stringValues
+            case arrayValues = "arrayValues"
+            case booleanValues = "booleanValues"
+            case doubleValues = "doubleValues"
+            case longValues = "longValues"
+            case stringValues = "stringValues"
         }
     }
 
@@ -185,13 +185,13 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValue
-            case blobValue
-            case booleanValue
-            case doubleValue
-            case isNull
-            case longValue
-            case stringValue
+            case arrayValue = "arrayValue"
+            case blobValue = "blobValue"
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case isNull = "isNull"
+            case longValue = "longValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -261,16 +261,16 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValues
-            case bigIntValue
-            case bitValue
-            case blobValue
-            case doubleValue
-            case intValue
-            case isNull
-            case realValue
-            case stringValue
-            case structValue
+            case arrayValues = "arrayValues"
+            case bigIntValue = "bigIntValue"
+            case bitValue = "bitValue"
+            case blobValue = "blobValue"
+            case doubleValue = "doubleValue"
+            case intValue = "intValue"
+            case isNull = "isNull"
+            case realValue = "realValue"
+            case stringValue = "stringValue"
+            case structValue = "structValue"
         }
     }
 
@@ -314,13 +314,13 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case database
-            case parameterSets
-            case resourceArn
-            case schema
-            case secretArn
-            case sql
-            case transactionId
+            case database = "database"
+            case parameterSets = "parameterSets"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
         }
     }
 
@@ -333,7 +333,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateResults
+            case updateResults = "updateResults"
         }
     }
 
@@ -364,10 +364,10 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case database
-            case resourceArn
-            case schema
-            case secretArn
+            case database = "database"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
         }
     }
 
@@ -380,7 +380,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionId
+            case transactionId = "transactionId"
         }
     }
 
@@ -432,20 +432,20 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayBaseColumnType
-            case isAutoIncrement
-            case isCaseSensitive
-            case isCurrency
-            case isSigned
-            case label
-            case name
-            case nullable
-            case precision
-            case scale
-            case schemaName
-            case tableName
-            case type
-            case typeName
+            case arrayBaseColumnType = "arrayBaseColumnType"
+            case isAutoIncrement = "isAutoIncrement"
+            case isCaseSensitive = "isCaseSensitive"
+            case isCurrency = "isCurrency"
+            case isSigned = "isSigned"
+            case label = "label"
+            case name = "name"
+            case nullable = "nullable"
+            case precision = "precision"
+            case scale = "scale"
+            case schemaName = "schemaName"
+            case tableName = "tableName"
+            case type = "type"
+            case typeName = "typeName"
         }
     }
 
@@ -472,9 +472,9 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case secretArn
-            case transactionId
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
         }
     }
 
@@ -487,7 +487,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionStatus
+            case transactionStatus = "transactionStatus"
         }
     }
 
@@ -522,11 +522,11 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsSecretStoreArn
-            case database
-            case dbClusterOrInstanceArn
-            case schema
-            case sqlStatements
+            case awsSecretStoreArn = "awsSecretStoreArn"
+            case database = "database"
+            case dbClusterOrInstanceArn = "dbClusterOrInstanceArn"
+            case schema = "schema"
+            case sqlStatements = "sqlStatements"
         }
     }
 
@@ -539,7 +539,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sqlStatementResults
+            case sqlStatementResults = "sqlStatementResults"
         }
     }
 
@@ -593,17 +593,17 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continueAfterTimeout
-            case database
-            case formatRecordsAs
-            case includeResultMetadata
-            case parameters
-            case resourceArn
-            case resultSetOptions
-            case schema
-            case secretArn
-            case sql
-            case transactionId
+            case continueAfterTimeout = "continueAfterTimeout"
+            case database = "database"
+            case formatRecordsAs = "formatRecordsAs"
+            case includeResultMetadata = "includeResultMetadata"
+            case parameters = "parameters"
+            case resourceArn = "resourceArn"
+            case resultSetOptions = "resultSetOptions"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
         }
     }
 
@@ -628,11 +628,11 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnMetadata
-            case formattedRecords
-            case generatedFields
-            case numberOfRecordsUpdated
-            case records
+            case columnMetadata = "columnMetadata"
+            case formattedRecords = "formattedRecords"
+            case generatedFields = "generatedFields"
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+            case records = "records"
         }
     }
 
@@ -645,7 +645,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values
+            case values = "values"
         }
     }
 
@@ -661,8 +661,8 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case records
-            case resultSetMetadata
+            case records = "records"
+            case resultSetMetadata = "resultSetMetadata"
         }
     }
 
@@ -678,8 +678,8 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnCount
-            case columnMetadata
+            case columnCount = "columnCount"
+            case columnMetadata = "columnMetadata"
         }
     }
 
@@ -695,8 +695,8 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decimalReturnType
-            case longReturnType
+            case decimalReturnType = "decimalReturnType"
+            case longReturnType = "longReturnType"
         }
     }
 
@@ -723,9 +723,9 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case secretArn
-            case transactionId
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
         }
     }
 
@@ -738,7 +738,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionStatus
+            case transactionStatus = "transactionStatus"
         }
     }
 
@@ -757,9 +757,9 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case typeHint
-            case value
+            case name = "name"
+            case typeHint = "typeHint"
+            case value = "value"
         }
     }
 
@@ -775,8 +775,8 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfRecordsUpdated
-            case resultFrame
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+            case resultFrame = "resultFrame"
         }
     }
 
@@ -789,7 +789,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -802,7 +802,7 @@ extension RDSData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generatedFields
+            case generatedFields = "generatedFields"
         }
     }
 }
@@ -847,7 +847,7 @@ public struct RDSDataErrorType: AWSErrorType {
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// An internal error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
-    /// The resourceArn, secretArn, or transactionId value can&#39;t be found.
+    /// The resourceArn, secretArn, or transactionId value can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
     /// The service specified by the resourceArn parameter is not available.
     public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -242,7 +242,7 @@ extension LakeFormation {
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
             try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:saml-provider/")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
-            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, max: 100_000)
+            try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, max: 100000)
             try self.validate(self.samlAssertion, name: "samlAssertion", parent: name, min: 4)
         }
 
@@ -767,7 +767,7 @@ extension LakeFormation {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
             }
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)

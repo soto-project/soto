@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -38,9 +38,9 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case accountName
-            case emailAddress
+            case accountId = "accountId"
+            case accountName = "accountName"
+            case emailAddress = "emailAddress"
         }
     }
 
@@ -76,7 +76,7 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleCredentials
+            case roleCredentials = "roleCredentials"
         }
     }
 
@@ -124,8 +124,8 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case roleList
+            case nextToken = "nextToken"
+            case roleList = "roleList"
         }
     }
 
@@ -169,8 +169,8 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountList
-            case nextToken
+            case accountList = "accountList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -207,10 +207,10 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case expiration
-            case secretAccessKey
-            case sessionToken
+            case accessKeyId = "accessKeyId"
+            case expiration = "expiration"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -226,8 +226,8 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case roleName
+            case accountId = "accountId"
+            case roleName = "roleName"
         }
     }
 }
@@ -263,7 +263,7 @@ public struct SSOErrorType: AWSErrorType {
 
     /// Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// The specified resource doesn&#39;t exist.
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Indicates that the request is being made too frequently and is more than what the server can handle.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

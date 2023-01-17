@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -84,8 +84,8 @@ extension M2 {
     }
 
     public enum EngineType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case bluage
-        case microfocus
+        case bluage = "bluage"
+        case microfocus = "microfocus"
         public var description: String { return self.rawValue }
     }
 
@@ -124,8 +124,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileBatchJobDefinition
-            case scriptBatchJobDefinition
+            case fileBatchJobDefinition = "fileBatchJobDefinition"
+            case scriptBatchJobDefinition = "scriptBatchJobDefinition"
         }
     }
 
@@ -146,8 +146,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileBatchJobIdentifier
-            case scriptBatchJobIdentifier
+            case fileBatchJobIdentifier = "fileBatchJobIdentifier"
+            case scriptBatchJobIdentifier = "scriptBatchJobIdentifier"
         }
     }
 
@@ -181,8 +181,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSets
-            case s3Location
+            case dataSets = "dataSets"
+            case s3Location = "s3Location"
         }
     }
 
@@ -212,8 +212,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gdg
-            case vsam
+            case gdg = "gdg"
+            case vsam = "vsam"
         }
     }
 
@@ -234,8 +234,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gdg
-            case vsam
+            case gdg = "gdg"
+            case vsam = "vsam"
         }
     }
 
@@ -266,8 +266,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case s3Location
+            case content = "content"
+            case s3Location = "s3Location"
         }
     }
 
@@ -316,8 +316,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case efs
-            case fsx
+            case efs = "efs"
+            case fsx = "fsx"
         }
     }
 
@@ -341,10 +341,10 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowDuplicates
-            case length
-            case name
-            case offset
+            case allowDuplicates = "allowDuplicates"
+            case length = "length"
+            case name = "name"
+            case offset = "offset"
         }
     }
 
@@ -390,18 +390,18 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationId
-            case applicationVersion
-            case creationTime
-            case deploymentStatus
-            case description
-            case engineType
-            case environmentId
-            case lastStartTime
-            case name
-            case status
-            case versionStatus
+            case applicationArn = "applicationArn"
+            case applicationId = "applicationId"
+            case applicationVersion = "applicationVersion"
+            case creationTime = "creationTime"
+            case deploymentStatus = "deploymentStatus"
+            case description = "description"
+            case engineType = "engineType"
+            case environmentId = "environmentId"
+            case lastStartTime = "lastStartTime"
+            case name = "name"
+            case status = "status"
+            case versionStatus = "versionStatus"
         }
     }
 
@@ -423,10 +423,10 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion
-            case creationTime
-            case status
-            case statusReason
+            case applicationVersion = "applicationVersion"
+            case creationTime = "creationTime"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -460,14 +460,14 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case endTime
-            case executionId
-            case jobId
-            case jobName
-            case jobType
-            case startTime
-            case status
+            case applicationId = "applicationId"
+            case endTime = "endTime"
+            case executionId = "executionId"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case jobType = "jobType"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
@@ -539,13 +539,13 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case definition
-            case description
-            case engineType
-            case kmsKeyId
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case definition = "definition"
+            case description = "description"
+            case engineType = "engineType"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -564,9 +564,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationId
-            case applicationVersion
+            case applicationArn = "applicationArn"
+            case applicationId = "applicationId"
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -594,8 +594,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case importConfig
+            case clientToken = "clientToken"
+            case importConfig = "importConfig"
         }
     }
 
@@ -608,7 +608,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId
+            case taskId = "taskId"
         }
     }
 
@@ -640,9 +640,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion
-            case clientToken
-            case environmentId
+            case applicationVersion = "applicationVersion"
+            case clientToken = "clientToken"
+            case environmentId = "environmentId"
         }
     }
 
@@ -655,7 +655,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
@@ -732,20 +732,20 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case engineType
-            case engineVersion
-            case highAvailabilityConfig
-            case instanceType
-            case kmsKeyId
-            case name
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case securityGroupIds
-            case storageConfigurations
-            case subnetIds
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case highAvailabilityConfig = "highAvailabilityConfig"
+            case instanceType = "instanceType"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroupIds = "securityGroupIds"
+            case storageConfigurations = "storageConfigurations"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
         }
     }
 
@@ -758,7 +758,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
+            case environmentId = "environmentId"
         }
     }
 
@@ -783,11 +783,11 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetName
-            case datasetOrg
-            case recordLength
-            case relativePath
-            case storageType
+            case datasetName = "datasetName"
+            case datasetOrg = "datasetOrg"
+            case recordLength = "recordLength"
+            case relativePath = "relativePath"
+            case storageType = "storageType"
         }
     }
 
@@ -807,8 +807,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSet
-            case externalLocation
+            case dataSet = "dataSet"
+            case externalLocation = "externalLocation"
         }
     }
 
@@ -833,11 +833,11 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failed
-            case inProgress
-            case pending
-            case succeeded
-            case total
+            case failed = "failed"
+            case inProgress = "inProgress"
+            case pending = "pending"
+            case succeeded = "succeeded"
+            case total = "total"
         }
     }
 
@@ -856,9 +856,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case summary
-            case taskId
+            case status = "status"
+            case summary = "summary"
+            case taskId = "taskId"
         }
     }
 
@@ -886,12 +886,12 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case dataSetName
-            case dataSetOrg
-            case format
-            case lastReferencedTime
-            case lastUpdatedTime
+            case creationTime = "creationTime"
+            case dataSetName = "dataSetName"
+            case dataSetOrg = "dataSetOrg"
+            case format = "format"
+            case lastReferencedTime = "lastReferencedTime"
+            case lastUpdatedTime = "lastUpdatedTime"
         }
     }
 
@@ -984,9 +984,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion
-            case status
-            case statusReason
+            case applicationVersion = "applicationVersion"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1017,13 +1017,13 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case applicationVersion
-            case creationTime
-            case deploymentId
-            case environmentId
-            case status
-            case statusReason
+            case applicationId = "applicationId"
+            case applicationVersion = "applicationVersion"
+            case creationTime = "creationTime"
+            case deploymentId = "deploymentId"
+            case environmentId = "environmentId"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1061,8 +1061,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engineType
-            case engineVersion
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
         }
     }
 
@@ -1096,14 +1096,14 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case engineType
-            case engineVersion
-            case environmentArn
-            case environmentId
-            case instanceType
-            case name
-            case status
+            case creationTime = "creationTime"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case environmentArn = "environmentArn"
+            case environmentId = "environmentId"
+            case instanceType = "instanceType"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1119,8 +1119,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileName
-            case folderPath
+            case fileName = "fileName"
+            case folderPath = "folderPath"
         }
     }
 
@@ -1136,8 +1136,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileName
-            case folderPath
+            case fileName = "fileName"
+            case folderPath = "folderPath"
         }
     }
 
@@ -1175,8 +1175,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case rollDisposition
+            case limit = "limit"
+            case rollDisposition = "rollDisposition"
         }
     }
 
@@ -1192,8 +1192,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case rollDisposition
+            case limit = "limit"
+            case rollDisposition = "rollDisposition"
         }
     }
 
@@ -1279,25 +1279,25 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationId
-            case creationTime
-            case deployedVersion
-            case description
-            case engineType
-            case environmentId
-            case kmsKeyId
-            case lastStartTime
-            case latestVersion
-            case listenerArns
-            case listenerPorts
-            case loadBalancerDnsName
-            case logGroups
-            case name
-            case status
-            case statusReason
-            case tags
-            case targetGroupArns
+            case applicationArn = "applicationArn"
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case deployedVersion = "deployedVersion"
+            case description = "description"
+            case engineType = "engineType"
+            case environmentId = "environmentId"
+            case kmsKeyId = "kmsKeyId"
+            case lastStartTime = "lastStartTime"
+            case latestVersion = "latestVersion"
+            case listenerArns = "listenerArns"
+            case listenerPorts = "listenerPorts"
+            case loadBalancerDnsName = "loadBalancerDnsName"
+            case logGroups = "logGroups"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case targetGroupArns = "targetGroupArns"
         }
     }
 
@@ -1352,13 +1352,13 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion
-            case creationTime
-            case definitionContent
-            case description
-            case name
-            case status
-            case statusReason
+            case applicationVersion = "applicationVersion"
+            case creationTime = "creationTime"
+            case definitionContent = "definitionContent"
+            case description = "description"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1422,16 +1422,16 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case endTime
-            case executionId
-            case jobId
-            case jobName
-            case jobType
-            case jobUser
-            case startTime
-            case status
-            case statusReason
+            case applicationId = "applicationId"
+            case endTime = "endTime"
+            case executionId = "executionId"
+            case jobId = "jobId"
+            case jobName = "jobName"
+            case jobType = "jobType"
+            case jobUser = "jobUser"
+            case startTime = "startTime"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1489,14 +1489,14 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blocksize
-            case creationTime
-            case dataSetName
-            case dataSetOrg
-            case lastReferencedTime
-            case lastUpdatedTime
-            case location
-            case recordLength
+            case blocksize = "blocksize"
+            case creationTime = "creationTime"
+            case dataSetName = "dataSetName"
+            case dataSetOrg = "dataSetOrg"
+            case lastReferencedTime = "lastReferencedTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case location = "location"
+            case recordLength = "recordLength"
         }
     }
 
@@ -1539,9 +1539,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case summary
-            case taskId
+            case status = "status"
+            case summary = "summary"
+            case taskId = "taskId"
         }
     }
 
@@ -1596,13 +1596,13 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case applicationVersion
-            case creationTime
-            case deploymentId
-            case environmentId
-            case status
-            case statusReason
+            case applicationId = "applicationId"
+            case applicationVersion = "applicationVersion"
+            case creationTime = "creationTime"
+            case deploymentId = "deploymentId"
+            case environmentId = "environmentId"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -1697,28 +1697,28 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actualCapacity
-            case creationTime
-            case description
-            case engineType
-            case engineVersion
-            case environmentArn
-            case environmentId
-            case highAvailabilityConfig
-            case instanceType
-            case kmsKeyId
-            case loadBalancerArn
-            case name
-            case pendingMaintenance
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case securityGroupIds
-            case status
-            case statusReason
-            case storageConfigurations
-            case subnetIds
-            case tags
-            case vpcId
+            case actualCapacity = "actualCapacity"
+            case creationTime = "creationTime"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case environmentArn = "environmentArn"
+            case environmentId = "environmentId"
+            case highAvailabilityConfig = "highAvailabilityConfig"
+            case instanceType = "instanceType"
+            case kmsKeyId = "kmsKeyId"
+            case loadBalancerArn = "loadBalancerArn"
+            case name = "name"
+            case pendingMaintenance = "pendingMaintenance"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroupIds = "securityGroupIds"
+            case status = "status"
+            case statusReason = "statusReason"
+            case storageConfigurations = "storageConfigurations"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcId = "vpcId"
         }
     }
 
@@ -1736,7 +1736,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCapacity
+            case desiredCapacity = "desiredCapacity"
         }
     }
 
@@ -1782,8 +1782,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersions
-            case nextToken
+            case applicationVersions = "applicationVersions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1838,8 +1838,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1889,8 +1889,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchJobDefinitions
-            case nextToken
+            case batchJobDefinitions = "batchJobDefinitions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1962,8 +1962,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchJobExecutions
-            case nextToken
+            case batchJobExecutions = "batchJobExecutions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2009,8 +2009,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetImportTasks
-            case nextToken
+            case dataSetImportTasks = "dataSetImportTasks"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2061,8 +2061,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSets
-            case nextToken
+            case dataSets = "dataSets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2108,8 +2108,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
-            case nextToken
+            case deployments = "deployments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2154,8 +2154,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engineVersions
-            case nextToken
+            case engineVersions = "engineVersions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2209,8 +2209,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environments
-            case nextToken
+            case environments = "environments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2242,7 +2242,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2258,8 +2258,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logType
+            case logGroupName = "logGroupName"
+            case logType = "logType"
         }
     }
 
@@ -2275,8 +2275,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case startTime
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -2292,8 +2292,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engineVersion
-            case schedule
+            case engineVersion = "engineVersion"
+            case schedule = "schedule"
         }
     }
 
@@ -2312,9 +2312,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case length
-            case name
-            case offset
+            case length = "length"
+            case name = "name"
+            case offset = "offset"
         }
     }
 
@@ -2330,8 +2330,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case max
-            case min
+            case max = "max"
+            case min = "min"
         }
     }
 
@@ -2344,7 +2344,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scriptName
+            case scriptName = "scriptName"
         }
     }
 
@@ -2357,7 +2357,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scriptName
+            case scriptName = "scriptName"
         }
     }
 
@@ -2414,8 +2414,8 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchJobIdentifier
-            case jobParams
+            case batchJobIdentifier = "batchJobIdentifier"
+            case jobParams = "jobParams"
         }
     }
 
@@ -2428,7 +2428,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionId
+            case executionId = "executionId"
         }
     }
 
@@ -2452,7 +2452,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forceStop
+            case forceStop = "forceStop"
         }
     }
 
@@ -2487,7 +2487,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2556,9 +2556,9 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentApplicationVersion
-            case definition
-            case description
+            case currentApplicationVersion = "currentApplicationVersion"
+            case definition = "definition"
+            case description = "description"
         }
     }
 
@@ -2571,7 +2571,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationVersion
+            case applicationVersion = "applicationVersion"
         }
     }
 
@@ -2611,11 +2611,11 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applyDuringMaintenanceWindow
-            case desiredCapacity
-            case engineVersion
-            case instanceType
-            case preferredMaintenanceWindow
+            case applyDuringMaintenanceWindow = "applyDuringMaintenanceWindow"
+            case desiredCapacity = "desiredCapacity"
+            case engineVersion = "engineVersion"
+            case instanceType = "instanceType"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
         }
     }
 
@@ -2628,7 +2628,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentId
+            case environmentId = "environmentId"
         }
     }
 
@@ -2653,11 +2653,11 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alternateKeys
-            case compressed
-            case encoding
-            case format
-            case primaryKey
+            case alternateKeys = "alternateKeys"
+            case compressed = "compressed"
+            case encoding = "encoding"
+            case format = "format"
+            case primaryKey = "primaryKey"
         }
     }
 
@@ -2685,12 +2685,12 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alternateKeys
-            case cacheAtStartup
-            case compressed
-            case encoding
-            case primaryKey
-            case recordFormat
+            case alternateKeys = "alternateKeys"
+            case cacheAtStartup = "cacheAtStartup"
+            case compressed = "compressed"
+            case encoding = "encoding"
+            case primaryKey = "primaryKey"
+            case recordFormat = "recordFormat"
         }
     }
 
@@ -2707,7 +2707,7 @@ extension M2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 }
@@ -2744,7 +2744,7 @@ public struct M2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The account or role doesn&#39;t have the right permissions to make the request.
+    /// The account or role doesn't have the right permissions to make the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The parameters provided in the request conflict with existing resources.
     public static var conflictException: Self { .init(.conflictException) }

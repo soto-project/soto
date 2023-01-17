@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -327,7 +327,7 @@ extension CodeDeploy {
 // MARK: Paginators
 
 extension CodeDeploy {
-    ///  Lists information about revisions for an application.
+    /// Lists information about revisions for an application.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -380,7 +380,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the IAM user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -433,7 +433,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -486,7 +486,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -539,7 +539,7 @@ extension CodeDeploy {
         )
     }
 
-    ///   The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -594,7 +594,7 @@ extension CodeDeploy {
         )
     }
 
-    ///  Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

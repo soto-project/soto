@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,7 +22,7 @@ extension MachineLearning {
     // MARK: Enums
 
     public enum Algorithm: String, CustomStringConvertible, Codable, _SotoSendable {
-        case sgd
+        case sgd = "sgd"
         public var description: String { return self.rawValue }
     }
 
@@ -105,8 +105,8 @@ extension MachineLearning {
     }
 
     public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
-        case asc
-        case dsc
+        case asc = "asc"
+        case dsc = "dsc"
         public var description: String { return self.rawValue }
     }
 
@@ -534,7 +534,7 @@ extension MachineLearning {
             try self.validate(self.mlModelId, name: "mlModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.mlModelName, name: "mlModelName", parent: name, max: 1024)
             try self.validate(self.mlModelName, name: "mlModelName", parent: name, pattern: ".*\\S.*|^$")
-            try self.validate(self.recipe, name: "recipe", parent: name, max: 131_071)
+            try self.validate(self.recipe, name: "recipe", parent: name, max: 131071)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, max: 2048)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, max: 64)
@@ -1908,10 +1908,10 @@ extension MachineLearning {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case predictedLabel
-            case predictedScores
-            case predictedValue
+            case details = "details"
+            case predictedLabel = "predictedLabel"
+            case predictedScores = "predictedScores"
+            case predictedValue = "predictedValue"
         }
     }
 
@@ -1960,7 +1960,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
-            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, max: 64)
@@ -1971,7 +1971,7 @@ extension MachineLearning {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
+            try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16777216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 64)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
@@ -2130,12 +2130,12 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
-            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
+            try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16777216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
         }
 
@@ -2239,7 +2239,7 @@ extension MachineLearning {
         public func validate(name: String) throws {
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, max: 2048)
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131071)
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, max: 2048)
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }

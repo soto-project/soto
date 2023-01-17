@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -258,7 +258,7 @@ extension Kendra {
         return try await self.client.execute(operation: "PutPrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Searches an active index. Use this API to search your documents using query. The Query API enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results. Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results.
+    /// Searches an active index. Use this API to search your documents using query. The Query API enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results. Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results.
     public func query(_ input: QueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> QueryResult {
         return try await self.client.execute(operation: "Query", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -328,7 +328,7 @@ extension Kendra {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kendra {
-    ///  Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
+    /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -350,7 +350,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
+    /// Lists one or more access control configurations for an index. This  includes user and group access information for your documents. This  is useful for user context filtering, where search results are filtered  based on the user or their group access to documents.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -372,7 +372,7 @@ extension Kendra {
         )
     }
 
-    ///  Gets statistics about synchronizing a data source connector.
+    /// Gets statistics about synchronizing a data source connector.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -394,7 +394,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the data source connectors that you have created.
+    /// Lists the data source connectors that you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -416,7 +416,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists specific permissions of users and groups with access to your  Amazon Kendra experience.
+    /// Lists specific permissions of users and groups with access to your  Amazon Kendra experience.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -438,7 +438,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists users or groups in your IAM Identity Center identity source that are  granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
+    /// Lists users or groups in your IAM Identity Center identity source that are  granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -460,7 +460,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such  as a search application. For more information on creating a search application  experience, see Building a  search experience with no code.
+    /// Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such  as a search application. For more information on creating a search application  experience, see Building a  search experience with no code.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -482,7 +482,7 @@ extension Kendra {
         )
     }
 
-    ///  Gets a list of FAQ lists associated with an index.
+    /// Gets a list of FAQ lists associated with an index.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -504,7 +504,7 @@ extension Kendra {
         )
     }
 
-    ///  Provides a list of groups that are mapped to users before a  given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Provides a list of groups that are mapped to users before a  given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -526,7 +526,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the Amazon Kendra indexes that you created.
+    /// Lists the Amazon Kendra indexes that you created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -548,7 +548,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see  Quotas  for Amazon Kendra.  ListQuerySuggestionsBlockLists is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
+    /// Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see  Quotas  for Amazon Kendra.  ListQuerySuggestionsBlockLists is currently not supported in the  Amazon Web Services GovCloud (US-West) region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -570,7 +570,7 @@ extension Kendra {
         )
     }
 
-    ///  Lists the thesauri for an index.
+    /// Lists the thesauri for an index.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

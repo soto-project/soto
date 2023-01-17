@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -28,15 +28,15 @@ extension Translate {
     }
 
     public enum DisplayLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case de
-        case en
-        case es
-        case fr
-        case it
-        case ja
-        case ko
-        case pt
-        case zh
+        case de = "de"
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case pt = "pt"
+        case zh = "zh"
         case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
@@ -1068,7 +1068,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.file, name: "file", parent: name, max: 10_485_760)
+            try self.validate(self.file, name: "file", parent: name, max: 10485760)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1496,11 +1496,11 @@ public struct TranslateErrorType: AWSErrorType {
     public static var invalidFilterException: Self { .init(.invalidFilterException) }
     /// The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    ///  The request that you made is not valid. Check your request to determine why it&#39;s not valid and then retry the request.
+    ///  The request that you made is not valid. Check your request to determine why it's not valid and then retry the request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The resource you are looking for has not been found. Review the resource you&#39;re looking for and see if a different resource will accomplish your needs before retrying the revised request.
+    /// The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The Amazon Translate service is temporarily unavailable. Wait a bit and then retry your request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

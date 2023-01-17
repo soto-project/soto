@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -246,7 +246,7 @@ extension IoTTwinMaker {
 // MARK: Paginators
 
 extension IoTTwinMaker {
-    ///  Run queries to access information from your knowledge graph of entities within individual workspaces.
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -299,7 +299,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -352,7 +352,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
+    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -405,7 +405,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all component types in a workspace.
+    /// Lists all component types in a workspace.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -458,7 +458,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all entities in a workspace.
+    /// Lists all entities in a workspace.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -511,7 +511,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all scenes in a workspace.
+    /// Lists all scenes in a workspace.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -564,7 +564,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  List all SyncJobs.
+    /// List all SyncJobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +617,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists the sync resources.
+    /// Lists the sync resources.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -670,7 +670,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Retrieves information about workspaces in the current account.
+    /// Retrieves information about workspaces in the current account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

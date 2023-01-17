@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -124,14 +124,14 @@ extension GreengrassV2 {
     }
 
     public enum LambdaFilesystemPermission: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ro
-        case rw
+        case ro = "ro"
+        case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
     public enum LambdaInputPayloadEncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case binary
-        case json
+        case binary = "binary"
+        case json = "json"
         public var description: String { return self.rawValue }
     }
 
@@ -170,7 +170,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingName
+            case thingName = "thingName"
         }
     }
 
@@ -189,9 +189,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case thingName
+            case code = "code"
+            case message = "message"
+            case thingName = "thingName"
         }
     }
 
@@ -233,8 +233,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationTimestamp
-            case thingName
+            case associationTimestamp = "associationTimestamp"
+            case thingName = "thingName"
         }
     }
 
@@ -264,7 +264,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
+            case entries = "entries"
         }
     }
 
@@ -277,7 +277,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -307,7 +307,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
+            case entries = "entries"
         }
     }
 
@@ -320,7 +320,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -352,7 +352,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -377,11 +377,11 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentState
-            case errors
-            case message
-            case vendorGuidance
-            case vendorGuidanceMessage
+            case componentState = "componentState"
+            case errors = "errors"
+            case message = "message"
+            case vendorGuidance = "vendorGuidance"
+            case vendorGuidanceMessage = "vendorGuidanceMessage"
         }
     }
 
@@ -400,9 +400,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentName
-            case latestVersion
+            case arn = "arn"
+            case componentName = "componentName"
+            case latestVersion = "latestVersion"
         }
     }
 
@@ -432,9 +432,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case componentVersion
-            case versionRequirements
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
+            case versionRequirements = "versionRequirements"
         }
     }
 
@@ -450,7 +450,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.merge, name: "merge", parent: name, max: 10_485_760)
+            try self.validate(self.merge, name: "merge", parent: name, max: 10485760)
             try self.validate(self.merge, name: "merge", parent: name, min: 1)
             try self.reset?.forEach {
                 try validate($0, name: "reset[]", parent: name, max: 256)
@@ -458,8 +458,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case merge
-            case reset
+            case merge = "merge"
+            case reset = "reset"
         }
     }
 
@@ -479,8 +479,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencyType
-            case versionRequirement
+            case dependencyType = "dependencyType"
+            case versionRequirement = "versionRequirement"
         }
     }
 
@@ -506,9 +506,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersion
-            case configurationUpdate
-            case runWith
+            case componentVersion = "componentVersion"
+            case configurationUpdate = "configurationUpdate"
+            case runWith = "runWith"
         }
     }
 
@@ -536,12 +536,12 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentVersion
-            case creationTimestamp
-            case description
-            case platforms
-            case publisher
+            case arn = "arn"
+            case componentVersion = "componentVersion"
+            case creationTimestamp = "creationTimestamp"
+            case description = "description"
+            case platforms = "platforms"
+            case publisher = "publisher"
         }
     }
 
@@ -565,8 +565,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case name
+            case attributes = "attributes"
+            case name = "name"
         }
     }
 
@@ -591,9 +591,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case posixUser
-            case systemResourceLimits
-            case windowsUser
+            case posixUser = "posixUser"
+            case systemResourceLimits = "systemResourceLimits"
+            case windowsUser = "windowsUser"
         }
     }
 
@@ -612,9 +612,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentName
-            case componentVersion
+            case arn = "arn"
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
         }
     }
 
@@ -663,9 +663,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDeviceThingName
-            case lastStatusUpdateTimestamp
-            case status
+            case coreDeviceThingName = "coreDeviceThingName"
+            case lastStatusUpdateTimestamp = "lastStatusUpdateTimestamp"
+            case status = "status"
         }
     }
 
@@ -701,10 +701,10 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case inlineRecipe
-            case lambdaFunction
-            case tags
+            case clientToken = "clientToken"
+            case inlineRecipe = "inlineRecipe"
+            case lambdaFunction = "lambdaFunction"
+            case tags = "tags"
         }
     }
 
@@ -729,11 +729,11 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentName
-            case componentVersion
-            case creationTimestamp
-            case status
+            case arn = "arn"
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
+            case creationTimestamp = "creationTimestamp"
+            case status = "status"
         }
     }
 
@@ -789,14 +789,14 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case components
-            case deploymentName
-            case deploymentPolicies
-            case iotJobConfiguration
-            case parentTargetArn
-            case tags
-            case targetArn
+            case clientToken = "clientToken"
+            case components = "components"
+            case deploymentName = "deploymentName"
+            case deploymentPolicies = "deploymentPolicies"
+            case iotJobConfiguration = "iotJobConfiguration"
+            case parentTargetArn = "parentTargetArn"
+            case tags = "tags"
+            case targetArn = "targetArn"
         }
     }
 
@@ -815,9 +815,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case iotJobArn
-            case iotJobId
+            case deploymentId = "deploymentId"
+            case iotJobArn = "iotJobArn"
+            case iotJobId = "iotJobId"
         }
     }
 
@@ -909,14 +909,14 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp
-            case deploymentId
-            case deploymentName
-            case deploymentStatus
-            case isLatestForTarget
-            case parentTargetArn
-            case revisionId
-            case targetArn
+            case creationTimestamp = "creationTimestamp"
+            case deploymentId = "deploymentId"
+            case deploymentName = "deploymentName"
+            case deploymentStatus = "deploymentStatus"
+            case isLatestForTarget = "isLatestForTarget"
+            case parentTargetArn = "parentTargetArn"
+            case revisionId = "revisionId"
+            case targetArn = "targetArn"
         }
     }
 
@@ -932,8 +932,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case timeoutInSeconds
+            case action = "action"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -946,7 +946,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeoutInSeconds
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -970,9 +970,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case abortConfig
-            case jobExecutionsRolloutConfig
-            case timeoutConfig
+            case abortConfig = "abortConfig"
+            case jobExecutionsRolloutConfig = "jobExecutionsRolloutConfig"
+            case timeoutConfig = "timeoutConfig"
         }
     }
 
@@ -991,9 +991,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentUpdatePolicy
-            case configurationValidationPolicy
-            case failureHandlingPolicy
+            case componentUpdatePolicy = "componentUpdatePolicy"
+            case configurationValidationPolicy = "configurationValidationPolicy"
+            case failureHandlingPolicy = "failureHandlingPolicy"
         }
     }
 
@@ -1049,15 +1049,15 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentName
-            case componentVersion
-            case creationTimestamp
-            case description
-            case platforms
-            case publisher
-            case status
-            case tags
+            case arn = "arn"
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
+            case creationTimestamp = "creationTimestamp"
+            case description = "description"
+            case platforms = "platforms"
+            case publisher = "publisher"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1075,7 +1075,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingName
+            case thingName = "thingName"
         }
     }
 
@@ -1094,9 +1094,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
-            case thingName
+            case code = "code"
+            case message = "message"
+            case thingName = "thingName"
         }
     }
 
@@ -1156,17 +1156,17 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDeviceExecutionStatus
-            case creationTimestamp
-            case deploymentId
-            case deploymentName
-            case description
-            case iotJobArn
-            case iotJobId
-            case modifiedTimestamp
-            case reason
-            case statusDetails
-            case targetArn
+            case coreDeviceExecutionStatus = "coreDeviceExecutionStatus"
+            case creationTimestamp = "creationTimestamp"
+            case deploymentId = "deploymentId"
+            case deploymentName = "deploymentName"
+            case description = "description"
+            case iotJobArn = "iotJobArn"
+            case iotJobId = "iotJobId"
+            case modifiedTimestamp = "modifiedTimestamp"
+            case reason = "reason"
+            case statusDetails = "statusDetails"
+            case targetArn = "targetArn"
         }
     }
 
@@ -1182,8 +1182,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorStack
-            case errorTypes
+            case errorStack = "errorStack"
+            case errorTypes = "errorTypes"
         }
     }
 
@@ -1225,9 +1225,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recipe
-            case recipeOutputFormat
-            case tags
+            case recipe = "recipe"
+            case recipeOutputFormat = "recipeOutputFormat"
+            case tags = "tags"
         }
     }
 
@@ -1264,7 +1264,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preSignedUrl
+            case preSignedUrl = "preSignedUrl"
         }
     }
 
@@ -1352,13 +1352,13 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case coreDeviceThingName
-            case coreVersion
-            case lastStatusUpdateTimestamp
-            case platform
-            case status
-            case tags
+            case architecture = "architecture"
+            case coreDeviceThingName = "coreDeviceThingName"
+            case coreVersion = "coreVersion"
+            case lastStatusUpdateTimestamp = "lastStatusUpdateTimestamp"
+            case platform = "platform"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1429,20 +1429,20 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case components
-            case creationTimestamp
-            case deploymentId
-            case deploymentName
-            case deploymentPolicies
-            case deploymentStatus
-            case iotJobArn
-            case iotJobConfiguration
-            case iotJobId
-            case isLatestForTarget
-            case parentTargetArn
-            case revisionId
-            case tags
-            case targetArn
+            case components = "components"
+            case creationTimestamp = "creationTimestamp"
+            case deploymentId = "deploymentId"
+            case deploymentName = "deploymentName"
+            case deploymentPolicies = "deploymentPolicies"
+            case deploymentStatus = "deploymentStatus"
+            case iotJobArn = "iotJobArn"
+            case iotJobConfiguration = "iotJobConfiguration"
+            case iotJobId = "iotJobId"
+            case isLatestForTarget = "isLatestForTarget"
+            case parentTargetArn = "parentTargetArn"
+            case revisionId = "revisionId"
+            case tags = "tags"
+            case targetArn = "targetArn"
         }
     }
 
@@ -1500,15 +1500,15 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case componentVersion
-            case isRoot
-            case lastInstallationSource
-            case lastReportedTimestamp
-            case lastStatusChangeTimestamp
-            case lifecycleState
-            case lifecycleStateDetails
-            case lifecycleStatusCodes
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
+            case isRoot = "isRoot"
+            case lastInstallationSource = "lastInstallationSource"
+            case lastReportedTimestamp = "lastReportedTimestamp"
+            case lastStatusChangeTimestamp = "lastStatusChangeTimestamp"
+            case lifecycleState = "lifecycleState"
+            case lifecycleStateDetails = "lifecycleStateDetails"
+            case lifecycleStatusCodes = "lifecycleStatusCodes"
         }
     }
 
@@ -1528,7 +1528,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criteriaList
+            case criteriaList = "criteriaList"
         }
     }
 
@@ -1555,10 +1555,10 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case failureType
-            case minNumberOfExecutedThings
-            case thresholdPercentage
+            case action = "action"
+            case failureType = "failureType"
+            case minNumberOfExecutedThings = "minNumberOfExecutedThings"
+            case thresholdPercentage = "thresholdPercentage"
         }
     }
 
@@ -1580,8 +1580,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exponentialRate
-            case maximumPerMinute
+            case exponentialRate = "exponentialRate"
+            case maximumPerMinute = "maximumPerMinute"
         }
     }
 
@@ -1608,9 +1608,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseRatePerMinute
-            case incrementFactor
-            case rateIncreaseCriteria
+            case baseRatePerMinute = "baseRatePerMinute"
+            case incrementFactor = "incrementFactor"
+            case rateIncreaseCriteria = "rateIncreaseCriteria"
         }
     }
 
@@ -1631,8 +1631,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfNotifiedThings
-            case numberOfSucceededThings
+            case numberOfNotifiedThings = "numberOfNotifiedThings"
+            case numberOfSucceededThings = "numberOfSucceededThings"
         }
     }
 
@@ -1645,7 +1645,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inProgressTimeoutInMinutes
+            case inProgressTimeoutInMinutes = "inProgressTimeoutInMinutes"
         }
     }
 
@@ -1667,10 +1667,10 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case memorySizeInKB
-            case mountROSysfs
-            case volumes
+            case devices = "devices"
+            case memorySizeInKB = "memorySizeInKB"
+            case mountROSysfs = "mountROSysfs"
+            case volumes = "volumes"
         }
     }
 
@@ -1689,9 +1689,9 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addGroupOwner
-            case path
-            case permission
+            case addGroupOwner = "addGroupOwner"
+            case path = "path"
+            case permission = "permission"
         }
     }
 
@@ -1707,8 +1707,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case topic
-            case type
+            case topic = "topic"
+            case type = "type"
         }
     }
 
@@ -1757,17 +1757,17 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentVariables
-            case eventSources
-            case execArgs
-            case inputPayloadEncodingType
-            case linuxProcessParams
-            case maxIdleTimeInSeconds
-            case maxInstancesCount
-            case maxQueueSize
-            case pinned
-            case statusTimeoutInSeconds
-            case timeoutInSeconds
+            case environmentVariables = "environmentVariables"
+            case eventSources = "eventSources"
+            case execArgs = "execArgs"
+            case inputPayloadEncodingType = "inputPayloadEncodingType"
+            case linuxProcessParams = "linuxProcessParams"
+            case maxIdleTimeInSeconds = "maxIdleTimeInSeconds"
+            case maxInstancesCount = "maxInstancesCount"
+            case maxQueueSize = "maxQueueSize"
+            case pinned = "pinned"
+            case statusTimeoutInSeconds = "statusTimeoutInSeconds"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -1811,12 +1811,12 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentDependencies
-            case componentLambdaParameters
-            case componentName
-            case componentPlatforms
-            case componentVersion
-            case lambdaArn
+            case componentDependencies = "componentDependencies"
+            case componentLambdaParameters = "componentLambdaParameters"
+            case componentName = "componentName"
+            case componentPlatforms = "componentPlatforms"
+            case componentVersion = "componentVersion"
+            case lambdaArn = "lambdaArn"
         }
     }
 
@@ -1832,8 +1832,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerParams
-            case isolationMode
+            case containerParams = "containerParams"
+            case isolationMode = "isolationMode"
         }
     }
 
@@ -1855,10 +1855,10 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addGroupOwner
-            case destinationPath
-            case permission
-            case sourcePath
+            case addGroupOwner = "addGroupOwner"
+            case destinationPath = "destinationPath"
+            case permission = "permission"
+            case sourcePath = "sourcePath"
         }
     }
 
@@ -1904,8 +1904,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedClientDevices
-            case nextToken
+            case associatedClientDevices = "associatedClientDevices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1950,8 +1950,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersions
-            case nextToken
+            case componentVersions = "componentVersions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1995,8 +1995,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case components
-            case nextToken
+            case components = "components"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2045,8 +2045,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case coreDevices
-            case nextToken
+            case coreDevices = "coreDevices"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2100,8 +2100,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
-            case nextToken
+            case deployments = "deployments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2147,8 +2147,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveDeployments
-            case nextToken
+            case effectiveDeployments = "effectiveDeployments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2198,8 +2198,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case installedComponents
-            case nextToken
+            case installedComponents = "installedComponents"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2231,7 +2231,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2254,8 +2254,8 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentCandidates
-            case platform
+            case componentCandidates = "componentCandidates"
+            case platform = "platform"
         }
     }
 
@@ -2268,7 +2268,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolvedComponentVersions
+            case resolvedComponentVersions = "resolvedComponentVersions"
         }
     }
 
@@ -2296,12 +2296,12 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentName
-            case componentVersion
-            case message
-            case recipe
-            case vendorGuidance
+            case arn = "arn"
+            case componentName = "componentName"
+            case componentVersion = "componentVersion"
+            case message = "message"
+            case recipe = "recipe"
+            case vendorGuidance = "vendorGuidance"
         }
     }
 
@@ -2318,13 +2318,13 @@ extension GreengrassV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.cpus, name: "cpus", parent: name, min: 0.0)
-            try self.validate(self.memory, name: "memory", parent: name, max: 9_223_372_036_854_771_712)
+            try self.validate(self.memory, name: "memory", parent: name, max: 9223372036854771712)
             try self.validate(self.memory, name: "memory", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case memory
+            case cpus = "cpus"
+            case memory = "memory"
         }
     }
 
@@ -2355,7 +2355,7 @@ extension GreengrassV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2475,21 +2475,21 @@ public struct GreengrassV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have permission to perform the action.
+    /// You don't have permission to perform the action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Your request has conflicting operations. This can occur if you&#39;re trying to perform more than one operation on the same resource at the same time.
+    /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     public static var conflictException: Self { .init(.conflictException) }
-    /// IoT Greengrass can&#39;t process your request right now. Try again later.
+    /// IoT Greengrass can't process your request right now. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request is already in progress. This exception occurs when you use a client token for multiple requests while IoT Greengrass is still processing an earlier request that uses the same client token.
     public static var requestAlreadyInProgressException: Self { .init(.requestAlreadyInProgressException) }
-    /// The requested resource can&#39;t be found.
+    /// The requested resource can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your request exceeds a service quota. For example, you might have the maximum number of components that you can create.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request isn&#39;t valid. This can occur if your request contains malformed JSON or unsupported characters.
+    /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
     public static var validationException: Self { .init(.validationException) }
 }
 

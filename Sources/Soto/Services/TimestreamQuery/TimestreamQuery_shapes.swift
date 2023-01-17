@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -176,7 +176,7 @@ extension TimestreamQuery {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.notificationConfiguration.validate(name: "\(name).notificationConfiguration")
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.scheduleConfiguration.validate(name: "\(name).scheduleConfiguration")
             try self.validate(self.scheduledQueryExecutionRoleArn, name: "scheduledQueryExecutionRoleArn", parent: name, max: 2048)
@@ -635,7 +635,7 @@ extension TimestreamQuery {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -690,7 +690,7 @@ extension TimestreamQuery {
             try self.validate(self.maxRows, name: "maxRows", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -79,10 +79,10 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case codec
-            case sampleRate
-            case targetBitrate
+            case channels = "channels"
+            case codec = "codec"
+            case sampleRate = "sampleRate"
+            case targetBitrate = "targetBitrate"
         }
     }
 
@@ -101,9 +101,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case code
-            case message
+            case arn = "arn"
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -126,7 +126,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arns
+            case arns = "arns"
         }
     }
 
@@ -141,8 +141,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case errors
+            case channels = "channels"
+            case errors = "errors"
         }
     }
 
@@ -165,7 +165,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arns
+            case arns = "arns"
         }
     }
 
@@ -179,8 +179,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case streamKeys
+            case errors = "errors"
+            case streamKeys = "streamKeys"
         }
     }
 
@@ -217,15 +217,15 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authorized
-            case ingestEndpoint
-            case latencyMode
-            case name
-            case playbackUrl
-            case recordingConfigurationArn
-            case tags
-            case type
+            case arn = "arn"
+            case authorized = "authorized"
+            case ingestEndpoint = "ingestEndpoint"
+            case latencyMode = "latencyMode"
+            case name = "name"
+            case playbackUrl = "playbackUrl"
+            case recordingConfigurationArn = "recordingConfigurationArn"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -253,12 +253,12 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authorized
-            case latencyMode
-            case name
-            case recordingConfigurationArn
-            case tags
+            case arn = "arn"
+            case authorized = "authorized"
+            case latencyMode = "latencyMode"
+            case name = "name"
+            case recordingConfigurationArn = "recordingConfigurationArn"
+            case tags = "tags"
         }
     }
 
@@ -299,12 +299,12 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorized
-            case latencyMode
-            case name
-            case recordingConfigurationArn
-            case tags
-            case type
+            case authorized = "authorized"
+            case latencyMode = "latencyMode"
+            case name = "name"
+            case recordingConfigurationArn = "recordingConfigurationArn"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -318,8 +318,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
-            case streamKey
+            case channel = "channel"
+            case streamKey = "streamKey"
         }
     }
 
@@ -359,11 +359,11 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationConfiguration
-            case name
-            case recordingReconnectWindowSeconds
-            case tags
-            case thumbnailConfiguration
+            case destinationConfiguration = "destinationConfiguration"
+            case name = "name"
+            case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
+            case tags = "tags"
+            case thumbnailConfiguration = "thumbnailConfiguration"
         }
     }
 
@@ -375,7 +375,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordingConfiguration
+            case recordingConfiguration = "recordingConfiguration"
         }
     }
 
@@ -403,8 +403,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case tags
+            case channelArn = "channelArn"
+            case tags = "tags"
         }
     }
 
@@ -417,7 +417,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamKey
+            case streamKey = "streamKey"
         }
     }
 
@@ -436,7 +436,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -455,7 +455,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -477,7 +477,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -496,7 +496,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -513,7 +513,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -532,7 +532,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -544,7 +544,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
+            case channel = "channel"
         }
     }
 
@@ -563,7 +563,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -575,7 +575,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
+            case keyPair = "keyPair"
         }
     }
 
@@ -593,7 +593,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -605,7 +605,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordingConfiguration
+            case recordingConfiguration = "recordingConfiguration"
         }
     }
 
@@ -624,7 +624,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -636,7 +636,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamKey
+            case streamKey = "streamKey"
         }
     }
 
@@ -655,7 +655,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
+            case channelArn = "channelArn"
         }
     }
 
@@ -667,7 +667,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stream
+            case stream = "stream"
         }
     }
 
@@ -692,8 +692,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case streamId
+            case channelArn = "channelArn"
+            case streamId = "streamId"
         }
     }
 
@@ -706,7 +706,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamSession
+            case streamSession = "streamSession"
         }
     }
 
@@ -736,9 +736,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case publicKeyMaterial
-            case tags
+            case name = "name"
+            case publicKeyMaterial = "publicKeyMaterial"
+            case tags = "tags"
         }
     }
 
@@ -750,7 +750,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
+            case keyPair = "keyPair"
         }
     }
 
@@ -766,8 +766,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audio
-            case video
+            case audio = "audio"
+            case video = "video"
         }
     }
 
@@ -799,10 +799,10 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterByName
-            case filterByRecordingConfigurationArn
-            case maxResults
-            case nextToken
+            case filterByName = "filterByName"
+            case filterByRecordingConfigurationArn = "filterByRecordingConfigurationArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -818,8 +818,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case nextToken
+            case channels = "channels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -841,8 +841,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -858,8 +858,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairs
-            case nextToken
+            case keyPairs = "keyPairs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -881,8 +881,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -898,8 +898,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recordingConfigurations
+            case nextToken = "nextToken"
+            case recordingConfigurations = "recordingConfigurations"
         }
     }
 
@@ -927,9 +927,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case maxResults
-            case nextToken
+            case channelArn = "channelArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -945,8 +945,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case streamKeys
+            case nextToken = "nextToken"
+            case streamKeys = "streamKeys"
         }
     }
 
@@ -974,9 +974,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case maxResults
-            case nextToken
+            case channelArn = "channelArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -992,8 +992,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case streamSessions
+            case nextToken = "nextToken"
+            case streamSessions = "streamSessions"
         }
     }
 
@@ -1018,9 +1018,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterBy
-            case maxResults
-            case nextToken
+            case filterBy = "filterBy"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1036,8 +1036,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case streams
+            case nextToken = "nextToken"
+            case streams = "streams"
         }
     }
 
@@ -1070,7 +1070,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1092,10 +1092,10 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case fingerprint
-            case name
-            case tags
+            case arn = "arn"
+            case fingerprint = "fingerprint"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1114,9 +1114,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case tags
+            case arn = "arn"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1139,8 +1139,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case metadata
+            case channelArn = "channelArn"
+            case metadata = "metadata"
         }
     }
 
@@ -1171,13 +1171,13 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case destinationConfiguration
-            case name
-            case recordingReconnectWindowSeconds
-            case state
-            case tags
-            case thumbnailConfiguration
+            case arn = "arn"
+            case destinationConfiguration = "destinationConfiguration"
+            case name = "name"
+            case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
+            case state = "state"
+            case tags = "tags"
+            case thumbnailConfiguration = "thumbnailConfiguration"
         }
     }
 
@@ -1202,11 +1202,11 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case destinationConfiguration
-            case name
-            case state
-            case tags
+            case arn = "arn"
+            case destinationConfiguration = "destinationConfiguration"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -1225,7 +1225,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
+            case bucketName = "bucketName"
         }
     }
 
@@ -1244,7 +1244,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
+            case channelArn = "channelArn"
         }
     }
 
@@ -1280,13 +1280,13 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case health
-            case playbackUrl
-            case startTime
-            case state
-            case streamId
-            case viewerCount
+            case channelArn = "channelArn"
+            case health = "health"
+            case playbackUrl = "playbackUrl"
+            case startTime = "startTime"
+            case state = "state"
+            case streamId = "streamId"
+            case viewerCount = "viewerCount"
         }
     }
 
@@ -1306,9 +1306,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTime
-            case name
-            case type
+            case eventTime = "eventTime"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -1321,7 +1321,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case health
+            case health = "health"
         }
     }
 
@@ -1343,10 +1343,10 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case channelArn
-            case tags
-            case value
+            case arn = "arn"
+            case channelArn = "channelArn"
+            case tags = "tags"
+            case value = "value"
         }
     }
 
@@ -1365,9 +1365,9 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case channelArn
-            case tags
+            case arn = "arn"
+            case channelArn = "channelArn"
+            case tags = "tags"
         }
     }
 
@@ -1400,13 +1400,13 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
-            case endTime
-            case ingestConfiguration
-            case recordingConfiguration
-            case startTime
-            case streamId
-            case truncatedEvents
+            case channel = "channel"
+            case endTime = "endTime"
+            case ingestConfiguration = "ingestConfiguration"
+            case recordingConfiguration = "recordingConfiguration"
+            case startTime = "startTime"
+            case streamId = "streamId"
+            case truncatedEvents = "truncatedEvents"
         }
     }
 
@@ -1430,10 +1430,10 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case hasErrorEvent
-            case startTime
-            case streamId
+            case endTime = "endTime"
+            case hasErrorEvent = "hasErrorEvent"
+            case startTime = "startTime"
+            case streamId = "streamId"
         }
     }
 
@@ -1462,12 +1462,12 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case health
-            case startTime
-            case state
-            case streamId
-            case viewerCount
+            case channelArn = "channelArn"
+            case health = "health"
+            case startTime = "startTime"
+            case state = "state"
+            case streamId = "streamId"
+            case viewerCount = "viewerCount"
         }
     }
 
@@ -1499,7 +1499,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1524,8 +1524,8 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordingMode
-            case targetIntervalSeconds
+            case recordingMode = "recordingMode"
+            case targetIntervalSeconds = "targetIntervalSeconds"
         }
     }
 
@@ -1597,12 +1597,12 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authorized
-            case latencyMode
-            case name
-            case recordingConfigurationArn
-            case type
+            case arn = "arn"
+            case authorized = "authorized"
+            case latencyMode = "latencyMode"
+            case name = "name"
+            case recordingConfigurationArn = "recordingConfigurationArn"
+            case type = "type"
         }
     }
 
@@ -1614,7 +1614,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
+            case channel = "channel"
         }
     }
 
@@ -1648,14 +1648,14 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case avcLevel
-            case avcProfile
-            case codec
-            case encoder
-            case targetBitrate
-            case targetFramerate
-            case videoHeight
-            case videoWidth
+            case avcLevel = "avcLevel"
+            case avcProfile = "avcProfile"
+            case codec = "codec"
+            case encoder = "encoder"
+            case targetBitrate = "targetBitrate"
+            case targetFramerate = "targetFramerate"
+            case videoHeight = "videoHeight"
+            case videoWidth = "videoWidth"
         }
     }
 }

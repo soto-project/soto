@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -552,7 +552,7 @@ extension Athena {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
         }
@@ -644,7 +644,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262144)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
@@ -1734,7 +1734,7 @@ extension Athena {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]+$")
-            try self.validate(self.payload, name: "payload", parent: name, max: 10_485_760)
+            try self.validate(self.payload, name: "payload", parent: name, max: 10485760)
             try self.validate(self.payload, name: "payload", parent: name, min: 1)
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
         }
@@ -3261,7 +3261,7 @@ extension Athena {
             }
             try self.validate(self.executionParameters, name: "executionParameters", parent: name, min: 1)
             try self.queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
             try self.resultReuseConfiguration?.validate(name: "\(name).resultReuseConfiguration")
@@ -3689,7 +3689,7 @@ extension Athena {
             try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, max: 128)
             try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, min: 1)
             try self.validate(self.namedQueryId, name: "namedQueryId", parent: name, pattern: "^\\S+$")
-            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -3732,7 +3732,7 @@ extension Athena {
             try self.validate(self.notebookId, name: "notebookId", parent: name, max: 36)
             try self.validate(self.notebookId, name: "notebookId", parent: name, min: 1)
             try self.validate(self.notebookId, name: "notebookId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.payload, name: "payload", parent: name, max: 10_485_760)
+            try self.validate(self.payload, name: "payload", parent: name, max: 10485760)
             try self.validate(self.payload, name: "payload", parent: name, min: 1)
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
@@ -3808,7 +3808,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262144)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
@@ -3927,7 +3927,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, max: 128)
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
-            try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10000000)
             try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
@@ -3989,7 +3989,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, max: 128)
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
-            try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
+            try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10000000)
             try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)

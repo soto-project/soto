@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -35,8 +35,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case attachmentSetId
+            case attachments = "attachments"
+            case attachmentSetId = "attachmentSetId"
         }
     }
 
@@ -52,8 +52,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case expiryTime
+            case attachmentSetId = "attachmentSetId"
+            case expiryTime = "expiryTime"
         }
     }
 
@@ -81,10 +81,10 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case caseId
-            case ccEmailAddresses
-            case communicationBody
+            case attachmentSetId = "attachmentSetId"
+            case caseId = "caseId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case communicationBody = "communicationBody"
         }
     }
 
@@ -97,7 +97,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
+            case result = "result"
         }
     }
 
@@ -113,8 +113,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case fileName
+            case data = "data"
+            case fileName = "fileName"
         }
     }
 
@@ -130,8 +130,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
-            case fileName
+            case attachmentId = "attachmentId"
+            case fileName = "fileName"
         }
     }
 
@@ -178,18 +178,18 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
-            case categoryCode
-            case ccEmailAddresses
-            case displayId
-            case language
-            case recentCommunications
-            case serviceCode
-            case severityCode
-            case status
-            case subject
-            case submittedBy
-            case timeCreated
+            case caseId = "caseId"
+            case categoryCode = "categoryCode"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case displayId = "displayId"
+            case language = "language"
+            case recentCommunications = "recentCommunications"
+            case serviceCode = "serviceCode"
+            case severityCode = "severityCode"
+            case status = "status"
+            case subject = "subject"
+            case submittedBy = "submittedBy"
+            case timeCreated = "timeCreated"
         }
     }
 
@@ -205,8 +205,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -231,11 +231,11 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSet
-            case body
-            case caseId
-            case submittedBy
-            case timeCreated
+            case attachmentSet = "attachmentSet"
+            case body = "body"
+            case caseId = "caseId"
+            case submittedBy = "submittedBy"
+            case timeCreated = "timeCreated"
         }
     }
 
@@ -280,15 +280,15 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case categoryCode
-            case ccEmailAddresses
-            case communicationBody
-            case issueType
-            case language
-            case serviceCode
-            case severityCode
-            case subject
+            case attachmentSetId = "attachmentSetId"
+            case categoryCode = "categoryCode"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case communicationBody = "communicationBody"
+            case issueType = "issueType"
+            case language = "language"
+            case serviceCode = "serviceCode"
+            case severityCode = "severityCode"
+            case subject = "subject"
         }
     }
 
@@ -301,7 +301,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
+            case caseId = "caseId"
         }
     }
 
@@ -314,7 +314,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
+            case attachmentId = "attachmentId"
         }
     }
 
@@ -327,7 +327,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachment
+            case attachment = "attachment"
         }
     }
 
@@ -371,15 +371,15 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterTime
-            case beforeTime
-            case caseIdList
-            case displayId
-            case includeCommunications
-            case includeResolvedCases
-            case language
-            case maxResults
-            case nextToken
+            case afterTime = "afterTime"
+            case beforeTime = "beforeTime"
+            case caseIdList = "caseIdList"
+            case displayId = "displayId"
+            case includeCommunications = "includeCommunications"
+            case includeResolvedCases = "includeResolvedCases"
+            case language = "language"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -395,8 +395,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cases
-            case nextToken
+            case cases = "cases"
+            case nextToken = "nextToken"
         }
     }
 
@@ -426,11 +426,11 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterTime
-            case beforeTime
-            case caseId
-            case maxResults
-            case nextToken
+            case afterTime = "afterTime"
+            case beforeTime = "beforeTime"
+            case caseId = "caseId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -446,8 +446,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case communications
-            case nextToken
+            case communications = "communications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -471,8 +471,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
-            case serviceCodeList
+            case language = "language"
+            case serviceCodeList = "serviceCodeList"
         }
     }
 
@@ -485,7 +485,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case services
+            case services = "services"
         }
     }
 
@@ -499,7 +499,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
+            case language = "language"
         }
     }
 
@@ -512,7 +512,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case severityLevels
+            case severityLevels = "severityLevels"
         }
     }
 
@@ -525,7 +525,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkIds
+            case checkIds = "checkIds"
         }
     }
 
@@ -538,7 +538,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statuses
+            case statuses = "statuses"
         }
     }
 
@@ -554,8 +554,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
-            case language
+            case checkId = "checkId"
+            case language = "language"
         }
     }
 
@@ -568,7 +568,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
+            case result = "result"
         }
     }
 
@@ -581,7 +581,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkIds
+            case checkIds = "checkIds"
         }
     }
 
@@ -594,7 +594,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summaries
+            case summaries = "summaries"
         }
     }
 
@@ -607,7 +607,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
+            case language = "language"
         }
     }
 
@@ -620,7 +620,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checks
+            case checks = "checks"
         }
     }
 
@@ -636,8 +636,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case communications
-            case nextToken
+            case communications = "communications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -650,7 +650,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
+            case checkId = "checkId"
         }
     }
 
@@ -663,7 +663,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -676,7 +676,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
+            case caseId = "caseId"
         }
     }
 
@@ -692,8 +692,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalCaseStatus
-            case initialCaseStatus
+            case finalCaseStatus = "finalCaseStatus"
+            case initialCaseStatus = "initialCaseStatus"
         }
     }
 
@@ -712,9 +712,9 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categories
-            case code
-            case name
+            case categories = "categories"
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -730,8 +730,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -744,7 +744,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case costOptimizing
+            case costOptimizing = "costOptimizing"
         }
     }
 
@@ -769,11 +769,11 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case id
-            case metadata
-            case name
+            case category = "category"
+            case description = "description"
+            case id = "id"
+            case metadata = "metadata"
+            case name = "name"
         }
     }
 
@@ -792,9 +792,9 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
-            case millisUntilNextRefreshable
-            case status
+            case checkId = "checkId"
+            case millisUntilNextRefreshable = "millisUntilNextRefreshable"
+            case status = "status"
         }
     }
 
@@ -821,12 +821,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categorySpecificSummary
-            case checkId
-            case flaggedResources
-            case resourcesSummary
-            case status
-            case timestamp
+            case categorySpecificSummary = "categorySpecificSummary"
+            case checkId = "checkId"
+            case flaggedResources = "flaggedResources"
+            case resourcesSummary = "resourcesSummary"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
@@ -853,12 +853,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categorySpecificSummary
-            case checkId
-            case hasFlaggedResources
-            case resourcesSummary
-            case status
-            case timestamp
+            case categorySpecificSummary = "categorySpecificSummary"
+            case checkId = "checkId"
+            case hasFlaggedResources = "hasFlaggedResources"
+            case resourcesSummary = "resourcesSummary"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
@@ -874,8 +874,8 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedMonthlySavings
-            case estimatedPercentMonthlySavings
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
         }
     }
 
@@ -900,11 +900,11 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isSuppressed
-            case metadata
-            case region
-            case resourceId
-            case status
+            case isSuppressed = "isSuppressed"
+            case metadata = "metadata"
+            case region = "region"
+            case resourceId = "resourceId"
+            case status = "status"
         }
     }
 
@@ -926,10 +926,10 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcesFlagged
-            case resourcesIgnored
-            case resourcesProcessed
-            case resourcesSuppressed
+            case resourcesFlagged = "resourcesFlagged"
+            case resourcesIgnored = "resourcesIgnored"
+            case resourcesProcessed = "resourcesProcessed"
+            case resourcesSuppressed = "resourcesSuppressed"
         }
     }
 }
@@ -980,7 +980,7 @@ public struct SupportErrorType: AWSErrorType {
     public static var attachmentSetSizeLimitExceeded: Self { .init(.attachmentSetSizeLimitExceeded) }
     /// The case creation limit for the account has been exceeded.
     public static var caseCreationLimitExceeded: Self { .init(.caseCreationLimitExceeded) }
-    /// The requested caseId couldn&#39;t be located.
+    /// The requested caseId couldn't be located.
     public static var caseIdNotFound: Self { .init(.caseIdNotFound) }
     /// The limit for the number of DescribeAttachment requests in a short period of time has been exceeded.
     public static var describeAttachmentLimitExceeded: Self { .init(.describeAttachmentLimitExceeded) }

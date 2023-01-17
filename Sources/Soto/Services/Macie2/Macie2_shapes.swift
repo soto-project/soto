@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -139,8 +139,8 @@ extension Macie2 {
     }
 
     public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case count
-        case groupKey
+        case count = "count"
+        case groupKey = "groupKey"
         public var description: String { return self.rawValue }
     }
 
@@ -168,7 +168,7 @@ extension Macie2 {
         case classificationDetailsJobid = "classificationDetails.jobId"
         case resourcesAffectedS3BucketName = "resourcesAffected.s3Bucket.name"
         case severityDescription = "severity.description"
-        case type
+        case type = "type"
         public var description: String { return self.rawValue }
     }
 
@@ -221,18 +221,18 @@ extension Macie2 {
     }
 
     public enum ListJobsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case createdAt
-        case jobStatus
-        case jobType
-        case name
+        case createdAt = "createdAt"
+        case jobStatus = "jobStatus"
+        case jobType = "jobType"
+        case name = "name"
         public var description: String { return self.rawValue }
     }
 
     public enum ListJobsSortAttributeName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case createdAt
-        case jobStatus
-        case jobType
-        case name
+        case createdAt = "createdAt"
+        case jobStatus = "jobStatus"
+        case jobType = "jobType"
+        case name = "name"
         public var description: String { return self.rawValue }
     }
 
@@ -400,18 +400,18 @@ extension Macie2 {
     }
 
     public enum UsageStatisticsFilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case accountId
-        case freeTrialStartDate
-        case serviceLimit
-        case total
+        case accountId = "accountId"
+        case freeTrialStartDate = "freeTrialStartDate"
+        case serviceLimit = "serviceLimit"
+        case total = "total"
         public var description: String { return self.rawValue }
     }
 
     public enum UsageStatisticsSortKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case accountId
-        case freeTrialStartDate
-        case serviceLimitValue
-        case total
+        case accountId = "accountId"
+        case freeTrialStartDate = "freeTrialStartDate"
+        case serviceLimitValue = "serviceLimitValue"
+        case total = "total"
         public var description: String { return self.rawValue }
     }
 
@@ -457,9 +457,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccountId
-            case invitationId
-            case masterAccount
+            case administratorAccountId = "administratorAccountId"
+            case invitationId = "invitationId"
+            case masterAccount = "masterAccount"
         }
     }
 
@@ -479,8 +479,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -496,8 +496,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case email
+            case accountId = "accountId"
+            case email = "email"
         }
     }
 
@@ -510,7 +510,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAccess
+            case blockPublicAccess = "blockPublicAccess"
         }
     }
 
@@ -526,8 +526,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case status
+            case accountId = "accountId"
+            case status = "status"
         }
     }
 
@@ -550,8 +550,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regex
-            case s3WordsList
+            case regex = "regex"
+            case s3WordsList = "s3WordsList"
         }
     }
 
@@ -567,8 +567,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case description
+            case code = "code"
+            case description = "description"
         }
     }
 
@@ -598,12 +598,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case id
-            case name
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -627,10 +627,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case api
-            case apiServiceName
-            case firstSeen
-            case lastSeen
+            case api = "api"
+            case apiServiceName = "apiServiceName"
+            case firstSeen = "firstSeen"
+            case lastSeen = "lastSeen"
         }
     }
 
@@ -655,11 +655,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case accountId
-            case arn
-            case principalId
-            case sessionContext
+            case accessKeyId = "accessKeyId"
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case sessionContext = "sessionContext"
         }
     }
 
@@ -675,8 +675,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case principalId
+            case accountId = "accountId"
+            case principalId = "principalId"
         }
     }
 
@@ -689,7 +689,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invokedBy
+            case invokedBy = "invokedBy"
         }
     }
 
@@ -718,12 +718,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deleted
-            case description
-            case id
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deleted = "deleted"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -736,7 +736,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -752,8 +752,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataIdentifiers
-            case notFoundIdentifierIds
+            case customDataIdentifiers = "customDataIdentifiers"
+            case notFoundIdentifierIds = "notFoundIdentifierIds"
         }
     }
 
@@ -775,10 +775,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAcls
-            case blockPublicPolicy
-            case ignorePublicAcls
-            case restrictPublicBuckets
+            case blockPublicAcls = "blockPublicAcls"
+            case blockPublicPolicy = "blockPublicPolicy"
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
         }
     }
 
@@ -800,10 +800,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publiclyAccessible
-            case publiclyReadable
-            case publiclyWritable
-            case unknown
+            case publiclyAccessible = "publiclyAccessible"
+            case publiclyReadable = "publiclyReadable"
+            case publiclyWritable = "publiclyWritable"
+            case unknown = "unknown"
         }
     }
 
@@ -825,10 +825,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsManaged
-            case s3Managed
-            case unencrypted
-            case unknown
+            case kmsManaged = "kmsManaged"
+            case s3Managed = "s3Managed"
+            case unencrypted = "unencrypted"
+            case unknown = "unknown"
         }
     }
 
@@ -850,10 +850,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case external
-            case `internal`
-            case notShared
-            case unknown
+            case external = "external"
+            case `internal` = "internal"
+            case notShared = "notShared"
+            case unknown = "unknown"
         }
     }
 
@@ -872,9 +872,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsUnencryptedObjectUploads
-            case deniesUnencryptedObjectUploads
-            case unknown
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case deniesUnencryptedObjectUploads = "deniesUnencryptedObjectUploads"
+            case unknown = "unknown"
         }
     }
 
@@ -905,13 +905,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eq
-            case gt
-            case gte
-            case lt
-            case lte
-            case neq
-            case prefix
+            case eq = "eq"
+            case gt = "gt"
+            case gte = "gte"
+            case lt = "lt"
+            case lte = "lte"
+            case neq = "neq"
+            case prefix = "prefix"
         }
     }
 
@@ -930,9 +930,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControlList
-            case blockPublicAccess
-            case bucketPolicy
+            case accessControlList = "accessControlList"
+            case blockPublicAccess = "blockPublicAccess"
+            case bucketPolicy = "bucketPolicy"
         }
     }
 
@@ -1023,32 +1023,32 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case allowsUnencryptedObjectUploads
-            case bucketArn
-            case bucketCreatedAt
-            case bucketName
-            case classifiableObjectCount
-            case classifiableSizeInBytes
-            case errorCode
-            case errorMessage
-            case jobDetails
-            case lastAutomatedDiscoveryTime
-            case lastUpdated
-            case objectCount
-            case objectCountByEncryptionType
-            case publicAccess
-            case region
-            case replicationDetails
-            case sensitivityScore
-            case serverSideEncryption
-            case sharedAccess
-            case sizeInBytes
-            case sizeInBytesCompressed
-            case tags
-            case unclassifiableObjectCount
-            case unclassifiableObjectSizeInBytes
-            case versioning
+            case accountId = "accountId"
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case bucketArn = "bucketArn"
+            case bucketCreatedAt = "bucketCreatedAt"
+            case bucketName = "bucketName"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case jobDetails = "jobDetails"
+            case lastAutomatedDiscoveryTime = "lastAutomatedDiscoveryTime"
+            case lastUpdated = "lastUpdated"
+            case objectCount = "objectCount"
+            case objectCountByEncryptionType = "objectCountByEncryptionType"
+            case publicAccess = "publicAccess"
+            case region = "region"
+            case replicationDetails = "replicationDetails"
+            case sensitivityScore = "sensitivityScore"
+            case serverSideEncryption = "serverSideEncryption"
+            case sharedAccess = "sharedAccess"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case tags = "tags"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
+            case versioning = "versioning"
         }
     }
 
@@ -1064,8 +1064,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountLevelPermissions
-            case bucketLevelPermissions
+            case accountLevelPermissions = "accountLevelPermissions"
+            case bucketLevelPermissions = "bucketLevelPermissions"
         }
     }
 
@@ -1081,8 +1081,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
@@ -1098,8 +1098,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectivePermission
-            case permissionConfiguration
+            case effectivePermission = "effectivePermission"
+            case permissionConfiguration = "permissionConfiguration"
         }
     }
 
@@ -1115,8 +1115,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsMasterKeyId
-            case type
+            case kmsMasterKeyId = "kmsMasterKeyId"
+            case type = "type"
         }
     }
 
@@ -1132,8 +1132,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -1155,10 +1155,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classificationError
-            case notClassified
-            case notSensitive
-            case sensitive
+            case classificationError = "classificationError"
+            case notClassified = "notClassified"
+            case notSensitive = "notSensitive"
+            case sensitive = "sensitive"
         }
     }
 
@@ -1180,10 +1180,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellReference
-            case column
-            case columnName
-            case row
+            case cellReference = "cellReference"
+            case column = "column"
+            case columnName = "columnName"
+            case row = "row"
         }
     }
 
@@ -1208,11 +1208,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detailedResultsLocation
-            case jobArn
-            case jobId
-            case originType
-            case result
+            case detailedResultsLocation = "detailedResultsLocation"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case originType = "originType"
+            case result = "result"
         }
     }
 
@@ -1225,7 +1225,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Destination
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -1253,12 +1253,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalOccurrences
-            case customDataIdentifiers
-            case mimeType
-            case sensitiveData
-            case sizeClassified
-            case status
+            case additionalOccurrences = "additionalOccurrences"
+            case customDataIdentifiers = "customDataIdentifiers"
+            case mimeType = "mimeType"
+            case sensitiveData = "sensitiveData"
+            case sizeClassified = "sizeClassified"
+            case status = "status"
         }
     }
 
@@ -1274,8 +1274,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case reason
+            case code = "code"
+            case reason = "reason"
         }
     }
 
@@ -1291,8 +1291,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1327,11 +1327,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case criteria
-            case description
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case criteria = "criteria"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1347,8 +1347,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -1397,19 +1397,19 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowListIds
-            case clientToken
-            case customDataIdentifierIds
-            case description
-            case initialRun
-            case jobType
-            case managedDataIdentifierIds
-            case managedDataIdentifierSelector
-            case name
-            case s3JobDefinition
-            case samplingPercentage
-            case scheduleFrequency
-            case tags
+            case allowListIds = "allowListIds"
+            case clientToken = "clientToken"
+            case customDataIdentifierIds = "customDataIdentifierIds"
+            case description = "description"
+            case initialRun = "initialRun"
+            case jobType = "jobType"
+            case managedDataIdentifierIds = "managedDataIdentifierIds"
+            case managedDataIdentifierSelector = "managedDataIdentifierSelector"
+            case name = "name"
+            case s3JobDefinition = "s3JobDefinition"
+            case samplingPercentage = "samplingPercentage"
+            case scheduleFrequency = "scheduleFrequency"
+            case tags = "tags"
         }
     }
 
@@ -1425,8 +1425,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobArn
-            case jobId
+            case jobArn = "jobArn"
+            case jobId = "jobId"
         }
     }
 
@@ -1463,15 +1463,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case name
-            case regex
-            case severityLevels
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case name = "name"
+            case regex = "regex"
+            case severityLevels = "severityLevels"
+            case tags = "tags"
         }
     }
 
@@ -1484,7 +1484,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataIdentifierId
+            case customDataIdentifierId = "customDataIdentifierId"
         }
     }
 
@@ -1515,13 +1515,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case clientToken
-            case description
-            case findingCriteria
-            case name
-            case position
-            case tags
+            case action = "action"
+            case clientToken = "clientToken"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case position = "position"
+            case tags = "tags"
         }
     }
 
@@ -1537,8 +1537,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -1557,9 +1557,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case disableEmailNotification
-            case message
+            case accountIds = "accountIds"
+            case disableEmailNotification = "disableEmailNotification"
+            case message = "message"
         }
     }
 
@@ -1572,7 +1572,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1588,8 +1588,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case account
-            case tags
+            case account = "account"
+            case tags = "tags"
         }
     }
 
@@ -1602,7 +1602,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1615,7 +1615,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingTypes
+            case findingTypes = "findingTypes"
         }
     }
 
@@ -1632,7 +1632,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case and
+            case and = "and"
         }
     }
 
@@ -1648,8 +1648,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simpleCriterion
-            case tagCriterion
+            case simpleCriterion = "simpleCriterion"
+            case tagCriterion = "tagCriterion"
         }
     }
 
@@ -1680,13 +1680,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eq
-            case eqExactMatch
-            case gt
-            case gte
-            case lt
-            case lte
-            case neq
+            case eq = "eq"
+            case eqExactMatch = "eqExactMatch"
+            case gt = "gt"
+            case gte = "gte"
+            case lt = "lt"
+            case lte = "lte"
+            case neq = "neq"
         }
     }
 
@@ -1712,11 +1712,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case id
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1732,8 +1732,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detections
-            case totalCount
+            case detections = "detections"
+            case totalCount = "totalCount"
         }
     }
 
@@ -1755,10 +1755,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case name
-            case occurrences
+            case arn = "arn"
+            case count = "count"
+            case name = "name"
+            case occurrences = "occurrences"
         }
     }
 
@@ -1775,7 +1775,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1788,7 +1788,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1807,9 +1807,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case occurrences
-            case type
+            case count = "count"
+            case occurrences = "occurrences"
+            case type = "type"
         }
     }
 
@@ -1883,7 +1883,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
@@ -1896,7 +1896,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1937,10 +1937,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case criteria = "criteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -1956,8 +1956,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
-            case nextToken
+            case buckets = "buckets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2047,27 +2047,27 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowListIds
-            case clientToken
-            case createdAt
-            case customDataIdentifierIds
-            case description
-            case initialRun
-            case jobArn
-            case jobId
-            case jobStatus
-            case jobType
-            case lastRunErrorStatus
-            case lastRunTime
-            case managedDataIdentifierIds
-            case managedDataIdentifierSelector
-            case name
-            case s3JobDefinition
-            case samplingPercentage
-            case scheduleFrequency
-            case statistics
-            case tags
-            case userPausedDetails
+            case allowListIds = "allowListIds"
+            case clientToken = "clientToken"
+            case createdAt = "createdAt"
+            case customDataIdentifierIds = "customDataIdentifierIds"
+            case description = "description"
+            case initialRun = "initialRun"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
+            case jobType = "jobType"
+            case lastRunErrorStatus = "lastRunErrorStatus"
+            case lastRunTime = "lastRunTime"
+            case managedDataIdentifierIds = "managedDataIdentifierIds"
+            case managedDataIdentifierSelector = "managedDataIdentifierSelector"
+            case name = "name"
+            case s3JobDefinition = "s3JobDefinition"
+            case samplingPercentage = "samplingPercentage"
+            case scheduleFrequency = "scheduleFrequency"
+            case statistics = "statistics"
+            case tags = "tags"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
@@ -2087,8 +2087,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
-            case maxAccountLimitReached
+            case autoEnable = "autoEnable"
+            case maxAccountLimitReached = "maxAccountLimitReached"
         }
     }
 
@@ -2101,7 +2101,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -2129,12 +2129,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case id
-            case name
-            case suppressed
-            case type
+            case arn = "arn"
+            case count = "count"
+            case id = "id"
+            case name = "name"
+            case suppressed = "suppressed"
+            case type = "type"
         }
     }
 
@@ -2209,7 +2209,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
@@ -2228,9 +2228,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case findingPublishingFrequency
-            case status
+            case clientToken = "clientToken"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case status = "status"
         }
     }
 
@@ -2250,8 +2250,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case clientToken
+            case adminAccountId = "adminAccountId"
+            case clientToken = "clientToken"
         }
     }
 
@@ -2280,11 +2280,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case accountId
-            case arn
-            case principalId
-            case sessionContext
+            case accessKeyId = "accessKeyId"
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case sessionContext = "sessionContext"
         }
     }
 
@@ -2350,24 +2350,24 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case archived
-            case category
-            case classificationDetails
-            case count
-            case createdAt
-            case description
-            case id
-            case partition
-            case policyDetails
-            case region
-            case resourcesAffected
-            case sample
-            case schemaVersion
-            case severity
-            case title
-            case type
-            case updatedAt
+            case accountId = "accountId"
+            case archived = "archived"
+            case category = "category"
+            case classificationDetails = "classificationDetails"
+            case count = "count"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case partition = "partition"
+            case policyDetails = "policyDetails"
+            case region = "region"
+            case resourcesAffected = "resourcesAffected"
+            case sample = "sample"
+            case schemaVersion = "schemaVersion"
+            case severity = "severity"
+            case title = "title"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2383,8 +2383,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
-            case apiCallDetails
+            case actionType = "actionType"
+            case apiCallDetails = "apiCallDetails"
         }
     }
 
@@ -2403,9 +2403,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainDetails
-            case ipAddressDetails
-            case userIdentity
+            case domainDetails = "domainDetails"
+            case ipAddressDetails = "ipAddressDetails"
+            case userIdentity = "userIdentity"
         }
     }
 
@@ -2418,7 +2418,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criterion
+            case criterion = "criterion"
         }
     }
 
@@ -2434,8 +2434,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -2460,11 +2460,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arn
-            case id
-            case name
-            case tags
+            case action = "action"
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -2481,7 +2481,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administrator
+            case administrator = "administrator"
         }
     }
 
@@ -2535,15 +2535,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case criteria
-            case description
-            case id
-            case name
-            case status
-            case tags
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case criteria = "criteria"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2578,12 +2578,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classificationScopeId
-            case disabledAt
-            case firstEnabledAt
-            case lastUpdatedAt
-            case sensitivityInspectionTemplateId
-            case status
+            case classificationScopeId = "classificationScopeId"
+            case disabledAt = "disabledAt"
+            case firstEnabledAt = "firstEnabledAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case sensitivityInspectionTemplateId = "sensitivityInspectionTemplateId"
+            case status = "status"
         }
     }
 
@@ -2596,7 +2596,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
@@ -2649,20 +2649,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketCount
-            case bucketCountByEffectivePermission
-            case bucketCountByEncryptionType
-            case bucketCountByObjectEncryptionRequirement
-            case bucketCountBySharedAccessType
-            case bucketStatisticsBySensitivity
-            case classifiableObjectCount
-            case classifiableSizeInBytes
-            case lastUpdated
-            case objectCount
-            case sizeInBytes
-            case sizeInBytesCompressed
-            case unclassifiableObjectCount
-            case unclassifiableObjectSizeInBytes
+            case bucketCount = "bucketCount"
+            case bucketCountByEffectivePermission = "bucketCountByEffectivePermission"
+            case bucketCountByEncryptionType = "bucketCountByEncryptionType"
+            case bucketCountByObjectEncryptionRequirement = "bucketCountByObjectEncryptionRequirement"
+            case bucketCountBySharedAccessType = "bucketCountBySharedAccessType"
+            case bucketStatisticsBySensitivity = "bucketStatisticsBySensitivity"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case lastUpdated = "lastUpdated"
+            case objectCount = "objectCount"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
         }
     }
 
@@ -2679,7 +2679,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -2713,9 +2713,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case s3
+            case id = "id"
+            case name = "name"
+            case s3 = "s3"
         }
     }
 
@@ -2777,18 +2777,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deleted
-            case description
-            case id
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case name
-            case regex
-            case severityLevels
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deleted = "deleted"
+            case description = "description"
+            case id = "id"
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case name = "name"
+            case regex = "regex"
+            case severityLevels = "severityLevels"
+            case tags = "tags"
         }
     }
 
@@ -2810,10 +2810,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case groupBy
-            case size
-            case sortCriteria
+            case findingCriteria = "findingCriteria"
+            case groupBy = "groupBy"
+            case size = "size"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -2826,7 +2826,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countsByGroup
+            case countsByGroup = "countsByGroup"
         }
     }
 
@@ -2875,14 +2875,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arn
-            case description
-            case findingCriteria
-            case id
-            case name
-            case position
-            case tags
+            case action = "action"
+            case arn = "arn"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case id = "id"
+            case name = "name"
+            case position = "position"
+            case tags = "tags"
         }
     }
 
@@ -2899,7 +2899,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityHubConfiguration
+            case securityHubConfiguration = "securityHubConfiguration"
         }
     }
 
@@ -2915,8 +2915,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case sortCriteria
+            case findingIds = "findingIds"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -2929,7 +2929,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
+            case findings = "findings"
         }
     }
 
@@ -2946,7 +2946,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitationsCount
+            case invitationsCount = "invitationsCount"
         }
     }
 
@@ -2977,11 +2977,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case findingPublishingFrequency
-            case serviceRole
-            case status
-            case updatedAt
+            case createdAt = "createdAt"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case serviceRole = "serviceRole"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2998,7 +2998,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case master
+            case master = "master"
         }
     }
 
@@ -3052,15 +3052,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case administratorAccountId
-            case arn
-            case email
-            case invitedAt
-            case masterAccountId
-            case relationshipStatus
-            case tags
-            case updatedAt
+            case accountId = "accountId"
+            case administratorAccountId = "administratorAccountId"
+            case arn = "arn"
+            case email = "email"
+            case invitedAt = "invitedAt"
+            case masterAccountId = "masterAccountId"
+            case relationshipStatus = "relationshipStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -3098,10 +3098,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profileUpdatedAt
-            case sensitivityScore
-            case sensitivityScoreOverridden
-            case statistics
+            case profileUpdatedAt = "profileUpdatedAt"
+            case sensitivityScore = "sensitivityScore"
+            case sensitivityScoreOverridden = "sensitivityScoreOverridden"
+            case statistics = "statistics"
         }
     }
 
@@ -3118,7 +3118,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -3149,8 +3149,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case reasons
+            case code = "code"
+            case reasons = "reasons"
         }
     }
 
@@ -3184,9 +3184,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case sensitiveDataOccurrences
-            case status
+            case error = "error"
+            case sensitiveDataOccurrences = "sensitiveDataOccurrences"
+            case status = "status"
         }
     }
 
@@ -3226,11 +3226,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case excludes
-            case includes
-            case name
-            case sensitivityInspectionTemplateId
+            case description = "description"
+            case excludes = "excludes"
+            case includes = "includes"
+            case name = "name"
+            case sensitivityInspectionTemplateId = "sensitivityInspectionTemplateId"
         }
     }
 
@@ -3255,11 +3255,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterBy
-            case maxResults
-            case nextToken
-            case sortBy
-            case timeRange
+            case filterBy = "filterBy"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case timeRange = "timeRange"
         }
     }
 
@@ -3278,9 +3278,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case records
-            case timeRange
+            case nextToken = "nextToken"
+            case records = "records"
+            case timeRange = "timeRange"
         }
     }
 
@@ -3311,8 +3311,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeRange
-            case usageTotals
+            case timeRange = "timeRange"
+            case usageTotals = "usageTotals"
         }
     }
 
@@ -3328,8 +3328,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case groupKey
+            case count = "count"
+            case groupKey = "groupKey"
         }
     }
 
@@ -3351,10 +3351,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
-            case userName
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case userName = "userName"
         }
     }
 
@@ -3377,10 +3377,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case invitationId
-            case invitedAt
-            case relationshipStatus
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
@@ -3405,11 +3405,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressV4
-            case ipCity
-            case ipCountry
-            case ipGeoLocation
-            case ipOwner
+            case ipAddressV4 = "ipAddressV4"
+            case ipCity = "ipCity"
+            case ipCountry = "ipCountry"
+            case ipGeoLocation = "ipGeoLocation"
+            case ipOwner = "ipOwner"
         }
     }
 
@@ -3422,7 +3422,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -3438,8 +3438,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
@@ -3455,8 +3455,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lat
-            case lon
+            case lat = "lat"
+            case lon = "lon"
         }
     }
 
@@ -3478,10 +3478,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn
-            case asnOrg
-            case isp
-            case org
+            case asn = "asn"
+            case asnOrg = "asnOrg"
+            case isp = "isp"
+            case org = "org"
         }
     }
 
@@ -3504,10 +3504,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isDefinedInJob
-            case isMonitoredByJob
-            case lastJobId
-            case lastJobRunTime
+            case isDefinedInJob = "isDefinedInJob"
+            case isMonitoredByJob = "isMonitoredByJob"
+            case lastJobId = "lastJobId"
+            case lastJobRunTime = "lastJobRunTime"
         }
     }
 
@@ -3526,9 +3526,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dailySchedule
-            case monthlySchedule
-            case weeklySchedule
+            case dailySchedule = "dailySchedule"
+            case monthlySchedule = "monthlySchedule"
+            case weeklySchedule = "weeklySchedule"
         }
     }
 
@@ -3544,8 +3544,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simpleScopeTerm
-            case tagScopeTerm
+            case simpleScopeTerm = "simpleScopeTerm"
+            case tagScopeTerm = "tagScopeTerm"
         }
     }
 
@@ -3558,7 +3558,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case and
+            case and = "and"
         }
     }
 
@@ -3596,15 +3596,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketCriteria
-            case bucketDefinitions
-            case createdAt
-            case jobId
-            case jobStatus
-            case jobType
-            case lastRunErrorStatus
-            case name
-            case userPausedDetails
+            case bucketCriteria = "bucketCriteria"
+            case bucketDefinitions = "bucketDefinitions"
+            case createdAt = "createdAt"
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
+            case jobType = "jobType"
+            case lastRunErrorStatus = "lastRunErrorStatus"
+            case name = "name"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
@@ -3620,8 +3620,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3634,7 +3634,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
+            case code = "code"
         }
     }
 
@@ -3674,8 +3674,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowLists
-            case nextToken
+            case allowLists = "allowLists"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3697,10 +3697,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -3716,8 +3716,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3752,8 +3752,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classificationScopes
-            case nextToken
+            case classificationScopes = "classificationScopes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3769,8 +3769,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3786,8 +3786,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3827,8 +3827,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingsFilterListItems
-            case nextToken
+            case findingsFilterListItems = "findingsFilterListItems"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3850,10 +3850,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case findingCriteria = "findingCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -3869,8 +3869,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case nextToken
+            case findingIds = "findingIds"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3910,8 +3910,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitations
-            case nextToken
+            case invitations = "invitations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3927,8 +3927,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
@@ -3947,9 +3947,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -3965,8 +3965,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -3979,7 +3979,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -3995,8 +3995,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4040,8 +4040,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4081,8 +4081,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccounts
-            case nextToken
+            case adminAccounts = "adminAccounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4117,8 +4117,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4162,8 +4162,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detections
-            case nextToken
+            case detections = "detections"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4203,8 +4203,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sensitivityInspectionTemplates
+            case nextToken = "nextToken"
+            case sensitivityInspectionTemplates = "sensitivityInspectionTemplates"
         }
     }
 
@@ -4232,7 +4232,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4248,8 +4248,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case id
+            case category = "category"
+            case id = "id"
         }
     }
 
@@ -4305,21 +4305,21 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case bucketName
-            case classifiableObjectCount
-            case classifiableSizeInBytes
-            case errorCode
-            case errorMessage
-            case jobDetails
-            case lastAutomatedDiscoveryTime
-            case objectCount
-            case objectCountByEncryptionType
-            case sensitivityScore
-            case sizeInBytes
-            case sizeInBytesCompressed
-            case unclassifiableObjectCount
-            case unclassifiableObjectSizeInBytes
+            case accountId = "accountId"
+            case bucketName = "bucketName"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case jobDetails = "jobDetails"
+            case lastAutomatedDiscoveryTime = "lastAutomatedDiscoveryTime"
+            case objectCount = "objectCount"
+            case objectCountByEncryptionType = "objectCountByEncryptionType"
+            case sensitivityScore = "sensitivityScore"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
         }
     }
 
@@ -4332,7 +4332,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matchingBucket
+            case matchingBucket = "matchingBucket"
         }
     }
 
@@ -4371,15 +4371,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case administratorAccountId
-            case arn
-            case email
-            case invitedAt
-            case masterAccountId
-            case relationshipStatus
-            case tags
-            case updatedAt
+            case accountId = "accountId"
+            case administratorAccountId = "administratorAccountId"
+            case arn = "arn"
+            case email = "email"
+            case invitedAt = "invitedAt"
+            case masterAccountId = "masterAccountId"
+            case relationshipStatus = "relationshipStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -4392,7 +4392,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dayOfMonth
+            case dayOfMonth = "dayOfMonth"
         }
     }
 
@@ -4417,11 +4417,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManaged
-            case kmsManaged
-            case s3Managed
-            case unencrypted
-            case unknown
+            case customerManaged = "customerManaged"
+            case kmsManaged = "kmsManaged"
+            case s3Managed = "s3Managed"
+            case unencrypted = "unencrypted"
+            case unknown = "unknown"
         }
     }
 
@@ -4440,9 +4440,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileType
-            case storageClass
-            case total
+            case fileType = "fileType"
+            case storageClass = "storageClass"
+            case total = "total"
         }
     }
 
@@ -4467,11 +4467,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case lineRanges
-            case offsetRanges
-            case pages
-            case records
+            case cells = "cells"
+            case lineRanges = "lineRanges"
+            case offsetRanges = "offsetRanges"
+            case pages = "pages"
+            case records = "records"
         }
     }
 
@@ -4490,9 +4490,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lineRange
-            case offsetRange
-            case pageNumber
+            case lineRange = "lineRange"
+            case offsetRange = "offsetRange"
+            case pageNumber = "pageNumber"
         }
     }
 
@@ -4508,8 +4508,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case actor
+            case action = "action"
+            case actor = "actor"
         }
     }
 
@@ -4522,7 +4522,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -4535,7 +4535,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -4551,8 +4551,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case securityHubConfiguration
+            case clientToken = "clientToken"
+            case securityHubConfiguration = "securityHubConfiguration"
         }
     }
 
@@ -4575,9 +4575,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
-            case startColumn
+            case end = "end"
+            case start = "start"
+            case startColumn = "startColumn"
         }
     }
 
@@ -4593,8 +4593,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonPath
-            case recordIndex
+            case jsonPath = "jsonPath"
+            case recordIndex = "recordIndex"
         }
     }
 
@@ -4613,9 +4613,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicated
-            case replicatedExternally
-            case replicationAccounts
+            case replicated = "replicated"
+            case replicatedExternally = "replicatedExternally"
+            case replicationAccounts = "replicationAccounts"
         }
     }
 
@@ -4634,9 +4634,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case classificationResultStatus
-            case sensitive
+            case arn = "arn"
+            case classificationResultStatus = "classificationResultStatus"
+            case sensitive = "sensitive"
         }
     }
 
@@ -4673,15 +4673,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case totalBytesClassified
-            case totalDetections
-            case totalDetectionsSuppressed
-            case totalItemsClassified
-            case totalItemsSensitive
-            case totalItemsSkipped
-            case totalItemsSkippedInvalidEncryption
-            case totalItemsSkippedInvalidKms
-            case totalItemsSkippedPermissionDenied
+            case totalBytesClassified = "totalBytesClassified"
+            case totalDetections = "totalDetections"
+            case totalDetectionsSuppressed = "totalDetectionsSuppressed"
+            case totalItemsClassified = "totalItemsClassified"
+            case totalItemsSensitive = "totalItemsSensitive"
+            case totalItemsSkipped = "totalItemsSkipped"
+            case totalItemsSkippedInvalidEncryption = "totalItemsSkippedInvalidEncryption"
+            case totalItemsSkippedInvalidKms = "totalItemsSkippedInvalidKms"
+            case totalItemsSkippedPermissionDenied = "totalItemsSkippedPermissionDenied"
         }
     }
 
@@ -4697,8 +4697,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Object
+            case s3Bucket = "s3Bucket"
+            case s3Object = "s3Object"
         }
     }
 
@@ -4719,8 +4719,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case status
+            case kmsKeyId = "kmsKeyId"
+            case status = "status"
         }
     }
 
@@ -4755,14 +4755,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsUnencryptedObjectUploads
-            case arn
-            case createdAt
-            case defaultServerSideEncryption
-            case name
-            case owner
-            case publicAccess
-            case tags
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case defaultServerSideEncryption = "defaultServerSideEncryption"
+            case name = "name"
+            case owner = "owner"
+            case publicAccess = "publicAccess"
+            case tags = "tags"
         }
     }
 
@@ -4778,8 +4778,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
@@ -4795,8 +4795,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case buckets
+            case accountId = "accountId"
+            case buckets = "buckets"
         }
     }
 
@@ -4812,8 +4812,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case id
+            case displayName = "displayName"
+            case id = "id"
         }
     }
 
@@ -4826,7 +4826,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
+            case excludes = "excludes"
         }
     }
 
@@ -4839,7 +4839,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketNames
+            case bucketNames = "bucketNames"
         }
     }
 
@@ -4861,8 +4861,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketNames
-            case operation
+            case bucketNames = "bucketNames"
+            case operation = "operation"
         }
     }
 
@@ -4879,7 +4879,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
+            case excludes = "excludes"
         }
     }
 
@@ -4898,9 +4898,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case keyPrefix
-            case kmsKeyArn
+            case bucketName = "bucketName"
+            case keyPrefix = "keyPrefix"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -4919,9 +4919,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketCriteria
-            case bucketDefinitions
-            case scoping
+            case bucketCriteria = "bucketCriteria"
+            case bucketDefinitions = "bucketDefinitions"
+            case scoping = "scoping"
         }
     }
 
@@ -4968,18 +4968,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case eTag
-            case `extension`
-            case key
-            case lastModified
-            case path
-            case publicAccess
-            case serverSideEncryption
-            case size
-            case storageClass
-            case tags
-            case versionId
+            case bucketArn = "bucketArn"
+            case eTag = "eTag"
+            case `extension` = "extension"
+            case key = "key"
+            case lastModified = "lastModified"
+            case path = "path"
+            case publicAccess = "publicAccess"
+            case serverSideEncryption = "serverSideEncryption"
+            case size = "size"
+            case storageClass = "storageClass"
+            case tags = "tags"
+            case versionId = "versionId"
         }
     }
 
@@ -5004,8 +5004,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case objectKey
+            case bucketName = "bucketName"
+            case objectKey = "objectKey"
         }
     }
 
@@ -5021,8 +5021,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
@@ -5038,8 +5038,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
@@ -5055,8 +5055,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simpleCriterion
-            case tagCriterion
+            case simpleCriterion = "simpleCriterion"
+            case tagCriterion = "tagCriterion"
         }
     }
 
@@ -5069,7 +5069,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case and
+            case and = "and"
         }
     }
 
@@ -5091,10 +5091,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case bucketCriteria = "bucketCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
@@ -5110,8 +5110,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matchingResources
-            case nextToken
+            case matchingResources = "matchingResources"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5130,9 +5130,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -5148,8 +5148,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -5165,8 +5165,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case tagValues
+            case comparator = "comparator"
+            case tagValues = "tagValues"
         }
     }
 
@@ -5182,8 +5182,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -5199,8 +5199,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publishClassificationFindings
-            case publishPolicyFindings
+            case publishClassificationFindings = "publishClassificationFindings"
+            case publishPolicyFindings = "publishPolicyFindings"
         }
     }
 
@@ -5219,9 +5219,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case detections
-            case totalCount
+            case category = "category"
+            case detections = "detections"
+            case totalCount = "totalCount"
         }
     }
 
@@ -5243,10 +5243,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classifiableSizeInBytes
-            case publiclyAccessibleCount
-            case totalCount
-            case totalSizeInBytes
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case publiclyAccessibleCount = "publiclyAccessibleCount"
+            case totalCount = "totalCount"
+            case totalSizeInBytes = "totalSizeInBytes"
         }
     }
 
@@ -5259,7 +5259,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case managedDataIdentifierIds
+            case managedDataIdentifierIds = "managedDataIdentifierIds"
         }
     }
 
@@ -5278,9 +5278,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowListIds
-            case customDataIdentifierIds
-            case managedDataIdentifierIds
+            case allowListIds = "allowListIds"
+            case customDataIdentifierIds = "customDataIdentifierIds"
+            case managedDataIdentifierIds = "managedDataIdentifierIds"
         }
     }
 
@@ -5296,8 +5296,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -5313,8 +5313,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsMasterKeyId
+            case encryptionType = "encryptionType"
+            case kmsMasterKeyId = "kmsMasterKeyId"
         }
     }
 
@@ -5333,9 +5333,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isServiceLimited
-            case unit
-            case value
+            case isServiceLimited = "isServiceLimited"
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -5351,8 +5351,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case sessionIssuer
+            case attributes = "attributes"
+            case sessionIssuer = "sessionIssuer"
         }
     }
 
@@ -5369,8 +5369,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case mfaAuthenticated
+            case creationDate = "creationDate"
+            case mfaAuthenticated = "mfaAuthenticated"
         }
     }
 
@@ -5395,11 +5395,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
-            case type
-            case userName
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case type = "type"
+            case userName = "userName"
         }
     }
 
@@ -5415,8 +5415,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case score
+            case description = "description"
+            case score = "score"
         }
     }
 
@@ -5432,8 +5432,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case occurrencesThreshold
-            case severity
+            case occurrencesThreshold = "occurrencesThreshold"
+            case severity = "severity"
         }
     }
 
@@ -5452,9 +5452,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -5473,9 +5473,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -5491,8 +5491,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
@@ -5508,8 +5508,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateNumberOfObjectsToProcess
-            case numberOfRuns
+            case approximateNumberOfObjectsToProcess = "approximateNumberOfObjectsToProcess"
+            case numberOfRuns = "numberOfRuns"
         }
     }
 
@@ -5525,8 +5525,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -5542,8 +5542,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case tagValues
+            case comparator = "comparator"
+            case tagValues = "tagValues"
         }
     }
 
@@ -5559,8 +5559,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -5580,7 +5580,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -5606,10 +5606,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case tagValues
-            case target
+            case comparator = "comparator"
+            case key = "key"
+            case tagValues = "tagValues"
+            case target = "target"
         }
     }
 
@@ -5625,8 +5625,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -5651,11 +5651,11 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case regex
-            case sampleText
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case regex = "regex"
+            case sampleText = "sampleText"
         }
     }
 
@@ -5668,7 +5668,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matchCount
+            case matchCount = "matchCount"
         }
     }
 
@@ -5687,9 +5687,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case errorCode
-            case errorMessage
+            case accountId = "accountId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -5748,9 +5748,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criteria
-            case description
-            case name
+            case criteria = "criteria"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -5766,8 +5766,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -5780,7 +5780,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -5804,7 +5804,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobStatus
+            case jobStatus = "jobStatus"
         }
     }
 
@@ -5832,7 +5832,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
@@ -5871,12 +5871,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case clientToken
-            case description
-            case findingCriteria
-            case name
-            case position
+            case action = "action"
+            case clientToken = "clientToken"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case position = "position"
         }
     }
 
@@ -5892,8 +5892,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
@@ -5909,8 +5909,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingPublishingFrequency
-            case status
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case status = "status"
         }
     }
 
@@ -5934,7 +5934,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -5951,7 +5951,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
@@ -5975,7 +5975,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suppressDataIdentifiers
+            case suppressDataIdentifiers = "suppressDataIdentifiers"
         }
     }
 
@@ -5999,7 +5999,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sensitivityScoreOverride
+            case sensitivityScoreOverride = "sensitivityScoreOverride"
         }
     }
 
@@ -6020,7 +6020,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -6033,7 +6033,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -6059,9 +6059,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case excludes
-            case includes
+            case description = "description"
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
@@ -6087,10 +6087,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case estimatedCost
-            case serviceLimit
-            case type
+            case currency = "currency"
+            case estimatedCost = "estimatedCost"
+            case serviceLimit = "serviceLimit"
+            case type = "type"
         }
     }
 
@@ -6114,10 +6114,10 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case automatedDiscoveryFreeTrialStartDate
-            case freeTrialStartDate
-            case usage
+            case accountId = "accountId"
+            case automatedDiscoveryFreeTrialStartDate = "automatedDiscoveryFreeTrialStartDate"
+            case freeTrialStartDate = "freeTrialStartDate"
+            case usage = "usage"
         }
     }
 
@@ -6136,9 +6136,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -6154,8 +6154,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case orderBy
+            case key = "key"
+            case orderBy = "orderBy"
         }
     }
 
@@ -6174,9 +6174,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case estimatedCost
-            case type
+            case currency = "currency"
+            case estimatedCost = "estimatedCost"
+            case type = "type"
         }
     }
 
@@ -6207,13 +6207,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assumedRole
-            case awsAccount
-            case awsService
-            case federatedUser
-            case iamUser
-            case root
-            case type
+            case assumedRole = "assumedRole"
+            case awsAccount = "awsAccount"
+            case awsService = "awsService"
+            case federatedUser = "federatedUser"
+            case iamUser = "iamUser"
+            case root = "root"
+            case type = "type"
         }
     }
 
@@ -6232,9 +6232,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
         }
     }
 
@@ -6255,9 +6255,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobExpiresAt
-            case jobImminentExpirationHealthEventArn
-            case jobPausedAt
+            case jobExpiresAt = "jobExpiresAt"
+            case jobImminentExpirationHealthEventArn = "jobImminentExpirationHealthEventArn"
+            case jobPausedAt = "jobPausedAt"
         }
     }
 
@@ -6270,7 +6270,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dayOfWeek
+            case dayOfWeek = "dayOfWeek"
         }
     }
 }
@@ -6314,7 +6314,7 @@ public struct Macie2ErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Provides information about an error that occurred because a specified resource wasn&#39;t found.
+    /// Provides information about an error that occurred because a specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Provides information about an error that occurred due to one or more service quotas for an account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -278,7 +278,7 @@ extension ElasticsearchService {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElasticsearchService {
-    ///  Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
+    /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -300,7 +300,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Lists all the inbound cross-cluster search connections for a destination domain.
+    /// Lists all the inbound cross-cluster search connections for a destination domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -322,7 +322,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Lists all the outbound cross-cluster search connections for a source domain.
+    /// Lists all the outbound cross-cluster search connections for a source domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -344,7 +344,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
+    /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -366,7 +366,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Lists available reserved Elasticsearch instance offerings.
+    /// Lists available reserved Elasticsearch instance offerings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -388,7 +388,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Returns information about reserved Elasticsearch instances for this account.
+    /// Returns information about reserved Elasticsearch instances for this account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -410,7 +410,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Returns a list of versions of the package, along with their creation time and commit message.
+    /// Returns a list of versions of the package, along with their creation time and commit message.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -432,7 +432,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
+    /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -454,7 +454,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Lists all Amazon ES domains associated with the package.
+    /// Lists all Amazon ES domains associated with the package.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -476,7 +476,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
+    /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -498,7 +498,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  List all supported Elasticsearch versions
+    /// List all supported Elasticsearch versions
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -520,7 +520,7 @@ extension ElasticsearchService {
         )
     }
 
-    ///  Lists all packages associated with the Amazon ES domain.
+    /// Lists all packages associated with the Amazon ES domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

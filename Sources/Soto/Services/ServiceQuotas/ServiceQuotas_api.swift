@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,7 +178,7 @@ extension ServiceQuotas {
 // MARK: Paginators
 
 extension ServiceQuotas {
-    ///  Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension ServiceQuotas {
         )
     }
 
-    ///  Retrieves the quota increase requests for the specified service.
+    /// Retrieves the quota increase requests for the specified service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension ServiceQuotas {
         )
     }
 
-    ///  Retrieves the quota increase requests for the specified quota.
+    /// Retrieves the quota increase requests for the specified quota.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension ServiceQuotas {
         )
     }
 
-    ///  Lists the quota increase requests in the specified quota request template.
+    /// Lists the quota increase requests in the specified quota request template.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +390,7 @@ extension ServiceQuotas {
         )
     }
 
-    ///  Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension ServiceQuotas {
         )
     }
 
-    ///  Lists the names and codes for the services integrated with Service Quotas.
+    /// Lists the names and codes for the services integrated with Service Quotas.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

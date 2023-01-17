@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1529,7 +1529,7 @@ extension SageMaker {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMaker {
-    ///  Lists the actions in your account and their properties.
+    /// Lists the actions in your account and their properties.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1551,7 +1551,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the machine learning algorithms that have been created.
+    /// Lists the machine learning algorithms that have been created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1573,7 +1573,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the aliases of a specified image or image version.
+    /// Lists the aliases of a specified image or image version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1595,7 +1595,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
+    /// Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1617,7 +1617,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists apps.
+    /// Lists apps.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1639,7 +1639,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the artifacts in your account and their properties.
+    /// Lists the artifacts in your account and their properties.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1661,7 +1661,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the associations in your account and their properties.
+    /// Lists the associations in your account and their properties.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1683,7 +1683,7 @@ extension SageMaker {
         )
     }
 
-    ///  Request a list of jobs.
+    /// Request a list of jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1705,7 +1705,7 @@ extension SageMaker {
         )
     }
 
-    ///  List the candidates created for the job.
+    /// List the candidates created for the job.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1727,7 +1727,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the Git repositories in your account.
+    /// Gets a list of the Git repositories in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1749,7 +1749,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
+    /// Lists model compilation jobs that satisfy various filters. To create a model compilation job, use CreateCompilationJob. To get information about a particular model compilation job you have created, use DescribeCompilationJob.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1771,7 +1771,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the contexts in your account and their properties.
+    /// Lists the contexts in your account and their properties.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1793,7 +1793,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the data quality job definitions in your account.
+    /// Lists the data quality job definitions in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1815,7 +1815,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of devices in the fleet.
+    /// Returns a list of devices in the fleet.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1837,7 +1837,7 @@ extension SageMaker {
         )
     }
 
-    ///  A list of devices.
+    /// A list of devices.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1859,7 +1859,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the domains.
+    /// Lists the domains.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1881,7 +1881,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists all edge deployment plans.
+    /// Lists all edge deployment plans.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1903,7 +1903,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of edge packaging jobs.
+    /// Returns a list of edge packaging jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1925,7 +1925,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists endpoint configurations.
+    /// Lists endpoint configurations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1947,7 +1947,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists endpoints.
+    /// Lists endpoints.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1969,7 +1969,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
+    /// Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1991,7 +1991,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns information about the flow definitions in your account.
+    /// Returns information about the flow definitions in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2013,7 +2013,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns information about the human task user interfaces in your account.
+    /// Returns information about the human task user interfaces in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2035,7 +2035,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
+    /// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2057,7 +2057,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
+    /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2079,7 +2079,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
+    /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2101,7 +2101,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns the list of all inference experiments.
+    /// Returns the list of all inference experiments.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2123,7 +2123,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
+    /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2145,7 +2145,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists recommendation jobs that satisfy various filters.
+    /// Lists recommendation jobs that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2167,7 +2167,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of labeling jobs.
+    /// Gets a list of labeling jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2189,7 +2189,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of labeling jobs assigned to a specified work team.
+    /// Gets a list of labeling jobs assigned to a specified work team.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2211,7 +2211,7 @@ extension SageMaker {
         )
     }
 
-    ///  A list of lineage groups shared with your Amazon Web Services account.  For more information, see  Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
+    /// A list of lineage groups shared with your Amazon Web Services account.  For more information, see  Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2233,7 +2233,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists model bias jobs definitions that satisfy various filters.
+    /// Lists model bias jobs definitions that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2255,7 +2255,7 @@ extension SageMaker {
         )
     }
 
-    ///  List the export jobs for the Amazon SageMaker Model Card.
+    /// List the export jobs for the Amazon SageMaker Model Card.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2277,7 +2277,7 @@ extension SageMaker {
         )
     }
 
-    ///  List existing versions of an Amazon SageMaker Model Card.
+    /// List existing versions of an Amazon SageMaker Model Card.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2299,7 +2299,7 @@ extension SageMaker {
         )
     }
 
-    ///  List existing model cards.
+    /// List existing model cards.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2321,7 +2321,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists model explainability job definitions that satisfy various filters.
+    /// Lists model explainability job definitions that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2343,7 +2343,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the domain, framework, task, and model name of standard  machine learning models found in common model zoos.
+    /// Lists the domain, framework, task, and model name of standard  machine learning models found in common model zoos.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2365,7 +2365,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the model groups in your Amazon Web Services account.
+    /// Gets a list of the model groups in your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2387,7 +2387,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the model packages that have been created.
+    /// Lists the model packages that have been created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2409,7 +2409,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of model quality monitoring job definitions in your account.
+    /// Gets a list of model quality monitoring job definitions in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2431,7 +2431,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists models created with the CreateModel API.
+    /// Lists models created with the CreateModel API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2453,7 +2453,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of past alerts in a model monitoring schedule.
+    /// Gets a list of past alerts in a model monitoring schedule.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2475,7 +2475,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets the alerts for a single monitoring schedule.
+    /// Gets the alerts for a single monitoring schedule.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2497,7 +2497,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns list of all monitoring job executions.
+    /// Returns list of all monitoring job executions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2519,7 +2519,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns list of all monitoring schedules.
+    /// Returns list of all monitoring schedules.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2541,7 +2541,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
+    /// Lists notebook instance lifestyle configurations created with the CreateNotebookInstanceLifecycleConfig API.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2563,7 +2563,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
+    /// Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2585,7 +2585,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of PipeLineExecutionStep objects.
+    /// Gets a list of PipeLineExecutionStep objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2607,7 +2607,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the pipeline executions.
+    /// Gets a list of the pipeline executions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2629,7 +2629,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of parameters for a pipeline execution.
+    /// Gets a list of parameters for a pipeline execution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2651,7 +2651,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of pipelines.
+    /// Gets a list of pipelines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2673,7 +2673,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists processing jobs that satisfy various filters.
+    /// Lists processing jobs that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2695,7 +2695,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the projects in an Amazon Web Services account.
+    /// Gets a list of the projects in an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2717,7 +2717,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists spaces.
+    /// Lists spaces.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2739,7 +2739,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists devices allocated to the stage, containing detailed device information and deployment status.
+    /// Lists devices allocated to the stage, containing detailed device information and deployment status.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2761,7 +2761,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2783,7 +2783,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+    /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2805,7 +2805,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns the tags for the specified SageMaker resource.
+    /// Returns the tags for the specified SageMaker resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2827,7 +2827,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists training jobs.  When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters:  { ... MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following Amazon Web Services CLI code.  aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
+    /// Lists training jobs.  When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters:  { ... MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following Amazon Web Services CLI code.  aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2849,7 +2849,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
+    /// Gets a list of TrainingJobSummary objects that describe the training jobs that a hyperparameter tuning job launched.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2871,7 +2871,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists transform jobs.
+    /// Lists transform jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2893,7 +2893,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName
+    /// Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:    ExperimentName     SourceArn     TrialName
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2915,7 +2915,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
+    /// Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2937,7 +2937,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists user profiles.
+    /// Lists user profiles.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2959,7 +2959,7 @@ extension SageMaker {
         )
     }
 
-    ///  Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only  have one private workforce per Amazon Web Services Region.
+    /// Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only  have one private workforce per Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2981,7 +2981,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+    /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3003,7 +3003,7 @@ extension SageMaker {
         )
     }
 
-    ///  Use this action to inspect your lineage and discover relationships between entities.  For more information, see  Querying Lineage Entities in the Amazon SageMaker Developer Guide.
+    /// Use this action to inspect your lineage and discover relationships between entities.  For more information, see  Querying Lineage Entities in the Amazon SageMaker Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3025,7 +3025,7 @@ extension SageMaker {
         )
     }
 
-    ///  Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
+    /// Finds Amazon SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

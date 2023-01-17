@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -119,17 +119,17 @@ extension Comprehend {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ar
-        case de
-        case en
-        case es
-        case fr
-        case hi
-        case it
-        case ja
-        case ko
-        case pt
-        case zh
+        case ar = "ar"
+        case de = "de"
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case hi = "hi"
+        case it = "it"
+        case ja = "ja"
+        case ko = "ko"
+        case pt = "pt"
+        case zh = "zh"
         case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
@@ -249,12 +249,12 @@ extension Comprehend {
     }
 
     public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case de
-        case en
-        case es
-        case fr
-        case it
-        case pt
+        case de = "de"
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case it = "it"
+        case pt = "pt"
         public var description: String { return self.rawValue }
     }
 
@@ -6071,7 +6071,7 @@ public struct ComprehendErrorType: AWSErrorType {
     public static var tooManyTagKeysException: Self { .init(.tooManyTagKeysException) }
     /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// Amazon Comprehend can&#39;t process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, Supported languages in the Comprehend Developer Guide.
+    /// Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, Supported languages in the Comprehend Developer Guide.
     public static var unsupportedLanguageException: Self { .init(.unsupportedLanguageException) }
 }
 

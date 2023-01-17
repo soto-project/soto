@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -119,8 +119,8 @@ extension RUM {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RUM {
-    ///  Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
-    ///  API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
+    /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
+    /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -142,7 +142,7 @@ extension RUM {
         )
     }
 
-    ///  Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
+    /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -164,7 +164,7 @@ extension RUM {
         )
     }
 
-    ///  Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+    /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -186,7 +186,7 @@ extension RUM {
         )
     }
 
-    ///  Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
+    /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

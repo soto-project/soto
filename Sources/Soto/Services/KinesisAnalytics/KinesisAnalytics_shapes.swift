@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -65,7 +65,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.cloudWatchLoggingOption.validate(name: "\(name).cloudWatchLoggingOption")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
 
@@ -101,7 +101,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.inputId, name: "inputId", parent: name, max: 50)
             try self.validate(self.inputId, name: "inputId", parent: name, min: 1)
@@ -139,7 +139,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.input.validate(name: "\(name).input")
         }
@@ -173,7 +173,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.output.validate(name: "\(name).output")
         }
@@ -207,7 +207,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.referenceDataSource.validate(name: "\(name).referenceDataSource")
         }
@@ -322,7 +322,7 @@ extension KinesisAnalytics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationCodeUpdate, name: "applicationCodeUpdate", parent: name, max: 102_400)
+            try self.validate(self.applicationCodeUpdate, name: "applicationCodeUpdate", parent: name, max: 102400)
             try self.cloudWatchLoggingOptionUpdates?.forEach {
                 try $0.validate(name: "\(name).cloudWatchLoggingOptionUpdates[]")
             }
@@ -475,7 +475,7 @@ extension KinesisAnalytics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationCode, name: "applicationCode", parent: name, max: 102_400)
+            try self.validate(self.applicationCode, name: "applicationCode", parent: name, max: 102400)
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, max: 1024)
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
@@ -541,7 +541,7 @@ extension KinesisAnalytics {
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, max: 50)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, min: 1)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
 
@@ -574,7 +574,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.inputId, name: "inputId", parent: name, max: 50)
             try self.validate(self.inputId, name: "inputId", parent: name, min: 1)
@@ -610,7 +610,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.outputId, name: "outputId", parent: name, max: 50)
             try self.validate(self.outputId, name: "outputId", parent: name, min: 1)
@@ -646,7 +646,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.referenceId, name: "referenceId", parent: name, max: 50)
             try self.validate(self.referenceId, name: "referenceId", parent: name, min: 1)
@@ -2172,7 +2172,7 @@ extension KinesisAnalytics {
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.applicationUpdate.validate(name: "\(name).applicationUpdate")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
 
@@ -2237,7 +2237,7 @@ public struct KinesisAnalyticsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Application is not available for this operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// Specified application can&#39;t be found.
+    /// Specified application can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Discovery failed to get a record from the  streaming source because of the Amazon Kinesis Streams   ProvisionedThroughputExceededException. For more information,  see GetRecords  in the Amazon Kinesis Streams API Reference.
     public static var resourceProvisionedThroughputExceededException: Self { .init(.resourceProvisionedThroughputExceededException) }

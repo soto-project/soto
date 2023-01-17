@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -95,8 +95,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hive
-            case sparkSubmit
+            case hive = "hive"
+            case sparkSubmit = "sparkSubmit"
         }
     }
 
@@ -115,6 +115,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The date and time when the application run was created.
         public let createdAt: Date
+        /// The image configuration applied to all worker types.
+        public let imageConfiguration: ImageConfiguration?
         /// The initial capacity of the application.
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
@@ -123,7 +125,7 @@ extension EMRServerless {
         public let name: String?
         /// The network configuration for customer VPC connectivity for the application.
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release version associated with the application.
+        /// The EMR release associated with the application.
         public let releaseLabel: String
         /// The state of the application.
         public let state: ApplicationState
@@ -135,14 +137,17 @@ extension EMRServerless {
         public let type: String
         /// The date and time when the application run was last updated.
         public let updatedAt: Date
+        /// The specification applied to each worker type.
+        public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
             self.name = name
@@ -153,25 +158,28 @@ extension EMRServerless {
             self.tags = tags
             self.type = type
             self.updatedAt = updatedAt
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case architecture
-            case arn
-            case autoStartConfiguration
-            case autoStopConfiguration
-            case createdAt
-            case initialCapacity
-            case maximumCapacity
-            case name
-            case networkConfiguration
-            case releaseLabel
-            case state
-            case stateDetails
-            case tags
-            case type
-            case updatedAt
+            case applicationId = "applicationId"
+            case architecture = "architecture"
+            case arn = "arn"
+            case autoStartConfiguration = "autoStartConfiguration"
+            case autoStopConfiguration = "autoStopConfiguration"
+            case createdAt = "createdAt"
+            case imageConfiguration = "imageConfiguration"
+            case initialCapacity = "initialCapacity"
+            case maximumCapacity = "maximumCapacity"
+            case name = "name"
+            case networkConfiguration = "networkConfiguration"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case tags = "tags"
+            case type = "type"
+            case updatedAt = "updatedAt"
+            case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }
 
@@ -186,7 +194,7 @@ extension EMRServerless {
         public let id: String
         /// The name of the application.
         public let name: String?
-        /// The EMR release version associated with the application.
+        /// The EMR release associated with the application.
         public let releaseLabel: String
         /// The state of the application.
         public let state: ApplicationState
@@ -211,16 +219,16 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case id
-            case name
-            case releaseLabel
-            case state
-            case stateDetails
-            case type
-            case updatedAt
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -233,7 +241,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
@@ -249,8 +257,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case idleTimeoutMinutes
+            case enabled = "enabled"
+            case idleTimeoutMinutes = "idleTimeoutMinutes"
         }
     }
 
@@ -294,8 +302,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case jobRunId
+            case applicationId = "applicationId"
+            case jobRunId = "jobRunId"
         }
     }
 
@@ -333,9 +341,9 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classification
-            case configurations
-            case properties
+            case classification = "classification"
+            case configurations = "configurations"
+            case properties = "properties"
         }
     }
 
@@ -359,8 +367,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfiguration
-            case monitoringConfiguration
+            case applicationConfiguration = "applicationConfiguration"
+            case monitoringConfiguration = "monitoringConfiguration"
         }
     }
 
@@ -373,6 +381,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to create. Its value must be unique for each request.
         public let clientToken: String
+        /// The image configuration for all worker types. You can either set this parameter or imageConfiguration  for each worker type in workerTypeSpecifications.
+        public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is created.
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
@@ -381,18 +391,21 @@ extension EMRServerless {
         public let name: String?
         /// The network configuration for customer VPC connectivity.
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release version associated with the application.
+        /// The EMR release associated with the application.
         public let releaseLabel: String
         /// The tags assigned to the application.
         public let tags: [String: String]?
         /// The type of application you want to start, such as Spark or Hive.
         public let type: String
+        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid  worker types for a Spark or Hive application. Valid worker types include Driver and Executor for  Spark applications and HiveDriver and TezTask for Hive applications. You can either set  image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+        public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
             self.name = name
@@ -400,12 +413,14 @@ extension EMRServerless {
             self.releaseLabel = releaseLabel
             self.tags = tags
             self.type = type
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
                 try validate($0.key, name: "initialCapacity.key", parent: name, max: 50)
                 try validate($0.key, name: "initialCapacity.key", parent: name, min: 1)
@@ -431,20 +446,28 @@ extension EMRServerless {
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.workerTypeSpecifications?.forEach {
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, max: 50)
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, min: 1)
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, pattern: "^[a-zA-Z]+[-_]*[a-zA-Z]+$")
+                try $0.value.validate(name: "\(name).workerTypeSpecifications[\"\($0.key)\"]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case autoStartConfiguration
-            case autoStopConfiguration
-            case clientToken
-            case initialCapacity
-            case maximumCapacity
-            case name
-            case networkConfiguration
-            case releaseLabel
-            case tags
-            case type
+            case architecture = "architecture"
+            case autoStartConfiguration = "autoStartConfiguration"
+            case autoStopConfiguration = "autoStopConfiguration"
+            case clientToken = "clientToken"
+            case imageConfiguration = "imageConfiguration"
+            case initialCapacity = "initialCapacity"
+            case maximumCapacity = "maximumCapacity"
+            case name = "name"
+            case networkConfiguration = "networkConfiguration"
+            case releaseLabel = "releaseLabel"
+            case tags = "tags"
+            case type = "type"
+            case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }
 
@@ -463,9 +486,9 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case arn
-            case name
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case name = "name"
         }
     }
 
@@ -524,7 +547,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -565,7 +588,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url
+            case url = "url"
         }
     }
 
@@ -606,7 +629,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRun
+            case jobRun = "jobRun"
         }
     }
 
@@ -628,7 +651,7 @@ extension EMRServerless {
             try self.validate(self.initQueryFile, name: "initQueryFile", parent: name, max: 256)
             try self.validate(self.initQueryFile, name: "initQueryFile", parent: name, min: 1)
             try self.validate(self.initQueryFile, name: "initQueryFile", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.parameters, name: "parameters", parent: name, max: 102_400)
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 102400)
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
             try self.validate(self.parameters, name: "parameters", parent: name, pattern: ".*\\S.*")
             try self.validate(self.query, name: "query", parent: name, max: 10280)
@@ -637,9 +660,45 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case initQueryFile
-            case parameters
-            case query
+            case initQueryFile = "initQueryFile"
+            case parameters = "parameters"
+            case query = "query"
+        }
+    }
+
+    public struct ImageConfiguration: AWSDecodableShape {
+        /// The image URI.
+        public let imageUri: String
+        /// The SHA256 digest of the image URI. This indicates which specific image  the application is configured for. The image digest doesn't exist until an application has started.
+        public let resolvedImageDigest: String?
+
+        public init(imageUri: String, resolvedImageDigest: String? = nil) {
+            self.imageUri = imageUri
+            self.resolvedImageDigest = resolvedImageDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageUri = "imageUri"
+            case resolvedImageDigest = "resolvedImageDigest"
+        }
+    }
+
+    public struct ImageConfigurationInput: AWSEncodableShape {
+        /// The URI of an image in the Amazon ECR registry. This field is required when you create a new  application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
+        public let imageUri: String?
+
+        public init(imageUri: String? = nil) {
+            self.imageUri = imageUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageUri, name: "imageUri", parent: name, max: 1024)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, min: 1)
+            try self.validate(self.imageUri, name: "imageUri", parent: name, pattern: "^([a-z0-9]+[a-z0-9-.]*)\\/((?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*)(?:\\:([a-zA-Z0-9_][a-zA-Z0-9-._]{0,299})|@(sha256:[0-9a-f]{64}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageUri = "imageUri"
         }
     }
 
@@ -656,13 +715,13 @@ extension EMRServerless {
 
         public func validate(name: String) throws {
             try self.workerConfiguration?.validate(name: "\(name).workerConfiguration")
-            try self.validate(self.workerCount, name: "workerCount", parent: name, max: 1_000_000)
+            try self.validate(self.workerCount, name: "workerCount", parent: name, max: 1000000)
             try self.validate(self.workerCount, name: "workerCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerConfiguration
-            case workerCount
+            case workerConfiguration = "workerConfiguration"
+            case workerCount = "workerCount"
         }
     }
 
@@ -686,7 +745,7 @@ extension EMRServerless {
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
         public let networkConfiguration: NetworkConfiguration?
-        /// The EMR release version associated with the application your job is running on.
+        /// The EMR release associated with the application your job is running on.
         public let releaseLabel: String
         /// The state of the job run.
         public let state: JobRunState
@@ -722,23 +781,23 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case arn
-            case configurationOverrides
-            case createdAt
-            case createdBy
-            case executionRole
-            case jobDriver
-            case jobRunId
-            case name
-            case networkConfiguration
-            case releaseLabel
-            case state
-            case stateDetails
-            case tags
-            case totalExecutionDurationSeconds
-            case totalResourceUtilization
-            case updatedAt
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRole = "executionRole"
+            case jobDriver = "jobDriver"
+            case jobRunId = "jobRunId"
+            case name = "name"
+            case networkConfiguration = "networkConfiguration"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case tags = "tags"
+            case totalExecutionDurationSeconds = "totalExecutionDurationSeconds"
+            case totalResourceUtilization = "totalResourceUtilization"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -757,7 +816,7 @@ extension EMRServerless {
         public let id: String
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
-        /// The EMR release version associated with the application your job is running on.
+        /// The EMR release associated with the application your job is running on.
         public let releaseLabel: String
         /// The state of the job run.
         public let state: JobRunState
@@ -784,18 +843,18 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case arn
-            case createdAt
-            case createdBy
-            case executionRole
-            case id
-            case name
-            case releaseLabel
-            case state
-            case stateDetails
-            case type
-            case updatedAt
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRole = "executionRole"
+            case id = "id"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -842,8 +901,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -904,8 +963,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRuns
-            case nextToken
+            case jobRuns = "jobRuns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -939,7 +998,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -961,8 +1020,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case encryptionKeyArn
+            case enabled = "enabled"
+            case encryptionKeyArn = "encryptionKeyArn"
         }
     }
 
@@ -993,9 +1052,9 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpu
-            case disk
-            case memory
+            case cpu = "cpu"
+            case disk = "disk"
+            case memory = "memory"
         }
     }
 
@@ -1016,8 +1075,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case managedPersistenceMonitoringConfiguration
-            case s3MonitoringConfiguration
+            case managedPersistenceMonitoringConfiguration = "managedPersistenceMonitoringConfiguration"
+            case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
     }
 
@@ -1048,8 +1107,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnetIds
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
         }
     }
 
@@ -1074,8 +1133,8 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKeyArn
-            case logUri
+            case encryptionKeyArn = "encryptionKeyArn"
+            case logUri = "logUri"
         }
     }
 
@@ -1102,15 +1161,15 @@ extension EMRServerless {
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
                 try validate($0, name: "entryPointArguments[]", parent: name, pattern: ".*\\S.*")
             }
-            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102_400)
+            try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryPoint
-            case entryPointArguments
-            case sparkSubmitParameters
+            case entryPoint = "entryPoint"
+            case entryPointArguments = "entryPointArguments"
+            case sparkSubmitParameters = "sparkSubmitParameters"
         }
     }
 
@@ -1183,7 +1242,7 @@ extension EMRServerless {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
-            try self.validate(self.executionTimeoutMinutes, name: "executionTimeoutMinutes", parent: name, max: 1_000_000)
+            try self.validate(self.executionTimeoutMinutes, name: "executionTimeoutMinutes", parent: name, max: 1000000)
             try self.validate(self.executionTimeoutMinutes, name: "executionTimeoutMinutes", parent: name, min: 0)
             try self.jobDriver?.validate(name: "\(name).jobDriver")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -1200,13 +1259,13 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case configurationOverrides
-            case executionRoleArn
-            case executionTimeoutMinutes
-            case jobDriver
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case executionTimeoutMinutes = "executionTimeoutMinutes"
+            case jobDriver = "jobDriver"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1225,9 +1284,9 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case arn
-            case jobRunId
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case jobRunId = "jobRunId"
         }
     }
 
@@ -1286,7 +1345,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1309,9 +1368,9 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memoryGBHour
-            case storageGBHour
-            case vCPUHour
+            case memoryGBHour = "memoryGBHour"
+            case storageGBHour = "storageGBHour"
+            case vCPUHour = "vCPUHour"
         }
     }
 
@@ -1366,21 +1425,27 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to update. Its value must be unique for each request.
         public let clientToken: String
+        /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration  for each worker type in WorkerTypeSpecificationInput.
+        public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is updated.
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         public let networkConfiguration: NetworkConfiguration?
+        /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid  worker types for a Spark or Hive application. Valid worker types include Driver and Executor for  Spark applications and HiveDriver and TezTask for Hive applications. You can either set  image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+        public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, networkConfiguration: NetworkConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
             self.networkConfiguration = networkConfiguration
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
 
         public func validate(name: String) throws {
@@ -1390,6 +1455,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
                 try validate($0.key, name: "initialCapacity.key", parent: name, max: 50)
                 try validate($0.key, name: "initialCapacity.key", parent: name, min: 1)
@@ -1399,16 +1465,24 @@ extension EMRServerless {
             try self.validate(self.initialCapacity, name: "initialCapacity", parent: name, max: 10)
             try self.maximumCapacity?.validate(name: "\(name).maximumCapacity")
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
+            try self.workerTypeSpecifications?.forEach {
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, max: 50)
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, min: 1)
+                try validate($0.key, name: "workerTypeSpecifications.key", parent: name, pattern: "^[a-zA-Z]+[-_]*[a-zA-Z]+$")
+                try $0.value.validate(name: "\(name).workerTypeSpecifications[\"\($0.key)\"]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case autoStartConfiguration
-            case autoStopConfiguration
-            case clientToken
-            case initialCapacity
-            case maximumCapacity
-            case networkConfiguration
+            case architecture = "architecture"
+            case autoStartConfiguration = "autoStartConfiguration"
+            case autoStopConfiguration = "autoStopConfiguration"
+            case clientToken = "clientToken"
+            case imageConfiguration = "imageConfiguration"
+            case initialCapacity = "initialCapacity"
+            case maximumCapacity = "maximumCapacity"
+            case networkConfiguration = "networkConfiguration"
+            case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }
 
@@ -1421,7 +1495,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -1452,9 +1526,39 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpu
-            case disk
-            case memory
+            case cpu = "cpu"
+            case disk = "disk"
+            case memory = "memory"
+        }
+    }
+
+    public struct WorkerTypeSpecification: AWSDecodableShape {
+        /// The image configuration for a worker type.
+        public let imageConfiguration: ImageConfiguration?
+
+        public init(imageConfiguration: ImageConfiguration? = nil) {
+            self.imageConfiguration = imageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageConfiguration = "imageConfiguration"
+        }
+    }
+
+    public struct WorkerTypeSpecificationInput: AWSEncodableShape {
+        /// The image configuration for a worker type.
+        public let imageConfiguration: ImageConfigurationInput?
+
+        public init(imageConfiguration: ImageConfigurationInput? = nil) {
+            self.imageConfiguration = imageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageConfiguration = "imageConfiguration"
         }
     }
 }

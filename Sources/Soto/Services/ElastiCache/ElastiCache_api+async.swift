@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -354,7 +354,7 @@ extension ElastiCache {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElastiCache {
-    ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed  until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information  for the removed nodes is displayed.
+    /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed  until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information  for the removed nodes is displayed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -376,7 +376,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of the available cache engines and their versions.
+    /// Returns a list of the available cache engines and their versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -398,7 +398,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
+    /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -420,7 +420,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular cache parameter group.
+    /// Returns the detailed parameter list for a particular cache parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -442,7 +442,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
+    /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -464,7 +464,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list  contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
+    /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list  contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -486,7 +486,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns the default engine and system parameter information for the specified cache engine.
+    /// Returns the default engine and system parameter information for the specified cache engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -508,7 +508,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned;  however, you can retrieve up to 14 days' worth of events if necessary.
+    /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned;  however, you can retrieve up to 14 days' worth of events if necessary.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -530,7 +530,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
+    /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -552,7 +552,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only.
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -574,7 +574,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
+    /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -596,7 +596,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Lists available reserved cache node offerings.
+    /// Lists available reserved cache node offerings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -618,7 +618,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns details of the service updates
+    /// Returns details of the service updates
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -640,7 +640,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only.
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -662,7 +662,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns details of the update actions
+    /// Returns details of the update actions
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -684,7 +684,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of user groups.
+    /// Returns a list of user groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -706,7 +706,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns a list of users.
+    /// Returns a list of users.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

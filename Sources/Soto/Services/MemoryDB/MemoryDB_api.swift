@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -274,7 +274,7 @@ extension MemoryDB {
 // MARK: Paginators
 
 extension MemoryDB {
-    ///  Returns a list of ACLs
+    /// Returns a list of ACLs
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -327,7 +327,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
+    /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -380,7 +380,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns a list of the available Redis engine versions.
+    /// Returns a list of the available Redis engine versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -433,7 +433,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.  By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.  By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -486,7 +486,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
+    /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -539,7 +539,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular parameter group.
+    /// Returns the detailed parameter list for a particular parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -592,7 +592,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns information about reserved nodes for this account, or about a specified reserved node.
+    /// Returns information about reserved nodes for this account, or about a specified reserved node.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -645,7 +645,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Lists available reserved node offerings.
+    /// Lists available reserved node offerings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -698,7 +698,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns details of the service updates
+    /// Returns details of the service updates
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -751,7 +751,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,  or just the snapshots associated with a particular cluster.
+    /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,  or just the snapshots associated with a particular cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -804,7 +804,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+    /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -857,7 +857,7 @@ extension MemoryDB {
         )
     }
 
-    ///  Returns a list of users.
+    /// Returns a list of users.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

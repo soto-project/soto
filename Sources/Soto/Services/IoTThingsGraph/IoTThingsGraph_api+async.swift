@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -238,7 +238,7 @@ extension IoTThingsGraph {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTThingsGraph {
-    ///  Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,  this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
+    /// Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,  this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -261,7 +261,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return  the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
+    /// Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return  the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -284,7 +284,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Returns a list of objects that contain information about events in a flow execution.
+    /// Returns a list of objects that contain information about events in a flow execution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -307,7 +307,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Lists all tags on an AWS IoT Things Graph resource.
+    /// Lists all tags on an AWS IoT Things Graph resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -330,7 +330,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
+    /// Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -353,7 +353,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for AWS IoT Things Graph workflow execution instances.
+    /// Searches for AWS IoT Things Graph workflow execution instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -376,7 +376,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for summary information about workflows.
+    /// Searches for summary information about workflows.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -399,7 +399,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for system instances in the user's account.
+    /// Searches for system instances in the user's account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -422,7 +422,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
+    /// Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -445,7 +445,7 @@ extension IoTThingsGraph {
         )
     }
 
-    ///  Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
+    /// Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

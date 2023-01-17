@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -131,8 +131,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn
-            case format
+            case destinationArn = "destinationArn"
+            case format = "format"
         }
     }
 
@@ -191,22 +191,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -228,10 +228,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -274,17 +274,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -317,12 +317,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowCredentials
-            case allowHeaders
-            case allowMethods
-            case allowOrigins
-            case exposeHeaders
-            case maxAge
+            case allowCredentials = "allowCredentials"
+            case allowHeaders = "allowHeaders"
+            case allowMethods = "allowMethods"
+            case allowOrigins = "allowOrigins"
+            case exposeHeaders = "exposeHeaders"
+            case maxAge = "maxAge"
         }
     }
 
@@ -348,9 +348,9 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -372,10 +372,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -428,19 +428,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case credentialsArn
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case name
-            case protocolType
-            case routeKey
-            case routeSelectionExpression
-            case tags
-            case target
-            case version
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeKey = "routeKey"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case target = "target"
+            case version = "version"
         }
     }
 
@@ -499,22 +499,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -566,16 +566,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -618,17 +618,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -651,8 +651,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case stageName
+            case description = "description"
+            case stageName = "stageName"
         }
     }
 
@@ -681,12 +681,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
@@ -708,10 +708,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -736,11 +736,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -813,23 +813,23 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationMethod
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationMethod = "integrationMethod"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -865,11 +865,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -897,12 +897,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -972,26 +972,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -1020,10 +1020,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -1048,11 +1048,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -1102,17 +1102,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -1145,10 +1145,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -1173,11 +1173,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -1226,19 +1226,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -1285,16 +1285,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case autoDeploy
-            case clientCertificateId
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -1348,20 +1348,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -1383,10 +1383,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
         }
     }
 
@@ -1424,15 +1424,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
@@ -1769,12 +1769,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
@@ -1799,11 +1799,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -1844,16 +1844,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayDomainName
-            case certificateArn
-            case certificateName
-            case certificateUploadDate
-            case domainNameStatus
-            case domainNameStatusMessage
-            case endpointType
-            case hostedZoneId
-            case ownershipVerificationCertificateArn
-            case securityPolicy
+            case apiGatewayDomainName = "apiGatewayDomainName"
+            case certificateArn = "certificateArn"
+            case certificateName = "certificateName"
+            case certificateUploadDate = "certificateUploadDate"
+            case domainNameStatus = "domainNameStatus"
+            case domainNameStatusMessage = "domainNameStatusMessage"
+            case endpointType = "endpointType"
+            case hostedZoneId = "hostedZoneId"
+            case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
+            case securityPolicy = "securityPolicy"
         }
     }
 
@@ -1896,7 +1896,6 @@ extension ApiGatewayV2 {
         /// The key for the payload
         public static let _payloadPath: String = "body"
         public static let _options: AWSShapeOptions = [.rawPayload]
-
         public let body: AWSPayload?
 
         public init(body: AWSPayload? = nil) {
@@ -1904,7 +1903,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
@@ -1945,10 +1944,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -1987,8 +1986,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2062,22 +2061,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -2112,8 +2111,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2175,17 +2174,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -2224,8 +2223,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2273,12 +2272,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
@@ -2317,8 +2316,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2358,11 +2357,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -2397,8 +2396,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2468,12 +2467,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -2516,8 +2515,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2587,26 +2586,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -2645,8 +2644,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2690,11 +2689,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -2726,7 +2725,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -2765,8 +2764,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2833,11 +2832,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -2880,8 +2879,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2930,19 +2929,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -2981,8 +2980,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3055,20 +3054,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -3107,8 +3106,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3135,7 +3134,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3188,15 +3187,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
@@ -3231,8 +3230,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3256,7 +3255,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
@@ -3315,22 +3314,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -3400,26 +3399,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -3447,12 +3446,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -3468,8 +3467,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audience
-            case issuer
+            case audience = "audience"
+            case issuer = "issuer"
         }
     }
 
@@ -3494,11 +3493,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -3517,9 +3516,9 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
-            case truststoreWarnings
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+            case truststoreWarnings = "truststoreWarnings"
         }
     }
 
@@ -3535,8 +3534,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
         }
     }
 
@@ -3549,7 +3548,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case required
+            case required = "required"
         }
     }
 
@@ -3577,7 +3576,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
@@ -3636,22 +3635,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -3719,19 +3718,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -3756,11 +3755,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -3785,11 +3784,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTraceEnabled
-            case detailedMetricsEnabled
-            case loggingLevel
-            case throttlingBurstLimit
-            case throttlingRateLimit
+            case dataTraceEnabled = "dataTraceEnabled"
+            case detailedMetricsEnabled = "detailedMetricsEnabled"
+            case loggingLevel = "loggingLevel"
+            case throttlingBurstLimit = "throttlingBurstLimit"
+            case throttlingRateLimit = "throttlingRateLimit"
         }
     }
 
@@ -3843,20 +3842,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -3876,7 +3875,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3893,7 +3892,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverNameToVerify
+            case serverNameToVerify = "serverNameToVerify"
         }
     }
 
@@ -3906,7 +3905,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverNameToVerify
+            case serverNameToVerify = "serverNameToVerify"
         }
     }
 
@@ -3955,9 +3954,9 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -3979,10 +3978,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -4036,17 +4035,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case credentialsArn
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case name
-            case routeKey
-            case routeSelectionExpression
-            case target
-            case version
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case name = "name"
+            case routeKey = "routeKey"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case target = "target"
+            case version = "version"
         }
     }
 
@@ -4105,22 +4104,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -4176,16 +4175,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -4228,17 +4227,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -4262,7 +4261,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
@@ -4291,12 +4290,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
@@ -4319,8 +4318,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfigurations
-            case mutualTlsAuthentication
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
         }
     }
 
@@ -4345,11 +4344,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -4426,23 +4425,23 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationMethod
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationMethod = "integrationMethod"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -4482,11 +4481,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -4514,12 +4513,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
@@ -4589,26 +4588,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -4641,10 +4640,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -4669,11 +4668,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -4727,17 +4726,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -4774,10 +4773,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -4802,11 +4801,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
@@ -4855,19 +4854,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -4912,14 +4911,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case autoDeploy
-            case clientCertificateId
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case routeSettings
-            case stageVariables
+            case accessLogSettings = "accessLogSettings"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case routeSettings = "routeSettings"
+            case stageVariables = "stageVariables"
         }
     }
 
@@ -4973,20 +4972,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -5006,7 +5005,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -5044,15 +5043,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
@@ -5090,15 +5089,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,7 +178,7 @@ extension GroundStation {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GroundStation {
-    ///  Returns a list of Config objects.
+    /// Returns a list of Config objects.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -200,7 +200,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -222,7 +222,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of DataflowEndpoint groups.
+    /// Returns a list of DataflowEndpoint groups.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -244,7 +244,7 @@ extension GroundStation {
         )
     }
 
-    ///  List existing ephemerides.
+    /// List existing ephemerides.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -266,7 +266,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of ground stations.
+    /// Returns a list of ground stations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -288,7 +288,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of mission profiles.
+    /// Returns a list of mission profiles.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -310,7 +310,7 @@ extension GroundStation {
         )
     }
 
-    ///  Returns a list of satellites.
+    /// Returns a list of satellites.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -273,7 +273,7 @@ extension OpenSearch {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OpenSearch {
-    ///  Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
+    /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see Auto-Tune for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -295,7 +295,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
+    /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -317,7 +317,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
+    /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -339,7 +339,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -361,7 +361,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
+    /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -383,7 +383,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
+    /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see Reserved Instances in Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -405,7 +405,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time and commit message. For more information, see Custom packages for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -427,7 +427,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
+    /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -449,7 +449,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -471,7 +471,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
+    /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -493,7 +493,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -515,7 +515,7 @@ extension OpenSearch {
         )
     }
 
-    ///  Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
+    /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

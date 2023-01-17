@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -33,7 +33,7 @@ extension Glacier {
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
         case bucketOwnerRead = "bucket-owner-read"
-        case `private`
+        case `private` = "private"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         public var description: String { return self.rawValue }
@@ -642,11 +642,11 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case acceptRanges = "Accept-Ranges"
             case archiveDescription = "x-amz-archive-description"
-            case body
+            case body = "body"
             case checksum = "x-amz-sha256-tree-hash"
             case contentRange = "Content-Range"
             case contentType = "Content-Type"
-            case status
+            case status = "status"
         }
     }
 
@@ -672,7 +672,6 @@ extension Glacier {
     public struct GetVaultAccessPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
-
         /// Contains the returned vault access policy as a JSON string.
         public let policy: VaultAccessPolicy?
 
@@ -681,7 +680,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -751,7 +750,6 @@ extension Glacier {
     public struct GetVaultNotificationsOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "vaultNotificationConfig"
-
         /// Returns the notification configuration set on the vault.
         public let vaultNotificationConfig: VaultNotificationConfig?
 
@@ -760,7 +758,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig
+            case vaultNotificationConfig = "vaultNotificationConfig"
         }
     }
 
@@ -925,7 +923,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobParameters
+            case jobParameters = "jobParameters"
         }
     }
 
@@ -1027,7 +1025,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1057,7 +1055,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv
+            case csv = "csv"
         }
     }
 
@@ -1450,7 +1448,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv
+            case csv = "csv"
         }
     }
 
@@ -1656,7 +1654,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1682,7 +1680,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig
+            case vaultNotificationConfig = "vaultNotificationConfig"
         }
     }
 
@@ -1887,11 +1885,11 @@ public struct GlacierErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Returned if a required header or parameter is missing from the request.
     public static var missingParameterValueException: Self { .init(.missingParameterValueException) }
-    /// Returned if a retrieval job would exceed the current data policy&#39;s retrieval rate limit. For more information about data retrieval policies,
+    /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     public static var policyEnforcedException: Self { .init(.policyEnforcedException) }
     /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
-    /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn&#39;t exist.
+    /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Returned if the service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }

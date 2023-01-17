@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -99,9 +99,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case andAll
-            case field
-            case not
+            case andAll = "andAll"
+            case field = "field"
+            case not = "not"
         }
     }
 
@@ -155,12 +155,12 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contains
-            case equalTo
-            case greaterThan
-            case greaterThanOrEqualTo
-            case lessThan
-            case lessThanOrEqualTo
+            case contains = "contains"
+            case equalTo = "equalTo"
+            case greaterThan = "greaterThan"
+            case greaterThanOrEqualTo = "greaterThanOrEqualTo"
+            case lessThan = "lessThan"
+            case lessThanOrEqualTo = "lessThanOrEqualTo"
         }
     }
 
@@ -207,9 +207,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case booleanValue
-            case doubleValue
-            case stringValue
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -239,8 +239,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case contact
+            case comment = "comment"
+            case contact = "contact"
         }
     }
 
@@ -270,8 +270,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case contact
+            case comment = "comment"
+            case contact = "contact"
         }
     }
 
@@ -301,8 +301,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case contact
+            case comment = "comment"
+            case contact = "contact"
         }
     }
 
@@ -325,8 +325,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case moreInfo
-            case topPanel
+            case moreInfo = "moreInfo"
+            case topPanel = "topPanel"
         }
     }
 
@@ -356,7 +356,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
+            case fields = "fields"
         }
     }
 
@@ -372,8 +372,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case fields
+            case errors = "errors"
+            case fields = "fields"
         }
     }
 
@@ -407,7 +407,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case options
+            case options = "options"
         }
     }
 
@@ -420,7 +420,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -439,7 +439,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
+            case fields = "fields"
         }
     }
 
@@ -455,8 +455,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
-            case templateId
+            case caseId = "caseId"
+            case templateId = "templateId"
         }
     }
 
@@ -477,8 +477,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
-            case contentType
+            case body = "body"
+            case contentType = "contentType"
         }
     }
 
@@ -500,7 +500,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactArn
+            case contactArn = "contactArn"
         }
     }
 
@@ -520,9 +520,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
-            case connectedToSystemTime
-            case contactArn
+            case channel = "channel"
+            case connectedToSystemTime = "connectedToSystemTime"
+            case contactArn = "contactArn"
         }
     }
 
@@ -547,8 +547,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
-            case contactArn
+            case channel = "channel"
+            case contactArn = "contactArn"
         }
     }
 
@@ -584,9 +584,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case fields
-            case templateId
+            case clientToken = "clientToken"
+            case fields = "fields"
+            case templateId = "templateId"
         }
     }
 
@@ -602,8 +602,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseArn
-            case caseId
+            case caseArn = "caseArn"
+            case caseId = "caseId"
         }
     }
 
@@ -622,7 +622,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -641,9 +641,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainArn
-            case domainId
-            case domainStatus
+            case domainArn = "domainArn"
+            case domainId = "domainId"
+            case domainStatus = "domainStatus"
         }
     }
 
@@ -678,9 +678,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case type
+            case description = "description"
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -696,8 +696,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldArn
-            case fieldId
+            case fieldArn = "fieldArn"
+            case fieldId = "fieldId"
         }
     }
 
@@ -729,8 +729,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case name
+            case content = "content"
+            case name = "name"
         }
     }
 
@@ -746,8 +746,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layoutArn
-            case layoutId
+            case layoutArn = "layoutArn"
+            case layoutId = "layoutId"
         }
     }
 
@@ -782,8 +782,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case type
+            case content = "content"
+            case type = "type"
         }
     }
 
@@ -799,8 +799,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relatedItemArn
-            case relatedItemId
+            case relatedItemArn = "relatedItemArn"
+            case relatedItemId = "relatedItemId"
         }
     }
 
@@ -846,11 +846,11 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case layoutConfiguration
-            case name
-            case requiredFields
-            case status
+            case description = "description"
+            case layoutConfiguration = "layoutConfiguration"
+            case name = "name"
+            case requiredFields = "requiredFields"
+            case status = "status"
         }
     }
 
@@ -866,8 +866,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateArn
-            case templateId
+            case templateArn = "templateArn"
+            case templateId = "templateId"
         }
     }
 
@@ -886,9 +886,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainArn
-            case domainId
-            case name
+            case domainArn = "domainArn"
+            case domainId = "domainId"
+            case name = "name"
         }
     }
 
@@ -908,8 +908,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case includedData
+            case enabled = "enabled"
+            case includedData = "includedData"
         }
     }
 
@@ -929,8 +929,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseData
-            case relatedItemData
+            case caseData = "caseData"
+            case relatedItemData = "relatedItemData"
         }
     }
 
@@ -949,9 +949,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case id
-            case message
+            case errorCode = "errorCode"
+            case id = "id"
+            case message = "message"
         }
     }
 
@@ -973,8 +973,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case name
+            case fields = "fields"
+            case name = "name"
         }
     }
 
@@ -992,7 +992,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1010,7 +1010,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1038,9 +1038,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case active
-            case name
-            case value
+            case active = "active"
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1059,9 +1059,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case message
-            case value
+            case errorCode = "errorCode"
+            case message = "message"
+            case value = "value"
         }
     }
 
@@ -1086,11 +1086,11 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldArn
-            case fieldId
-            case name
-            case namespace
-            case type
+            case fieldArn = "fieldArn"
+            case fieldId = "fieldId"
+            case name = "name"
+            case namespace = "namespace"
+            case type = "type"
         }
     }
 
@@ -1111,8 +1111,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case value
+            case id = "id"
+            case value = "value"
         }
     }
 
@@ -1145,7 +1145,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventBridge
+            case eventBridge = "eventBridge"
         }
     }
 
@@ -1184,8 +1184,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case nextToken
+            case fields = "fields"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1207,10 +1207,10 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case nextToken
-            case tags
-            case templateId
+            case fields = "fields"
+            case nextToken = "nextToken"
+            case tags = "tags"
+            case templateId = "templateId"
         }
     }
 
@@ -1259,12 +1259,12 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTime
-            case domainArn
-            case domainId
-            case domainStatus
-            case name
-            case tags
+            case createdTime = "createdTime"
+            case domainArn = "domainArn"
+            case domainId = "domainId"
+            case domainStatus = "domainStatus"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1295,13 +1295,13 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case fieldArn
-            case fieldId
-            case name
-            case namespace
-            case tags
-            case type
+            case description = "description"
+            case fieldArn = "fieldArn"
+            case fieldId = "fieldId"
+            case name = "name"
+            case namespace = "namespace"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -1352,11 +1352,11 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case layoutArn
-            case layoutId
-            case name
-            case tags
+            case content = "content"
+            case layoutArn = "layoutArn"
+            case layoutId = "layoutId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1416,14 +1416,14 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case layoutConfiguration
-            case name
-            case requiredFields
-            case status
-            case tags
-            case templateArn
-            case templateId
+            case description = "description"
+            case layoutConfiguration = "layoutConfiguration"
+            case name = "name"
+            case requiredFields = "requiredFields"
+            case status = "status"
+            case tags = "tags"
+            case templateArn = "templateArn"
+            case templateId = "templateId"
         }
     }
 
@@ -1441,7 +1441,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultLayout
+            case defaultLayout = "defaultLayout"
         }
     }
 
@@ -1460,7 +1460,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sections
+            case sections = "sections"
         }
     }
 
@@ -1479,9 +1479,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layoutArn
-            case layoutId
-            case name
+            case layoutArn = "layoutArn"
+            case layoutId = "layoutId"
+            case name = "name"
         }
     }
 
@@ -1516,9 +1516,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactArn
-            case maxResults
-            case nextToken
+            case contactArn = "contactArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1534,8 +1534,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cases
-            case nextToken
+            case cases = "cases"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1577,8 +1577,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains
-            case nextToken
+            case domains = "domains"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1640,8 +1640,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case options
+            case nextToken = "nextToken"
+            case options = "options"
         }
     }
 
@@ -1689,8 +1689,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case nextToken
+            case fields = "fields"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1738,8 +1738,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case layouts
-            case nextToken
+            case layouts = "layouts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1772,7 +1772,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1826,8 +1826,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templates
+            case nextToken = "nextToken"
+            case templates = "templates"
         }
     }
 
@@ -1853,7 +1853,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventBridge
+            case eventBridge = "eventBridge"
         }
     }
 
@@ -1870,7 +1870,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeContent
+            case includeContent = "includeContent"
         }
     }
 
@@ -1888,7 +1888,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldId
+            case fieldId = "fieldId"
         }
     }
 
@@ -1937,12 +1937,12 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case filter
-            case maxResults
-            case nextToken
-            case searchTerm
-            case sorts
+            case fields = "fields"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case searchTerm = "searchTerm"
+            case sorts = "sorts"
         }
     }
 
@@ -1958,8 +1958,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cases
-            case nextToken
+            case cases = "cases"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1981,10 +1981,10 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
-            case fields
-            case tags
-            case templateId
+            case caseId = "caseId"
+            case fields = "fields"
+            case tags = "tags"
+            case templateId = "templateId"
         }
     }
 
@@ -2026,9 +2026,9 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2044,8 +2044,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case relatedItems
+            case nextToken = "nextToken"
+            case relatedItems = "relatedItems"
         }
     }
 
@@ -2071,11 +2071,11 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationTime
-            case content
-            case relatedItemId
-            case tags
-            case type
+            case associationTime = "associationTime"
+            case content = "content"
+            case relatedItemId = "relatedItemId"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -2096,8 +2096,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldId
-            case sortOrder
+            case fieldId = "fieldId"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2122,7 +2122,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2144,10 +2144,10 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case status
-            case templateArn
-            case templateId
+            case name = "name"
+            case status = "status"
+            case templateArn = "templateArn"
+            case templateId = "templateId"
         }
     }
 
@@ -2211,7 +2211,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
+            case fields = "fields"
         }
     }
 
@@ -2253,8 +2253,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -2296,8 +2296,8 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case name
+            case content = "content"
+            case name = "name"
         }
     }
 
@@ -2353,11 +2353,11 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case layoutConfiguration
-            case name
-            case requiredFields
-            case status
+            case description = "description"
+            case layoutConfiguration = "layoutConfiguration"
+            case name = "name"
+            case requiredFields = "requiredFields"
+            case status = "status"
         }
     }
 
@@ -2378,7 +2378,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basic
+            case basic = "basic"
         }
     }
 
@@ -2395,7 +2395,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldGroup
+            case fieldGroup = "fieldGroup"
         }
     }
 }
@@ -2436,15 +2436,15 @@ public struct ConnectCasesErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     public static var conflictException: Self { .init(.conflictException) }
-    /// We couldn&#39;t process your request because of an issue with the server. Try again later.
+    /// We couldn't process your request because of an issue with the server. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// We couldn&#39;t find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service quota has been exceeded. For a list of service quotas, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The rate has been exceeded for this API. Please try again after a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request isn&#39;t valid. Check the syntax and try again.
+    /// The request isn't valid. Check the syntax and try again.
     public static var validationException: Self { .init(.validationException) }
 }
 

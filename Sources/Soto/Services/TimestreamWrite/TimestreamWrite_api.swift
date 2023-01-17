@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -165,7 +165,7 @@ extension TimestreamWrite {
 // MARK: Paginators
 
 extension TimestreamWrite {
-    ///  Returns a list of your Timestream databases.   Service quotas apply. See  code sample for details.
+    /// Returns a list of your Timestream databases.   Service quotas apply. See  code sample for details.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -218,7 +218,7 @@ extension TimestreamWrite {
         )
     }
 
-    ///  A list of tables, along with the name, status and retention properties of each table. See  code sample for details.
+    /// A list of tables, along with the name, status and retention properties of each table. See  code sample for details.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

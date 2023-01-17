@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -23,7 +23,7 @@ import SotoCore
 extension AuditManager {
     // MARK: Async API Calls
 
-    ///  Associates an evidence folder to an assessment report in a Audit Manager assessment.
+    ///  Associates an evidence folder to an assessment report in an Audit Manager assessment.
     public func associateAssessmentReportEvidenceFolder(_ input: AssociateAssessmentReportEvidenceFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateAssessmentReportEvidenceFolderResponse {
         return try await self.client.execute(operation: "AssociateAssessmentReportEvidenceFolder", path: "/assessments/{assessmentId}/associateToAssessmentReport", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -98,12 +98,12 @@ extension AuditManager {
         return try await self.client.execute(operation: "DeleteControl", path: "/controls/{controlId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deregisters an account in Audit Manager.   When you deregister your account from Audit Manager, your data isn’t deleted. If you want to delete your resource data, you must perform that task separately before you deregister your account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager.  To delete your Audit Manager resource data, see the following instructions:     DeleteAssessment (see also: Deleting an assessment in the Audit Manager User Guide)    DeleteAssessmentFramework (see also: Deleting a custom framework in the Audit Manager User Guide)    DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User Guide)    DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User Guide)    DeleteControl (see also: Deleting a custom control in the Audit Manager User Guide)   At this time, Audit Manager doesn't provide an option to delete evidence. All available delete operations are listed above.
+    ///  Deregisters an account in Audit Manager.   Before you deregister, you can use the UpdateSettings API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data.  For more information about data retention, see Data Protection in the Audit Manager User Guide.
     public func deregisterAccount(_ input: DeregisterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterAccountResponse {
         return try await self.client.execute(operation: "DeregisterAccount", path: "/account/deregisterAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager.   When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward.  Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually deletes the event data store. This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager will ignore an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it.   When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager.  To delete your Audit Manager resource data, see the following instructions:     DeleteAssessment (see also: Deleting an assessment in the Audit Manager User Guide)    DeleteAssessmentFramework (see also: Deleting a custom framework in the Audit Manager User Guide)    DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User Guide)    DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User Guide)    DeleteControl (see also: Deleting a custom control in the Audit Manager User Guide)   At this time, Audit Manager doesn't provide an option to delete evidence. All available delete operations are listed above.
+    /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager.  When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager stops collecting and attaching evidence to that delegated administrator account moving forward.  Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually deletes the event data store. This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager ignores an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it.  When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager.  To delete your Audit Manager resource data, see the following instructions:     DeleteAssessment (see also: Deleting an assessment in the Audit Manager User Guide)    DeleteAssessmentFramework (see also: Deleting a custom framework in the Audit Manager User Guide)    DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager User Guide)    DeleteAssessmentReport (see also: Deleting an assessment report in the Audit Manager User Guide)    DeleteControl (see also: Deleting a custom control in the Audit Manager User Guide)   At this time, Audit Manager doesn't provide an option to delete evidence for a specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the time of deregistration.
     public func deregisterOrganizationAdminAccount(_ input: DeregisterOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterOrganizationAdminAccountResponse {
         return try await self.client.execute(operation: "DeregisterOrganizationAdminAccount", path: "/account/deregisterOrganizationAdminAccount", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -168,7 +168,7 @@ extension AuditManager {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessment", path: "/assessments/{assessmentId}/evidenceFolders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
+    ///  Returns a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     public func getEvidenceFoldersByAssessmentControl(_ input: GetEvidenceFoldersByAssessmentControlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEvidenceFoldersByAssessmentControlResponse {
         return try await self.client.execute(operation: "GetEvidenceFoldersByAssessmentControl", path: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -333,7 +333,7 @@ extension AuditManager {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AuditManager {
-    ///   Returns a list of changelogs from Audit Manager.
+    ///  Returns a list of changelogs from Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -355,7 +355,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of delegations from an audit owner to a delegate.
+    ///  Returns a list of delegations from an audit owner to a delegate.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -377,7 +377,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns all evidence from a specified evidence folder in Audit Manager.
+    ///  Returns all evidence from a specified evidence folder in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -399,7 +399,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns the evidence folders from a specified assessment in Audit Manager.
+    ///  Returns the evidence folders from a specified assessment in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -421,7 +421,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of evidence folders that are associated with a specified control of an assessment in Audit Manager.
+    ///  Returns a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -443,7 +443,7 @@ extension AuditManager {
         )
     }
 
-    ///  Lists the latest analytics data for controls within a specific control domain and a specific active assessment.  Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
+    /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment.  Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -465,7 +465,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of sent or received share requests for custom frameworks in Audit Manager.
+    ///  Returns a list of sent or received share requests for custom frameworks in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -487,7 +487,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of the frameworks that are available in the Audit Manager framework library.
+    ///  Returns a list of the frameworks that are available in the Audit Manager framework library.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -509,7 +509,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of assessment reports created in Audit Manager.
+    ///  Returns a list of assessment reports created in Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -531,7 +531,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of current and past assessments from Audit Manager.
+    ///  Returns a list of current and past assessments from Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -553,7 +553,7 @@ extension AuditManager {
         )
     }
 
-    ///  Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    /// Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -575,7 +575,7 @@ extension AuditManager {
         )
     }
 
-    ///  Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    /// Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -597,7 +597,7 @@ extension AuditManager {
         )
     }
 
-    ///  Lists the latest analytics data for controls within a specific control domain across all active assessments.  Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
+    /// Lists the latest analytics data for controls within a specific control domain across all active assessments.  Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -619,7 +619,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of controls from Audit Manager.
+    ///  Returns a list of controls from Audit Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -641,7 +641,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of keywords that are pre-mapped to the specified control data source.
+    ///  Returns a list of keywords that are pre-mapped to the specified control data source.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -663,7 +663,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of all Audit Manager notifications.
+    ///  Returns a list of all Audit Manager notifications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

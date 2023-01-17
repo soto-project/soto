@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -181,7 +181,7 @@ extension MachineLearning {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MachineLearning {
-    ///  Returns a list of BatchPrediction operations that match the search criteria in the request.
+    /// Returns a list of BatchPrediction operations that match the search criteria in the request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -203,7 +203,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of DataSource that match the search criteria in the request.
+    /// Returns a list of DataSource that match the search criteria in the request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -225,7 +225,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of DescribeEvaluations that match the search criteria in the request.
+    /// Returns a list of DescribeEvaluations that match the search criteria in the request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -247,7 +247,7 @@ extension MachineLearning {
         )
     }
 
-    ///  Returns a list of MLModel that match the search criteria in the request.
+    /// Returns a list of MLModel that match the search criteria in the request.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

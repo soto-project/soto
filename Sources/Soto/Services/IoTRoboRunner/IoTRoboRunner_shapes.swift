@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -45,9 +45,9 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case x
-            case y
-            case z
+            case x = "x"
+            case y = "y"
+            case z = "z"
         }
     }
 
@@ -68,7 +68,7 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -81,11 +81,11 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case clientToken
-            case name
-            case site
-            case state
+            case additionalFixedProperties = "additionalFixedProperties"
+            case clientToken = "clientToken"
+            case name = "name"
+            case site = "site"
+            case state = "state"
         }
     }
 
@@ -105,11 +105,11 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case state
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case state = "state"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -139,10 +139,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case countryCode
-            case description
-            case name
+            case clientToken = "clientToken"
+            case countryCode = "countryCode"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -160,10 +160,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -181,7 +181,7 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -194,10 +194,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case clientToken
-            case name
-            case site
+            case additionalFixedProperties = "additionalFixedProperties"
+            case clientToken = "clientToken"
+            case name = "name"
+            case site = "site"
         }
     }
 
@@ -215,10 +215,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -244,9 +244,9 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
-            try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, max: 131072)
             try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -260,14 +260,14 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case additionalTransientProperties
-            case clientToken
-            case fleet
-            case name
-            case orientation
-            case position
-            case vendorProperties
+            case additionalFixedProperties = "additionalFixedProperties"
+            case additionalTransientProperties = "additionalTransientProperties"
+            case clientToken = "clientToken"
+            case fleet = "fleet"
+            case name = "name"
+            case orientation = "orientation"
+            case position = "position"
+            case vendorProperties = "vendorProperties"
         }
     }
 
@@ -287,11 +287,11 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case site
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case site = "site"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -309,7 +309,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -331,7 +331,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -353,7 +353,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -375,7 +375,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -405,14 +405,14 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case createdAt
-            case id
-            case name
-            case site
-            case state
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case site = "site"
+            case state = "state"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -458,14 +458,14 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case createdAt
-            case id
-            case name
-            case site
-            case state
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case site = "site"
+            case state = "state"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -509,13 +509,13 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case countryCode
-            case createdAt
-            case description
-            case id
-            case name
-            case updatedAt
+            case arn = "arn"
+            case countryCode = "countryCode"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -559,13 +559,13 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case createdAt
-            case id
-            case name
-            case site
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case site = "site"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -619,18 +619,18 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case additionalTransientProperties
-            case arn
-            case createdAt
-            case fleet
-            case id
-            case name
-            case orientation
-            case position
-            case site
-            case updatedAt
-            case vendorProperties
+            case additionalFixedProperties = "additionalFixedProperties"
+            case additionalTransientProperties = "additionalTransientProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleet = "fleet"
+            case id = "id"
+            case name = "name"
+            case orientation = "orientation"
+            case position = "position"
+            case site = "site"
+            case updatedAt = "updatedAt"
+            case vendorProperties = "vendorProperties"
         }
     }
 
@@ -678,8 +678,8 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case nextToken
+            case destinations = "destinations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -718,8 +718,8 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sites
+            case nextToken = "nextToken"
+            case sites = "sites"
         }
     }
 
@@ -764,8 +764,8 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workerFleets
+            case nextToken = "nextToken"
+            case workerFleets = "workerFleets"
         }
     }
 
@@ -816,8 +816,8 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workers
+            case nextToken = "nextToken"
+            case workers = "workers"
         }
     }
 
@@ -836,10 +836,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case countryCode
-            case createdAt
-            case name
+            case arn = "arn"
+            case countryCode = "countryCode"
+            case createdAt = "createdAt"
+            case name = "name"
         }
     }
 
@@ -857,7 +857,7 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 1011)
             try self.validate(self.id, name: "id", parent: name, min: 1)
@@ -867,10 +867,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case id
-            case name
-            case state
+            case additionalFixedProperties = "additionalFixedProperties"
+            case id = "id"
+            case name = "name"
+            case state = "state"
         }
     }
 
@@ -892,12 +892,12 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case id
-            case name
-            case state
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -927,10 +927,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countryCode
-            case description
-            case id
-            case name
+            case countryCode = "countryCode"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -952,12 +952,12 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case countryCode
-            case description
-            case id
-            case name
-            case updatedAt
+            case arn = "arn"
+            case countryCode = "countryCode"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -973,7 +973,7 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 1011)
             try self.validate(self.id, name: "id", parent: name, min: 1)
@@ -983,9 +983,9 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case id
-            case name
+            case additionalFixedProperties = "additionalFixedProperties"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -1005,11 +1005,11 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case id
-            case name
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1033,9 +1033,9 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.additionalFixedProperties, name: "additionalFixedProperties", parent: name, min: 1)
-            try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, max: 131_072)
+            try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, max: 131072)
             try self.validate(self.additionalTransientProperties, name: "additionalTransientProperties", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 1011)
             try self.validate(self.id, name: "id", parent: name, min: 1)
@@ -1046,13 +1046,13 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case additionalTransientProperties
-            case id
-            case name
-            case orientation
-            case position
-            case vendorProperties
+            case additionalFixedProperties = "additionalFixedProperties"
+            case additionalTransientProperties = "additionalTransientProperties"
+            case id = "id"
+            case name = "name"
+            case orientation = "orientation"
+            case position = "position"
+            case vendorProperties = "vendorProperties"
         }
     }
 
@@ -1082,16 +1082,16 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case additionalTransientProperties
-            case arn
-            case fleet
-            case id
-            case name
-            case orientation
-            case position
-            case updatedAt
-            case vendorProperties
+            case additionalFixedProperties = "additionalFixedProperties"
+            case additionalTransientProperties = "additionalTransientProperties"
+            case arn = "arn"
+            case fleet = "fleet"
+            case id = "id"
+            case name = "name"
+            case orientation = "orientation"
+            case position = "position"
+            case updatedAt = "updatedAt"
+            case vendorProperties = "vendorProperties"
         }
     }
 
@@ -1109,9 +1109,9 @@ extension IoTRoboRunner {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.vendorAdditionalFixedProperties, name: "vendorAdditionalFixedProperties", parent: name, max: 131_072)
+            try self.validate(self.vendorAdditionalFixedProperties, name: "vendorAdditionalFixedProperties", parent: name, max: 131072)
             try self.validate(self.vendorAdditionalFixedProperties, name: "vendorAdditionalFixedProperties", parent: name, min: 1)
-            try self.validate(self.vendorAdditionalTransientProperties, name: "vendorAdditionalTransientProperties", parent: name, max: 131_072)
+            try self.validate(self.vendorAdditionalTransientProperties, name: "vendorAdditionalTransientProperties", parent: name, max: 131072)
             try self.validate(self.vendorAdditionalTransientProperties, name: "vendorAdditionalTransientProperties", parent: name, min: 1)
             try self.validate(self.vendorWorkerId, name: "vendorWorkerId", parent: name, max: 255)
             try self.validate(self.vendorWorkerId, name: "vendorWorkerId", parent: name, min: 1)
@@ -1120,10 +1120,10 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vendorAdditionalFixedProperties
-            case vendorAdditionalTransientProperties
-            case vendorWorkerId
-            case vendorWorkerIpAddress
+            case vendorAdditionalFixedProperties = "vendorAdditionalFixedProperties"
+            case vendorAdditionalTransientProperties = "vendorAdditionalTransientProperties"
+            case vendorWorkerId = "vendorWorkerId"
+            case vendorWorkerIpAddress = "vendorWorkerIpAddress"
         }
     }
 
@@ -1157,18 +1157,18 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case additionalTransientProperties
-            case arn
-            case createdAt
-            case fleet
-            case id
-            case name
-            case orientation
-            case position
-            case site
-            case updatedAt
-            case vendorProperties
+            case additionalFixedProperties = "additionalFixedProperties"
+            case additionalTransientProperties = "additionalTransientProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleet = "fleet"
+            case id = "id"
+            case name = "name"
+            case orientation = "orientation"
+            case position = "position"
+            case site = "site"
+            case updatedAt = "updatedAt"
+            case vendorProperties = "vendorProperties"
         }
     }
 
@@ -1192,13 +1192,13 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalFixedProperties
-            case arn
-            case createdAt
-            case id
-            case name
-            case site
-            case updatedAt
+            case additionalFixedProperties = "additionalFixedProperties"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case site = "site"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1211,7 +1211,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case degrees
+            case degrees = "degrees"
         }
     }
 
@@ -1224,7 +1224,7 @@ extension IoTRoboRunner {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cartesianCoordinates
+            case cartesianCoordinates = "cartesianCoordinates"
         }
     }
 }
@@ -1267,9 +1267,9 @@ public struct IoTRoboRunnerErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Exception thrown if something goes wrong within the service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Exception thrown if a resource referenced in the request doesn&#39;t exist.
+    /// Exception thrown if a resource referenced in the request doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// Exception thrown if the user&#39;s AWS account has reached a service limit and the operation cannot proceed.
+    /// Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Exception thrown if the api has been called too quickly be the client.
     public static var throttlingException: Self { .init(.throttlingException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -326,7 +326,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -342,8 +342,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildsDeleted
-            case buildsNotDeleted
+            case buildsDeleted = "buildsDeleted"
+            case buildsNotDeleted = "buildsNotDeleted"
         }
     }
 
@@ -363,7 +363,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -379,8 +379,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatches
-            case buildBatchesNotFound
+            case buildBatches = "buildBatches"
+            case buildBatchesNotFound = "buildBatchesNotFound"
         }
     }
 
@@ -401,7 +401,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
@@ -417,8 +417,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builds
-            case buildsNotFound
+            case builds = "builds"
+            case buildsNotFound = "buildsNotFound"
         }
     }
 
@@ -439,7 +439,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case names
+            case names = "names"
         }
     }
 
@@ -455,8 +455,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projects
-            case projectsNotFound
+            case projects = "projects"
+            case projectsNotFound = "projectsNotFound"
         }
     }
 
@@ -477,7 +477,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroupArns
+            case reportGroupArns = "reportGroupArns"
         }
     }
 
@@ -493,8 +493,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroups
-            case reportGroupsNotFound
+            case reportGroups = "reportGroups"
+            case reportGroupsNotFound = "reportGroupsNotFound"
         }
     }
 
@@ -515,7 +515,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportArns
+            case reportArns = "reportArns"
         }
     }
 
@@ -531,8 +531,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reports
-            case reportsNotFound
+            case reports = "reports"
+            case reportsNotFound = "reportsNotFound"
         }
     }
 
@@ -554,8 +554,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeTypesAllowed
-            case maximumBuildsAllowed
+            case computeTypesAllowed = "computeTypesAllowed"
+            case maximumBuildsAllowed = "maximumBuildsAllowed"
         }
     }
 
@@ -661,38 +661,38 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case buildBatchArn
-            case buildComplete
-            case buildNumber
-            case buildStatus
-            case cache
-            case currentPhase
-            case debugSession
-            case encryptionKey
-            case endTime
-            case environment
-            case exportedEnvironmentVariables
-            case fileSystemLocations
-            case id
-            case initiator
-            case logs
-            case networkInterface
-            case phases
-            case projectName
-            case queuedTimeoutInMinutes
-            case reportArns
-            case resolvedSourceVersion
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case startTime
-            case timeoutInMinutes
-            case vpcConfig
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case buildBatchArn = "buildBatchArn"
+            case buildComplete = "buildComplete"
+            case buildNumber = "buildNumber"
+            case buildStatus = "buildStatus"
+            case cache = "cache"
+            case currentPhase = "currentPhase"
+            case debugSession = "debugSession"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case exportedEnvironmentVariables = "exportedEnvironmentVariables"
+            case fileSystemLocations = "fileSystemLocations"
+            case id = "id"
+            case initiator = "initiator"
+            case logs = "logs"
+            case networkInterface = "networkInterface"
+            case phases = "phases"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case reportArns = "reportArns"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -722,13 +722,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactIdentifier
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case md5sum
-            case overrideArtifactName
-            case sha256sum
+            case artifactIdentifier = "artifactIdentifier"
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case md5sum = "md5sum"
+            case overrideArtifactName = "overrideArtifactName"
+            case sha256sum = "sha256sum"
         }
     }
 
@@ -822,36 +822,36 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case buildBatchConfig
-            case buildBatchNumber
-            case buildBatchStatus
-            case buildGroups
-            case buildTimeoutInMinutes
-            case cache
-            case complete
-            case currentPhase
-            case debugSessionEnabled
-            case encryptionKey
-            case endTime
-            case environment
-            case fileSystemLocations
-            case id
-            case initiator
-            case logConfig
-            case phases
-            case projectName
-            case queuedTimeoutInMinutes
-            case resolvedSourceVersion
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case startTime
-            case vpcConfig
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case buildBatchConfig = "buildBatchConfig"
+            case buildBatchNumber = "buildBatchNumber"
+            case buildBatchStatus = "buildBatchStatus"
+            case buildGroups = "buildGroups"
+            case buildTimeoutInMinutes = "buildTimeoutInMinutes"
+            case cache = "cache"
+            case complete = "complete"
+            case currentPhase = "currentPhase"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case id = "id"
+            case initiator = "initiator"
+            case logConfig = "logConfig"
+            case phases = "phases"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -864,7 +864,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -892,12 +892,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contexts
-            case durationInSeconds
-            case endTime
-            case phaseStatus
-            case phaseType
-            case startTime
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
         }
     }
 
@@ -922,11 +922,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentBuildSummary
-            case dependsOn
-            case identifier
-            case ignoreFailure
-            case priorBuildSummaryList
+            case currentBuildSummary = "currentBuildSummary"
+            case dependsOn = "dependsOn"
+            case identifier = "identifier"
+            case ignoreFailure = "ignoreFailure"
+            case priorBuildSummaryList = "priorBuildSummaryList"
         }
     }
 
@@ -942,8 +942,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case statusCode
+            case id = "id"
+            case statusCode = "statusCode"
         }
     }
 
@@ -971,12 +971,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contexts
-            case durationInSeconds
-            case endTime
-            case phaseStatus
-            case phaseType
-            case startTime
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
         }
     }
 
@@ -992,8 +992,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case context
-            case targetUrl
+            case context = "context"
+            case targetUrl = "targetUrl"
         }
     }
 
@@ -1018,11 +1018,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case buildStatus
-            case primaryArtifact
-            case requestedOn
-            case secondaryArtifacts
+            case arn = "arn"
+            case buildStatus = "buildStatus"
+            case primaryArtifact = "primaryArtifact"
+            case requestedOn = "requestedOn"
+            case secondaryArtifacts = "secondaryArtifacts"
         }
     }
 
@@ -1041,9 +1041,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName
-            case status
-            case streamName
+            case groupName = "groupName"
+            case status = "status"
+            case streamName = "streamName"
         }
     }
 
@@ -1083,16 +1083,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchCoveragePercentage
-            case branchesCovered
-            case branchesMissed
-            case expired
-            case filePath
-            case id
-            case lineCoveragePercentage
-            case linesCovered
-            case linesMissed
-            case reportARN
+            case branchCoveragePercentage = "branchCoveragePercentage"
+            case branchesCovered = "branchesCovered"
+            case branchesMissed = "branchesMissed"
+            case expired = "expired"
+            case filePath = "filePath"
+            case id = "id"
+            case lineCoveragePercentage = "lineCoveragePercentage"
+            case linesCovered = "linesCovered"
+            case linesMissed = "linesMissed"
+            case reportARN = "reportARN"
         }
     }
 
@@ -1120,12 +1120,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchCoveragePercentage
-            case branchesCovered
-            case branchesMissed
-            case lineCoveragePercentage
-            case linesCovered
-            case linesMissed
+            case branchCoveragePercentage = "branchCoveragePercentage"
+            case branchesCovered = "branchesCovered"
+            case branchesMissed = "branchesMissed"
+            case lineCoveragePercentage = "lineCoveragePercentage"
+            case linesCovered = "linesCovered"
+            case linesMissed = "linesMissed"
         }
     }
 
@@ -1225,27 +1225,27 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case badgeEnabled
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case logsConfig
-            case name
-            case queuedTimeoutInMinutes
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
+            case artifacts = "artifacts"
+            case badgeEnabled = "badgeEnabled"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1258,7 +1258,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -1290,10 +1290,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportConfig
-            case name
-            case tags
-            case type
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -1306,7 +1306,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroup
+            case reportGroup = "reportGroup"
         }
     }
 
@@ -1334,10 +1334,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case projectName
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case projectName = "projectName"
         }
     }
 
@@ -1350,7 +1350,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
@@ -1366,8 +1366,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionEnabled
-            case sessionTarget
+            case sessionEnabled = "sessionEnabled"
+            case sessionTarget = "sessionTarget"
         }
     }
 
@@ -1384,7 +1384,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -1403,9 +1403,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildsDeleted
-            case buildsNotDeleted
-            case statusCode
+            case buildsDeleted = "buildsDeleted"
+            case buildsNotDeleted = "buildsNotDeleted"
+            case statusCode = "statusCode"
         }
     }
 
@@ -1422,7 +1422,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1446,8 +1446,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deleteReports
+            case arn = "arn"
+            case deleteReports = "deleteReports"
         }
     }
 
@@ -1468,7 +1468,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1489,7 +1489,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1510,7 +1510,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1523,7 +1523,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1542,7 +1542,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectName
+            case projectName = "projectName"
         }
     }
 
@@ -1587,13 +1587,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxLineCoveragePercentage
-            case maxResults
-            case minLineCoveragePercentage
-            case nextToken
-            case reportArn
-            case sortBy
-            case sortOrder
+            case maxLineCoveragePercentage = "maxLineCoveragePercentage"
+            case maxResults = "maxResults"
+            case minLineCoveragePercentage = "minLineCoveragePercentage"
+            case nextToken = "nextToken"
+            case reportArn = "reportArn"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1609,8 +1609,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeCoverages
-            case nextToken
+            case codeCoverages = "codeCoverages"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1637,10 +1637,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case reportArn
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportArn = "reportArn"
         }
     }
 
@@ -1656,8 +1656,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testCases
+            case nextToken = "nextToken"
+            case testCases = "testCases"
         }
     }
 
@@ -1676,9 +1676,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case versions
+            case description = "description"
+            case name = "name"
+            case versions = "versions"
         }
     }
 
@@ -1694,8 +1694,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case images
-            case language
+            case images = "images"
+            case language = "language"
         }
     }
 
@@ -1711,8 +1711,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case languages
-            case platform
+            case languages = "languages"
+            case platform = "platform"
         }
     }
 
@@ -1735,9 +1735,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
-            case value
+            case name = "name"
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -1753,8 +1753,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1779,9 +1779,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numOfReports
-            case reportGroupArn
-            case trendField
+            case numOfReports = "numOfReports"
+            case reportGroupArn = "reportGroupArn"
+            case trendField = "trendField"
         }
     }
 
@@ -1797,8 +1797,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawData
-            case stats
+            case rawData = "rawData"
+            case stats = "stats"
         }
     }
 
@@ -1815,7 +1815,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1828,7 +1828,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1841,7 +1841,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fetchSubmodules
+            case fetchSubmodules = "fetchSubmodules"
         }
     }
 
@@ -1871,11 +1871,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authType
-            case serverType
-            case shouldOverwrite
-            case token
-            case username
+            case authType = "authType"
+            case serverType = "serverType"
+            case shouldOverwrite = "shouldOverwrite"
+            case token = "token"
+            case username = "username"
         }
     }
 
@@ -1888,7 +1888,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1905,7 +1905,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectName
+            case projectName = "projectName"
         }
     }
 
@@ -1940,11 +1940,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case projectName
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -1960,8 +1960,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1988,10 +1988,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2007,8 +2007,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2031,9 +2031,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projectName
-            case sortOrder
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2049,8 +2049,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2066,8 +2066,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sortOrder
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2083,8 +2083,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2101,7 +2101,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platforms
+            case platforms = "platforms"
         }
     }
 
@@ -2124,9 +2124,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sortBy
-            case sortOrder
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2142,8 +2142,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -2170,10 +2170,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2189,8 +2189,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportGroups
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
         }
     }
 
@@ -2220,11 +2220,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case reportGroupArn
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportGroupArn = "reportGroupArn"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2240,8 +2240,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reports
+            case nextToken = "nextToken"
+            case reports = "reports"
         }
     }
 
@@ -2268,10 +2268,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2287,8 +2287,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reports
+            case nextToken = "nextToken"
+            case reports = "reports"
         }
     }
 
@@ -2316,10 +2316,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2335,8 +2335,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
@@ -2363,10 +2363,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
@@ -2382,8 +2382,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportGroups
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
         }
     }
 
@@ -2400,7 +2400,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceCredentialsInfos
+            case sourceCredentialsInfos = "sourceCredentialsInfos"
         }
     }
 
@@ -2416,8 +2416,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case s3Logs
+            case cloudWatchLogs = "cloudWatchLogs"
+            case s3Logs = "s3Logs"
         }
     }
 
@@ -2451,14 +2451,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case cloudWatchLogsArn
-            case deepLink
-            case groupName
-            case s3DeepLink
-            case s3Logs
-            case s3LogsArn
-            case streamName
+            case cloudWatchLogs = "cloudWatchLogs"
+            case cloudWatchLogsArn = "cloudWatchLogsArn"
+            case deepLink = "deepLink"
+            case groupName = "groupName"
+            case s3DeepLink = "s3DeepLink"
+            case s3Logs = "s3Logs"
+            case s3LogsArn = "s3LogsArn"
+            case streamName = "streamName"
         }
     }
 
@@ -2474,8 +2474,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId
-            case subnetId
+            case networkInterfaceId = "networkInterfaceId"
+            case subnetId = "subnetId"
         }
     }
 
@@ -2491,8 +2491,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case statusCode
+            case message = "message"
+            case statusCode = "statusCode"
         }
     }
 
@@ -2585,34 +2585,34 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case badge
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case created
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case lastModified
-            case logsConfig
-            case name
-            case projectVisibility
-            case publicProjectAlias
-            case queuedTimeoutInMinutes
-            case resourceAccessRole
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
-            case webhook
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case badge = "badge"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case created = "created"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case lastModified = "lastModified"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case projectVisibility = "projectVisibility"
+            case publicProjectAlias = "publicProjectAlias"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case resourceAccessRole = "resourceAccessRole"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+            case webhook = "webhook"
         }
     }
 
@@ -2651,16 +2651,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactIdentifier
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case name
-            case namespaceType
-            case overrideArtifactName
-            case packaging
-            case path
-            case type
+            case artifactIdentifier = "artifactIdentifier"
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case name = "name"
+            case namespaceType = "namespaceType"
+            case overrideArtifactName = "overrideArtifactName"
+            case packaging = "packaging"
+            case path = "path"
+            case type = "type"
         }
     }
 
@@ -2676,8 +2676,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case badgeEnabled
-            case badgeRequestUrl
+            case badgeEnabled = "badgeEnabled"
+            case badgeRequestUrl = "badgeRequestUrl"
         }
     }
 
@@ -2707,11 +2707,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchReportMode
-            case combineArtifacts
-            case restrictions
-            case serviceRole
-            case timeoutInMins
+            case batchReportMode = "batchReportMode"
+            case combineArtifacts = "combineArtifacts"
+            case restrictions = "restrictions"
+            case serviceRole = "serviceRole"
+            case timeoutInMins = "timeoutInMins"
         }
     }
 
@@ -2730,9 +2730,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case modes
-            case type
+            case location = "location"
+            case modes = "modes"
+            case type = "type"
         }
     }
 
@@ -2774,14 +2774,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case computeType
-            case environmentVariables
-            case image
-            case imagePullCredentialsType
-            case privilegedMode
-            case registryCredential
-            case type
+            case certificate = "certificate"
+            case computeType = "computeType"
+            case environmentVariables = "environmentVariables"
+            case image = "image"
+            case imagePullCredentialsType = "imagePullCredentialsType"
+            case privilegedMode = "privilegedMode"
+            case registryCredential = "registryCredential"
+            case type = "type"
         }
     }
 
@@ -2806,11 +2806,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case location
-            case mountOptions
-            case mountPoint
-            case type
+            case identifier = "identifier"
+            case location = "location"
+            case mountOptions = "mountOptions"
+            case mountPoint = "mountPoint"
+            case type = "type"
         }
     }
 
@@ -2855,16 +2855,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auth
-            case buildspec
-            case buildStatusConfig
-            case gitCloneDepth
-            case gitSubmodulesConfig
-            case insecureSsl
-            case location
-            case reportBuildStatus
-            case sourceIdentifier
-            case type
+            case auth = "auth"
+            case buildspec = "buildspec"
+            case buildStatusConfig = "buildStatusConfig"
+            case gitCloneDepth = "gitCloneDepth"
+            case gitSubmodulesConfig = "gitSubmodulesConfig"
+            case insecureSsl = "insecureSsl"
+            case location = "location"
+            case reportBuildStatus = "reportBuildStatus"
+            case sourceIdentifier = "sourceIdentifier"
+            case type = "type"
         }
     }
 
@@ -2880,8 +2880,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIdentifier
-            case sourceVersion
+            case sourceIdentifier = "sourceIdentifier"
+            case sourceVersion = "sourceVersion"
         }
     }
 
@@ -2902,8 +2902,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
+            case policy = "policy"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2916,7 +2916,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -2936,8 +2936,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credential
-            case credentialProvider
+            case credential = "credential"
+            case credentialProvider = "credentialProvider"
         }
     }
 
@@ -2983,18 +2983,18 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case codeCoverageSummary
-            case created
-            case executionId
-            case expired
-            case exportConfig
-            case name
-            case reportGroupArn
-            case status
-            case testSummary
-            case truncated
-            case type
+            case arn = "arn"
+            case codeCoverageSummary = "codeCoverageSummary"
+            case created = "created"
+            case executionId = "executionId"
+            case expired = "expired"
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case reportGroupArn = "reportGroupArn"
+            case status = "status"
+            case testSummary = "testSummary"
+            case truncated = "truncated"
+            case type = "type"
         }
     }
 
@@ -3014,8 +3014,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportConfigType
-            case s3Destination
+            case exportConfigType = "exportConfigType"
+            case s3Destination = "s3Destination"
         }
     }
 
@@ -3028,7 +3028,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -3062,14 +3062,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case exportConfig
-            case lastModified
-            case name
-            case status
-            case tags
-            case type
+            case arn = "arn"
+            case created = "created"
+            case exportConfig = "exportConfig"
+            case lastModified = "lastModified"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -3088,9 +3088,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case max
-            case min
+            case average = "average"
+            case max = "max"
+            case min = "min"
         }
     }
 
@@ -3106,8 +3106,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case reportArn
+            case data = "data"
+            case reportArn = "reportArn"
         }
     }
 
@@ -3126,9 +3126,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case location
-            case type
+            case identifier = "identifier"
+            case location = "location"
+            case type = "type"
         }
     }
 
@@ -3151,9 +3151,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case idempotencyToken
-            case retryType
+            case id = "id"
+            case idempotencyToken = "idempotencyToken"
+            case retryType = "retryType"
         }
     }
 
@@ -3165,7 +3165,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
@@ -3185,8 +3185,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case idempotencyToken
+            case id = "id"
+            case idempotencyToken = "idempotencyToken"
         }
     }
 
@@ -3198,7 +3198,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
@@ -3219,10 +3219,10 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case status
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case status = "status"
         }
     }
 
@@ -3255,12 +3255,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case bucketOwner
-            case encryptionDisabled
-            case encryptionKey
-            case packaging
-            case path
+            case bucket = "bucket"
+            case bucketOwner = "bucketOwner"
+            case encryptionDisabled = "encryptionDisabled"
+            case encryptionKey = "encryptionKey"
+            case packaging = "packaging"
+            case path = "path"
         }
     }
 
@@ -3276,8 +3276,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
-            case type
+            case resource = "resource"
+            case type = "type"
         }
     }
 
@@ -3296,9 +3296,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authType
-            case serverType
+            case arn = "arn"
+            case authType = "authType"
+            case serverType = "serverType"
         }
     }
 
@@ -3424,37 +3424,37 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactsOverride
-            case buildBatchConfigOverride
-            case buildspecOverride
-            case buildTimeoutInMinutesOverride
-            case cacheOverride
-            case certificateOverride
-            case computeTypeOverride
-            case debugSessionEnabled
-            case encryptionKeyOverride
-            case environmentTypeOverride
-            case environmentVariablesOverride
-            case gitCloneDepthOverride
-            case gitSubmodulesConfigOverride
-            case idempotencyToken
-            case imageOverride
-            case imagePullCredentialsTypeOverride
-            case insecureSslOverride
-            case logsConfigOverride
-            case privilegedModeOverride
-            case projectName
-            case queuedTimeoutInMinutesOverride
-            case registryCredentialOverride
-            case reportBuildBatchStatusOverride
-            case secondaryArtifactsOverride
-            case secondarySourcesOverride
-            case secondarySourcesVersionOverride
-            case serviceRoleOverride
-            case sourceAuthOverride
-            case sourceLocationOverride
-            case sourceTypeOverride
-            case sourceVersion
+            case artifactsOverride = "artifactsOverride"
+            case buildBatchConfigOverride = "buildBatchConfigOverride"
+            case buildspecOverride = "buildspecOverride"
+            case buildTimeoutInMinutesOverride = "buildTimeoutInMinutesOverride"
+            case cacheOverride = "cacheOverride"
+            case certificateOverride = "certificateOverride"
+            case computeTypeOverride = "computeTypeOverride"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKeyOverride = "encryptionKeyOverride"
+            case environmentTypeOverride = "environmentTypeOverride"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case gitCloneDepthOverride = "gitCloneDepthOverride"
+            case gitSubmodulesConfigOverride = "gitSubmodulesConfigOverride"
+            case idempotencyToken = "idempotencyToken"
+            case imageOverride = "imageOverride"
+            case imagePullCredentialsTypeOverride = "imagePullCredentialsTypeOverride"
+            case insecureSslOverride = "insecureSslOverride"
+            case logsConfigOverride = "logsConfigOverride"
+            case privilegedModeOverride = "privilegedModeOverride"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
+            case registryCredentialOverride = "registryCredentialOverride"
+            case reportBuildBatchStatusOverride = "reportBuildBatchStatusOverride"
+            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
+            case secondarySourcesOverride = "secondarySourcesOverride"
+            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
+            case serviceRoleOverride = "serviceRoleOverride"
+            case sourceAuthOverride = "sourceAuthOverride"
+            case sourceLocationOverride = "sourceLocationOverride"
+            case sourceTypeOverride = "sourceTypeOverride"
+            case sourceVersion = "sourceVersion"
         }
     }
 
@@ -3467,7 +3467,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
@@ -3593,37 +3593,37 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactsOverride
-            case buildspecOverride
-            case buildStatusConfigOverride
-            case cacheOverride
-            case certificateOverride
-            case computeTypeOverride
-            case debugSessionEnabled
-            case encryptionKeyOverride
-            case environmentTypeOverride
-            case environmentVariablesOverride
-            case gitCloneDepthOverride
-            case gitSubmodulesConfigOverride
-            case idempotencyToken
-            case imageOverride
-            case imagePullCredentialsTypeOverride
-            case insecureSslOverride
-            case logsConfigOverride
-            case privilegedModeOverride
-            case projectName
-            case queuedTimeoutInMinutesOverride
-            case registryCredentialOverride
-            case reportBuildStatusOverride
-            case secondaryArtifactsOverride
-            case secondarySourcesOverride
-            case secondarySourcesVersionOverride
-            case serviceRoleOverride
-            case sourceAuthOverride
-            case sourceLocationOverride
-            case sourceTypeOverride
-            case sourceVersion
-            case timeoutInMinutesOverride
+            case artifactsOverride = "artifactsOverride"
+            case buildspecOverride = "buildspecOverride"
+            case buildStatusConfigOverride = "buildStatusConfigOverride"
+            case cacheOverride = "cacheOverride"
+            case certificateOverride = "certificateOverride"
+            case computeTypeOverride = "computeTypeOverride"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKeyOverride = "encryptionKeyOverride"
+            case environmentTypeOverride = "environmentTypeOverride"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case gitCloneDepthOverride = "gitCloneDepthOverride"
+            case gitSubmodulesConfigOverride = "gitSubmodulesConfigOverride"
+            case idempotencyToken = "idempotencyToken"
+            case imageOverride = "imageOverride"
+            case imagePullCredentialsTypeOverride = "imagePullCredentialsTypeOverride"
+            case insecureSslOverride = "insecureSslOverride"
+            case logsConfigOverride = "logsConfigOverride"
+            case privilegedModeOverride = "privilegedModeOverride"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
+            case registryCredentialOverride = "registryCredentialOverride"
+            case reportBuildStatusOverride = "reportBuildStatusOverride"
+            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
+            case secondarySourcesOverride = "secondarySourcesOverride"
+            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
+            case serviceRoleOverride = "serviceRoleOverride"
+            case sourceAuthOverride = "sourceAuthOverride"
+            case sourceLocationOverride = "sourceLocationOverride"
+            case sourceTypeOverride = "sourceTypeOverride"
+            case sourceVersion = "sourceVersion"
+            case timeoutInMinutesOverride = "timeoutInMinutesOverride"
         }
     }
 
@@ -3636,7 +3636,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
@@ -3653,7 +3653,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -3665,7 +3665,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
@@ -3682,7 +3682,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
@@ -3695,7 +3695,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
@@ -3719,8 +3719,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3754,14 +3754,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInNanoSeconds
-            case expired
-            case message
-            case name
-            case prefix
-            case reportArn
-            case status
-            case testRawDataPath
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case expired = "expired"
+            case message = "message"
+            case name = "name"
+            case prefix = "prefix"
+            case reportArn = "reportArn"
+            case status = "status"
+            case testRawDataPath = "testRawDataPath"
         }
     }
 
@@ -3777,8 +3777,8 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyword
-            case status
+            case keyword = "keyword"
+            case status = "status"
         }
     }
 
@@ -3797,9 +3797,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInNanoSeconds
-            case statusCounts
-            case total
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case statusCounts = "statusCounts"
+            case total = "total"
         }
     }
 
@@ -3896,27 +3896,27 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case badgeEnabled
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case logsConfig
-            case name
-            case queuedTimeoutInMinutes
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
+            case artifacts = "artifacts"
+            case badgeEnabled = "badgeEnabled"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -3929,7 +3929,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
@@ -3952,9 +3952,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case projectVisibility
-            case resourceAccessRole
+            case projectArn = "projectArn"
+            case projectVisibility = "projectVisibility"
+            case resourceAccessRole = "resourceAccessRole"
         }
     }
 
@@ -3972,9 +3972,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case projectVisibility
-            case publicProjectAlias
+            case projectArn = "projectArn"
+            case projectVisibility = "projectVisibility"
+            case publicProjectAlias = "publicProjectAlias"
         }
     }
 
@@ -4002,9 +4002,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case exportConfig
-            case tags
+            case arn = "arn"
+            case exportConfig = "exportConfig"
+            case tags = "tags"
         }
     }
 
@@ -4017,7 +4017,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroup
+            case reportGroup = "reportGroup"
         }
     }
 
@@ -4048,11 +4048,11 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case projectName
-            case rotateSecret
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case projectName = "projectName"
+            case rotateSecret = "rotateSecret"
         }
     }
 
@@ -4065,7 +4065,7 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
@@ -4096,9 +4096,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnets
-            case vpcId
+            case securityGroupIds = "securityGroupIds"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 
@@ -4129,13 +4129,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case lastModifiedSecret
-            case payloadUrl
-            case secret
-            case url
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case lastModifiedSecret = "lastModifiedSecret"
+            case payloadUrl = "payloadUrl"
+            case secret = "secret"
+            case url = "url"
         }
     }
 
@@ -4154,9 +4154,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludeMatchedPattern
-            case pattern
-            case type
+            case excludeMatchedPattern = "excludeMatchedPattern"
+            case pattern = "pattern"
+            case type = "type"
         }
     }
 }

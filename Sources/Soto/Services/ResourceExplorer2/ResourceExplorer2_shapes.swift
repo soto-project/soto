@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -867,21 +867,21 @@ public struct ResourceExplorer2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The credentials that you used to call this operation don&#39;t have the minimum required permissions.
+    /// The credentials that you used to call this operation don't have the minimum required permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You tried to create a new view or index when one already exists, and you either didn&#39;t specify or specified a different idempotency token as the original request.
+    /// You tried to create a new view or index when one already exists, and you either didn't specify or specified a different idempotency token as the original request.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request failed because of internal service error. Try your request again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// You specified a resource that doesn&#39;t exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed because it exceeds a service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request failed because you exceeded a rate limit for this operation. For more information, see Quotas for Resource Explorer.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The principal making the request isn&#39;t permitted to perform the operation.
+    /// The principal making the request isn't permitted to perform the operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
-    /// You provided an invalid value for one of the operation&#39;s parameters. Check the syntax for the operation, and try again.
+    /// You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public static var validationException: Self { .init(.validationException) }
 }
 

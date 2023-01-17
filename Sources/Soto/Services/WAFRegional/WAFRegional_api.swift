@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,6 +74,7 @@ public struct WAFRegional: AWSService {
                 "eu-west-1": "waf-regional.eu-west-1.amazonaws.com",
                 "eu-west-2": "waf-regional.eu-west-2.amazonaws.com",
                 "eu-west-3": "waf-regional.eu-west-3.amazonaws.com",
+                "me-central-1": "waf-regional.me-central-1.amazonaws.com",
                 "me-south-1": "waf-regional.me-south-1.amazonaws.com",
                 "sa-east-1": "waf-regional.sa-east-1.amazonaws.com",
                 "us-east-1": "waf-regional.us-east-1.amazonaws.com",
@@ -103,6 +104,7 @@ public struct WAFRegional: AWSService {
                     "eu-west-1": "waf-regional-fips.eu-west-1.amazonaws.com",
                     "eu-west-2": "waf-regional-fips.eu-west-2.amazonaws.com",
                     "eu-west-3": "waf-regional-fips.eu-west-3.amazonaws.com",
+                    "me-central-1": "waf-regional-fips.me-central-1.amazonaws.com",
                     "me-south-1": "waf-regional-fips.me-south-1.amazonaws.com",
                     "sa-east-1": "waf-regional-fips.sa-east-1.amazonaws.com",
                     "us-east-1": "waf-regional-fips.us-east-1.amazonaws.com",

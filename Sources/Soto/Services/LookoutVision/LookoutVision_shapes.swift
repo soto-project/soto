@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1832,7 +1832,7 @@ extension LookoutVision {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.changes, name: "changes", parent: name, max: 10_485_760)
+            try self.validate(self.changes, name: "changes", parent: name, max: 10485760)
             try self.validate(self.changes, name: "changes", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)

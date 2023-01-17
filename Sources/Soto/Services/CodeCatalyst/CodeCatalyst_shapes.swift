@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -49,7 +49,7 @@ extension CodeCatalyst {
     }
 
     public enum FilterKey: String, CustomStringConvertible, Codable, _SotoSendable {
-        case hasAccessTo
+        case hasAccessTo = "hasAccessTo"
         public var description: String { return self.rawValue }
     }
 
@@ -92,9 +92,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresTime
-            case id
-            case name
+            case expiresTime = "expiresTime"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -116,8 +116,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresTime
-            case name
+            case expiresTime = "expiresTime"
+            case name = "name"
         }
     }
 
@@ -137,9 +137,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresTime
-            case name
-            case secret
+            case expiresTime = "expiresTime"
+            case name = "name"
+            case secret = "secret"
         }
     }
 
@@ -198,13 +198,13 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
-            case persistentStorage
-            case repositories
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
+            case persistentStorage = "persistentStorage"
+            case repositories = "repositories"
         }
     }
 
@@ -223,9 +223,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case projectName
-            case spaceName
+            case id = "id"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
         }
     }
 
@@ -259,8 +259,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
+            case description = "description"
+            case displayName = "displayName"
         }
     }
 
@@ -282,10 +282,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
-            case spaceName
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case spaceName = "spaceName"
         }
     }
 
@@ -331,7 +331,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headCommitId
+            case headCommitId = "headCommitId"
         }
     }
 
@@ -354,10 +354,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headCommitId
-            case lastUpdatedTime
-            case name
-            case ref
+            case headCommitId = "headCommitId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case ref = "ref"
         }
     }
 
@@ -433,9 +433,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case projectName
-            case spaceName
+            case id = "id"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
         }
     }
 
@@ -451,8 +451,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case streamUrl
-            case tokenValue
+            case streamUrl = "streamUrl"
+            case tokenValue = "tokenValue"
         }
     }
 
@@ -468,8 +468,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case repositoryName
+            case branchName = "branchName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -485,8 +485,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executeCommandSessionConfiguration
-            case sessionType
+            case executeCommandSessionConfiguration = "executeCommandSessionConfiguration"
+            case sessionType = "sessionType"
         }
     }
 
@@ -536,19 +536,19 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case creatorId
-            case id
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
-            case lastUpdatedTime
-            case persistentStorage
-            case projectName
-            case repositories
-            case spaceName
-            case status
-            case statusReason
+            case alias = "alias"
+            case creatorId = "creatorId"
+            case id = "id"
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case persistentStorage = "persistentStorage"
+            case projectName = "projectName"
+            case repositories = "repositories"
+            case spaceName = "spaceName"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -564,8 +564,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case email
-            case verified
+            case email = "email"
+            case verified = "verified"
         }
     }
 
@@ -620,21 +620,21 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case eventCategory
-            case eventName
-            case eventSource
-            case eventTime
-            case eventType
-            case id
-            case operationType
-            case projectInformation
-            case requestId
-            case requestPayload
-            case responsePayload
-            case sourceIpAddress
-            case userAgent
-            case userIdentity
+            case errorCode = "errorCode"
+            case eventCategory = "eventCategory"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case eventTime = "eventTime"
+            case eventType = "eventType"
+            case id = "id"
+            case operationType = "operationType"
+            case projectInformation = "projectInformation"
+            case requestId = "requestId"
+            case requestPayload = "requestPayload"
+            case responsePayload = "responsePayload"
+            case sourceIpAddress = "sourceIpAddress"
+            case userAgent = "userAgent"
+            case userIdentity = "userIdentity"
         }
     }
 
@@ -650,8 +650,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case data
+            case contentType = "contentType"
+            case data = "data"
         }
     }
 
@@ -667,8 +667,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arguments
-            case command
+            case arguments = "arguments"
+            case command = "command"
         }
     }
 
@@ -684,9 +684,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparisonOperator
-            case key
-            case values
+            case comparisonOperator = "comparisonOperator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -769,19 +769,19 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case creatorId
-            case id
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
-            case lastUpdatedTime
-            case persistentStorage
-            case projectName
-            case repositories
-            case spaceName
-            case status
-            case statusReason
+            case alias = "alias"
+            case creatorId = "creatorId"
+            case id = "id"
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case persistentStorage = "persistentStorage"
+            case projectName = "projectName"
+            case repositories = "repositories"
+            case spaceName = "spaceName"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -831,10 +831,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
-            case spaceName
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case spaceName = "spaceName"
         }
     }
 
@@ -882,7 +882,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case https
+            case https = "https"
         }
     }
 
@@ -925,10 +925,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
-            case regionName
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case regionName = "regionName"
         }
     }
 
@@ -965,8 +965,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountName
-            case subscriptionType
+            case awsAccountName = "awsAccountName"
+            case subscriptionType = "subscriptionType"
         }
     }
 
@@ -1009,11 +1009,11 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case primaryEmail
-            case userId
-            case userName
-            case version
+            case displayName = "displayName"
+            case primaryEmail = "primaryEmail"
+            case userId = "userId"
+            case userName = "userName"
+            case version = "version"
         }
     }
 
@@ -1029,8 +1029,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case runtime
+            case name = "name"
+            case runtime = "runtime"
         }
     }
 
@@ -1046,8 +1046,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case runtime
+            case name = "name"
+            case runtime = "runtime"
         }
     }
 
@@ -1063,8 +1063,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1080,8 +1080,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1120,9 +1120,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1138,8 +1138,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1179,11 +1179,11 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case eventName
-            case maxResults
-            case nextToken
-            case startTime
+            case endTime = "endTime"
+            case eventName = "eventName"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
         }
     }
 
@@ -1199,8 +1199,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1232,9 +1232,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1250,8 +1250,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1278,11 +1278,11 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTime
-            case description
-            case id
-            case lastUpdatedTime
-            case name
+            case createdTime = "createdTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
         }
     }
 
@@ -1318,8 +1318,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1335,8 +1335,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1359,10 +1359,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headCommitId
-            case lastUpdatedTime
-            case name
-            case ref
+            case headCommitId = "headCommitId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case ref = "ref"
         }
     }
 
@@ -1405,8 +1405,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1422,8 +1422,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1436,7 +1436,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -1452,8 +1452,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1466,7 +1466,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGiB
+            case sizeInGiB = "sizeInGiB"
         }
     }
 
@@ -1479,7 +1479,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGiB
+            case sizeInGiB = "sizeInGiB"
         }
     }
 
@@ -1495,8 +1495,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case projectId
+            case name = "name"
+            case projectId = "projectId"
         }
     }
 
@@ -1515,9 +1515,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparisonOperator
-            case key
-            case values
+            case comparisonOperator = "comparisonOperator"
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -1536,9 +1536,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
@@ -1562,8 +1562,8 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case repositoryName
+            case branchName = "branchName"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1585,10 +1585,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case displayName
-            case name
-            case regionName
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case regionName = "regionName"
         }
     }
 
@@ -1635,9 +1635,9 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
         }
     }
 
@@ -1659,10 +1659,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case projectName
-            case spaceName
-            case status
+            case id = "id"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
+            case status = "status"
         }
     }
 
@@ -1699,7 +1699,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionConfiguration
+            case sessionConfiguration = "sessionConfiguration"
         }
     }
 
@@ -1723,11 +1723,11 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDetails
-            case id
-            case projectName
-            case sessionId
-            case spaceName
+            case accessDetails = "accessDetails"
+            case id = "id"
+            case projectName = "projectName"
+            case sessionId = "sessionId"
+            case spaceName = "spaceName"
         }
     }
 
@@ -1782,10 +1782,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case projectName
-            case spaceName
-            case status
+            case id = "id"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
+            case status = "status"
         }
     }
 
@@ -1840,11 +1840,11 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
         }
     }
 
@@ -1878,14 +1878,14 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case id
-            case ides
-            case inactivityTimeoutMinutes
-            case instanceType
-            case projectName
-            case spaceName
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case id = "id"
+            case ides = "ides"
+            case inactivityTimeoutMinutes = "inactivityTimeoutMinutes"
+            case instanceType = "instanceType"
+            case projectName = "projectName"
+            case spaceName = "spaceName"
         }
     }
 
@@ -1906,10 +1906,10 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case principalId
-            case userName
-            case userType
+            case awsAccountId = "awsAccountId"
+            case principalId = "principalId"
+            case userName = "userName"
+            case userType = "userType"
         }
     }
 
@@ -1922,7 +1922,7 @@ extension CodeCatalyst {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identity
+            case identity = "identity"
         }
     }
 }
@@ -1958,7 +1958,7 @@ public struct CodeCatalystErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request was denied because you don&#39;t have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request.  Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
     public static var conflictException: Self { .init(.conflictException) }

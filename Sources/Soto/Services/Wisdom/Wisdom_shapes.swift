@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -128,8 +128,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIntegrationArn
-            case objectFields
+            case appIntegrationArn = "appIntegrationArn"
+            case objectFields = "objectFields"
         }
     }
 
@@ -160,13 +160,13 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantArn
-            case assistantAssociationArn
-            case assistantAssociationId
-            case assistantId
-            case associationData
-            case associationType
-            case tags
+            case assistantArn = "assistantArn"
+            case assistantAssociationArn = "assistantAssociationArn"
+            case assistantAssociationId = "assistantAssociationId"
+            case assistantId = "assistantId"
+            case associationData = "associationData"
+            case associationType = "associationType"
+            case tags = "tags"
         }
     }
 
@@ -197,13 +197,13 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantArn
-            case assistantAssociationArn
-            case assistantAssociationId
-            case assistantId
-            case associationData
-            case associationType
-            case tags
+            case assistantArn = "assistantArn"
+            case assistantAssociationArn = "assistantAssociationArn"
+            case assistantAssociationId = "assistantAssociationId"
+            case assistantId = "assistantId"
+            case associationData = "associationData"
+            case associationType = "associationType"
+            case tags = "tags"
         }
     }
 
@@ -237,14 +237,14 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantArn
-            case assistantId
-            case description
-            case name
-            case serverSideEncryptionConfiguration
-            case status
-            case tags
-            case type
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case description = "description"
+            case name = "name"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -278,14 +278,14 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantArn
-            case assistantId
-            case description
-            case name
-            case serverSideEncryptionConfiguration
-            case status
-            case tags
-            case type
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case description = "description"
+            case name = "name"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -338,20 +338,20 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentArn
-            case contentId
-            case contentType
-            case knowledgeBaseArn
-            case knowledgeBaseId
-            case linkOutUri
-            case metadata
-            case name
-            case revisionId
-            case status
-            case tags
-            case title
-            case url
-            case urlExpiry
+            case contentArn = "contentArn"
+            case contentId = "contentId"
+            case contentType = "contentType"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case linkOutUri = "linkOutUri"
+            case metadata = "metadata"
+            case name = "name"
+            case revisionId = "revisionId"
+            case status = "status"
+            case tags = "tags"
+            case title = "title"
+            case url = "url"
+            case urlExpiry = "urlExpiry"
         }
     }
 
@@ -373,10 +373,10 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentArn
-            case contentId
-            case knowledgeBaseArn
-            case knowledgeBaseId
+            case contentArn = "contentArn"
+            case contentId = "contentId"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
         }
     }
 
@@ -420,17 +420,17 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentArn
-            case contentId
-            case contentType
-            case knowledgeBaseArn
-            case knowledgeBaseId
-            case metadata
-            case name
-            case revisionId
-            case status
-            case tags
-            case title
+            case contentArn = "contentArn"
+            case contentId = "contentId"
+            case contentType = "contentType"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case metadata = "metadata"
+            case name = "name"
+            case revisionId = "revisionId"
+            case status = "status"
+            case tags = "tags"
+            case title = "title"
         }
     }
 
@@ -473,10 +473,10 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case association
-            case associationType
-            case clientToken
-            case tags
+            case association = "association"
+            case associationType = "associationType"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -489,7 +489,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantAssociation
+            case assistantAssociation = "assistantAssociation"
         }
     }
 
@@ -536,12 +536,12 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case serverSideEncryptionConfiguration
-            case tags
-            case type
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -554,7 +554,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistant
+            case assistant = "assistant"
         }
     }
 
@@ -622,13 +622,13 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case metadata
-            case name
-            case overrideLinkOutUri
-            case tags
-            case title
-            case uploadId
+            case clientToken = "clientToken"
+            case metadata = "metadata"
+            case name = "name"
+            case overrideLinkOutUri = "overrideLinkOutUri"
+            case tags = "tags"
+            case title = "title"
+            case uploadId = "uploadId"
         }
     }
 
@@ -641,7 +641,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
+            case content = "content"
         }
     }
 
@@ -696,14 +696,14 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case knowledgeBaseType
-            case name
-            case renderingConfiguration
-            case serverSideEncryptionConfiguration
-            case sourceConfiguration
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case knowledgeBaseType = "knowledgeBaseType"
+            case name = "name"
+            case renderingConfiguration = "renderingConfiguration"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -716,7 +716,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBase
+            case knowledgeBase = "knowledgeBase"
         }
     }
 
@@ -764,10 +764,10 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -780,7 +780,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -901,9 +901,9 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentReference
-            case excerpt
-            case title
+            case contentReference = "contentReference"
+            case excerpt = "excerpt"
+            case title = "title"
         }
     }
 
@@ -919,8 +919,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case highlights
-            case text
+            case highlights = "highlights"
+            case text = "text"
         }
     }
 
@@ -944,9 +944,9 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case `operator`
-            case value
+            case field = "field"
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
@@ -983,7 +983,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantAssociation
+            case assistantAssociation = "assistantAssociation"
         }
     }
 
@@ -1015,7 +1015,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistant
+            case assistant = "assistant"
         }
     }
 
@@ -1052,7 +1052,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
+            case content = "content"
         }
     }
 
@@ -1089,7 +1089,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentSummary
+            case contentSummary = "contentSummary"
         }
     }
 
@@ -1121,7 +1121,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBase
+            case knowledgeBase = "knowledgeBase"
         }
     }
 
@@ -1173,8 +1173,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendations
-            case triggers
+            case recommendations = "recommendations"
+            case triggers = "triggers"
         }
     }
 
@@ -1211,7 +1211,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case session
+            case session = "session"
         }
     }
 
@@ -1227,8 +1227,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case beginOffsetInclusive
-            case endOffsetExclusive
+            case beginOffsetInclusive = "beginOffsetInclusive"
+            case endOffsetExclusive = "endOffsetExclusive"
         }
     }
 
@@ -1244,8 +1244,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBaseArn
-            case knowledgeBaseId
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
         }
     }
 
@@ -1288,17 +1288,17 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case knowledgeBaseArn
-            case knowledgeBaseId
-            case knowledgeBaseType
-            case lastContentModificationTime
-            case name
-            case renderingConfiguration
-            case serverSideEncryptionConfiguration
-            case sourceConfiguration
-            case status
-            case tags
+            case description = "description"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case knowledgeBaseType = "knowledgeBaseType"
+            case lastContentModificationTime = "lastContentModificationTime"
+            case name = "name"
+            case renderingConfiguration = "renderingConfiguration"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1338,16 +1338,16 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case knowledgeBaseArn
-            case knowledgeBaseId
-            case knowledgeBaseType
-            case name
-            case renderingConfiguration
-            case serverSideEncryptionConfiguration
-            case sourceConfiguration
-            case status
-            case tags
+            case description = "description"
+            case knowledgeBaseArn = "knowledgeBaseArn"
+            case knowledgeBaseId = "knowledgeBaseId"
+            case knowledgeBaseType = "knowledgeBaseType"
+            case name = "name"
+            case renderingConfiguration = "renderingConfiguration"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -1395,8 +1395,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantAssociationSummaries
-            case nextToken
+            case assistantAssociationSummaries = "assistantAssociationSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1439,8 +1439,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantSummaries
-            case nextToken
+            case assistantSummaries = "assistantSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1488,8 +1488,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentSummaries
-            case nextToken
+            case contentSummaries = "contentSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1532,8 +1532,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBaseSummaries
-            case nextToken
+            case knowledgeBaseSummaries = "knowledgeBaseSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1565,7 +1565,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1581,8 +1581,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case recommendationId
+            case message = "message"
+            case recommendationId = "recommendationId"
         }
     }
 
@@ -1611,7 +1611,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationIds
+            case recommendationIds = "recommendationIds"
         }
     }
 
@@ -1627,8 +1627,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case recommendationIds
+            case errors = "errors"
+            case recommendationIds = "recommendationIds"
         }
     }
 
@@ -1663,9 +1663,9 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case queryText
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryText = "queryText"
         }
     }
 
@@ -1681,8 +1681,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case results
+            case nextToken = "nextToken"
+            case results = "results"
         }
     }
 
@@ -1695,7 +1695,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
+            case text = "text"
         }
     }
 
@@ -1720,11 +1720,11 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case recommendationId
-            case relevanceLevel
-            case relevanceScore
-            case type
+            case document = "document"
+            case recommendationId = "recommendationId"
+            case relevanceLevel = "relevanceLevel"
+            case relevanceScore = "relevanceScore"
+            case type = "type"
         }
     }
 
@@ -1749,11 +1749,11 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case id
-            case recommendationIds
-            case source
-            case type
+            case data = "data"
+            case id = "id"
+            case recommendationIds = "recommendationIds"
+            case source = "source"
+            case type = "type"
         }
     }
 
@@ -1795,7 +1795,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateUri
+            case templateUri = "templateUri"
         }
     }
 
@@ -1814,9 +1814,9 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case relevanceScore
-            case resultId
+            case document = "document"
+            case relevanceScore = "relevanceScore"
+            case resultId = "resultId"
         }
     }
 
@@ -1854,7 +1854,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case searchExpression
+            case searchExpression = "searchExpression"
         }
     }
 
@@ -1870,8 +1870,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentSummaries
-            case nextToken
+            case contentSummaries = "contentSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1890,7 +1890,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
+            case filters = "filters"
         }
     }
 
@@ -1928,7 +1928,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case searchExpression
+            case searchExpression = "searchExpression"
         }
     }
 
@@ -1944,8 +1944,8 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sessionSummaries
+            case nextToken = "nextToken"
+            case sessionSummaries = "sessionSummaries"
         }
     }
 
@@ -1963,7 +1963,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
+            case kmsKeyId = "kmsKeyId"
         }
     }
 
@@ -1988,11 +1988,11 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case sessionArn
-            case sessionId
-            case tags
+            case description = "description"
+            case name = "name"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
+            case tags = "tags"
         }
     }
 
@@ -2014,10 +2014,10 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assistantArn
-            case assistantId
-            case sessionArn
-            case sessionId
+            case assistantArn = "assistantArn"
+            case assistantId = "assistantId"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
         }
     }
 
@@ -2042,7 +2042,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
+            case contentType = "contentType"
         }
     }
 
@@ -2064,10 +2064,10 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headersToInclude
-            case uploadId
-            case url
-            case urlExpiry
+            case headersToInclude = "headersToInclude"
+            case uploadId = "uploadId"
+            case url = "url"
+            case urlExpiry = "urlExpiry"
         }
     }
 
@@ -2098,7 +2098,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2195,12 +2195,12 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
-            case overrideLinkOutUri
-            case removeOverrideLinkOutUri
-            case revisionId
-            case title
-            case uploadId
+            case metadata = "metadata"
+            case overrideLinkOutUri = "overrideLinkOutUri"
+            case removeOverrideLinkOutUri = "removeOverrideLinkOutUri"
+            case revisionId = "revisionId"
+            case title = "title"
+            case uploadId = "uploadId"
         }
     }
 
@@ -2213,7 +2213,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
+            case content = "content"
         }
     }
 
@@ -2239,7 +2239,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateUri
+            case templateUri = "templateUri"
         }
     }
 
@@ -2252,7 +2252,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBase
+            case knowledgeBase = "knowledgeBase"
         }
     }
 
@@ -2269,7 +2269,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBaseId
+            case knowledgeBaseId = "knowledgeBaseId"
         }
     }
 
@@ -2282,7 +2282,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knowledgeBaseAssociation
+            case knowledgeBaseAssociation = "knowledgeBaseAssociation"
         }
     }
 
@@ -2295,7 +2295,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case query
+            case query = "query"
         }
     }
 
@@ -2312,7 +2312,7 @@ extension Wisdom {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIntegrations
+            case appIntegrations = "appIntegrations"
         }
     }
 }
@@ -2351,13 +2351,13 @@ public struct WisdomErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request could not be processed because of conflict in the current state of the resource. For example, if you&#39;re using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     public static var conflictException: Self { .init(.conflictException) }
     /// The provided revisionId does not match, indicating the content has been modified since it was last read.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// You&#39;ve exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Connect Wisdom throws this exception if you have too many tags in your tag set.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }

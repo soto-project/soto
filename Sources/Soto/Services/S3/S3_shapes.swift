@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -39,7 +39,7 @@ extension S3 {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
@@ -122,7 +122,7 @@ extension S3 {
     }
 
     public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case url
+        case url = "url"
         public var description: String { return self.rawValue }
     }
 
@@ -182,8 +182,8 @@ extension S3 {
     }
 
     public enum FilterRuleName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case prefix
-        case suffix
+        case prefix = "prefix"
+        case suffix = "suffix"
         public var description: String { return self.rawValue }
     }
 
@@ -275,7 +275,7 @@ extension S3 {
     }
 
     public enum ObjectCannedACL: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `private`
+        case `private` = "private"
         case authenticatedRead = "authenticated-read"
         case awsExecRead = "aws-exec-read"
         case bucketOwnerFullControl = "bucket-owner-full-control"
@@ -386,12 +386,12 @@ extension S3 {
     }
 
     public enum RequestCharged: String, CustomStringConvertible, Codable, _SotoSendable {
-        case requester
+        case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
     public enum RequestPayer: String, CustomStringConvertible, Codable, _SotoSendable {
-        case requester
+        case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
@@ -455,8 +455,8 @@ extension S3 {
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable, _SotoSendable {
-        case http
-        case https
+        case http = "http"
+        case https = "https"
         public var description: String { return self.rawValue }
     }
 
@@ -3445,6 +3445,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
         ]
+
         public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
 
         /// A list of grants.
@@ -4092,6 +4093,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
         ]
+
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Contains the tag set.

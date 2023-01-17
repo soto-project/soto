@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -176,14 +176,14 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cognitoUserPoolId
-            case description
-            case expirationTime
-            case openIDAuthTTL
-            case openIDClientId
-            case openIDIatTTL
-            case openIDIssueURL
-            case openIDProviderName
+            case cognitoUserPoolId = "cognitoUserPoolId"
+            case description = "description"
+            case expirationTime = "expirationTime"
+            case openIDAuthTTL = "openIDAuthTTL"
+            case openIDClientId = "openIDClientId"
+            case openIDIatTTL = "openIDIatTTL"
+            case openIDIssueURL = "openIDIssueURL"
+            case openIDProviderName = "openIDProviderName"
         }
     }
 
@@ -199,8 +199,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mode
-            case settings
+            case mode = "mode"
+            case settings = "settings"
         }
     }
 
@@ -213,7 +213,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resolutionStrategy
+            case resolutionStrategy = "resolutionStrategy"
         }
     }
 
@@ -241,12 +241,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalAuthTypes
-            case apiName
-            case conflictResolution
-            case defaultAuthType
-            case service
-            case transformSchema
+            case additionalAuthTypes = "additionalAuthTypes"
+            case apiName = "apiName"
+            case conflictResolution = "conflictResolution"
+            case defaultAuthType = "defaultAuthType"
+            case service = "service"
+            case transformSchema = "transformSchema"
         }
     }
 
@@ -322,14 +322,14 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case createTime
-            case error
-            case jobId
-            case operation
-            case status
-            case updateTime
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case createTime = "createTime"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -345,8 +345,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticated
-            case unAuthenticated
+            case authenticated = "authenticated"
+            case unAuthenticated = "unAuthenticated"
         }
     }
 
@@ -370,7 +370,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetEnvironmentName
+            case targetEnvironmentName = "targetEnvironmentName"
         }
     }
 
@@ -398,12 +398,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -429,9 +429,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentName
-            case resourceConfig
-            case resourceName
+            case backendEnvironmentName = "backendEnvironmentName"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -459,12 +459,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -483,9 +483,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryMethod
-            case emailSettings
-            case smsSettings
+            case deliveryMethod = "deliveryMethod"
+            case emailSettings = "emailSettings"
+            case smsSettings = "smsSettings"
         }
     }
 
@@ -501,8 +501,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityPoolName
-            case unauthenticatedLogin
+            case identityPoolName = "identityPoolName"
+            case unauthenticatedLogin = "unauthenticatedLogin"
         }
     }
 
@@ -519,7 +519,7 @@ extension AmplifyBackend {
 
         private enum CodingKeys: String, CodingKey {
             case mfaMode = "MFAMode"
-            case settings
+            case settings = "settings"
         }
     }
 
@@ -547,12 +547,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainPrefix
-            case oAuthGrantType
-            case oAuthScopes
-            case redirectSignInURIs
-            case redirectSignOutURIs
-            case socialProviderSettings
+            case domainPrefix = "domainPrefix"
+            case oAuthGrantType = "oAuthGrantType"
+            case oAuthScopes = "oAuthScopes"
+            case redirectSignInURIs = "redirectSignInURIs"
+            case redirectSignOutURIs = "redirectSignOutURIs"
+            case socialProviderSettings = "socialProviderSettings"
         }
     }
 
@@ -568,8 +568,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalConstraints
-            case minimumLength
+            case additionalConstraints = "additionalConstraints"
+            case minimumLength = "minimumLength"
         }
     }
 
@@ -595,9 +595,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentName
-            case resourceConfig
-            case resourceName
+            case backendEnvironmentName = "backendEnvironmentName"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -619,10 +619,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authResources
-            case identityPoolConfigs
-            case service
-            case userPoolConfigs
+            case authResources = "authResources"
+            case identityPoolConfigs = "identityPoolConfigs"
+            case service = "service"
+            case userPoolConfigs = "userPoolConfigs"
         }
     }
 
@@ -650,12 +650,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -689,14 +689,14 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forgotPassword
-            case mfa
-            case oAuth
-            case passwordPolicy
-            case requiredSignUpAttributes
-            case signInMethod
-            case userPoolName
-            case verificationMessage
+            case forgotPassword = "forgotPassword"
+            case mfa = "mfa"
+            case oAuth = "oAuth"
+            case passwordPolicy = "passwordPolicy"
+            case requiredSignUpAttributes = "requiredSignUpAttributes"
+            case signInMethod = "signInMethod"
+            case userPoolName = "userPoolName"
+            case verificationMessage = "verificationMessage"
         }
     }
 
@@ -715,9 +715,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryMethod
-            case emailSettings
-            case smsSettings
+            case deliveryMethod = "deliveryMethod"
+            case emailSettings = "emailSettings"
+            case smsSettings = "smsSettings"
         }
     }
 
@@ -737,7 +737,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendManagerAppId
+            case backendManagerAppId = "backendManagerAppId"
         }
     }
 
@@ -759,10 +759,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case jobId
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 
@@ -787,11 +787,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case appName
-            case backendEnvironmentName
-            case resourceConfig
-            case resourceName
+            case appId = "appId"
+            case appName = "appName"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -819,12 +819,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -850,9 +850,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentName
-            case resourceConfig
-            case resourceName
+            case backendEnvironmentName = "backendEnvironmentName"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -871,9 +871,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case permissions
-            case serviceName
+            case bucketName = "bucketName"
+            case permissions = "permissions"
+            case serviceName = "serviceName"
         }
     }
 
@@ -895,10 +895,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case jobId
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 
@@ -935,10 +935,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case challengeCode
-            case sessionId
-            case ttl
+            case appId = "appId"
+            case challengeCode = "challengeCode"
+            case sessionId = "sessionId"
+            case ttl = "ttl"
         }
     }
 
@@ -965,8 +965,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceConfig
-            case resourceName
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -994,12 +994,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1023,7 +1023,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
@@ -1051,12 +1051,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1103,12 +1103,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1135,8 +1135,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
-            case serviceName
+            case resourceName = "resourceName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1158,10 +1158,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case jobId
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 
@@ -1193,7 +1193,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isSuccess
+            case isSuccess = "isSuccess"
         }
     }
 
@@ -1209,8 +1209,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailMessage
-            case emailSubject
+            case emailMessage = "emailMessage"
+            case emailSubject = "emailSubject"
         }
     }
 
@@ -1234,7 +1234,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
@@ -1262,12 +1262,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1291,24 +1291,28 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
     public struct GetBackendAPIModelsResponse: AWSDecodableShape {
+        /// Stringified JSON of the model introspection schema for an existing backend API resource.
+        public let modelIntrospectionSchema: String?
         /// Stringified JSON of the datastore model.
         public let models: String?
         /// The current status of the request.
         public let status: Status?
 
-        public init(models: String? = nil, status: Status? = nil) {
+        public init(modelIntrospectionSchema: String? = nil, models: String? = nil, status: Status? = nil) {
+            self.modelIntrospectionSchema = modelIntrospectionSchema
             self.models = models
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case models
-            case status
+            case modelIntrospectionSchema = "modelIntrospectionSchema"
+            case models = "models"
+            case status = "status"
         }
     }
 
@@ -1335,8 +1339,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceConfig
-            case resourceName
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -1361,11 +1365,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case resourceConfig
-            case resourceName
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -1389,7 +1393,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
@@ -1414,11 +1418,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case resourceConfig
-            case resourceName
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -1475,14 +1479,14 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case createTime
-            case error
-            case jobId
-            case operation
-            case status
-            case updateTime
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case createTime = "createTime"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -1502,7 +1506,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentName
+            case backendEnvironmentName = "backendEnvironmentName"
         }
     }
 
@@ -1533,13 +1537,13 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amplifyFeatureFlags
-            case amplifyMetaConfig
-            case appId
-            case appName
-            case backendEnvironmentList
-            case backendEnvironmentName
-            case error
+            case amplifyFeatureFlags = "amplifyFeatureFlags"
+            case amplifyMetaConfig = "amplifyMetaConfig"
+            case appId = "appId"
+            case appName = "appName"
+            case backendEnvironmentList = "backendEnvironmentList"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
         }
     }
 
@@ -1563,7 +1567,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
@@ -1585,10 +1589,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case imported
-            case permissions
-            case serviceName
+            case bucketName = "bucketName"
+            case imported = "imported"
+            case permissions = "permissions"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1610,10 +1614,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case resourceConfig
-            case resourceName
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -1654,10 +1658,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case challengeCode
-            case sessionId
-            case ttl
+            case appId = "appId"
+            case challengeCode = "challengeCode"
+            case sessionId = "sessionId"
+            case ttl = "ttl"
         }
     }
 
@@ -1690,10 +1694,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identityPoolId
-            case nativeClientId
-            case userPoolId
-            case webClientId
+            case identityPoolId = "identityPoolId"
+            case nativeClientId = "nativeClientId"
+            case userPoolId = "userPoolId"
+            case webClientId = "webClientId"
         }
     }
 
@@ -1721,12 +1725,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1753,8 +1757,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case serviceName
+            case bucketName = "bucketName"
+            case serviceName = "serviceName"
         }
     }
 
@@ -1776,10 +1780,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case jobId
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 
@@ -1820,11 +1824,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case maxResults
-            case nextToken
-            case operation
-            case status
+            case jobId = "jobId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1840,8 +1844,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1854,7 +1858,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
@@ -1870,8 +1874,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
-            case nextToken
+            case buckets = "buckets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1916,7 +1920,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cleanAmplifyApp
+            case cleanAmplifyApp = "cleanAmplifyApp"
         }
     }
 
@@ -1941,11 +1945,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -1973,7 +1977,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
+            case error = "error"
         }
     }
 
@@ -1993,8 +1997,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case name
+            case creationDate = "creationDate"
+            case name = "name"
         }
     }
 
@@ -2010,8 +2014,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mfaTypes
-            case smsMessage
+            case mfaTypes = "mfaTypes"
+            case smsMessage = "smsMessage"
         }
     }
 
@@ -2024,7 +2028,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case smsMessage
+            case smsMessage = "smsMessage"
         }
     }
 
@@ -2072,8 +2076,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceConfig
-            case resourceName
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -2101,12 +2105,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -2125,9 +2129,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryMethod
-            case emailSettings
-            case smsSettings
+            case deliveryMethod = "deliveryMethod"
+            case emailSettings = "emailSettings"
+            case smsSettings = "smsSettings"
         }
     }
 
@@ -2140,7 +2144,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unauthenticatedLogin
+            case unauthenticatedLogin = "unauthenticatedLogin"
         }
     }
 
@@ -2157,7 +2161,7 @@ extension AmplifyBackend {
 
         private enum CodingKeys: String, CodingKey {
             case mfaMode = "MFAMode"
-            case settings
+            case settings = "settings"
         }
     }
 
@@ -2185,12 +2189,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainPrefix
-            case oAuthGrantType
-            case oAuthScopes
-            case redirectSignInURIs
-            case redirectSignOutURIs
-            case socialProviderSettings
+            case domainPrefix = "domainPrefix"
+            case oAuthGrantType = "oAuthGrantType"
+            case oAuthScopes = "oAuthScopes"
+            case redirectSignInURIs = "redirectSignInURIs"
+            case redirectSignOutURIs = "redirectSignOutURIs"
+            case socialProviderSettings = "socialProviderSettings"
         }
     }
 
@@ -2206,8 +2210,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalConstraints
-            case minimumLength
+            case additionalConstraints = "additionalConstraints"
+            case minimumLength = "minimumLength"
         }
     }
 
@@ -2234,8 +2238,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceConfig
-            case resourceName
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -2257,10 +2261,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authResources
-            case identityPoolConfigs
-            case service
-            case userPoolConfigs
+            case authResources = "authResources"
+            case identityPoolConfigs = "identityPoolConfigs"
+            case service = "service"
+            case userPoolConfigs = "userPoolConfigs"
         }
     }
 
@@ -2288,12 +2292,12 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case error
-            case jobId
-            case operation
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -2318,11 +2322,11 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forgotPassword
-            case mfa
-            case oAuth
-            case passwordPolicy
-            case verificationMessage
+            case forgotPassword = "forgotPassword"
+            case mfa = "mfa"
+            case oAuth = "oAuth"
+            case passwordPolicy = "passwordPolicy"
+            case verificationMessage = "verificationMessage"
         }
     }
 
@@ -2341,9 +2345,9 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryMethod
-            case emailSettings
-            case smsSettings
+            case deliveryMethod = "deliveryMethod"
+            case emailSettings = "emailSettings"
+            case smsSettings = "smsSettings"
         }
     }
 
@@ -2363,7 +2367,7 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loginAuthConfig
+            case loginAuthConfig = "loginAuthConfig"
         }
     }
 
@@ -2385,10 +2389,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendManagerAppId
-            case error
-            case loginAuthConfig
+            case appId = "appId"
+            case backendManagerAppId = "backendManagerAppId"
+            case error = "error"
+            case loginAuthConfig = "loginAuthConfig"
         }
     }
 
@@ -2419,8 +2423,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
-            case status
+            case operation = "operation"
+            case status = "status"
         }
     }
 
@@ -2454,14 +2458,14 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case createTime
-            case error
-            case jobId
-            case operation
-            case status
-            case updateTime
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case createTime = "createTime"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
+            case updateTime = "updateTime"
         }
     }
 
@@ -2488,8 +2492,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceConfig
-            case resourceName
+            case resourceConfig = "resourceConfig"
+            case resourceName = "resourceName"
         }
     }
 
@@ -2505,8 +2509,8 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissions
-            case serviceName
+            case permissions = "permissions"
+            case serviceName = "serviceName"
         }
     }
 
@@ -2528,10 +2532,10 @@ extension AmplifyBackend {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case backendEnvironmentName
-            case jobId
-            case status
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 }
@@ -2567,7 +2571,7 @@ public struct AmplifyBackendErrorType: AWSErrorType {
 
     /// An error returned if a request is not formed properly.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// An error returned if there&#39;s a temporary issue with the service.
+    /// An error returned if there's a temporary issue with the service.
     public static var gatewayTimeoutException: Self { .init(.gatewayTimeoutException) }
     /// An error returned when a specific resource type is not found.
     public static var notFoundException: Self { .init(.notFoundException) }

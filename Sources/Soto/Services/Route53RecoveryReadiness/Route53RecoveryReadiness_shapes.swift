@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -52,11 +52,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellArn
-            case cellName
-            case cells
-            case parentReadinessScopes
-            case tags
+            case cellArn = "cellArn"
+            case cellName = "cellName"
+            case cells = "cells"
+            case parentReadinessScopes = "parentReadinessScopes"
+            case tags = "tags"
         }
     }
 
@@ -74,9 +74,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellName
-            case cells
-            case tags
+            case cellName = "cellName"
+            case cells = "cells"
+            case tags = "tags"
         }
     }
 
@@ -101,11 +101,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellArn
-            case cellName
-            case cells
-            case parentReadinessScopes
-            case tags
+            case cellArn = "cellArn"
+            case cellName = "cellName"
+            case cells = "cells"
+            case parentReadinessScopes = "parentReadinessScopes"
+            case tags = "tags"
         }
     }
 
@@ -118,7 +118,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crossAccountAuthorization
+            case crossAccountAuthorization = "crossAccountAuthorization"
         }
     }
 
@@ -131,7 +131,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crossAccountAuthorization
+            case crossAccountAuthorization = "crossAccountAuthorization"
         }
     }
 
@@ -149,9 +149,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readinessCheckName
-            case resourceSetName
-            case tags
+            case readinessCheckName = "readinessCheckName"
+            case resourceSetName = "resourceSetName"
+            case tags = "tags"
         }
     }
 
@@ -172,10 +172,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readinessCheckArn
-            case readinessCheckName
-            case resourceSet
-            case tags
+            case readinessCheckArn = "readinessCheckArn"
+            case readinessCheckName = "readinessCheckName"
+            case resourceSet = "resourceSet"
+            case tags = "tags"
         }
     }
 
@@ -193,9 +193,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case recoveryGroupName
-            case tags
+            case cells = "cells"
+            case recoveryGroupName = "recoveryGroupName"
+            case tags = "tags"
         }
     }
 
@@ -217,10 +217,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case recoveryGroupArn
-            case recoveryGroupName
-            case tags
+            case cells = "cells"
+            case recoveryGroupArn = "recoveryGroupArn"
+            case recoveryGroupName = "recoveryGroupName"
+            case tags = "tags"
         }
     }
 
@@ -246,10 +246,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetName
-            case resourceSetType
-            case tags
+            case resources = "resources"
+            case resourceSetName = "resourceSetName"
+            case resourceSetType = "resourceSetType"
+            case tags = "tags"
         }
     }
 
@@ -273,11 +273,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetArn
-            case resourceSetName
-            case resourceSetType
-            case tags
+            case resources = "resources"
+            case resourceSetArn = "resourceSetArn"
+            case resourceSetName = "resourceSetName"
+            case resourceSetType = "resourceSetType"
+            case tags = "tags"
         }
     }
 
@@ -302,11 +302,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case hostedZoneArn
-            case recordSetId
-            case recordType
-            case targetResource
+            case domainName = "domainName"
+            case hostedZoneArn = "hostedZoneArn"
+            case recordSetId = "recordSetId"
+            case recordType = "recordType"
+            case targetResource = "targetResource"
         }
     }
 
@@ -433,9 +433,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastAuditTimestamp
-            case nextToken
-            case recommendations
+            case lastAuditTimestamp = "lastAuditTimestamp"
+            case nextToken = "nextToken"
+            case recommendations = "recommendations"
         }
     }
 
@@ -482,9 +482,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case readiness
-            case readinessChecks
+            case nextToken = "nextToken"
+            case readiness = "readiness"
+            case readinessChecks = "readinessChecks"
         }
     }
 
@@ -524,11 +524,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellArn
-            case cellName
-            case cells
-            case parentReadinessScopes
-            case tags
+            case cellArn = "cellArn"
+            case cellName = "cellName"
+            case cells = "cells"
+            case parentReadinessScopes = "parentReadinessScopes"
+            case tags = "tags"
         }
     }
 
@@ -594,9 +594,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case readiness
-            case rules
+            case nextToken = "nextToken"
+            case readiness = "readiness"
+            case rules = "rules"
         }
     }
 
@@ -617,10 +617,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readinessCheckArn
-            case readinessCheckName
-            case resourceSet
-            case tags
+            case readinessCheckArn = "readinessCheckArn"
+            case readinessCheckName = "readinessCheckName"
+            case resourceSet = "resourceSet"
+            case tags = "tags"
         }
     }
 
@@ -670,10 +670,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
-            case nextToken
-            case readiness
-            case resources
+            case messages = "messages"
+            case nextToken = "nextToken"
+            case readiness = "readiness"
+            case resources = "resources"
         }
     }
 
@@ -720,9 +720,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case readiness
-            case readinessChecks
+            case nextToken = "nextToken"
+            case readiness = "readiness"
+            case readinessChecks = "readinessChecks"
         }
     }
 
@@ -759,10 +759,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case recoveryGroupArn
-            case recoveryGroupName
-            case tags
+            case cells = "cells"
+            case recoveryGroupArn = "recoveryGroupArn"
+            case recoveryGroupName = "recoveryGroupName"
+            case tags = "tags"
         }
     }
 
@@ -801,11 +801,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetArn
-            case resourceSetName
-            case resourceSetType
-            case tags
+            case resources = "resources"
+            case resourceSetArn = "resourceSetArn"
+            case resourceSetName = "resourceSetName"
+            case resourceSetType = "resourceSetType"
+            case tags = "tags"
         }
     }
 
@@ -845,8 +845,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case nextToken
+            case cells = "cells"
+            case nextToken = "nextToken"
         }
     }
 
@@ -886,8 +886,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case crossAccountAuthorizations
-            case nextToken
+            case crossAccountAuthorizations = "crossAccountAuthorizations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -927,8 +927,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case readinessChecks
+            case nextToken = "nextToken"
+            case readinessChecks = "readinessChecks"
         }
     }
 
@@ -968,8 +968,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recoveryGroups
+            case nextToken = "nextToken"
+            case recoveryGroups = "recoveryGroups"
         }
     }
 
@@ -1009,8 +1009,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceSets
+            case nextToken = "nextToken"
+            case resourceSets = "resourceSets"
         }
     }
 
@@ -1029,9 +1029,9 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType
-            case ruleDescription
-            case ruleId
+            case resourceType = "resourceType"
+            case ruleDescription = "ruleDescription"
+            case ruleId = "ruleId"
         }
     }
 
@@ -1075,8 +1075,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case rules
+            case nextToken = "nextToken"
+            case rules = "rules"
         }
     }
 
@@ -1103,7 +1103,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1116,7 +1116,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageText
+            case messageText = "messageText"
         }
     }
 
@@ -1129,7 +1129,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -1145,8 +1145,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case recordSetId
+            case domainName = "domainName"
+            case recordSetId = "recordSetId"
         }
     }
 
@@ -1167,10 +1167,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readinessCheckArn
-            case readinessCheckName
-            case resourceSet
-            case tags
+            case readinessCheckArn = "readinessCheckArn"
+            case readinessCheckName = "readinessCheckName"
+            case resourceSet = "resourceSet"
+            case tags = "tags"
         }
     }
 
@@ -1186,8 +1186,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readiness
-            case readinessCheckName
+            case readiness = "readiness"
+            case readinessCheckName = "readinessCheckName"
         }
     }
 
@@ -1200,7 +1200,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationText
+            case recommendationText = "recommendationText"
         }
     }
 
@@ -1222,10 +1222,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case recoveryGroupArn
-            case recoveryGroupName
-            case tags
+            case cells = "cells"
+            case recoveryGroupArn = "recoveryGroupArn"
+            case recoveryGroupName = "recoveryGroupName"
+            case tags = "tags"
         }
     }
 
@@ -1247,10 +1247,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentId
-            case dnsTargetResource
-            case readinessScopes
-            case resourceArn
+            case componentId = "componentId"
+            case dnsTargetResource = "dnsTargetResource"
+            case readinessScopes = "readinessScopes"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1273,10 +1273,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentId
-            case lastCheckedTimestamp
-            case readiness
-            case resourceArn
+            case componentId = "componentId"
+            case lastCheckedTimestamp = "lastCheckedTimestamp"
+            case readiness = "readiness"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1300,11 +1300,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetArn
-            case resourceSetName
-            case resourceSetType
-            case tags
+            case resources = "resources"
+            case resourceSetArn = "resourceSetArn"
+            case resourceSetName = "resourceSetName"
+            case resourceSetType = "resourceSetType"
+            case tags = "tags"
         }
     }
 
@@ -1327,10 +1327,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastCheckedTimestamp
-            case messages
-            case readiness
-            case ruleId
+            case lastCheckedTimestamp = "lastCheckedTimestamp"
+            case messages = "messages"
+            case readiness = "readiness"
+            case ruleId = "ruleId"
         }
     }
 
@@ -1349,7 +1349,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1370,7 +1370,7 @@ extension Route53RecoveryReadiness {
 
         private enum CodingKeys: String, CodingKey {
             case nlbResource = "nLBResource"
-            case r53Resource
+            case r53Resource = "r53Resource"
         }
     }
 
@@ -1409,7 +1409,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
+            case cells = "cells"
         }
     }
 
@@ -1434,11 +1434,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellArn
-            case cellName
-            case cells
-            case parentReadinessScopes
-            case tags
+            case cellArn = "cellArn"
+            case cellName = "cellName"
+            case cells = "cells"
+            case parentReadinessScopes = "parentReadinessScopes"
+            case tags = "tags"
         }
     }
 
@@ -1458,7 +1458,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceSetName
+            case resourceSetName = "resourceSetName"
         }
     }
 
@@ -1479,10 +1479,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readinessCheckArn
-            case readinessCheckName
-            case resourceSet
-            case tags
+            case readinessCheckArn = "readinessCheckArn"
+            case readinessCheckName = "readinessCheckName"
+            case resourceSet = "resourceSet"
+            case tags = "tags"
         }
     }
 
@@ -1502,7 +1502,7 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
+            case cells = "cells"
         }
     }
 
@@ -1524,10 +1524,10 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case recoveryGroupArn
-            case recoveryGroupName
-            case tags
+            case cells = "cells"
+            case recoveryGroupArn = "recoveryGroupArn"
+            case recoveryGroupName = "recoveryGroupName"
+            case tags = "tags"
         }
     }
 
@@ -1554,8 +1554,8 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetType
+            case resources = "resources"
+            case resourceSetType = "resourceSetType"
         }
     }
 
@@ -1579,11 +1579,11 @@ extension Route53RecoveryReadiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resources
-            case resourceSetArn
-            case resourceSetName
-            case resourceSetType
-            case tags
+            case resources = "resources"
+            case resourceSetArn = "resourceSetArn"
+            case resourceSetName = "resourceSetName"
+            case resourceSetType = "resourceSetType"
+            case tags = "tags"
         }
     }
 }

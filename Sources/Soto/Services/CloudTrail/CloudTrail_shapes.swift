@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -41,7 +41,7 @@ extension CloudTrail {
     }
 
     public enum EventCategory: String, CustomStringConvertible, Codable, _SotoSendable {
-        case insight
+        case insight = "insight"
         public var description: String { return self.rawValue }
     }
 
@@ -720,8 +720,8 @@ extension CloudTrail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeShadowTrails
-            case trailNameList
+            case includeShadowTrails = "includeShadowTrails"
+            case trailNameList = "trailNameList"
         }
     }
 
@@ -734,7 +734,7 @@ extension CloudTrail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trailList
+            case trailList = "trailList"
         }
     }
 
@@ -3043,7 +3043,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
     /// This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
     public static var invalidTrailNameException: Self { .init(.invalidTrailNameException) }
-    /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can&#39;t be updated.
+    /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can't be updated.
     public static var kmsException: Self { .init(.kmsException) }
     /// This exception is no longer in use.
     public static var kmsKeyDisabledException: Self { .init(.kmsKeyDisabledException) }
@@ -3055,7 +3055,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }
     ///  This exception is thrown when the management account does not have a service-linked role.
     public static var noManagementAccountSLRExistsException: Self { .init(.noManagementAccountSLRExistsException) }
-    ///  This exception is thrown when the account making the request is not the organization&#39;s management account.
+    ///  This exception is thrown when the account making the request is not the organization's management account.
     public static var notOrganizationManagementAccountException: Self { .init(.notOrganizationManagementAccountException) }
     /// This exception is thrown when the Amazon Web Services account making the request to create  or update an organization trail or event data store is not the management account for an  organization in Organizations. For more information, see  Prepare For Creating a Trail For Your Organization or Create an event data store.
     public static var notOrganizationMasterAccountException: Self { .init(.notOrganizationMasterAccountException) }

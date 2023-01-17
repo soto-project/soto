@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -204,8 +204,8 @@ extension PrivateNetworks {
 // MARK: Paginators
 
 extension PrivateNetworks {
-    ///  Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group.  If you specify multiple filters, filters are joined with an OR, and the request
-    ///  returns results that match all of the specified filters.
+    /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group.  If you specify multiple filters, filters are joined with an OR, and the request
+    /// returns results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -258,8 +258,8 @@ extension PrivateNetworks {
         )
     }
 
-    ///  Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
-    ///  returns results that match all of the specified filters.
+    /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
+    /// returns results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -312,7 +312,7 @@ extension PrivateNetworks {
         )
     }
 
-    ///  Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
+    /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -365,7 +365,7 @@ extension PrivateNetworks {
         )
     }
 
-    ///  Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
+    /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -418,8 +418,8 @@ extension PrivateNetworks {
         )
     }
 
-    ///  Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
-    ///  returns results that match all of the specified filters.
+    /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
+    /// returns results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

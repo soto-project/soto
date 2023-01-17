@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -197,9 +197,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case extendsFrom
-            case isAbstract
-            case namespace
+            case extendsFrom = "extendsFrom"
+            case isAbstract = "isAbstract"
+            case namespace = "namespace"
         }
     }
 
@@ -241,9 +241,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeId
-            case externalId
-            case parentEntityId
+            case componentTypeId = "componentTypeId"
+            case externalId = "externalId"
+            case parentEntityId = "parentEntityId"
         }
     }
 
@@ -287,10 +287,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalId
-            case resourceId
-            case resourceType
-            case state
+            case externalId = "externalId"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case state = "state"
         }
     }
 
@@ -311,9 +311,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entry
-            case errorCode
-            case errorMessage
+            case entry = "entry"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -326,7 +326,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -357,7 +357,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
+            case entries = "entries"
         }
     }
 
@@ -370,7 +370,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
@@ -386,8 +386,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleNames
-            case pricingTier
+            case bundleNames = "bundleNames"
+            case pricingTier = "pricingTier"
         }
     }
 
@@ -403,8 +403,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -431,9 +431,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupType
-            case propertyNames
-            case updateType
+            case groupType = "groupType"
+            case propertyNames = "propertyNames"
+            case updateType = "updateType"
         }
     }
 
@@ -452,9 +452,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupType
-            case isInherited
-            case propertyNames
+            case groupType = "groupType"
+            case isInherited = "isInherited"
+            case propertyNames = "propertyNames"
         }
     }
 
@@ -496,10 +496,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeId
-            case description
-            case properties
-            case propertyGroups
+            case componentTypeId = "componentTypeId"
+            case description = "description"
+            case properties = "properties"
+            case propertyGroups = "propertyGroups"
         }
     }
 
@@ -533,14 +533,14 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case componentTypeId
-            case definedIn
-            case description
-            case properties
-            case propertyGroups
-            case status
-            case syncSource
+            case componentName = "componentName"
+            case componentTypeId = "componentTypeId"
+            case definedIn = "definedIn"
+            case description = "description"
+            case properties = "properties"
+            case propertyGroups = "propertyGroups"
+            case status = "status"
+            case syncSource = "syncSource"
         }
     }
 
@@ -571,13 +571,13 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentTypeId
-            case componentTypeName
-            case creationDateTime
-            case description
-            case status
-            case updateDateTime
+            case arn = "arn"
+            case componentTypeId = "componentTypeId"
+            case componentTypeName = "componentTypeName"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -622,11 +622,11 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeId
-            case description
-            case propertyGroupUpdates
-            case propertyUpdates
-            case updateType
+            case componentTypeId = "componentTypeId"
+            case description = "description"
+            case propertyGroupUpdates = "propertyGroupUpdates"
+            case propertyUpdates = "propertyUpdates"
+            case updateType = "updateType"
         }
     }
 
@@ -715,14 +715,14 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeName
-            case description
-            case extendsFrom
-            case functions
-            case isSingleton
-            case propertyDefinitions
-            case propertyGroups
-            case tags
+            case componentTypeName = "componentTypeName"
+            case description = "description"
+            case extendsFrom = "extendsFrom"
+            case functions = "functions"
+            case isSingleton = "isSingleton"
+            case propertyDefinitions = "propertyDefinitions"
+            case propertyGroups = "propertyGroups"
+            case tags = "tags"
         }
     }
 
@@ -741,9 +741,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case state
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case state = "state"
         }
     }
 
@@ -810,12 +810,12 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case components
-            case description
-            case entityId
-            case entityName
-            case parentEntityId
-            case tags
+            case components = "components"
+            case description = "description"
+            case entityId = "entityId"
+            case entityName = "entityName"
+            case parentEntityId = "parentEntityId"
+            case tags = "tags"
         }
     }
 
@@ -837,10 +837,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case entityId
-            case state
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case entityId = "entityId"
+            case state = "state"
         }
     }
 
@@ -899,11 +899,11 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilities
-            case contentLocation
-            case description
-            case sceneId
-            case tags
+            case capabilities = "capabilities"
+            case contentLocation = "contentLocation"
+            case description = "description"
+            case sceneId = "sceneId"
+            case tags = "tags"
         }
     }
 
@@ -919,8 +919,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
         }
     }
 
@@ -966,8 +966,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case syncRole
-            case tags
+            case syncRole = "syncRole"
+            case tags = "tags"
         }
     }
 
@@ -986,9 +986,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case state
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case state = "state"
         }
     }
 
@@ -1039,10 +1039,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case role
-            case s3Location
-            case tags
+            case description = "description"
+            case role = "role"
+            case s3Location = "s3Location"
+            case tags = "tags"
         }
     }
 
@@ -1058,8 +1058,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
         }
     }
 
@@ -1079,8 +1079,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isNative
-            case lambda
+            case isNative = "isNative"
+            case lambda = "lambda"
         }
     }
 
@@ -1117,11 +1117,11 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case nestedType
-            case relationship
-            case type
-            case unitOfMeasure
+            case allowedValues = "allowedValues"
+            case nestedType = "nestedType"
+            case relationship = "relationship"
+            case type = "type"
+            case unitOfMeasure = "unitOfMeasure"
         }
     }
 
@@ -1179,15 +1179,15 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case booleanValue
-            case doubleValue
-            case expression
-            case integerValue
-            case listValue
-            case longValue
-            case mapValue
-            case relationshipValue
-            case stringValue
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case expression = "expression"
+            case integerValue = "integerValue"
+            case listValue = "listValue"
+            case longValue = "longValue"
+            case mapValue = "mapValue"
+            case relationshipValue = "relationshipValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -1228,7 +1228,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -1273,7 +1273,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -1344,7 +1344,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -1411,10 +1411,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case entityId
-            case externalIdProperty
-            case propertyName
+            case componentName = "componentName"
+            case entityId = "entityId"
+            case externalIdProperty = "externalIdProperty"
+            case propertyName = "propertyName"
         }
     }
 
@@ -1451,15 +1451,15 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case description
-            case entityId
-            case entityName
-            case hasChildEntities
-            case parentEntityId
-            case status
-            case updateDateTime
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case entityId = "entityId"
+            case entityName = "entityName"
+            case hasChildEntities = "hasChildEntities"
+            case parentEntityId = "parentEntityId"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -1475,8 +1475,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1511,10 +1511,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case queryStatement
-            case workspaceId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queryStatement = "queryStatement"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -1533,9 +1533,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnDescriptions
-            case nextToken
-            case rows
+            case columnDescriptions = "columnDescriptions"
+            case nextToken = "nextToken"
+            case rows = "rows"
         }
     }
 
@@ -1563,9 +1563,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case implementedBy
-            case requiredProperties
-            case scope
+            case implementedBy = "implementedBy"
+            case requiredProperties = "requiredProperties"
+            case scope = "scope"
         }
     }
 
@@ -1587,10 +1587,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case implementedBy
-            case isInherited
-            case requiredProperties
-            case scope
+            case implementedBy = "implementedBy"
+            case isInherited = "isInherited"
+            case requiredProperties = "requiredProperties"
+            case scope = "scope"
         }
     }
 
@@ -1676,22 +1676,22 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentTypeId
-            case componentTypeName
-            case creationDateTime
-            case description
-            case extendsFrom
-            case functions
-            case isAbstract
-            case isSchemaInitialized
-            case isSingleton
-            case propertyDefinitions
-            case propertyGroups
-            case status
-            case syncSource
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case componentTypeId = "componentTypeId"
+            case componentTypeName = "componentTypeName"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case extendsFrom = "extendsFrom"
+            case functions = "functions"
+            case isAbstract = "isAbstract"
+            case isSchemaInitialized = "isSchemaInitialized"
+            case isSingleton = "isSingleton"
+            case propertyDefinitions = "propertyDefinitions"
+            case propertyGroups = "propertyGroups"
+            case status = "status"
+            case syncSource = "syncSource"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -1765,18 +1765,18 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case components
-            case creationDateTime
-            case description
-            case entityId
-            case entityName
-            case hasChildEntities
-            case parentEntityId
-            case status
-            case syncSource
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case components = "components"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case entityId = "entityId"
+            case entityName = "entityName"
+            case hasChildEntities = "hasChildEntities"
+            case parentEntityId = "parentEntityId"
+            case status = "status"
+            case syncSource = "syncSource"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -1796,8 +1796,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentPricingPlan
-            case pendingPricingPlan
+            case currentPricingPlan = "currentPricingPlan"
+            case pendingPricingPlan = "pendingPricingPlan"
         }
     }
 
@@ -1906,19 +1906,19 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case componentTypeId
-            case endDateTime
-            case endTime
-            case entityId
-            case interpolation
-            case maxResults
-            case nextToken
-            case orderByTime
-            case propertyFilters
-            case selectedProperties
-            case startDateTime
-            case startTime
+            case componentName = "componentName"
+            case componentTypeId = "componentTypeId"
+            case endDateTime = "endDateTime"
+            case endTime = "endTime"
+            case entityId = "entityId"
+            case interpolation = "interpolation"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case orderByTime = "orderByTime"
+            case propertyFilters = "propertyFilters"
+            case selectedProperties = "selectedProperties"
+            case startDateTime = "startDateTime"
+            case startTime = "startTime"
         }
     }
 
@@ -1934,8 +1934,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case propertyValues
+            case nextToken = "nextToken"
+            case propertyValues = "propertyValues"
         }
     }
 
@@ -2006,14 +2006,14 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentName
-            case componentTypeId
-            case entityId
-            case maxResults
-            case nextToken
-            case propertyGroupName
-            case selectedProperties
-            case tabularConditions
+            case componentName = "componentName"
+            case componentTypeId = "componentTypeId"
+            case entityId = "entityId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case propertyGroupName = "propertyGroupName"
+            case selectedProperties = "selectedProperties"
+            case tabularConditions = "tabularConditions"
         }
     }
 
@@ -2032,9 +2032,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case propertyValues
-            case tabularPropertyValues
+            case nextToken = "nextToken"
+            case propertyValues = "propertyValues"
+            case tabularPropertyValues = "tabularPropertyValues"
         }
     }
 
@@ -2096,14 +2096,14 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case capabilities
-            case contentLocation
-            case creationDateTime
-            case description
-            case sceneId
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case capabilities = "capabilities"
+            case contentLocation = "contentLocation"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case sceneId = "sceneId"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -2160,13 +2160,13 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case status
-            case syncRole
-            case syncSource
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case status = "status"
+            case syncRole = "syncRole"
+            case syncSource = "syncSource"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -2218,13 +2218,13 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case description
-            case role
-            case s3Location
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case role = "role"
+            case s3Location = "s3Location"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -2240,8 +2240,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpolationType
-            case intervalInSeconds
+            case interpolationType = "interpolationType"
+            case intervalInSeconds = "intervalInSeconds"
         }
     }
 
@@ -2260,7 +2260,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -2299,9 +2299,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2323,10 +2323,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeSummaries
-            case maxResults
-            case nextToken
-            case workspaceId
+            case componentTypeSummaries = "componentTypeSummaries"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -2365,9 +2365,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2383,8 +2383,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitySummaries
-            case nextToken
+            case entitySummaries = "entitySummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2417,8 +2417,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2434,8 +2434,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sceneSummaries
+            case nextToken = "nextToken"
+            case sceneSummaries = "sceneSummaries"
         }
     }
 
@@ -2468,8 +2468,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2485,8 +2485,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case syncJobSummaries
+            case nextToken = "nextToken"
+            case syncJobSummaries = "syncJobSummaries"
         }
     }
 
@@ -2530,9 +2530,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2548,8 +2548,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case syncResources
+            case nextToken = "nextToken"
+            case syncResources = "syncResources"
         }
     }
 
@@ -2578,9 +2578,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceARN
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceARN = "resourceARN"
         }
     }
 
@@ -2596,8 +2596,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
@@ -2620,8 +2620,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2637,8 +2637,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workspaceSummaries
+            case nextToken = "nextToken"
+            case workspaceSummaries = "workspaceSummaries"
         }
     }
 
@@ -2660,8 +2660,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case order
-            case propertyName
+            case order = "order"
+            case propertyName = "propertyName"
         }
     }
 
@@ -2683,8 +2683,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parentEntityId
-            case updateType
+            case parentEntityId = "parentEntityId"
+            case updateType = "updateType"
         }
     }
 
@@ -2712,12 +2712,12 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billableEntityCount
-            case bundleInformation
-            case effectiveDateTime
-            case pricingMode
-            case updateDateTime
-            case updateReason
+            case billableEntityCount = "billableEntityCount"
+            case bundleInformation = "bundleInformation"
+            case effectiveDateTime = "effectiveDateTime"
+            case pricingMode = "pricingMode"
+            case updateDateTime = "updateDateTime"
+            case updateReason = "updateReason"
         }
     }
 
@@ -2764,14 +2764,14 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case dataType
-            case defaultValue
-            case displayName
-            case isExternalId
-            case isRequiredInEntity
-            case isStoredExternally
-            case isTimeSeries
+            case configuration = "configuration"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case displayName = "displayName"
+            case isExternalId = "isExternalId"
+            case isRequiredInEntity = "isRequiredInEntity"
+            case isStoredExternally = "isStoredExternally"
+            case isTimeSeries = "isTimeSeries"
         }
     }
 
@@ -2814,17 +2814,17 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case dataType
-            case defaultValue
-            case displayName
-            case isExternalId
-            case isFinal
-            case isImported
-            case isInherited
-            case isRequiredInEntity
-            case isStoredExternally
-            case isTimeSeries
+            case configuration = "configuration"
+            case dataType = "dataType"
+            case defaultValue = "defaultValue"
+            case displayName = "displayName"
+            case isExternalId = "isExternalId"
+            case isFinal = "isFinal"
+            case isImported = "isImported"
+            case isInherited = "isInherited"
+            case isRequiredInEntity = "isRequiredInEntity"
+            case isStoredExternally = "isStoredExternally"
+            case isTimeSeries = "isTimeSeries"
         }
     }
 
@@ -2853,9 +2853,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `operator`
-            case propertyName
-            case value
+            case `operator` = "operator"
+            case propertyName = "propertyName"
+            case value = "value"
         }
     }
 
@@ -2879,8 +2879,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupType
-            case propertyNames
+            case groupType = "groupType"
+            case propertyNames = "propertyNames"
         }
     }
 
@@ -2899,9 +2899,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupType
-            case isInherited
-            case propertyNames
+            case groupType = "groupType"
+            case isInherited = "isInherited"
+            case propertyNames = "propertyNames"
         }
     }
 
@@ -2917,8 +2917,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case propertyReference
-            case propertyValue
+            case propertyReference = "propertyReference"
+            case propertyValue = "propertyValue"
         }
     }
 
@@ -2942,9 +2942,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case updateType
-            case value
+            case definition = "definition"
+            case updateType = "updateType"
+            case value = "value"
         }
     }
 
@@ -2960,8 +2960,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case value
+            case definition = "definition"
+            case value = "value"
         }
     }
 
@@ -2993,9 +2993,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case time
-            case timestamp
-            case value
+            case time = "time"
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
@@ -3020,8 +3020,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityPropertyReference
-            case propertyValues
+            case entityPropertyReference = "entityPropertyReference"
+            case propertyValues = "propertyValues"
         }
     }
 
@@ -3037,8 +3037,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityPropertyReference
-            case values
+            case entityPropertyReference = "entityPropertyReference"
+            case values = "values"
         }
     }
 
@@ -3063,8 +3063,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationshipType
-            case targetComponentTypeId
+            case relationshipType = "relationshipType"
+            case targetComponentTypeId = "targetComponentTypeId"
         }
     }
 
@@ -3089,8 +3089,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case targetComponentName
-            case targetEntityId
+            case targetComponentName = "targetComponentName"
+            case targetEntityId = "targetEntityId"
         }
     }
 
@@ -3103,7 +3103,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rowData
+            case rowData = "rowData"
         }
     }
 
@@ -3131,12 +3131,12 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case contentLocation
-            case creationDateTime
-            case description
-            case sceneId
-            case updateDateTime
+            case arn = "arn"
+            case contentLocation = "contentLocation"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case sceneId = "sceneId"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3152,8 +3152,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -3169,8 +3169,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -3198,12 +3198,12 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case status
-            case syncSource
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case status = "status"
+            case syncSource = "syncSource"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -3219,8 +3219,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -3245,11 +3245,11 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalId
-            case resourceId
-            case resourceType
-            case status
-            case updateDateTime
+            case externalId = "externalId"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case status = "status"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3278,8 +3278,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case orderBy
-            case propertyFilters
+            case orderBy = "orderBy"
+            case propertyFilters = "propertyFilters"
         }
     }
 
@@ -3310,8 +3310,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceARN
-            case tags
+            case resourceARN = "resourceARN"
+            case tags = "tags"
         }
     }
 
@@ -3428,13 +3428,13 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentTypeName
-            case description
-            case extendsFrom
-            case functions
-            case isSingleton
-            case propertyDefinitions
-            case propertyGroups
+            case componentTypeName = "componentTypeName"
+            case description = "description"
+            case extendsFrom = "extendsFrom"
+            case functions = "functions"
+            case isSingleton = "isSingleton"
+            case propertyDefinitions = "propertyDefinitions"
+            case propertyGroups = "propertyGroups"
         }
     }
 
@@ -3456,10 +3456,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case componentTypeId
-            case state
-            case workspaceId
+            case arn = "arn"
+            case componentTypeId = "componentTypeId"
+            case state = "state"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -3513,10 +3513,10 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentUpdates
-            case description
-            case entityName
-            case parentEntityUpdate
+            case componentUpdates = "componentUpdates"
+            case description = "description"
+            case entityName = "entityName"
+            case parentEntityUpdate = "parentEntityUpdate"
         }
     }
 
@@ -3532,8 +3532,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case updateDateTime
+            case state = "state"
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3559,8 +3559,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleNames
-            case pricingMode
+            case bundleNames = "bundleNames"
+            case pricingMode = "pricingMode"
         }
     }
 
@@ -3576,8 +3576,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentPricingPlan
-            case pendingPricingPlan
+            case currentPricingPlan = "currentPricingPlan"
+            case pendingPricingPlan = "pendingPricingPlan"
         }
     }
 
@@ -3625,9 +3625,9 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilities
-            case contentLocation
-            case description
+            case capabilities = "capabilities"
+            case contentLocation = "contentLocation"
+            case description = "description"
         }
     }
 
@@ -3640,7 +3640,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateDateTime
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3674,8 +3674,8 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case role
+            case description = "description"
+            case role = "role"
         }
     }
 
@@ -3688,7 +3688,7 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateDateTime
+            case updateDateTime = "updateDateTime"
         }
     }
 
@@ -3713,11 +3713,11 @@ extension IoTTwinMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case description
-            case updateDateTime
-            case workspaceId
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case updateDateTime = "updateDateTime"
+            case workspaceId = "workspaceId"
         }
     }
 }
@@ -3770,7 +3770,7 @@ public struct IoTTwinMakerErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The query timeout exception.
     public static var queryTimeoutException: Self { .init(.queryTimeoutException) }
-    /// The resource wasn&#39;t found.
+    /// The resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service quota was exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

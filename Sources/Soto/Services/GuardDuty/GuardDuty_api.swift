@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -414,7 +414,7 @@ extension GuardDuty {
 // MARK: Paginators
 
 extension GuardDuty {
-    ///  Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their  own accounts. An administrator can view the malware scans for all the member accounts.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -467,7 +467,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
+    /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -520,7 +520,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists detectorIds of all the existing Amazon GuardDuty detector resources.
+    /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -573,7 +573,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Returns a paginated list of the current filters.
+    /// Returns a paginated list of the current filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -626,7 +626,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists Amazon GuardDuty findings for the specified detector ID.
+    /// Lists Amazon GuardDuty findings for the specified detector ID.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -679,7 +679,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
+    /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -732,7 +732,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
+    /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -785,7 +785,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists details about all member accounts for the current GuardDuty administrator account.
+    /// Lists details about all member accounts for the current GuardDuty administrator account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -838,7 +838,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists the accounts configured as GuardDuty delegated administrators.
+    /// Lists the accounts configured as GuardDuty delegated administrators.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -891,7 +891,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Returns a list of publishing destinations associated with the specified detectorId.
+    /// Returns a list of publishing destinations associated with the specified detectorId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -944,7 +944,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
+    /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

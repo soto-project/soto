@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,7 +22,7 @@ extension Neptune {
     // MARK: Enums
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case immediate
+        case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -5304,7 +5304,7 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
     /// The specified custom endpoint cannot be created because it already exists.
     public static var dbClusterEndpointAlreadyExistsFault: Self { .init(.dbClusterEndpointAlreadyExistsFault) }
-    /// The specified custom endpoint doesn&#39;t exist.
+    /// The specified custom endpoint doesn't exist.
     public static var dbClusterEndpointNotFoundFault: Self { .init(.dbClusterEndpointNotFoundFault) }
     /// The cluster already has the maximum number of custom endpoints.
     public static var dbClusterEndpointQuotaExceededFault: Self { .init(.dbClusterEndpointQuotaExceededFault) }
@@ -5358,7 +5358,7 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
     /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
     public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
-    /// The GlobalClusterIdentifier doesn&#39;t refer to an existing global database cluster.
+    /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
     /// The number of global database clusters for this account is already at the maximum allowed.
     public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
@@ -5390,13 +5390,13 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// The event subscription is in an invalid state.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
-    /// The global cluster is in an invalid state and can&#39;t perform the requested operation.
+    /// The global cluster is in an invalid state and can't perform the requested operation.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     /// Cannot restore from vpc backup to non-vpc DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
     /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
-    /// DB subnet group does not cover all Availability Zones after it is created because users&#39; change.
+    /// DB subnet group does not cover all Availability Zones after it is created because users' change.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// Error accessing KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }

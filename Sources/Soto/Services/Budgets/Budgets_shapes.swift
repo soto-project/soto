@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -227,7 +227,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.actionThresholdValue, name: "actionThresholdValue", parent: name, max: 15_000_000_000_000.0)
+            try self.validate(self.actionThresholdValue, name: "actionThresholdValue", parent: name, max: 15000000000000.0)
             try self.validate(self.actionThresholdValue, name: "actionThresholdValue", parent: name, min: 0.0)
         }
 
@@ -360,11 +360,11 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.calculatedSpend?.validate(name: "\(name).calculatedSpend")
             try self.costFilters?.forEach {
-                try validate($0.key, name: "costFilters.key", parent: name, max: 2_147_483_647)
+                try validate($0.key, name: "costFilters.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "costFilters.key", parent: name, pattern: ".*")
             }
             try self.plannedBudgetLimits?.forEach {
-                try validate($0.key, name: "plannedBudgetLimits.key", parent: name, max: 2_147_483_647)
+                try validate($0.key, name: "plannedBudgetLimits.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "plannedBudgetLimits.key", parent: name, pattern: ".*")
                 try $0.value.validate(name: "\(name).plannedBudgetLimits[\"\($0.key)\"]")
             }
@@ -947,7 +947,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1044,7 +1044,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1093,7 +1093,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1140,7 +1140,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1193,7 +1193,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1281,7 +1281,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1335,7 +1335,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
@@ -1393,7 +1393,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "^[^:\\\\]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.notification.validate(name: "\(name).notification")
         }
@@ -1586,7 +1586,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.threshold, name: "threshold", parent: name, max: 15_000_000_000_000.0)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 15000000000000.0)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0.0)
         }
 
@@ -1669,10 +1669,10 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.amount, name: "amount", parent: name, max: 2_147_483_647)
+            try self.validate(self.amount, name: "amount", parent: name, max: 2147483647)
             try self.validate(self.amount, name: "amount", parent: name, min: 1)
             try self.validate(self.amount, name: "amount", parent: name, pattern: "^([0-9]*\\.)?[0-9]+$")
-            try self.validate(self.unit, name: "unit", parent: name, max: 2_147_483_647)
+            try self.validate(self.unit, name: "unit", parent: name, max: 2147483647)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: ".*")
         }
@@ -1730,7 +1730,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.address, name: "address", parent: name, max: 2_147_483_647)
+            try self.validate(self.address, name: "address", parent: name, max: 2147483647)
             try self.validate(self.address, name: "address", parent: name, min: 1)
             try self.validate(self.address, name: "address", parent: name, pattern: "^(.*[\\n\\r\\t\\f\\ ]?)*$")
         }
@@ -1997,7 +1997,7 @@ public struct BudgetsErrorType: AWSErrorType {
 
     /// You are not authorized to use this operation with the given parameters.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You&#39;ve exceeded the notification or subscriber limit.
+    /// You've exceeded the notification or subscriber limit.
     public static var creationLimitExceededException: Self { .init(.creationLimitExceededException) }
     /// The budget name already exists. Budget names must be unique within an account.
     public static var duplicateRecordException: Self { .init(.duplicateRecordException) }

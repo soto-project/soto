@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -318,7 +318,7 @@ extension Transfer {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Transfer {
-    ///  Lists the details for all the accesses you have on your server.
+    /// Lists the details for all the accesses you have on your server.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -340,7 +340,7 @@ extension Transfer {
         )
     }
 
-    ///  Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
+    /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -362,7 +362,7 @@ extension Transfer {
         )
     }
 
-    ///  Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
+    /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -384,7 +384,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the connectors for the specified Region.
+    /// Lists the connectors for the specified Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -406,7 +406,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists all executions for the specified workflow.
+    /// Lists all executions for the specified workflow.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -428,7 +428,7 @@ extension Transfer {
         )
     }
 
-    ///  Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
+    /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -450,7 +450,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    /// Lists the security policies that are attached to your file transfer protocol-enabled servers.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -472,7 +472,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
+    /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -494,7 +494,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
+    /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -516,7 +516,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
+    /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -538,7 +538,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists all of your workflows.
+    /// Lists all of your workflows.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

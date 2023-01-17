@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -67,9 +67,9 @@ extension ApiGatewayManagementApi {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectedAt
-            case identity
-            case lastActiveAt
+            case connectedAt = "connectedAt"
+            case identity = "identity"
+            case lastActiveAt = "lastActiveAt"
         }
     }
 
@@ -85,8 +85,8 @@ extension ApiGatewayManagementApi {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIp
-            case userAgent
+            case sourceIp = "sourceIp"
+            case userAgent = "userAgent"
         }
     }
 
@@ -109,7 +109,7 @@ extension ApiGatewayManagementApi {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 131_072)
+            try self.validate(self.data, name: "data", parent: name, max: 131072)
         }
 
         private enum CodingKeys: CodingKey {}

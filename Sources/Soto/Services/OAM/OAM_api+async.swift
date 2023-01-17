@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,7 +103,7 @@ extension OAM {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OAM {
-    ///  Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks. To find a list of links for one source account, use ListLinks.
+    /// Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks. To find a list of links for one source account, use ListLinks.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -125,7 +125,7 @@ extension OAM {
         )
     }
 
-    ///  Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
+    /// Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -147,7 +147,7 @@ extension OAM {
         )
     }
 
-    ///  Use this operation in a monitoring account to return the list of sinks created in that account.
+    /// Use this operation in a monitoring account to return the list of sinks created in that account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

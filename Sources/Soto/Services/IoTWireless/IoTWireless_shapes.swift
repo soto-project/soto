@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -27,9 +27,9 @@ extension IoTWireless {
     }
 
     public enum BatteryLevel: String, CustomStringConvertible, Codable, _SotoSendable {
-        case critical
-        case low
-        case normal
+        case critical = "critical"
+        case low = "low"
+        case normal = "normal"
         public var description: String { return self.rawValue }
     }
 
@@ -61,11 +61,11 @@ extension IoTWireless {
     }
 
     public enum Event: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ack
-        case discovered
-        case lost
-        case nack
-        case passthrough
+        case ack = "ack"
+        case discovered = "discovered"
+        case lost = "lost"
+        case nack = "nack"
+        case passthrough = "passthrough"
         public var description: String { return self.rawValue }
     }
 
@@ -604,8 +604,8 @@ extension IoTWireless {
             try self.validate(self.dataRate, name: "dataRate", parent: name, max: 15)
             try self.validate(self.dataRate, name: "dataRate", parent: name, min: 0)
             try self.frequencies?.forEach {
-                try validate($0, name: "frequencies[]", parent: name, max: 1_000_000_000)
-                try validate($0, name: "frequencies[]", parent: name, min: 100_000_000)
+                try validate($0, name: "frequencies[]", parent: name, max: 1000000000)
+                try validate($0, name: "frequencies[]", parent: name, min: 100000000)
             }
             try self.validate(self.frequencies, name: "frequencies", parent: name, max: 10)
         }
@@ -2131,8 +2131,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, max: 1_000_000_000)
-            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, min: 100_000_000)
+            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, max: 1000000000)
+            try self.validate(self.downlinkFrequency, name: "downlinkFrequency", parent: name, min: 100000000)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 256)
         }
 
@@ -4333,8 +4333,8 @@ extension IoTWireless {
             try self.validate(self.classCTimeout, name: "classCTimeout", parent: name, max: 1000)
             try self.validate(self.classCTimeout, name: "classCTimeout", parent: name, min: 0)
             try self.factoryPresetFreqsList?.forEach {
-                try validate($0, name: "factoryPresetFreqsList[]", parent: name, max: 16_700_000)
-                try validate($0, name: "factoryPresetFreqsList[]", parent: name, min: 1_000_000)
+                try validate($0, name: "factoryPresetFreqsList[]", parent: name, max: 16700000)
+                try validate($0, name: "factoryPresetFreqsList[]", parent: name, min: 1000000)
             }
             try self.validate(self.factoryPresetFreqsList, name: "factoryPresetFreqsList", parent: name, max: 20)
             try self.validate(self.macVersion, name: "macVersion", parent: name, max: 64)
@@ -4344,8 +4344,8 @@ extension IoTWireless {
             try self.validate(self.maxEirp, name: "maxEirp", parent: name, min: 0)
             try self.validate(self.pingSlotDr, name: "pingSlotDr", parent: name, max: 15)
             try self.validate(self.pingSlotDr, name: "pingSlotDr", parent: name, min: 0)
-            try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, max: 16_700_000)
-            try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, min: 1_000_000)
+            try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, max: 16700000)
+            try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, min: 1000000)
             try self.validate(self.pingSlotPeriod, name: "pingSlotPeriod", parent: name, max: 4096)
             try self.validate(self.pingSlotPeriod, name: "pingSlotPeriod", parent: name, min: 128)
             try self.validate(self.regParamsRevision, name: "regParamsRevision", parent: name, max: 64)
@@ -4356,8 +4356,8 @@ extension IoTWireless {
             try self.validate(self.rxDelay1, name: "rxDelay1", parent: name, min: 0)
             try self.validate(self.rxDrOffset1, name: "rxDrOffset1", parent: name, max: 7)
             try self.validate(self.rxDrOffset1, name: "rxDrOffset1", parent: name, min: 0)
-            try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, max: 16_700_000)
-            try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, min: 1_000_000)
+            try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, max: 16700000)
+            try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, min: 1000000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4719,9 +4719,9 @@ extension IoTWireless {
         public func validate(name: String) throws {
             try self.validate(self.dlDr, name: "dlDr", parent: name, max: 15)
             try self.validate(self.dlDr, name: "dlDr", parent: name, min: 0)
-            try self.validate(self.dlFreq, name: "dlFreq", parent: name, max: 1_000_000_000)
-            try self.validate(self.dlFreq, name: "dlFreq", parent: name, min: 100_000_000)
-            try self.validate(self.sessionTimeout, name: "sessionTimeout", parent: name, max: 172_800)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, max: 1000000000)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, min: 100000000)
+            try self.validate(self.sessionTimeout, name: "sessionTimeout", parent: name, max: 172800)
             try self.validate(self.sessionTimeout, name: "sessionTimeout", parent: name, min: 60)
         }
 
@@ -4852,7 +4852,7 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.currentVersion?.validate(name: "\(name).currentVersion")
-            try self.validate(self.sigKeyCrc, name: "sigKeyCrc", parent: name, max: 4_294_967_295)
+            try self.validate(self.sigKeyCrc, name: "sigKeyCrc", parent: name, max: 4294967295)
             try self.validate(self.sigKeyCrc, name: "sigKeyCrc", parent: name, min: 1)
             try self.validate(self.updateSignature, name: "updateSignature", parent: name, max: 4096)
             try self.validate(self.updateSignature, name: "updateSignature", parent: name, min: 1)
@@ -4896,7 +4896,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262_143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262143)
             try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
             try self.validate(self.pci, name: "pci", parent: name, max: 503)
             try self.validate(self.pci, name: "pci", parent: name, min: 0)
@@ -4929,9 +4929,9 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262_143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262143)
             try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
-            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268_435_455)
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268435455)
             try self.validate(self.eutranCid, name: "eutranCid", parent: name, min: 0)
             try self.validate(self.pci, name: "pci", parent: name, max: 503)
             try self.validate(self.pci, name: "pci", parent: name, min: 0)
@@ -4986,7 +4986,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268_435_455)
+            try self.validate(self.eutranCid, name: "eutranCid", parent: name, max: 268435455)
             try self.validate(self.eutranCid, name: "eutranCid", parent: name, min: 0)
             try self.lteLocalId?.validate(name: "\(name).lteLocalId")
             try self.lteNmr?.forEach {
@@ -5184,7 +5184,7 @@ extension IoTWireless {
             try self.gatewayList.forEach {
                 try $0.validate(name: "\(name).gatewayList[]")
             }
-            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, max: 604_800)
+            try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, max: 604800)
             try self.validate(self.transmissionInterval, name: "transmissionInterval", parent: name, min: 1)
         }
 
@@ -5770,7 +5770,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ackModeRetryDurationSecs, name: "ackModeRetryDurationSecs", parent: name, max: 604_800)
+            try self.validate(self.ackModeRetryDurationSecs, name: "ackModeRetryDurationSecs", parent: name, max: 604800)
             try self.validate(self.ackModeRetryDurationSecs, name: "ackModeRetryDurationSecs", parent: name, min: 0)
             try self.validate(self.seq, name: "seq", parent: name, max: 16383)
             try self.validate(self.seq, name: "seq", parent: name, min: 0)
@@ -6032,7 +6032,7 @@ extension IoTWireless {
             try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
             try self.validate(self.uarfcn, name: "uarfcn", parent: name, max: 16383)
             try self.validate(self.uarfcn, name: "uarfcn", parent: name, min: 0)
-            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268435455)
             try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
         }
 
@@ -6096,7 +6096,7 @@ extension IoTWireless {
             try self.validate(self.tdscdmaNmr, name: "tdscdmaNmr", parent: name, min: 1)
             try self.validate(self.tdscdmaTimingAdvance, name: "tdscdmaTimingAdvance", parent: name, max: 1530)
             try self.validate(self.tdscdmaTimingAdvance, name: "tdscdmaTimingAdvance", parent: name, min: 0)
-            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268435455)
             try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
         }
 
@@ -6844,7 +6844,7 @@ extension IoTWireless {
             try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
             try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, max: 16383)
             try self.validate(self.uarfcndl, name: "uarfcndl", parent: name, min: 0)
-            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268435455)
             try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
         }
 
@@ -6897,7 +6897,7 @@ extension IoTWireless {
             try self.validate(self.pathLoss, name: "pathLoss", parent: name, min: 46)
             try self.validate(self.rscp, name: "rscp", parent: name, max: -25)
             try self.validate(self.rscp, name: "rscp", parent: name, min: -120)
-            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268_435_455)
+            try self.validate(self.utranCid, name: "utranCid", parent: name, max: 268435455)
             try self.validate(self.utranCid, name: "utranCid", parent: name, min: 0)
             try self.wcdmaLocalId?.validate(name: "\(name).wcdmaLocalId")
             try self.wcdmaNmr?.forEach {
@@ -7160,7 +7160,7 @@ public struct IoTWirelessErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied because it exceeded the allowed API request rate.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request was denied because the resource can&#39;t have any more tags.
+    /// The request was denied because the resource can't have any more tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The input did not meet the specified constraints.
     public static var validationException: Self { .init(.validationException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -233,7 +233,7 @@ extension ECR {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECR {
-    ///  Returns the scan findings for the specified image.
+    /// Returns the scan findings for the specified image.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -255,7 +255,7 @@ extension ECR {
         )
     }
 
-    ///  Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+    /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -277,7 +277,7 @@ extension ECR {
         )
     }
 
-    ///  Returns the pull through cache rules for a registry.
+    /// Returns the pull through cache rules for a registry.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -299,7 +299,7 @@ extension ECR {
         )
     }
 
-    ///  Describes image repositories in a registry.
+    /// Describes image repositories in a registry.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -321,7 +321,7 @@ extension ECR {
         )
     }
 
-    ///  Retrieves the results of the lifecycle policy preview request for the specified repository.
+    /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -343,7 +343,7 @@ extension ECR {
         )
     }
 
-    ///  Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
+    /// Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

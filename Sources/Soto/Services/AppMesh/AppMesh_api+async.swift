@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,7 +218,7 @@ extension AppMesh {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppMesh {
-    ///  Returns a list of existing gateway routes that are associated to a virtual gateway.
+    /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -240,7 +240,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing service meshes.
+    /// Returns a list of existing service meshes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -262,7 +262,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing routes in a service mesh.
+    /// Returns a list of existing routes in a service mesh.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -284,7 +284,7 @@ extension AppMesh {
         )
     }
 
-    ///  List the tags for an App Mesh resource.
+    /// List the tags for an App Mesh resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -306,7 +306,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual gateways in a service mesh.
+    /// Returns a list of existing virtual gateways in a service mesh.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -328,7 +328,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual nodes.
+    /// Returns a list of existing virtual nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -350,7 +350,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual routers in a service mesh.
+    /// Returns a list of existing virtual routers in a service mesh.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -372,7 +372,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual services in a service mesh.
+    /// Returns a list of existing virtual services in a service mesh.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

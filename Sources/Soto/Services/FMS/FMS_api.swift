@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -292,7 +292,7 @@ extension FMS {
 // MARK: Paginators
 
 extension FMS {
-    ///  Returns an array of AppsListDataSummary objects.
+    /// Returns an array of AppsListDataSummary objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -345,7 +345,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
+    /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -398,7 +398,7 @@ extension FMS {
         )
     }
 
-    ///  Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. The ListMemberAccounts must be submitted by the account that is set as the Firewall Manager administrator.
+    /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. The ListMemberAccounts must be submitted by the account that is set as the Firewall Manager administrator.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -451,7 +451,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of PolicySummary objects.
+    /// Returns an array of PolicySummary objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -504,7 +504,7 @@ extension FMS {
         )
     }
 
-    ///  Returns an array of ProtocolsListDataSummary objects.
+    /// Returns an array of ProtocolsListDataSummary objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -557,7 +557,7 @@ extension FMS {
         )
     }
 
-    ///  Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

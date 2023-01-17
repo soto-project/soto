@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -124,8 +124,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case predictiveDialerConfig
-            case progressiveDialerConfig
+            case predictiveDialerConfig = "predictiveDialerConfig"
+            case progressiveDialerConfig = "progressiveDialerConfig"
         }
     }
 
@@ -140,7 +140,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enableAnswerMachineDetection
+            case enableAnswerMachineDetection = "enableAnswerMachineDetection"
         }
     }
 
@@ -164,13 +164,13 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectInstanceId
-            case dialerConfig
-            case id
-            case name
-            case outboundCallConfig
-            case tags
+            case arn = "arn"
+            case connectInstanceId = "connectInstanceId"
+            case dialerConfig = "dialerConfig"
+            case id = "id"
+            case name = "name"
+            case outboundCallConfig = "outboundCallConfig"
+            case tags = "tags"
         }
     }
 
@@ -186,7 +186,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceIdFilter
+            case instanceIdFilter = "instanceIdFilter"
         }
     }
 
@@ -204,10 +204,10 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case connectInstanceId
-            case id
-            case name
+            case arn = "arn"
+            case connectInstanceId = "connectInstanceId"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -241,11 +241,11 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceId
-            case dialerConfig
-            case name
-            case outboundCallConfig
-            case tags
+            case connectInstanceId = "connectInstanceId"
+            case dialerConfig = "dialerConfig"
+            case name = "name"
+            case outboundCallConfig = "outboundCallConfig"
+            case tags = "tags"
         }
     }
 
@@ -261,9 +261,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case tags
+            case arn = "arn"
+            case id = "id"
+            case tags = "tags"
         }
     }
 
@@ -347,7 +347,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaign
+            case campaign = "campaign"
         }
     }
 
@@ -376,10 +376,10 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case clientToken
-            case expirationTime
-            case phoneNumber
+            case attributes = "attributes"
+            case clientToken = "clientToken"
+            case expirationTime = "expirationTime"
+            case phoneNumber = "phoneNumber"
         }
     }
 
@@ -399,9 +399,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case encryptionType
-            case keyArn
+            case enabled = "enabled"
+            case encryptionType = "encryptionType"
+            case keyArn = "keyArn"
         }
     }
 
@@ -415,8 +415,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignId
-            case failureCode
+            case campaignId = "campaignId"
+            case failureCode = "failureCode"
         }
     }
 
@@ -432,9 +432,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case failureCode
-            case id
+            case clientToken = "clientToken"
+            case failureCode = "failureCode"
+            case id = "id"
         }
     }
 
@@ -452,7 +452,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignIds
+            case campaignIds = "campaignIds"
         }
     }
 
@@ -466,8 +466,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedRequests
-            case successfulRequests
+            case failedRequests = "failedRequests"
+            case successfulRequests = "successfulRequests"
         }
     }
 
@@ -497,7 +497,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -527,7 +527,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceConfig
+            case connectInstanceConfig = "connectInstanceConfig"
         }
     }
 
@@ -557,7 +557,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceOnboardingJobStatus
+            case connectInstanceOnboardingJobStatus = "connectInstanceOnboardingJobStatus"
         }
     }
 
@@ -573,9 +573,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceId
-            case encryptionConfig
-            case serviceLinkedRoleArn
+            case connectInstanceId = "connectInstanceId"
+            case encryptionConfig = "encryptionConfig"
+            case serviceLinkedRoleArn = "serviceLinkedRoleArn"
         }
     }
 
@@ -593,8 +593,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `operator`
-            case value
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
@@ -610,9 +610,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceId
-            case failureCode
-            case status
+            case connectInstanceId = "connectInstanceId"
+            case failureCode = "failureCode"
+            case status = "status"
         }
     }
 
@@ -635,9 +635,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -651,8 +651,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignSummaryList
-            case nextToken
+            case campaignSummaryList = "campaignSummaryList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -684,7 +684,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -708,10 +708,10 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case answerMachineDetectionConfig
-            case connectContactFlowId
-            case connectQueueId
-            case connectSourcePhoneNumber
+            case answerMachineDetectionConfig = "answerMachineDetectionConfig"
+            case connectContactFlowId = "connectContactFlowId"
+            case connectQueueId = "connectQueueId"
+            case connectSourcePhoneNumber = "connectSourcePhoneNumber"
         }
     }
 
@@ -746,7 +746,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidthAllocation
+            case bandwidthAllocation = "bandwidthAllocation"
         }
     }
 
@@ -763,7 +763,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidthAllocation
+            case bandwidthAllocation = "bandwidthAllocation"
         }
     }
 
@@ -790,7 +790,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dialRequests
+            case dialRequests = "dialRequests"
         }
     }
 
@@ -804,8 +804,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedRequests
-            case successfulRequests
+            case failedRequests = "failedRequests"
+            case successfulRequests = "successfulRequests"
         }
     }
 
@@ -864,7 +864,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionConfig
+            case encryptionConfig = "encryptionConfig"
         }
     }
 
@@ -876,7 +876,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectInstanceOnboardingJobStatus
+            case connectInstanceOnboardingJobStatus = "connectInstanceOnboardingJobStatus"
         }
     }
 
@@ -908,8 +908,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignId
-            case state
+            case campaignId = "campaignId"
+            case state = "state"
         }
     }
 
@@ -923,8 +923,8 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case id
+            case clientToken = "clientToken"
+            case id = "id"
         }
     }
 
@@ -954,7 +954,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1006,7 +1006,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dialerConfig
+            case dialerConfig = "dialerConfig"
         }
     }
 
@@ -1030,7 +1030,7 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1058,9 +1058,9 @@ extension ConnectCampaigns {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case answerMachineDetectionConfig
-            case connectContactFlowId
-            case connectSourcePhoneNumber
+            case answerMachineDetectionConfig = "answerMachineDetectionConfig"
+            case connectContactFlowId = "connectContactFlowId"
+            case connectSourcePhoneNumber = "connectSourcePhoneNumber"
         }
     }
 }

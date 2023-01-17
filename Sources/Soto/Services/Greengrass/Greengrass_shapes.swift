@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -46,8 +46,8 @@ extension Greengrass {
     }
 
     public enum EncodingType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case binary
-        case json
+        case binary = "binary"
+        case json = "json"
         public var description: String { return self.rawValue }
     }
 
@@ -79,13 +79,13 @@ extension Greengrass {
     }
 
     public enum Permission: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ro
-        case rw
+        case ro = "ro"
+        case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
     public enum SoftwareToUpdate: String, CustomStringConvertible, Codable, _SotoSendable {
-        case core
+        case core = "core"
         case otaAgent = "ota_agent"
         public var description: String { return self.rawValue }
     }
@@ -109,18 +109,18 @@ extension Greengrass {
     }
 
     public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable, _SotoSendable {
-        case aarch64
-        case armv6l
-        case armv7l
+        case aarch64 = "aarch64"
+        case armv6l = "armv6l"
+        case armv7l = "armv7l"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable, _SotoSendable {
         case amazonLinux = "amazon_linux"
-        case openwrt
-        case raspbian
-        case ubuntu
+        case openwrt = "openwrt"
+        case raspbian = "raspbian"
+        case ubuntu = "ubuntu"
         public var description: String { return self.rawValue }
     }
 
@@ -389,7 +389,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -503,7 +503,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -666,7 +666,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -780,7 +780,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -930,7 +930,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1068,7 +1068,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1182,7 +1182,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1351,7 +1351,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1478,7 +1478,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2002,7 +2002,7 @@ extension Greengrass {
             case createdAt = "CreatedAt"
             case errorDetails = "ErrorDetails"
             case errorMessage = "ErrorMessage"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2034,7 +2034,7 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case connectivityInfo = "ConnectivityInfo"
-            case message
+            case message = "message"
         }
     }
 
@@ -2090,7 +2090,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2202,7 +2202,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2358,7 +2358,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2470,7 +2470,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2658,7 +2658,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2762,7 +2762,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2870,7 +2870,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2995,7 +2995,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3966,7 +3966,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4282,7 +4282,7 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case executionRoleArn = "ExecutionRoleArn"
             case inputFileUri = "InputFileUri"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4375,7 +4375,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4460,7 +4460,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
             case version = "Version"
         }
     }

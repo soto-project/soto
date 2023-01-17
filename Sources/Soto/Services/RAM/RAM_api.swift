@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RAM service.
 ///
-/// This is the Resource Access Manager API Reference. This documentation provides descriptions and syntax for each of the actions and data types in RAM. RAM is a service that helps you securely share your Amazon Web Services resources across Amazon Web Services accounts. If you have multiple Amazon Web Services accounts, you can use RAM to share those resources with other accounts. If you use Organizations to manage your accounts, then you share your resources with your organization or organizational units (OUs). For supported resource types, you can also share resources with individual Identity and Access Management (IAM) roles an users.   To learn more about RAM, see the following resources:    Resource Access Manager product page     Resource Access Manager User Guide
+/// This is the Resource Access Manager API Reference. This documentation provides descriptions and syntax for each of the actions and data types in RAM. RAM is a service that helps you securely share your Amazon Web Services resources across Amazon Web Services accounts. If you have multiple Amazon Web Services accounts, you can use RAM to share those resources with other accounts. If you use Organizations to manage your accounts, then you share your resources with your organization or organizational units (OUs). For supported resource types, you can also share resources with individual Identity and Access Management (IAM) roles an users.  To learn more about RAM, see the following resources:    Resource Access Manager product page     Resource Access Manager User Guide
 public struct RAM: AWSService {
     // MARK: Member variables
 
@@ -214,7 +214,7 @@ extension RAM {
 // MARK: Paginators
 
 extension RAM {
-    ///  Retrieves the resource policies for the specified resources that you own and have shared.
+    /// Retrieves the resource policies for the specified resources that you own and have shared.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -267,7 +267,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves the resource and principal associations for resource shares that you own.
+    /// Retrieves the resource and principal associations for resource shares that you own.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -320,7 +320,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves details about invitations that you have received for resource shares.
+    /// Retrieves details about invitations that you have received for resource shares.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -373,7 +373,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves details about the resource shares that you own or that are shared with you.
+    /// Retrieves details about the resource shares that you own or that are shared with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -426,7 +426,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -479,7 +479,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the available versions of the specified RAM permission.
+    /// Lists the available versions of the specified RAM permission.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -532,7 +532,7 @@ extension RAM {
         )
     }
 
-    ///  Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -585,7 +585,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the principals that you are sharing resources with or that are sharing resources with you.
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -638,7 +638,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the RAM permissions that are associated with a resource share.
+    /// Lists the RAM permissions that are associated with a resource share.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -691,7 +691,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resource types that can be shared by RAM.
+    /// Lists the resource types that can be shared by RAM.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -744,7 +744,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources that you added to a resource share or the resources that are shared with you.
+    /// Lists the resources that you added to a resource share or the resources that are shared with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

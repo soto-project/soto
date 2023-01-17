@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -210,7 +210,7 @@ extension Shield {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Shield {
-    ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
+    /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -232,7 +232,7 @@ extension Shield {
         )
     }
 
-    ///  Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide  filtering criteria and retrieve just the subset of protection groups that match the criteria.
+    /// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide  filtering criteria and retrieve just the subset of protection groups that match the criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -254,7 +254,7 @@ extension Shield {
         )
     }
 
-    ///  Retrieves Protection objects for the account. You can retrieve all protections or you can provide  filtering criteria and retrieve just the subset of protections that match the criteria.
+    /// Retrieves Protection objects for the account. You can retrieve all protections or you can provide  filtering criteria and retrieve just the subset of protections that match the criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -276,7 +276,7 @@ extension Shield {
         )
     }
 
-    ///  Retrieves the resources that are included in the protection group.
+    /// Retrieves the resources that are included in the protection group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -803,7 +803,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.chargeValue, name: "chargeValue", parent: name, max: 1_000_000.0)
+            try self.validate(self.chargeValue, name: "chargeValue", parent: name, max: 1000000.0)
             try self.validate(self.chargeValue, name: "chargeValue", parent: name, min: 0.0)
         }
 
@@ -2279,7 +2279,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.chargeValue, name: "chargeValue", parent: name, max: 1_000_000.0)
+            try self.validate(self.chargeValue, name: "chargeValue", parent: name, max: 1000000.0)
             try self.validate(self.chargeValue, name: "chargeValue", parent: name, min: 0.0)
         }
 
@@ -2600,13 +2600,13 @@ public struct BillingconductorErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An unexpected error occurred while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The request references a resource that doesn&#39;t exist.
+    /// The request references a resource that doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request would cause a service limit to exceed.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input doesn&#39;t match with the constraints specified by Amazon Web Services services.
+    /// The input doesn't match with the constraints specified by Amazon Web Services services.
     public static var validationException: Self { .init(.validationException) }
 }
 

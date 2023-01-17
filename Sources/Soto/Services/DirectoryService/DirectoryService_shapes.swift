@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -3443,7 +3443,7 @@ extension DirectoryService {
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try self.validate(self.ldifContent, name: "ldifContent", parent: name, max: 500_000)
+            try self.validate(self.ldifContent, name: "ldifContent", parent: name, max: 500000)
             try self.validate(self.ldifContent, name: "ldifContent", parent: name, min: 1)
         }
 

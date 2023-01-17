@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -253,7 +253,7 @@ extension CodeBuild {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeBuild {
-    ///  Retrieves one or more code coverage reports.
+    /// Retrieves one or more code coverage reports.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -275,7 +275,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of details about test cases for a report.
+    ///  Returns a list of details about test cases for a report.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -297,7 +297,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Retrieves the identifiers of your build batches in the current region.
+    /// Retrieves the identifiers of your build batches in the current region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -319,7 +319,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Retrieves the identifiers of the build batches for a specific project.
+    /// Retrieves the identifiers of the build batches for a specific project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -341,7 +341,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Gets a list of build IDs, with each build ID representing a single build.
+    /// Gets a list of build IDs, with each build ID representing a single build.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -363,7 +363,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
+    /// Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -385,7 +385,7 @@ extension CodeBuild {
         )
     }
 
-    ///  Gets a list of build project names, with each build project name representing a single build project.
+    /// Gets a list of build project names, with each build project name representing a single build project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -407,7 +407,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list ARNs for the report groups in the current Amazon Web Services account.
+    ///  Gets a list ARNs for the report groups in the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -429,7 +429,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of ARNs for the reports in the current Amazon Web Services account.
+    ///  Returns a list of ARNs for the reports in the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -451,7 +451,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of ARNs for the reports that belong to a ReportGroup.
+    ///  Returns a list of ARNs for the reports that belong to a ReportGroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -473,7 +473,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list of projects that are shared with other Amazon Web Services accounts or users.
+    ///  Gets a list of projects that are shared with other Amazon Web Services accounts or users.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -495,7 +495,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
+    ///  Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

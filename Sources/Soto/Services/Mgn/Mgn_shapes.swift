@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -254,13 +254,13 @@ extension Mgn {
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gp2
-        case gp3
-        case io1
-        case io2
-        case sc1
-        case st1
-        case standard
+        case gp2 = "gp2"
+        case gp3 = "gp3"
+        case io1 = "io1"
+        case io2 = "io2"
+        case sc1 = "sc1"
+        case st1 = "st1"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -316,16 +316,16 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationAggregatedStatus
-            case applicationID
-            case arn
-            case creationDateTime
-            case description
-            case isArchived
-            case lastModifiedDateTime
-            case name
-            case tags
-            case waveID
+            case applicationAggregatedStatus = "applicationAggregatedStatus"
+            case applicationID = "applicationID"
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case isArchived = "isArchived"
+            case lastModifiedDateTime = "lastModifiedDateTime"
+            case name = "name"
+            case tags = "tags"
+            case waveID = "waveID"
         }
     }
 
@@ -347,10 +347,10 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthStatus
-            case lastUpdateDateTime
-            case progressStatus
-            case totalSourceServers
+            case healthStatus = "healthStatus"
+            case lastUpdateDateTime = "lastUpdateDateTime"
+            case progressStatus = "progressStatus"
+            case totalSourceServers = "totalSourceServers"
         }
     }
 
@@ -369,7 +369,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
+            case applicationID = "applicationID"
         }
     }
 
@@ -388,7 +388,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case waveID
+            case waveID = "waveID"
         }
     }
 
@@ -417,8 +417,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationIDs
-            case waveID
+            case applicationIDs = "applicationIDs"
+            case waveID = "waveID"
         }
     }
 
@@ -451,8 +451,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
-            case sourceServerIDs
+            case applicationID = "applicationID"
+            case sourceServerIDs = "sourceServerIDs"
         }
     }
 
@@ -472,8 +472,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cores
-            case modelName
+            case cores = "cores"
+            case modelName = "modelName"
         }
     }
 
@@ -495,8 +495,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifeCycle
-            case sourceServerID
+            case lifeCycle = "lifeCycle"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -509,7 +509,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
@@ -540,9 +540,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -605,20 +605,20 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatePublicIpAddress
-            case bootMode
-            case copyPrivateIp
-            case copyTags
-            case enableMapAutoTagging
-            case largeVolumeConf
-            case launchDisposition
-            case licensing
-            case mapAutoTaggingMpeID
-            case postLaunchActions
-            case smallVolumeConf
-            case smallVolumeMaxSize
-            case tags
-            case targetInstanceTypeRightSizingMethod
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case bootMode = "bootMode"
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case enableMapAutoTagging = "enableMapAutoTagging"
+            case largeVolumeConf = "largeVolumeConf"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case postLaunchActions = "postLaunchActions"
+            case smallVolumeConf = "smallVolumeConf"
+            case smallVolumeMaxSize = "smallVolumeMaxSize"
+            case tags = "tags"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -689,19 +689,19 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case tags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case tags = "tags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -732,9 +732,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -750,8 +750,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case rawError
+            case error = "error"
+            case rawError = "rawError"
         }
     }
 
@@ -782,13 +782,13 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataReplicationError
-            case dataReplicationInitiation
-            case dataReplicationState
-            case etaDateTime
-            case lagDuration
-            case lastSnapshotDateTime
-            case replicatedDisks
+            case dataReplicationError = "dataReplicationError"
+            case dataReplicationInitiation = "dataReplicationInitiation"
+            case dataReplicationState = "dataReplicationState"
+            case etaDateTime = "etaDateTime"
+            case lagDuration = "lagDuration"
+            case lastSnapshotDateTime = "lastSnapshotDateTime"
+            case replicatedDisks = "replicatedDisks"
         }
     }
 
@@ -813,11 +813,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backloggedStorageBytes
-            case deviceName
-            case replicatedStorageBytes
-            case rescannedStorageBytes
-            case totalStorageBytes
+            case backloggedStorageBytes = "backloggedStorageBytes"
+            case deviceName = "deviceName"
+            case replicatedStorageBytes = "replicatedStorageBytes"
+            case rescannedStorageBytes = "rescannedStorageBytes"
+            case totalStorageBytes = "totalStorageBytes"
         }
     }
 
@@ -836,9 +836,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextAttemptDateTime
-            case startDateTime
-            case steps
+            case nextAttemptDateTime = "nextAttemptDateTime"
+            case startDateTime = "startDateTime"
+            case steps = "steps"
         }
     }
 
@@ -854,8 +854,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case status
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -874,7 +874,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
+            case applicationID = "applicationID"
         }
     }
 
@@ -897,7 +897,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobID
+            case jobID = "jobID"
         }
     }
 
@@ -920,7 +920,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchConfigurationTemplateID
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
         }
     }
 
@@ -943,7 +943,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationConfigurationTemplateID
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
         }
     }
 
@@ -966,7 +966,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -989,7 +989,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vcenterClientID
+            case vcenterClientID = "vcenterClientID"
         }
     }
 
@@ -1008,7 +1008,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case waveID
+            case waveID = "waveID"
         }
     }
 
@@ -1040,9 +1040,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobID
-            case maxResults
-            case nextToken
+            case jobID = "jobID"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1058,8 +1058,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1085,9 +1085,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1121,9 +1121,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromDate
-            case jobIDs
-            case toDate
+            case fromDate = "fromDate"
+            case jobIDs = "jobIDs"
+            case toDate = "toDate"
         }
     }
 
@@ -1139,8 +1139,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1171,9 +1171,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchConfigurationTemplateIDs
-            case maxResults
-            case nextToken
+            case launchConfigurationTemplateIDs = "launchConfigurationTemplateIDs"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1189,8 +1189,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1221,9 +1221,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationConfigurationTemplateIDs
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationConfigurationTemplateIDs = "replicationConfigurationTemplateIDs"
         }
     }
 
@@ -1239,8 +1239,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1266,9 +1266,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1310,11 +1310,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationIDs
-            case isArchived
-            case lifeCycleStates
-            case replicationTypes
-            case sourceServerIDs
+            case applicationIDs = "applicationIDs"
+            case isArchived = "isArchived"
+            case lifeCycleStates = "lifeCycleStates"
+            case replicationTypes = "replicationTypes"
+            case sourceServerIDs = "sourceServerIDs"
         }
     }
 
@@ -1330,8 +1330,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1372,8 +1372,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1402,8 +1402,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationIDs
-            case waveID
+            case applicationIDs = "applicationIDs"
+            case waveID = "waveID"
         }
     }
 
@@ -1436,8 +1436,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
-            case sourceServerIDs
+            case applicationID = "applicationID"
+            case sourceServerIDs = "sourceServerIDs"
         }
     }
 
@@ -1460,7 +1460,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1476,8 +1476,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytes
-            case deviceName
+            case bytes = "bytes"
+            case deviceName = "deviceName"
         }
     }
 
@@ -1496,7 +1496,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1515,7 +1515,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1534,7 +1534,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -1559,11 +1559,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsInstanceID
-            case fqdn
-            case hostname
-            case vmPath
-            case vmWareUuid
+            case awsInstanceID = "awsInstanceID"
+            case fqdn = "fqdn"
+            case hostname = "hostname"
+            case vmPath = "vmPath"
+            case vmWareUuid = "vmWareUuid"
         }
     }
 
@@ -1608,15 +1608,15 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case endDateTime
-            case initiatedBy
-            case jobID
-            case participatingServers
-            case status
-            case tags
-            case type
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case endDateTime = "endDateTime"
+            case initiatedBy = "initiatedBy"
+            case jobID = "jobID"
+            case participatingServers = "participatingServers"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -1635,9 +1635,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventData
-            case logDateTime
+            case event = "event"
+            case eventData = "eventData"
+            case logDateTime = "logDateTime"
         }
     }
 
@@ -1659,10 +1659,10 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case conversionServerID
-            case rawError
-            case sourceServerID
-            case targetInstanceID
+            case conversionServerID = "conversionServerID"
+            case rawError = "rawError"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceID = "targetInstanceID"
         }
     }
 
@@ -1687,11 +1687,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionID
-            case executionStatus
-            case failureReason
-            case ssmDocument
-            case ssmDocumentType
+            case executionID = "executionID"
+            case executionStatus = "executionStatus"
+            case failureReason = "failureReason"
+            case ssmDocument = "ssmDocument"
+            case ssmDocumentType = "ssmDocumentType"
         }
     }
 
@@ -1736,18 +1736,18 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bootMode
-            case copyPrivateIp
-            case copyTags
-            case ec2LaunchTemplateID
-            case enableMapAutoTagging
-            case launchDisposition
-            case licensing
-            case mapAutoTaggingMpeID
-            case name
-            case postLaunchActions
-            case sourceServerID
-            case targetInstanceTypeRightSizingMethod
+            case bootMode = "bootMode"
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case ec2LaunchTemplateID = "ec2LaunchTemplateID"
+            case enableMapAutoTagging = "enableMapAutoTagging"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case name = "name"
+            case postLaunchActions = "postLaunchActions"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -1807,23 +1807,23 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associatePublicIpAddress
-            case bootMode
-            case copyPrivateIp
-            case copyTags
-            case ec2LaunchTemplateID
-            case enableMapAutoTagging
-            case largeVolumeConf
-            case launchConfigurationTemplateID
-            case launchDisposition
-            case licensing
-            case mapAutoTaggingMpeID
-            case postLaunchActions
-            case smallVolumeConf
-            case smallVolumeMaxSize
-            case tags
-            case targetInstanceTypeRightSizingMethod
+            case arn = "arn"
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case bootMode = "bootMode"
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case ec2LaunchTemplateID = "ec2LaunchTemplateID"
+            case enableMapAutoTagging = "enableMapAutoTagging"
+            case largeVolumeConf = "largeVolumeConf"
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case postLaunchActions = "postLaunchActions"
+            case smallVolumeConf = "smallVolumeConf"
+            case smallVolumeMaxSize = "smallVolumeMaxSize"
+            case tags = "tags"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -1847,9 +1847,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iops
-            case throughput
-            case volumeType
+            case iops = "iops"
+            case throughput = "throughput"
+            case volumeType = "volumeType"
         }
     }
 
@@ -1868,9 +1868,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2InstanceID
-            case firstBoot
-            case jobID
+            case ec2InstanceID = "ec2InstanceID"
+            case firstBoot = "firstBoot"
+            case jobID = "jobID"
         }
     }
 
@@ -1883,7 +1883,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case osByol
+            case osByol = "osByol"
         }
     }
 
@@ -1914,13 +1914,13 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addedToServiceDateTime
-            case elapsedReplicationDuration
-            case firstByteDateTime
-            case lastCutover
-            case lastSeenByServiceDateTime
-            case lastTest
-            case state
+            case addedToServiceDateTime = "addedToServiceDateTime"
+            case elapsedReplicationDuration = "elapsedReplicationDuration"
+            case firstByteDateTime = "firstByteDateTime"
+            case lastCutover = "lastCutover"
+            case lastSeenByServiceDateTime = "lastSeenByServiceDateTime"
+            case lastTest = "lastTest"
+            case state = "state"
         }
     }
 
@@ -1939,9 +1939,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalized
-            case initiated
-            case reverted
+            case finalized = "finalized"
+            case initiated = "initiated"
+            case reverted = "reverted"
         }
     }
 
@@ -1954,7 +1954,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
+            case apiCallDateTime = "apiCallDateTime"
         }
     }
 
@@ -1969,8 +1969,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
-            case jobID
+            case apiCallDateTime = "apiCallDateTime"
+            case jobID = "jobID"
         }
     }
 
@@ -1983,7 +1983,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
+            case apiCallDateTime = "apiCallDateTime"
         }
     }
 
@@ -2002,9 +2002,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalized
-            case initiated
-            case reverted
+            case finalized = "finalized"
+            case initiated = "initiated"
+            case reverted = "reverted"
         }
     }
 
@@ -2017,7 +2017,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
+            case apiCallDateTime = "apiCallDateTime"
         }
     }
 
@@ -2033,8 +2033,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
-            case jobID
+            case apiCallDateTime = "apiCallDateTime"
+            case jobID = "jobID"
         }
     }
 
@@ -2047,7 +2047,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiCallDateTime
+            case apiCallDateTime = "apiCallDateTime"
         }
     }
 
@@ -2073,9 +2073,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2109,9 +2109,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationIDs
-            case isArchived
-            case waveIDs
+            case applicationIDs = "applicationIDs"
+            case isArchived = "isArchived"
+            case waveIDs = "waveIDs"
         }
     }
 
@@ -2127,8 +2127,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2160,10 +2160,10 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sourceServerID
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2179,8 +2179,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2213,7 +2213,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2245,10 +2245,10 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case launchConfigurationTemplateID
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2264,8 +2264,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2291,9 +2291,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2318,8 +2318,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isArchived
-            case waveIDs
+            case isArchived = "isArchived"
+            case waveIDs = "waveIDs"
         }
     }
 
@@ -2335,8 +2335,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2355,7 +2355,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2374,9 +2374,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ips
-            case isPrimary
-            case macAddress
+            case ips = "ips"
+            case isPrimary = "isPrimary"
+            case macAddress = "macAddress"
         }
     }
 
@@ -2389,7 +2389,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fullString
+            case fullString = "fullString"
         }
     }
 
@@ -2411,10 +2411,10 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchedEc2InstanceID
-            case launchStatus
-            case postLaunchActionsStatus
-            case sourceServerID
+            case launchedEc2InstanceID = "launchedEc2InstanceID"
+            case launchStatus = "launchStatus"
+            case postLaunchActionsStatus = "postLaunchActionsStatus"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2452,11 +2452,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogGroupName
-            case deployment
-            case s3LogBucket
-            case s3OutputKeyPrefix
-            case ssmDocuments
+            case cloudWatchLogGroupName = "cloudWatchLogGroupName"
+            case deployment = "deployment"
+            case s3LogBucket = "s3LogBucket"
+            case s3OutputKeyPrefix = "s3OutputKeyPrefix"
+            case ssmDocuments = "ssmDocuments"
         }
     }
 
@@ -2472,8 +2472,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case postLaunchActionsLaunchStatusList
-            case ssmAgentDiscoveryDatetime
+            case postLaunchActionsLaunchStatusList = "postLaunchActionsLaunchStatusList"
+            case ssmAgentDiscoveryDatetime = "ssmAgentDiscoveryDatetime"
         }
     }
 
@@ -2537,16 +2537,16 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case actionName
-            case active
-            case documentIdentifier
-            case documentVersion
-            case mustSucceedForCutover
-            case order
-            case parameters
-            case sourceServerID
-            case timeoutSeconds
+            case actionID = "actionID"
+            case actionName = "actionName"
+            case active = "active"
+            case documentIdentifier = "documentIdentifier"
+            case documentVersion = "documentVersion"
+            case mustSucceedForCutover = "mustSucceedForCutover"
+            case order = "order"
+            case parameters = "parameters"
+            case sourceServerID = "sourceServerID"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -2612,17 +2612,17 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case actionName
-            case active
-            case documentIdentifier
-            case documentVersion
-            case launchConfigurationTemplateID
-            case mustSucceedForCutover
-            case operatingSystem
-            case order
-            case parameters
-            case timeoutSeconds
+            case actionID = "actionID"
+            case actionName = "actionName"
+            case active = "active"
+            case documentIdentifier = "documentIdentifier"
+            case documentVersion = "documentVersion"
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
+            case mustSucceedForCutover = "mustSucceedForCutover"
+            case operatingSystem = "operatingSystem"
+            case order = "order"
+            case parameters = "parameters"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -2647,8 +2647,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case sourceServerID
+            case actionID = "actionID"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2677,8 +2677,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case launchConfigurationTemplateID
+            case actionID = "actionID"
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
         }
     }
 
@@ -2737,21 +2737,21 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case name
-            case replicatedDisks
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case sourceServerID
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case name = "name"
+            case replicatedDisks = "replicatedDisks"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case sourceServerID = "sourceServerID"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -2782,11 +2782,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case iops
-            case isBootDisk
-            case stagingDiskType
-            case throughput
+            case deviceName = "deviceName"
+            case iops = "iops"
+            case isBootDisk = "isBootDisk"
+            case stagingDiskType = "stagingDiskType"
+            case throughput = "throughput"
         }
     }
 
@@ -2841,21 +2841,21 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case replicationConfigurationTemplateID
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case tags
-            case useDedicatedReplicationServer
+            case arn = "arn"
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case tags = "tags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -2874,7 +2874,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -2908,14 +2908,14 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpus
-            case disks
-            case identificationHints
-            case lastUpdatedDateTime
-            case networkInterfaces
-            case os
-            case ramBytes
-            case recommendedInstanceType
+            case cpus = "cpus"
+            case disks = "disks"
+            case identificationHints = "identificationHints"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case networkInterfaces = "networkInterfaces"
+            case os = "os"
+            case ramBytes = "ramBytes"
+            case recommendedInstanceType = "recommendedInstanceType"
         }
     }
 
@@ -2958,17 +2958,17 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
-            case arn
-            case dataReplicationInfo
-            case isArchived
-            case launchedInstance
-            case lifeCycle
-            case replicationType
-            case sourceProperties
-            case sourceServerID
-            case tags
-            case vcenterClientID
+            case applicationID = "applicationID"
+            case arn = "arn"
+            case dataReplicationInfo = "dataReplicationInfo"
+            case isArchived = "isArchived"
+            case launchedInstance = "launchedInstance"
+            case lifeCycle = "lifeCycle"
+            case replicationType = "replicationType"
+            case sourceProperties = "sourceProperties"
+            case sourceServerID = "sourceServerID"
+            case tags = "tags"
+            case vcenterClientID = "vcenterClientID"
         }
     }
 
@@ -3005,15 +3005,15 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case actionName
-            case active
-            case documentIdentifier
-            case documentVersion
-            case mustSucceedForCutover
-            case order
-            case parameters
-            case timeoutSeconds
+            case actionID = "actionID"
+            case actionName = "actionName"
+            case active = "active"
+            case documentIdentifier = "documentIdentifier"
+            case documentVersion = "documentVersion"
+            case mustSucceedForCutover = "mustSucceedForCutover"
+            case order = "order"
+            case parameters = "parameters"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -3035,7 +3035,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionIDs
+            case actionIDs = "actionIDs"
         }
     }
 
@@ -3075,11 +3075,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case mustSucceedForCutover
-            case parameters
-            case ssmDocumentName
-            case timeoutSeconds
+            case actionName = "actionName"
+            case mustSucceedForCutover = "mustSucceedForCutover"
+            case parameters = "parameters"
+            case ssmDocumentName = "ssmDocumentName"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -3101,8 +3101,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterName
-            case parameterType
+            case parameterName = "parameterName"
+            case parameterType = "parameterType"
         }
     }
 
@@ -3132,8 +3132,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerIDs
-            case tags
+            case sourceServerIDs = "sourceServerIDs"
+            case tags = "tags"
         }
     }
 
@@ -3146,7 +3146,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -3165,7 +3165,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerID
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -3195,8 +3195,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerIDs
-            case tags
+            case sourceServerIDs = "sourceServerIDs"
+            case tags = "tags"
         }
     }
 
@@ -3209,7 +3209,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -3238,7 +3238,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3278,16 +3278,16 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionID
-            case actionName
-            case active
-            case documentIdentifier
-            case documentVersion
-            case mustSucceedForCutover
-            case operatingSystem
-            case order
-            case parameters
-            case timeoutSeconds
+            case actionID = "actionID"
+            case actionName = "actionName"
+            case active = "active"
+            case documentIdentifier = "documentIdentifier"
+            case documentVersion = "documentVersion"
+            case mustSucceedForCutover = "mustSucceedForCutover"
+            case operatingSystem = "operatingSystem"
+            case order = "order"
+            case parameters = "parameters"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -3309,7 +3309,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionIDs
+            case actionIDs = "actionIDs"
         }
     }
 
@@ -3339,8 +3339,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceServerIDs
-            case tags
+            case sourceServerIDs = "sourceServerIDs"
+            case tags = "tags"
         }
     }
 
@@ -3353,7 +3353,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -3372,7 +3372,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
+            case applicationID = "applicationID"
         }
     }
 
@@ -3391,7 +3391,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case waveID
+            case waveID = "waveID"
         }
     }
 
@@ -3448,9 +3448,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationID
-            case description
-            case name
+            case applicationID = "applicationID"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -3501,17 +3501,17 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bootMode
-            case copyPrivateIp
-            case copyTags
-            case enableMapAutoTagging
-            case launchDisposition
-            case licensing
-            case mapAutoTaggingMpeID
-            case name
-            case postLaunchActions
-            case sourceServerID
-            case targetInstanceTypeRightSizingMethod
+            case bootMode = "bootMode"
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case enableMapAutoTagging = "enableMapAutoTagging"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case name = "name"
+            case postLaunchActions = "postLaunchActions"
+            case sourceServerID = "sourceServerID"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -3573,20 +3573,20 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatePublicIpAddress
-            case bootMode
-            case copyPrivateIp
-            case copyTags
-            case enableMapAutoTagging
-            case largeVolumeConf
-            case launchConfigurationTemplateID
-            case launchDisposition
-            case licensing
-            case mapAutoTaggingMpeID
-            case postLaunchActions
-            case smallVolumeConf
-            case smallVolumeMaxSize
-            case targetInstanceTypeRightSizingMethod
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case bootMode = "bootMode"
+            case copyPrivateIp = "copyPrivateIp"
+            case copyTags = "copyTags"
+            case enableMapAutoTagging = "enableMapAutoTagging"
+            case largeVolumeConf = "largeVolumeConf"
+            case launchConfigurationTemplateID = "launchConfigurationTemplateID"
+            case launchDisposition = "launchDisposition"
+            case licensing = "licensing"
+            case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case postLaunchActions = "postLaunchActions"
+            case smallVolumeConf = "smallVolumeConf"
+            case smallVolumeMaxSize = "smallVolumeMaxSize"
+            case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
 
@@ -3667,21 +3667,21 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case name
-            case replicatedDisks
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case sourceServerID
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case name = "name"
+            case replicatedDisks = "replicatedDisks"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case sourceServerID = "sourceServerID"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -3756,20 +3756,20 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associateDefaultSecurityGroup
-            case bandwidthThrottling
-            case createPublicIP
-            case dataPlaneRouting
-            case defaultLargeStagingDiskType
-            case ebsEncryption
-            case ebsEncryptionKeyArn
-            case replicationConfigurationTemplateID
-            case replicationServerInstanceType
-            case replicationServersSecurityGroupsIDs
-            case stagingAreaSubnetId
-            case stagingAreaTags
-            case useDedicatedReplicationServer
+            case arn = "arn"
+            case associateDefaultSecurityGroup = "associateDefaultSecurityGroup"
+            case bandwidthThrottling = "bandwidthThrottling"
+            case createPublicIP = "createPublicIP"
+            case dataPlaneRouting = "dataPlaneRouting"
+            case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
+            case ebsEncryption = "ebsEncryption"
+            case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
+            case replicationServerInstanceType = "replicationServerInstanceType"
+            case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
+            case stagingAreaSubnetId = "stagingAreaSubnetId"
+            case stagingAreaTags = "stagingAreaTags"
+            case useDedicatedReplicationServer = "useDedicatedReplicationServer"
         }
     }
 
@@ -3791,8 +3791,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationType
-            case sourceServerID
+            case replicationType = "replicationType"
+            case sourceServerID = "sourceServerID"
         }
     }
 
@@ -3822,9 +3822,9 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case waveID
+            case description = "description"
+            case name = "name"
+            case waveID = "waveID"
         }
     }
 
@@ -3858,14 +3858,14 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case datacenterName
-            case hostname
-            case lastSeenDatetime
-            case sourceServerTags
-            case tags
-            case vcenterClientID
-            case vcenterUUID
+            case arn = "arn"
+            case datacenterName = "datacenterName"
+            case hostname = "hostname"
+            case lastSeenDatetime = "lastSeenDatetime"
+            case sourceServerTags = "sourceServerTags"
+            case tags = "tags"
+            case vcenterClientID = "vcenterClientID"
+            case vcenterUUID = "vcenterUUID"
         }
     }
 
@@ -3902,15 +3902,15 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDateTime
-            case description
-            case isArchived
-            case lastModifiedDateTime
-            case name
-            case tags
-            case waveAggregatedStatus
-            case waveID
+            case arn = "arn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case isArchived = "isArchived"
+            case lastModifiedDateTime = "lastModifiedDateTime"
+            case name = "name"
+            case tags = "tags"
+            case waveAggregatedStatus = "waveAggregatedStatus"
+            case waveID = "waveID"
         }
     }
 
@@ -3935,11 +3935,11 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthStatus
-            case lastUpdateDateTime
-            case progressStatus
-            case replicationStartedDateTime
-            case totalApplications
+            case healthStatus = "healthStatus"
+            case lastUpdateDateTime = "lastUpdateDateTime"
+            case progressStatus = "progressStatus"
+            case replicationStartedDateTime = "replicationStartedDateTime"
+            case totalApplications = "totalApplications"
         }
     }
 }

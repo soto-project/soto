@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -381,7 +381,7 @@ extension Neptune {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Neptune {
-    ///  Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    /// Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -403,7 +403,7 @@ extension Neptune {
         )
     }
 
-    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
+    ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -425,7 +425,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group.
+    /// Returns the detailed parameter list for a particular DB cluster parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -447,7 +447,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination.
+    /// Returns information about DB cluster snapshots. This API action supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -469,8 +469,8 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about provisioned DB clusters, and supports pagination.
-    ///    This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    /// Returns information about provisioned DB clusters, and supports pagination.
+    ///   This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -492,7 +492,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of the available DB engines.
+    /// Returns a list of the available DB engines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -514,8 +514,8 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about provisioned instances, and supports pagination.
-    ///    This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
+    /// Returns information about provisioned instances, and supports pagination.
+    ///   This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -537,7 +537,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -559,7 +559,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB parameter group.
+    /// Returns the detailed parameter list for a particular DB parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -581,7 +581,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
+    /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -603,7 +603,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns the default engine and system parameter information for the specified database engine.
+    /// Returns the default engine and system parameter information for the specified database engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -625,7 +625,7 @@ extension Neptune {
         )
     }
 
-    ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -647,7 +647,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    /// Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -669,7 +669,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns information about Neptune global database clusters. This API supports pagination.
+    /// Returns information about Neptune global database clusters. This API supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -691,7 +691,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of orderable DB instance options for the specified engine.
+    /// Returns a list of orderable DB instance options for the specified engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -713,7 +713,7 @@ extension Neptune {
         )
     }
 
-    ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

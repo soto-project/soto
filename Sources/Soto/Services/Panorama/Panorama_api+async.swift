@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -198,7 +198,7 @@ extension Panorama {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Panorama {
-    ///  Returns a list of application instance dependencies.
+    /// Returns a list of application instance dependencies.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,7 +220,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of application node instances.
+    /// Returns a list of application node instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +242,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of application instances.
+    /// Returns a list of application instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +264,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of devices.
+    /// Returns a list of devices.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -286,7 +286,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of jobs.
+    /// Returns a list of jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -308,7 +308,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of camera stream node jobs.
+    /// Returns a list of camera stream node jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -330,7 +330,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of nodes.
+    /// Returns a list of nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -352,7 +352,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of package import jobs.
+    /// Returns a list of package import jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -374,7 +374,7 @@ extension Panorama {
         )
     }
 
-    ///  Returns a list of packages.
+    /// Returns a list of packages.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

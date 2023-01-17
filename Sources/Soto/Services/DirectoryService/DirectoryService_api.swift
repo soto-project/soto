@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -424,7 +424,7 @@ extension DirectoryService {
 // MARK: Paginators
 
 extension DirectoryService {
-    ///  Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported.
+    /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -477,7 +477,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to DescribeDirectories to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
+    /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to DescribeDirectories to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -530,7 +530,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Provides information about any domain controllers in your directory.
+    /// Provides information about any domain controllers in your directory.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -583,7 +583,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Describes the status of LDAP security for the specified directory.
+    /// Describes the status of LDAP security for the specified directory.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -636,7 +636,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Provides information about the Regions that are configured for multi-Region replication.
+    /// Provides information about the Regions that are configured for multi-Region replication.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -689,7 +689,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Returns the shared directories in your account.
+    /// Returns the shared directories in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -742,7 +742,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to DescribeSnapshots to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
+    /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to DescribeSnapshots to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -795,7 +795,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
+    /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -848,7 +848,7 @@ extension DirectoryService {
         )
     }
 
-    ///   Describes the updates of a directory for a particular update type.
+    ///  Describes the updates of a directory for a particular update type.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -901,7 +901,7 @@ extension DirectoryService {
         )
     }
 
-    ///  For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
+    /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -954,7 +954,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Lists the address blocks that you have added to a directory.
+    /// Lists the address blocks that you have added to a directory.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1007,7 +1007,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Lists the active log subscriptions for the Amazon Web Services account.
+    /// Lists the active log subscriptions for the Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1060,7 +1060,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Lists all schema extensions applied to a Microsoft AD Directory.
+    /// Lists all schema extensions applied to a Microsoft AD Directory.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1113,7 +1113,7 @@ extension DirectoryService {
         )
     }
 
-    ///  Lists all tags on a directory.
+    /// Lists all tags on a directory.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

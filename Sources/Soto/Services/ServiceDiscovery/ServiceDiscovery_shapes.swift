@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -606,7 +606,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -1615,7 +1615,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -1633,7 +1633,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -2108,29 +2108,29 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The health check for the instance that&#39;s specified by ServiceId and InstanceId isn&#39;t a custom health check.
+    /// The health check for the instance that's specified by ServiceId and InstanceId isn't a custom health check.
     public static var customHealthNotFound: Self { .init(.customHealthNotFound) }
     /// The operation is already in progress.
     public static var duplicateRequest: Self { .init(.duplicateRequest) }
-    /// No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn&#39;t propagated yet.
+    /// No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     public static var instanceNotFound: Self { .init(.instanceNotFound) }
-    /// One or more specified values aren&#39;t valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     public static var invalidInput: Self { .init(.invalidInput) }
-    /// The namespace that you&#39;re trying to create already exists.
+    /// The namespace that you're trying to create already exists.
     public static var namespaceAlreadyExists: Self { .init(.namespaceAlreadyExists) }
     /// No namespace exists with the specified ID.
     public static var namespaceNotFound: Self { .init(.namespaceNotFound) }
     /// No operation exists with the specified ID.
     public static var operationNotFound: Self { .init(.operationNotFound) }
-    /// The operation can&#39;t be completed because you&#39;ve reached the quota for the number of requests. For more information, see Cloud Map API request throttling quota in the Cloud Map Developer Guide.
+    /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see Cloud Map API request throttling quota in the Cloud Map Developer Guide.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
-    /// The specified resource can&#39;t be deleted because it contains other resources. For example, you can&#39;t delete a service that contains any instances.
+    /// The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     public static var resourceInUse: Self { .init(.resourceInUse) }
-    /// The resource can&#39;t be created because you&#39;ve reached the quota on the number of resources.
+    /// The resource can't be created because you've reached the quota on the number of resources.
     public static var resourceLimitExceeded: Self { .init(.resourceLimitExceeded) }
-    /// The operation can&#39;t be completed because the resource was not found.
+    /// The operation can't be completed because the resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The service can&#39;t be created because a service with the same name already exists.
+    /// The service can't be created because a service with the same name already exists.
     public static var serviceAlreadyExists: Self { .init(.serviceAlreadyExists) }
     /// No service exists with the specified ID.
     public static var serviceNotFound: Self { .init(.serviceNotFound) }

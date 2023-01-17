@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -128,7 +128,7 @@ extension IoTRoboRunner {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTRoboRunner {
-    ///  Grants permission to list destinations
+    /// Grants permission to list destinations
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -150,7 +150,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list sites
+    /// Grants permission to list sites
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -172,7 +172,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list worker fleets
+    /// Grants permission to list worker fleets
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -194,7 +194,7 @@ extension IoTRoboRunner {
         )
     }
 
-    ///  Grants permission to list workers
+    /// Grants permission to list workers
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

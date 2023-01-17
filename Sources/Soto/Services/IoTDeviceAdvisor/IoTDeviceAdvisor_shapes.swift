@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -97,8 +97,8 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionConfiguration
-            case tags
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -120,10 +120,10 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case suiteDefinitionArn
-            case suiteDefinitionId
-            case suiteDefinitionName
+            case createdAt = "createdAt"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
@@ -170,8 +170,8 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case thingArn
+            case certificateArn = "certificateArn"
+            case thingArn = "thingArn"
         }
     }
 
@@ -210,7 +210,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -270,14 +270,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case lastModifiedAt
-            case latestVersion
-            case suiteDefinitionArn
-            case suiteDefinitionConfiguration
-            case suiteDefinitionId
-            case suiteDefinitionVersion
-            case tags
+            case createdAt = "createdAt"
+            case lastModifiedAt = "lastModifiedAt"
+            case latestVersion = "latestVersion"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case tags = "tags"
         }
     }
 
@@ -316,7 +316,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualificationReportDownloadUrl
+            case qualificationReportDownloadUrl = "qualificationReportDownloadUrl"
         }
     }
 
@@ -385,17 +385,17 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case errorReason
-            case startTime
-            case status
-            case suiteDefinitionId
-            case suiteDefinitionVersion
-            case suiteRunArn
-            case suiteRunConfiguration
-            case suiteRunId
-            case tags
-            case testResult
+            case endTime = "endTime"
+            case errorReason = "errorReason"
+            case startTime = "startTime"
+            case status = "status"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunArn = "suiteRunArn"
+            case suiteRunConfiguration = "suiteRunConfiguration"
+            case suiteRunId = "suiteRunId"
+            case tags = "tags"
+            case testResult = "testResult"
         }
     }
 
@@ -414,9 +414,9 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId
-            case groupName
-            case tests
+            case groupId = "groupId"
+            case groupName = "groupName"
+            case tests = "tests"
         }
     }
 
@@ -457,8 +457,8 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suiteDefinitionInformationList
+            case nextToken = "nextToken"
+            case suiteDefinitionInformationList = "suiteDefinitionInformationList"
         }
     }
 
@@ -511,8 +511,8 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suiteRunsList
+            case nextToken = "nextToken"
+            case suiteRunsList = "suiteRunsList"
         }
     }
 
@@ -545,7 +545,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -586,9 +586,9 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionVersion
-            case suiteRunConfiguration
-            case tags
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunConfiguration = "suiteRunConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -610,10 +610,10 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case endpoint
-            case suiteRunArn
-            case suiteRunId
+            case createdAt = "createdAt"
+            case endpoint = "endpoint"
+            case suiteRunArn = "suiteRunArn"
+            case suiteRunId = "suiteRunId"
         }
     }
 
@@ -687,13 +687,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePermissionRoleArn
-            case devices
-            case intendedForQualification
-            case isLongDurationTest
-            case `protocol`
-            case rootGroup
-            case suiteDefinitionName
+            case devicePermissionRoleArn = "devicePermissionRoleArn"
+            case devices = "devices"
+            case intendedForQualification = "intendedForQualification"
+            case isLongDurationTest = "isLongDurationTest"
+            case `protocol` = "protocol"
+            case rootGroup = "rootGroup"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
@@ -724,13 +724,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case defaultDevices
-            case intendedForQualification
-            case isLongDurationTest
-            case `protocol`
-            case suiteDefinitionId
-            case suiteDefinitionName
+            case createdAt = "createdAt"
+            case defaultDevices = "defaultDevices"
+            case intendedForQualification = "intendedForQualification"
+            case isLongDurationTest = "isLongDurationTest"
+            case `protocol` = "protocol"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
@@ -758,9 +758,9 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parallelRun
-            case primaryDevice
-            case selectedTestList
+            case parallelRun = "parallelRun"
+            case primaryDevice = "primaryDevice"
+            case selectedTestList = "selectedTestList"
         }
     }
 
@@ -800,16 +800,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case endAt
-            case failed
-            case passed
-            case startedAt
-            case status
-            case suiteDefinitionId
-            case suiteDefinitionName
-            case suiteDefinitionVersion
-            case suiteRunId
+            case createdAt = "createdAt"
+            case endAt = "endAt"
+            case failed = "failed"
+            case passed = "passed"
+            case startedAt = "startedAt"
+            case status = "status"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunId = "suiteRunId"
         }
     }
 
@@ -841,7 +841,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -885,16 +885,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case failure
-            case logUrl
-            case startTime
-            case status
-            case testCaseDefinitionId
-            case testCaseDefinitionName
-            case testCaseRunId
-            case testScenarios
-            case warnings
+            case endTime = "endTime"
+            case failure = "failure"
+            case logUrl = "logUrl"
+            case startTime = "startTime"
+            case status = "status"
+            case testCaseDefinitionId = "testCaseDefinitionId"
+            case testCaseDefinitionName = "testCaseDefinitionName"
+            case testCaseRunId = "testCaseRunId"
+            case testScenarios = "testScenarios"
+            case warnings = "warnings"
         }
     }
 
@@ -919,11 +919,11 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failure
-            case status
-            case systemMessage
-            case testCaseScenarioId
-            case testCaseScenarioType
+            case failure = "failure"
+            case status = "status"
+            case systemMessage = "systemMessage"
+            case testCaseScenarioId = "testCaseScenarioId"
+            case testCaseScenarioType = "testCaseScenarioType"
         }
     }
 
@@ -936,7 +936,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups
+            case groups = "groups"
         }
     }
 
@@ -995,7 +995,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionConfiguration
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
         }
     }
 
@@ -1023,12 +1023,12 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case lastUpdatedAt
-            case suiteDefinitionArn
-            case suiteDefinitionId
-            case suiteDefinitionName
-            case suiteDefinitionVersion
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
         }
     }
 }

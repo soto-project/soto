@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -98,7 +98,7 @@ extension AmplifyBackend {
         return try await self.client.execute(operation: "GetBackendAPI", path: "/backend/{AppId}/api/{BackendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates a model schema for existing backend API resource.
+    /// Gets a model introspection schema for an existing backend API resource.
     public func getBackendAPIModels(_ input: GetBackendAPIModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBackendAPIModelsResponse {
         return try await self.client.execute(operation: "GetBackendAPIModels", path: "/backend/{AppId}/api/{BackendEnvironmentName}/getModels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

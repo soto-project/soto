@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -611,7 +611,7 @@ public struct ResourceGroupsTaggingAPIErrorType: AWSErrorType {
     public static var constraintViolationException: Self { .init(.constraintViolationException) }
     /// The request processing failed because of an unknown error, exception, or failure. You can retry the request.
     public static var internalServiceException: Self { .init(.internalServiceException) }
-    /// This error indicates one of the following:   A parameter is missing.   A malformed string was supplied for the request parameter.   An out-of-range value was supplied for the request parameter.   The target ID is invalid, unsupported, or doesn&#39;t exist.   You can&#39;t access the Amazon S3 bucket for report storage. For more information, see Additional Requirements for Organization-wide Tag Compliance Reports in the Organizations User Guide.
+    /// This error indicates one of the following:   A parameter is missing.   A malformed string was supplied for the request parameter.   An out-of-range value was supplied for the request parameter.   The target ID is invalid, unsupported, or doesn't exist.   You can't access the Amazon S3 bucket for report storage. For more information, see Additional Requirements for Organization-wide Tag Compliance Reports in the Organizations User Guide.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     public static var paginationTokenExpiredException: Self { .init(.paginationTokenExpiredException) }

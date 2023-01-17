@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -72,8 +72,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bootstrapServers
-            case vpc
+            case bootstrapServers = "bootstrapServers"
+            case vpc = "vpc"
         }
     }
 
@@ -89,8 +89,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bootstrapServers
-            case vpc
+            case bootstrapServers = "bootstrapServers"
+            case vpc = "vpc"
         }
     }
 
@@ -126,11 +126,11 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxWorkerCount
-            case mcuCount
-            case minWorkerCount
-            case scaleInPolicy
-            case scaleOutPolicy
+            case maxWorkerCount = "maxWorkerCount"
+            case mcuCount = "mcuCount"
+            case minWorkerCount = "minWorkerCount"
+            case scaleInPolicy = "scaleInPolicy"
+            case scaleOutPolicy = "scaleOutPolicy"
         }
     }
 
@@ -155,11 +155,11 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxWorkerCount
-            case mcuCount
-            case minWorkerCount
-            case scaleInPolicy
-            case scaleOutPolicy
+            case maxWorkerCount = "maxWorkerCount"
+            case mcuCount = "mcuCount"
+            case minWorkerCount = "minWorkerCount"
+            case scaleInPolicy = "scaleInPolicy"
+            case scaleOutPolicy = "scaleOutPolicy"
         }
     }
 
@@ -195,11 +195,11 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxWorkerCount
-            case mcuCount
-            case minWorkerCount
-            case scaleInPolicy
-            case scaleOutPolicy
+            case maxWorkerCount = "maxWorkerCount"
+            case mcuCount = "mcuCount"
+            case minWorkerCount = "minWorkerCount"
+            case scaleInPolicy = "scaleInPolicy"
+            case scaleOutPolicy = "scaleOutPolicy"
         }
     }
 
@@ -220,8 +220,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScaling
-            case provisionedCapacity
+            case autoScaling = "autoScaling"
+            case provisionedCapacity = "provisionedCapacity"
         }
     }
 
@@ -237,8 +237,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScaling
-            case provisionedCapacity
+            case autoScaling = "autoScaling"
+            case provisionedCapacity = "provisionedCapacity"
         }
     }
 
@@ -259,8 +259,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScaling
-            case provisionedCapacity
+            case autoScaling = "autoScaling"
+            case provisionedCapacity = "provisionedCapacity"
         }
     }
 
@@ -276,8 +276,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case logGroup
+            case enabled = "enabled"
+            case logGroup = "logGroup"
         }
     }
 
@@ -293,8 +293,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case logGroup
+            case enabled = "enabled"
+            case logGroup = "logGroup"
         }
     }
 
@@ -350,21 +350,21 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacity
-            case connectorArn
-            case connectorDescription
-            case connectorName
-            case connectorState
-            case creationTime
-            case currentVersion
-            case kafkaCluster
-            case kafkaClusterClientAuthentication
-            case kafkaClusterEncryptionInTransit
-            case kafkaConnectVersion
-            case logDelivery
-            case plugins
-            case serviceExecutionRoleArn
-            case workerConfiguration
+            case capacity = "capacity"
+            case connectorArn = "connectorArn"
+            case connectorDescription = "connectorDescription"
+            case connectorName = "connectorName"
+            case connectorState = "connectorState"
+            case creationTime = "creationTime"
+            case currentVersion = "currentVersion"
+            case kafkaCluster = "kafkaCluster"
+            case kafkaClusterClientAuthentication = "kafkaClusterClientAuthentication"
+            case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
+            case kafkaConnectVersion = "kafkaConnectVersion"
+            case logDelivery = "logDelivery"
+            case plugins = "plugins"
+            case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+            case workerConfiguration = "workerConfiguration"
         }
     }
 
@@ -421,18 +421,18 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacity
-            case connectorConfiguration
-            case connectorDescription
-            case connectorName
-            case kafkaCluster
-            case kafkaClusterClientAuthentication
-            case kafkaClusterEncryptionInTransit
-            case kafkaConnectVersion
-            case logDelivery
-            case plugins
-            case serviceExecutionRoleArn
-            case workerConfiguration
+            case capacity = "capacity"
+            case connectorConfiguration = "connectorConfiguration"
+            case connectorDescription = "connectorDescription"
+            case connectorName = "connectorName"
+            case kafkaCluster = "kafkaCluster"
+            case kafkaClusterClientAuthentication = "kafkaClusterClientAuthentication"
+            case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
+            case kafkaConnectVersion = "kafkaConnectVersion"
+            case logDelivery = "logDelivery"
+            case plugins = "plugins"
+            case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+            case workerConfiguration = "workerConfiguration"
         }
     }
 
@@ -451,9 +451,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorArn
-            case connectorName
-            case connectorState
+            case connectorArn = "connectorArn"
+            case connectorName = "connectorName"
+            case connectorState = "connectorState"
         }
     }
 
@@ -481,10 +481,10 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case location
-            case name
+            case contentType = "contentType"
+            case description = "description"
+            case location = "location"
+            case name = "name"
         }
     }
 
@@ -506,10 +506,10 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPluginArn
-            case customPluginState
-            case name
-            case revision
+            case customPluginArn = "customPluginArn"
+            case customPluginState = "customPluginState"
+            case name = "name"
+            case revision = "revision"
         }
     }
 
@@ -534,9 +534,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case propertiesFileContent
+            case description = "description"
+            case name = "name"
+            case propertiesFileContent = "propertiesFileContent"
         }
     }
 
@@ -559,10 +559,10 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case latestRevision
-            case name
-            case workerConfigurationArn
+            case creationTime = "creationTime"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case workerConfigurationArn = "workerConfigurationArn"
         }
     }
 
@@ -578,13 +578,13 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: -9_223_372_036_854_775_808)
+            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPluginArn
-            case revision
+            case customPluginArn = "customPluginArn"
+            case revision = "revision"
         }
     }
 
@@ -600,8 +600,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPluginArn
-            case revision
+            case customPluginArn = "customPluginArn"
+            case revision = "revision"
         }
     }
 
@@ -617,8 +617,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileMd5
-            case fileSize
+            case fileMd5 = "fileMd5"
+            case fileSize = "fileSize"
         }
     }
 
@@ -631,7 +631,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -644,7 +644,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
@@ -673,12 +673,12 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case creationTime
-            case description
-            case fileDescription
-            case location
-            case revision
+            case contentType = "contentType"
+            case creationTime = "creationTime"
+            case description = "description"
+            case fileDescription = "fileDescription"
+            case location = "location"
+            case revision = "revision"
         }
     }
 
@@ -707,12 +707,12 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case customPluginArn
-            case customPluginState
-            case description
-            case latestRevision
-            case name
+            case creationTime = "creationTime"
+            case customPluginArn = "customPluginArn"
+            case customPluginState = "customPluginState"
+            case description = "description"
+            case latestRevision = "latestRevision"
+            case name = "name"
         }
     }
 
@@ -747,8 +747,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorArn
-            case connectorState
+            case connectorArn = "connectorArn"
+            case connectorState = "connectorState"
         }
     }
 
@@ -779,8 +779,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPluginArn
-            case customPluginState
+            case customPluginArn = "customPluginArn"
+            case customPluginState = "customPluginState"
         }
     }
 
@@ -857,23 +857,23 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacity
-            case connectorArn
-            case connectorConfiguration
-            case connectorDescription
-            case connectorName
-            case connectorState
-            case creationTime
-            case currentVersion
-            case kafkaCluster
-            case kafkaClusterClientAuthentication
-            case kafkaClusterEncryptionInTransit
-            case kafkaConnectVersion
-            case logDelivery
-            case plugins
-            case serviceExecutionRoleArn
-            case stateDescription
-            case workerConfiguration
+            case capacity = "capacity"
+            case connectorArn = "connectorArn"
+            case connectorConfiguration = "connectorConfiguration"
+            case connectorDescription = "connectorDescription"
+            case connectorName = "connectorName"
+            case connectorState = "connectorState"
+            case creationTime = "creationTime"
+            case currentVersion = "currentVersion"
+            case kafkaCluster = "kafkaCluster"
+            case kafkaClusterClientAuthentication = "kafkaClusterClientAuthentication"
+            case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
+            case kafkaConnectVersion = "kafkaConnectVersion"
+            case logDelivery = "logDelivery"
+            case plugins = "plugins"
+            case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+            case stateDescription = "stateDescription"
+            case workerConfiguration = "workerConfiguration"
         }
     }
 
@@ -920,13 +920,13 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case customPluginArn
-            case customPluginState
-            case description
-            case latestRevision
-            case name
-            case stateDescription
+            case creationTime = "creationTime"
+            case customPluginArn = "customPluginArn"
+            case customPluginState = "customPluginState"
+            case description = "description"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case stateDescription = "stateDescription"
         }
     }
 
@@ -967,11 +967,11 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case latestRevision
-            case name
-            case workerConfigurationArn
+            case creationTime = "creationTime"
+            case description = "description"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case workerConfigurationArn = "workerConfigurationArn"
         }
     }
 
@@ -987,8 +987,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStream
-            case enabled
+            case deliveryStream = "deliveryStream"
+            case enabled = "enabled"
         }
     }
 
@@ -1004,8 +1004,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryStream
-            case enabled
+            case deliveryStream = "deliveryStream"
+            case enabled = "enabled"
         }
     }
 
@@ -1018,7 +1018,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apacheKafkaCluster
+            case apacheKafkaCluster = "apacheKafkaCluster"
         }
     }
 
@@ -1031,7 +1031,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationType
+            case authenticationType = "authenticationType"
         }
     }
 
@@ -1044,7 +1044,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationType
+            case authenticationType = "authenticationType"
         }
     }
 
@@ -1057,7 +1057,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apacheKafkaCluster
+            case apacheKafkaCluster = "apacheKafkaCluster"
         }
     }
 
@@ -1070,7 +1070,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
+            case encryptionType = "encryptionType"
         }
     }
 
@@ -1083,7 +1083,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
+            case encryptionType = "encryptionType"
         }
     }
 
@@ -1127,8 +1127,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectors
-            case nextToken
+            case connectors = "connectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1168,8 +1168,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPlugins
-            case nextToken
+            case customPlugins = "customPlugins"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1209,8 +1209,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workerConfigurations
+            case nextToken = "nextToken"
+            case workerConfigurations = "workerConfigurations"
         }
     }
 
@@ -1223,7 +1223,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerLogDelivery
+            case workerLogDelivery = "workerLogDelivery"
         }
     }
 
@@ -1236,7 +1236,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerLogDelivery
+            case workerLogDelivery = "workerLogDelivery"
         }
     }
 
@@ -1253,7 +1253,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPlugin
+            case customPlugin = "customPlugin"
         }
     }
 
@@ -1266,7 +1266,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPlugin
+            case customPlugin = "customPlugin"
         }
     }
 
@@ -1289,8 +1289,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mcuCount
-            case workerCount
+            case mcuCount = "mcuCount"
+            case workerCount = "workerCount"
         }
     }
 
@@ -1306,8 +1306,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mcuCount
-            case workerCount
+            case mcuCount = "mcuCount"
+            case workerCount = "workerCount"
         }
     }
 
@@ -1330,8 +1330,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mcuCount
-            case workerCount
+            case mcuCount = "mcuCount"
+            case workerCount = "workerCount"
         }
     }
 
@@ -1350,9 +1350,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case fileKey
-            case objectVersion
+            case bucketArn = "bucketArn"
+            case fileKey = "fileKey"
+            case objectVersion = "objectVersion"
         }
     }
 
@@ -1371,9 +1371,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case fileKey
-            case objectVersion
+            case bucketArn = "bucketArn"
+            case fileKey = "fileKey"
+            case objectVersion = "objectVersion"
         }
     }
 
@@ -1392,9 +1392,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case enabled
-            case prefix
+            case bucket = "bucket"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -1413,9 +1413,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case enabled
-            case prefix
+            case bucket = "bucket"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -1433,7 +1433,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1446,7 +1446,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1464,7 +1464,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1482,7 +1482,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1495,7 +1495,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1513,7 +1513,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuUtilizationPercentage
+            case cpuUtilizationPercentage = "cpuUtilizationPercentage"
         }
     }
 
@@ -1529,8 +1529,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1558,7 +1558,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacity
+            case capacity = "capacity"
         }
     }
 
@@ -1574,8 +1574,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorArn
-            case connectorState
+            case connectorArn = "connectorArn"
+            case connectorState = "connectorState"
         }
     }
 
@@ -1591,8 +1591,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroups
-            case subnets
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
@@ -1608,8 +1608,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroups
-            case subnets
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
@@ -1625,13 +1625,13 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.revision, name: "revision", parent: name, max: -9_223_372_036_854_775_808)
+            try self.validate(self.revision, name: "revision", parent: name, max: -9223372036854775808)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revision
-            case workerConfigurationArn
+            case revision = "revision"
+            case workerConfigurationArn = "workerConfigurationArn"
         }
     }
 
@@ -1647,8 +1647,8 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revision
-            case workerConfigurationArn
+            case revision = "revision"
+            case workerConfigurationArn = "workerConfigurationArn"
         }
     }
 
@@ -1671,10 +1671,10 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case propertiesFileContent
-            case revision
+            case creationTime = "creationTime"
+            case description = "description"
+            case propertiesFileContent = "propertiesFileContent"
+            case revision = "revision"
         }
     }
 
@@ -1694,9 +1694,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case revision
+            case creationTime = "creationTime"
+            case description = "description"
+            case revision = "revision"
         }
     }
 
@@ -1722,11 +1722,11 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case latestRevision
-            case name
-            case workerConfigurationArn
+            case creationTime = "creationTime"
+            case description = "description"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case workerConfigurationArn = "workerConfigurationArn"
         }
     }
 
@@ -1745,9 +1745,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case firehose
-            case s3
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 
@@ -1766,9 +1766,9 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case firehose
-            case s3
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 }
@@ -1820,7 +1820,7 @@ public struct KafkaConnectErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// HTTP Status Code 429: Limit exceeded. Resource limit reached.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
-    /// HTTP Status Code 401: Unauthorized request. The provided credentials couldn&#39;t be validated.
+    /// HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

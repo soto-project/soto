@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -291,7 +291,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
             case tier = "Tier"
         }
     }
@@ -361,7 +361,7 @@ extension MediaTailor {
             case fillerSlate = "FillerSlate"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
             case tier = "Tier"
         }
     }
@@ -412,7 +412,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
             case tier = "Tier"
         }
     }
@@ -441,7 +441,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case httpPackageConfigurations = "HttpPackageConfigurations"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -480,7 +480,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case liveSourceName = "LiveSourceName"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -668,7 +668,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -715,7 +715,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -743,7 +743,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case httpPackageConfigurations = "HttpPackageConfigurations"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -781,7 +781,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -1091,7 +1091,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
             case tier = "Tier"
         }
     }
@@ -1150,7 +1150,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case liveSourceName = "LiveSourceName"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1278,7 +1278,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1335,7 +1335,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -1511,7 +1511,7 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
@@ -1916,7 +1916,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2017,7 +2017,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case liveSourceName = "LiveSourceName"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2126,7 +2126,7 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
@@ -2298,7 +2298,7 @@ extension MediaTailor {
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
@@ -2383,7 +2383,7 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
@@ -2671,7 +2671,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2754,7 +2754,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2889,7 +2889,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
             case tier = "Tier"
         }
     }
@@ -2953,7 +2953,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case liveSourceName = "LiveSourceName"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3032,7 +3032,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3094,7 +3094,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -3133,7 +3133,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }

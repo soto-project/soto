@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -93,7 +93,7 @@ extension HealthLake {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension HealthLake {
-    ///  Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+    /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -115,7 +115,7 @@ extension HealthLake {
         )
     }
 
-    ///   Lists all FHIR export jobs associated with an account and their statuses.
+    ///  Lists all FHIR export jobs associated with an account and their statuses.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -137,7 +137,7 @@ extension HealthLake {
         )
     }
 
-    ///   Lists all FHIR import jobs associated with an account and their statuses.
+    ///  Lists all FHIR import jobs associated with an account and their statuses.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

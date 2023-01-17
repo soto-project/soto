@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -423,7 +423,7 @@ extension Macie2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Macie2 {
-    ///  Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
+    /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -445,7 +445,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves (queries) quotas and aggregated usage data for one or more accounts.
+    /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -467,7 +467,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about all the allow lists for an account.
+    /// Retrieves a subset of information about all the allow lists for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -489,7 +489,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about one or more classification jobs.
+    /// Retrieves a subset of information about one or more classification jobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -511,7 +511,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about the classification scope for an account.
+    /// Retrieves a subset of information about the classification scope for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -533,7 +533,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about all the custom data identifiers for an account.
+    /// Retrieves a subset of information about all the custom data identifiers for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -555,7 +555,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about one or more findings.
+    /// Retrieves a subset of information about one or more findings.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -577,7 +577,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about all the findings filters for an account.
+    /// Retrieves a subset of information about all the findings filters for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -599,7 +599,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the Amazon Macie membership invitations that were received by an account.
+    /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -621,7 +621,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
+    /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -643,7 +643,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
+    /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -665,7 +665,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
+    /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -687,7 +687,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -709,7 +709,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
+    /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -731,7 +731,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves a subset of information about the sensitivity inspection template for an account.
+    /// Retrieves a subset of information about the sensitivity inspection template for an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -753,7 +753,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

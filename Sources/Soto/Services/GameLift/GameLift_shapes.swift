@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1327,7 +1327,7 @@ extension GameLift {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
+            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 48)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
@@ -1777,7 +1777,7 @@ extension GameLift {
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
-            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
+            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5000000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5881,7 +5881,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, min: 1)
-            try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, max: 2147483647)
             try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, min: 1)
             try self.serverProcesses?.forEach {
                 try $0.validate(name: "\(name).serverProcesses[]")
@@ -6215,7 +6215,7 @@ extension GameLift {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
+            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, max: 1024)
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, min: 1)
@@ -7279,7 +7279,7 @@ extension GameLift {
             try self.storageLocation?.validate(name: "\(name).storageLocation")
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
-            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
+            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5000000)
         }
 
         private enum CodingKeys: String, CodingKey {

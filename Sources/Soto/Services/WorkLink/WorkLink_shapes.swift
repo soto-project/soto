@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1395,7 +1395,7 @@ extension WorkLink {
         public func validate(name: String) throws {
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
-            try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, max: 204_800)
+            try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, max: 204800)
             try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, min: 1)
         }
 

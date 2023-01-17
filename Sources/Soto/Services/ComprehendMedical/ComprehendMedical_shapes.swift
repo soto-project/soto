@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -145,7 +145,7 @@ extension ComprehendMedical {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case en
+        case en = "en"
         public var description: String { return self.rawValue }
     }
 
@@ -2126,7 +2126,7 @@ public struct ComprehendMedicalErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
     public static var invalidEncodingException: Self { .init(.invalidEncodingException) }
-    ///  The request that you made is invalid. Check your request to determine why it&#39;s invalid and then retry the request.
+    ///  The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

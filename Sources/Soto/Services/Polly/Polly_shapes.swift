@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -22,8 +22,8 @@ extension Polly {
     // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable, _SotoSendable {
-        case neural
-        case standard
+        case neural = "neural"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -35,7 +35,7 @@ extension Polly {
 
     public enum LanguageCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case arAE = "ar-AE"
-        case arb
+        case arb = "arb"
         case caES = "ca-ES"
         case cmnCN = "cmn-CN"
         case cyGB = "cy-GB"
@@ -74,32 +74,32 @@ extension Polly {
     }
 
     public enum OutputFormat: String, CustomStringConvertible, Codable, _SotoSendable {
-        case json
-        case mp3
+        case json = "json"
+        case mp3 = "mp3"
         case oggVorbis = "ogg_vorbis"
-        case pcm
+        case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
     public enum SpeechMarkType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case sentence
-        case ssml
-        case viseme
-        case word
+        case sentence = "sentence"
+        case ssml = "ssml"
+        case viseme = "viseme"
+        case word = "word"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case completed
-        case failed
-        case inProgress
-        case scheduled
+        case completed = "completed"
+        case failed = "failed"
+        case inProgress = "inProgress"
+        case scheduled = "scheduled"
         public var description: String { return self.rawValue }
     }
 
     public enum TextType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ssml
-        case text
+        case ssml = "ssml"
+        case text = "text"
         public var description: String { return self.rawValue }
     }
 
@@ -824,9 +824,9 @@ public struct PollyErrorType: AWSErrorType {
 
     /// This engine is not compatible with the voice that you have designated. Choose a new voice that is compatible with the engine or change the engine and restart the operation.
     public static var engineNotSupportedException: Self { .init(.engineNotSupportedException) }
-    /// Amazon Polly can&#39;t find the specified lexicon. Verify that the lexicon&#39;s name is spelled correctly, and then try again.
+    /// Amazon Polly can't find the specified lexicon. Verify that the lexicon's name is spelled correctly, and then try again.
     public static var invalidLexiconException: Self { .init(.invalidLexiconException) }
-    /// The NextToken is invalid. Verify that it&#39;s spelled correctly, and then try again.
+    /// The NextToken is invalid. Verify that it's spelled correctly, and then try again.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     /// The provided Amazon S3 bucket name is invalid. Please check your input with S3 bucket naming requirements and try again.
     public static var invalidS3BucketException: Self { .init(.invalidS3BucketException) }
@@ -842,7 +842,7 @@ public struct PollyErrorType: AWSErrorType {
     public static var invalidTaskIdException: Self { .init(.invalidTaskIdException) }
     /// The language specified is not currently supported by Amazon Polly in this capacity.
     public static var languageNotSupportedException: Self { .init(.languageNotSupportedException) }
-    /// Amazon Polly can&#39;t find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see ListLexicons) and that you spelled its name is spelled correctly. Then try again.
+    /// Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see ListLexicons) and that you spelled its name is spelled correctly. Then try again.
     public static var lexiconNotFoundException: Self { .init(.lexiconNotFoundException) }
     /// The maximum size of the specified lexicon would be exceeded by this operation.
     public static var lexiconSizeExceededException: Self { .init(.lexiconSizeExceededException) }
@@ -858,7 +858,7 @@ public struct PollyErrorType: AWSErrorType {
     public static var ssmlMarksNotSupportedForTextTypeException: Self { .init(.ssmlMarksNotSupportedForTextTypeException) }
     /// The Speech Synthesis task with requested Task ID cannot be found.
     public static var synthesisTaskNotFoundException: Self { .init(.synthesisTaskNotFoundException) }
-    /// The value of the &quot;Text&quot; parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
+    /// The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
     public static var textLengthExceededException: Self { .init(.textLengthExceededException) }
     /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
     public static var unsupportedPlsAlphabetException: Self { .init(.unsupportedPlsAlphabetException) }

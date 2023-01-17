@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -538,7 +538,7 @@ extension CognitoIdentityProvider {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CognitoIdentityProvider {
-    ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
+    /// Lists the groups that the user belongs to. Calling this action requires developer credentials.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -560,7 +560,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  A history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    /// A history of user activity and any risks detected as part of Amazon Cognito advanced security.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -582,7 +582,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
+    /// Lists the groups associated with a user pool. Calling this action requires developer credentials.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -604,7 +604,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists information about all IdPs for a user pool.
+    /// Lists information about all IdPs for a user pool.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -626,7 +626,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the resource servers for a user pool.
+    /// Lists the resource servers for a user pool.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -648,7 +648,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the clients that have been created for the specified user pool.
+    /// Lists the clients that have been created for the specified user pool.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -670,7 +670,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the user pools associated with an Amazon Web Services account.
+    /// Lists the user pools associated with an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -692,7 +692,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the users in the Amazon Cognito user pool.
+    /// Lists the users in the Amazon Cognito user pool.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -714,7 +714,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the users in the specified group. Calling this action requires developer credentials.
+    /// Lists the users in the specified group. Calling this action requires developer credentials.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

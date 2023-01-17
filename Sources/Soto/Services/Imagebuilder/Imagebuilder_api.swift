@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -389,14 +389,14 @@ extension Imagebuilder {
 // MARK: Paginators
 
 extension Imagebuilder {
-    ///   Returns the list of component build versions for the specified semantic version.
+    ///  Returns the list of component build versions for the specified semantic version.
     ///
-    ///  			         The semantic version has four nodes: ../.
-    ///  	You can assign values for the first three, and can filter on all of them.
-    ///  			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    ///  	to specify the most recent versions or nodes when selecting the base image or components for your
-    ///  	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    ///  	wildcards.
+    /// 			         The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.
+    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
+    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+    /// 	wildcards.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -450,14 +450,14 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns the list of component build versions for the specified semantic version.
+    /// Returns the list of component build versions for the specified semantic version.
     ///
-    ///  			         The semantic version has four nodes: ../.
-    ///  	You can assign values for the first three, and can filter on all of them.
-    ///  			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    ///  	to specify the most recent versions or nodes when selecting the base image or components for your
-    ///  	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    ///  	wildcards.
+    /// 			         The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.
+    /// 			          Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
+    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
+    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+    /// 	wildcards.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -511,7 +511,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of container recipes.
+    /// Returns a list of container recipes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -564,7 +564,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of distribution configurations.
+    /// Returns a list of distribution configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -617,7 +617,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image build versions.
+    ///  Returns a list of image build versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -670,7 +670,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
+    /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -723,7 +723,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of images created by the specified pipeline.
+    ///  Returns a list of images created by the specified pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -776,7 +776,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of image pipelines.
+    /// Returns a list of image pipelines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -829,7 +829,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image recipes.
+    ///  Returns a list of image recipes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -882,7 +882,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns the list of images that you have access to.
+    ///  Returns the list of images that you have access to.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -935,7 +935,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of infrastructure configurations.
+    ///  Returns a list of infrastructure configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

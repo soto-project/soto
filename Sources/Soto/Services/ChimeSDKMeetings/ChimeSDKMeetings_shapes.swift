@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ extension ChimeSDKMeetings {
 
     public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, _SotoSendable {
         case apSoutheast2 = "ap-southeast-2"
-        case auto
+        case auto = "auto"
         case caCentral1 = "ca-central-1"
         case euWest1 = "eu-west-1"
         case usEast1 = "us-east-1"
@@ -99,9 +99,9 @@ extension ChimeSDKMeetings {
     }
 
     public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, _SotoSendable {
-        case high
-        case low
-        case medium
+        case high = "high"
+        case low = "low"
+        case medium = "medium"
         public var description: String { return self.rawValue }
     }
 
@@ -109,7 +109,7 @@ extension ChimeSDKMeetings {
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSoutheast2 = "ap-southeast-2"
-        case auto
+        case auto = "auto"
         case caCentral1 = "ca-central-1"
         case euCentral1 = "eu-central-1"
         case euWest1 = "eu-west-1"
@@ -123,9 +123,9 @@ extension ChimeSDKMeetings {
     }
 
     public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mask
-        case remove
-        case tag
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -1233,7 +1233,7 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The input parameters don&#39;t match the service&#39;s restrictions.
+    /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Multiple instances of the same request have been made simultaneously.
     public static var conflictException: Self { .init(.conflictException) }
@@ -1243,7 +1243,7 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// The resource that you want to tag couldn&#39;t be found.
+    /// The resource that you want to tag couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service encountered an unexpected error.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
@@ -1253,7 +1253,7 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Too many tags were added to the specified resource.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The user isn&#39;t authorized to request a resource.
+    /// The user isn't authorized to request a resource.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The request was well-formed but was unable to be followed due to semantic errors.
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }

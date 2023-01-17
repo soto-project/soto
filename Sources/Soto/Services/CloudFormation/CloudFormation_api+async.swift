@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -358,7 +358,7 @@ extension CloudFormation {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudFormation {
-    ///  Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see CloudFormation Quotas in the CloudFormation User Guide.
+    /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see CloudFormation Quotas in the CloudFormation User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -380,7 +380,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -402,7 +402,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a list of resources that support drift detection, see Resources that Support Drift Detection. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all supported resources for a given stack.
+    /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a list of resources that support drift detection, see Resources that Support Drift Detection. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all supported resources for a given stack.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -424,7 +424,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, an ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, an ValidationError is returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -446,7 +446,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
+    /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -468,7 +468,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue function. For more information, see  CloudFormation export stack output values.
+    /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue function. For more information, see  CloudFormation export stack output values.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -490,7 +490,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports. For more information about importing an exported output value, see the  Fn::ImportValue function.
+    /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports. For more information about importing an exported output value, see the  Fn::ImportValue function.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -512,7 +512,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
+    /// Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -534,7 +534,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
+    /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -556,7 +556,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about the results of a stack set operation.
+    /// Returns summary information about the results of a stack set operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -578,7 +578,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about operations performed on a stack set.
+    /// Returns summary information about operations performed on a stack set.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -600,7 +600,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about stack sets that are associated with the user.   [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed stack sets in your Amazon Web Services account.   [Service-managed permissions] If you set the CallAs parameter to SELF while signed in to the organization's management account, ListStackSets returns all stack sets in the management account.   [Service-managed permissions] If you set the CallAs parameter to DELEGATED_ADMIN while signed in to your member account, ListStackSets returns all stack sets with service-managed permissions in the management account.
+    /// Returns summary information about stack sets that are associated with the user.   [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed stack sets in your Amazon Web Services account.   [Service-managed permissions] If you set the CallAs parameter to SELF while signed in to the organization's management account, ListStackSets returns all stack sets in the management account.   [Service-managed permissions] If you set the CallAs parameter to DELEGATED_ADMIN while signed in to your member account, ListStackSets returns all stack sets with service-managed permissions in the management account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -622,7 +622,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
+    /// Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -644,7 +644,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns a list of registration tokens for the specified extension(s).
+    /// Returns a list of registration tokens for the specified extension(s).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -666,7 +666,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about the versions of an extension.
+    /// Returns summary information about the versions of an extension.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -688,7 +688,7 @@ extension CloudFormation {
         )
     }
 
-    ///  Returns summary information about extension that have been registered with CloudFormation.
+    /// Returns summary information about extension that have been registered with CloudFormation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

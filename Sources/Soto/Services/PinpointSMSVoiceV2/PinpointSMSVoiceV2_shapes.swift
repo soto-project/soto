@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -131,7 +131,7 @@ extension PinpointSMSVoiceV2 {
         case numberType = "number-type"
         case optOutListName = "opt-out-list-name"
         case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
-        case status
+        case status = "status"
         case twoWayEnabled = "two-way-enabled"
         public var description: String { return self.rawValue }
     }
@@ -142,7 +142,7 @@ extension PinpointSMSVoiceV2 {
         case optOutListName = "opt-out-list-name"
         case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
         case sharedRoutesEnabled = "shared-routes-enabled"
-        case status
+        case status = "status"
         case twoWayEnabled = "two-way-enabled"
         public var description: String { return self.rawValue }
     }
@@ -2745,7 +2745,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
-            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259_200)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
         }
 
@@ -2837,7 +2837,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
-            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259_200)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
         }
 
@@ -3050,7 +3050,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1_000_000_000)
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1000000000)
             try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, min: 0)
         }
 
@@ -3081,7 +3081,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1_000_000_000)
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1000000000)
             try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, min: 0)
         }
 
@@ -3559,13 +3559,13 @@ public struct PinpointSMSVoiceV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The request was denied because you don&#39;t have sufficient permissions to access the resource.
+    /// The request was denied because you don't have sufficient permissions to access the resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Your request has conflicting operations. This can occur if you&#39;re trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn&#39;t valid for the current state or configuration of the resource.
+    /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The API encountered an unexpected error and couldn&#39;t complete the request. You might be able to successfully issue the request again in the future.
+    /// The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// A requested resource couldn&#39;t be found.
+    /// A requested resource couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

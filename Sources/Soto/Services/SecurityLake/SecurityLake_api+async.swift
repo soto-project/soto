@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -178,7 +178,7 @@ extension SecurityLake {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecurityLake {
-    ///  Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
+    /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -200,7 +200,7 @@ extension SecurityLake {
         )
     }
 
-    ///  Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
+    /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -222,7 +222,7 @@ extension SecurityLake {
         )
     }
 
-    ///  Retrieves the log sources in the current Amazon Web Services Region.
+    /// Retrieves the log sources in the current Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -244,7 +244,7 @@ extension SecurityLake {
         )
     }
 
-    ///  List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
+    /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

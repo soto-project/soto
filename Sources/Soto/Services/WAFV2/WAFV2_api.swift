@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,6 +74,7 @@ public struct WAFV2: AWSService {
                 "eu-west-1": "wafv2.eu-west-1.amazonaws.com",
                 "eu-west-2": "wafv2.eu-west-2.amazonaws.com",
                 "eu-west-3": "wafv2.eu-west-3.amazonaws.com",
+                "me-central-1": "wafv2.me-central-1.amazonaws.com",
                 "me-south-1": "wafv2.me-south-1.amazonaws.com",
                 "sa-east-1": "wafv2.sa-east-1.amazonaws.com",
                 "us-east-1": "wafv2.us-east-1.amazonaws.com",
@@ -103,6 +104,7 @@ public struct WAFV2: AWSService {
                     "eu-west-1": "wafv2-fips.eu-west-1.amazonaws.com",
                     "eu-west-2": "wafv2-fips.eu-west-2.amazonaws.com",
                     "eu-west-3": "wafv2-fips.eu-west-3.amazonaws.com",
+                    "me-central-1": "wafv2-fips.me-central-1.amazonaws.com",
                     "me-south-1": "wafv2-fips.me-south-1.amazonaws.com",
                     "sa-east-1": "wafv2-fips.sa-east-1.amazonaws.com",
                     "us-east-1": "wafv2-fips.us-east-1.amazonaws.com",

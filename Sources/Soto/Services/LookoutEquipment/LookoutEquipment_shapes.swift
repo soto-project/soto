@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -630,7 +630,7 @@ extension LookoutEquipment {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, max: 1_000_000)
+            try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, max: 1000000)
             try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, min: 1)
         }
 
@@ -2847,7 +2847,7 @@ public struct LookoutEquipmentErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    ///  The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related AWS service that&#39;s being utilized.
+    ///  The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related AWS service that's being utilized.
     public static var validationException: Self { .init(.validationException) }
 }
 

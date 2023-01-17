@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -167,8 +167,8 @@ extension RUM {
 // MARK: Paginators
 
 extension RUM {
-    ///  Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
-    ///  API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
+    /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
+    /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -221,7 +221,7 @@ extension RUM {
         )
     }
 
-    ///  Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
+    /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -274,7 +274,7 @@ extension RUM {
         )
     }
 
-    ///  Returns a list of the Amazon CloudWatch RUM app monitors in the account.
+    /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -327,7 +327,7 @@ extension RUM {
         )
     }
 
-    ///  Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
+    /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

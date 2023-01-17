@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -174,7 +174,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -191,7 +191,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
+            case statusCode = "statusCode"
         }
     }
 
@@ -213,10 +213,10 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case expiration
-            case secretAccessKey
-            case sessionToken
+            case accessKeyId = "accessKeyId"
+            case expiration = "expiration"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -232,8 +232,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCategory
-            case errorMessage
+            case errorCategory = "errorCategory"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -282,19 +282,19 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeFromTimestamp
-            case activeUntilTimestamp
-            case changesetArn
-            case changesetId
-            case changeType
-            case createTime
-            case datasetId
-            case errorInfo
-            case formatParams
-            case sourceParams
-            case status
-            case updatedByChangesetId
-            case updatesChangesetId
+            case activeFromTimestamp = "activeFromTimestamp"
+            case activeUntilTimestamp = "activeUntilTimestamp"
+            case changesetArn = "changesetArn"
+            case changesetId = "changesetId"
+            case changeType = "changeType"
+            case createTime = "createTime"
+            case datasetId = "datasetId"
+            case errorInfo = "errorInfo"
+            case formatParams = "formatParams"
+            case sourceParams = "sourceParams"
+            case status = "status"
+            case updatedByChangesetId = "updatedByChangesetId"
+            case updatesChangesetId = "updatesChangesetId"
         }
     }
 
@@ -320,9 +320,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnDescription
-            case columnName
-            case dataType
+            case columnDescription = "columnDescription"
+            case columnName = "columnName"
+            case dataType = "dataType"
         }
     }
 
@@ -371,10 +371,10 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeType
-            case clientToken
-            case formatParams
-            case sourceParams
+            case changeType = "changeType"
+            case clientToken = "clientToken"
+            case formatParams = "formatParams"
+            case sourceParams = "sourceParams"
         }
     }
 
@@ -390,8 +390,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changesetId
-            case datasetId
+            case changesetId = "changesetId"
+            case datasetId = "datasetId"
         }
     }
 
@@ -445,12 +445,12 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asOfTimestamp
-            case autoUpdate
-            case clientToken
-            case destinationTypeParams
-            case partitionColumns
-            case sortColumns
+            case asOfTimestamp = "asOfTimestamp"
+            case autoUpdate = "autoUpdate"
+            case clientToken = "clientToken"
+            case destinationTypeParams = "destinationTypeParams"
+            case partitionColumns = "partitionColumns"
+            case sortColumns = "sortColumns"
         }
     }
 
@@ -466,8 +466,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetId
-            case dataViewId
+            case datasetId = "datasetId"
+            case dataViewId = "dataViewId"
         }
     }
 
@@ -518,14 +518,14 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case datasetDescription
-            case datasetTitle
-            case kind
-            case ownerInfo
-            case permissionGroupParams
-            case schemaDefinition
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case datasetDescription = "datasetDescription"
+            case datasetTitle = "datasetTitle"
+            case kind = "kind"
+            case ownerInfo = "ownerInfo"
+            case permissionGroupParams = "permissionGroupParams"
+            case schemaDefinition = "schemaDefinition"
         }
     }
 
@@ -538,7 +538,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetId
+            case datasetId = "datasetId"
         }
     }
 
@@ -572,10 +572,10 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationPermissions
-            case clientToken
-            case description
-            case name
+            case applicationPermissions = "applicationPermissions"
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -588,7 +588,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissionGroupId
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -638,12 +638,12 @@ extension FinspaceData {
 
         private enum CodingKeys: String, CodingKey {
             case apiAccess = "ApiAccess"
-            case apiAccessPrincipalArn
-            case clientToken
-            case emailAddress
-            case firstName
-            case lastName
-            case type
+            case apiAccessPrincipalArn = "apiAccessPrincipalArn"
+            case clientToken = "clientToken"
+            case emailAddress = "emailAddress"
+            case firstName = "firstName"
+            case lastName = "lastName"
+            case type = "type"
         }
     }
 
@@ -656,7 +656,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId
+            case userId = "userId"
         }
     }
 
@@ -675,9 +675,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case secretAccessKey
-            case sessionToken
+            case accessKeyId = "accessKeyId"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -705,9 +705,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationType
-            case s3DestinationExportFileFormat
-            case s3DestinationExportFileFormatOptions
+            case destinationType = "destinationType"
+            case s3DestinationExportFileFormat = "s3DestinationExportFileFormat"
+            case s3DestinationExportFileFormatOptions = "s3DestinationExportFileFormatOptions"
         }
     }
 
@@ -723,8 +723,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCategory
-            case errorMessage
+            case errorCategory = "errorCategory"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -770,18 +770,18 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asOfTimestamp
-            case autoUpdate
-            case createTime
-            case datasetId
-            case dataViewArn
-            case dataViewId
-            case destinationTypeProperties
-            case errorInfo
-            case lastModifiedTime
-            case partitionColumns
-            case sortColumns
-            case status
+            case asOfTimestamp = "asOfTimestamp"
+            case autoUpdate = "autoUpdate"
+            case createTime = "createTime"
+            case datasetId = "datasetId"
+            case dataViewArn = "dataViewArn"
+            case dataViewId = "dataViewId"
+            case destinationTypeProperties = "destinationTypeProperties"
+            case errorInfo = "errorInfo"
+            case lastModifiedTime = "lastModifiedTime"
+            case partitionColumns = "partitionColumns"
+            case sortColumns = "sortColumns"
+            case status = "status"
         }
     }
 
@@ -821,16 +821,16 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case createTime
-            case datasetArn
-            case datasetDescription
-            case datasetId
-            case datasetTitle
-            case kind
-            case lastModifiedTime
-            case ownerInfo
-            case schemaDefinition
+            case alias = "alias"
+            case createTime = "createTime"
+            case datasetArn = "datasetArn"
+            case datasetDescription = "datasetDescription"
+            case datasetId = "datasetId"
+            case datasetTitle = "datasetTitle"
+            case kind = "kind"
+            case lastModifiedTime = "lastModifiedTime"
+            case ownerInfo = "ownerInfo"
+            case schemaDefinition = "schemaDefinition"
         }
     }
 
@@ -861,9 +861,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case email
-            case name
-            case phoneNumber
+            case email = "email"
+            case name = "name"
+            case phoneNumber = "phoneNumber"
         }
     }
 
@@ -903,7 +903,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetId
+            case datasetId = "datasetId"
         }
     }
 
@@ -944,7 +944,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissionGroupId
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -973,7 +973,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -986,7 +986,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId
+            case userId = "userId"
         }
     }
 
@@ -1038,7 +1038,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusCode
+            case statusCode = "statusCode"
         }
     }
 
@@ -1067,7 +1067,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -1080,7 +1080,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId
+            case userId = "userId"
         }
     }
 
@@ -1155,19 +1155,19 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeFromTimestamp
-            case activeUntilTimestamp
-            case changesetArn
-            case changesetId
-            case changeType
-            case createTime
-            case datasetId
-            case errorInfo
-            case formatParams
-            case sourceParams
-            case status
-            case updatedByChangesetId
-            case updatesChangesetId
+            case activeFromTimestamp = "activeFromTimestamp"
+            case activeUntilTimestamp = "activeUntilTimestamp"
+            case changesetArn = "changesetArn"
+            case changesetId = "changesetId"
+            case changeType = "changeType"
+            case createTime = "createTime"
+            case datasetId = "datasetId"
+            case errorInfo = "errorInfo"
+            case formatParams = "formatParams"
+            case sourceParams = "sourceParams"
+            case status = "status"
+            case updatedByChangesetId = "updatedByChangesetId"
+            case updatesChangesetId = "updatesChangesetId"
         }
     }
 
@@ -1239,18 +1239,18 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asOfTimestamp
-            case autoUpdate
-            case createTime
-            case datasetId
-            case dataViewArn
-            case dataViewId
-            case destinationTypeParams
-            case errorInfo
-            case lastModifiedTime
-            case partitionColumns
-            case sortColumns
-            case status
+            case asOfTimestamp = "asOfTimestamp"
+            case autoUpdate = "autoUpdate"
+            case createTime = "createTime"
+            case datasetId = "datasetId"
+            case dataViewArn = "dataViewArn"
+            case dataViewId = "dataViewId"
+            case destinationTypeParams = "destinationTypeParams"
+            case errorInfo = "errorInfo"
+            case lastModifiedTime = "lastModifiedTime"
+            case partitionColumns = "partitionColumns"
+            case sortColumns = "sortColumns"
+            case status = "status"
         }
     }
 
@@ -1311,16 +1311,16 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case createTime
-            case datasetArn
-            case datasetDescription
-            case datasetId
-            case datasetTitle
-            case kind
-            case lastModifiedTime
-            case schemaDefinition
-            case status
+            case alias = "alias"
+            case createTime = "createTime"
+            case datasetArn = "datasetArn"
+            case datasetDescription = "datasetDescription"
+            case datasetId = "datasetId"
+            case datasetTitle = "datasetTitle"
+            case kind = "kind"
+            case lastModifiedTime = "lastModifiedTime"
+            case schemaDefinition = "schemaDefinition"
+            case status = "status"
         }
     }
 
@@ -1362,8 +1362,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentials
-            case s3Location
+            case credentials = "credentials"
+            case s3Location = "s3Location"
         }
     }
 
@@ -1396,7 +1396,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissionGroup
+            case permissionGroup = "permissionGroup"
         }
     }
 
@@ -1438,8 +1438,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentials
-            case durationInMinutes
+            case credentials = "credentials"
+            case durationInMinutes = "durationInMinutes"
         }
     }
 
@@ -1509,19 +1509,19 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAccess
-            case apiAccessPrincipalArn
-            case createTime
-            case emailAddress
-            case firstName
-            case lastDisabledTime
-            case lastEnabledTime
-            case lastLoginTime
-            case lastModifiedTime
-            case lastName
-            case status
-            case type
-            case userId
+            case apiAccess = "apiAccess"
+            case apiAccessPrincipalArn = "apiAccessPrincipalArn"
+            case createTime = "createTime"
+            case emailAddress = "emailAddress"
+            case firstName = "firstName"
+            case lastDisabledTime = "lastDisabledTime"
+            case lastEnabledTime = "lastEnabledTime"
+            case lastLoginTime = "lastLoginTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case lastName = "lastName"
+            case status = "status"
+            case type = "type"
+            case userId = "userId"
         }
     }
 
@@ -1534,7 +1534,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locationType
+            case locationType = "locationType"
         }
     }
 
@@ -1553,9 +1553,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Path
-            case s3Uri
+            case s3Bucket = "s3Bucket"
+            case s3Path = "s3Path"
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -1601,8 +1601,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changesets
-            case nextToken
+            case changesets = "changesets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1648,8 +1648,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataViews
-            case nextToken
+            case dataViews = "dataViews"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1689,8 +1689,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasets
-            case nextToken
+            case datasets = "datasets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1737,8 +1737,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissionGroups
+            case nextToken = "nextToken"
+            case permissionGroups = "permissionGroups"
         }
     }
 
@@ -1778,8 +1778,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case permissionGroups
+            case nextToken = "nextToken"
+            case permissionGroups = "permissionGroups"
         }
     }
 
@@ -1826,8 +1826,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case users
+            case nextToken = "nextToken"
+            case users = "users"
         }
     }
 
@@ -1867,8 +1867,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case users
+            case nextToken = "nextToken"
+            case users = "users"
         }
     }
 
@@ -1899,13 +1899,13 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationPermissions
-            case createTime
-            case description
-            case lastModifiedTime
-            case membershipStatus
-            case name
-            case permissionGroupId
+            case applicationPermissions = "applicationPermissions"
+            case createTime = "createTime"
+            case description = "description"
+            case lastModifiedTime = "lastModifiedTime"
+            case membershipStatus = "membershipStatus"
+            case name = "name"
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -1924,9 +1924,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case membershipStatus
-            case name
-            case permissionGroupId
+            case membershipStatus = "membershipStatus"
+            case name = "name"
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -1951,8 +1951,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetPermissions
-            case permissionGroupId
+            case datasetPermissions = "datasetPermissions"
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -1981,7 +1981,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
+            case clientToken = "clientToken"
         }
     }
 
@@ -1997,8 +1997,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case temporaryPassword
-            case userId
+            case temporaryPassword = "temporaryPassword"
+            case userId = "userId"
         }
     }
 
@@ -2017,7 +2017,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permission
+            case permission = "permission"
         }
     }
 
@@ -2033,8 +2033,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
@@ -2060,8 +2060,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columns
-            case primaryKeyColumns
+            case columns = "columns"
+            case primaryKeyColumns = "primaryKeyColumns"
         }
     }
 
@@ -2078,7 +2078,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tabularSchemaConfig
+            case tabularSchemaConfig = "tabularSchemaConfig"
         }
     }
 
@@ -2130,9 +2130,9 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case formatParams
-            case sourceParams
+            case clientToken = "clientToken"
+            case formatParams = "formatParams"
+            case sourceParams = "sourceParams"
         }
     }
 
@@ -2148,8 +2148,8 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changesetId
-            case datasetId
+            case changesetId = "changesetId"
+            case datasetId = "datasetId"
         }
     }
 
@@ -2201,12 +2201,12 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case clientToken
-            case datasetDescription
-            case datasetTitle
-            case kind
-            case schemaDefinition
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case datasetDescription = "datasetDescription"
+            case datasetTitle = "datasetTitle"
+            case kind = "kind"
+            case schemaDefinition = "schemaDefinition"
         }
     }
 
@@ -2219,7 +2219,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetId
+            case datasetId = "datasetId"
         }
     }
 
@@ -2263,10 +2263,10 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationPermissions
-            case clientToken
-            case description
-            case name
+            case applicationPermissions = "applicationPermissions"
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -2279,7 +2279,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case permissionGroupId
+            case permissionGroupId = "permissionGroupId"
         }
     }
 
@@ -2332,12 +2332,12 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAccess
-            case apiAccessPrincipalArn
-            case clientToken
-            case firstName
-            case lastName
-            case type
+            case apiAccess = "apiAccess"
+            case apiAccessPrincipalArn = "apiAccessPrincipalArn"
+            case clientToken = "clientToken"
+            case firstName = "firstName"
+            case lastName = "lastName"
+            case type = "type"
         }
     }
 
@@ -2350,7 +2350,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userId
+            case userId = "userId"
         }
     }
 
@@ -2399,19 +2399,19 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAccess
-            case apiAccessPrincipalArn
-            case createTime
-            case emailAddress
-            case firstName
-            case lastDisabledTime
-            case lastEnabledTime
-            case lastLoginTime
-            case lastModifiedTime
-            case lastName
-            case status
-            case type
-            case userId
+            case apiAccess = "apiAccess"
+            case apiAccessPrincipalArn = "apiAccessPrincipalArn"
+            case createTime = "createTime"
+            case emailAddress = "emailAddress"
+            case firstName = "firstName"
+            case lastDisabledTime = "lastDisabledTime"
+            case lastEnabledTime = "lastEnabledTime"
+            case lastLoginTime = "lastLoginTime"
+            case lastModifiedTime = "lastModifiedTime"
+            case lastName = "lastName"
+            case status = "status"
+            case type = "type"
+            case userId = "userId"
         }
     }
 
@@ -2448,15 +2448,15 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiAccess
-            case apiAccessPrincipalArn
-            case emailAddress
-            case firstName
-            case lastName
-            case membershipStatus
-            case status
-            case type
-            case userId
+            case apiAccess = "apiAccess"
+            case apiAccessPrincipalArn = "apiAccessPrincipalArn"
+            case emailAddress = "emailAddress"
+            case firstName = "firstName"
+            case lastName = "lastName"
+            case membershipStatus = "membershipStatus"
+            case status = "status"
+            case type = "type"
+            case userId = "userId"
         }
     }
 }
@@ -2501,7 +2501,7 @@ public struct FinspaceDataErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// A limit has exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// One or more resources can&#39;t be found.
+    /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

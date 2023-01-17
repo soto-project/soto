@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -293,7 +293,7 @@ extension DocDB {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DocDB {
-    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
+    /// Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -315,7 +315,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group.
+    /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -337,7 +337,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular cluster parameter group.
+    /// Returns the detailed parameter list for a particular cluster parameter group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -359,7 +359,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns information about cluster snapshots. This API operation supports pagination.
+    /// Returns information about cluster snapshots. This API operation supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -381,7 +381,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns information about provisioned Amazon DocumentDB clusters. This API  operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon  Neptune. Use the filterName=engine,Values=docdb filter  parameter to return only Amazon DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB clusters. This API  operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon  Neptune. Use the filterName=engine,Values=docdb filter  parameter to return only Amazon DocumentDB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -403,7 +403,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns a list of the available engines.
+    /// Returns a list of the available engines.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -425,7 +425,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
+    /// Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -447,7 +447,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
+    /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -469,7 +469,7 @@ extension DocDB {
         )
     }
 
-    ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
+    /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -491,7 +491,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
+    /// Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -513,7 +513,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns information about Amazon DocumentDB global  clusters. This API supports pagination.  This action only applies to Amazon DocumentDB clusters.
+    /// Returns information about Amazon DocumentDB global  clusters. This API supports pagination.  This action only applies to Amazon DocumentDB clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -535,7 +535,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns a list of orderable instance options for the specified engine.
+    /// Returns a list of orderable instance options for the specified engine.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -557,7 +557,7 @@ extension DocDB {
         )
     }
 
-    ///  Returns a list of resources (for example, instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, instances) that have at least one pending maintenance action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

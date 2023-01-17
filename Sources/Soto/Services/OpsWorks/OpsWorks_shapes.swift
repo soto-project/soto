@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -31,77 +31,77 @@ extension OpsWorks {
 
     public enum AppType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsFlowRuby = "aws-flow-ruby"
-        case java
-        case nodejs
-        case other
-        case php
-        case rails
-        case `static`
+        case java = "java"
+        case nodejs = "nodejs"
+        case other = "other"
+        case php = "php"
+        case rails = "rails"
+        case `static` = "static"
         public var description: String { return self.rawValue }
     }
 
     public enum Architecture: String, CustomStringConvertible, Codable, _SotoSendable {
-        case i386
+        case i386 = "i386"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoScalingType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case load
-        case timer
+        case load = "load"
+        case timer = "timer"
         public var description: String { return self.rawValue }
     }
 
     public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ascii
-        case big5
-        case big5hkscs
-        case cp037
-        case cp1006
-        case cp1026
-        case cp1140
-        case cp1250
-        case cp1251
-        case cp1252
-        case cp1253
-        case cp1254
-        case cp1255
-        case cp1256
-        case cp1257
-        case cp1258
-        case cp424
-        case cp437
-        case cp500
-        case cp720
-        case cp737
-        case cp775
-        case cp850
-        case cp852
-        case cp855
-        case cp856
-        case cp857
-        case cp858
-        case cp860
-        case cp861
-        case cp862
-        case cp863
-        case cp864
-        case cp865
-        case cp866
-        case cp869
-        case cp874
-        case cp875
-        case cp932
-        case cp949
-        case cp950
+        case ascii = "ascii"
+        case big5 = "big5"
+        case big5hkscs = "big5hkscs"
+        case cp037 = "cp037"
+        case cp1006 = "cp1006"
+        case cp1026 = "cp1026"
+        case cp1140 = "cp1140"
+        case cp1250 = "cp1250"
+        case cp1251 = "cp1251"
+        case cp1252 = "cp1252"
+        case cp1253 = "cp1253"
+        case cp1254 = "cp1254"
+        case cp1255 = "cp1255"
+        case cp1256 = "cp1256"
+        case cp1257 = "cp1257"
+        case cp1258 = "cp1258"
+        case cp424 = "cp424"
+        case cp437 = "cp437"
+        case cp500 = "cp500"
+        case cp720 = "cp720"
+        case cp737 = "cp737"
+        case cp775 = "cp775"
+        case cp850 = "cp850"
+        case cp852 = "cp852"
+        case cp855 = "cp855"
+        case cp856 = "cp856"
+        case cp857 = "cp857"
+        case cp858 = "cp858"
+        case cp860 = "cp860"
+        case cp861 = "cp861"
+        case cp862 = "cp862"
+        case cp863 = "cp863"
+        case cp864 = "cp864"
+        case cp865 = "cp865"
+        case cp866 = "cp866"
+        case cp869 = "cp869"
+        case cp874 = "cp874"
+        case cp875 = "cp875"
+        case cp932 = "cp932"
+        case cp949 = "cp949"
+        case cp950 = "cp950"
         case eucJis2004 = "euc_jis_2004"
         case eucJisx0213 = "euc_jisx0213"
         case eucJp = "euc_jp"
         case eucKr = "euc_kr"
-        case gb18030
-        case gb2312
-        case gbk
-        case hz
+        case gb18030 = "gb18030"
+        case gb2312 = "gb2312"
+        case gbk = "gbk"
+        case hz = "hz"
         case iso2022Jp = "iso2022_jp"
         case iso2022Jp1 = "iso2022_jp_1"
         case iso2022Jp2 = "iso2022_jp_2"
@@ -122,7 +122,7 @@ extension OpsWorks {
         case iso88597 = "iso8859_7"
         case iso88598 = "iso8859_8"
         case iso88599 = "iso8859_9"
-        case johab
+        case johab = "johab"
         case koi8R = "koi8_r"
         case koi8U = "koi8_u"
         case latin1 = "latin_1"
@@ -132,7 +132,7 @@ extension OpsWorks {
         case macLatin2 = "mac_latin2"
         case macRoman = "mac_roman"
         case macTurkish = "mac_turkish"
-        case ptcp154
+        case ptcp154 = "ptcp154"
         case shiftJis = "shift_jis"
         case shiftJis2004 = "shift_jis_2004"
         case shiftJisx0213 = "shift_jisx0213"
@@ -161,16 +161,16 @@ extension OpsWorks {
     }
 
     public enum DeploymentCommandName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case configure
-        case deploy
+        case configure = "configure"
+        case deploy = "deploy"
         case executeRecipes = "execute_recipes"
         case installDependencies = "install_dependencies"
-        case restart
-        case rollback
-        case setup
-        case start
-        case stop
-        case undeploy
+        case restart = "restart"
+        case rollback = "rollback"
+        case setup = "setup"
+        case start = "start"
+        case stop = "stop"
+        case undeploy = "undeploy"
         case updateCustomCookbooks = "update_custom_cookbooks"
         case updateDependencies = "update_dependencies"
         public var description: String { return self.rawValue }
@@ -207,31 +207,31 @@ extension OpsWorks {
 
     public enum LayerType: String, CustomStringConvertible, Codable, _SotoSendable {
         case awsFlowRuby = "aws-flow-ruby"
-        case custom
+        case custom = "custom"
         case dbMaster = "db-master"
         case ecsCluster = "ecs-cluster"
         case javaApp = "java-app"
-        case lb
-        case memcached
+        case lb = "lb"
+        case memcached = "memcached"
         case monitoringMaster = "monitoring-master"
         case nodejsApp = "nodejs-app"
         case phpApp = "php-app"
         case railsApp = "rails-app"
-        case web
+        case web = "web"
         public var description: String { return self.rawValue }
     }
 
     public enum RootDeviceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case ebs
+        case ebs = "ebs"
         case instanceStore = "instance-store"
         public var description: String { return self.rawValue }
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case archive
-        case git
-        case s3
-        case svn
+        case archive = "archive"
+        case git = "git"
+        case s3 = "s3"
+        case svn = "svn"
         public var description: String { return self.rawValue }
     }
 
@@ -241,15 +241,15 @@ extension OpsWorks {
     }
 
     public enum VirtualizationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case hvm
-        case paravirtual
+        case hvm = "hvm"
+        case paravirtual = "paravirtual"
         public var description: String { return self.rawValue }
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case gp2
-        case io1
-        case standard
+        case gp2 = "gp2"
+        case io1 = "io1"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 

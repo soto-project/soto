@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -209,8 +209,8 @@ extension Route53 {
     }
 
     public enum TagResourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case healthcheck
-        case hostedzone
+        case healthcheck = "healthcheck"
+        case hostedzone = "hostedzone"
         public var description: String { return self.rawValue }
     }
 
@@ -937,6 +937,7 @@ extension Route53 {
             AWSMemberEncoding(label: "resourceId", location: .uri("ResourceId")),
             AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
         ]
+
         public struct _AddTagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _RemoveTagKeysEncoding: ArrayCoderProperties { public static let member = "Key" }
 
@@ -1621,7 +1622,7 @@ extension Route53 {
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, min: 1)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, max: 1000)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, min: 1)
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -1671,7 +1672,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
-            try self.validate(self.document, name: "document", parent: name, max: 102_400)
+            try self.validate(self.document, name: "document", parent: name, max: 102400)
             try self.validate(self.name, name: "name", parent: name, max: 512)
         }
 
@@ -1726,7 +1727,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
-            try self.validate(self.document, name: "document", parent: name, max: 102_400)
+            try self.validate(self.document, name: "document", parent: name, max: 102400)
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -4681,6 +4682,7 @@ extension Route53 {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceType", location: .uri("ResourceType"))
         ]
+
         public struct _ResourceIdsEncoding: ArrayCoderProperties { public static let member = "ResourceId" }
 
         /// A complex type that contains the ResourceId element for each resource for which you
@@ -5836,7 +5838,7 @@ extension Route53 {
             try self.validate(self.setIdentifier, name: "setIdentifier", parent: name, min: 1)
             try self.validate(self.trafficPolicyInstanceId, name: "trafficPolicyInstanceId", parent: name, max: 36)
             try self.validate(self.trafficPolicyInstanceId, name: "trafficPolicyInstanceId", parent: name, min: 1)
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
             try self.validate(self.weight, name: "weight", parent: name, max: 255)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
@@ -6220,6 +6222,7 @@ extension Route53 {
         public static var _encoding = [
             AWSMemberEncoding(label: "healthCheckId", location: .uri("HealthCheckId"))
         ]
+
         public struct _ChildHealthChecksEncoding: ArrayCoderProperties { public static let member = "ChildHealthCheck" }
         public struct _RegionsEncoding: ArrayCoderProperties { public static let member = "Region" }
         public struct _ResetElementsEncoding: ArrayCoderProperties { public static let member = "ResettableElementName" }
@@ -6689,7 +6692,7 @@ extension Route53 {
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, min: 1)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, max: 1000)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, min: 1)
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -6833,20 +6836,20 @@ public struct Route53ErrorType: AWSErrorType {
     public static var cidrBlockInUseException: Self { .init(.cidrBlockInUseException) }
     /// A CIDR collection with this name and a different caller reference already exists in this account.
     public static var cidrCollectionAlreadyExistsException: Self { .init(.cidrCollectionAlreadyExistsException) }
-    /// This CIDR collection is in use, and isn&#39;t empty.
+    /// This CIDR collection is in use, and isn't empty.
     public static var cidrCollectionInUseException: Self { .init(.cidrCollectionInUseException) }
-    /// The CIDR collection version you provided, doesn&#39;t match the one in the
+    /// The CIDR collection version you provided, doesn't match the one in the
     /// 				ListCidrCollections operation.
     public static var cidrCollectionVersionMismatchException: Self { .init(.cidrCollectionVersionMismatchException) }
     /// Another user submitted a request to create, update, or delete the object at the same
     /// 			time that you did. Retry the request.
     public static var concurrentModification: Self { .init(.concurrentModification) }
-    /// The cause of this error depends on the operation that you&#39;re performing:
+    /// The cause of this error depends on the operation that you're performing:
     ///
     /// 				            Create a public hosted zone: Two hosted zones
     /// 					that have the same name or that have a parent/child relationship (example.com
-    /// 					and test.example.com) can&#39;t have any common name servers. You tried to create a
-    /// 					hosted zone that has the same name as an existing hosted zone or that&#39;s the
+    /// 					and test.example.com) can't have any common name servers. You tried to create a
+    /// 					hosted zone that has the same name as an existing hosted zone or that's the
     /// 					parent or child of an existing hosted zone, and you specified a delegation set
     /// 					that shares one or more name servers with the existing hosted zone. For more
     /// 					information, see CreateReusableDelegationSet.
@@ -6880,9 +6883,9 @@ public struct Route53ErrorType: AWSErrorType {
     public static var delegationSetNotAvailable: Self { .init(.delegationSetNotAvailable) }
     /// A reusable delegation set with the specified ID does not exist.
     public static var delegationSetNotReusable: Self { .init(.delegationSetNotReusable) }
-    /// The hosted zone doesn&#39;t have any DNSSEC resources.
+    /// The hosted zone doesn't have any DNSSEC resources.
     public static var dnssecNotFound: Self { .init(.dnssecNotFound) }
-    ///  The health check you&#39;re attempting to create already exists. Amazon Route 53 returns
+    ///  The health check you're attempting to create already exists. Amazon Route 53 returns
     /// 			this error when you submit a request that has the following values:
     ///
     /// 				           The same value for CallerReference as an existing health check,
@@ -6896,35 +6899,35 @@ public struct Route53ErrorType: AWSErrorType {
     public static var healthCheckAlreadyExists: Self { .init(.healthCheckAlreadyExists) }
     /// This error code is not in use.
     public static var healthCheckInUse: Self { .init(.healthCheckInUse) }
-    /// The value of HealthCheckVersion in the request doesn&#39;t match the value of
+    /// The value of HealthCheckVersion in the request doesn't match the value of
     /// 				HealthCheckVersion in the health check.
     public static var healthCheckVersionMismatch: Self { .init(.healthCheckVersionMismatch) }
-    /// The hosted zone you&#39;re trying to create already exists. Amazon Route 53 returns this
+    /// The hosted zone you're trying to create already exists. Amazon Route 53 returns this
     /// 			error when a hosted zone has already been created with the specified
     /// 				CallerReference.
     public static var hostedZoneAlreadyExists: Self { .init(.hostedZoneAlreadyExists) }
     /// The hosted zone contains resource records that are not SOA or NS records.
     public static var hostedZoneNotEmpty: Self { .init(.hostedZoneNotEmpty) }
-    /// The specified HostedZone can&#39;t be found.
+    /// The specified HostedZone can't be found.
     public static var hostedZoneNotFound: Self { .init(.hostedZoneNotFound) }
     /// The specified hosted zone is a public hosted zone, not a private hosted zone.
     public static var hostedZoneNotPrivate: Self { .init(.hostedZoneNotPrivate) }
-    /// The hosted zone nameservers don&#39;t match the parent nameservers. The hosted zone and
+    /// The hosted zone nameservers don't match the parent nameservers. The hosted zone and
     /// 			parent must have the same nameservers.
     public static var hostedZonePartiallyDelegated: Self { .init(.hostedZonePartiallyDelegated) }
-    /// The resource you&#39;re trying to access is unsupported on this Amazon Route 53
+    /// The resource you're trying to access is unsupported on this Amazon Route 53
     /// 			endpoint.
     public static var incompatibleVersion: Self { .init(.incompatibleVersion) }
-    /// Amazon Route 53 doesn&#39;t have the permissions required to create log streams and send
+    /// Amazon Route 53 doesn't have the permissions required to create log streams and send
     /// 			query logs to log streams. Possible causes include the following:
     ///
     /// 				           There is no resource policy that specifies the log group ARN in the value for
     /// 						Resource.
     ///
     /// 				           The resource policy that includes the log group ARN in the value for
-    /// 						Resource doesn&#39;t have the necessary permissions.
+    /// 						Resource doesn't have the necessary permissions.
     ///
-    /// 				           The resource policy hasn&#39;t finished propagating yet.
+    /// 				           The resource policy hasn't finished propagating yet.
     ///
     /// 				           The Key management service (KMS) key you specified doesn’t exist or it can’t
     /// 					be used with the log group associated with query log. Update or provide a
@@ -6943,55 +6946,55 @@ public struct Route53ErrorType: AWSErrorType {
     public static var invalidDomainName: Self { .init(.invalidDomainName) }
     /// The input is not valid.
     public static var invalidInput: Self { .init(.invalidInput) }
-    /// The KeyManagementServiceArn that you specified isn&#39;t valid to use with DNSSEC
+    /// The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC
     /// 			signing.
     public static var invalidKMSArn: Self { .init(.invalidKMSArn) }
-    /// The key-signing key (KSK) name that you specified isn&#39;t a valid name.
+    /// The key-signing key (KSK) name that you specified isn't a valid name.
     public static var invalidKeySigningKeyName: Self { .init(.invalidKeySigningKeyName) }
-    /// The key-signing key (KSK) status isn&#39;t valid or another KSK has the status
+    /// The key-signing key (KSK) status isn't valid or another KSK has the status
     /// 				INTERNAL_FAILURE.
     public static var invalidKeySigningKeyStatus: Self { .init(.invalidKeySigningKeyStatus) }
     /// The value that you specified to get the second or subsequent page of results is
     /// 			invalid.
     public static var invalidPaginationToken: Self { .init(.invalidPaginationToken) }
-    /// Your hosted zone status isn&#39;t valid for this operation. In the hosted zone, change the
+    /// Your hosted zone status isn't valid for this operation. In the hosted zone, change the
     /// 			status to enable DNSSEC or disable DNSSEC.
     public static var invalidSigningStatus: Self { .init(.invalidSigningStatus) }
     /// The format of the traffic policy document that you specified in the
     /// 				Document element is not valid.
     public static var invalidTrafficPolicyDocument: Self { .init(.invalidTrafficPolicyDocument) }
-    /// The VPC ID that you specified either isn&#39;t a valid ID or the current account is not
+    /// The VPC ID that you specified either isn't a valid ID or the current account is not
     /// 			authorized to access this VPC.
     public static var invalidVPCId: Self { .init(.invalidVPCId) }
-    /// You&#39;ve already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
+    /// You've already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
     public static var keySigningKeyAlreadyExists: Self { .init(.keySigningKeyAlreadyExists) }
     /// The key-signing key (KSK) is specified in a parent DS record.
     public static var keySigningKeyInParentDSRecord: Self { .init(.keySigningKeyInParentDSRecord) }
-    /// The key-signing key (KSK) that you specified can&#39;t be deactivated because it&#39;s the
+    /// The key-signing key (KSK) that you specified can't be deactivated because it's the
     /// 			only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable
     /// 			another KSK.
     public static var keySigningKeyInUse: Self { .init(.keySigningKeyInUse) }
-    /// A key-signing key (KSK) with ACTIVE status wasn&#39;t found.
+    /// A key-signing key (KSK) with ACTIVE status wasn't found.
     public static var keySigningKeyWithActiveStatusNotFound: Self { .init(.keySigningKeyWithActiveStatusNotFound) }
-    /// The VPC that you&#39;re trying to disassociate from the private hosted zone is the last
-    /// 			VPC that is associated with the hosted zone. Amazon Route 53 doesn&#39;t support
+    /// The VPC that you're trying to disassociate from the private hosted zone is the last
+    /// 			VPC that is associated with the hosted zone. Amazon Route 53 doesn't support
     /// 			disassociating the last VPC from a hosted zone.
     public static var lastVPCAssociation: Self { .init(.lastVPCAssociation) }
-    /// This operation can&#39;t be completed because the current account has reached the
+    /// This operation can't be completed because the current account has reached the
     /// 			limit on the resource you are trying to create. To request a higher limit, create a case with the Amazon Web Services Support
     /// 			Center.
     public static var limitsExceeded: Self { .init(.limitsExceeded) }
     /// A change with the specified change ID does not exist.
     public static var noSuchChange: Self { .init(.noSuchChange) }
-    /// The CIDR collection you specified, doesn&#39;t exist.
+    /// The CIDR collection you specified, doesn't exist.
     public static var noSuchCidrCollectionException: Self { .init(.noSuchCidrCollectionException) }
-    /// The CIDR collection location doesn&#39;t match any locations in your account.
+    /// The CIDR collection location doesn't match any locations in your account.
     public static var noSuchCidrLocationException: Self { .init(.noSuchCidrLocationException) }
     /// There is no CloudWatch Logs log group with the specified ARN.
     public static var noSuchCloudWatchLogsLogGroup: Self { .init(.noSuchCloudWatchLogsLogGroup) }
     /// A reusable delegation set with the specified ID does not exist.
     public static var noSuchDelegationSet: Self { .init(.noSuchDelegationSet) }
-    /// Amazon Route 53 doesn&#39;t support the specified geographic location. For a list of
+    /// Amazon Route 53 doesn't support the specified geographic location. For a list of
     /// 			supported geolocation codes, see the GeoLocation data
     /// 			type.
     public static var noSuchGeoLocation: Self { .init(.noSuchGeoLocation) }
@@ -6999,7 +7002,7 @@ public struct Route53ErrorType: AWSErrorType {
     public static var noSuchHealthCheck: Self { .init(.noSuchHealthCheck) }
     /// No hosted zone exists with the ID that you specified.
     public static var noSuchHostedZone: Self { .init(.noSuchHostedZone) }
-    /// The specified key-signing key (KSK) doesn&#39;t exist.
+    /// The specified key-signing key (KSK) doesn't exist.
     public static var noSuchKeySigningKey: Self { .init(.noSuchKeySigningKey) }
     /// There is no DNS query logging configuration with the specified ID.
     public static var noSuchQueryLoggingConfig: Self { .init(.noSuchQueryLoggingConfig) }
@@ -7010,13 +7013,13 @@ public struct Route53ErrorType: AWSErrorType {
     /// Associating the specified VPC with the specified hosted zone has not been
     /// 			authorized.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
-    /// If Amazon Route 53 can&#39;t process a request before the next request arrives, it will
+    /// If Amazon Route 53 can't process a request before the next request arrives, it will
     /// 			reject subsequent requests for the same hosted zone and return an HTTP 400
     /// 				error (Bad request). If Route 53 returns this error repeatedly
     /// 			for the same request, we recommend that you wait, in intervals of increasing duration,
     /// 			before you try the request again.
     public static var priorRequestNotComplete: Self { .init(.priorRequestNotComplete) }
-    /// You&#39;re trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn&#39;t
+    /// You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't
     /// 			support associating a VPC with a public hosted zone.
     public static var publicZoneVPCAssociation: Self { .init(.publicZoneVPCAssociation) }
     /// You can create only one query logging configuration for a hosted zone, and a query
@@ -7024,7 +7027,7 @@ public struct Route53ErrorType: AWSErrorType {
     public static var queryLoggingConfigAlreadyExists: Self { .init(.queryLoggingConfigAlreadyExists) }
     /// The limit on the number of requests per second was exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// This health check can&#39;t be created because the current account has reached the limit
+    /// This health check can't be created because the current account has reached the limit
     /// 			on the number of active health checks.
     /// 		       For information about default limits, see Limits in the
     /// 				Amazon Route 53 Developer Guide.
@@ -7033,8 +7036,8 @@ public struct Route53ErrorType: AWSErrorType {
     /// 		       You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, create a case with the Amazon Web Services Support
     /// 			Center.
     public static var tooManyHealthChecks: Self { .init(.tooManyHealthChecks) }
-    /// This operation can&#39;t be completed either because the current account has reached the
-    /// 			limit on the number of hosted zones or because you&#39;ve reached the limit on the number of
+    /// This operation can't be completed either because the current account has reached the
+    /// 			limit on the number of hosted zones or because you've reached the limit on the number of
     /// 			hosted zones that can be associated with a reusable delegation set.
     /// 		       For information about default limits, see Limits in the
     /// 				Amazon Route 53 Developer Guide.
@@ -7044,10 +7047,10 @@ public struct Route53ErrorType: AWSErrorType {
     /// 		       To request a higher limit, create a
     /// 				case with the Amazon Web Services Support Center.
     public static var tooManyHostedZones: Self { .init(.tooManyHostedZones) }
-    /// You&#39;ve reached the limit for the number of key-signing keys (KSKs). Remove at least
+    /// You've reached the limit for the number of key-signing keys (KSKs). Remove at least
     /// 			one KSK, and then try again.
     public static var tooManyKeySigningKeys: Self { .init(.tooManyKeySigningKeys) }
-    /// This traffic policy can&#39;t be created because the current account has reached the limit
+    /// This traffic policy can't be created because the current account has reached the limit
     /// 			on the number of traffic policies.
     /// 		       For information about default limits, see Limits in the
     /// 				Amazon Route 53 Developer Guide.
@@ -7055,7 +7058,7 @@ public struct Route53ErrorType: AWSErrorType {
     /// 		       To request a higher limit, create a
     /// 				case with the Amazon Web Services Support Center.
     public static var tooManyTrafficPolicies: Self { .init(.tooManyTrafficPolicies) }
-    /// This traffic policy instance can&#39;t be created because the current account has reached
+    /// This traffic policy instance can't be created because the current account has reached
     /// 			the limit on the number of traffic policy instances.
     /// 		       For information about default limits, see Limits in the
     /// 				Amazon Route 53 Developer Guide.
@@ -7063,14 +7066,14 @@ public struct Route53ErrorType: AWSErrorType {
     /// 		       To request a higher limit, create a
     /// 				case with the Amazon Web Services Support Center.
     public static var tooManyTrafficPolicyInstances: Self { .init(.tooManyTrafficPolicyInstances) }
-    /// This traffic policy version can&#39;t be created because you&#39;ve reached the limit of 1000
+    /// This traffic policy version can't be created because you've reached the limit of 1000
     /// 			on the number of versions that you can create for the current traffic policy.
     /// 		       To create more traffic policy versions, you can use GetTrafficPolicy
     /// 			to get the traffic policy document for a specified traffic policy version, and then use
     /// 				CreateTrafficPolicy to create a new traffic policy using the traffic policy
     /// 			document.
     public static var tooManyTrafficPolicyVersionsForCurrentPolicy: Self { .init(.tooManyTrafficPolicyVersionsForCurrentPolicy) }
-    /// You&#39;ve created the maximum number of authorizations that can be created for the
+    /// You've created the maximum number of authorizations that can be created for the
     /// 			specified hosted zone. To authorize another VPC to be associated with the hosted zone,
     /// 			submit a DeleteVPCAssociationAuthorization request to remove an existing
     /// 			authorization. To get a list of existing authorizations, submit a

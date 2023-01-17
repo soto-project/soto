@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1106,7 +1106,7 @@ extension WorkSpaces {
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
-            try self.validate(self.logo, name: "logo", parent: name, max: 1_500_000)
+            try self.validate(self.logo, name: "logo", parent: name, max: 1500000)
             try self.validate(self.logo, name: "logo", parent: name, min: 1)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
@@ -2427,11 +2427,11 @@ extension WorkSpaces {
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
-            try self.validate(self.logo, name: "logo", parent: name, max: 447_000)
+            try self.validate(self.logo, name: "logo", parent: name, max: 447000)
             try self.validate(self.logo, name: "logo", parent: name, min: 1)
-            try self.validate(self.logo2x, name: "logo2x", parent: name, max: 1_770_000)
+            try self.validate(self.logo2x, name: "logo2x", parent: name, max: 1770000)
             try self.validate(self.logo2x, name: "logo2x", parent: name, min: 1)
-            try self.validate(self.logo3x, name: "logo3x", parent: name, max: 1_770_000)
+            try self.validate(self.logo3x, name: "logo3x", parent: name, max: 1770000)
             try self.validate(self.logo3x, name: "logo3x", parent: name, min: 1)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
@@ -2464,8 +2464,8 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipRule
-            case ruleDesc
+            case ipRule = "ipRule"
+            case ruleDesc = "ruleDesc"
         }
     }
 
@@ -3868,7 +3868,7 @@ extension WorkSpaces {
             case directoryType = "DirectoryType"
             case dnsIpAddresses = "DnsIpAddresses"
             case iamRoleId = "IamRoleId"
-            case ipGroupIds
+            case ipGroupIds = "ipGroupIds"
             case registrationCode = "RegistrationCode"
             case samlProperties = "SamlProperties"
             case selfservicePermissions = "SelfservicePermissions"
@@ -4038,10 +4038,10 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupDesc
-            case groupId
-            case groupName
-            case userRules
+            case groupDesc = "groupDesc"
+            case groupId = "groupId"
+            case groupName = "groupName"
+            case userRules = "userRules"
         }
     }
 }

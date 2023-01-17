@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -58,7 +58,7 @@ extension ARCZonalShift {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ARCZonalShift {
-    ///  Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information  		about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and  		the resource name.
+    /// Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information  		about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and  		the resource name.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -80,7 +80,7 @@ extension ARCZonalShift {
         )
     }
 
-    ///  Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
+    /// Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

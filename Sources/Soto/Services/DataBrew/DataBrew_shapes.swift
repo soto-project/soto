@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4302,7 +4302,7 @@ public struct DataBrewErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An internal service failure occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// One or more resources can&#39;t be found.
+    /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// A service quota is exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }

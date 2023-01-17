@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -32,9 +32,9 @@ extension ECS {
     }
 
     public enum ApplicationProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case grpc
-        case http
-        case http2
+        case grpc = "grpc"
+        case http = "http"
+        case http2 = "http2"
         public var description: String { return self.rawValue }
     }
 
@@ -81,7 +81,7 @@ extension ECS {
     }
 
     public enum ClusterSettingName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case containerInsights
+        case containerInsights = "containerInsights"
         public var description: String { return self.rawValue }
     }
 
@@ -143,9 +143,9 @@ extension ECS {
     }
 
     public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable, _SotoSendable {
-        case mknod
-        case read
-        case write
+        case mknod = "mknod"
+        case read = "read"
+        case write = "write"
         public var description: String { return self.rawValue }
     }
 
@@ -162,7 +162,7 @@ extension ECS {
     }
 
     public enum EnvironmentFileType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case s3
+        case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
@@ -174,8 +174,8 @@ extension ECS {
     }
 
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case fluentbit
-        case fluentd
+        case fluentbit = "fluentbit"
+        case fluentd = "fluentd"
         public var description: String { return self.rawValue }
     }
 
@@ -200,9 +200,9 @@ extension ECS {
     }
 
     public enum IpcMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case host
-        case none
-        case task
+        case host = "host"
+        case none = "none"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
@@ -214,14 +214,14 @@ extension ECS {
     }
 
     public enum LogDriver: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsfirelens
-        case awslogs
-        case fluentd
-        case gelf
-        case journald
+        case awsfirelens = "awsfirelens"
+        case awslogs = "awslogs"
+        case fluentd = "fluentd"
+        case gelf = "gelf"
+        case journald = "journald"
         case jsonFile = "json-file"
-        case splunk
-        case syslog
+        case splunk = "splunk"
+        case syslog = "syslog"
         public var description: String { return self.rawValue }
     }
 
@@ -243,10 +243,10 @@ extension ECS {
     }
 
     public enum NetworkMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsvpc
-        case bridge
-        case host
-        case none
+        case awsvpc = "awsvpc"
+        case bridge = "bridge"
+        case host = "host"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
@@ -263,21 +263,21 @@ extension ECS {
     }
 
     public enum PidMode: String, CustomStringConvertible, Codable, _SotoSendable {
-        case host
-        case task
+        case host = "host"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
     public enum PlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case distinctInstance
-        case memberOf
+        case distinctInstance = "distinctInstance"
+        case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
     public enum PlacementStrategyType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case binpack
-        case random
-        case spread
+        case binpack = "binpack"
+        case random = "random"
+        case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
@@ -316,8 +316,8 @@ extension ECS {
     }
 
     public enum Scope: String, CustomStringConvertible, Codable, _SotoSendable {
-        case shared
-        case task
+        case shared = "shared"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
@@ -327,11 +327,11 @@ extension ECS {
     }
 
     public enum SettingName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case awsvpcTrunking
-        case containerInsights
-        case containerInstanceLongArnFormat
-        case serviceLongArnFormat
-        case taskLongArnFormat
+        case awsvpcTrunking = "awsvpcTrunking"
+        case containerInsights = "containerInsights"
+        case containerInstanceLongArnFormat = "containerInstanceLongArnFormat"
+        case serviceLongArnFormat = "serviceLongArnFormat"
+        case taskLongArnFormat = "taskLongArnFormat"
         public var description: String { return self.rawValue }
     }
 
@@ -365,7 +365,7 @@ extension ECS {
     }
 
     public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case memberOf
+        case memberOf = "memberOf"
         public var description: String { return self.rawValue }
     }
 
@@ -396,27 +396,27 @@ extension ECS {
     }
 
     public enum TransportProtocol: String, CustomStringConvertible, Codable, _SotoSendable {
-        case tcp
-        case udp
+        case tcp = "tcp"
+        case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
     public enum UlimitName: String, CustomStringConvertible, Codable, _SotoSendable {
-        case core
-        case cpu
-        case data
-        case fsize
-        case locks
-        case memlock
-        case msgqueue
-        case nice
-        case nofile
-        case nproc
-        case rss
-        case rtprio
-        case rttime
-        case sigpending
-        case stack
+        case core = "core"
+        case cpu = "cpu"
+        case data = "data"
+        case fsize = "fsize"
+        case locks = "locks"
+        case memlock = "memlock"
+        case msgqueue = "msgqueue"
+        case nice = "nice"
+        case nofile = "nofile"
+        case nproc = "nproc"
+        case rss = "rss"
+        case rtprio = "rtprio"
+        case rttime = "rttime"
+        case sigpending = "sigpending"
+        case stack = "stack"
         public var description: String { return self.rawValue }
     }
 
@@ -444,10 +444,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case id
-            case status
-            case type
+            case details = "details"
+            case id = "id"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -463,8 +463,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentArn
-            case status
+            case attachmentArn = "attachmentArn"
+            case status = "status"
         }
     }
 
@@ -493,10 +493,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case targetId
-            case targetType
-            case value
+            case name = "name"
+            case targetId = "targetId"
+            case targetType = "targetType"
+            case value = "value"
         }
     }
 
@@ -526,9 +526,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupArn
-            case managedScaling
-            case managedTerminationProtection
+            case autoScalingGroupArn = "autoScalingGroupArn"
+            case managedScaling = "managedScaling"
+            case managedTerminationProtection = "managedTerminationProtection"
         }
     }
 
@@ -555,8 +555,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case managedScaling
-            case managedTerminationProtection
+            case managedScaling = "managedScaling"
+            case managedTerminationProtection = "managedTerminationProtection"
         }
     }
 
@@ -580,9 +580,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
@@ -620,13 +620,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case capacityProviderArn
-            case name
-            case status
-            case tags
-            case updateStatus
-            case updateStatusReason
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case capacityProviderArn = "capacityProviderArn"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case updateStatus = "updateStatus"
+            case updateStatusReason = "updateStatusReason"
         }
     }
 
@@ -664,16 +664,16 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.base, name: "base", parent: name, max: 100_000)
+            try self.validate(self.base, name: "base", parent: name, max: 100000)
             try self.validate(self.base, name: "base", parent: name, min: 0)
             try self.validate(self.weight, name: "weight", parent: name, max: 1000)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case capacityProvider
-            case weight
+            case base = "base"
+            case capacityProvider = "capacityProvider"
+            case weight = "weight"
         }
     }
 
@@ -760,22 +760,22 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeServicesCount
-            case attachments
-            case attachmentsStatus
-            case capacityProviders
-            case clusterArn
-            case clusterName
-            case configuration
-            case defaultCapacityProviderStrategy
-            case pendingTasksCount
-            case registeredContainerInstancesCount
-            case runningTasksCount
-            case serviceConnectDefaults
-            case settings
-            case statistics
-            case status
-            case tags
+            case activeServicesCount = "activeServicesCount"
+            case attachments = "attachments"
+            case attachmentsStatus = "attachmentsStatus"
+            case capacityProviders = "capacityProviders"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case configuration = "configuration"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
+            case pendingTasksCount = "pendingTasksCount"
+            case registeredContainerInstancesCount = "registeredContainerInstancesCount"
+            case runningTasksCount = "runningTasksCount"
+            case serviceConnectDefaults = "serviceConnectDefaults"
+            case settings = "settings"
+            case statistics = "statistics"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -788,7 +788,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executeCommandConfiguration
+            case executeCommandConfiguration = "executeCommandConfiguration"
         }
     }
 
@@ -802,7 +802,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -826,7 +826,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
@@ -848,8 +848,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -916,23 +916,23 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerArn
-            case cpu
-            case exitCode
-            case gpuIds
-            case healthStatus
-            case image
-            case imageDigest
-            case lastStatus
-            case managedAgents
-            case memory
-            case memoryReservation
-            case name
-            case networkBindings
-            case networkInterfaces
-            case reason
-            case runtimeId
-            case taskArn
+            case containerArn = "containerArn"
+            case cpu = "cpu"
+            case exitCode = "exitCode"
+            case gpuIds = "gpuIds"
+            case healthStatus = "healthStatus"
+            case image = "image"
+            case imageDigest = "imageDigest"
+            case lastStatus = "lastStatus"
+            case managedAgents = "managedAgents"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case name = "name"
+            case networkBindings = "networkBindings"
+            case networkInterfaces = "networkInterfaces"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case taskArn = "taskArn"
         }
     }
 
@@ -1345,45 +1345,45 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case cpu
-            case dependsOn
-            case disableNetworking
-            case dnsSearchDomains
-            case dnsServers
-            case dockerLabels
-            case dockerSecurityOptions
-            case entryPoint
-            case environment
-            case environmentFiles
-            case essential
-            case extraHosts
-            case firelensConfiguration
-            case healthCheck
-            case hostname
-            case image
-            case interactive
-            case links
-            case linuxParameters
-            case logConfiguration
-            case memory
-            case memoryReservation
-            case mountPoints
-            case name
-            case portMappings
-            case privileged
-            case pseudoTerminal
-            case readonlyRootFilesystem
-            case repositoryCredentials
-            case resourceRequirements
-            case secrets
-            case startTimeout
-            case stopTimeout
-            case systemControls
-            case ulimits
-            case user
-            case volumesFrom
-            case workingDirectory
+            case command = "command"
+            case cpu = "cpu"
+            case dependsOn = "dependsOn"
+            case disableNetworking = "disableNetworking"
+            case dnsSearchDomains = "dnsSearchDomains"
+            case dnsServers = "dnsServers"
+            case dockerLabels = "dockerLabels"
+            case dockerSecurityOptions = "dockerSecurityOptions"
+            case entryPoint = "entryPoint"
+            case environment = "environment"
+            case environmentFiles = "environmentFiles"
+            case essential = "essential"
+            case extraHosts = "extraHosts"
+            case firelensConfiguration = "firelensConfiguration"
+            case healthCheck = "healthCheck"
+            case hostname = "hostname"
+            case image = "image"
+            case interactive = "interactive"
+            case links = "links"
+            case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case mountPoints = "mountPoints"
+            case name = "name"
+            case portMappings = "portMappings"
+            case privileged = "privileged"
+            case pseudoTerminal = "pseudoTerminal"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case repositoryCredentials = "repositoryCredentials"
+            case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
+            case startTimeout = "startTimeout"
+            case stopTimeout = "stopTimeout"
+            case systemControls = "systemControls"
+            case ulimits = "ulimits"
+            case user = "user"
+            case volumesFrom = "volumesFrom"
+            case workingDirectory = "workingDirectory"
         }
     }
 
@@ -1411,8 +1411,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case containerName
+            case condition = "condition"
+            case containerName = "containerName"
         }
     }
 
@@ -1518,24 +1518,24 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentConnected
-            case agentUpdateStatus
-            case attachments
-            case attributes
-            case capacityProviderName
-            case containerInstanceArn
-            case ec2InstanceId
-            case healthStatus
-            case pendingTasksCount
-            case registeredAt
-            case registeredResources
-            case remainingResources
-            case runningTasksCount
-            case status
-            case statusReason
-            case tags
-            case version
-            case versionInfo
+            case agentConnected = "agentConnected"
+            case agentUpdateStatus = "agentUpdateStatus"
+            case attachments = "attachments"
+            case attributes = "attributes"
+            case capacityProviderName = "capacityProviderName"
+            case containerInstanceArn = "containerInstanceArn"
+            case ec2InstanceId = "ec2InstanceId"
+            case healthStatus = "healthStatus"
+            case pendingTasksCount = "pendingTasksCount"
+            case registeredAt = "registeredAt"
+            case registeredResources = "registeredResources"
+            case remainingResources = "remainingResources"
+            case runningTasksCount = "runningTasksCount"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case version = "version"
+            case versionInfo = "versionInfo"
         }
     }
 
@@ -1553,8 +1553,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case overallStatus
+            case details = "details"
+            case overallStatus = "overallStatus"
         }
     }
 
@@ -1599,14 +1599,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case cpu
-            case environment
-            case environmentFiles
-            case memory
-            case memoryReservation
-            case name
-            case resourceRequirements
+            case command = "command"
+            case cpu = "cpu"
+            case environment = "environment"
+            case environmentFiles = "environmentFiles"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case name = "name"
+            case resourceRequirements = "resourceRequirements"
         }
     }
 
@@ -1638,13 +1638,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case exitCode
-            case imageDigest
-            case networkBindings
-            case reason
-            case runtimeId
-            case status
+            case containerName = "containerName"
+            case exitCode = "exitCode"
+            case imageDigest = "imageDigest"
+            case networkBindings = "networkBindings"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case status = "status"
         }
     }
 
@@ -1676,9 +1676,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case name
-            case tags
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1691,7 +1691,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
@@ -1763,13 +1763,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case clusterName
-            case configuration
-            case defaultCapacityProviderStrategy
-            case serviceConnectDefaults
-            case settings
-            case tags
+            case capacityProviders = "capacityProviders"
+            case clusterName = "clusterName"
+            case configuration = "configuration"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
+            case serviceConnectDefaults = "serviceConnectDefaults"
+            case settings = "settings"
+            case tags = "tags"
         }
     }
 
@@ -1782,7 +1782,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -1990,29 +1990,29 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clientToken
-            case cluster
-            case deploymentConfiguration
-            case deploymentController
-            case desiredCount
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case healthCheckGracePeriodSeconds
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case role
-            case schedulingStrategy
-            case serviceConnectConfiguration
-            case serviceName
-            case serviceRegistries
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clientToken = "clientToken"
+            case cluster = "cluster"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case deploymentController = "deploymentController"
+            case desiredCount = "desiredCount"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case role = "role"
+            case schedulingStrategy = "schedulingStrategy"
+            case serviceConnectConfiguration = "serviceConnectConfiguration"
+            case serviceName = "serviceName"
+            case serviceRegistries = "serviceRegistries"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2032,7 +2032,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -2119,19 +2119,19 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clientToken
-            case cluster
-            case externalId
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case platformVersion
-            case scale
-            case service
-            case serviceRegistries
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clientToken = "clientToken"
+            case cluster = "cluster"
+            case externalId = "externalId"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case platformVersion = "platformVersion"
+            case scale = "scale"
+            case service = "service"
+            case serviceRegistries = "serviceRegistries"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2147,7 +2147,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
@@ -2173,8 +2173,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
+            case name = "name"
+            case principalArn = "principalArn"
         }
     }
 
@@ -2187,7 +2187,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
@@ -2207,8 +2207,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
+            case attributes = "attributes"
+            case cluster = "cluster"
         }
     }
 
@@ -2221,7 +2221,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -2234,7 +2234,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
@@ -2247,7 +2247,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
@@ -2260,7 +2260,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -2273,7 +2273,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -2295,9 +2295,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case force
-            case service
+            case cluster = "cluster"
+            case force = "force"
+            case service = "service"
         }
     }
 
@@ -2310,7 +2310,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -2335,10 +2335,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case force
-            case service
-            case taskSet
+            case cluster = "cluster"
+            case force = "force"
+            case service = "service"
+            case taskSet = "taskSet"
         }
     }
 
@@ -2351,7 +2351,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
@@ -2446,24 +2446,24 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case createdAt
-            case desiredCount
-            case failedTasks
-            case id
-            case launchType
-            case networkConfiguration
-            case pendingCount
-            case platformFamily
-            case platformVersion
-            case rolloutState
-            case rolloutStateReason
-            case runningCount
-            case serviceConnectConfiguration
-            case serviceConnectResources
-            case status
-            case taskDefinition
-            case updatedAt
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case createdAt = "createdAt"
+            case desiredCount = "desiredCount"
+            case failedTasks = "failedTasks"
+            case id = "id"
+            case launchType = "launchType"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case platformFamily = "platformFamily"
+            case platformVersion = "platformVersion"
+            case rolloutState = "rolloutState"
+            case rolloutStateReason = "rolloutStateReason"
+            case runningCount = "runningCount"
+            case serviceConnectConfiguration = "serviceConnectConfiguration"
+            case serviceConnectResources = "serviceConnectResources"
+            case status = "status"
+            case taskDefinition = "taskDefinition"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2484,9 +2484,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmNames
-            case enable
-            case rollback
+            case alarmNames = "alarmNames"
+            case enable = "enable"
+            case rollback = "rollback"
         }
     }
 
@@ -2504,8 +2504,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enable
-            case rollback
+            case enable = "enable"
+            case rollback = "rollback"
         }
     }
 
@@ -2582,10 +2582,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case deploymentCircuitBreaker
-            case maximumPercent
-            case minimumHealthyPercent
+            case alarms = "alarms"
+            case deploymentCircuitBreaker = "deploymentCircuitBreaker"
+            case maximumPercent = "maximumPercent"
+            case minimumHealthyPercent = "minimumHealthyPercent"
         }
     }
 
@@ -2606,7 +2606,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
@@ -2635,9 +2635,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
-            case force
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
+            case force = "force"
         }
     }
 
@@ -2650,7 +2650,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
@@ -2665,7 +2665,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskDefinition
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2678,7 +2678,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskDefinition
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2716,10 +2716,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case include
-            case maxResults
-            case nextToken
+            case capacityProviders = "capacityProviders"
+            case include = "include"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2742,9 +2742,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case failures
-            case nextToken
+            case capacityProviders = "capacityProviders"
+            case failures = "failures"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2767,8 +2767,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case include
+            case clusters = "clusters"
+            case include = "include"
         }
     }
 
@@ -2784,8 +2784,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case failures
+            case clusters = "clusters"
+            case failures = "failures"
         }
     }
 
@@ -2811,9 +2811,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case include
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case include = "include"
         }
     }
 
@@ -2829,8 +2829,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstances
-            case failures
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
@@ -2854,9 +2854,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case services
+            case cluster = "cluster"
+            case include = "include"
+            case services = "services"
         }
     }
 
@@ -2872,8 +2872,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case services
+            case failures = "failures"
+            case services = "services"
         }
     }
 
@@ -2894,8 +2894,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case include
-            case taskDefinition
+            case include = "include"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2912,8 +2912,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case taskDefinition
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -2939,10 +2939,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case service
-            case taskSets
+            case cluster = "cluster"
+            case include = "include"
+            case service = "service"
+            case taskSets = "taskSets"
         }
     }
 
@@ -2958,8 +2958,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case taskSets
+            case failures = "failures"
+            case taskSets = "taskSets"
         }
     }
 
@@ -2982,9 +2982,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case tasks
+            case cluster = "cluster"
+            case include = "include"
+            case tasks = "tasks"
         }
     }
 
@@ -3000,8 +3000,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
@@ -3022,9 +3022,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case hostPath
-            case permissions
+            case containerPath = "containerPath"
+            case hostPath = "hostPath"
+            case permissions = "permissions"
         }
     }
 
@@ -3042,8 +3042,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
@@ -3063,9 +3063,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
-            case serviceConnectEndpoint
-            case telemetryEndpoint
+            case endpoint = "endpoint"
+            case serviceConnectEndpoint = "serviceConnectEndpoint"
+            case telemetryEndpoint = "telemetryEndpoint"
         }
     }
 
@@ -3108,11 +3108,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoprovision
-            case driver
-            case driverOpts
-            case labels
-            case scope
+            case autoprovision = "autoprovision"
+            case driver = "driver"
+            case driverOpts = "driverOpts"
+            case labels = "labels"
+            case scope = "scope"
         }
     }
 
@@ -3137,8 +3137,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointId
-            case iam
+            case accessPointId = "accessPointId"
+            case iam = "iam"
         }
     }
 
@@ -3174,11 +3174,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case fileSystemId
-            case rootDirectory
-            case transitEncryption
-            case transitEncryptionPort
+            case authorizationConfig = "authorizationConfig"
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
+            case transitEncryption = "transitEncryption"
+            case transitEncryptionPort = "transitEncryptionPort"
         }
     }
 
@@ -3195,8 +3195,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -3211,7 +3211,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGiB
+            case sizeInGiB = "sizeInGiB"
         }
     }
 
@@ -3239,9 +3239,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case logConfiguration
-            case logging
+            case kmsKeyId = "kmsKeyId"
+            case logConfiguration = "logConfiguration"
+            case logging = "logging"
         }
     }
 
@@ -3268,11 +3268,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchEncryptionEnabled
-            case cloudWatchLogGroupName
-            case s3BucketName
-            case s3EncryptionEnabled
-            case s3KeyPrefix
+            case cloudWatchEncryptionEnabled = "cloudWatchEncryptionEnabled"
+            case cloudWatchLogGroupName = "cloudWatchLogGroupName"
+            case s3BucketName = "s3BucketName"
+            case s3EncryptionEnabled = "s3EncryptionEnabled"
+            case s3KeyPrefix = "s3KeyPrefix"
         }
     }
 
@@ -3299,11 +3299,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case command
-            case container
-            case interactive
-            case task
+            case cluster = "cluster"
+            case command = "command"
+            case container = "container"
+            case interactive = "interactive"
+            case task = "task"
         }
     }
 
@@ -3334,12 +3334,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case containerArn
-            case containerName
-            case interactive
-            case session
-            case taskArn
+            case clusterArn = "clusterArn"
+            case containerArn = "containerArn"
+            case containerName = "containerName"
+            case interactive = "interactive"
+            case session = "session"
+            case taskArn = "taskArn"
         }
     }
 
@@ -3358,8 +3358,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialsParameter
-            case domain
+            case credentialsParameter = "credentialsParameter"
+            case domain = "domain"
         }
     }
 
@@ -3379,9 +3379,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case fileSystemId
-            case rootDirectory
+            case authorizationConfig = "authorizationConfig"
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
         }
     }
 
@@ -3400,9 +3400,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case detail
-            case reason
+            case arn = "arn"
+            case detail = "detail"
+            case reason = "reason"
         }
     }
 
@@ -3427,8 +3427,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case options
-            case type
+            case options = "options"
+            case type = "type"
         }
     }
 
@@ -3445,8 +3445,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case tasks
+            case cluster = "cluster"
+            case tasks = "tasks"
         }
     }
 
@@ -3465,8 +3465,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case protectedTasks
+            case failures = "failures"
+            case protectedTasks = "protectedTasks"
         }
     }
 
@@ -3505,11 +3505,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case interval
-            case retries
-            case startPeriod
-            case timeout
+            case command = "command"
+            case interval = "interval"
+            case retries = "retries"
+            case startPeriod = "startPeriod"
+            case timeout = "timeout"
         }
     }
 
@@ -3525,8 +3525,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case ipAddress
+            case hostname = "hostname"
+            case ipAddress = "ipAddress"
         }
     }
 
@@ -3547,7 +3547,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourcePath
+            case sourcePath = "sourcePath"
         }
     }
 
@@ -3564,8 +3564,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case deviceType
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
         }
     }
 
@@ -3582,8 +3582,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case deviceType
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
         }
     }
 
@@ -3606,10 +3606,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastStatusChange
-            case lastUpdated
-            case status
-            case type
+            case lastStatusChange = "lastStatusChange"
+            case lastUpdated = "lastUpdated"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -3648,8 +3648,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case add
-            case drop
+            case add = "add"
+            case drop = "drop"
         }
     }
 
@@ -3667,8 +3667,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -3727,13 +3727,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilities
-            case devices
-            case initProcessEnabled
-            case maxSwap
-            case sharedMemorySize
-            case swappiness
-            case tmpfs
+            case capabilities = "capabilities"
+            case devices = "devices"
+            case initProcessEnabled = "initProcessEnabled"
+            case maxSwap = "maxSwap"
+            case sharedMemorySize = "sharedMemorySize"
+            case swappiness = "swappiness"
+            case tmpfs = "tmpfs"
         }
     }
 
@@ -3780,12 +3780,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveSettings
-            case maxResults
-            case name
-            case nextToken
-            case principalArn
-            case value
+            case effectiveSettings = "effectiveSettings"
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
@@ -3805,8 +3805,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case settings
+            case nextToken = "nextToken"
+            case settings = "settings"
         }
     }
 
@@ -3846,12 +3846,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case attributeValue
-            case cluster
-            case maxResults
-            case nextToken
-            case targetType
+            case attributeName = "attributeName"
+            case attributeValue = "attributeValue"
+            case cluster = "cluster"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case targetType = "targetType"
         }
     }
 
@@ -3871,8 +3871,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case nextToken
+            case attributes = "attributes"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3898,8 +3898,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3920,8 +3920,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArns
-            case nextToken
+            case clusterArns = "clusterArns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3964,11 +3964,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case filter
-            case maxResults
-            case nextToken
-            case status
+            case cluster = "cluster"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
@@ -3989,8 +3989,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstanceArns
-            case nextToken
+            case containerInstanceArns = "containerInstanceArns"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4028,9 +4028,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case namespace
-            case nextToken
+            case maxResults = "maxResults"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4051,8 +4051,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceArns
+            case nextToken = "nextToken"
+            case serviceArns = "serviceArns"
         }
     }
 
@@ -4090,11 +4090,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case launchType
-            case maxResults
-            case nextToken
-            case schedulingStrategy
+            case cluster = "cluster"
+            case launchType = "launchType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case schedulingStrategy = "schedulingStrategy"
         }
     }
 
@@ -4115,8 +4115,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceArns
+            case nextToken = "nextToken"
+            case serviceArns = "serviceArns"
         }
     }
 
@@ -4131,7 +4131,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -4144,7 +4144,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -4190,10 +4190,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case familyPrefix
-            case maxResults
-            case nextToken
-            case status
+            case familyPrefix = "familyPrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
@@ -4214,8 +4214,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case families
-            case nextToken
+            case families = "families"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4263,11 +4263,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case familyPrefix
-            case maxResults
-            case nextToken
-            case sort
-            case status
+            case familyPrefix = "familyPrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
+            case status = "status"
         }
     }
 
@@ -4288,8 +4288,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case taskDefinitionArns
+            case nextToken = "nextToken"
+            case taskDefinitionArns = "taskDefinitionArns"
         }
     }
 
@@ -4355,15 +4355,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
-            case desiredStatus
-            case family
-            case launchType
-            case maxResults
-            case nextToken
-            case serviceName
-            case startedBy
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
+            case desiredStatus = "desiredStatus"
+            case family = "family"
+            case launchType = "launchType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceName = "serviceName"
+            case startedBy = "startedBy"
         }
     }
 
@@ -4383,8 +4383,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case taskArns
+            case nextToken = "nextToken"
+            case taskArns = "taskArns"
         }
     }
 
@@ -4423,10 +4423,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case loadBalancerName
-            case targetGroupArn
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case loadBalancerName = "loadBalancerName"
+            case targetGroupArn = "targetGroupArn"
         }
     }
 
@@ -4456,9 +4456,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logDriver
-            case options
-            case secretOptions
+            case logDriver = "logDriver"
+            case options = "options"
+            case secretOptions = "secretOptions"
         }
     }
 
@@ -4481,10 +4481,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastStartedAt
-            case lastStatus
-            case name
-            case reason
+            case lastStartedAt = "lastStartedAt"
+            case lastStatus = "lastStatus"
+            case name = "name"
+            case reason = "reason"
         }
     }
 
@@ -4506,10 +4506,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case managedAgentName
-            case reason
-            case status
+            case containerName = "containerName"
+            case managedAgentName = "managedAgentName"
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -4558,11 +4558,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceWarmupPeriod
-            case maximumScalingStepSize
-            case minimumScalingStepSize
-            case status
-            case targetCapacity
+            case instanceWarmupPeriod = "instanceWarmupPeriod"
+            case maximumScalingStepSize = "maximumScalingStepSize"
+            case minimumScalingStepSize = "minimumScalingStepSize"
+            case status = "status"
+            case targetCapacity = "targetCapacity"
         }
     }
 
@@ -4584,9 +4584,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case readOnly
-            case sourceVolume
+            case containerPath = "containerPath"
+            case readOnly = "readOnly"
+            case sourceVolume = "sourceVolume"
         }
     }
 
@@ -4623,12 +4623,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindIP
-            case containerPort
-            case containerPortRange
-            case hostPort
-            case hostPortRange
-            case `protocol`
+            case bindIP = "bindIP"
+            case containerPort = "containerPort"
+            case containerPortRange = "containerPortRange"
+            case hostPort = "hostPort"
+            case hostPortRange = "hostPortRange"
+            case `protocol` = "protocol"
         }
     }
 
@@ -4641,7 +4641,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsvpcConfiguration
+            case awsvpcConfiguration = "awsvpcConfiguration"
         }
     }
 
@@ -4660,9 +4660,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
-            case ipv6Address
-            case privateIpv4Address
+            case attachmentId = "attachmentId"
+            case ipv6Address = "ipv6Address"
+            case privateIpv4Address = "privateIpv4Address"
         }
     }
 
@@ -4683,8 +4683,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case type
+            case expression = "expression"
+            case type = "type"
         }
     }
 
@@ -4712,8 +4712,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case type
+            case field = "field"
+            case type = "type"
         }
     }
 
@@ -4732,8 +4732,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -4814,12 +4814,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appProtocol
-            case containerPort
-            case containerPortRange
-            case hostPort
-            case name
-            case `protocol`
+            case appProtocol = "appProtocol"
+            case containerPort = "containerPort"
+            case containerPortRange = "containerPortRange"
+            case hostPort = "hostPort"
+            case name = "name"
+            case `protocol` = "protocol"
         }
     }
 
@@ -4839,9 +4839,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expirationDate
-            case protectionEnabled
-            case taskArn
+            case expirationDate = "expirationDate"
+            case protectionEnabled = "protectionEnabled"
+            case taskArn = "taskArn"
         }
     }
 
@@ -4875,9 +4875,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case properties
-            case type
+            case containerName = "containerName"
+            case properties = "properties"
+            case type = "type"
         }
     }
 
@@ -4904,8 +4904,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -4918,7 +4918,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
@@ -4951,9 +4951,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
-            case value
+            case name = "name"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
@@ -4966,7 +4966,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
@@ -4984,8 +4984,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
+            case attributes = "attributes"
+            case cluster = "cluster"
         }
     }
 
@@ -4998,7 +4998,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
@@ -5039,9 +5039,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case cluster
-            case defaultCapacityProviderStrategy
+            case capacityProviders = "capacityProviders"
+            case cluster = "cluster"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
         }
     }
 
@@ -5054,7 +5054,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -5106,15 +5106,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
-            case containerInstanceArn
-            case instanceIdentityDocument
-            case instanceIdentityDocumentSignature
-            case platformDevices
-            case tags
-            case totalResources
-            case versionInfo
+            case attributes = "attributes"
+            case cluster = "cluster"
+            case containerInstanceArn = "containerInstanceArn"
+            case instanceIdentityDocument = "instanceIdentityDocument"
+            case instanceIdentityDocumentSignature = "instanceIdentityDocumentSignature"
+            case platformDevices = "platformDevices"
+            case tags = "tags"
+            case totalResources = "totalResources"
+            case versionInfo = "versionInfo"
         }
     }
 
@@ -5127,7 +5127,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
@@ -5238,23 +5238,23 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerDefinitions
-            case cpu
-            case ephemeralStorage
-            case executionRoleArn
-            case family
-            case inferenceAccelerators
-            case ipcMode
-            case memory
-            case networkMode
-            case pidMode
-            case placementConstraints
-            case proxyConfiguration
-            case requiresCompatibilities
-            case runtimePlatform
-            case tags
-            case taskRoleArn
-            case volumes
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case networkMode = "networkMode"
+            case pidMode = "pidMode"
+            case placementConstraints = "placementConstraints"
+            case proxyConfiguration = "proxyConfiguration"
+            case requiresCompatibilities = "requiresCompatibilities"
+            case runtimePlatform = "runtimePlatform"
+            case tags = "tags"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
         }
     }
 
@@ -5270,8 +5270,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case taskDefinition
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -5288,7 +5288,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialsParameter
+            case credentialsParameter = "credentialsParameter"
         }
     }
 
@@ -5322,12 +5322,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case doubleValue
-            case integerValue
-            case longValue
-            case name
-            case stringSetValue
-            case type
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case longValue = "longValue"
+            case name = "name"
+            case stringSetValue = "stringSetValue"
+            case type = "type"
         }
     }
 
@@ -5349,8 +5349,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
@@ -5482,23 +5482,23 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case cluster
-            case count
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case group
-            case launchType
-            case networkConfiguration
-            case overrides
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case referenceId
-            case startedBy
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case cluster = "cluster"
+            case count = "count"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case group = "group"
+            case launchType = "launchType"
+            case networkConfiguration = "networkConfiguration"
+            case overrides = "overrides"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case referenceId = "referenceId"
+            case startedBy = "startedBy"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -5515,8 +5515,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
@@ -5534,8 +5534,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuArchitecture
-            case operatingSystemFamily
+            case cpuArchitecture = "cpuArchitecture"
+            case operatingSystemFamily = "operatingSystemFamily"
         }
     }
 
@@ -5552,8 +5552,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unit
-            case value
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -5575,8 +5575,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case valueFrom
+            case name = "name"
+            case valueFrom = "valueFrom"
         }
     }
 
@@ -5720,37 +5720,37 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clusterArn
-            case createdAt
-            case createdBy
-            case deploymentConfiguration
-            case deploymentController
-            case deployments
-            case desiredCount
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case events
-            case healthCheckGracePeriodSeconds
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case pendingCount
-            case placementConstraints
-            case placementStrategy
-            case platformFamily
-            case platformVersion
-            case propagateTags
-            case roleArn
-            case runningCount
-            case schedulingStrategy
-            case serviceArn
-            case serviceName
-            case serviceRegistries
-            case status
-            case tags
-            case taskDefinition
-            case taskSets
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case deploymentController = "deploymentController"
+            case deployments = "deployments"
+            case desiredCount = "desiredCount"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case events = "events"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformFamily = "platformFamily"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case roleArn = "roleArn"
+            case runningCount = "runningCount"
+            case schedulingStrategy = "schedulingStrategy"
+            case serviceArn = "serviceArn"
+            case serviceName = "serviceName"
+            case serviceRegistries = "serviceRegistries"
+            case status = "status"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
+            case taskSets = "taskSets"
         }
     }
 
@@ -5780,8 +5780,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsName
-            case port
+            case dnsName = "dnsName"
+            case port = "port"
         }
     }
 
@@ -5818,10 +5818,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case logConfiguration
-            case namespace
-            case services
+            case enabled = "enabled"
+            case logConfiguration = "logConfiguration"
+            case namespace = "namespace"
+            case services = "services"
         }
     }
 
@@ -5864,10 +5864,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientAliases
-            case discoveryName
-            case ingressPortOverride
-            case portName
+            case clientAliases = "clientAliases"
+            case discoveryName = "discoveryName"
+            case ingressPortOverride = "ingressPortOverride"
+            case portName = "portName"
         }
     }
 
@@ -5887,8 +5887,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case discoveryArn
-            case discoveryName
+            case discoveryArn = "discoveryArn"
+            case discoveryName = "discoveryName"
         }
     }
 
@@ -5907,9 +5907,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case id
-            case message
+            case createdAt = "createdAt"
+            case id = "id"
+            case message = "message"
         }
     }
 
@@ -5948,10 +5948,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case port
-            case registryArn
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case port = "port"
+            case registryArn = "registryArn"
         }
     }
 
@@ -5972,9 +5972,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionId
-            case streamUrl
-            case tokenValue
+            case sessionId = "sessionId"
+            case streamUrl = "streamUrl"
+            case tokenValue = "tokenValue"
         }
     }
 
@@ -5995,9 +5995,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
-            case value
+            case name = "name"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
@@ -6073,18 +6073,18 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case group
-            case networkConfiguration
-            case overrides
-            case propagateTags
-            case referenceId
-            case startedBy
-            case tags
-            case taskDefinition
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case group = "group"
+            case networkConfiguration = "networkConfiguration"
+            case overrides = "overrides"
+            case propagateTags = "propagateTags"
+            case referenceId = "referenceId"
+            case startedBy = "startedBy"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -6101,8 +6101,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
@@ -6125,9 +6125,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case reason
-            case task
+            case cluster = "cluster"
+            case reason = "reason"
+            case task = "task"
         }
     }
 
@@ -6140,7 +6140,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case task
+            case task = "task"
         }
     }
 
@@ -6157,8 +6157,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case cluster
+            case attachments = "attachments"
+            case cluster = "cluster"
         }
     }
 
@@ -6171,7 +6171,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
@@ -6205,14 +6205,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerName
-            case exitCode
-            case networkBindings
-            case reason
-            case runtimeId
-            case status
-            case task
+            case cluster = "cluster"
+            case containerName = "containerName"
+            case exitCode = "exitCode"
+            case networkBindings = "networkBindings"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case status = "status"
+            case task = "task"
         }
     }
 
@@ -6225,7 +6225,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
@@ -6265,16 +6265,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case cluster
-            case containers
-            case executionStoppedAt
-            case managedAgents
-            case pullStartedAt
-            case pullStoppedAt
-            case reason
-            case status
-            case task
+            case attachments = "attachments"
+            case cluster = "cluster"
+            case containers = "containers"
+            case executionStoppedAt = "executionStoppedAt"
+            case managedAgents = "managedAgents"
+            case pullStartedAt = "pullStartedAt"
+            case pullStoppedAt = "pullStoppedAt"
+            case reason = "reason"
+            case status = "status"
+            case task = "task"
         }
     }
 
@@ -6287,7 +6287,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
@@ -6304,8 +6304,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
-            case value
+            case namespace = "namespace"
+            case value = "value"
         }
     }
 
@@ -6331,8 +6331,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -6357,8 +6357,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
@@ -6532,42 +6532,42 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case attributes
-            case availabilityZone
-            case capacityProviderName
-            case clusterArn
-            case connectivity
-            case connectivityAt
-            case containerInstanceArn
-            case containers
-            case cpu
-            case createdAt
-            case desiredStatus
-            case enableExecuteCommand
-            case ephemeralStorage
-            case executionStoppedAt
-            case group
-            case healthStatus
-            case inferenceAccelerators
-            case lastStatus
-            case launchType
-            case memory
-            case overrides
-            case platformFamily
-            case platformVersion
-            case pullStartedAt
-            case pullStoppedAt
-            case startedAt
-            case startedBy
-            case stopCode
-            case stoppedAt
-            case stoppedReason
-            case stoppingAt
-            case tags
-            case taskArn
-            case taskDefinitionArn
-            case version
+            case attachments = "attachments"
+            case attributes = "attributes"
+            case availabilityZone = "availabilityZone"
+            case capacityProviderName = "capacityProviderName"
+            case clusterArn = "clusterArn"
+            case connectivity = "connectivity"
+            case connectivityAt = "connectivityAt"
+            case containerInstanceArn = "containerInstanceArn"
+            case containers = "containers"
+            case cpu = "cpu"
+            case createdAt = "createdAt"
+            case desiredStatus = "desiredStatus"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionStoppedAt = "executionStoppedAt"
+            case group = "group"
+            case healthStatus = "healthStatus"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case lastStatus = "lastStatus"
+            case launchType = "launchType"
+            case memory = "memory"
+            case overrides = "overrides"
+            case platformFamily = "platformFamily"
+            case platformVersion = "platformVersion"
+            case pullStartedAt = "pullStartedAt"
+            case pullStoppedAt = "pullStoppedAt"
+            case startedAt = "startedAt"
+            case startedBy = "startedBy"
+            case stopCode = "stopCode"
+            case stoppedAt = "stoppedAt"
+            case stoppedReason = "stoppedReason"
+            case stoppingAt = "stoppingAt"
+            case tags = "tags"
+            case taskArn = "taskArn"
+            case taskDefinitionArn = "taskDefinitionArn"
+            case version = "version"
         }
     }
 
@@ -6690,30 +6690,30 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibilities
-            case containerDefinitions
-            case cpu
-            case deregisteredAt
-            case ephemeralStorage
-            case executionRoleArn
-            case family
-            case inferenceAccelerators
-            case ipcMode
-            case memory
-            case networkMode
-            case pidMode
-            case placementConstraints
-            case proxyConfiguration
-            case registeredAt
-            case registeredBy
-            case requiresAttributes
-            case requiresCompatibilities
-            case revision
-            case runtimePlatform
-            case status
-            case taskDefinitionArn
-            case taskRoleArn
-            case volumes
+            case compatibilities = "compatibilities"
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case deregisteredAt = "deregisteredAt"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case networkMode = "networkMode"
+            case pidMode = "pidMode"
+            case placementConstraints = "placementConstraints"
+            case proxyConfiguration = "proxyConfiguration"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
+            case requiresAttributes = "requiresAttributes"
+            case requiresCompatibilities = "requiresCompatibilities"
+            case revision = "revision"
+            case runtimePlatform = "runtimePlatform"
+            case status = "status"
+            case taskDefinitionArn = "taskDefinitionArn"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
         }
     }
 
@@ -6731,8 +6731,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case type
+            case expression = "expression"
+            case type = "type"
         }
     }
 
@@ -6769,13 +6769,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerOverrides
-            case cpu
-            case ephemeralStorage
-            case executionRoleArn
-            case inferenceAcceleratorOverrides
-            case memory
-            case taskRoleArn
+            case containerOverrides = "containerOverrides"
+            case cpu = "cpu"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case inferenceAcceleratorOverrides = "inferenceAcceleratorOverrides"
+            case memory = "memory"
+            case taskRoleArn = "taskRoleArn"
         }
     }
 
@@ -6887,30 +6887,30 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clusterArn
-            case computedDesiredCount
-            case createdAt
-            case externalId
-            case id
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case pendingCount
-            case platformFamily
-            case platformVersion
-            case runningCount
-            case scale
-            case serviceArn
-            case serviceRegistries
-            case stabilityStatus
-            case stabilityStatusAt
-            case startedBy
-            case status
-            case tags
-            case taskDefinition
-            case taskSetArn
-            case updatedAt
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clusterArn = "clusterArn"
+            case computedDesiredCount = "computedDesiredCount"
+            case createdAt = "createdAt"
+            case externalId = "externalId"
+            case id = "id"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case platformFamily = "platformFamily"
+            case platformVersion = "platformVersion"
+            case runningCount = "runningCount"
+            case scale = "scale"
+            case serviceArn = "serviceArn"
+            case serviceRegistries = "serviceRegistries"
+            case stabilityStatus = "stabilityStatus"
+            case stabilityStatusAt = "stabilityStatusAt"
+            case startedBy = "startedBy"
+            case status = "status"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
+            case taskSetArn = "taskSetArn"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -6934,9 +6934,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case mountOptions
-            case size
+            case containerPath = "containerPath"
+            case mountOptions = "mountOptions"
+            case size = "size"
         }
     }
 
@@ -6955,9 +6955,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hardLimit
-            case name
-            case softLimit
+            case hardLimit = "hardLimit"
+            case name = "name"
+            case softLimit = "softLimit"
         }
     }
 
@@ -6983,8 +6983,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
@@ -7009,8 +7009,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case name
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case name = "name"
         }
     }
 
@@ -7023,7 +7023,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
@@ -7055,10 +7055,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case configuration
-            case serviceConnectDefaults
-            case settings
+            case cluster = "cluster"
+            case configuration = "configuration"
+            case serviceConnectDefaults = "serviceConnectDefaults"
+            case settings = "settings"
         }
     }
 
@@ -7071,7 +7071,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -7094,8 +7094,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case settings
+            case cluster = "cluster"
+            case settings = "settings"
         }
     }
 
@@ -7108,7 +7108,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
@@ -7126,8 +7126,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
@@ -7140,7 +7140,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
@@ -7165,9 +7165,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case status
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case status = "status"
         }
     }
 
@@ -7183,8 +7183,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstances
-            case failures
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
@@ -7205,9 +7205,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case primaryTaskSet
-            case service
+            case cluster = "cluster"
+            case primaryTaskSet = "primaryTaskSet"
+            case service = "service"
         }
     }
 
@@ -7220,7 +7220,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
@@ -7368,24 +7368,24 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case cluster
-            case deploymentConfiguration
-            case desiredCount
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case forceNewDeployment
-            case healthCheckGracePeriodSeconds
-            case loadBalancers
-            case networkConfiguration
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case service
-            case serviceConnectConfiguration
-            case serviceRegistries
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case cluster = "cluster"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case desiredCount = "desiredCount"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case forceNewDeployment = "forceNewDeployment"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case service = "service"
+            case serviceConnectConfiguration = "serviceConnectConfiguration"
+            case serviceRegistries = "serviceRegistries"
+            case taskDefinition = "taskDefinition"
         }
     }
 
@@ -7398,7 +7398,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
@@ -7427,10 +7427,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case expiresInMinutes
-            case protectionEnabled
-            case tasks
+            case cluster = "cluster"
+            case expiresInMinutes = "expiresInMinutes"
+            case protectionEnabled = "protectionEnabled"
+            case tasks = "tasks"
         }
     }
 
@@ -7449,8 +7449,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case protectedTasks
+            case failures = "failures"
+            case protectedTasks = "protectedTasks"
         }
     }
 
@@ -7474,10 +7474,10 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case scale
-            case service
-            case taskSet
+            case cluster = "cluster"
+            case scale = "scale"
+            case service = "service"
+            case taskSet = "taskSet"
         }
     }
 
@@ -7490,7 +7490,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
@@ -7510,9 +7510,9 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentHash
-            case agentVersion
-            case dockerVersion
+            case agentHash = "agentHash"
+            case agentVersion = "agentVersion"
+            case dockerVersion = "dockerVersion"
         }
     }
 
@@ -7551,11 +7551,11 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dockerVolumeConfiguration
-            case efsVolumeConfiguration
-            case fsxWindowsFileServerVolumeConfiguration
-            case host
-            case name
+            case dockerVolumeConfiguration = "dockerVolumeConfiguration"
+            case efsVolumeConfiguration = "efsVolumeConfiguration"
+            case fsxWindowsFileServerVolumeConfiguration = "fsxWindowsFileServerVolumeConfiguration"
+            case host = "host"
+            case name = "name"
         }
     }
 
@@ -7574,8 +7574,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readOnly
-            case sourceContainer
+            case readOnly = "readOnly"
+            case sourceContainer = "sourceContainer"
         }
     }
 }
@@ -7630,7 +7630,7 @@ public struct ECSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have authorization to perform the requested action.
+    /// You don't have authorization to perform the requested action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You can apply up to 10 custom attributes for each resource. You can view the
     /// 			attributes of a resource with ListAttributes. You can remove existing
@@ -7640,52 +7640,52 @@ public struct ECSErrorType: AWSErrorType {
     /// 				Amazon Web Services Support.
     public static var blockedException: Self { .init(.blockedException) }
     /// These errors are usually caused by a client action. This client action might be using
-    /// 			an action or resource on behalf of a user that doesn&#39;t have permissions to use the
-    /// 			action or resource,. Or, it might be specifying an identifier that isn&#39;t valid.
+    /// 			an action or resource on behalf of a user that doesn't have permissions to use the
+    /// 			action or resource,. Or, it might be specifying an identifier that isn't valid.
     public static var clientException: Self { .init(.clientException) }
-    /// You can&#39;t delete a cluster that has registered container instances. First, deregister
+    /// You can't delete a cluster that has registered container instances. First, deregister
     /// 			the container instances before you can delete the cluster. For more information, see
     /// 				DeregisterContainerInstance.
     public static var clusterContainsContainerInstancesException: Self { .init(.clusterContainsContainerInstancesException) }
-    /// You can&#39;t delete a cluster that contains services. First, update the service to reduce
+    /// You can't delete a cluster that contains services. First, update the service to reduce
     /// 			its desired task count to 0, and then delete the service. For more information, see
     /// 				UpdateService and DeleteService.
     public static var clusterContainsServicesException: Self { .init(.clusterContainsServicesException) }
-    /// You can&#39;t delete a cluster that has active tasks.
+    /// You can't delete a cluster that has active tasks.
     public static var clusterContainsTasksException: Self { .init(.clusterContainsTasksException) }
-    /// The specified cluster wasn&#39;t found. You can view your available clusters with ListClusters. Amazon ECS clusters are Region specific.
+    /// The specified cluster wasn't found. You can view your available clusters with ListClusters. Amazon ECS clusters are Region specific.
     public static var clusterNotFoundException: Self { .init(.clusterNotFoundException) }
-    /// The specified parameter isn&#39;t valid. Review the available parameters for the API
+    /// The specified parameter isn't valid. Review the available parameters for the API
     /// 			request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The limit for the resource was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// Amazon ECS can&#39;t determine the current version of the Amazon ECS container agent on the
-    /// 			container instance and doesn&#39;t have enough information to proceed with an update. This
+    /// Amazon ECS can't determine the current version of the Amazon ECS container agent on the
+    /// 			container instance and doesn't have enough information to proceed with an update. This
     /// 			could be because the agent running on the container instance is a previous or custom
-    /// 			version that doesn&#39;t use our version information.
+    /// 			version that doesn't use our version information.
     public static var missingVersionException: Self { .init(.missingVersionException) }
-    /// The specified namespace wasn&#39;t found.
+    /// The specified namespace wasn't found.
     public static var namespaceNotFoundException: Self { .init(.namespaceNotFoundException) }
-    /// There&#39;s no update available for this Amazon ECS container agent. This might be because the
-    /// 			agent is already running the latest version or because it&#39;s so old that there&#39;s no
+    /// There's no update available for this Amazon ECS container agent. This might be because the
+    /// 			agent is already running the latest version or because it's so old that there's no
     /// 			update path to the current version.
     public static var noUpdateAvailableException: Self { .init(.noUpdateAvailableException) }
-    /// The specified platform version doesn&#39;t satisfy the required capabilities of the task
+    /// The specified platform version doesn't satisfy the required capabilities of the task
     /// 			definition.
     public static var platformTaskDefinitionIncompatibilityException: Self { .init(.platformTaskDefinitionIncompatibilityException) }
-    /// The specified platform version doesn&#39;t exist.
+    /// The specified platform version doesn't exist.
     public static var platformUnknownException: Self { .init(.platformUnknownException) }
-    /// The specified resource is in-use and can&#39;t be removed.
+    /// The specified resource is in-use and can't be removed.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The specified resource wasn&#39;t found.
+    /// The specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }
-    /// The specified service isn&#39;t active. You can&#39;t update a service that&#39;s inactive. If you
+    /// The specified service isn't active. You can't update a service that's inactive. If you
     /// 			have previously deleted a service, you can re-create it with CreateService.
     public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }
-    /// The specified service wasn&#39;t found. You can view your available services with ListServices. Amazon ECS services are cluster specific and Region
+    /// The specified service wasn't found. You can view your available services with ListServices. Amazon ECS services are cluster specific and Region
     /// 			specific.
     public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
     /// The execute command cannot run. This error can be caused by any of the following
@@ -7693,17 +7693,17 @@ public struct ECSErrorType: AWSErrorType {
     /// 					for Systems Manager Session Manager   For information about how to troubleshoot the issues, see Troubleshooting issues with ECS
     /// 				Exec in the Amazon Elastic Container Service Developer Guide.
     public static var targetNotConnectedException: Self { .init(.targetNotConnectedException) }
-    /// The specified target wasn&#39;t found. You can view your available container instances
+    /// The specified target wasn't found. You can view your available container instances
     /// 			with ListContainerInstances. Amazon ECS container instances are
     /// 			cluster-specific and Region-specific.
     public static var targetNotFoundException: Self { .init(.targetNotFoundException) }
-    /// The specified task set wasn&#39;t found. You can view your available task sets with DescribeTaskSets. Task sets are specific to each cluster, service and
+    /// The specified task set wasn't found. You can view your available task sets with DescribeTaskSets. Task sets are specific to each cluster, service and
     /// 			Region.
     public static var taskSetNotFoundException: Self { .init(.taskSetNotFoundException) }
-    /// The specified task isn&#39;t supported in this Region.
+    /// The specified task isn't supported in this Region.
     public static var unsupportedFeatureException: Self { .init(.unsupportedFeatureException) }
-    /// There&#39;s already a current Amazon ECS container agent update in progress on the container
-    /// 			instance that&#39;s specified. If the container agent becomes disconnected while it&#39;s in a
+    /// There's already a current Amazon ECS container agent update in progress on the container
+    /// 			instance that's specified. If the container agent becomes disconnected while it's in a
     /// 			transitional stage, such as PENDING or STAGING, the update
     /// 			process can get stuck in that state. However, when the agent reconnects, it resumes
     /// 			where it stopped previously.

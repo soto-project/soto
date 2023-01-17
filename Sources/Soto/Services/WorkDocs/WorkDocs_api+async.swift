@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -243,7 +243,7 @@ extension WorkDocs {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkDocs {
-    ///  Retrieves the document versions for the specified document. By default, only active versions are returned.
+    /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -265,7 +265,7 @@ extension WorkDocs {
         )
     }
 
-    ///  Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
+    /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -287,7 +287,7 @@ extension WorkDocs {
         )
     }
 
-    ///  Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
+    /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -58,7 +58,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagQueryConfiguration
+            case tagQueryConfiguration = "tagQueryConfiguration"
         }
     }
 
@@ -91,13 +91,13 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case name
-            case tags
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -127,12 +127,12 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case name
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
         }
     }
 
@@ -176,8 +176,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case attributeGroupArn
+            case applicationArn = "applicationArn"
+            case attributeGroupArn = "attributeGroupArn"
         }
     }
 
@@ -225,8 +225,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case resourceArn
+            case applicationArn = "applicationArn"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -259,13 +259,13 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case name
-            case tags
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -291,9 +291,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -323,12 +323,12 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case name
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
         }
     }
 
@@ -368,10 +368,10 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -384,7 +384,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -430,11 +430,11 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case clientToken
-            case description
-            case name
-            case tags
+            case attributes = "attributes"
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -447,7 +447,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroup
+            case attributeGroup = "attributeGroup"
         }
     }
 
@@ -481,7 +481,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -515,7 +515,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroup
+            case attributeGroup = "attributeGroup"
         }
     }
 
@@ -559,8 +559,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case attributeGroupArn
+            case applicationArn = "applicationArn"
+            case attributeGroupArn = "attributeGroupArn"
         }
     }
 
@@ -608,8 +608,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case resourceArn
+            case applicationArn = "applicationArn"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -669,15 +669,15 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associatedResourceCount
-            case creationTime
-            case description
-            case id
-            case integrations
-            case lastUpdateTime
-            case name
-            case tags
+            case arn = "arn"
+            case associatedResourceCount = "associatedResourceCount"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case integrations = "integrations"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -722,7 +722,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
+            case resource = "resource"
         }
     }
 
@@ -779,14 +779,14 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attributes
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case name
-            case tags
+            case arn = "arn"
+            case attributes = "attributes"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -799,7 +799,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -812,7 +812,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceGroup
+            case resourceGroup = "resourceGroup"
         }
     }
 
@@ -855,8 +855,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
@@ -906,8 +906,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroups
-            case nextToken
+            case attributeGroups = "attributeGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -957,8 +957,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resources
+            case nextToken = "nextToken"
+            case resources = "resources"
         }
     }
 
@@ -1008,8 +1008,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroupsDetails
-            case nextToken
+            case attributeGroupsDetails = "attributeGroupsDetails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1052,8 +1052,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroups
-            case nextToken
+            case attributeGroups = "attributeGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1087,7 +1087,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1104,7 +1104,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -1127,10 +1127,10 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case associationTime
-            case integrations
-            case name
+            case arn = "arn"
+            case associationTime = "associationTime"
+            case integrations = "integrations"
+            case name = "name"
         }
     }
 
@@ -1143,7 +1143,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagValue
+            case tagValue = "tagValue"
         }
     }
 
@@ -1162,9 +1162,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case errorMessage
-            case state
+            case arn = "arn"
+            case errorMessage = "errorMessage"
+            case state = "state"
         }
     }
 
@@ -1186,10 +1186,10 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case resourceDetails
-            case resourceType
+            case arn = "arn"
+            case name = "name"
+            case resourceDetails = "resourceDetails"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1202,7 +1202,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceGroup
+            case resourceGroup = "resourceGroup"
         }
     }
 
@@ -1246,9 +1246,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTaken
-            case applicationArn
-            case resourceArn
+            case actionTaken = "actionTaken"
+            case applicationArn = "applicationArn"
+            case resourceArn = "resourceArn"
         }
     }
 
@@ -1266,7 +1266,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKey
+            case tagKey = "tagKey"
         }
     }
 
@@ -1300,7 +1300,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1379,8 +1379,8 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -1393,7 +1393,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
@@ -1440,9 +1440,9 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case description
-            case name
+            case attributes = "attributes"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -1455,7 +1455,7 @@ extension ServiceCatalogAppRegistry {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeGroup
+            case attributeGroup = "attributeGroup"
         }
     }
 }

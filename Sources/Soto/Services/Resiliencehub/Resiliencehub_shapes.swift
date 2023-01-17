@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -231,8 +231,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case resourceMappings
+            case appArn = "appArn"
+            case resourceMappings = "resourceMappings"
         }
     }
 
@@ -253,9 +253,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case resourceMappings
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case resourceMappings = "resourceMappings"
         }
     }
 
@@ -289,14 +289,14 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case description
-            case items
-            case name
-            case prerequisite
-            case recommendationId
-            case referenceId
-            case type
+            case appComponentName = "appComponentName"
+            case description = "description"
+            case items = "items"
+            case name = "name"
+            case prerequisite = "prerequisite"
+            case recommendationId = "recommendationId"
+            case referenceId = "referenceId"
+            case type = "type"
         }
     }
 
@@ -347,18 +347,18 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case assessmentSchedule
-            case complianceStatus
-            case creationTime
-            case description
-            case lastAppComplianceEvaluationTime
-            case lastResiliencyScoreEvaluationTime
-            case name
-            case policyArn
-            case resiliencyScore
-            case status
-            case tags
+            case appArn = "appArn"
+            case assessmentSchedule = "assessmentSchedule"
+            case complianceStatus = "complianceStatus"
+            case creationTime = "creationTime"
+            case description = "description"
+            case lastAppComplianceEvaluationTime = "lastAppComplianceEvaluationTime"
+            case lastResiliencyScoreEvaluationTime = "lastResiliencyScoreEvaluationTime"
+            case name = "name"
+            case policyArn = "policyArn"
+            case resiliencyScore = "resiliencyScore"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -421,22 +421,22 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case assessmentArn
-            case assessmentName
-            case assessmentStatus
-            case compliance
-            case complianceStatus
-            case cost
-            case endTime
-            case invoker
-            case message
-            case policy
-            case resiliencyScore
-            case resourceErrorsDetails
-            case startTime
-            case tags
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case assessmentArn = "assessmentArn"
+            case assessmentName = "assessmentName"
+            case assessmentStatus = "assessmentStatus"
+            case compliance = "compliance"
+            case complianceStatus = "complianceStatus"
+            case cost = "cost"
+            case endTime = "endTime"
+            case invoker = "invoker"
+            case message = "message"
+            case policy = "policy"
+            case resiliencyScore = "resiliencyScore"
+            case resourceErrorsDetails = "resourceErrorsDetails"
+            case startTime = "startTime"
+            case tags = "tags"
         }
     }
 
@@ -486,18 +486,18 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case assessmentArn
-            case assessmentName
-            case assessmentStatus
-            case complianceStatus
-            case cost
-            case endTime
-            case invoker
-            case message
-            case resiliencyScore
-            case startTime
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case assessmentArn = "assessmentArn"
+            case assessmentName = "assessmentName"
+            case assessmentStatus = "assessmentStatus"
+            case complianceStatus = "complianceStatus"
+            case cost = "cost"
+            case endTime = "endTime"
+            case invoker = "invoker"
+            case message = "message"
+            case resiliencyScore = "resiliencyScore"
+            case startTime = "startTime"
         }
     }
 
@@ -513,8 +513,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
@@ -542,12 +542,12 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case compliance
-            case cost
-            case message
-            case resiliencyScore
-            case status
+            case appComponentName = "appComponentName"
+            case compliance = "compliance"
+            case cost = "cost"
+            case message = "message"
+            case resiliencyScore = "resiliencyScore"
+            case status = "status"
         }
     }
 
@@ -583,14 +583,14 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case assessmentSchedule
-            case complianceStatus
-            case creationTime
-            case description
-            case name
-            case resiliencyScore
-            case status
+            case appArn = "appArn"
+            case assessmentSchedule = "assessmentSchedule"
+            case complianceStatus = "complianceStatus"
+            case creationTime = "creationTime"
+            case description = "description"
+            case name = "name"
+            case resiliencyScore = "resiliencyScore"
+            case status = "status"
         }
     }
 
@@ -603,7 +603,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appVersion
+            case appVersion = "appVersion"
         }
     }
 
@@ -622,9 +622,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case configRecommendations
-            case recommendationStatus
+            case appComponentName = "appComponentName"
+            case configRecommendations = "configRecommendations"
+            case recommendationStatus = "recommendationStatus"
         }
     }
 
@@ -664,16 +664,16 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case compliance
-            case cost
-            case description
-            case haArchitecture
-            case name
-            case optimizationType
-            case recommendationCompliance
-            case referenceId
-            case suggestedChanges
+            case appComponentName = "appComponentName"
+            case compliance = "compliance"
+            case cost = "cost"
+            case description = "description"
+            case haArchitecture = "haArchitecture"
+            case name = "name"
+            case optimizationType = "optimizationType"
+            case recommendationCompliance = "recommendationCompliance"
+            case referenceId = "referenceId"
+            case suggestedChanges = "suggestedChanges"
         }
     }
 
@@ -692,9 +692,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case currency
-            case frequency
+            case amount = "amount"
+            case currency = "currency"
+            case frequency = "frequency"
         }
     }
 
@@ -744,12 +744,12 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentSchedule
-            case clientToken
-            case description
-            case name
-            case policyArn
-            case tags
+            case assessmentSchedule = "assessmentSchedule"
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case policyArn = "policyArn"
+            case tags = "tags"
         }
     }
 
@@ -762,7 +762,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
@@ -825,14 +825,14 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case bucketName
-            case clientToken
-            case format
-            case name
-            case recommendationIds
-            case recommendationTypes
-            case tags
+            case assessmentArn = "assessmentArn"
+            case bucketName = "bucketName"
+            case clientToken = "clientToken"
+            case format = "format"
+            case name = "name"
+            case recommendationIds = "recommendationIds"
+            case recommendationTypes = "recommendationTypes"
+            case tags = "tags"
         }
     }
 
@@ -845,7 +845,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationTemplate
+            case recommendationTemplate = "recommendationTemplate"
         }
     }
 
@@ -898,13 +898,13 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dataLocationConstraint
-            case policy
-            case policyDescription
-            case policyName
-            case tags
-            case tier
+            case clientToken = "clientToken"
+            case dataLocationConstraint = "dataLocationConstraint"
+            case policy = "policy"
+            case policyDescription = "policyDescription"
+            case policyName = "policyName"
+            case tags = "tags"
+            case tier = "tier"
         }
     }
 
@@ -917,7 +917,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -943,8 +943,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case clientToken
+            case assessmentArn = "assessmentArn"
+            case clientToken = "clientToken"
         }
     }
 
@@ -962,8 +962,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case assessmentStatus
+            case assessmentArn = "assessmentArn"
+            case assessmentStatus = "assessmentStatus"
         }
     }
 
@@ -992,9 +992,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case clientToken
-            case forceDelete
+            case appArn = "appArn"
+            case clientToken = "clientToken"
+            case forceDelete = "forceDelete"
         }
     }
 
@@ -1009,7 +1009,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
+            case appArn = "appArn"
         }
     }
 
@@ -1033,8 +1033,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case recommendationTemplateArn
+            case clientToken = "clientToken"
+            case recommendationTemplateArn = "recommendationTemplateArn"
         }
     }
 
@@ -1050,8 +1050,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationTemplateArn
-            case status
+            case recommendationTemplateArn = "recommendationTemplateArn"
+            case status = "status"
         }
     }
 
@@ -1077,8 +1077,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case policyArn
+            case clientToken = "clientToken"
+            case policyArn = "policyArn"
         }
     }
 
@@ -1093,7 +1093,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyArn
+            case policyArn = "policyArn"
         }
     }
 
@@ -1112,7 +1112,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
+            case assessmentArn = "assessmentArn"
         }
     }
 
@@ -1125,7 +1125,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -1144,7 +1144,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
+            case appArn = "appArn"
         }
     }
 
@@ -1157,7 +1157,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
@@ -1185,9 +1185,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case resolutionId
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case resolutionId = "resolutionId"
         }
     }
 
@@ -1214,11 +1214,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case errorMessage
-            case resolutionId
-            case status
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case errorMessage = "errorMessage"
+            case resolutionId = "resolutionId"
+            case status = "status"
         }
     }
 
@@ -1241,8 +1241,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
+            case appArn = "appArn"
+            case appVersion = "appVersion"
         }
     }
 
@@ -1263,9 +1263,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appTemplateBody
-            case appVersion
+            case appArn = "appArn"
+            case appTemplateBody = "appTemplateBody"
+            case appVersion = "appVersion"
         }
     }
 
@@ -1284,7 +1284,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
+            case appArn = "appArn"
         }
     }
 
@@ -1311,11 +1311,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case errorMessage
-            case status
-            case statusChangeTime
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case errorMessage = "errorMessage"
+            case status = "status"
+            case statusChangeTime = "statusChangeTime"
         }
     }
 
@@ -1334,7 +1334,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyArn
+            case policyArn = "policyArn"
         }
     }
 
@@ -1347,7 +1347,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
@@ -1387,16 +1387,16 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case achievableRpoInSecs
-            case achievableRtoInSecs
-            case complianceStatus
-            case currentRpoInSecs
-            case currentRtoInSecs
-            case message
-            case rpoDescription
-            case rpoReferenceId
-            case rtoDescription
-            case rtoReferenceId
+            case achievableRpoInSecs = "achievableRpoInSecs"
+            case achievableRtoInSecs = "achievableRtoInSecs"
+            case complianceStatus = "complianceStatus"
+            case currentRpoInSecs = "currentRpoInSecs"
+            case currentRtoInSecs = "currentRtoInSecs"
+            case message = "message"
+            case rpoDescription = "rpoDescription"
+            case rpoReferenceId = "rpoReferenceId"
+            case rtoDescription = "rtoDescription"
+            case rtoReferenceId = "rtoReferenceId"
         }
     }
 
@@ -1417,8 +1417,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rpoInSecs
-            case rtoInSecs
+            case rpoInSecs = "rpoInSecs"
+            case rtoInSecs = "rtoInSecs"
         }
     }
 
@@ -1449,9 +1449,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case sourceArns
-            case terraformSources
+            case appArn = "appArn"
+            case sourceArns = "sourceArns"
+            case terraformSources = "terraformSources"
         }
     }
 
@@ -1478,11 +1478,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case sourceArns
-            case status
-            case terraformSources
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case sourceArns = "sourceArns"
+            case status = "status"
+            case terraformSources = "terraformSources"
         }
     }
 
@@ -1511,9 +1511,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case maxResults
-            case nextToken
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1529,8 +1529,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmRecommendations
-            case nextToken
+            case alarmRecommendations = "alarmRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1603,8 +1603,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentSummaries
-            case nextToken
+            case assessmentSummaries = "assessmentSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1633,9 +1633,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case maxResults
-            case nextToken
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1651,8 +1651,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentCompliances
-            case nextToken
+            case componentCompliances = "componentCompliances"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1681,9 +1681,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case maxResults
-            case nextToken
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1699,8 +1699,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentRecommendations
-            case nextToken
+            case componentRecommendations = "componentRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1733,10 +1733,10 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case maxResults
-            case nextToken
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1752,8 +1752,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceMappings
+            case nextToken = "nextToken"
+            case resourceMappings = "resourceMappings"
         }
     }
 
@@ -1791,11 +1791,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case maxResults
-            case nextToken
-            case resolutionId
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resolutionId = "resolutionId"
         }
     }
 
@@ -1814,9 +1814,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case physicalResources
-            case resolutionId
+            case nextToken = "nextToken"
+            case physicalResources = "physicalResources"
+            case resolutionId = "resolutionId"
         }
     }
 
@@ -1845,9 +1845,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case maxResults
-            case nextToken
+            case appArn = "appArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1863,8 +1863,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appVersions
-            case nextToken
+            case appVersions = "appVersions"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1918,8 +1918,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummaries
-            case nextToken
+            case appSummaries = "appSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1989,8 +1989,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationTemplates
+            case nextToken = "nextToken"
+            case recommendationTemplates = "recommendationTemplates"
         }
     }
 
@@ -2037,8 +2037,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resiliencyPolicies
+            case nextToken = "nextToken"
+            case resiliencyPolicies = "resiliencyPolicies"
         }
     }
 
@@ -2067,9 +2067,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case maxResults
-            case nextToken
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2085,8 +2085,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sopRecommendations
+            case nextToken = "nextToken"
+            case sopRecommendations = "sopRecommendations"
         }
     }
 
@@ -2128,8 +2128,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resiliencyPolicies
+            case nextToken = "nextToken"
+            case resiliencyPolicies = "resiliencyPolicies"
         }
     }
 
@@ -2162,7 +2162,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2191,9 +2191,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentArn
-            case maxResults
-            case nextToken
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2209,8 +2209,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testRecommendations
+            case nextToken = "nextToken"
+            case testRecommendations = "testRecommendations"
         }
     }
 
@@ -2248,11 +2248,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case maxResults
-            case nextToken
-            case resolutionId
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resolutionId = "resolutionId"
         }
     }
 
@@ -2271,9 +2271,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resolutionId
-            case unsupportedResources
+            case nextToken = "nextToken"
+            case resolutionId = "resolutionId"
+            case unsupportedResources = "unsupportedResources"
         }
     }
 
@@ -2295,10 +2295,10 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case logicalStackName
-            case resourceGroupName
-            case terraformSourceName
+            case identifier = "identifier"
+            case logicalStackName = "logicalStackName"
+            case resourceGroupName = "resourceGroupName"
+            case terraformSourceName = "terraformSourceName"
         }
     }
 
@@ -2323,11 +2323,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponents
-            case logicalResourceId
-            case physicalResourceId
-            case resourceName
-            case resourceType
+            case appComponents = "appComponents"
+            case logicalResourceId = "logicalResourceId"
+            case physicalResourceId = "physicalResourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2356,10 +2356,10 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case awsRegion
-            case identifier
-            case type
+            case awsAccountId = "awsAccountId"
+            case awsRegion = "awsRegion"
+            case identifier = "identifier"
+            case type = "type"
         }
     }
 
@@ -2378,7 +2378,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
+            case appArn = "appArn"
         }
     }
 
@@ -2396,8 +2396,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
+            case appArn = "appArn"
+            case appVersion = "appVersion"
         }
     }
 
@@ -2416,13 +2416,13 @@ extension Resiliencehub {
 
         public func validate(name: String) throws {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 204_800)
+            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 204800)
             try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, pattern: "^[\\w\\s:,-\\.'{}\\[\\]:\"]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appTemplateBody
+            case appArn = "appArn"
+            case appTemplateBody = "appTemplateBody"
         }
     }
 
@@ -2440,8 +2440,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
+            case appArn = "appArn"
+            case appVersion = "appVersion"
         }
     }
 
@@ -2466,11 +2466,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedComplianceStatus
-            case expectedRpoDescription
-            case expectedRpoInSecs
-            case expectedRtoDescription
-            case expectedRtoInSecs
+            case expectedComplianceStatus = "expectedComplianceStatus"
+            case expectedRpoDescription = "expectedRpoDescription"
+            case expectedRpoInSecs = "expectedRpoInSecs"
+            case expectedRtoDescription = "expectedRtoDescription"
+            case expectedRtoInSecs = "expectedRtoInSecs"
         }
     }
 
@@ -2492,10 +2492,10 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alreadyImplemented
-            case resourceId
-            case targetAccountId
-            case targetRegion
+            case alreadyImplemented = "alreadyImplemented"
+            case resourceId = "resourceId"
+            case targetAccountId = "targetAccountId"
+            case targetRegion = "targetRegion"
         }
     }
 
@@ -2552,20 +2552,20 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case assessmentArn
-            case endTime
-            case format
-            case message
-            case name
-            case needsReplacements
-            case recommendationIds
-            case recommendationTemplateArn
-            case recommendationTypes
-            case startTime
-            case status
-            case tags
-            case templatesLocation
+            case appArn = "appArn"
+            case assessmentArn = "assessmentArn"
+            case endTime = "endTime"
+            case format = "format"
+            case message = "message"
+            case name = "name"
+            case needsReplacements = "needsReplacements"
+            case recommendationIds = "recommendationIds"
+            case recommendationTemplateArn = "recommendationTemplateArn"
+            case recommendationTypes = "recommendationTypes"
+            case startTime = "startTime"
+            case status = "status"
+            case tags = "tags"
+            case templatesLocation = "templatesLocation"
         }
     }
 
@@ -2616,12 +2616,12 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appRegistryAppNames
-            case logicalStackNames
-            case resourceGroupNames
-            case resourceNames
-            case terraformSourceNames
+            case appArn = "appArn"
+            case appRegistryAppNames = "appRegistryAppNames"
+            case logicalStackNames = "logicalStackNames"
+            case resourceGroupNames = "resourceGroupNames"
+            case resourceNames = "resourceNames"
+            case terraformSourceNames = "terraformSourceNames"
         }
     }
 
@@ -2639,8 +2639,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
+            case appArn = "appArn"
+            case appVersion = "appVersion"
         }
     }
 
@@ -2680,15 +2680,15 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case dataLocationConstraint
-            case estimatedCostTier
-            case policy
-            case policyArn
-            case policyDescription
-            case policyName
-            case tags
-            case tier
+            case creationTime = "creationTime"
+            case dataLocationConstraint = "dataLocationConstraint"
+            case estimatedCostTier = "estimatedCostTier"
+            case policy = "policy"
+            case policyArn = "policyArn"
+            case policyDescription = "policyDescription"
+            case policyName = "policyName"
+            case tags = "tags"
+            case tier = "tier"
         }
     }
 
@@ -2704,8 +2704,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disruptionScore
-            case score
+            case disruptionScore = "disruptionScore"
+            case score = "score"
         }
     }
 
@@ -2728,8 +2728,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
+            case appArn = "appArn"
+            case appVersion = "appVersion"
         }
     }
 
@@ -2753,10 +2753,10 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case resolutionId
-            case status
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case resolutionId = "resolutionId"
+            case status = "status"
         }
     }
 
@@ -2775,9 +2775,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logicalResourceId
-            case physicalResourceId
-            case reason
+            case logicalResourceId = "logicalResourceId"
+            case physicalResourceId = "physicalResourceId"
+            case reason = "reason"
         }
     }
 
@@ -2793,8 +2793,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreErrors
-            case resourceErrors
+            case hasMoreErrors = "hasMoreErrors"
+            case resourceErrors = "resourceErrors"
         }
     }
 
@@ -2836,13 +2836,13 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appRegistryAppName
-            case logicalStackName
-            case mappingType
-            case physicalResourceId
-            case resourceGroupName
-            case resourceName
-            case terraformSourceName
+            case appRegistryAppName = "appRegistryAppName"
+            case logicalStackName = "logicalStackName"
+            case mappingType = "mappingType"
+            case physicalResourceId = "physicalResourceId"
+            case resourceGroupName = "resourceGroupName"
+            case resourceName = "resourceName"
+            case terraformSourceName = "terraformSourceName"
         }
     }
 
@@ -2858,8 +2858,8 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case prefix
+            case bucket = "bucket"
+            case prefix = "prefix"
         }
     }
 
@@ -2893,14 +2893,14 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case description
-            case items
-            case name
-            case prerequisite
-            case recommendationId
-            case referenceId
-            case serviceType
+            case appComponentName = "appComponentName"
+            case description = "description"
+            case items = "items"
+            case name = "name"
+            case prerequisite = "prerequisite"
+            case recommendationId = "recommendationId"
+            case referenceId = "referenceId"
+            case serviceType = "serviceType"
         }
     }
 
@@ -2947,11 +2947,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appVersion
-            case assessmentName
-            case clientToken
-            case tags
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case assessmentName = "assessmentName"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
@@ -2964,7 +2964,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -2997,7 +2997,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -3019,7 +3019,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3StateFileUrl
+            case s3StateFileUrl = "s3StateFileUrl"
         }
     }
 
@@ -3062,17 +3062,17 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appComponentName
-            case dependsOnAlarms
-            case description
-            case intent
-            case items
-            case name
-            case prerequisite
-            case recommendationId
-            case referenceId
-            case risk
-            case type
+            case appComponentName = "appComponentName"
+            case dependsOnAlarms = "dependsOnAlarms"
+            case description = "description"
+            case intent = "intent"
+            case items = "items"
+            case name = "name"
+            case prerequisite = "prerequisite"
+            case recommendationId = "recommendationId"
+            case referenceId = "referenceId"
+            case risk = "risk"
+            case type = "type"
         }
     }
 
@@ -3091,9 +3091,9 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logicalResourceId
-            case physicalResourceId
-            case resourceType
+            case logicalResourceId = "logicalResourceId"
+            case physicalResourceId = "physicalResourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3162,11 +3162,11 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case assessmentSchedule
-            case clearResiliencyPolicyArn
-            case description
-            case policyArn
+            case appArn = "appArn"
+            case assessmentSchedule = "assessmentSchedule"
+            case clearResiliencyPolicyArn = "clearResiliencyPolicyArn"
+            case description = "description"
+            case policyArn = "policyArn"
         }
     }
 
@@ -3179,7 +3179,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
@@ -3218,12 +3218,12 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataLocationConstraint
-            case policy
-            case policyArn
-            case policyDescription
-            case policyName
-            case tier
+            case dataLocationConstraint = "dataLocationConstraint"
+            case policy = "policy"
+            case policyArn = "policyArn"
+            case policyDescription = "policyDescription"
+            case policyName = "policyName"
+            case tier = "tier"
         }
     }
 
@@ -3236,7 +3236,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 }
@@ -3273,7 +3273,7 @@ public struct ResiliencehubErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
+    /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     public static var conflictException: Self { .init(.conflictException) }

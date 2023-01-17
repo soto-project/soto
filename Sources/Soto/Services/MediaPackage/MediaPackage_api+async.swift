@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -121,7 +121,7 @@ extension MediaPackage {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaPackage {
-    ///  Returns a collection of Channels.
+    /// Returns a collection of Channels.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -143,7 +143,7 @@ extension MediaPackage {
         )
     }
 
-    ///  Returns a collection of HarvestJob records.
+    /// Returns a collection of HarvestJob records.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -165,7 +165,7 @@ extension MediaPackage {
         )
     }
 
-    ///  Returns a collection of OriginEndpoint records.
+    /// Returns a collection of OriginEndpoint records.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

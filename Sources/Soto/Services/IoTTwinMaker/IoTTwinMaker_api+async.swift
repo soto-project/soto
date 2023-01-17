@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -198,7 +198,7 @@ extension IoTTwinMaker {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTTwinMaker {
-    ///  Run queries to access information from your knowledge graph of entities within individual workspaces.
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,7 +220,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +242,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
+    /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and  entityId. For cross-entity quries, specify a value for componentTypeId.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +264,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all component types in a workspace.
+    /// Lists all component types in a workspace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -286,7 +286,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all entities in a workspace.
+    /// Lists all entities in a workspace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -308,7 +308,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists all scenes in a workspace.
+    /// Lists all scenes in a workspace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -330,7 +330,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  List all SyncJobs.
+    /// List all SyncJobs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -352,7 +352,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Lists the sync resources.
+    /// Lists the sync resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -374,7 +374,7 @@ extension IoTTwinMaker {
         )
     }
 
-    ///  Retrieves information about workspaces in the current account.
+    /// Retrieves information about workspaces in the current account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

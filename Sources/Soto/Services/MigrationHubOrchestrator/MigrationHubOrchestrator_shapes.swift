@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -176,10 +176,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case integerValue
-            case listOfStringsValue
-            case mapOfStringValue
-            case stringValue
+            case integerValue = "integerValue"
+            case listOfStringsValue = "listOfStringsValue"
+            case mapOfStringValue = "mapOfStringValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -239,9 +239,9 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case integerValue
-            case listOfStringValue
-            case stringValue
+            case integerValue = "integerValue"
+            case listOfStringValue = "listOfStringValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -292,13 +292,13 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId
-            case description
-            case inputParameters
-            case name
-            case stepTargets
-            case tags
-            case templateId
+            case applicationConfigurationId = "applicationConfigurationId"
+            case description = "description"
+            case inputParameters = "inputParameters"
+            case name = "name"
+            case stepTargets = "stepTargets"
+            case tags = "tags"
+            case templateId = "templateId"
         }
     }
 
@@ -341,17 +341,17 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adsApplicationConfigurationId
-            case arn
-            case creationTime
-            case description
-            case id
-            case name
-            case status
-            case stepTargets
-            case tags
-            case templateId
-            case workflowInputs
+            case adsApplicationConfigurationId = "adsApplicationConfigurationId"
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case stepTargets = "stepTargets"
+            case tags = "tags"
+            case templateId = "templateId"
+            case workflowInputs = "workflowInputs"
         }
     }
 
@@ -393,11 +393,11 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case next
-            case previous
-            case workflowId
+            case description = "description"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
+            case workflowId = "workflowId"
         }
     }
 
@@ -431,14 +431,14 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case next
-            case previous
-            case tools
-            case workflowId
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
+            case tools = "tools"
+            case workflowId = "workflowId"
         }
     }
 
@@ -505,16 +505,16 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case next
-            case outputs
-            case previous
-            case stepActionType
-            case stepGroupId
-            case stepTarget
-            case workflowId
-            case workflowStepAutomationConfiguration
+            case description = "description"
+            case name = "name"
+            case next = "next"
+            case outputs = "outputs"
+            case previous = "previous"
+            case stepActionType = "stepActionType"
+            case stepGroupId = "stepGroupId"
+            case stepTarget = "stepTarget"
+            case workflowId = "workflowId"
+            case workflowStepAutomationConfiguration = "workflowStepAutomationConfiguration"
         }
     }
 
@@ -536,10 +536,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case stepGroupId
-            case workflowId
+            case id = "id"
+            case name = "name"
+            case stepGroupId = "stepGroupId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -579,9 +579,9 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case status
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
         }
     }
 
@@ -743,26 +743,26 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adsApplicationConfigurationId
-            case adsApplicationName
-            case arn
-            case completedSteps
-            case creationTime
-            case description
-            case endTime
-            case id
-            case lastModifiedTime
-            case lastStartTime
-            case lastStopTime
-            case name
-            case status
-            case statusMessage
-            case tags
-            case templateId
-            case tools
-            case totalSteps
-            case workflowBucket
-            case workflowInputs
+            case adsApplicationConfigurationId = "adsApplicationConfigurationId"
+            case adsApplicationName = "adsApplicationName"
+            case arn = "arn"
+            case completedSteps = "completedSteps"
+            case creationTime = "creationTime"
+            case description = "description"
+            case endTime = "endTime"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+            case lastStartTime = "lastStartTime"
+            case lastStopTime = "lastStopTime"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case tags = "tags"
+            case templateId = "templateId"
+            case tools = "tools"
+            case totalSteps = "totalSteps"
+            case workflowBucket = "workflowBucket"
+            case workflowInputs = "workflowInputs"
         }
     }
 
@@ -814,13 +814,13 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case inputs
-            case name
-            case status
-            case tools
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case inputs = "inputs"
+            case name = "name"
+            case status = "status"
+            case tools = "tools"
         }
     }
 
@@ -888,16 +888,16 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case lastModifiedTime
-            case name
-            case next
-            case previous
-            case status
-            case templateId
-            case tools
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
+            case status = "status"
+            case templateId = "templateId"
+            case tools = "tools"
         }
     }
 
@@ -975,17 +975,17 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case name
-            case next
-            case outputs
-            case previous
-            case stepActionType
-            case stepAutomationConfiguration
-            case stepGroupId
-            case templateId
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case next = "next"
+            case outputs = "outputs"
+            case previous = "previous"
+            case stepActionType = "stepActionType"
+            case stepAutomationConfiguration = "stepAutomationConfiguration"
+            case stepGroupId = "stepGroupId"
+            case templateId = "templateId"
         }
     }
 
@@ -1059,18 +1059,18 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case endTime
-            case id
-            case lastModifiedTime
-            case name
-            case next
-            case owner
-            case previous
-            case status
-            case tools
-            case workflowId
+            case creationTime = "creationTime"
+            case description = "description"
+            case endTime = "endTime"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case next = "next"
+            case owner = "owner"
+            case previous = "previous"
+            case status = "status"
+            case tools = "tools"
+            case workflowId = "workflowId"
         }
     }
 
@@ -1178,27 +1178,27 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case endTime
-            case lastStartTime
-            case name
-            case next
-            case noOfSrvCompleted
-            case noOfSrvFailed
-            case outputs
-            case owner
-            case previous
-            case scriptOutputLocation
-            case status
-            case statusMessage
-            case stepActionType
-            case stepGroupId
-            case stepId
-            case stepTarget
-            case totalNoOfSrv
-            case workflowId
-            case workflowStepAutomationConfiguration
+            case creationTime = "creationTime"
+            case description = "description"
+            case endTime = "endTime"
+            case lastStartTime = "lastStartTime"
+            case name = "name"
+            case next = "next"
+            case noOfSrvCompleted = "noOfSrvCompleted"
+            case noOfSrvFailed = "noOfSrvFailed"
+            case outputs = "outputs"
+            case owner = "owner"
+            case previous = "previous"
+            case scriptOutputLocation = "scriptOutputLocation"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case stepActionType = "stepActionType"
+            case stepGroupId = "stepGroupId"
+            case stepId = "stepId"
+            case stepTarget = "stepTarget"
+            case totalNoOfSrv = "totalNoOfSrv"
+            case workflowId = "workflowId"
+            case workflowStepAutomationConfiguration = "workflowStepAutomationConfiguration"
         }
     }
 
@@ -1247,8 +1247,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateSummary
+            case nextToken = "nextToken"
+            case templateSummary = "templateSummary"
         }
     }
 
@@ -1312,8 +1312,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case migrationWorkflowSummary
-            case nextToken
+            case migrationWorkflowSummary = "migrationWorkflowSummary"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1355,8 +1355,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case plugins
+            case nextToken = "nextToken"
+            case plugins = "plugins"
         }
     }
 
@@ -1388,7 +1388,7 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1437,8 +1437,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateStepGroupSummary
+            case nextToken = "nextToken"
+            case templateStepGroupSummary = "templateStepGroupSummary"
         }
     }
 
@@ -1494,8 +1494,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateStepSummaryList
+            case nextToken = "nextToken"
+            case templateStepSummaryList = "templateStepSummaryList"
         }
     }
 
@@ -1544,8 +1544,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workflowStepGroupsSummary
+            case nextToken = "nextToken"
+            case workflowStepGroupsSummary = "workflowStepGroupsSummary"
         }
     }
 
@@ -1601,8 +1601,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case workflowStepsSummary
+            case nextToken = "nextToken"
+            case workflowStepsSummary = "workflowStepsSummary"
         }
     }
 
@@ -1642,16 +1642,16 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adsApplicationConfigurationName
-            case completedSteps
-            case creationTime
-            case endTime
-            case id
-            case name
-            case status
-            case statusMessage
-            case templateId
-            case totalSteps
+            case adsApplicationConfigurationName = "adsApplicationConfigurationName"
+            case completedSteps = "completedSteps"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case templateId = "templateId"
+            case totalSteps = "totalSteps"
         }
     }
 
@@ -1667,8 +1667,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case linux
-            case windows
+            case linux = "linux"
+            case windows = "windows"
         }
     }
 
@@ -1689,8 +1689,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case linux
-            case windows
+            case linux = "linux"
+            case windows = "windows"
         }
     }
 
@@ -1718,12 +1718,12 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case ipAddress
-            case pluginId
-            case registeredTime
-            case status
-            case version
+            case hostname = "hostname"
+            case ipAddress = "ipAddress"
+            case pluginId = "pluginId"
+            case registeredTime = "registeredTime"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -1780,10 +1780,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case status
-            case stepGroupId
-            case workflowId
+            case id = "id"
+            case status = "status"
+            case stepGroupId = "stepGroupId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -1829,11 +1829,11 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case lastStartTime
-            case status
-            case statusMessage
+            case arn = "arn"
+            case id = "id"
+            case lastStartTime = "lastStartTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1858,11 +1858,11 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case runEnvironment
-            case scriptLocationS3Bucket
-            case scriptLocationS3Key
-            case targetType
+            case command = "command"
+            case runEnvironment = "runEnvironment"
+            case scriptLocationS3Bucket = "scriptLocationS3Bucket"
+            case scriptLocationS3Key = "scriptLocationS3Key"
+            case targetType = "targetType"
         }
     }
 
@@ -1881,9 +1881,9 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case name
-            case required
+            case dataType = "dataType"
+            case name = "name"
+            case required = "required"
         }
     }
 
@@ -1929,11 +1929,11 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case lastStopTime
-            case status
-            case statusMessage
+            case arn = "arn"
+            case id = "id"
+            case lastStopTime = "lastStopTime"
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
@@ -1963,7 +1963,7 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1986,9 +1986,9 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case inputName
-            case required
+            case dataType = "dataType"
+            case inputName = "inputName"
+            case required = "required"
         }
     }
 
@@ -2010,10 +2010,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case next
-            case previous
+            case id = "id"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
         }
     }
 
@@ -2050,15 +2050,15 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case next
-            case owner
-            case previous
-            case stepActionType
-            case stepGroupId
-            case targetType
-            case templateId
+            case id = "id"
+            case name = "name"
+            case next = "next"
+            case owner = "owner"
+            case previous = "previous"
+            case stepActionType = "stepActionType"
+            case stepGroupId = "stepGroupId"
+            case targetType = "targetType"
+            case templateId = "templateId"
         }
     }
 
@@ -2080,10 +2080,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case id
-            case name
+            case arn = "arn"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -2099,8 +2099,8 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case url
+            case name = "name"
+            case url = "url"
         }
     }
 
@@ -2177,10 +2177,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case inputParameters
-            case name
-            case stepTargets
+            case description = "description"
+            case inputParameters = "inputParameters"
+            case name = "name"
+            case stepTargets = "stepTargets"
         }
     }
 
@@ -2226,18 +2226,18 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adsApplicationConfigurationId
-            case arn
-            case creationTime
-            case description
-            case id
-            case lastModifiedTime
-            case name
-            case status
-            case stepTargets
-            case tags
-            case templateId
-            case workflowInputs
+            case adsApplicationConfigurationId = "adsApplicationConfigurationId"
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case status = "status"
+            case stepTargets = "stepTargets"
+            case tags = "tags"
+            case templateId = "templateId"
+            case workflowInputs = "workflowInputs"
         }
     }
 
@@ -2290,10 +2290,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case next
-            case previous
+            case description = "description"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
         }
     }
 
@@ -2327,14 +2327,14 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case lastModifiedTime
-            case name
-            case next
-            case previous
-            case tools
-            case workflowId
+            case description = "description"
+            case id = "id"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case next = "next"
+            case previous = "previous"
+            case tools = "tools"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2414,17 +2414,17 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case next
-            case outputs
-            case previous
-            case status
-            case stepActionType
-            case stepGroupId
-            case stepTarget
-            case workflowId
-            case workflowStepAutomationConfiguration
+            case description = "description"
+            case name = "name"
+            case next = "next"
+            case outputs = "outputs"
+            case previous = "previous"
+            case status = "status"
+            case stepActionType = "stepActionType"
+            case stepGroupId = "stepGroupId"
+            case stepTarget = "stepTarget"
+            case workflowId = "workflowId"
+            case workflowStepAutomationConfiguration = "workflowStepAutomationConfiguration"
         }
     }
 
@@ -2446,10 +2446,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case stepGroupId
-            case workflowId
+            case id = "id"
+            case name = "name"
+            case stepGroupId = "stepGroupId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2480,11 +2480,11 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case runEnvironment
-            case scriptLocationS3Bucket
-            case scriptLocationS3Key
-            case targetType
+            case command = "command"
+            case runEnvironment = "runEnvironment"
+            case scriptLocationS3Bucket = "scriptLocationS3Bucket"
+            case scriptLocationS3Key = "scriptLocationS3Key"
+            case targetType = "targetType"
         }
     }
 
@@ -2512,12 +2512,12 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case next
-            case owner
-            case previous
-            case status
+            case id = "id"
+            case name = "name"
+            case next = "next"
+            case owner = "owner"
+            case previous = "previous"
+            case status = "status"
         }
     }
 
@@ -2546,10 +2546,10 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case name
-            case required
-            case value
+            case dataType = "dataType"
+            case name = "name"
+            case required = "required"
+            case value = "value"
         }
     }
 
@@ -2598,19 +2598,19 @@ extension MigrationHubOrchestrator {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case next
-            case noOfSrvCompleted
-            case noOfSrvFailed
-            case owner
-            case previous
-            case scriptLocation
-            case status
-            case statusMessage
-            case stepActionType
-            case stepId
-            case totalNoOfSrv
+            case description = "description"
+            case name = "name"
+            case next = "next"
+            case noOfSrvCompleted = "noOfSrvCompleted"
+            case noOfSrvFailed = "noOfSrvFailed"
+            case owner = "owner"
+            case previous = "previous"
+            case scriptLocation = "scriptLocation"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case stepActionType = "stepActionType"
+            case stepId = "stepId"
+            case totalNoOfSrv = "totalNoOfSrv"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -264,7 +264,7 @@ extension Synthetics {
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3Version, name: "s3Version", parent: name, max: 1024)
             try self.validate(self.s3Version, name: "s3Version", parent: name, min: 1)
-            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 10_000_000)
+            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 10000000)
             try self.validate(self.zipFile, name: "zipFile", parent: name, min: 1)
         }
 
@@ -446,7 +446,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 31_622_400)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 31622400)
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)

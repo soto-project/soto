@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -143,7 +143,7 @@ extension LookoutVision {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LookoutVision {
-    ///  Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line contains the anomaly information for a single image, including the image location and the assigned label. This operation requires permissions to perform the lookoutvision:ListDatasetEntries operation.
+    /// Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line contains the anomaly information for a single image, including the image location and the assigned label. This operation requires permissions to perform the lookoutvision:ListDatasetEntries operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -165,9 +165,9 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the model packaging jobs created for an Amazon Lookout for Vision project.
-    ///   This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
-    ///    For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    /// Lists the model packaging jobs created for an Amazon Lookout for Vision project.
+    ///  This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
+    ///   For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -189,7 +189,7 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels operation is eventually consistent.   Recent calls to CreateModel might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListModels operation.
+    /// Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels operation is eventually consistent.   Recent calls to CreateModel might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListModels operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -211,7 +211,7 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the Amazon Lookout for Vision projects in your AWS account that are in the AWS Region in  which you call ListProjects. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
+    /// Lists the Amazon Lookout for Vision projects in your AWS account that are in the AWS Region in  which you call ListProjects. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

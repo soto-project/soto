@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -173,7 +173,7 @@ extension DataExchange {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataExchange {
-    ///  This operation lists a data set's revisions sorted by CreatedAt in descending order.
+    /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -195,7 +195,7 @@ extension DataExchange {
         )
     }
 
-    ///  This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+    /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -217,7 +217,7 @@ extension DataExchange {
         )
     }
 
-    ///  This operation lists your event actions.
+    /// This operation lists your event actions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -239,7 +239,7 @@ extension DataExchange {
         )
     }
 
-    ///  This operation lists your jobs sorted by CreatedAt in descending order.
+    /// This operation lists your jobs sorted by CreatedAt in descending order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -261,7 +261,7 @@ extension DataExchange {
         )
     }
 
-    ///  This operation lists a revision's assets sorted alphabetically in descending order.
+    /// This operation lists a revision's assets sorted alphabetically in descending order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

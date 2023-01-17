@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2600,7 +2600,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.immunityTime, name: "immunityTime", parent: name, max: 259_200)
+            try self.validate(self.immunityTime, name: "immunityTime", parent: name, max: 259200)
             try self.validate(self.immunityTime, name: "immunityTime", parent: name, min: 60)
         }
 
@@ -3784,7 +3784,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "\\S")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
@@ -3825,7 +3825,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
-            try self.validate(self.limit, name: "limit", parent: name, max: 2_000_000_000)
+            try self.validate(self.limit, name: "limit", parent: name, max: 2000000000)
             try self.validate(self.limit, name: "limit", parent: name, min: 100)
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
         }
@@ -4382,7 +4382,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
+            try self.validate(self.size, name: "size", parent: name, max: 21474836480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
@@ -5301,31 +5301,31 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafExpiredManagedRuleGroupVersionException: Self { .init(.wafExpiredManagedRuleGroupVersionException) }
     /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     public static var wafInternalErrorException: Self { .init(.wafInternalErrorException) }
-    /// The operation isn&#39;t valid.
+    /// The operation isn't valid.
     public static var wafInvalidOperationException: Self { .init(.wafInvalidOperationException) }
-    /// The operation failed because WAF didn&#39;t recognize a parameter in the request. For example:    You specified a parameter name or value that isn&#39;t valid.   Your nested statement isn&#39;t valid. You might have tried to nest a statement that can’t be nested.    You tried to update a WebACL with a DefaultAction that isn&#39;t among the types available at DefaultAction.   Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can&#39;t be associated.
+    /// The operation failed because WAF didn't recognize a parameter in the request. For example:    You specified a parameter name or value that isn't valid.   Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.    You tried to update a WebACL with a DefaultAction that isn't among the types available at DefaultAction.   Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     public static var wafInvalidParameterException: Self { .init(.wafInvalidParameterException) }
-    /// The operation failed because the specified policy isn&#39;t in the proper format.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and  wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup.  WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
+    /// The operation failed because the specified policy isn't in the proper format.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and  wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup.  WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
     public static var wafInvalidPermissionPolicyException: Self { .init(.wafInvalidPermissionPolicyException) }
     /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     public static var wafInvalidResourceException: Self { .init(.wafInvalidResourceException) }
     /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see WAF quotas in the WAF Developer Guide.
     public static var wafLimitsExceededException: Self { .init(.wafLimitsExceededException) }
-    /// The operation failed because you don&#39;t have the permissions that your logging configuration requires. For information, see Logging web ACL traffic information in the WAF Developer Guide.
+    /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see Logging web ACL traffic information in the WAF Developer Guide.
     public static var wafLogDestinationPermissionIssueException: Self { .init(.wafLogDestinationPermissionIssueException) }
-    /// WAF couldn’t perform the operation because your resource doesn&#39;t exist.  If you&#39;ve just created a resource that you&#39;re using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate.
+    /// WAF couldn’t perform the operation because your resource doesn't exist.  If you've just created a resource that you're using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate.
     public static var wafNonexistentItemException: Self { .init(.wafNonexistentItemException) }
     /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     public static var wafOptimisticLockException: Self { .init(.wafOptimisticLockException) }
     /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     public static var wafServiceLinkedRoleErrorException: Self { .init(.wafServiceLinkedRoleErrorException) }
-    /// You tried to use a managed rule group that&#39;s available by subscription, but you aren&#39;t subscribed to it yet.
+    /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     public static var wafSubscriptionNotFoundException: Self { .init(.wafSubscriptionNotFoundException) }
     /// An error occurred during the tagging operation. Retry your request.
     public static var wafTagOperationException: Self { .init(.wafTagOperationException) }
     /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     public static var wafTagOperationInternalErrorException: Self { .init(.wafTagOperationInternalErrorException) }
-    /// WAF couldn’t retrieve a resource that you specified for this operation.  If you&#39;ve just created a resource that you&#39;re using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate. Verify the resources that you are specifying in your request  parameters and then retry the operation.
+    /// WAF couldn’t retrieve a resource that you specified for this operation.  If you've just created a resource that you're using in this operation, you might  just need to wait a few minutes. It can take from a few seconds to a number of minutes  for changes to propagate. Verify the resources that you are specifying in your request  parameters and then retry the operation.
     public static var wafUnavailableEntityException: Self { .init(.wafUnavailableEntityException) }
 }
 

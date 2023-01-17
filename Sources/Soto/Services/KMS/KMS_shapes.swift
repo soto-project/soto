@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -552,7 +552,7 @@ extension KMS {
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 8192)
-            try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
+            try self.validate(self.policy, name: "policy", parent: name, max: 131072)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.tags?.forEach {
@@ -2186,7 +2186,7 @@ extension KMS {
         public func validate(name: String) throws {
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
-            try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
+            try self.validate(self.policy, name: "policy", parent: name, max: 131072)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
@@ -2319,7 +2319,7 @@ extension KMS {
             try self.validate(self.description, name: "description", parent: name, max: 8192)
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
-            try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
+            try self.validate(self.policy, name: "policy", parent: name, max: 131072)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, max: 32)
@@ -3091,7 +3091,7 @@ public struct KMSErrorType: AWSErrorType {
     public static var xksKeyAlreadyInUseException: Self { .init(.xksKeyAlreadyInUseException) }
     /// The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
     public static var xksKeyInvalidConfigurationException: Self { .init(.xksKeyInvalidConfigurationException) }
-    /// The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn&#39;t identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
+    /// The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
     public static var xksKeyNotFoundException: Self { .init(.xksKeyNotFoundException) }
     /// The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
     public static var xksProxyIncorrectAuthenticationCredentialException: Self { .init(.xksProxyIncorrectAuthenticationCredentialException) }

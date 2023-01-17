@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -29,26 +29,26 @@ extension MemoryDB {
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
         case noPassword = "no-password"
-        case password
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
     public enum DataTieringStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case `false`
-        case `true`
+        case `false` = "false"
+        case `true` = "true"
         public var description: String { return self.rawValue }
     }
 
     public enum InputAuthenticationType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case password
+        case password = "password"
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceUpdateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
-        case complete
+        case complete = "complete"
         case inProgress = "in-progress"
         case notApplied = "available"
-        case scheduled
+        case scheduled = "scheduled"
         public var description: String { return self.rawValue }
     }
 
@@ -58,12 +58,12 @@ extension MemoryDB {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable, _SotoSendable {
-        case acl
-        case cluster
-        case node
+        case acl = "acl"
+        case cluster = "cluster"
+        case node = "node"
         case parameterGroup = "parameter-group"
         case subnetGroup = "subnet-group"
-        case user
+        case user = "user"
         public var description: String { return self.rawValue }
     }
 
@@ -2755,7 +2755,7 @@ public struct MemoryDBErrorType: AWSErrorType {
     public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
     /// The requested node does not exist.
     public static var reservedNodeNotFoundFault: Self { .init(.reservedNodeNotFoundFault) }
-    /// The request cannot be processed because it would exceed the user&#39;s node quota.
+    /// The request cannot be processed because it would exceed the user's node quota.
     public static var reservedNodeQuotaExceededFault: Self { .init(.reservedNodeQuotaExceededFault) }
     /// The requested node offering does not exist.
     public static var reservedNodesOfferingNotFoundFault: Self { .init(.reservedNodesOfferingNotFoundFault) }

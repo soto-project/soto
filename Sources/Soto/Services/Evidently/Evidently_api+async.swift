@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,7 +218,7 @@ extension Evidently {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Evidently {
-    ///  Returns configuration details about all the experiments in the specified project.
+    /// Returns configuration details about all the experiments in the specified project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -240,7 +240,7 @@ extension Evidently {
         )
     }
 
-    ///  Returns configuration details about all the features in the specified project.
+    /// Returns configuration details about all the features in the specified project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -262,7 +262,7 @@ extension Evidently {
         )
     }
 
-    ///  Returns configuration details about all the launches in the specified project.
+    /// Returns configuration details about all the launches in the specified project.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -284,7 +284,7 @@ extension Evidently {
         )
     }
 
-    ///  Returns configuration details about all the projects in the current Region in your account.
+    /// Returns configuration details about all the projects in the current Region in your account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -306,7 +306,7 @@ extension Evidently {
         )
     }
 
-    ///  Use this operation to find which experiments or launches are using a specified segment.
+    /// Use this operation to find which experiments or launches are using a specified segment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -328,7 +328,7 @@ extension Evidently {
         )
     }
 
-    ///  Returns a list of audience segments that you have created in your account in this Region.
+    /// Returns a list of audience segments that you have created in your account in this Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

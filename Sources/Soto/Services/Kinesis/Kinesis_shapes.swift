@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -825,7 +825,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -838,7 +838,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -851,7 +851,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -864,7 +864,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -877,7 +877,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -890,7 +890,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -903,7 +903,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -939,7 +939,7 @@ extension Kinesis {
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_048_576)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1048576)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.shardFilter?.validate(name: "\(name).shardFilter")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
@@ -998,7 +998,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_048_576)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1048576)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
@@ -1049,7 +1049,7 @@ extension Kinesis {
             try self.validate(self.exclusiveStartStreamName, name: "exclusiveStartStreamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_048_576)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1048576)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1202,7 +1202,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1_048_576)
+            try self.validate(self.data, name: "data", parent: name, max: 1048576)
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
@@ -1317,7 +1317,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1_048_576)
+            try self.validate(self.data, name: "data", parent: name, max: 1048576)
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
@@ -1468,7 +1468,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -1481,7 +1481,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
@@ -2058,15 +2058,15 @@ public struct KinesisErrorType: AWSErrorType {
     public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
     /// The processing of the request failed because of an unknown error, exception, or failure.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// A specified parameter exceeds its restrictions, is not supported, or can&#39;t be used. For more information, see the returned message.
+    /// A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
-    /// The ciphertext references a key that doesn&#39;t exist or that you don&#39;t have access to.
+    /// The ciphertext references a key that doesn't exist or that you don't have access to.
     public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
-    /// The request was rejected because the specified customer master key (CMK) isn&#39;t enabled.
+    /// The request was rejected because the specified customer master key (CMK) isn't enabled.
     public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
-    /// The request was rejected because the state of the specified resource isn&#39;t valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Amazon Web Services Key Management Service Developer Guide.
+    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Amazon Web Services Key Management Service Developer Guide.
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
-    /// The request was rejected because the specified entity or resource can&#39;t be found.
+    /// The request was rejected because the specified entity or resource can't be found.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The Amazon Web Services access key ID needs a subscription for the service.
     public static var kmsOptInRequired: Self { .init(.kmsOptInRequired) }

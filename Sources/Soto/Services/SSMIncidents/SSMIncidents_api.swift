@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -221,7 +221,7 @@ extension SSMIncidents {
 // MARK: Paginators
 
 extension SSMIncidents {
-    ///  Retrieves the resource policies attached to the specified response plan.
+    /// Retrieves the resource policies attached to the specified response plan.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -274,7 +274,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
+    /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -327,7 +327,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  List all related items for an incident record.
+    /// List all related items for an incident record.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -380,7 +380,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists details about the replication set configured in your account.
+    /// Lists details about the replication set configured in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -433,7 +433,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists all response plans in your account.
+    /// Lists all response plans in your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -486,7 +486,7 @@ extension SSMIncidents {
         )
     }
 
-    ///  Lists timeline events for the specified incident record.
+    /// Lists timeline events for the specified incident record.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

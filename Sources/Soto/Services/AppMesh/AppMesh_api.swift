@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -308,7 +308,7 @@ extension AppMesh {
 // MARK: Paginators
 
 extension AppMesh {
-    ///  Returns a list of existing gateway routes that are associated to a virtual gateway.
+    /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -361,7 +361,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing service meshes.
+    /// Returns a list of existing service meshes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -414,7 +414,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing routes in a service mesh.
+    /// Returns a list of existing routes in a service mesh.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -467,7 +467,7 @@ extension AppMesh {
         )
     }
 
-    ///  List the tags for an App Mesh resource.
+    /// List the tags for an App Mesh resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -520,7 +520,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual gateways in a service mesh.
+    /// Returns a list of existing virtual gateways in a service mesh.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -573,7 +573,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual nodes.
+    /// Returns a list of existing virtual nodes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -626,7 +626,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual routers in a service mesh.
+    /// Returns a list of existing virtual routers in a service mesh.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -679,7 +679,7 @@ extension AppMesh {
         )
     }
 
-    ///  Returns a list of existing virtual services in a service mesh.
+    /// Returns a list of existing virtual services in a service mesh.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -704,7 +704,7 @@ extension QuickSight {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension QuickSight {
-    ///  Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
+    /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -726,7 +726,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the versions of the dashboards in the Amazon QuickSight subscription.
+    /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -748,7 +748,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists dashboards in an Amazon Web Services account.
+    /// Lists dashboards in an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -770,7 +770,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
+    /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -792,7 +792,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
+    /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -814,7 +814,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists the history of SPICE ingestions for a dataset.
+    /// Lists the history of SPICE ingestions for a dataset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -836,7 +836,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
+    /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -858,7 +858,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the aliases of a template.
+    /// Lists all the aliases of a template.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -880,7 +880,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the versions of the templates in the current Amazon QuickSight account.
+    /// Lists all the versions of the templates in the current Amazon QuickSight account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -902,7 +902,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the templates in the current Amazon QuickSight account.
+    /// Lists all the templates in the current Amazon QuickSight account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -924,7 +924,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the versions of the themes in the current Amazon Web Services account.
+    /// Lists all the versions of the themes in the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -946,7 +946,7 @@ extension QuickSight {
         )
     }
 
-    ///  Lists all the themes in the current Amazon Web Services account.
+    /// Lists all the themes in the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -968,7 +968,7 @@ extension QuickSight {
         )
     }
 
-    ///  Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -990,7 +990,7 @@ extension QuickSight {
         )
     }
 
-    ///  Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
+    /// Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1012,7 +1012,7 @@ extension QuickSight {
         )
     }
 
-    ///  Use the SearchDataSets operation to search for datasets that belong to an account.
+    /// Use the SearchDataSets operation to search for datasets that belong to an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1034,7 +1034,7 @@ extension QuickSight {
         )
     }
 
-    ///  Use the SearchDataSources operation to search for data sources that belong to an account.
+    /// Use the SearchDataSources operation to search for data sources that belong to an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

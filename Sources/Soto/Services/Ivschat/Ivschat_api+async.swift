@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -113,7 +113,7 @@ extension Ivschat {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Ivschat {
-    ///  Gets summary information about all your logging configurations in the AWS region where the API request is processed.
+    /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -135,7 +135,7 @@ extension Ivschat {
         )
     }
 
-    ///  Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
+    /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

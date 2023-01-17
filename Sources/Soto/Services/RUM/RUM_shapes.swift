@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -42,11 +42,11 @@ extension RUM {
 
     public enum Telemetry: String, CustomStringConvertible, Codable, _SotoSendable {
         /// Includes JS error event plugin
-        case errors
+        case errors = "errors"
         /// Includes X-Ray Xhr and X-Ray Fetch plugin
-        case http
+        case http = "http"
         /// Includes navigation, paint, resource and web vital event plugins
-        case performance
+        case performance = "performance"
         public var description: String { return self.rawValue }
     }
 
@@ -183,9 +183,9 @@ extension RUM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case version
+            case id = "id"
+            case name = "name"
+            case version = "version"
         }
     }
 
@@ -1032,11 +1032,11 @@ extension RUM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case id
-            case metadata
-            case timestamp
-            case type
+            case details = "details"
+            case id = "id"
+            case metadata = "metadata"
+            case timestamp = "timestamp"
+            case type = "type"
         }
     }
 
@@ -1229,8 +1229,8 @@ extension RUM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionId
-            case userId
+            case sessionId = "sessionId"
+            case userId = "userId"
         }
     }
 }
@@ -1267,7 +1267,7 @@ public struct RUMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don&#39;t have sufficient permissions to perform this action.
+    /// You don't have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This operation attempted to create a resource that already exists.
     public static var conflictException: Self { .init(.conflictException) }

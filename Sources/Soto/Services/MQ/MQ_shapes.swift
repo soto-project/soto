@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -95,8 +95,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionRequiredCode
-            case actionRequiredInfo
+            case actionRequiredCode = "actionRequiredCode"
+            case actionRequiredInfo = "actionRequiredInfo"
         }
     }
 
@@ -109,7 +109,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -125,8 +125,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case engineType
-            case engineVersions
+            case engineType = "engineType"
+            case engineVersions = "engineVersions"
         }
     }
 
@@ -145,9 +145,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleURL
-            case endpoints
-            case ipAddress
+            case consoleURL = "consoleURL"
+            case endpoints = "endpoints"
+            case ipAddress = "ipAddress"
         }
     }
 
@@ -175,12 +175,12 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case engineType
-            case hostInstanceType
-            case storageType
-            case supportedDeploymentModes
-            case supportedEngineVersions
+            case availabilityZones = "availabilityZones"
+            case engineType = "engineType"
+            case hostInstanceType = "hostInstanceType"
+            case storageType = "storageType"
+            case supportedDeploymentModes = "supportedDeploymentModes"
+            case supportedEngineVersions = "supportedEngineVersions"
         }
     }
 
@@ -215,14 +215,14 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerArn
-            case brokerId
-            case brokerName
-            case brokerState
-            case created
-            case deploymentMode
-            case engineType
-            case hostInstanceType
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+            case brokerName = "brokerName"
+            case brokerState = "brokerState"
+            case created = "created"
+            case deploymentMode = "deploymentMode"
+            case engineType = "engineType"
+            case hostInstanceType = "hostInstanceType"
         }
     }
 
@@ -263,16 +263,16 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authenticationStrategy
-            case created
-            case description
-            case engineType
-            case engineVersion
-            case id
-            case latestRevision
-            case name
-            case tags
+            case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
+            case created = "created"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -288,8 +288,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revision
+            case id = "id"
+            case revision = "revision"
         }
     }
 
@@ -309,9 +309,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case description
-            case revision
+            case created = "created"
+            case description = "description"
+            case revision = "revision"
         }
     }
 
@@ -330,9 +330,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case current
-            case history
-            case pending
+            case current = "current"
+            case history = "history"
+            case pending = "pending"
         }
     }
 
@@ -399,25 +399,25 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationStrategy
-            case autoMinorVersionUpgrade
-            case brokerName
-            case configuration
-            case creatorRequestId
-            case deploymentMode
-            case encryptionOptions
-            case engineType
-            case engineVersion
-            case hostInstanceType
-            case ldapServerMetadata
-            case logs
-            case maintenanceWindowStartTime
-            case publiclyAccessible
-            case securityGroups
-            case storageType
-            case subnetIds
-            case tags
-            case users
+            case authenticationStrategy = "authenticationStrategy"
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerName = "brokerName"
+            case configuration = "configuration"
+            case creatorRequestId = "creatorRequestId"
+            case deploymentMode = "deploymentMode"
+            case encryptionOptions = "encryptionOptions"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case storageType = "storageType"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case users = "users"
         }
     }
 
@@ -433,8 +433,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerArn
-            case brokerId
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
         }
     }
 
@@ -459,11 +459,11 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationStrategy
-            case engineType
-            case engineVersion
-            case name
-            case tags
+            case authenticationStrategy = "authenticationStrategy"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -492,12 +492,12 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authenticationStrategy
-            case created
-            case id
-            case latestRevision
-            case name
+            case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
+            case created = "created"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
         }
     }
 
@@ -517,7 +517,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -547,9 +547,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleAccess
-            case groups
-            case password
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
         }
     }
 
@@ -581,7 +581,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerId
+            case brokerId = "brokerId"
         }
     }
 
@@ -670,9 +670,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerEngineTypes
-            case maxResults
-            case nextToken
+            case brokerEngineTypes = "brokerEngineTypes"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -727,9 +727,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerInstanceOptions
-            case maxResults
-            case nextToken
+            case brokerInstanceOptions = "brokerInstanceOptions"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -842,35 +842,35 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionsRequired
-            case authenticationStrategy
-            case autoMinorVersionUpgrade
-            case brokerArn
-            case brokerId
-            case brokerInstances
-            case brokerName
-            case brokerState
-            case configurations
-            case created
-            case deploymentMode
-            case encryptionOptions
-            case engineType
-            case engineVersion
-            case hostInstanceType
-            case ldapServerMetadata
-            case logs
-            case maintenanceWindowStartTime
-            case pendingAuthenticationStrategy
-            case pendingEngineVersion
-            case pendingHostInstanceType
-            case pendingLdapServerMetadata
-            case pendingSecurityGroups
-            case publiclyAccessible
-            case securityGroups
-            case storageType
-            case subnetIds
-            case tags
-            case users
+            case actionsRequired = "actionsRequired"
+            case authenticationStrategy = "authenticationStrategy"
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerArn = "brokerArn"
+            case brokerId = "brokerId"
+            case brokerInstances = "brokerInstances"
+            case brokerName = "brokerName"
+            case brokerState = "brokerState"
+            case configurations = "configurations"
+            case created = "created"
+            case deploymentMode = "deploymentMode"
+            case encryptionOptions = "encryptionOptions"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case pendingAuthenticationStrategy = "pendingAuthenticationStrategy"
+            case pendingEngineVersion = "pendingEngineVersion"
+            case pendingHostInstanceType = "pendingHostInstanceType"
+            case pendingLdapServerMetadata = "pendingLdapServerMetadata"
+            case pendingSecurityGroups = "pendingSecurityGroups"
+            case publiclyAccessible = "publiclyAccessible"
+            case securityGroups = "securityGroups"
+            case storageType = "storageType"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case users = "users"
         }
     }
 
@@ -926,16 +926,16 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authenticationStrategy
-            case created
-            case description
-            case engineType
-            case engineVersion
-            case id
-            case latestRevision
-            case name
-            case tags
+            case arn = "arn"
+            case authenticationStrategy = "authenticationStrategy"
+            case created = "created"
+            case description = "description"
+            case engineType = "engineType"
+            case engineVersion = "engineVersion"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -977,10 +977,10 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case created
-            case data
-            case description
+            case configurationId = "configurationId"
+            case created = "created"
+            case data = "data"
+            case description = "description"
         }
     }
 
@@ -1024,11 +1024,11 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerId
-            case consoleAccess
-            case groups
-            case pending
-            case username
+            case brokerId = "brokerId"
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case pending = "pending"
+            case username = "username"
         }
     }
 
@@ -1044,8 +1044,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case useAwsOwnedKey
+            case kmsKeyId = "kmsKeyId"
+            case useAwsOwnedKey = "useAwsOwnedKey"
         }
     }
 
@@ -1058,7 +1058,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
@@ -1101,17 +1101,17 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hosts
-            case roleBase
-            case roleName
-            case roleSearchMatching
-            case roleSearchSubtree
-            case serviceAccountPassword
-            case serviceAccountUsername
-            case userBase
-            case userRoleName
-            case userSearchMatching
-            case userSearchSubtree
+            case hosts = "hosts"
+            case roleBase = "roleBase"
+            case roleName = "roleName"
+            case roleSearchMatching = "roleSearchMatching"
+            case roleSearchSubtree = "roleSearchSubtree"
+            case serviceAccountPassword = "serviceAccountPassword"
+            case serviceAccountUsername = "serviceAccountUsername"
+            case userBase = "userBase"
+            case userRoleName = "userRoleName"
+            case userSearchMatching = "userSearchMatching"
+            case userSearchSubtree = "userSearchSubtree"
         }
     }
 
@@ -1151,16 +1151,16 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hosts
-            case roleBase
-            case roleName
-            case roleSearchMatching
-            case roleSearchSubtree
-            case serviceAccountUsername
-            case userBase
-            case userRoleName
-            case userSearchMatching
-            case userSearchSubtree
+            case hosts = "hosts"
+            case roleBase = "roleBase"
+            case roleName = "roleName"
+            case roleSearchMatching = "roleSearchMatching"
+            case roleSearchSubtree = "roleSearchSubtree"
+            case serviceAccountUsername = "serviceAccountUsername"
+            case userBase = "userBase"
+            case userRoleName = "userRoleName"
+            case userSearchMatching = "userSearchMatching"
+            case userSearchSubtree = "userSearchSubtree"
         }
     }
 
@@ -1200,8 +1200,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerSummaries
-            case nextToken
+            case brokerSummaries = "brokerSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1251,10 +1251,10 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case maxResults
-            case nextToken
-            case revisions
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case revisions = "revisions"
         }
     }
 
@@ -1297,9 +1297,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
-            case maxResults
-            case nextToken
+            case configurations = "configurations"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1327,7 +1327,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1377,10 +1377,10 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brokerId
-            case maxResults
-            case nextToken
-            case users
+            case brokerId = "brokerId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case users = "users"
         }
     }
 
@@ -1396,8 +1396,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audit
-            case general
+            case audit = "audit"
+            case general = "general"
         }
     }
 
@@ -1422,11 +1422,11 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audit
-            case auditLogGroup
-            case general
-            case generalLogGroup
-            case pending
+            case audit = "audit"
+            case auditLogGroup = "auditLogGroup"
+            case general = "general"
+            case generalLogGroup = "generalLogGroup"
+            case pending = "pending"
         }
     }
 
@@ -1442,8 +1442,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audit
-            case general
+            case audit = "audit"
+            case general = "general"
         }
     }
 
@@ -1481,9 +1481,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case elementName
-            case reason
+            case attributeName = "attributeName"
+            case elementName = "elementName"
+            case reason = "reason"
         }
     }
 
@@ -1527,15 +1527,15 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationStrategy
-            case autoMinorVersionUpgrade
-            case configuration
-            case engineVersion
-            case hostInstanceType
-            case ldapServerMetadata
-            case logs
-            case maintenanceWindowStartTime
-            case securityGroups
+            case authenticationStrategy = "authenticationStrategy"
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case securityGroups = "securityGroups"
         }
     }
 
@@ -1575,16 +1575,16 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authenticationStrategy
-            case autoMinorVersionUpgrade
-            case brokerId
-            case configuration
-            case engineVersion
-            case hostInstanceType
-            case ldapServerMetadata
-            case logs
-            case maintenanceWindowStartTime
-            case securityGroups
+            case authenticationStrategy = "authenticationStrategy"
+            case autoMinorVersionUpgrade = "autoMinorVersionUpgrade"
+            case brokerId = "brokerId"
+            case configuration = "configuration"
+            case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
+            case ldapServerMetadata = "ldapServerMetadata"
+            case logs = "logs"
+            case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case securityGroups = "securityGroups"
         }
     }
 
@@ -1607,8 +1607,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case description
+            case data = "data"
+            case description = "description"
         }
     }
 
@@ -1637,12 +1637,12 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case id
-            case latestRevision
-            case name
-            case warnings
+            case arn = "arn"
+            case created = "created"
+            case id = "id"
+            case latestRevision = "latestRevision"
+            case name = "name"
+            case warnings = "warnings"
         }
     }
 
@@ -1672,9 +1672,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleAccess
-            case groups
-            case password
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
         }
     }
 
@@ -1700,10 +1700,10 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleAccess
-            case groups
-            case password
-            case username
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case password = "password"
+            case username = "username"
         }
     }
 
@@ -1722,9 +1722,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case consoleAccess
-            case groups
-            case pendingChange
+            case consoleAccess = "consoleAccess"
+            case groups = "groups"
+            case pendingChange = "pendingChange"
         }
     }
 
@@ -1740,8 +1740,8 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pendingChange
-            case username
+            case pendingChange = "pendingChange"
+            case username = "username"
         }
     }
 
@@ -1760,9 +1760,9 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dayOfWeek
-            case timeOfDay
-            case timeZone
+            case dayOfWeek = "dayOfWeek"
+            case timeOfDay = "timeOfDay"
+            case timeZone = "timeZone"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -266,7 +266,7 @@ extension SSOAdmin {
 // MARK: Paginators
 
 extension SSOAdmin {
-    ///  Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -319,7 +319,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -372,7 +372,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the assignee of the specified AWS account with the specified permission set.
+    /// Lists the assignee of the specified AWS account with the specified permission set.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -425,7 +425,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the AWS accounts where the specified permission set is provisioned.
+    /// Lists all the AWS accounts where the specified permission set is provisioned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -478,7 +478,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all customer managed policies attached to a specified PermissionSet.
+    /// Lists all customer managed policies attached to a specified PermissionSet.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -531,7 +531,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the IAM Identity Center instances that the caller has access to.
+    /// Lists the IAM Identity Center instances that the caller has access to.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -584,7 +584,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the AWS managed policy that is attached to a specified permission set.
+    /// Lists the AWS managed policy that is attached to a specified permission set.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -637,7 +637,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
+    /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -690,7 +690,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the PermissionSets in an IAM Identity Center instance.
+    /// Lists the PermissionSets in an IAM Identity Center instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -743,7 +743,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists all the permission sets that are provisioned to a specified AWS account.
+    /// Lists all the permission sets that are provisioned to a specified AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -796,7 +796,7 @@ extension SSOAdmin {
         )
     }
 
-    ///  Lists the tags that are attached to a specified resource.
+    /// Lists the tags that are attached to a specified resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

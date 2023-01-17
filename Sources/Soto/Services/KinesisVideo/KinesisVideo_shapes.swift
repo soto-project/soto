@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2022 the Soto project authors
+// Copyright (c) 2017-2023 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1096,7 +1096,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxLocalMediaSizeInMB, name: "maxLocalMediaSizeInMB", parent: name, max: 2_000_000)
+            try self.validate(self.maxLocalMediaSizeInMB, name: "maxLocalMediaSizeInMB", parent: name, max: 2000000)
             try self.validate(self.maxLocalMediaSizeInMB, name: "maxLocalMediaSizeInMB", parent: name, min: 64)
         }
 
@@ -1934,9 +1934,9 @@ public struct KinesisVideoErrorType: AWSErrorType {
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
     /// When the input StreamARN or ChannelARN in CLOUD_STORAGE_MODE is already mapped to a different Kinesis Video Stream resource, or if the provided input StreamARN or ChannelARN is not in Active status, try one of the following :    The DescribeMediaStorageConfiguration API to determine what the stream given channel is mapped to.     The DescribeMappedResourceConfiguration API to determine the channel that the given stream is mapped to.     The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// Amazon Kinesis Video Streams can&#39;t find the stream that you specified.
+    /// Amazon Kinesis Video Streams can't find the stream that you specified.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The Exception rendered when the Amazon Kinesis Video Stream can&#39;t find a stream&#39;s edge configuration that you specified.
+    /// The Exception rendered when the Amazon Kinesis Video Stream can't find a stream's edge configuration that you specified.
     public static var streamEdgeConfigurationNotFoundException: Self { .init(.streamEdgeConfigurationNotFoundException) }
     /// You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     public static var tagsPerResourceExceededLimitException: Self { .init(.tagsPerResourceExceededLimitException) }
